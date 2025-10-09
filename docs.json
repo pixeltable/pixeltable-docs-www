@@ -98,81 +98,12 @@
         "tab": "Pixeltable SDK",
         "dropdowns": [
           {
-            "dropdown": "latest",
+            "dropdown": "v0.4",
             "icon": "rocket",
             "groups": [
               {
                 "group": "SDK Reference",
-                "pages": [
-                  {
-                    "group": "Core API",
-                    "pages": [
-                      "sdk/latest/pixeltable",
-                      "sdk/latest/table",
-                      "sdk/latest/dataframe",
-                      "sdk/latest/columnmetadata",
-                      "sdk/latest/dircontents",
-                      "sdk/latest/indexmetadata",
-                      "sdk/latest/tablemetadata",
-                      "sdk/latest/updatestatus",
-                      "sdk/latest/versionmetadata"
-                    ]
-                  },
-                  {
-                    "group": "Built-in Functions and Operators",
-                    "pages": [
-                      "sdk/latest/audio",
-                      "sdk/latest/date",
-                      "sdk/latest/image",
-                      "sdk/latest/json",
-                      "sdk/latest/math",
-                      "sdk/latest/string",
-                      "sdk/latest/timestamp",
-                      "sdk/latest/video"
-                    ]
-                  },
-                  {
-                    "group": "AI Integrations",
-                    "pages": [
-                      "sdk/latest/openai",
-                      "sdk/latest/anthropic",
-                      "sdk/latest/huggingface",
-                      "sdk/latest/gemini",
-                      "sdk/latest/bedrock",
-                      "sdk/latest/groq",
-                      "sdk/latest/replicate",
-                      "sdk/latest/together",
-                      "sdk/latest/fireworks",
-                      "sdk/latest/mistralai",
-                      "sdk/latest/deepseek",
-                      "sdk/latest/ollama",
-                      "sdk/latest/llama_cpp",
-                      "sdk/latest/whisper",
-                      "sdk/latest/vision",
-                      "sdk/latest/yolox",
-                      "sdk/latest/whisperx"
-                    ]
-                  },
-                  {
-                    "group": "Iterators",
-                    "pages": [
-                      "sdk/latest/iterators",
-                      "sdk/latest/audiosplitter",
-                      "sdk/latest/componentiterator",
-                      "sdk/latest/documentsplitter",
-                      "sdk/latest/frameiterator",
-                      "sdk/latest/stringsplitter",
-                      "sdk/latest/tileiterator",
-                      "sdk/latest/videosplitter"
-                    ]
-                  },
-                  {
-                    "group": "Import/Export",
-                    "pages": [
-                      "sdk/latest/io"
-                    ]
-                  }
-                ]
+                "pages": []
               }
             ]
           }
