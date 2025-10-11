@@ -177,7 +177,7 @@
             ]
           },
           {
-            "dropdown": "v0.4",
+            "dropdown": "v0.3",
             "icon": "archive",
             "groups": [
               {
@@ -186,69 +186,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.4/pixeltable",
-                      "sdk/v0.4/table",
-                      "sdk/v0.4/dataframe",
-                      "sdk/v0.4/columnmetadata",
-                      "sdk/v0.4/dircontents",
-                      "sdk/v0.4/indexmetadata",
-                      "sdk/v0.4/tablemetadata",
-                      "sdk/v0.4/updatestatus",
-                      "sdk/v0.4/versionmetadata"
+                      "sdk/v0.3/pixeltable",
+                      "sdk/v0.3/table",
+                      "sdk/v0.3/dataframe",
+                      "sdk/v0.3/columnmetadata",
+                      "sdk/v0.3/dircontents",
+                      "sdk/v0.3/indexmetadata",
+                      "sdk/v0.3/tablemetadata",
+                      "sdk/v0.3/updatestatus",
+                      "sdk/v0.3/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.4/audio",
-                      "sdk/v0.4/date",
-                      "sdk/v0.4/image",
-                      "sdk/v0.4/json",
-                      "sdk/v0.4/math",
-                      "sdk/v0.4/string",
-                      "sdk/v0.4/timestamp",
-                      "sdk/v0.4/video"
+                      "sdk/v0.3/audio",
+                      "sdk/v0.3/date",
+                      "sdk/v0.3/image",
+                      "sdk/v0.3/json",
+                      "sdk/v0.3/math",
+                      "sdk/v0.3/string",
+                      "sdk/v0.3/timestamp",
+                      "sdk/v0.3/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.4/openai",
-                      "sdk/v0.4/anthropic",
-                      "sdk/v0.4/huggingface",
-                      "sdk/v0.4/gemini",
-                      "sdk/v0.4/bedrock",
-                      "sdk/v0.4/groq",
-                      "sdk/v0.4/replicate",
-                      "sdk/v0.4/together",
-                      "sdk/v0.4/fireworks",
-                      "sdk/v0.4/mistralai",
-                      "sdk/v0.4/deepseek",
-                      "sdk/v0.4/ollama",
-                      "sdk/v0.4/llama_cpp",
-                      "sdk/v0.4/whisper",
-                      "sdk/v0.4/vision",
-                      "sdk/v0.4/yolox",
-                      "sdk/v0.4/whisperx"
+                      "sdk/v0.3/openai",
+                      "sdk/v0.3/anthropic",
+                      "sdk/v0.3/huggingface",
+                      "sdk/v0.3/gemini",
+                      "sdk/v0.3/bedrock",
+                      "sdk/v0.3/groq",
+                      "sdk/v0.3/replicate",
+                      "sdk/v0.3/together",
+                      "sdk/v0.3/fireworks",
+                      "sdk/v0.3/mistralai",
+                      "sdk/v0.3/deepseek",
+                      "sdk/v0.3/ollama",
+                      "sdk/v0.3/llama_cpp",
+                      "sdk/v0.3/whisper",
+                      "sdk/v0.3/vision",
+                      "sdk/v0.3/yolox",
+                      "sdk/v0.3/whisperx"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/v0.4/iterators",
-                      "sdk/v0.4/audiosplitter",
-                      "sdk/v0.4/componentiterator",
-                      "sdk/v0.4/documentsplitter",
-                      "sdk/v0.4/frameiterator",
-                      "sdk/v0.4/stringsplitter",
-                      "sdk/v0.4/tileiterator",
-                      "sdk/v0.4/videosplitter"
+                      "sdk/v0.3/iterators",
+                      "sdk/v0.3/audiosplitter",
+                      "sdk/v0.3/componentiterator",
+                      "sdk/v0.3/documentsplitter",
+                      "sdk/v0.3/frameiterator",
+                      "sdk/v0.3/stringsplitter",
+                      "sdk/v0.3/tileiterator",
+                      "sdk/v0.3/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.4/io"
+                      "sdk/v0.3/io"
                     ]
                   }
                 ]
