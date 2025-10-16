@@ -14,7 +14,7 @@ Functions for importing and exporting Pixeltable data.
 
 ---
 
-### `create_label_studio_project()` <sub>udf</sub>
+### `create_label_studio_project()`
 
 Create a new Label Studio project and link it to the specified [`Table`](pixeltable.Table).
 
@@ -105,7 +105,7 @@ create_label_studio_project(
 
 ---
 
-### `export_images_as_fo_dataset()` <sub>udf</sub>
+### `export_images_as_fo_dataset()`
 
 Export images from a Pixeltable table as a Voxel51 dataset. The data must consist of a single column
 
@@ -171,7 +171,7 @@ export_images_as_fo_dataset(tbl, tbl.image, classifications=tbl.classifications)
 
 ---
 
-### `export_parquet()` <sub>udf</sub>
+### `export_parquet()`
 
 Exports a dataframe's data to one or more Parquet files. Requires pyarrow to be installed.
 
@@ -200,7 +200,7 @@ export_parquet(
 
 ---
 
-### `import_csv()` <sub>udf</sub>
+### `import_csv()`
 
 Creates a new base table from a csv file. This is a convenience method and is equivalent
 
@@ -230,7 +230,7 @@ import_csv(
 
 ---
 
-### `import_excel()` <sub>udf</sub>
+### `import_excel()`
 
 Creates a new base table from an Excel (.xlsx) file. This is a convenience method and is
 
@@ -261,7 +261,7 @@ import_excel(
 
 ---
 
-### `import_huggingface_dataset()` <sub>udf</sub>
+### `import_huggingface_dataset()`
 
 Create a new base table from a Huggingface dataset, or dataset dict with multiple splits.
 
@@ -298,7 +298,7 @@ import_huggingface_dataset(
 
 ---
 
-### `import_json()` <sub>udf</sub>
+### `import_json()`
 
 Creates a new base table from a JSON file. This is a convenience method and is
 
@@ -339,7 +339,7 @@ import_json(
 
 ---
 
-### `import_pandas()` <sub>udf</sub>
+### `import_pandas()`
 
 Creates a new base table from a Pandas
 
@@ -381,7 +381,7 @@ import_pandas(
 
 ---
 
-### `import_parquet()` <sub>udf</sub>
+### `import_parquet()`
 
 Creates a new base table from a Parquet file or set of files. Requires pyarrow to be installed.
 
@@ -415,7 +415,7 @@ import_parquet(
 
 ---
 
-### `import_rows()` <sub>udf</sub>
+### `import_rows()`
 
 Creates a new base table from a list of dictionaries. The dictionaries must be of the
 

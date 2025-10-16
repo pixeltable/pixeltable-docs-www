@@ -14,7 +14,7 @@ Core Pixeltable API for table operations, data processing, and UDF management.
 
 ---
 
-### `array()` <sub>udf</sub>
+### `array()`
 
 **Signature:**
 
@@ -25,7 +25,7 @@ array(elements: Iterable)-> exprs.Expr
 
 ---
 
-### `configure_logging()` <sub>udf</sub>
+### `configure_logging()`
 
 Configure logging.
 
@@ -52,7 +52,7 @@ configure_logging(
 
 ---
 
-### `create_dir()` <sub>udf</sub>
+### `create_dir()`
 
 Create a directory.
 
@@ -112,7 +112,7 @@ pxt.create_dir('parent1.parent2.sub_dir', parents=True)
 
 ---
 
-### `create_snapshot()` <sub>udf</sub>
+### `create_snapshot()`
 
 Create a snapshot of an existing table object (which itself can be a view or a snapshot or a base table).
 
@@ -179,7 +179,7 @@ snapshot = pxt.create_snapshot('my_snapshot', tbl, if_exists='replace_force')
 
 ---
 
-### `create_table()` <sub>udf</sub>
+### `create_table()`
 
 Create a new base table. Exactly one of `schema` or `source` must be provided.
 
@@ -269,7 +269,7 @@ tbl = pxt.create_table('my_table', source='data.csv')
 
 ---
 
-### `create_view()` <sub>udf</sub>
+### `create_view()`
 
 Create a view of an existing table object (which itself can be a view or a snapshot or a base table).
 
@@ -338,7 +338,7 @@ view = pxt.create_view('my_view', tbl.where(tbl.col1 > 100), if_exists='replace_
 
 ---
 
-### `drop_dir()` <sub>udf</sub>
+### `drop_dir()`
 
 Remove a directory.
 
@@ -387,7 +387,7 @@ pxt.drop_dir('my_dir', force=True)
 
 ---
 
-### `drop_table()` <sub>udf</sub>
+### `drop_table()`
 
 Drop a table, view, snapshot, or replica.
 
@@ -437,7 +437,7 @@ pxt.drop_table('subdir.my_table', force=True)
 
 ---
 
-### `expr_udf()` <sub>udf</sub>
+### `expr_udf()`
 
 **Signature:**
 
@@ -451,7 +451,7 @@ expr_udf(
 
 ---
 
-### `get_dir_contents()` <sub>udf</sub>
+### `get_dir_contents()`
 
 Get the contents of a Pixeltable directory.
 
@@ -491,7 +491,7 @@ pxt.get_dir_contents('dir1')
 
 ---
 
-### `get_table()` <sub>udf</sub>
+### `get_table()`
 
 Get a handle to an existing table, view, or snapshot.
 
@@ -543,7 +543,7 @@ tbl = pxt.get_table('my_table:722')
 
 ---
 
-### `init()` <sub>udf</sub>
+### `init()`
 
 Initializes the Pixeltable environment.
 
@@ -557,7 +557,7 @@ init(config_overrides: Optional[dict[str, Any]] = None)-> None
 
 ---
 
-### `list_dirs()` <sub>udf</sub>
+### `list_dirs()`
 
 List the directories in a directory.
 
@@ -591,7 +591,7 @@ cl.list_dirs('my_dir', recursive=True)
 
 ---
 
-### `list_functions()` <sub>udf</sub>
+### `list_functions()`
 
 Returns information about all registered functions.
 
@@ -610,7 +610,7 @@ list_functions()-> Styler
 
 ---
 
-### `list_tables()` <sub>udf</sub>
+### `list_tables()`
 
 List the [`Table`](pixeltable.Table)s in a directory.
 
@@ -650,7 +650,7 @@ pxt.list_tables('dir1')
 
 ---
 
-### `ls()` <sub>udf</sub>
+### `ls()`
 
 List the contents of a Pixeltable directory.
 
@@ -669,7 +669,7 @@ ls(path: str = '')-> pd.DataFrame
 
 ---
 
-### `mcp_udfs()` <sub>udf</sub>
+### `mcp_udfs()`
 
 **Signature:**
 
@@ -680,7 +680,7 @@ mcp_udfs(url: str)-> list['pxt.func.Function']
 
 ---
 
-### `move()` <sub>udf</sub>
+### `move()`
 
 Move a schema object to a new directory and/or rename a schema object.
 
@@ -715,7 +715,7 @@ Rename a table:
 
 ---
 
-### `publish()` <sub>udf</sub>
+### `publish()`
 
 Publishes a replica of a local Pixeltable table to Pixeltable cloud. A given table can be published to at most one
 
@@ -746,7 +746,7 @@ publish(
 
 ---
 
-### `query()` <sub>udf</sub>
+### `query()`
 
 **Signature:**
 
@@ -760,7 +760,7 @@ query(
 
 ---
 
-### `replicate()` <sub>udf</sub>
+### `replicate()`
 
 Retrieve a replica from Pixeltable cloud as a local table. This will create a full local copy of the replica in a
 
@@ -790,7 +790,7 @@ replicate(
 
 ---
 
-### `retrieval_udf()` <sub>udf</sub>
+### `retrieval_udf()`
 
 Constructs a retrieval UDF for the given table. The retrieval UDF is a UDF whose parameters are
 
@@ -833,7 +833,7 @@ retrieval_udf(
 
 ---
 
-### `tool()` <sub>udf</sub>
+### `tool()`
 
 Specifies a Pixeltable UDF to be used as an LLM tool with customizable metadata. See the documentation for
 
@@ -865,7 +865,7 @@ tool(
 
 ---
 
-### `tools()` <sub>udf</sub>
+### `tools()`
 
 Specifies a collection of UDFs to be used as LLM tools. Pixeltable allows any UDF to be used as an input into an
 
@@ -915,7 +915,7 @@ tools = pxt.tools(
 
 ---
 
-### `uda()` <sub>udf</sub>
+### `uda()`
 
 Decorator for user-defined aggregate functions.
 
@@ -947,7 +947,7 @@ uda(
 
 ---
 
-### `udf()` <sub>udf</sub>
+### `udf()`
 
 A decorator to create a Function from a function definition.
 

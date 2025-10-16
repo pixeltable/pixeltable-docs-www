@@ -23,7 +23,7 @@ t.select(t.img_col.convert('L')).collect()
 
 ---
 
-### `alpha_composite()` <sub>udf</sub>
+### `alpha_composite()`
 
 Alpha composite im2 over im1.
 
@@ -72,7 +72,7 @@ b64_encode(
 
 ---
 
-### `blend()` <sub>udf</sub>
+### `blend()`
 
 Creates a new image by interpolating between two input images, using
 
@@ -106,7 +106,7 @@ blend(
 
 ---
 
-### `composite()` <sub>udf</sub>
+### `composite()`
 
 Create composite image by blending images using a transparency mask.
 
@@ -154,7 +154,7 @@ convert(
 
 ---
 
-### `crop()` <sub>udf</sub>
+### `crop()`
 
 Returns a rectangular region from this image. The box is a
 
@@ -185,7 +185,7 @@ crop(
 
 ---
 
-### `effect_spread()` <sub>udf</sub>
+### `effect_spread()`
 
 Randomly spread pixels in an image.
 
@@ -206,7 +206,7 @@ effect_spread(
 
 ---
 
-### `entropy()` <sub>udf</sub>
+### `entropy()`
 
 Calculates and returns the entropy for the image.
 
@@ -253,7 +253,7 @@ get_metadata(self: Image)-> Json
 
 ---
 
-### `getbands()` <sub>udf</sub>
+### `getbands()`
 
 Returns a tuple containing the name of each band in this image.
 
@@ -275,7 +275,7 @@ getbands(self: Image)-> Json
 
 ---
 
-### `getbbox()` <sub>udf</sub>
+### `getbbox()`
 
 Calculates the bounding box of the non-zero regions in the
 
@@ -304,7 +304,7 @@ getbbox(
 
 ---
 
-### `getchannel()` <sub>udf</sub>
+### `getchannel()`
 
 Returns an image containing a single channel of the source image.
 
@@ -330,7 +330,7 @@ getchannel(
 
 ---
 
-### `getcolors()` <sub>udf</sub>
+### `getcolors()`
 
 Returns a list of colors used in this image.
 
@@ -359,7 +359,7 @@ getcolors(
 
 ---
 
-### `getextrema()` <sub>udf</sub>
+### `getextrema()`
 
 Gets the minimum and maximum pixel values for each band in
 
@@ -381,7 +381,7 @@ getextrema(self: Image)-> Json
 
 ---
 
-### `getpalette()` <sub>udf</sub>
+### `getpalette()`
 
 Returns the image palette as a list.
 
@@ -432,7 +432,7 @@ getpixel(
 
 ---
 
-### `getprojection()` <sub>udf</sub>
+### `getprojection()`
 
 Get projection to x and y axes
 
@@ -462,7 +462,7 @@ height(self: Image)-> Int
 
 ---
 
-### `histogram()` <sub>udf</sub>
+### `histogram()`
 
 Returns a histogram for the image. The histogram is returned as a
 
@@ -533,7 +533,7 @@ point(
 
 ---
 
-### `quantize()` <sub>udf</sub>
+### `quantize()`
 
 Convert the image to 'P' mode with the specified number
 
@@ -572,7 +572,7 @@ quantize(
 
 ---
 
-### `reduce()` <sub>udf</sub>
+### `reduce()`
 
 Returns a copy of the image reduced `factor` times.
 
@@ -642,7 +642,7 @@ rotate(
 
 ---
 
-### `transpose()` <sub>udf</sub>
+### `transpose()`
 
 Transpose image (flip or rotate in 90 degree steps)
 
