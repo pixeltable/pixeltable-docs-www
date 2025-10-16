@@ -6,12 +6,23 @@ icon: "square-c"
 
 Iterator over segments of a video file, which is split into fixed-size segments of length `segment_duration` seconds.
 
-Args: segment_duration: Video segment duration in seconds overlap: Overlap between consecutive segments in seconds. min_segment_duration: Drop the last segment if it is smaller than min_segment_duration
+Args: duration: Video segment duration in seconds overlap: Overlap between consecutive segments in seconds. Only available for `mode='fast'`. min_segment_duration: Drop the last segment if it is smaller than min_segment_duration. mode: Segmentation mode: - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations) - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower) video_encoder: Video encoder to use. If not specified, uses the default encoder for the current platform. Only available for `mode='accurate'`. video_encoder_args: Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 
-<a href="https://github.com/pixeltable/pixeltable/blob/v0.4/pixeltable/iterators/video.py#L234" target="_blank">View source on GitHub</a>
+<a href="https://github.com/pixeltable/pixeltable/blob/v0.4/pixeltable/iterators/video.py#L235" target="_blank">View source on GitHub</a>
 
 ## Methods
+
+
+---
+
+### `accurate_iter()`
+
+**Signature:**
+
+```python
+accurate_iter()-> Iterator[dict[str, Any]]
+```
 
 
 ---
@@ -36,6 +47,17 @@ close()-> None
 
 ```python
 create(**kwargs: Any)-> tuple[type[ComponentIterator], dict[str, Any]]
+```
+
+
+---
+
+### `fast_iter()`
+
+**Signature:**
+
+```python
+fast_iter()-> Iterator[dict[str, Any]]
 ```
 
 
