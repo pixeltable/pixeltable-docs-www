@@ -128,7 +128,10 @@
                       "sdk/v0.4/math",
                       "sdk/v0.4/string",
                       "sdk/v0.4/timestamp",
-                      "sdk/v0.4/video"
+                      "sdk/v0.4/video",
+                      "sdk/v0.4/huggingface",
+                      "sdk/v0.4/yolox",
+                      "sdk/v0.4/whisperx"
                     ]
                   },
                   {
@@ -136,7 +139,6 @@
                     "pages": [
                       "sdk/v0.4/openai",
                       "sdk/v0.4/anthropic",
-                      "sdk/v0.4/huggingface",
                       "sdk/v0.4/gemini",
                       "sdk/v0.4/bedrock",
                       "sdk/v0.4/groq",
@@ -148,9 +150,7 @@
                       "sdk/v0.4/ollama",
                       "sdk/v0.4/llama_cpp",
                       "sdk/v0.4/whisper",
-                      "sdk/v0.4/vision",
-                      "sdk/v0.4/yolox",
-                      "sdk/v0.4/whisperx"
+                      "sdk/v0.4/vision"
                     ]
                   },
                   {

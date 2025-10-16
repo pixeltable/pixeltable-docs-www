@@ -9,18 +9,7 @@ Core Pixeltable API for table operations, data processing, and UDF management.
 
 <a href="https://github.com/pixeltable/pixeltable/blob/v0.4/pixeltable/__init__.py#L0" target="_blank">View source on GitHub</a>
 
-## UDFs
-
-
----
-
-### `array()`
-
-**Signature:**
-
-```python
-array(elements: Iterable)-> exprs.Expr
-```
+## Functions
 
 
 ---
@@ -437,20 +426,6 @@ pxt.drop_table('subdir.my_table', force=True)
 
 ---
 
-### `expr_udf()`
-
-**Signature:**
-
-```python
-expr_udf(
-    *args: Any,
-    **kwargs: Any
-)-> Any
-```
-
-
----
-
 ### `get_dir_contents()`
 
 Get the contents of a Pixeltable directory.
@@ -557,99 +532,6 @@ init(config_overrides: Optional[dict[str, Any]] = None)-> None
 
 ---
 
-### `list_dirs()`
-
-List the directories in a directory.
-
-
-**Signature:**
-
-```python
-list_dirs(
-    path: str = '',
-    recursive: bool = True
-)-> list[str]
-```
-
-**Parameters:**
-
-- **`path`** (*str*) = ``: Name or path of the directory.
-- **`recursive`** (*bool*) = `True`: If `True`, lists all descendants of this directory recursively.
-
-**Returns:**
-
-- *list[str]*: List of directory paths.
-
-
-
-**Example:**
-
-```python
-cl.list_dirs('my_dir', recursive=True)
-```
-
-
----
-
-### `list_functions()`
-
-Returns information about all registered functions.
-
-
-**Signature:**
-
-```python
-list_functions()-> Styler
-```
-
-**Returns:**
-
-- *Styler*: Pandas DataFrame with columns 'Path', 'Name', 'Parameters', 'Return Type', 'Is Agg', 'Library'
-
-
-
----
-
-### `list_tables()`
-
-List the [`Table`](pixeltable.Table)s in a directory.
-
-
-**Signature:**
-
-```python
-list_tables(
-    dir_path: str = '',
-    recursive: bool = True
-)-> list[str]
-```
-
-**Parameters:**
-
-- **`dir_path`** (*str*) = ``: Path to the directory. Defaults to the root directory.
-- **`recursive`** (*bool*) = `True`: If `False`, returns only those tables that are directly contained in specified directory; if `True`, returns all tables that are descendants of the specified directory, recursively.
-
-**Returns:**
-
-- *list[str]*: A list of [`Table`](pixeltable.Table) paths.
-
-
-
-**Example:**
-
-List tables in top-level directory:
-```python
-pxt.list_tables()
-```
-
-List tables in 'dir1':
-```python
-pxt.list_tables('dir1')
-```
-
-
----
-
 ### `ls()`
 
 List the contents of a Pixeltable directory.
@@ -664,17 +546,6 @@ To get a programmatic list of the directory's contents, use \[get_dir_contents()
 
 ```python
 ls(path: str = '')-> pd.DataFrame
-```
-
-
----
-
-### `mcp_udfs()`
-
-**Signature:**
-
-```python
-mcp_udfs(url: str)-> list['pxt.func.Function']
 ```
 
 
@@ -715,37 +586,6 @@ Rename a table:
 
 ---
 
-### `publish()`
-
-Publishes a replica of a local Pixeltable table to Pixeltable cloud. A given table can be published to at most one
-
-
-URI per Pixeltable cloud database.
-
-
-**Signature:**
-
-```python
-publish(
-    source: str | catalog.Table,
-    destination_uri: str,
-    bucket_name: str | None = None,
-    access: Literal['public', 'private'] = 'private'
-)-> None
-```
-
-**Parameters:**
-
-- **`source`** (*str | catalog.Table*): Path or table handle of the local table to be published.
-- **`destination_uri`** (*str*): Remote URI where the replica will be published, such as `'pxt://org_name/my_dir/my_table'`.
-- **`bucket_name`** (*str | None*): The name of the bucket to use to store replica's data. The bucket must be registered with Pixeltable cloud. If no `bucket_name` is provided, the default storage bucket for the destination database will be used.
-- **`access`** (*Literal['public', 'private']*) = `private`: Access control for the replica.
-  - `'public'`: Anyone can access this replica.
-  - `'private'`: Only the host organization can access.
-
-
----
-
 ### `query()`
 
 **Signature:**
@@ -757,197 +597,12 @@ query(
 )-> Any
 ```
 
-
----
-
-### `replicate()`
-
-Retrieve a replica from Pixeltable cloud as a local table. This will create a full local copy of the replica in a
-
-
-way that preserves the table structure of the original source data. Once replicated, the local table can be queried offline just as any other Pixeltable table.
-
-
-**Signature:**
-
-```python
-replicate(
-    remote_uri: str,
-    local_path: str
-)-> catalog.Table
-```
-
-**Parameters:**
-
-- **`remote_uri`** (*str*): Remote URI of the table to be replicated, such as `'pxt://org_name/my_dir/my_table'`.
-- **`local_path`** (*str*): Local table path where the replica will be created, such as `'my_new_dir.my_new_tbl'`. It can be the same or different from the cloud table name.
-
-**Returns:**
-
-- *catalog.Table*: A handle to the newly created local replica table.
-
+## UDFs
 
 
 ---
 
-### `retrieval_udf()`
-
-Constructs a retrieval UDF for the given table. The retrieval UDF is a UDF whose parameters are
-
-
-columns of the table and whose return value is a list of rows from the table. The return value of
-
-``` python
-f(col1=x, col2=y, ...)
-```
-
-will be a list of all rows from the table that match the specified arguments.
-
-
-**Signature:**
-
-```python
-retrieval_udf(
-    table: catalog.Table,
-    name: Optional[str] = None,
-    description: Optional[str] = None,
-    parameters: Optional[Iterable[str | exprs.ColumnRef]] = None,
-    limit: Optional[int] = 10
-)-> func.QueryTemplateFunction
-```
-
-**Parameters:**
-
-- **`table`** (*catalog.Table*): The table to use as the dataset for the retrieval tool.
-- **`name`** (*Optional[str]*): The name of the tool. If not specified, then the name of the table will be used by default.
-- **`description`** (*Optional[str]*): The description of the tool. If not specified, then a default description will be generated.
-- **`parameters`** (*Optional[Iterable[str | exprs.ColumnRef]]*): The columns of the table to use as parameters. If not specified, all data columns (non-computed columns) will be used as parameters.
-  All of the specified parameters will be required parameters of the tool, regardless of their status as columns.
-- **`limit`** (*Optional[int]*) = `10`: The maximum number of rows to return. If not specified, then all matching rows will be returned.
-
-**Returns:**
-
-- *func.QueryTemplateFunction*: A list of dictionaries containing data from the table, one per row that matches the input arguments. If there are no matching rows, an empty list will be returned.
-
-
-
----
-
-### `tool()`
-
-Specifies a Pixeltable UDF to be used as an LLM tool with customizable metadata. See the documentation for
-
-
-\[pxt.tools()\]\[pixeltable.tools\] for more details.
-
-
-**Signature:**
-
-```python
-tool(
-    fn: func.Function,
-    name: Optional[str] = None,
-    description: Optional[str] = None
-)-> func.tools.Tool
-```
-
-**Parameters:**
-
-- **`fn`** (*func.Function*): The UDF to use as a tool.
-- **`name`** (*Optional[str]*): The name of the tool. If not specified, then the unqualified name of the UDF will be used by default.
-- **`description`** (*Optional[str]*): The description of the tool. If not specified, then the entire contents of the UDF docstring will be used by default.
-
-**Returns:**
-
-- *func.tools.Tool*: A `Tool` instance that can be passed to an LLM tool-calling API.
-
-
-
----
-
-### `tools()`
-
-Specifies a collection of UDFs to be used as LLM tools. Pixeltable allows any UDF to be used as an input into an
-
-
-LLM tool-calling API. To use one or more UDFs as tools, wrap them in a `pxt.tools` call and pass the return value to an LLM API.
-
-The UDFs can be specified directly or wrapped inside a \[pxt.tool()\]\[pixeltable.tool\] invocation. If a UDF is specified directly, the tool name will be the (unqualified) UDF name, and the tool description will consist of the entire contents of the UDF docstring. If a UDF is wrapped in a `pxt.tool()` invocation, then the name and/or description may be customized.
-
-
-**Signature:**
-
-```python
-tools(*args: func.Function | func.tools.Tool)-> func.tools.Tools
-```
-
-**Parameters:**
-
-- **`args`** (*func.Function | func.tools.Tool*): The UDFs to use as tools.
-
-**Returns:**
-
-- *func.tools.Tools*: A `Tools` instance that can be passed to an LLM tool-calling API or invoked to generate tool results.
-
-
-
-**Example:**
-
-Create a tools instance with a single UDF:
-```python
-tools = pxt.tools(stock_price)
-```
-
-Create a tools instance with several UDFs:
-```python
-tools = pxt.tools(stock_price, weather_quote)
-```
-
-Create a tools instance, some of whose UDFs have customized metadata:
-```python
-tools = pxt.tools(
-    stock_price,
-    pxt.tool(weather_quote, description='Returns information about the weather in a particular location.'),
-    pxt.tool(traffic_quote, name='traffic_conditions'),
-)
-```
-
-
----
-
-### `uda()`
-
-Decorator for user-defined aggregate functions.
-
-
-The decorated class must inherit from Aggregator and implement the following methods:
-
-- **init**(self, ...) to initialize the aggregator
-- update(self, ...) to update the aggregator with a new value
-- value(self) to return the final result
-
-The decorator creates an AggregateFunction instance from the class and adds it to the module where the class is defined.
-
-Parameters:
-
-- requires_order_by: if True, the first parameter to the function is the order-by expression
-- allows_std_agg: if True, the function can be used as a standard aggregate function w/o a window
-- allows_window: if True, the function can be used with a window
-
-
-**Signature:**
-
-```python
-uda(
-    *args,
-    **kwargs
-)
-```
-
-
----
-
-### `udf()`
+### `udf()` <sub>udf</sub>
 
 A decorator to create a Function from a function definition.
 

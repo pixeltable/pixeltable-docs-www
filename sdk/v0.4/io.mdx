@@ -9,7 +9,7 @@ Functions for importing and exporting Pixeltable data.
 
 <a href="https://github.com/pixeltable/pixeltable/blob/v0.4/pixeltable/io/__init__.py#L0" target="_blank">View source on GitHub</a>
 
-## UDFs
+## Functions
 
 
 ---
@@ -167,6 +167,44 @@ Export the images in the `image` column of the table `tbl` as a Voxel51 dataset,
 ```python
 export_images_as_fo_dataset(tbl, tbl.image, classifications=tbl.classifications)
 ```
+
+
+---
+
+### `export_lancedb()`
+
+Exports a dataframe's data to a LanceDB table.
+
+
+This utilizes LanceDB's streaming interface for efficient table creation, via a sequence of in-memory pyarrow `RecordBatches`, the size of which can be controlled with the `batch_size_bytes` parameter.
+
+**Requirements:**
+
+- `pip install lancedb`
+
+
+**Signature:**
+
+```python
+export_lancedb(
+    table_or_df: pxt.Table | pxt.DataFrame,
+    db_uri: Path,
+    table_name: str,
+    batch_size_bytes: int = 134217728,
+    if_exists: Literal['error', 'overwrite', 'append'] = 'error'
+)-> None
+```
+
+**Parameters:**
+
+- **`table_or_df `** (*Any*): Table or Dataframe to export.
+- **`db_uri`** (*Path*): Local Path to the LanceDB database.
+- **`table_name `** (*Any*): Name of the table in the LanceDB database.
+- **`batch_size_bytes `** (*Any*): Maximum size in bytes for each batch.
+- **`if_exists`** (*Literal['error', 'overwrite', 'append']*) = `error`: Determines the behavior if the table already exists. Must be one of the following:
+  - `'error'`: raise an error
+  - `'overwrite'`: overwrite the existing table
+  - `'append'`: append to the existing table
 
 
 ---
