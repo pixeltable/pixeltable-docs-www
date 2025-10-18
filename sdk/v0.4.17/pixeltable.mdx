@@ -586,6 +586,37 @@ Rename a table:
 
 ---
 
+### `publish()`
+
+Publishes a replica of a local Pixeltable table to Pixeltable cloud. A given table can be published to at most one
+
+
+URI per Pixeltable cloud database.
+
+
+**Signature:**
+
+```python
+publish(
+    source: str | catalog.Table,
+    destination_uri: str,
+    bucket_name: str | None = None,
+    access: Literal['public', 'private'] = 'private'
+)-> None
+```
+
+**Parameters:**
+
+- **`source`** (*str | catalog.Table*): Path or table handle of the local table to be published.
+- **`destination_uri`** (*str*): Remote URI where the replica will be published, such as `'pxt://org_name/my_dir/my_table'`.
+- **`bucket_name`** (*str | None*): The name of the bucket to use to store replica's data. The bucket must be registered with Pixeltable cloud. If no `bucket_name` is provided, the default storage bucket for the destination database will be used.
+- **`access`** (*Literal['public', 'private']*) = `private`: Access control for the replica.
+  - `'public'`: Anyone can access this replica.
+  - `'private'`: Only the host organization can access.
+
+
+---
+
 ### `query()`
 
 **Signature:**
@@ -596,6 +627,36 @@ query(
     **kwargs: Any
 )-> Any
 ```
+
+
+---
+
+### `replicate()`
+
+Retrieve a replica from Pixeltable cloud as a local table. This will create a full local copy of the replica in a
+
+
+way that preserves the table structure of the original source data. Once replicated, the local table can be queried offline just as any other Pixeltable table.
+
+
+**Signature:**
+
+```python
+replicate(
+    remote_uri: str,
+    local_path: str
+)-> catalog.Table
+```
+
+**Parameters:**
+
+- **`remote_uri`** (*str*): Remote URI of the table to be replicated, such as `'pxt://org_name/my_dir/my_table'`.
+- **`local_path`** (*str*): Local table path where the replica will be created, such as `'my_new_dir.my_new_tbl'`. It can be the same or different from the cloud table name.
+
+**Returns:**
+
+- *catalog.Table*: A handle to the newly created local replica table.
+
 
 ## UDFs
 

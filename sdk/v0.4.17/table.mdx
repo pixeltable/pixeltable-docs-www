@@ -61,6 +61,119 @@ tbl.add_columns({'new_col': pxt.Int})
 
 ---
 
+### `add_columns()`
+
+Adds multiple columns to the table. The columns must be concrete (non-computed) columns; to add computed
+
+
+columns, use [`add_computed_column()`](pixeltable.catalog.Table.add_computed_column) instead.
+
+The format of the `schema` argument is a dict mapping column names to their types.
+
+
+**Signature:**
+
+```python
+add_columns(
+    schema: dict[str, ts.ColumnType | builtins.type | _GenericAlias],
+    if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
+)-> UpdateStatus
+```
+
+**Parameters:**
+
+- **`schema`** (*dict[str, ts.ColumnType | builtins.type | _GenericAlias]*): A dictionary mapping column names to types.
+
+- **`if_exists`** (*Literal['error', 'ignore', 'replace', 'replace_force']*) = `error`: Determines the behavior if a column already exists. Must be one of the following:
+
+- `'error'`: an exception will be raised.
+- `'ignore'`: do nothing and return.
+- `'replace' or 'replace_force'`: drop the existing column and add the new column, if it has no dependents.
+
+Note that the `if_exists` parameter is applied to all columns in the schema. To apply different behaviors to different columns, please use [`add_column()`](pixeltable.Table.add_column) for each column.
+
+
+**Returns:**
+
+- *UpdateStatus*: Information about the execution status of the operation.
+
+
+
+**Example:**
+
+Add multiple columns to the table `my_table`:
+```python
+tbl = pxt.get_table('my_table')
+    schema = {
+        'new_col_1': pxt.Int,
+        'new_col_2': pxt.String,
+    }
+    tbl.add_columns(schema)
+```
+
+---
+
+### `add_computed_column()`
+
+Adds a computed column to the table.
+
+
+**Signature:**
+
+```python
+add_computed_column(
+    *,
+    stored: Optional[bool] = None,
+    destination: Optional[str | Path] = None,
+    print_stats: bool = False,
+    on_error: Literal['abort', 'ignore'] = 'abort',
+    if_exists: Literal['error', 'ignore', 'replace'] = 'error',
+    **kwargs: exprs.Expr
+)-> UpdateStatus
+```
+
+**Parameters:**
+
+- **`kwargs`** (*exprs.Expr*): Exactly one keyword argument of the form `col_name=expression`.
+
+- **`stored`** (*Optional[bool]*): Whether the column is materialized and stored or computed on demand.
+
+- **`destination`** (*Optional[str | Path]*): An object store reference for persisting computed files.
+
+- **`print_stats`** (*bool*) = `False`: If `True`, print execution metrics during evaluation.
+
+- **`on_error`** (*Literal['abort', 'ignore']*) = `abort`: Determines the behavior if an error occurs while evaluating the column expression for at least one row.
+
+- `'abort'`: an exception will be raised and the column will not be added.
+- `'ignore'`: execution will continue and the column will be added. Any rows with errors will have a `None` value for the column, with information about the error stored in the corresponding `tbl.col_name.errormsg` tbl.col_name.errortype\` fields.
+
+- **`if_exists`** (*Literal['error', 'ignore', 'replace']*) = `error`: Determines the behavior if the column already exists. Must be one of the following:
+
+- `'error'`: an exception will be raised.
+- `'ignore'`: do nothing and return.
+- `'replace' or 'replace_force'`: drop the existing column and add the new column, iff it has no dependents.
+
+
+**Returns:**
+
+- *UpdateStatus*: Information about the execution status of the operation.
+
+
+
+**Example:**
+
+For a table with an image column `frame`, add an image column `rotated` that rotates the image by
+90 degrees:
+```python
+tbl.add_computed_column(rotated=tbl.frame.rotate(90))
+```
+Do the same, but now the column is unstored:
+```python
+tbl.add_computed_column(rotated=tbl.frame.rotate(90), stored=False)
+```
+
+---
+
 ### `add_embedding_index()`
 
 Add an embedding index to the table. Once the index is created, it will be automatically kept up-to-date as new
@@ -152,6 +265,80 @@ tbl.add_embedding_index(
 
 ---
 
+### `batch_update()`
+
+Update rows in this table.
+
+
+**Signature:**
+
+```python
+batch_update(
+    rows: Iterable[dict[str, Any]],
+    cascade: bool = True,
+    if_not_exists: Literal['error', 'ignore', 'insert'] = 'error'
+)-> UpdateStatus
+```
+
+**Parameters:**
+
+- **`rows`** (*Iterable[dict[str, Any]]*): an Iterable of dictionaries containing values for the updated columns plus values for the primary key columns.
+
+- **`cascade`** (*bool*) = `True`: if True, also update all computed columns that transitively depend on the updated columns.
+
+- **`if_not_exists`** (*Literal['error', 'ignore', 'insert']*) = `error`: Specifies the behavior if a row to update does not exist:
+
+- `'error'`: Raise an error.
+- `'ignore'`: Skip the row silently.
+- `'insert'`: Insert the row.
+
+
+
+**Example:**
+
+Update the `name` and `age` columns for the rows with ids 1 and 2 (assuming `id` is the primary key).
+If either row does not exist, this raises an error:
+```python
+tbl.update([{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 2, 'name': 'Bob', 'age': 40}])
+```
+Update the `name` and `age` columns for the row with `id` 1 (assuming `id` is the primary key) and insert
+the row with new `id` 3 (assuming this key does not exist):
+```python
+tbl.update(
+```
+[{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 3, 'name': 'Bob', 'age': 40}],
+if_not_exists='insert')
+
+---
+
+### `columns()`
+
+Return the names of the columns in this table.
+
+
+**Signature:**
+
+```python
+columns()-> list[str]
+```
+
+
+---
+
+### `count()`
+
+Return the number of rows in this table.
+
+
+**Signature:**
+
+```python
+count()-> int
+```
+
+
+---
+
 ### `delete()`
 
 Delete rows in this table.
@@ -179,6 +366,20 @@ Delete all rows in a table where column `a` is greater than 5:
 ```python
 tbl.delete(tbl.a > 5)
 ```
+
+---
+
+### `describe()`
+
+Print the table schema.
+
+
+**Signature:**
+
+```python
+describe()-> None
+```
+
 
 ---
 
@@ -345,6 +546,101 @@ tbl = pxt.get_table('my_table')
 
 ---
 
+### `get_metadata()`
+
+Retrieves metadata associated with this table.
+
+
+**Signature:**
+
+```python
+get_metadata()-> TableMetadata
+```
+
+**Returns:**
+
+- *'TableMetadata'*: A \[TableMetadata\]\[pixeltable.TableMetadata\] instance containing this table's metadata.
+
+
+
+---
+
+### `get_versions()`
+
+Returns information about versions of this table, most recent first.
+
+
+`get_versions()` is intended for programmatic access to version metadata; for human-readable output, use [`history()`](pixeltable.Table.history) instead.
+
+
+**Signature:**
+
+```python
+get_versions(n: Optional[int] = None)-> list[VersionMetadata]
+```
+
+**Parameters:**
+
+- **`n`** (*Optional[int]*): if specified, will return at most `n` versions
+
+
+**Returns:**
+
+- *list[VersionMetadata]*: A list of \[VersionMetadata\]\[pixeltable.VersionMetadata\] dictionaries, one per version retrieved, most recent first.
+
+
+
+**Example:**
+
+Retrieve metadata about all versions of the table `tbl`:
+```python
+tbl.get_versions()
+```
+Retrieve metadata about the most recent 5 versions of the table `tbl`:
+```python
+tbl.get_versions(n=5)
+```
+
+---
+
+### `history()`
+
+Returns a human-readable report about versions of this table.
+
+
+`history()` is intended for human-readable output of version metadata; for programmatic access, use [`get_versions()`](pixeltable.Table.get_versions) instead.
+
+
+**Signature:**
+
+```python
+history(n: Optional[int] = None)-> pd.DataFrame
+```
+
+**Parameters:**
+
+- **`n`** (*Optional[int]*): if specified, will return at most `n` versions
+
+
+**Returns:**
+
+- *pd.DataFrame*: A report with information about each version, one per row, most recent first.
+
+
+
+**Example:**
+
+Report all versions of the table:
+```python
+tbl.history()
+```
+Report only the most recent 5 changes to the table:
+```python
+tbl.history(n=5)
+```
+
+---
+
 ### `insert()`
 
 Inserts rows into this table. There are two mutually exclusive call patterns:
@@ -438,6 +734,33 @@ class MyModel(pydantic.BaseModel):
     models = [MyModel(a=1, b=2), MyModel(a=3, b=4)]
     tbl.insert(models)
 ```
+
+---
+
+### `list_views()`
+
+Returns a list of all views and snapshots of this `Table`.
+
+
+**Signature:**
+
+```python
+list_views(
+    *,
+    recursive: bool = True
+)-> list[str]
+```
+
+**Parameters:**
+
+- **`recursive`** (*bool*) = `True`: If `False`, returns only the immediate successor views of this `Table`. If `True`, returns all sub-views (including views of views, etc.)
+
+
+**Returns:**
+
+- *list[str]*: A list of view paths.
+
+
 
 ---
 
@@ -537,6 +860,62 @@ Reverts the table to the previous version.
 ```python
 revert()-> None
 ```
+
+
+---
+
+### `sync()`
+
+Synchronizes this table with its linked external stores.
+
+
+**Signature:**
+
+```python
+sync(
+    stores: str | list[str] | None = None,
+    *,
+    export_data: bool = True,
+    import_data: bool = True
+)-> UpdateStatus
+```
+
+**Parameters:**
+
+- **`stores`** (*str | list[str] | None*): If specified, will synchronize only the specified named store or list of stores. If not specified, will synchronize all of this table's external stores.
+
+- **`export_data`** (*bool*) = `True`: If `True`, data from this table will be exported to the external stores during synchronization.
+
+- **`import_data`** (*bool*) = `True`: If `True`, data from the external stores will be imported to this table during synchronization.
+
+
+
+---
+
+### `unlink_external_stores()`
+
+Unlinks this table's external stores.
+
+
+**Signature:**
+
+```python
+unlink_external_stores(
+    stores: str | list[str] | None = None,
+    *,
+    delete_external_data: bool = False,
+    ignore_errors: bool = False
+)-> None
+```
+
+**Parameters:**
+
+- **`stores`** (*str | list[str] | None*): If specified, will unlink only the specified named store or list of stores. If not specified, will unlink all of this table's external stores.
+
+- **`ignore_errors`** (*bool*) = `False`: If `True`, no exception will be thrown if a specified store is not linked to this table.
+
+- **`delete_external_data`** (*bool*) = `False`: If `True`, then the external data store will also be deleted. WARNING: This is a destructive operation that will delete data outside Pixeltable, and cannot be undone.
+
 
 
 ---
