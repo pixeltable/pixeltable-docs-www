@@ -317,9 +317,10 @@ Update the `name` and `age` columns for the row with `id` 1 (assuming `id` is th
 the row with new `id` 3 (assuming this key does not exist):
 ```python
 tbl.update(
+    [{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 3, 'name': 'Bob', 'age': 40}],
+    if_not_exists='insert'
+)
 ```
-[{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 3, 'name': 'Bob', 'age': 40}],
-if_not_exists='insert')
 
 ---
 
