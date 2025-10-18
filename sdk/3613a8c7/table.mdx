@@ -247,9 +247,9 @@ add_embedding_index(
 Add an index to the `img` column of the table `my_table`:
 ```python
 from pixeltable.functions.huggingface import clip
-    tbl = pxt.get_table('my_table')
-    embedding_fn = clip.using(model_id='openai/clip-vit-base-patch32')
-    tbl.add_embedding_index(tbl.img, embedding=embedding_fn)
+ tbl = pxt.get_table('my_table')
+ embedding_fn = clip.using(model_id='openai/clip-vit-base-patch32')
+ tbl.add_embedding_index(tbl.img, embedding=embedding_fn)
 ```
 Alternatively, the `img` column may be specified by name:
 ```python
