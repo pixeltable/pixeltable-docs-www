@@ -1,0 +1,52 @@
+---
+title: "v0.4.0"
+description: "Released June 16, 2025"
+---
+
+# v0.4.0
+
+**Released:** June 16, 2025
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)
+**View on GitHub:** [v0.4.0](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.0)
+
+---
+
+## Highlights
+* Support for concurrent insert/query and table/view operations
+* `sample()` operator for deterministic, pseudo-random samples of tables and data frames
+* More flexible API for optional LLM parameters
+* Groq integration
+* MCP integration
+* HEIC image support
+* Numerous bugfixes
+
+## All Changes
+* Support for concurrent table operations by @mkornacker in https://github.com/pixeltable/pixeltable/pull/611
+* New Deepseek notebook by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/634
+* Re-enable 3 of the 4 disabled Labelstudio tests by @mkornacker in https://github.com/pixeltable/pixeltable/pull/635
+* Implement `to_sql` for many string methods by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/636
+* Remove extraneous reload_catalog() in test_packager by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/637
+* fix building with llm link by @jacobweiss2305 in https://github.com/pixeltable/pixeltable/pull/638
+* Allow HEIC images by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/639
+* Include preview data in request when publishing a table by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/631
+* WIP: stratified sampling operation on DataFrame by @jpeterson-pxt in https://github.com/pixeltable/pixeltable/pull/591
+* remove main reference and replace with release by @jacobweiss2305 in https://github.com/pixeltable/pixeltable/pull/646
+* docs: add product updates changelog with version history and release notes by @jacobweiss2305 in https://github.com/pixeltable/pixeltable/pull/645
+* remove print statement in gemini tool calls by @jacobweiss2305 in https://github.com/pixeltable/pixeltable/pull/651
+* PXT-595: Raise error if attempting to access metadata from a future v… by @jpeterson-pxt in https://github.com/pixeltable/pixeltable/pull/642
+* Make TableVersion timestamps consistent across propagated changes. by @jpeterson-pxt in https://github.com/pixeltable/pixeltable/pull/643
+* Update RowBuilder.create_table_raw to save PIL image with the jpeg extension by @Yann-CV in https://github.com/pixeltable/pixeltable/pull/648
+* Fix bug in handling "nullary" JsonMapper expressions by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/655
+* Update release.sh to handle pre-releases by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/656
+* Refactor inference API integrations to use `model_kwargs` dicts instead of explicit parameters by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/641
+* Refactor tool invocation unit tests [techdebt] by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/657
+* Concurrent view interactions by @mkornacker in https://github.com/pixeltable/pixeltable/pull/652
+* Consolidate all SQL generation related to sampling inside of SqlSampleNode by @jpeterson-pxt in https://github.com/pixeltable/pixeltable/pull/649
+* Suppressing asyncio slow callback warnings by @mkornacker in https://github.com/pixeltable/pixeltable/pull/660
+* Groq integration by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/659
+* First cut at MCP integration by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/661
+
+## New Contributors
+* @Yann-CV made their first contribution in https://github.com/pixeltable/pixeltable/pull/648
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.15...v0.4.0

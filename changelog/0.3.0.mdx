@@ -1,0 +1,33 @@
+---
+title: "v0.3.0"
+description: "Released January 17, 2025"
+---
+
+# v0.3.0
+
+**Released:** January 17, 2025
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)
+**View on GitHub:** [v0.3.0](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.0)
+
+---
+
+## Important
+This release contains a few breaking API changes. The most significant change is that the deprecated syntax for adding columns has been removed. This will now generate an error:
+```python
+t['my_col'] = ...
+```
+Instead, do the following:
+```python
+t.add_computed_column(my_col=...)
+```
+Please refer to the Pixeltable documentation (https://pixeltable.readme.io/) for additional details.
+
+## What's Changed
+* PXT-179 Add a if_exists parameter to add_* APIs by @anushas in https://github.com/pixeltable/pixeltable/pull/422
+* Add a section on UDAs to the UDF feature guide by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/437
+* Various API changes for version 0.3.0 by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/426
+* Terminology: use 'aggregate' in place of 'aggregator' in UDF docs by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/438
+* Support tool choice in OpenAI and Anthropic by @aaron-siegel in https://github.com/pixeltable/pixeltable/pull/436
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.2.30...v0.3.0
