@@ -107,69 +107,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -186,69 +186,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -265,69 +265,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -344,69 +344,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -423,69 +423,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -502,69 +502,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -581,69 +581,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -660,69 +660,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -739,69 +739,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -818,69 +818,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -897,69 +897,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
@@ -976,69 +976,148 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/be38ad4f/pixeltable",
-                      "sdk/be38ad4f/table",
-                      "sdk/be38ad4f/dataframe",
-                      "sdk/be38ad4f/columnmetadata",
-                      "sdk/be38ad4f/dircontents",
-                      "sdk/be38ad4f/indexmetadata",
-                      "sdk/be38ad4f/tablemetadata",
-                      "sdk/be38ad4f/updatestatus",
-                      "sdk/be38ad4f/versionmetadata"
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/be38ad4f/audio",
-                      "sdk/be38ad4f/date",
-                      "sdk/be38ad4f/image",
-                      "sdk/be38ad4f/json",
-                      "sdk/be38ad4f/math",
-                      "sdk/be38ad4f/string",
-                      "sdk/be38ad4f/timestamp",
-                      "sdk/be38ad4f/video",
-                      "sdk/be38ad4f/huggingface",
-                      "sdk/be38ad4f/yolox",
-                      "sdk/be38ad4f/whisperx"
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/be38ad4f/openai",
-                      "sdk/be38ad4f/anthropic",
-                      "sdk/be38ad4f/gemini",
-                      "sdk/be38ad4f/bedrock",
-                      "sdk/be38ad4f/groq",
-                      "sdk/be38ad4f/replicate",
-                      "sdk/be38ad4f/together",
-                      "sdk/be38ad4f/fireworks",
-                      "sdk/be38ad4f/mistralai",
-                      "sdk/be38ad4f/deepseek",
-                      "sdk/be38ad4f/ollama",
-                      "sdk/be38ad4f/llama_cpp",
-                      "sdk/be38ad4f/whisper",
-                      "sdk/be38ad4f/vision"
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/be38ad4f/iterators",
-                      "sdk/be38ad4f/audiosplitter",
-                      "sdk/be38ad4f/componentiterator",
-                      "sdk/be38ad4f/documentsplitter",
-                      "sdk/be38ad4f/frameiterator",
-                      "sdk/be38ad4f/stringsplitter",
-                      "sdk/be38ad4f/tileiterator",
-                      "sdk/be38ad4f/videosplitter"
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/be38ad4f/io"
+                      "sdk/7b7273f8/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "latest",
+            "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/7b7273f8/pixeltable",
+                      "sdk/7b7273f8/table",
+                      "sdk/7b7273f8/dataframe",
+                      "sdk/7b7273f8/columnmetadata",
+                      "sdk/7b7273f8/dircontents",
+                      "sdk/7b7273f8/indexmetadata",
+                      "sdk/7b7273f8/tablemetadata",
+                      "sdk/7b7273f8/updatestatus",
+                      "sdk/7b7273f8/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/7b7273f8/audio",
+                      "sdk/7b7273f8/date",
+                      "sdk/7b7273f8/image",
+                      "sdk/7b7273f8/json",
+                      "sdk/7b7273f8/math",
+                      "sdk/7b7273f8/string",
+                      "sdk/7b7273f8/timestamp",
+                      "sdk/7b7273f8/video",
+                      "sdk/7b7273f8/huggingface",
+                      "sdk/7b7273f8/yolox",
+                      "sdk/7b7273f8/whisperx"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/7b7273f8/openai",
+                      "sdk/7b7273f8/anthropic",
+                      "sdk/7b7273f8/gemini",
+                      "sdk/7b7273f8/bedrock",
+                      "sdk/7b7273f8/groq",
+                      "sdk/7b7273f8/replicate",
+                      "sdk/7b7273f8/together",
+                      "sdk/7b7273f8/fireworks",
+                      "sdk/7b7273f8/mistralai",
+                      "sdk/7b7273f8/deepseek",
+                      "sdk/7b7273f8/ollama",
+                      "sdk/7b7273f8/llama_cpp",
+                      "sdk/7b7273f8/whisper",
+                      "sdk/7b7273f8/vision"
+                    ]
+                  },
+                  {
+                    "group": "Iterators",
+                    "pages": [
+                      "sdk/7b7273f8/iterators",
+                      "sdk/7b7273f8/audiosplitter",
+                      "sdk/7b7273f8/componentiterator",
+                      "sdk/7b7273f8/documentsplitter",
+                      "sdk/7b7273f8/frameiterator",
+                      "sdk/7b7273f8/stringsplitter",
+                      "sdk/7b7273f8/tileiterator",
+                      "sdk/7b7273f8/videosplitter"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/7b7273f8/io"
                     ]
                   }
                 ]
