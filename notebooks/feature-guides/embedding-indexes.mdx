@@ -1,16 +1,3 @@
----
-title: Working with Embedding/Vector Indexes
-icon: notebook
-description: >-
-  [Open in
-  Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/embedding-indexes.ipynb)
-  | [Open in
-  Colab](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/embedding-indexes.ipynb)
-  | [View on
-  GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/embedding-indexes.ipynb)
----
-
-
 
 
 export const quartoRawHtml =
@@ -203,18 +190,24 @@ experimented with different theories, techniques, and ideas.</td>
 </table>
 `];
 
-**If you are running this tutorial in Colab:**In order to make the
+[![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/embedding-indexes.ipynb)  
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/embedding-indexes.ipynb)
+
+# Working with Embedding/Vector Indexes
+
+**If you are running this tutorial in Colab:** In order to make the
 tutorial run a bit snappier, let’s switch to a GPU-equipped instance for
 this Colab session. To do that, click on the
 `Runtime -> Change runtime type` menu item at the top, then select the
-`GPU` radio button and click on `Save`.Main takeaways:\* Indexing in
-Pixeltable is declarative - you create an index on a column and supply
-the embedding functions you want to use (for inserting data into the
-index as well as lookups) - Pixeltable maintains the index in response
-to any kind of update of the indexed table (i.e.,
-`insert()`/`update()`/`delete()`)\* Perform index lookups with the
-`similarity()` pseudo-function, in combination with the `order_by()` and
-`limit()` clauses
+`GPU` radio button and click on `Save`.
+
+Main takeaways: \* Indexing in Pixeltable is declarative - you create an
+index on a column and supply the embedding functions you want to use
+(for inserting data into the index as well as lookups) - Pixeltable
+maintains the index in response to any kind of update of the indexed
+table (i.e., `insert()`/`update()`/`delete()`) \* Perform index lookups
+with the `similarity()` pseudo-function, in combination with the
+`order_by()` and `limit()` clauses
 
 To make this concrete, let’s create a table of images with the
 [`create_table()`](https://pixeltable.github.io/pixeltable/api/pixeltable/#pixeltable.create_table)

@@ -1,16 +1,3 @@
----
-title: Time Zones in Pixeltable
-icon: notebook
-description: >-
-  [Open in
-  Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/time-zones.ipynb)
-  | [Open in
-  Colab](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/time-zones.ipynb)
-  | [View on
-  GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/time-zones.ipynb)
----
-
-
 
 
 export const quartoRawHtml =
@@ -93,12 +80,20 @@ export const quartoRawHtml =
 </table>
 `];
 
+[![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/time-zones.ipynb)  
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/time-zones.ipynb)  
+<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/notebooks/feature-guides/time-zones.ipynb" download><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook"></a>
+
+# Time Zones in Pixeltable
+
 Because typical use cases involve datasets that span multiple time
 zones, Pixeltable strives to be precise in how it handles time zone
-arithmetic for datetimes.Timestamps are always stored in the Pixeltable
-database in UTC, to ensure consistency across datasets and deployments.
-Time zone considerations therefore apply during insertion and retrieval
-of timestamp data.
+arithmetic for datetimes.
+
+Timestamps are always stored in the Pixeltable database in UTC, to
+ensure consistency across datasets and deployments. Time zone
+considerations therefore apply during insertion and retrieval of
+timestamp data.
 
 
 ```python
