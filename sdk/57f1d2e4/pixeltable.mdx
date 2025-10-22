@@ -51,6 +51,7 @@ Create a directory.
 ```python
 create_dir(
     path: str,
+    *,
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error',
     parents: bool = False
 )-> Optional[catalog.Dir]
@@ -561,7 +562,10 @@ Move a schema object to a new directory and/or rename a schema object.
 ```python
 move(
     path: str,
-    new_path: str
+    new_path: str,
+    *,
+    if_exists: Literal['error', 'ignore'] = 'error',
+    if_not_exists: Literal['error', 'ignore'] = 'error'
 )-> None
 ```
 
@@ -569,6 +573,12 @@ move(
 
 - **`path`** (*str*): absolute path to the existing schema object.
 - **`new_path`** (*str*): absolute new path for the schema object.
+- **`if_exists`** (*Literal['error', 'ignore']*) = `error`: Directive regarding how to handle if a schema object already exists at the new path. Must be one of the following:
+  - `'error'`: raise an error
+  - `'ignore'`: do nothing and return
+- **`if_not_exists`** (*Literal['error', 'ignore']*) = `error`: Directive regarding how to handle if the source path does not exist. Must be one of the following:
+  - `'error'`: raise an error
+  - `'ignore'`: do nothing and return
 
 
 **Example:**

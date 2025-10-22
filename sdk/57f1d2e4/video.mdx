@@ -33,7 +33,10 @@ clip(
     video: Video,
     start_time: Float,
     end_time: Optional[Float],
-    duration: Optional[Float]
+    duration: Optional[Float],
+    mode: String,
+    video_encoder: Optional[String],
+    video_encoder_args: Optional[Json]
 )-> Optional[Video]
 ```
 
@@ -43,6 +46,10 @@ clip(
 - **`start_time`** (*Float*): Start time in seconds
 - **`end_time`** (*Optional[Float]*): End time in seconds
 - **`duration`** (*Optional[Float]*): Duration of the clip in seconds
+- **`mode`** (*String*): - `'fast'`: avoids re-encoding but starts the clip at the nearest keyframes and as a result, the clip duration will be slightly longer than requested
+  - `'accurate'`: extracts a frame-accurate clip, but requires re-encoding
+- **`video_encoder`** (*Optional[String]*): Video encoder to use. If not specified, uses the default encoder for the current platform. Only available for `mode='accurate'`.
+- **`video_encoder_args`** (*Optional[Json]*): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 **Returns:**
 
@@ -393,14 +400,14 @@ segment_video(
 
 Split a video at 1 minute intervals using fast mode:
 ```python
-tbl.select(segment_paths=tbl.video.segment_video(duration=60)).collect()
+tbl.select(segment_paths=tbl.video.segment_video(duration=60, mode='fast')).collect()
 ```
 
-Split video into exact 10-second segments with accurate mode, using the libx264 encoder with a CRF of 23 and slow preset (for smaller output files):
+Split video into exact 10-second segments with default accurate mode, using the libx264 encoder with a CRF of 23 and slow preset (for smaller output files):
 ```python
 tbl.select(
     segment_paths=tbl.video.segment_video(
-        duration=10, mode='accurate', video_encoder='libx264', video_encoder_args={'crf': 23, 'preset': 'slow'}
+        duration=10, video_encoder='libx264', video_encoder_args={'crf': 23, 'preset': 'slow'}
     )
 ).collect()
 ```
