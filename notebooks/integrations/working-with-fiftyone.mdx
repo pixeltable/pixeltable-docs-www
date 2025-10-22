@@ -110,10 +110,10 @@ body, html {
    (function() {
      var container = document.getElementById("focontainer-2e1cec2e-e5ed-484f-8871-62f6c2151426");
      var overlay = document.getElementById("fooverlay-2e1cec2e-e5ed-484f-8871-62f6c2151426");
-     fetch(`http://localhost:5151/fiftyone`)
+     fetch('http://localhost:5151/fiftyone')
      .then(() => {
         overlay.addEventListener("click", () => {
-          fetch(`http://localhost:5151/event`, {
+          fetch('http://localhost:5151/event', {
             method: "POST",
             body: JSON.stringify({
               event: "reactivate_notebook_cell",
@@ -441,8 +441,8 @@ t.head()
 ```
 
 ``` text
-Created table `images`.
-Inserting rows into `images`: 4 rows [00:00, 2775.85 rows/s]
+Created table images.
+Inserting rows into images: 4 rows [00:00, 2775.85 rows/s]
 Inserted 4 rows with 0 errors.
 ```
 

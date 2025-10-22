@@ -1139,14 +1139,15 @@ Created directory 'rag_demo'.
 Next we’ll create a table containing the sample questions we want to
 answer. The questions are stored in an Excel spreadsheet, along with a
 set of “ground truth” answers to help evaluate our model pipeline. We
-can use `create_table()` with the `source` parameter to load them. Note
-that we can pass the URL of the spreadsheet directly.
+can use Pixeltable’s handy `import_excel()` utility to load them. Note
+that we can pass the URL of the spreadsheet directly to the import
+utility.
 
 
 ```python
 base = 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/rag-demo/'
 qa_url = base + 'Q-A-Rag.xlsx'
-queries_t = pxt.create_table('rag_demo.queries', source=qa_url)
+queries_t = pxt.io.import_excel('rag_demo.queries', qa_url)
 ```
 
 ``` text
@@ -1174,7 +1175,7 @@ There are two major parts to our RAG application:
 
 We’ll implement both parts in Pixeltable.
 
-## 1. Document Indexing {#document-indexing}
+## Document Indexing
 
 All data in Pixeltable, including documents, resides in tables.
 
@@ -1312,7 +1313,7 @@ locally.
 The following command creates a vector index on the `text` column in the
 `chunks` table, using the E5 embedding model. (For details on index
 creation, see the [Embedding and Vector
-Indices](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/embedding-indexes.ipynb)
+Indices](https://docs.pixeltable.com/docs/embedding-vector-indexes)
 guide.) Note that defining the index is sufficient in order to load it
 with the existing data (and also to update it when the underlying data
 changes, as we’ll see later).
@@ -1330,7 +1331,7 @@ chunks_t.add_embedding_index(
 This completes the first part of our application, creating an indexed
 document base. Next, we’ll use it to run some queries.
 
-## 2. Querying {#querying}
+## Querying
 
 In order to express a top-k lookup against our index, we use
 Pixeltable’s `similarity` operator in combination with the standard
