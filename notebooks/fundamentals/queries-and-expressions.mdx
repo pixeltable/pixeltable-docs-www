@@ -1005,30 +1005,7 @@ class="data row5 col2">image.getchannel(1)</td>
 </table>
 `];
 
-<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/notebooks/fundamentals/queries-and-expressions.ipynb" download><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook"></a>\##
-Section 3: Queries and ExpressionsWelcome to Section 3 of the
-**Pixeltable Fundamentals** tutorial, **Queries and Expressions**.In the
-previous section of this tutorial, [Computed
-Columns](https://docs.pixeltable.com/datastore/computed-columns), we saw
-how to issue queries over Pixeltable tables, such
-as:`pythonpop_t.select(yoy_change=(pop_t.pop_2023 - pop_t.pop_2022)).collect()`We
-also saw how to define **computed columns** that become part of the
-table and are updated automatically when new rows are
-inserted:`pythonpop_t.add_column(yoy_change=(pop_t.pop_2023 - pop_t.pop_2022))`Both
-these examples use the **Pixeltable expression**
-`pop_t.pop_2023 - pop_t.pop_2022`. We’ve seen a number of other
-expressions as well, such as the chain of image
-operations`pythont.source.convert('RGBA').rotate(10)`and the model
-invocation`pythondetr_for_object_detection(    t.source,    model_id='facebook/detr-resnet-50',    threshold=0.8)`Expressions
-are the basic building blocks of Pixeltable workloads. An expression can
-be included in a `select()` statement, which will cause it to be
-evaluated dynamically, or in an `add_column()` statement, which will add
-it to the table schema as a computed column. In this section, we’ll dive
-deeper into the different kinds of Pixeltable expressions and their
-uses. We’ll:- Understand the relationship between Pixeltable expressions
-and query execution- Survey the different types of expressions- Learn
-more about the Pixeltable type systemTo get started, let’s import the
-necessary libraries for this tutorial and set up a demo directory.
+## Section 3: Queries and ExpressionsWelcome to Section 3 of the **Pixeltable Fundamentals** tutorial, **Queries and Expressions**.In the previous section of this tutorial, [Computed Columns](https://docs.pixeltable.com/datastore/computed-columns), we saw how to issue queries over Pixeltable tables, such as:`pythonpop_t.select(yoy_change=(pop_t.pop_2023 - pop_t.pop_2022)).collect()`We also saw how to define **computed columns** that become part of the table and are updated automatically when new rows are inserted:`pythonpop_t.add_column(yoy_change=(pop_t.pop_2023 - pop_t.pop_2022))`Both these examples use the **Pixeltable expression** `pop_t.pop_2023 - pop_t.pop_2022`. We’ve seen a number of other expressions as well, such as the chain of image operations`pythont.source.convert('RGBA').rotate(10)`and the model invocation`pythondetr_for_object_detection(    t.source,    model_id='facebook/detr-resnet-50',    threshold=0.8)`Expressions are the basic building blocks of Pixeltable workloads. An expression can be included in a `select()` statement, which will cause it to be evaluated dynamically, or in an `add_column()` statement, which will add it to the table schema as a computed column. In this section, we’ll dive deeper into the different kinds of Pixeltable expressions and their uses. We’ll:- Understand the relationship between Pixeltable expressions and query execution- Survey the different types of expressions- Learn more about the Pixeltable type systemTo get started, let’s import the necessary libraries for this tutorial and set up a demo directory. {#section-3-queries-and-expressionswelcome-to-section-3-of-the-pixeltable-fundamentals-tutorial-queries-and-expressions.in-the-previous-section-of-this-tutorial-computed-columns-we-saw-how-to-issue-queries-over-pixeltable-tables-such-aspythonpop_t.selectyoy_changepop_t.pop_2023---pop_t.pop_2022.collectwe-also-saw-how-to-define-computed-columns-that-become-part-of-the-table-and-are-updated-automatically-when-new-rows-are-insertedpythonpop_t.add_columnyoy_changepop_t.pop_2023---pop_t.pop_2022both-these-examples-use-the-pixeltable-expression-pop_t.pop_2023---pop_t.pop_2022.-weve-seen-a-number-of-other-expressions-as-well-such-as-the-chain-of-image-operationspythont.source.convertrgba.rotate10and-the-model-invocationpythondetr_for_object_detection-t.source-model_idfacebookdetr-resnet-50-threshold0.8expressions-are-the-basic-building-blocks-of-pixeltable-workloads.-an-expression-can-be-included-in-a-select-statement-which-will-cause-it-to-be-evaluated-dynamically-or-in-an-add_column-statement-which-will-add-it-to-the-table-schema-as-a-computed-column.-in-this-section-well-dive-deeper-into-the-different-kinds-of-pixeltable-expressions-and-their-uses.-well--understand-the-relationship-between-pixeltable-expressions-and-query-execution--survey-the-different-types-of-expressions--learn-more-about-the-pixeltable-type-systemto-get-started-lets-import-the-necessary-libraries-for-this-tutorial-and-set-up-a-demo-directory.}
 
 
 ```python
