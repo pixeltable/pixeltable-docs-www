@@ -50,14 +50,7 @@ Request throttling: Uses the rate limit-related headers returned by the API to t
 **Signature:**
 
 ```python
-messages(
-    messages: Json,
-    model: String,
-    max_tokens: Int,
-    model_kwargs: Optional[Json],
-    tools: Optional[Json],
-    tool_choice: Optional[Json]
-)-> Json
+messages()-> Json
 ```
 
 **Parameters:**

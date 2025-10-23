@@ -50,12 +50,7 @@ Request throttling: Applies the rate limit set in the config (section `gemini.ra
 **Signature:**
 
 ```python
-generate_content(
-    contents: String,
-    model: String,
-    config: Optional[Json],
-    tools: Optional[Json]
-)-> Json
+generate_content()-> Json
 ```
 
 **Parameters:**
@@ -98,11 +93,7 @@ Request throttling: Applies the rate limit set in the config (section `imagen.ra
 **Signature:**
 
 ```python
-generate_images(
-    prompt: String,
-    model: String,
-    config: Optional[Json]
-)-> Image
+generate_images()-> Image
 ```
 
 **Parameters:**
@@ -144,12 +135,7 @@ Request throttling: Applies the rate limit set in the config (section `veo.rate_
 **Signature:**
 
 ```python
-generate_videos(
-    prompt: Optional[String],
-    image: Optional[Image],
-    model: String,
-    config: Optional[Json]
-)-> Video
+generate_videos()-> Video
 ```
 
 **Parameters:**

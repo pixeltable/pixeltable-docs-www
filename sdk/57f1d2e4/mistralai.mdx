@@ -31,11 +31,7 @@ Request throttling: Applies the rate limit set in the config (section `mistral`,
 **Signature:**
 
 ```python
-chat_completions(
-    messages: Json,
-    model: String,
-    model_kwargs: Optional[Json]
-)-> Json
+chat_completions()-> Json
 ```
 
 **Parameters:**
@@ -78,10 +74,7 @@ Request throttling: Applies the rate limit set in the config (section `mistral`,
 **Signature:**
 
 ```python
-embeddings(
-    input: String,
-    model: String
-)-> Array[(None,), Float]
+embeddings()-> Array[(None,), Float]
 ```
 
 **Parameters:**
@@ -114,11 +107,7 @@ Request throttling: Applies the rate limit set in the config (section `mistral`,
 **Signature:**
 
 ```python
-fim_completions(
-    prompt: String,
-    model: String,
-    model_kwargs: Optional[Json]
-)-> Json
+fim_completions()-> Json
 ```
 
 **Parameters:**

@@ -34,7 +34,7 @@ Equivalent to [`str.capitalize()`](https://docs.python.org/3/library/stdtypes.ht
 **Signature:**
 
 ```python
-capitalize(self: String)-> String
+capitalize()-> String
 ```
 
 
@@ -51,7 +51,7 @@ Equivalent to [`str.casefold()`](https://docs.python.org/3/library/stdtypes.html
 **Signature:**
 
 ```python
-casefold(self: String)-> String
+casefold()-> String
 ```
 
 
@@ -68,11 +68,7 @@ Equivalent to [`str.center()`](https://docs.python.org/3/library/stdtypes.html#s
 **Signature:**
 
 ```python
-center(
-    self: String,
-    width: Int,
-    fillchar: String
-)-> String
+center()-> String
 ```
 
 **Parameters:**
@@ -91,11 +87,7 @@ Test if string contains a substring.
 **Signature:**
 
 ```python
-contains(
-    self: String,
-    substr: String,
-    case: Bool
-)-> Bool
+contains()-> Bool
 ```
 
 **Parameters:**
@@ -114,11 +106,7 @@ Test if string contains a regular expression pattern.
 **Signature:**
 
 ```python
-contains_re(
-    self: String,
-    pattern: String,
-    flags: Int
-)-> Bool
+contains_re()-> Bool
 ```
 
 **Parameters:**
@@ -137,11 +125,7 @@ Count occurrences of pattern or regex.
 **Signature:**
 
 ```python
-count(
-    self: String,
-    pattern: String,
-    flags: Int
-)-> Int
+count()-> Int
 ```
 
 **Parameters:**
@@ -163,10 +147,7 @@ Equivalent to [`str.endswith()`](https://docs.python.org/3/library/stdtypes.html
 **Signature:**
 
 ```python
-endswith(
-    self: String,
-    substr: String
-)-> Bool
+endswith()-> Bool
 ```
 
 **Parameters:**
@@ -187,11 +168,7 @@ Equivalent to [`textwrap.fill()`](https://docs.python.org/3/library/textwrap.htm
 **Signature:**
 
 ```python
-fill(
-    self: String,
-    width: Int,
-    **kwargs
-)-> String
+fill()-> String
 ```
 
 **Parameters:**
@@ -213,12 +190,7 @@ Equivalent to [`str.find()`](https://docs.python.org/3/library/stdtypes.html#str
 **Signature:**
 
 ```python
-find(
-    self: String,
-    substr: String,
-    start: Int,
-    end: Optional[Int]
-)-> Int
+find()-> Int
 ```
 
 **Parameters:**
@@ -241,11 +213,7 @@ Equivalent to [`re.findall()`](https://docs.python.org/3/library/re.html#re.find
 **Signature:**
 
 ```python
-findall(
-    self: String,
-    pattern: String,
-    flags: Int
-)-> Json
+findall()-> Json
 ```
 
 **Parameters:**
@@ -267,11 +235,7 @@ Equivalent to [`str.format()`](https://docs.python.org/3/library/stdtypes.html#s
 **Signature:**
 
 ```python
-format(
-    self: String,
-    *args,
-    **kwargs
-)-> String
+format()-> String
 ```
 
 
@@ -288,12 +252,7 @@ Equivalent to [`re.fullmatch()`](https://docs.python.org/3/library/re.html#re.fu
 **Signature:**
 
 ```python
-fullmatch(
-    self: String,
-    pattern: String,
-    case: Bool,
-    flags: Int
-)-> Bool
+fullmatch()-> Bool
 ```
 
 **Parameters:**
@@ -318,12 +277,7 @@ Equivalent to [`str.index()`](https://docs.python.org/3/library/stdtypes.html#st
 **Signature:**
 
 ```python
-index(
-    self: String,
-    substr: String,
-    start: Int,
-    end: Optional[Int]
-)-> Int
+index()-> Int
 ```
 
 **Parameters:**
@@ -348,7 +302,7 @@ Equivalent to \[`str.isalnum()`\](https://docs.python.org/3/library/stdtypes.htm
 **Signature:**
 
 ```python
-isalnum(self: String)-> Bool
+isalnum()-> Bool
 ```
 
 
@@ -365,7 +319,7 @@ Equivalent to [`str.isalpha()`](https://docs.python.org/3/library/stdtypes.html#
 **Signature:**
 
 ```python
-isalpha(self: String)-> Bool
+isalpha()-> Bool
 ```
 
 
@@ -382,7 +336,7 @@ Equivalent to [`str.isascii()`](https://docs.python.org/3/library/stdtypes.html#
 **Signature:**
 
 ```python
-isascii(self: String)-> Bool
+isascii()-> Bool
 ```
 
 
@@ -401,7 +355,7 @@ Equivalent to [`str.isdecimal()`](https://docs.python.org/3/library/stdtypes.htm
 **Signature:**
 
 ```python
-isdecimal(self: String)-> Bool
+isdecimal()-> Bool
 ```
 
 
@@ -418,7 +372,7 @@ Equivalent to [`str.isdigit()`](https://docs.python.org/3/library/stdtypes.html#
 **Signature:**
 
 ```python
-isdigit(self: String)-> Bool
+isdigit()-> Bool
 ```
 
 
@@ -435,7 +389,7 @@ Equivalent to [`str.isidentifier()`](https://docs.python.org/3/library/stdtypes.
 **Signature:**
 
 ```python
-isidentifier(self: String)-> Bool
+isidentifier()-> Bool
 ```
 
 
@@ -454,7 +408,7 @@ Equivalent to [`str.islower()`](https://docs.python.org/3/library/stdtypes.html#
 **Signature:**
 
 ```python
-islower(self: String)-> Bool
+islower()-> Bool
 ```
 
 
@@ -471,7 +425,7 @@ Equivalent to [`str.isnumeric()`](https://docs.python.org/3/library/stdtypes.htm
 **Signature:**
 
 ```python
-isnumeric(self: String)-> Bool
+isnumeric()-> Bool
 ```
 
 
@@ -490,7 +444,7 @@ Equivalent to [`str.isspace()`](https://docs.python.org/3/library/stdtypes.html#
 **Signature:**
 
 ```python
-isspace(self: String)-> Bool
+isspace()-> Bool
 ```
 
 
@@ -507,7 +461,7 @@ Equivalent to [`str.istitle()`](https://docs.python.org/3/library/stdtypes.html#
 **Signature:**
 
 ```python
-istitle(self: String)-> Bool
+istitle()-> Bool
 ```
 
 
@@ -526,7 +480,7 @@ Equivalent to [`str.isupper()`](https://docs.python.org/3/library/stdtypes.html#
 **Signature:**
 
 ```python
-isupper(self: String)-> Bool
+isupper()-> Bool
 ```
 
 
@@ -543,10 +497,7 @@ Equivalent to [`str.join()`](https://docs.python.org/3/library/stdtypes.html#str
 **Signature:**
 
 ```python
-join(
-    sep: String,
-    elements: Json
-)-> String
+join()-> String
 ```
 
 
@@ -563,7 +514,7 @@ Equivalent to [`len(str)`](https://docs.python.org/3/library/functions.html#len)
 **Signature:**
 
 ```python
-len(self: String)-> Int
+len()-> Int
 ```
 
 
@@ -580,11 +531,7 @@ Equivalent to [`str.ljust()`](https://docs.python.org/3/library/stdtypes.html#st
 **Signature:**
 
 ```python
-ljust(
-    self: String,
-    width: Int,
-    fillchar: String
-)-> String
+ljust()-> String
 ```
 
 **Parameters:**
@@ -606,7 +553,7 @@ Equivalent to [`str.lower()`](https://docs.python.org/3/library/stdtypes.html#st
 **Signature:**
 
 ```python
-lower(self: String)-> String
+lower()-> String
 ```
 
 
@@ -625,10 +572,7 @@ Equivalent to [`str.lstrip()`](https://docs.python.org/3/library/stdtypes.html#s
 **Signature:**
 
 ```python
-lstrip(
-    self: String,
-    chars: Optional[String]
-)-> String
+lstrip()-> String
 ```
 
 **Parameters:**
@@ -646,12 +590,7 @@ Determine if string starts with a match of a regular expression
 **Signature:**
 
 ```python
-match(
-    self: String,
-    pattern: String,
-    case: Bool,
-    flags: Int
-)-> Bool
+match()-> Bool
 ```
 
 **Parameters:**
@@ -674,10 +613,7 @@ Equivalent to [`unicodedata.normalize()`](https://docs.python.org/3/library/unic
 **Signature:**
 
 ```python
-normalize(
-    self: String,
-    form: String
-)-> String
+normalize()-> String
 ```
 
 **Parameters:**
@@ -695,12 +631,7 @@ Pad string up to width
 **Signature:**
 
 ```python
-pad(
-    self: String,
-    width: Int,
-    side: String,
-    fillchar: String
-)-> String
+pad()-> String
 ```
 
 **Parameters:**
@@ -723,10 +654,7 @@ separator, the separator itself, and the part after the separator. If the separa
 **Signature:**
 
 ```python
-partition(
-    self: String,
-    sep: String
-)-> Json
+partition()-> Json
 ```
 
 
@@ -740,10 +668,7 @@ Remove prefix. If the prefix is not present, returns string.
 **Signature:**
 
 ```python
-removeprefix(
-    self: String,
-    prefix: String
-)-> String
+removeprefix()-> String
 ```
 
 
@@ -757,10 +682,7 @@ Remove suffix. If the suffix is not present, returns string.
 **Signature:**
 
 ```python
-removesuffix(
-    self: String,
-    suffix: String
-)-> String
+removesuffix()-> String
 ```
 
 
@@ -774,10 +696,7 @@ Repeat string `n` times.
 **Signature:**
 
 ```python
-repeat(
-    self: String,
-    n: Int
-)-> String
+repeat()-> String
 ```
 
 
@@ -794,12 +713,7 @@ Equivalent to [`str.replace()`](https://docs.python.org/3/library/stdtypes.html#
 **Signature:**
 
 ```python
-replace(
-    self: String,
-    substr: String,
-    repl: String,
-    n: Optional[Int]
-)-> String
+replace()-> String
 ```
 
 **Parameters:**
@@ -822,13 +736,7 @@ Equivalent to [`re.sub()`](https://docs.python.org/3/library/re.html#re.sub).
 **Signature:**
 
 ```python
-replace_re(
-    self: String,
-    pattern: String,
-    repl: String,
-    n: Optional[Int],
-    flags: Int
-)-> String
+replace_re()-> String
 ```
 
 **Parameters:**
@@ -852,7 +760,7 @@ Equivalent to `str[::-1]`.
 **Signature:**
 
 ```python
-reverse(self: String)-> String
+reverse()-> String
 ```
 
 
@@ -869,12 +777,7 @@ Equivalent to [`str.rfind()`](https://docs.python.org/3/library/stdtypes.html#st
 **Signature:**
 
 ```python
-rfind(
-    self: String,
-    substr: String,
-    start: Optional[Int],
-    end: Optional[Int]
-)-> Int
+rfind()-> Int
 ```
 
 **Parameters:**
@@ -899,12 +802,7 @@ Equivalent to [`str.rindex()`](https://docs.python.org/3/library/stdtypes.html#s
 **Signature:**
 
 ```python
-rindex(
-    self: String,
-    substr: String,
-    start: Optional[Int],
-    end: Optional[Int]
-)-> Int
+rindex()-> Int
 ```
 
 
@@ -921,11 +819,7 @@ Equivalent to [`str.rjust()`](https://docs.python.org/3/library/stdtypes.html#st
 **Signature:**
 
 ```python
-rjust(
-    self: String,
-    width: Int,
-    fillchar: String
-)-> String
+rjust()-> String
 ```
 
 **Parameters:**
@@ -947,10 +841,7 @@ separator, the separator itself, and the part after the separator.
 **Signature:**
 
 ```python
-rpartition(
-    self: String,
-    sep: String
-)-> Json
+rpartition()-> Json
 ```
 
 
@@ -967,10 +858,7 @@ Equivalent to [`str.rstrip()`](https://docs.python.org/3/library/stdtypes.html#s
 **Signature:**
 
 ```python
-rstrip(
-    self: String,
-    chars: Optional[String]
-)-> String
+rstrip()-> String
 ```
 
 **Parameters:**
@@ -988,12 +876,7 @@ Return a slice.
 **Signature:**
 
 ```python
-slice(
-    self: String,
-    start: Optional[Int],
-    stop: Optional[Int],
-    step: Optional[Int]
-)-> String
+slice()-> String
 ```
 
 **Parameters:**
@@ -1013,12 +896,7 @@ Replace a positional slice with another value.
 **Signature:**
 
 ```python
-slice_replace(
-    self: String,
-    start: Optional[Int],
-    stop: Optional[Int],
-    repl: Optional[String]
-)-> String
+slice_replace()-> String
 ```
 
 **Parameters:**
@@ -1041,10 +919,7 @@ Equivalent to [`str.startswith()`](https://docs.python.org/3/library/stdtypes.ht
 **Signature:**
 
 ```python
-startswith(
-    self: String,
-    substr: String
-)-> Int
+startswith()-> Int
 ```
 
 **Parameters:**
@@ -1065,10 +940,7 @@ Equivalent to [`str.strip()`](https://docs.python.org/3/library/stdtypes.html#st
 **Signature:**
 
 ```python
-strip(
-    self: String,
-    chars: Optional[String]
-)-> String
+strip()-> String
 ```
 
 **Parameters:**
@@ -1089,7 +961,7 @@ Equivalent to [`str.swapcase()`](https://docs.python.org/3/library/stdtypes.html
 **Signature:**
 
 ```python
-swapcase(self: String)-> String
+swapcase()-> String
 ```
 
 
@@ -1108,7 +980,7 @@ Equivalent to [`str.title()`](https://docs.python.org/3/library/stdtypes.html#st
 **Signature:**
 
 ```python
-title(self: String)-> String
+title()-> String
 ```
 
 
@@ -1125,7 +997,7 @@ Equivalent to [`str.upper()`](https://docs.python.org/3/library/stdtypes.html#st
 **Signature:**
 
 ```python
-upper(self: String)-> String
+upper()-> String
 ```
 
 
@@ -1144,11 +1016,7 @@ Equivalent to [`textwrap.fill()`](https://docs.python.org/3/library/textwrap.htm
 **Signature:**
 
 ```python
-wrap(
-    self: String,
-    width: Int,
-    **kwargs
-)-> Json
+wrap()-> Json
 ```
 
 **Parameters:**

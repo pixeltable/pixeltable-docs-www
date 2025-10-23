@@ -50,13 +50,7 @@ Request throttling: Uses the rate limit-related headers returned by the API to t
 **Signature:**
 
 ```python
-chat_completions(
-    messages: Json,
-    model: String,
-    model_kwargs: Optional[Json],
-    tools: Optional[Json],
-    tool_choice: Optional[Json]
-)-> Json
+chat_completions()-> Json
 ```
 
 **Parameters:**
@@ -99,11 +93,7 @@ Request throttling: Uses the rate limit-related headers returned by the API to t
 **Signature:**
 
 ```python
-embeddings(
-    input: String,
-    model: String,
-    model_kwargs: Optional[Json]
-)-> Array[(None,), Float]
+embeddings()-> Array[(None,), Float]
 ```
 
 **Parameters:**
@@ -150,11 +140,7 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-image_generations(
-    prompt: String,
-    model: String,
-    model_kwargs: Optional[Json]
-)-> Image
+image_generations()-> Image
 ```
 
 **Parameters:**
@@ -196,10 +182,7 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-moderations(
-    input: String,
-    model: String
-)-> Json
+moderations()-> Json
 ```
 
 **Parameters:**
@@ -240,12 +223,7 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-speech(
-    input: String,
-    model: String,
-    voice: String,
-    model_kwargs: Optional[Json]
-)-> Audio
+speech()-> Audio
 ```
 
 **Parameters:**
@@ -288,11 +266,7 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-transcriptions(
-    audio: Audio,
-    model: String,
-    model_kwargs: Optional[Json]
-)-> Json
+transcriptions()-> Json
 ```
 
 **Parameters:**
@@ -334,11 +308,7 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-translations(
-    audio: Audio,
-    model: String,
-    model_kwargs: Optional[Json]
-)-> Json
+translations()-> Json
 ```
 
 **Parameters:**
@@ -382,12 +352,7 @@ Request throttling: Uses the rate limit-related headers returned by the API to t
 **Signature:**
 
 ```python
-vision(
-    prompt: String,
-    image: Image,
-    model: String,
-    model_kwargs: Optional[Json]
-)-> String
+vision()-> String
 ```
 
 **Parameters:**

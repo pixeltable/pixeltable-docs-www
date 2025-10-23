@@ -31,22 +31,7 @@ If `diarize=True`, then speaker diarization will also be performed. Several of t
 **Signature:**
 
 ```python
-transcribe(
-    audio: Audio,
-    model: String,
-    diarize: Bool,
-    compute_type: Optional[String],
-    language: Optional[String],
-    task: Optional[String],
-    chunk_size: Optional[Int],
-    alignment_model_name: Optional[String],
-    interpolate_method: Optional[String],
-    return_char_alignments: Optional[Bool],
-    diarization_model_name: Optional[String],
-    num_speakers: Optional[Int],
-    min_speakers: Optional[Int],
-    max_speakers: Optional[Int]
-)-> Json
+transcribe()-> Json
 ```
 
 **Parameters:**
