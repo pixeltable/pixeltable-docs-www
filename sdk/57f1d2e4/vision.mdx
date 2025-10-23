@@ -39,7 +39,17 @@ If no colors are specified, this function randomly assigns each label a specific
 **Signature:**
 
 ```python
-draw_bounding_boxes()-> Image
+draw_bounding_boxes(
+    img: Image,
+    boxes: Json,
+    labels: Optional[Json] = None,
+    color: Optional[String] = None,
+    box_colors: Optional[Json] = None,
+    fill: Bool = False,
+    width: Int = 1,
+    font: Optional[String] = None,
+    font_size: Optional[Int] = None
+)-> Image
 ```
 
 **Parameters:**
@@ -70,7 +80,14 @@ Evaluates the performance of a set of predicted bounding boxes against a set of 
 **Signature:**
 
 ```python
-eval_detections()-> Json
+eval_detections(
+    pred_bboxes: Json,
+    pred_labels: Json,
+    pred_scores: Json,
+    gt_bboxes: Json,
+    gt_labels: Json,
+    min_iou: Float = 0.5
+)-> Json
 ```
 
 **Parameters:**

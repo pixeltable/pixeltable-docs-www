@@ -31,7 +31,21 @@ This UDF runs a transcription model *locally* using the Whisper library, equival
 **Signature:**
 
 ```python
-transcribe()-> Json
+transcribe(
+    audio: Audio,
+    *,
+    model: String,
+    temperature: Optional[Json] = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
+    compression_ratio_threshold: Optional[Float] = 2.4,
+    logprob_threshold: Optional[Float] = -1.0,
+    no_speech_threshold: Optional[Float] = 0.6,
+    condition_on_previous_text: Bool = True,
+    initial_prompt: Optional[String] = None,
+    word_timestamps: Bool = False,
+    prepend_punctuations: String = '"\'“¿([{-',
+    append_punctuations: String = '"\'.。,，!！?？:：”)]}、',
+    decode_options: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**

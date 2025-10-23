@@ -31,7 +31,11 @@ Request throttling: Applies the rate limit set in the config (section `replicate
 **Signature:**
 
 ```python
-run()-> Json
+run(
+    input: Json,
+    *,
+    ref: String
+)-> Json
 ```
 
 **Parameters:**

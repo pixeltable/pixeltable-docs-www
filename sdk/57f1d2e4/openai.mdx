@@ -50,7 +50,14 @@ Request throttling: Uses the rate limit-related headers returned by the API to t
 **Signature:**
 
 ```python
-chat_completions()-> Json
+chat_completions(
+    messages: Json,
+    *,
+    model: String,
+    model_kwargs: Optional[Json] = None,
+    tools: Optional[Json] = None,
+    tool_choice: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**
@@ -93,7 +100,12 @@ Request throttling: Uses the rate limit-related headers returned by the API to t
 **Signature:**
 
 ```python
-embeddings()-> Array[(None,), Float]
+embeddings(
+    input: String,
+    *,
+    model: String,
+    model_kwargs: Optional[Json] = None
+)-> Array[(None,), Float]
 ```
 
 **Parameters:**
@@ -140,7 +152,12 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-image_generations()-> Image
+image_generations(
+    prompt: String,
+    *,
+    model: String = 'dall-e-2',
+    model_kwargs: Optional[Json] = None
+)-> Image
 ```
 
 **Parameters:**
@@ -182,7 +199,11 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-moderations()-> Json
+moderations(
+    input: String,
+    *,
+    model: String = 'omni-moderation-latest'
+)-> Json
 ```
 
 **Parameters:**
@@ -223,7 +244,13 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-speech()-> Audio
+speech(
+    input: String,
+    *,
+    model: String,
+    voice: String,
+    model_kwargs: Optional[Json] = None
+)-> Audio
 ```
 
 **Parameters:**
@@ -266,7 +293,12 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-transcriptions()-> Json
+transcriptions(
+    audio: Audio,
+    *,
+    model: String,
+    model_kwargs: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**
@@ -308,7 +340,12 @@ Request throttling: Applies the rate limit set in the config (section `openai.ra
 **Signature:**
 
 ```python
-translations()-> Json
+translations(
+    audio: Audio,
+    *,
+    model: String,
+    model_kwargs: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**
@@ -352,7 +389,13 @@ Request throttling: Uses the rate limit-related headers returned by the API to t
 **Signature:**
 
 ```python
-vision()-> String
+vision(
+    prompt: String,
+    image: Image,
+    *,
+    model: String,
+    model_kwargs: Optional[Json] = None
+)-> String
 ```
 
 **Parameters:**

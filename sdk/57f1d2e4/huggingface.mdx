@@ -40,7 +40,14 @@ This is a **generic function** that works with many ASR model families. For prod
 **Signature:**
 
 ```python
-automatic_speech_recognition()-> String
+automatic_speech_recognition(
+    audio: Audio,
+    *,
+    model_id: String,
+    language: Optional[String] = None,
+    chunk_length_s: Optional[Int] = None,
+    return_timestamps: Bool = False
+)-> String
 ```
 
 **Parameters:**
@@ -143,7 +150,12 @@ Performs predicts on the given sentence pair.
 **Signature:**
 
 ```python
-cross_encoder()-> Float
+cross_encoder(
+    sentences1: String,
+    sentences2: String,
+    *,
+    model_id: String
+)-> Float
 ```
 
 **Parameters:**
@@ -173,7 +185,12 @@ tbl.add_computed_column(result=sentence_transformer(tbl.sentence1, tbl.sentence2
 **Signature:**
 
 ```python
-cross_encoder_list()-> Json
+cross_encoder_list(
+    sentence1: String,
+    sentences2: Json,
+    *,
+    model_id: String
+)-> Json
 ```
 
 
@@ -194,7 +211,13 @@ Computes DETR object detections for the specified image. `model_id` should be a 
 **Signature:**
 
 ```python
-detr_for_object_detection()-> Json
+detr_for_object_detection(
+    image: Image,
+    *,
+    model_id: String,
+    threshold: Float = 0.5,
+    revision: String = 'no_timm'
+)-> Json
 ```
 
 **Parameters:**
@@ -238,7 +261,10 @@ Converts the output of a DETR object detection model to COCO format.
 **Signature:**
 
 ```python
-detr_to_coco()-> Json
+detr_to_coco(
+    image: Image,
+    detr_info: Json
+)-> Json
 ```
 
 **Parameters:**
@@ -277,7 +303,12 @@ pretrained [image-to-text model](https://huggingface.co/models?pipeline_tag=imag
 **Signature:**
 
 ```python
-image_captioning()-> String
+image_captioning(
+    image: Image,
+    *,
+    model_id: String,
+    model_kwargs: Optional[Json] = None
+)-> String
 ```
 
 **Parameters:**
@@ -321,7 +352,14 @@ Transforms input images based on text prompts using a pretrained image-to-image 
 **Signature:**
 
 ```python
-image_to_image()-> Image
+image_to_image(
+    image: Image,
+    prompt: String,
+    *,
+    model_id: String,
+    seed: Optional[Int] = None,
+    model_kwargs: Optional[Json] = None
+)-> Image
 ```
 
 **Parameters:**
@@ -365,7 +403,15 @@ Generates videos from input images using a pretrained image-to-video model.
 **Signature:**
 
 ```python
-image_to_video()-> Video
+image_to_video(
+    image: Image,
+    *,
+    model_id: String,
+    num_frames: Int = 25,
+    fps: Int = 6,
+    seed: Optional[Int] = None,
+    model_kwargs: Optional[Json] = None
+)-> Video
 ```
 
 **Parameters:**
@@ -412,7 +458,12 @@ pretrained [question answering model](https://huggingface.co/models?pipeline_tag
 **Signature:**
 
 ```python
-question_answering()-> Json
+question_answering(
+    context: String,
+    question: String,
+    *,
+    model_id: String
+)-> Json
 ```
 
 **Parameters:**
@@ -454,7 +505,12 @@ in the [Sentence Transformers Pretrained Models](https://sbert.net/docs/sentence
 **Signature:**
 
 ```python
-sentence_transformer()-> Array[(None,), Float]
+sentence_transformer(
+    sentence: String,
+    *,
+    model_id: String,
+    normalize_embeddings: Bool = False
+)-> Array[(None,), Float]
 ```
 
 **Parameters:**
@@ -484,7 +540,12 @@ tbl.add_computed_column(result=sentence_transformer(tbl.sentence, model_id='all-
 **Signature:**
 
 ```python
-sentence_transformer_list()-> Json
+sentence_transformer_list(
+    sentences: Json,
+    *,
+    model_id: String,
+    normalize_embeddings: Bool = False
+)-> Json
 ```
 
 
@@ -505,7 +566,12 @@ pretrained [Speech2Text](https://huggingface.co/docs/transformers/en/model_doc/s
 **Signature:**
 
 ```python
-speech2text_for_conditional_generation()-> String
+speech2text_for_conditional_generation(
+    audio: Audio,
+    *,
+    model_id: String,
+    language: Optional[String] = None
+)-> String
 ```
 
 **Parameters:**
@@ -556,7 +622,12 @@ Summarizes text using a pretrained summarization model. `model_id` should be a r
 **Signature:**
 
 ```python
-summarization()-> String
+summarization(
+    text: String,
+    *,
+    model_id: String,
+    model_kwargs: Optional[Json] = None
+)-> String
 ```
 
 **Parameters:**
@@ -598,7 +669,12 @@ Classifies text using a pretrained classification model. `model_id` should be a 
 **Signature:**
 
 ```python
-text_classification()-> Json
+text_classification(
+    text: String,
+    *,
+    model_id: String,
+    top_k: Int = 5
+)-> Json
 ```
 
 **Parameters:**
@@ -640,7 +716,12 @@ Generates text using a pretrained language model. `model_id` should be a referen
 **Signature:**
 
 ```python
-text_generation()-> String
+text_generation(
+    text: String,
+    *,
+    model_id: String,
+    model_kwargs: Optional[Json] = None
+)-> String
 ```
 
 **Parameters:**
@@ -684,7 +765,15 @@ pretrained [text-to-image model](https://huggingface.co/models?pipeline_tag=text
 **Signature:**
 
 ```python
-text_to_image()-> Image
+text_to_image(
+    prompt: String,
+    *,
+    model_id: String,
+    height: Int = 512,
+    width: Int = 512,
+    seed: Optional[Int] = None,
+    model_kwargs: Optional[Json] = None
+)-> Image
 ```
 
 **Parameters:**
@@ -735,7 +824,13 @@ pretrained [text-to-speech model](https://huggingface.co/models?pipeline_tag=tex
 **Signature:**
 
 ```python
-text_to_speech()-> Audio
+text_to_speech(
+    text: String,
+    *,
+    model_id: String,
+    speaker_id: Optional[Int] = None,
+    vocoder: Optional[String] = None
+)-> Audio
 ```
 
 **Parameters:**
@@ -776,7 +871,12 @@ Extracts named entities from text using a pretrained named entity recognition (N
 **Signature:**
 
 ```python
-token_classification()-> Json
+token_classification(
+    text: String,
+    *,
+    model_id: String,
+    aggregation_strategy: String = 'simple'
+)-> Json
 ```
 
 **Parameters:**
@@ -818,7 +918,13 @@ Translates text using a pretrained translation model. `model_id` should be a ref
 **Signature:**
 
 ```python
-translation()-> String
+translation(
+    text: String,
+    *,
+    model_id: String,
+    src_lang: Optional[String] = None,
+    target_lang: Optional[String] = None
+)-> String
 ```
 
 **Parameters:**
@@ -863,7 +969,12 @@ Computes image classifications for the specified image using a Vision Transforme
 **Signature:**
 
 ```python
-vit_for_image_classification()-> Json
+vit_for_image_classification(
+    image: Image,
+    *,
+    model_id: String,
+    top_k: Int = 5
+)-> Json
 ```
 
 **Parameters:**

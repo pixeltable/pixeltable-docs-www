@@ -24,7 +24,14 @@ Generate the next message in a chat with a provided model.
 **Signature:**
 
 ```python
-chat()-> Json
+chat(
+    messages: Json,
+    *,
+    model: String,
+    tools: Optional[Json] = None,
+    format: Optional[String] = None,
+    options: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**
@@ -46,7 +53,13 @@ Generate embeddings from a model.
 **Signature:**
 
 ```python
-embed()-> Array[(None,), Float]
+embed(
+    input: String,
+    *,
+    model: String,
+    truncate: Bool = True,
+    options: Optional[Json] = None
+)-> Array[(None,), Float]
 ```
 
 **Parameters:**
@@ -67,7 +80,18 @@ Generate a response for a given prompt with a provided model.
 **Signature:**
 
 ```python
-generate()-> Json
+generate(
+    prompt: String,
+    *,
+    model: String,
+    suffix: String = '',
+    system: String = '',
+    template: String = '',
+    context: Optional[Json] = None,
+    raw: Bool = False,
+    format: Optional[String] = None,
+    options: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**

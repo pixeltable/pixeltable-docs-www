@@ -42,7 +42,14 @@ For additional details, see the [llama_cpp create_chat_completions documentation
 **Signature:**
 
 ```python
-create_chat_completion()-> Json
+create_chat_completion(
+    messages: Json,
+    *,
+    model_path: Optional[String] = None,
+    repo_id: Optional[String] = None,
+    repo_filename: Optional[String] = None,
+    model_kwargs: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**

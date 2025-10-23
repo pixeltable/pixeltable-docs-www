@@ -34,7 +34,10 @@ Equivalent to [`date + timedelta(days=n)`](https://docs.python.org/3/library/dat
 **Signature:**
 
 ```python
-add_days()-> Date
+add_days(
+    self: Date,
+    n: Int
+)-> Date
 ```
 
 
@@ -51,7 +54,7 @@ Equivalent to [`date.day`](https://docs.python.org/3/library/datetime.html#datet
 **Signature:**
 
 ```python
-day()-> Int
+day(self: Date)-> Int
 ```
 
 
@@ -68,7 +71,7 @@ Equivalent to [`date.isocalendar()`](https://docs.python.org/3/library/datetime.
 **Signature:**
 
 ```python
-isocalendar()-> Json
+isocalendar(self: Date)-> Json
 ```
 
 
@@ -85,7 +88,11 @@ Equivalent to [`date.isoformat()`](https://docs.python.org/3/library/datetime.ht
 **Signature:**
 
 ```python
-isoformat()-> String
+isoformat(
+    self: Date,
+    sep: String = 'T',
+    timespec: String = 'auto'
+)-> String
 ```
 
 **Parameters:**
@@ -107,7 +114,7 @@ Equivalent to [`date.isoweekday()`](https://docs.python.org/3/library/datetime.h
 **Signature:**
 
 ```python
-isoweekday()-> Int
+isoweekday(self: Date)-> Int
 ```
 
 
@@ -124,7 +131,11 @@ Equivalent to [`datetime()`](https://docs.python.org/3/library/datetime.html#dat
 **Signature:**
 
 ```python
-make_date()-> Date
+make_date(
+    year: Int,
+    month: Int,
+    day: Int
+)-> Date
 ```
 
 
@@ -141,7 +152,7 @@ Equivalent to [`date.month`](https://docs.python.org/3/library/datetime.html#dat
 **Signature:**
 
 ```python
-month()-> Int
+month(self: Date)-> Int
 ```
 
 
@@ -158,7 +169,10 @@ Equivalent to [`date.strftime()`](https://docs.python.org/3/library/datetime.htm
 **Signature:**
 
 ```python
-strftime()-> String
+strftime(
+    self: Date,
+    format: String
+)-> String
 ```
 
 **Parameters:**
@@ -179,7 +193,7 @@ Equivalent to [`date.toordinal()`](https://docs.python.org/3/library/datetime.ht
 **Signature:**
 
 ```python
-toordinal()-> Int
+toordinal(self: Date)-> Int
 ```
 
 
@@ -196,7 +210,7 @@ Equivalent to [`date.weekday()`](https://docs.python.org/3/library/datetime.html
 **Signature:**
 
 ```python
-weekday()-> Int
+weekday(self: Date)-> Int
 ```
 
 
@@ -215,6 +229,6 @@ Equivalent to [`date.year`](https://docs.python.org/3/library/datetime.html#date
 **Signature:**
 
 ```python
-year()-> Int
+year(self: Date)-> Int
 ```
 

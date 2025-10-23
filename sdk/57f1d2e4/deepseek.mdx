@@ -35,7 +35,14 @@ Request throttling: Applies the rate limit set in the config (section `deepseek`
 **Signature:**
 
 ```python
-chat_completions()-> Json
+chat_completions(
+    messages: Json,
+    *,
+    model: String,
+    model_kwargs: Optional[Json] = None,
+    tools: Optional[Json] = None,
+    tool_choice: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**

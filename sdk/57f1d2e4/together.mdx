@@ -31,7 +31,12 @@ Request throttling: Applies the rate limit set in the config (section `together.
 **Signature:**
 
 ```python
-chat_completions()-> Json
+chat_completions(
+    messages: Json,
+    *,
+    model: String,
+    model_kwargs: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**
@@ -74,7 +79,12 @@ Request throttling: Applies the rate limit set in the config (section `together.
 **Signature:**
 
 ```python
-completions()-> Json
+completions(
+    prompt: String,
+    *,
+    model: String,
+    model_kwargs: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**
@@ -116,7 +126,11 @@ Request throttling: Applies the rate limit set in the config (section `together.
 **Signature:**
 
 ```python
-embeddings()-> Array[(None,), Float]
+embeddings(
+    input: String,
+    *,
+    model: String
+)-> Array[(None,), Float]
 ```
 
 **Parameters:**
@@ -157,7 +171,12 @@ Request throttling: Applies the rate limit set in the config (section `together.
 **Signature:**
 
 ```python
-image_generations()-> Image
+image_generations(
+    prompt: String,
+    *,
+    model: String,
+    model_kwargs: Optional[Json] = None
+)-> Image
 ```
 
 **Parameters:**

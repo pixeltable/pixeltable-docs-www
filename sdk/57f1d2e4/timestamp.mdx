@@ -31,7 +31,10 @@ Convert the datetime to the given time zone.
 **Signature:**
 
 ```python
-astimezone()-> Timestamp
+astimezone(
+    self: Timestamp,
+    tz: String
+)-> Timestamp
 ```
 
 **Parameters:**
@@ -52,7 +55,7 @@ Equivalent to [`datetime.day`](https://docs.python.org/3/library/datetime.html#d
 **Signature:**
 
 ```python
-day()-> Int
+day(self: Timestamp)-> Int
 ```
 
 
@@ -69,7 +72,7 @@ Equivalent to [`datetime.hour`](https://docs.python.org/3/library/datetime.html#
 **Signature:**
 
 ```python
-hour()-> Int
+hour(self: Timestamp)-> Int
 ```
 
 
@@ -86,7 +89,7 @@ Equivalent to [`datetime.isocalendar()`](https://docs.python.org/3/library/datet
 **Signature:**
 
 ```python
-isocalendar()-> Json
+isocalendar(self: Timestamp)-> Json
 ```
 
 
@@ -103,7 +106,11 @@ Equivalent to [`datetime.isoformat()`](https://docs.python.org/3/library/datetim
 **Signature:**
 
 ```python
-isoformat()-> String
+isoformat(
+    self: Timestamp,
+    sep: String = 'T',
+    timespec: String = 'auto'
+)-> String
 ```
 
 **Parameters:**
@@ -125,7 +132,7 @@ Equivalent to [`datetime.isoweekday()`](https://docs.python.org/3/library/dateti
 **Signature:**
 
 ```python
-isoweekday()-> Int
+isoweekday(self: Timestamp)-> Int
 ```
 
 
@@ -142,7 +149,15 @@ Equivalent to [`datetime()`](https://docs.python.org/3/library/datetime.html#dat
 **Signature:**
 
 ```python
-make_timestamp()-> Timestamp
+make_timestamp(
+    year: Int,
+    month: Int,
+    day: Int,
+    hour: Int = 0,
+    minute: Int = 0,
+    second: Int = 0,
+    microsecond: Int = 0
+)-> Timestamp
 ```
 
 
@@ -159,7 +174,7 @@ Equivalent to [`datetime.microsecond`](https://docs.python.org/3/library/datetim
 **Signature:**
 
 ```python
-microsecond()-> Int
+microsecond(self: Timestamp)-> Int
 ```
 
 
@@ -176,7 +191,7 @@ Equivalent to [`datetime.minute`](https://docs.python.org/3/library/datetime.htm
 **Signature:**
 
 ```python
-minute()-> Int
+minute(self: Timestamp)-> Int
 ```
 
 
@@ -193,7 +208,7 @@ Equivalent to [`datetime.month`](https://docs.python.org/3/library/datetime.html
 **Signature:**
 
 ```python
-month()-> Int
+month(self: Timestamp)-> Int
 ```
 
 
@@ -210,7 +225,7 @@ Equivalent to [`datetime.timestamp()`](https://docs.python.org/3/library/datetim
 **Signature:**
 
 ```python
-posix_timestamp()-> Float
+posix_timestamp(self: Timestamp)-> Float
 ```
 
 
@@ -229,7 +244,16 @@ Equivalent to [`datetime.replace()`](https://docs.python.org/3/library/datetime.
 **Signature:**
 
 ```python
-replace()-> Timestamp
+replace(
+    self: Timestamp,
+    year: Optional[Int] = None,
+    month: Optional[Int] = None,
+    day: Optional[Int] = None,
+    hour: Optional[Int] = None,
+    minute: Optional[Int] = None,
+    second: Optional[Int] = None,
+    microsecond: Optional[Int] = None
+)-> Timestamp
 ```
 
 
@@ -246,7 +270,7 @@ Equivalent to [`datetime.second`](https://docs.python.org/3/library/datetime.htm
 **Signature:**
 
 ```python
-second()-> Int
+second(self: Timestamp)-> Int
 ```
 
 
@@ -263,7 +287,10 @@ Equivalent to [`datetime.strftime()`](https://docs.python.org/3/library/datetime
 **Signature:**
 
 ```python
-strftime()-> String
+strftime(
+    self: Timestamp,
+    format: String
+)-> String
 ```
 
 **Parameters:**
@@ -284,7 +311,7 @@ Equivalent to [`datetime.toordinal()`](https://docs.python.org/3/library/datetim
 **Signature:**
 
 ```python
-toordinal()-> Int
+toordinal(self: Timestamp)-> Int
 ```
 
 
@@ -301,7 +328,7 @@ Equivalent to [`datetime.weekday()`](https://docs.python.org/3/library/datetime.
 **Signature:**
 
 ```python
-weekday()-> Int
+weekday(self: Timestamp)-> Int
 ```
 
 
@@ -320,6 +347,6 @@ Equivalent to [`datetime.year`](https://docs.python.org/3/library/datetime.html#
 **Signature:**
 
 ```python
-year()-> Int
+year(self: Timestamp)-> Int
 ```
 

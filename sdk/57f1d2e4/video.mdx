@@ -29,7 +29,16 @@ If `start_time` is beyond the end of the video, returns None. Can only specify o
 **Signature:**
 
 ```python
-clip()-> Optional[Video]
+clip(
+    video: Video,
+    *,
+    start_time: Float,
+    end_time: Optional[Float] = None,
+    duration: Optional[Float] = None,
+    mode: String = 'accurate',
+    video_encoder: Optional[String] = None,
+    video_encoder_args: Optional[Json] = None
+)-> Optional[Video]
 ```
 
 **Parameters:**
@@ -64,7 +73,7 @@ Merge multiple videos into a single video.
 **Signature:**
 
 ```python
-concat_videos()-> Video
+concat_videos(videos: Json)-> Video
 ```
 
 **Parameters:**
@@ -87,7 +96,12 @@ Extract an audio stream from a video.
 **Signature:**
 
 ```python
-extract_audio()-> Audio
+extract_audio(
+    video_path: Video,
+    stream_idx: Int = 0,
+    format: String = 'wav',
+    codec: Optional[String] = None
+)-> Audio
 ```
 
 **Parameters:**
@@ -120,7 +134,11 @@ Extract a single frame from a video at a specific timestamp.
 **Signature:**
 
 ```python
-extract_frame()-> Optional[Image]
+extract_frame(
+    video: Video,
+    *,
+    timestamp: Float
+)-> Optional[Image]
 ```
 
 **Parameters:**
@@ -157,7 +175,7 @@ Get video duration in seconds.
 **Signature:**
 
 ```python
-get_duration()-> Optional[Float]
+get_duration(video: Video)-> Optional[Float]
 ```
 
 **Parameters:**
@@ -180,7 +198,7 @@ Gets various metadata associated with a video file and returns it as a dictionar
 **Signature:**
 
 ```python
-get_metadata()-> Json
+get_metadata(video: Video)-> Json
 ```
 
 **Parameters:**
@@ -251,7 +269,23 @@ Overlay text on a video with customizable positioning and styling.
 **Signature:**
 
 ```python
-overlay_text()-> Video
+overlay_text(
+    video: Video,
+    text: String,
+    *,
+    font: Optional[String] = None,
+    font_size: Int = 24,
+    color: String = 'white',
+    opacity: Float = 1.0,
+    horizontal_align: String = 'center',
+    horizontal_margin: Int = 0,
+    vertical_align: String = 'center',
+    vertical_margin: Int = 0,
+    box: Bool = False,
+    box_color: String = 'black',
+    box_opacity: Float = 1.0,
+    box_border: Optional[Json] = None
+)-> Video
 ```
 
 **Parameters:**
@@ -338,7 +372,15 @@ Split a video into segments.
 **Signature:**
 
 ```python
-segment_video()-> Json
+segment_video(
+    video: Video,
+    *,
+    duration: Optional[Float] = None,
+    segment_times: Optional[Json] = None,
+    mode: String = 'accurate',
+    video_encoder: Optional[String] = None,
+    video_encoder_args: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**
@@ -398,7 +440,15 @@ The `start_time` and `duration` parameters can be used to select a specific time
 **Signature:**
 
 ```python
-with_audio()-> Video
+with_audio(
+    video: Video,
+    audio: Audio,
+    *,
+    video_start_time: Float = 0.0,
+    video_duration: Optional[Float] = None,
+    audio_start_time: Float = 0.0,
+    audio_duration: Optional[Float] = None
+)-> Video
 ```
 
 **Parameters:**

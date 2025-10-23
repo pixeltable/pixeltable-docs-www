@@ -22,7 +22,7 @@ Converts the output of a YOLOX object detection model to COCO format.
 **Signature:**
 
 ```python
-yolo_to_coco()-> Json
+yolo_to_coco(detections: Json)-> Json
 ```
 
 **Parameters:**
@@ -61,7 +61,12 @@ defined in the [YOLOX documentation](https://github.com/Megvii-BaseDetection/YOL
 **Signature:**
 
 ```python
-yolox()-> Json
+yolox(
+    images: Image,
+    *,
+    model_id: String,
+    threshold: Float = 0.5
+)-> Json
 ```
 
 **Parameters:**

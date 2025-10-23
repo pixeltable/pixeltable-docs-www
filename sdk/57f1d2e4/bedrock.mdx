@@ -50,7 +50,15 @@ Equivalent to the AWS Bedrock `converse` API endpoint. For additional details, s
 **Signature:**
 
 ```python
-converse()-> Json
+converse(
+    messages: Json,
+    *,
+    model_id: String,
+    system: Optional[Json] = None,
+    inference_config: Optional[Json] = None,
+    additional_model_request_fields: Optional[Json] = None,
+    tool_config: Optional[Json] = None
+)-> Json
 ```
 
 **Parameters:**
