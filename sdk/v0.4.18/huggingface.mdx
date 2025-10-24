@@ -61,7 +61,7 @@ automatic_speech_recognition(
 **Returns:**
 
 - *String*: The transcribed text.
-
+  
 
 
 **Example:**
@@ -122,7 +122,7 @@ clip(
 **Returns:**
 
 - *Array[(None,), Float]*: An array containing the output of the embedding model.
-
+  
 
 
 **Example:**
@@ -167,7 +167,7 @@ cross_encoder(
 **Returns:**
 
 - *Float*: The similarity score between the inputs.
-
+  
 
 
 **Example:**
@@ -228,15 +228,15 @@ detr_for_object_detection(
 **Returns:**
 
 - *Json*: ``` python
-{
-    'scores': [0.99, 0.999],  # list of confidence scores for each detected object
-    'labels': [25, 25],  # list of COCO class labels for each detected object
-    'label_text': ['giraffe', 'giraffe'],  # corresponding text names of class labels
-    'boxes': [[51.942, 356.174, 181.481, 413.975], [383.225, 58.66, 605.64, 361.346]]
-        # list of bounding boxes for each detected object, as [x1, y1, x2, y2]
-}
-```
-
+  {
+      'scores': [0.99, 0.999],  # list of confidence scores for each detected object
+      'labels': [25, 25],  # list of COCO class labels for each detected object
+      'label_text': ['giraffe', 'giraffe'],  # corresponding text names of class labels
+      'boxes': [[51.942, 356.174, 181.481, 413.975], [383.225, 58.66, 605.64, 361.346]]
+          # list of bounding boxes for each detected object, as [x1, y1, x2, y2]
+  }
+  ```
+  
 
 
 **Example:**
@@ -273,7 +273,7 @@ detr_to_coco(
 **Returns:**
 
 - *Json*: A dictionary containing the data from `detr_info`, converted to COCO format.
-
+  
 
 
 **Example:**
@@ -318,7 +318,7 @@ image_captioning(
 **Returns:**
 
 - *String*: The generated caption text.
-
+  
 
 
 **Example:**
@@ -371,7 +371,7 @@ image_to_image(
 **Returns:**
 
 - *Image*: The transformed image.
-
+  
 
 
 **Example:**
@@ -424,7 +424,7 @@ image_to_video(
 **Returns:**
 
 - *Video*: The generated video file.
-
+  
 
 
 **Example:**
@@ -473,7 +473,7 @@ question_answering(
 **Returns:**
 
 - *Json*: A dictionary containing the answer, confidence score, and start/end positions.
-
+  
 
 
 **Example:**
@@ -520,7 +520,7 @@ sentence_transformer(
 **Returns:**
 
 - *Array[(None,), Float]*: An array containing the output of the embedding model.
-
+  
 
 
 **Example:**
@@ -581,7 +581,7 @@ speech2text_for_conditional_generation(
 **Returns:**
 
 - *String*: The transcribed or translated text.
-
+  
 
 
 **Example:**
@@ -637,7 +637,7 @@ summarization(
 **Returns:**
 
 - *String*: The generated summary text.
-
+  
 
 
 **Example:**
@@ -684,7 +684,7 @@ text_classification(
 **Returns:**
 
 - *Json*: A dictionary containing classification results with scores, labels, and label text.
-
+  
 
 
 **Example:**
@@ -731,7 +731,7 @@ text_generation(
 **Returns:**
 
 - *String*: The generated text completion.
-
+  
 
 
 **Example:**
@@ -786,7 +786,7 @@ text_to_image(
 **Returns:**
 
 - *Image*: The generated Image.
-
+  
 
 
 **Example:**
@@ -841,7 +841,7 @@ text_to_speech(
 **Returns:**
 
 - *Audio*: The generated audio file.
-
+  
 
 
 **Example:**
@@ -886,7 +886,7 @@ token_classification(
 **Returns:**
 
 - *Json*: A list of dictionaries containing entity information (text, label, confidence, start, end).
-
+  
 
 
 **Example:**
@@ -935,7 +935,7 @@ translation(
 **Returns:**
 
 - *String*: The translated text.
-
+  
 
 
 **Example:**
@@ -984,13 +984,13 @@ vit_for_image_classification(
 **Returns:**
 
 - *Json*: ``` python
-{
-    'scores': [0.325, 0.198, 0.105],  # list of probabilities of the top-k most likely classes
-    'labels': [340, 353, 386],  # list of class IDs for the top-k most likely classes
-    'label_text': ['zebra', 'gazelle', 'African elephant, Loxodonta africana'],
-        # corresponding text names of the top-k most likely classes
-```
-
+  {
+      'scores': [0.325, 0.198, 0.105],  # list of probabilities of the top-k most likely classes
+      'labels': [340, 353, 386],  # list of class IDs for the top-k most likely classes
+      'label_text': ['zebra', 'gazelle', 'African elephant, Loxodonta africana'],
+          # corresponding text names of the top-k most likely classes
+  ```
+  
 
 
 **Example:**
