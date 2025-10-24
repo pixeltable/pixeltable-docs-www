@@ -1,13 +1,13 @@
 ---
-title: "pixeltable.iterators.ComponentIterator"
-sidebarTitle: "ComponentIterator"
+title: "pixeltable.iterators.StringSplitter"
+sidebarTitle: "StringSplitter"
 icon: "square-c"
 ---
 
 Base class for Pixeltable iterators.
 
 
-<a href="https://github.com/pixeltable/pixeltable/blob/latest/pixeltable/iterators/base.py#L9" target="_blank">View source on GitHub</a>
+<a href="https://github.com/pixeltable/pixeltable/blob/latest/pixeltable/iterators/string.py#L8" target="_blank">View source on GitHub</a>
 
 ## Methods
 
@@ -50,7 +50,10 @@ The keys need to match the names of the init() parameters. This is equivalent to
 **Signature:**
 
 ```python
-input_schema()-> dict[str, ColumnType]
+input_schema(
+    *args: Any,
+    **kwargs: Any
+)-> dict[str, pixeltable.type_system.ColumnType]
 ```
 
 
@@ -67,13 +70,13 @@ Specify the dictionary returned by next() and a list of unstored column names
 output_schema(
     *args: Any,
     **kwargs: Any
-)-> tuple[dict[str, ColumnType], list[str]]
+)-> tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]
 ```
 
 **Returns:**
 
-- *tuple[dict[str, ColumnType], list[str]]*: a dictionary which is turned into a list of columns in the output table a list of unstored column names
-
+- *tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]*: a dictionary which is turned into a list of columns in the output table a list of unstored column names
+  
 
 
 ---

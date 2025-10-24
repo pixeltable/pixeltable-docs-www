@@ -55,7 +55,7 @@ clip(
 **Returns:**
 
 - *Optional[Video]*: New video containing only the specified time range or None if start_time is beyond the end of the video.
-
+  
 
 
 ---
@@ -83,7 +83,7 @@ concat_videos(videos: Json)-> Video
 **Returns:**
 
 - *Video*: A new video containing the merged videos.
-
+  
 
 
 ---
@@ -113,7 +113,7 @@ extract_audio(
 **Returns:**
 
 - *Audio*: The extracted audio.
-
+  
 
 
 **Example:**
@@ -149,7 +149,7 @@ extract_frame(
 **Returns:**
 
 - *Optional[Image]*: The extracted frame as a PIL Image, or None if the timestamp is beyond the video duration.
-
+  
 
 
 **Example:**
@@ -185,7 +185,7 @@ get_duration(video: Video)-> Optional[Float]
 **Returns:**
 
 - *Optional[Float]*: The duration in seconds, or None if the duration cannot be determined.
-
+  
 
 
 ---
@@ -208,40 +208,40 @@ get_metadata(video: Video)-> Json
 **Returns:**
 
 - *Json*: ``` json
-{
-    'bit_exact': False,
-    'bit_rate': 967260,
-    'size': 2234371,
-    'metadata': {
-        'encoder': 'Lavf60.16.100',
-        'major_brand': 'isom',
-        'minor_version': '512',
-        'compatible_brands': 'isomiso2avc1mp41',
-    },
-    'streams': [
-        {
-            'type': 'video',
-            'width': 640,
-            'height': 360,
-            'frames': 462,
-            'time_base': 1.0 / 12800,
-            'duration': 236544,
-            'duration_seconds': 236544.0 / 12800,
-            'average_rate': 25.0,
-            'base_rate': 25.0,
-            'guessed_rate': 25.0,
-            'metadata': {
-                'language': 'und',
-                'handler_name': 'L-SMASH Video Handler',
-                'vendor_id': '[0][0][0][0]',
-                'encoder': 'Lavc60.31.102 libx264',
-            },
-            'codec_context': {'name': 'h264', 'codec_tag': 'avc1', 'profile': 'High', 'pix_fmt': 'yuv420p'},
-        }
-    ],
-}
-```
-
+  {
+      'bit_exact': False,
+      'bit_rate': 967260,
+      'size': 2234371,
+      'metadata': {
+          'encoder': 'Lavf60.16.100',
+          'major_brand': 'isom',
+          'minor_version': '512',
+          'compatible_brands': 'isomiso2avc1mp41',
+      },
+      'streams': [
+          {
+              'type': 'video',
+              'width': 640,
+              'height': 360,
+              'frames': 462,
+              'time_base': 1.0 / 12800,
+              'duration': 236544,
+              'duration_seconds': 236544.0 / 12800,
+              'average_rate': 25.0,
+              'base_rate': 25.0,
+              'guessed_rate': 25.0,
+              'metadata': {
+                  'language': 'und',
+                  'handler_name': 'L-SMASH Video Handler',
+                  'vendor_id': '[0][0][0][0]',
+                  'encoder': 'Lavc60.31.102 libx264',
+              },
+              'codec_context': {'name': 'h264', 'codec_tag': 'avc1', 'profile': 'High', 'pix_fmt': 'yuv420p'},
+          }
+      ],
+  }
+  ```
+  
 
 
 **Example:**
@@ -310,7 +310,7 @@ overlay_text(
 **Returns:**
 
 - *Video*: A new video with the text overlay applied.
-
+  
 
 
 **Example:**
@@ -395,7 +395,7 @@ segment_video(
 **Returns:**
 
 - *Json*: List of file paths for the generated video segments.
-
+  
 
 
 **Example:**
@@ -461,7 +461,7 @@ with_audio(
 **Returns:**
 
 - *Video*: A new video file with the audio track added.
-
+  
 
 
 **Example:**
