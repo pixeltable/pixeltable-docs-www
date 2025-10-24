@@ -148,7 +148,7 @@ import pixeltable as pxt
 
 pxt.drop_dir('hf_demo', force=True)
 pxt.create_dir('hf_demo')
-t = pxt.io.import_huggingface_dataset('hf_demo.padoru', padoru)
+t = pxt.create_table('hf_demo.padoru', source=padoru)
 ```
 
 ``` text
@@ -217,7 +217,7 @@ Pixeltable to maintain the index in response to updates to the table.
 In this example we are using `CLIP`. You can use any embedding function
 you like, via Pixeltable’s UDF mechanism (which is described in detail
 our [guide to user-defined
-functions](https://docs.pixeltable.com/docs/user-defined-functions-udfs)).
+functions](https://docs.pixeltable.com/datastore/custom-functions)).
 
 
 ```python
@@ -249,4 +249,4 @@ t.order_by(sim, asc=False).limit(3).select(t.Image, sim=sim).collect()
 
 You can learn more about how to leverage indexes in detail with our
 tutorial: [Working with Embedding and Vector
-Indexes](https://docs.pixeltable.com/docs/embedding-vector-indexes)
+Indexes](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/embedding-indexes.ipynb)

@@ -138,7 +138,7 @@ UpdateStatus(num_rows=0, num_computed_values=0, num_excs=0, updated_cols=[], col
 
 ```python
 # Start a conversation
-t.insert(input="How many islands are in the Aleutian island chain?")
+t.insert([{'input': 'How many islands are in the Aleutian island chain?'}])
 t.select(t.input, t.response).head()
 ```
 

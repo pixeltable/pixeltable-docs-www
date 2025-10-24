@@ -230,7 +230,7 @@ Now the insert:
 
 
 ```python
-v.insert(video=local_path)
+v.insert([{'video': local_path}])
 ```
 
 ``` text
@@ -295,7 +295,7 @@ behavior is to reject invalid media files:
 
 
 ```python
-v.insert(video=prefix + 'bad_path.mp4')
+v.insert([{'video': prefix + 'bad_path.mp4'}])
 ```
 
 ``` text
@@ -395,7 +395,7 @@ with tempfile.NamedTemporaryFile(mode='wb', suffix='.mp4', delete=False) as temp
     temp_file.write(random.randbytes(1024))
     corrupted_path = temp_file.name
 
-v.insert(video=corrupted_path)
+v.insert([{'video': corrupted_path}])
 ```
 
 ``` text

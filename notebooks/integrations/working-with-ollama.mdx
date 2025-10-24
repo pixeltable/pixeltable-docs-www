@@ -151,7 +151,7 @@ relevant Ollama endpoint.
 
 ```python
 # Start a conversation
-t.insert(input='What are the most popular services for LLM inference?')
+t.insert([{'input': 'What are the most popular services for LLM inference?'}])
 t.select(t.input, t.response).show()
 ```
 

@@ -126,7 +126,7 @@ Added 0 column values with 0 errors.
 
 ```python
 # Start a conversation
-t.insert(input="What three species of fish have the highest mercury content?")
+t.insert([{'input': 'What three species of fish have the highest mercury content?'}])
 t.select(t.input, t.response).show()
 ```
 

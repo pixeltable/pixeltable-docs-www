@@ -167,7 +167,7 @@ Added 0 column values with 0 errors.
 
 ```python
 # Start a conversation
-t.insert(prompt='What foods are rich in selenium?')
+t.insert([{'prompt': 'What foods are rich in selenium?'}])
 t.select(t.prompt, t.response).show()
 ```
 
@@ -204,7 +204,7 @@ Added 0 column values with 0 errors.
 
 
 ```python
-t.insert(prompt='Draw a pencil sketch of a friendly dinosaur playing tennis in a cornfield.')
+t.insert([{'prompt': 'Draw a pencil sketch of a friendly dinosaur playing tennis in a cornfield.'}])
 ```
 
 ``` text

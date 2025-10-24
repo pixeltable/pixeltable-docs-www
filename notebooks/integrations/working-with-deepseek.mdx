@@ -135,7 +135,7 @@ UpdateStatus(num_rows=0, num_computed_values=0, num_excs=0, updated_cols=[], col
 
 ```python
 # Start a conversation
-t.insert(input="What was the outcome of the 1904 US Presidential election?")
+t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'}])
 t.select(t.input, t.response).show()
 ```
 

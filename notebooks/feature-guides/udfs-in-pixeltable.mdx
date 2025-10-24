@@ -413,7 +413,7 @@ Added 2 column values with 0 errors.
 
 
 ```python
-t.insert(input='Pixeltable updates tables incrementally.')
+t.insert([{'input': 'Pixeltable updates tables incrementally.'}])
 t.show()
 ```
 
@@ -527,7 +527,7 @@ as new rows are added to the table.
 
 
 ```python
-t.insert(input="Let's check that it still works.")
+t.insert([{'input': "Let's check that it still works."}])
 t.show()
 ```
 
