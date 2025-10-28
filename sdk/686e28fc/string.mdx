@@ -216,7 +216,7 @@ find(
     self: String,
     substr: String,
     start: Int = 0,
-    end: Optional[Int] = None
+    end: Int | None = None
 )-> Int
 ```
 
@@ -224,7 +224,7 @@ find(
 
 - **`substr`** (*String*): substring to search for
 - **`start`** (*Int*): slice start
-- **`end`** (*Optional[Int]*): slice end
+- **`end`** (*Int | None*): slice end
 
 
 ---
@@ -317,7 +317,7 @@ index(
     self: String,
     substr: String,
     start: Int = 0,
-    end: Optional[Int] = None
+    end: Int | None = None
 )-> Int
 ```
 
@@ -325,7 +325,7 @@ index(
 
 - **`substr`** (*String*): substring to search for
 - **`start`** (*Int*): slice start
-- **`end`** (*Optional[Int]*): slice end
+- **`end`** (*Int | None*): slice end
 
 
 ---
@@ -622,13 +622,13 @@ Equivalent to [`str.lstrip()`](https://docs.python.org/3/library/stdtypes.html#s
 ```python
 lstrip(
     self: String,
-    chars: Optional[String] = None
+    chars: String | None = None
 )-> String
 ```
 
 **Parameters:**
 
-- **`chars`** (*Optional[String]*): The set of characters to be removed.
+- **`chars`** (*String | None*): The set of characters to be removed.
 
 
 ---
@@ -793,7 +793,7 @@ replace(
     self: String,
     substr: String,
     repl: String,
-    n: Optional[Int] = None
+    n: Int | None = None
 )-> String
 ```
 
@@ -801,7 +801,7 @@ replace(
 
 - **`substr`** (*String*): string literal
 - **`repl`** (*String*): replacement string
-- **`n`** (*Optional[Int]*): number of replacements to make (if `None`, replace all occurrences)
+- **`n`** (*Int | None*): number of replacements to make (if `None`, replace all occurrences)
 
 
 ---
@@ -821,7 +821,7 @@ replace_re(
     self: String,
     pattern: String,
     repl: String,
-    n: Optional[Int] = None,
+    n: Int | None = None,
     flags: Int = 0
 )-> String
 ```
@@ -830,7 +830,7 @@ replace_re(
 
 - **`pattern`** (*String*): regular expression pattern
 - **`repl`** (*String*): replacement string
-- **`n`** (*Optional[Int]*): number of replacements to make (if `None`, replace all occurrences)
+- **`n`** (*Int | None*): number of replacements to make (if `None`, replace all occurrences)
 - **`flags`** (*Int*): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
 
 
@@ -867,16 +867,16 @@ Equivalent to [`str.rfind()`](https://docs.python.org/3/library/stdtypes.html#st
 rfind(
     self: String,
     substr: String,
-    start: Optional[Int] = 0,
-    end: Optional[Int] = None
+    start: Int | None = 0,
+    end: Int | None = None
 )-> Int
 ```
 
 **Parameters:**
 
 - **`substr`** (*String*): substring to search for
-- **`start`** (*Optional[Int]*): slice start
-- **`end`** (*Optional[Int]*): slice end
+- **`start`** (*Int | None*): slice start
+- **`end`** (*Int | None*): slice end
 
 
 ---
@@ -897,8 +897,8 @@ Equivalent to [`str.rindex()`](https://docs.python.org/3/library/stdtypes.html#s
 rindex(
     self: String,
     substr: String,
-    start: Optional[Int] = 0,
-    end: Optional[Int] = None
+    start: Int | None = 0,
+    end: Int | None = None
 )-> Int
 ```
 
@@ -964,13 +964,13 @@ Equivalent to [`str.rstrip()`](https://docs.python.org/3/library/stdtypes.html#s
 ```python
 rstrip(
     self: String,
-    chars: Optional[String] = None
+    chars: String | None = None
 )-> String
 ```
 
 **Parameters:**
 
-- **`chars`** (*Optional[String]*): The set of characters to be removed. If omitted or `None`, whitespace characters are removed.
+- **`chars`** (*String | None*): The set of characters to be removed. If omitted or `None`, whitespace characters are removed.
 
 
 ---
@@ -985,17 +985,17 @@ Return a slice.
 ```python
 slice(
     self: String,
-    start: Optional[Int] = None,
-    stop: Optional[Int] = None,
-    step: Optional[Int] = None
+    start: Int | None = None,
+    stop: Int | None = None,
+    step: Int | None = None
 )-> String
 ```
 
 **Parameters:**
 
-- **`start`** (*Optional[Int]*): slice start
-- **`stop`** (*Optional[Int]*): slice end
-- **`step`** (*Optional[Int]*): slice step
+- **`start`** (*Int | None*): slice start
+- **`stop`** (*Int | None*): slice end
+- **`step`** (*Int | None*): slice step
 
 
 ---
@@ -1010,17 +1010,17 @@ Replace a positional slice with another value.
 ```python
 slice_replace(
     self: String,
-    start: Optional[Int] = None,
-    stop: Optional[Int] = None,
-    repl: Optional[String] = None
+    start: Int | None = None,
+    stop: Int | None = None,
+    repl: String | None = None
 )-> String
 ```
 
 **Parameters:**
 
-- **`start`** (*Optional[Int]*): slice start
-- **`stop`** (*Optional[Int]*): slice end
-- **`repl`** (*Optional[String]*): replacement value
+- **`start`** (*Int | None*): slice start
+- **`stop`** (*Int | None*): slice end
+- **`repl`** (*String | None*): replacement value
 
 
 ---
@@ -1062,13 +1062,13 @@ Equivalent to [`str.strip()`](https://docs.python.org/3/library/stdtypes.html#st
 ```python
 strip(
     self: String,
-    chars: Optional[String] = None
+    chars: String | None = None
 )-> String
 ```
 
 **Parameters:**
 
-- **`chars`** (*Optional[String]*): The set of characters to be removed. If omitted or `None`, whitespace characters are removed.
+- **`chars`** (*String | None*): The set of characters to be removed. If omitted or `None`, whitespace characters are removed.
 
 
 ---

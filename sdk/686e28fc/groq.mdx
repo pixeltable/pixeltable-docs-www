@@ -54,9 +54,9 @@ chat_completions(
     messages: Json,
     *,
     model: String,
-    model_kwargs: Optional[Json] = None,
-    tools: Optional[Json] = None,
-    tool_choice: Optional[Json] = None
+    model_kwargs: Json | None = None,
+    tools: Json | None = None,
+    tool_choice: Json | None = None
 )-> Json
 ```
 
@@ -64,7 +64,7 @@ chat_completions(
 
 - **`messages`** (*Json*): A list of messages comprising the conversation so far.
 - **`model`** (*String*): ID of the model to use. (See overview here: [https://console.groq.com/docs/models](https://console.groq.com/docs/models))
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the Groq `chat/completions` API. For details on the available parameters, see: [https://console.groq.com/docs/api-reference#chat-create](https://console.groq.com/docs/api-reference#chat-create)
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the Groq `chat/completions` API. For details on the available parameters, see: [https://console.groq.com/docs/api-reference#chat-create](https://console.groq.com/docs/api-reference#chat-create)
 
 **Returns:**
 

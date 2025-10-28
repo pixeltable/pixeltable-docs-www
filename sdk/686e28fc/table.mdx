@@ -123,8 +123,8 @@ Adds a computed column to the table.
 ```python
 add_computed_column(
     *,
-    stored: Optional[bool] = None,
-    destination: Optional[str | Path] = None,
+    stored: bool | None = None,
+    destination: str | Path | None = None,
     print_stats: bool = False,
     on_error: Literal['abort', 'ignore'] = 'abort',
     if_exists: Literal['error', 'ignore', 'replace'] = 'error',
@@ -136,9 +136,9 @@ add_computed_column(
 
 - **`kwargs`** (*exprs.Expr*): Exactly one keyword argument of the form `col_name=expression`.
 
-- **`stored`** (*Optional[bool]*): Whether the column is materialized and stored or computed on demand.
+- **`stored`** (*bool | None*): Whether the column is materialized and stored or computed on demand.
 
-- **`destination`** (*Optional[str | Path]*): An object store reference for persisting computed files.
+- **`destination`** (*str | Path | None*): An object store reference for persisting computed files.
 
 - **`print_stats`** (*bool*) = `False`: If `True`, print execution metrics during evaluation.
 
@@ -190,11 +190,11 @@ To add an embedding index, one must specify, at minimum, the column to be indexe
 add_embedding_index(
     column: str | ColumnRef,
     *,
-    idx_name: Optional[str] = None,
-    embedding: Optional[pxt.Function] = None,
-    string_embed: Optional[pxt.Function] = None,
-    image_embed: Optional[pxt.Function] = None,
-    metric: str = 'cosine',
+    idx_name: str | None = None,
+    embedding: pxt.Function | None = None,
+    string_embed: pxt.Function | None = None,
+    image_embed: pxt.Function | None = None,
+    metric: Literal['cosine', 'ip', 'l2'] = 'cosine',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
 )-> None
 ```
@@ -203,15 +203,15 @@ add_embedding_index(
 
 - **`column`** (*str | ColumnRef*): The name of, or reference to, the column to be indexed; must be a `String` or `Image` column.
 
-- **`idx_name`** (*Optional[str]*): An optional name for the index. If not specified, a name such as `'idx0'` will be generated automatically. If specified, the name must be unique for this table and a valid pixeltable column name.
+- **`idx_name`** (*str | None*): An optional name for the index. If not specified, a name such as `'idx0'` will be generated automatically. If specified, the name must be unique for this table and a valid pixeltable column name.
 
-- **`embedding`** (*Optional[pxt.Function]*): The UDF to use for the embedding. Must be a UDF that accepts a single argument of type `String` or `Image` (as appropriate for the column being indexed) and returns a fixed-size 1-dimensional array of floats.
+- **`embedding`** (*pxt.Function | None*): The UDF to use for the embedding. Must be a UDF that accepts a single argument of type `String` or `Image` (as appropriate for the column being indexed) and returns a fixed-size 1-dimensional array of floats.
 
-- **`string_embed`** (*Optional[pxt.Function]*): An optional UDF to use for the string embedding component of this index. Can be used in conjunction with `image_embed` to construct multimodal embeddings manually, by specifying different embedding functions for different data types.
+- **`string_embed`** (*pxt.Function | None*): An optional UDF to use for the string embedding component of this index. Can be used in conjunction with `image_embed` to construct multimodal embeddings manually, by specifying different embedding functions for different data types.
 
-- **`image_embed`** (*Optional[pxt.Function]*): An optional UDF to use for the image embedding component of this index. Can be used in conjunction with `string_embed` to construct multimodal embeddings manually, by specifying different embedding functions for different data types.
+- **`image_embed`** (*pxt.Function | None*): An optional UDF to use for the image embedding component of this index. Can be used in conjunction with `string_embed` to construct multimodal embeddings manually, by specifying different embedding functions for different data types.
 
-- **`metric`** (*str*) = `cosine`: Distance metric to use for the index; one of `'cosine'`, `'ip'`, or `'l2'`. The default is `'cosine'`.
+- **`metric`** (*Literal['cosine', 'ip', 'l2']*) = `cosine`: Distance metric to use for the index; one of `'cosine'`, `'ip'`, or `'l2'`. The default is `'cosine'`.
 
 - **`if_exists`** (*Literal['error', 'ignore', 'replace', 'replace_force']*) = `error`: Directive for handling an existing index with the same name. Must be one of the following:
 
@@ -337,12 +337,12 @@ Delete rows in this table.
 **Signature:**
 
 ```python
-delete(where: Optional['exprs.Expr'] = None)-> UpdateStatus
+delete(where: exprs.Expr | None = None)-> UpdateStatus
 ```
 
 **Parameters:**
 
-- **`where`** (*Optional['exprs.Expr']*): a predicate to filter rows to delete.
+- **`where`** (*'exprs.Expr' | None*): a predicate to filter rows to delete.
 
 
 
@@ -432,7 +432,7 @@ specified. If a column name or reference is specified, it must be a column conta
 drop_embedding_index(
     *,
     column: str | ColumnRef | None = None,
-    idx_name: Optional[str] = None,
+    idx_name: str | None = None,
     if_not_exists: Literal['error', 'ignore'] = 'error'
 )-> None
 ```
@@ -441,7 +441,7 @@ drop_embedding_index(
 
 - **`column`** (*str | ColumnRef | None*): The name of, or reference to, the column from which to drop the index. The column must have only one embedding index.
 
-- **`idx_name`** (*Optional[str]*): The name of the index to drop.
+- **`idx_name`** (*str | None*): The name of the index to drop.
 
 - **`if_not_exists`** (*Literal['error', 'ignore']*) = `error`: Directive for handling a non-existent index. Must be one of the following:
 
@@ -491,7 +491,7 @@ specified. If a column name or reference is specified, it must be a column conta
 drop_index(
     *,
     column: str | ColumnRef | None = None,
-    idx_name: Optional[str] = None,
+    idx_name: str | None = None,
     if_not_exists: Literal['error', 'ignore'] = 'error'
 )-> None
 ```
@@ -500,7 +500,7 @@ drop_index(
 
 - **`column`** (*str | ColumnRef | None*): The name of, or reference to, the column from which to drop the index. The column must have only one embedding index.
 
-- **`idx_name`** (*Optional[str]*): The name of the index to drop.
+- **`idx_name`** (*str | None*): The name of the index to drop.
 
 - **`if_not_exists`** (*Literal['error', 'ignore']*) = `error`: Directive for handling a non-existent index. Must be one of the following:
 
@@ -566,12 +566,12 @@ Returns information about versions of this table, most recent first.
 **Signature:**
 
 ```python
-get_versions(n: Optional[int] = None)-> list[VersionMetadata]
+get_versions(n: int | None = None)-> list[VersionMetadata]
 ```
 
 **Parameters:**
 
-- **`n`** (*Optional[int]*): if specified, will return at most `n` versions
+- **`n`** (*int | None*): if specified, will return at most `n` versions
 
 
 **Returns:**
@@ -604,12 +604,12 @@ Returns a human-readable report about versions of this table.
 **Signature:**
 
 ```python
-history(n: Optional[int] = None)-> pd.DataFrame
+history(n: int | None = None)-> pd.DataFrame
 ```
 
 **Parameters:**
 
-- **`n`** (*Optional[int]*): if specified, will return at most `n` versions
+- **`n`** (*int | None*): if specified, will return at most `n` versions
 
 
 **Returns:**
@@ -665,11 +665,11 @@ insert(
 
 ```python
 insert(
-    source: Optional[TableDataSource] = None,
+    source: TableDataSource | None = None,
     /,
     *,
-    source_format: Optional[Literal['csv', 'excel', 'parquet', 'json']] = None,
-    schema_overrides: Optional[dict[str, ts.ColumnType]] = None,
+    source_format: Literal['csv', 'excel', 'parquet', 'json'] | None = None,
+    schema_overrides: dict[str, ts.ColumnType] | None = None,
     on_error: Literal['abort', 'ignore'] = 'abort',
     print_stats: bool = False,
     **kwargs: Any
@@ -678,13 +678,13 @@ insert(
 
 **Parameters:**
 
-- **`source`** (*Optional[TableDataSource]*): A data source from which data can be imported.
+- **`source`** (*TableDataSource | None*): A data source from which data can be imported.
 
 - **`kwargs`** (*Any*): (if inserting a single row) Keyword-argument pairs representing column names and values. (if inserting multiple rows) Additional keyword arguments are passed to the data source.
 
-- **`source_format`** (*Optional[Literal['csv', 'excel', 'parquet', 'json']]*): A hint about the format of the source data
+- **`source_format`** (*Literal['csv', 'excel', 'parquet', 'json'] | None*): A hint about the format of the source data
 
-- **`schema_overrides`** (*Optional[dict[str, ts.ColumnType]]*): If specified, then columns in `schema_overrides` will be given the specified types
+- **`schema_overrides`** (*dict[str, ts.ColumnType] | None*): If specified, then columns in `schema_overrides` will be given the specified types
 
 - **`on_error`** (*Literal['abort', 'ignore']*) = `abort`: Determines the behavior if an error occurs while evaluating a computed column or detecting an invalid media file (such as a corrupt image) for one of the inserted rows.
 
@@ -921,7 +921,7 @@ Update rows in this table.
 ```python
 update(
     value_spec: dict[str, Any],
-    where: Optional['exprs.Expr'] = None,
+    where: exprs.Expr | None = None,
     cascade: bool = True
 )-> UpdateStatus
 ```
@@ -930,7 +930,7 @@ update(
 
 - **`value_spec`** (*dict[str, Any]*): a dictionary mapping column names to literal values or Pixeltable expressions.
 
-- **`where`** (*Optional['exprs.Expr']*): a predicate to filter rows to update.
+- **`where`** (*'exprs.Expr' | None*): a predicate to filter rows to update.
 
 - **`cascade`** (*bool*) = `True`: if True, also update all computed columns that transitively depend on the updated columns.
 

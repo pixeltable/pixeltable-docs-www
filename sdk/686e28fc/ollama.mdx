@@ -28,9 +28,9 @@ chat(
     messages: Json,
     *,
     model: String,
-    tools: Optional[Json] = None,
-    format: Optional[String] = None,
-    options: Optional[Json] = None
+    tools: Json | None = None,
+    format: String | None = None,
+    options: Json | None = None
 )-> Json
 ```
 
@@ -38,9 +38,9 @@ chat(
 
 - **`messages`** (*Json*): The messages of the chat.
 - **`model`** (*String*): The model name.
-- **`tools`** (*Optional[Json]*): Tools for the model to use.
-- **`format`** (*Optional[String]*): The format of the response; must be one of `'json'` or `None`.
-- **`options`** (*Optional[Json]*): Additional options to pass to the `chat` call, such as `max_tokens`, `temperature`, `top_p`, and `top_k`. For details, see the [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values) section of the Ollama documentation.
+- **`tools`** (*Json | None*): Tools for the model to use.
+- **`format`** (*String | None*): The format of the response; must be one of `'json'` or `None`.
+- **`options`** (*Json | None*): Additional options to pass to the `chat` call, such as `max_tokens`, `temperature`, `top_p`, and `top_k`. For details, see the [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values) section of the Ollama documentation.
 
 
 ---
@@ -58,7 +58,7 @@ embed(
     *,
     model: String,
     truncate: Bool = True,
-    options: Optional[Json] = None
+    options: Json | None = None
 )-> Array[(None,), Float]
 ```
 
@@ -67,7 +67,7 @@ embed(
 - **`input`** (*String*): The input text to generate embeddings for.
 - **`model`** (*String*): The model name.
 - **`truncate`** (*Bool*): Truncates the end of each input to fit within context length. Returns error if false and context length is exceeded.
-- **`options`** (*Optional[Json]*): Additional options to pass to the `embed` call. For details, see the [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values) section of the Ollama documentation.
+- **`options`** (*Json | None*): Additional options to pass to the `embed` call. For details, see the [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values) section of the Ollama documentation.
 
 
 ---
@@ -87,10 +87,10 @@ generate(
     suffix: String = '',
     system: String = '',
     template: String = '',
-    context: Optional[Json] = None,
+    context: Json | None = None,
     raw: Bool = False,
-    format: Optional[String] = None,
-    options: Optional[Json] = None
+    format: String | None = None,
+    options: Json | None = None
 )-> Json
 ```
 
@@ -99,10 +99,10 @@ generate(
 - **`prompt`** (*String*): The prompt to generate a response for.
 - **`model`** (*String*): The model name.
 - **`suffix`** (*String*): The text after the model response.
-- **`format`** (*Optional[String]*): The format of the response; must be one of `'json'` or `None`.
+- **`format`** (*String | None*): The format of the response; must be one of `'json'` or `None`.
 - **`system`** (*String*): System message.
 - **`template`** (*String*): Prompt template to use.
-- **`context`** (*Optional[Json]*): The context parameter returned from a previous call to `generate()`.
+- **`context`** (*Json | None*): The context parameter returned from a previous call to `generate()`.
 - **`raw`** (*Bool*): If `True`, no formatting will be applied to the prompt.
-- **`options`** (*Optional[Json]*): Additional options for the Ollama `chat` call, such as `max_tokens`, `temperature`, `top_p`, and `top_k`. For details, see the [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values) section of the Ollama documentation.
+- **`options`** (*Json | None*): Additional options for the Ollama `chat` call, such as `max_tokens`, `temperature`, `top_p`, and `top_k`. For details, see the [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.md#valid-parameters-and-values) section of the Ollama documentation.
 

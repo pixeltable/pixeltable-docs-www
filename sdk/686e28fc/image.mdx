@@ -221,15 +221,15 @@ If a mask is provided, the method employs the histogram for those parts of the i
 ```python
 entropy(
     self: Image,
-    mask: Optional[Image] = None,
-    extrema: Optional[Json] = None
+    mask: Image | None = None,
+    extrema: Json | None = None
 )-> Float
 ```
 
 **Parameters:**
 
-- **`mask`** (*Optional[Image]*): An optional mask.
-- **`extrema`** (*Optional[Json]*): An optional tuple of manually-specified extrema.
+- **`mask`** (*Image | None*): An optional mask.
+- **`extrema`** (*Json | None*): An optional tuple of manually-specified extrema.
 
 **Returns:**
 
@@ -477,15 +477,15 @@ If a mask is provided, the method returns a histogram for those parts of the ima
 ```python
 histogram(
     self: Image,
-    mask: Optional[Image] = None,
-    extrema: Optional[Json] = None
+    mask: Image | None = None,
+    extrema: Json | None = None
 )-> Json
 ```
 
 **Parameters:**
 
-- **`mask`** (*Optional[Image]*): An optional mask.
-- **`extrema`** (*Optional[Json]*): An optional tuple of manually-specified extrema.
+- **`mask`** (*Image | None*): An optional mask.
+- **`extrema`** (*Json | None*): An optional tuple of manually-specified extrema.
 
 **Returns:**
 
@@ -520,7 +520,7 @@ Equivalent to [`PIL.Image.Image.point()`](https://pillow.readthedocs.io/en/stabl
 point(
     self: Image,
     lut: Json,
-    mode: Optional[String] = None
+    mode: String | None = None
 )-> Image
 ```
 
@@ -545,9 +545,9 @@ of colors.
 quantize(
     self: Image,
     colors: Int = 256,
-    method: Optional[Int] = None,
+    method: Int | None = None,
     kmeans: Int = 0,
-    palette: Optional[Int] = None,
+    palette: Int | None = None,
     dither: Int = <Dither.FLOYDSTEINBERG: 3>
 )-> Image
 ```
@@ -555,11 +555,11 @@ quantize(
 **Parameters:**
 
 - **`colors`** (*Int*): The desired number of colors, \<= 256
-- **`method`** (*Optional[Int]*): `Quantize.MEDIANCUT` (median cut), `Quantize.MAXCOVERAGE` (maximum coverage), `Quantize.FASTOCTREE` (fast octree), `Quantize.LIBIMAGEQUANT` (libimagequant; check support using `PIL.features.check_feature` with `feature="libimagequant"`).
+- **`method`** (*Int | None*): `Quantize.MEDIANCUT` (median cut), `Quantize.MAXCOVERAGE` (maximum coverage), `Quantize.FASTOCTREE` (fast octree), `Quantize.LIBIMAGEQUANT` (libimagequant; check support using `PIL.features.check_feature` with `feature="libimagequant"`).
   By default, `Quantize.MEDIANCUT` will be used.
   The exception to this is RGBA images. `Quantize.MEDIANCUT` and `Quantize.MAXCOVERAGE` do not support RGBA images, so `Quantize.FASTOCTREE` is used by default instead.
 - **`kmeans`** (*Int*): Integer greater than or equal to zero.
-- **`palette`** (*Optional[Int]*): Quantize to the palette of given `PIL.Image.Image`.
+- **`palette`** (*Int | None*): Quantize to the palette of given `PIL.Image.Image`.
 - **`dither`** (*Int*): Dithering method, used when converting from mode "RGB" to "P" or from "RGB" or "L" to "1". Available methods are `Dither.NONE` or `Dither.FLOYDSTEINBERG` (default).
 
 **Returns:**
@@ -584,14 +584,14 @@ If the size of the image is not dividable by `factor`, the resulting size will b
 reduce(
     self: Image,
     factor: Int,
-    box: Optional[Json] = None
+    box: Json | None = None
 )-> Image
 ```
 
 **Parameters:**
 
 - **`factor`** (*Int*): A greater than 0 integer or tuple of two integers for width and height separately.
-- **`box`** (*Optional[Json]*): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within `(0, 0, width, height)` rectangle. If omitted or `None`, the entire source is used.
+- **`box`** (*Json | None*): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within `(0, 0, width, height)` rectangle. If omitted or `None`, the entire source is used.
 
 
 ---

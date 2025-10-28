@@ -44,8 +44,8 @@ automatic_speech_recognition(
     audio: Audio,
     *,
     model_id: String,
-    language: Optional[String] = None,
-    chunk_length_s: Optional[Int] = None,
+    language: String | None = None,
+    chunk_length_s: Int | None = None,
     return_timestamps: Bool = False
 )-> String
 ```
@@ -54,8 +54,8 @@ automatic_speech_recognition(
 
 - **`audio`** (*Audio*): The audio file(s) to transcribe.
 - **`model_id`** (*String*): The pretrained ASR model to use.
-- **`language`** (*Optional[String]*): Language code for multilingual models (e.g., 'en', 'es', 'fr').
-- **`chunk_length_s`** (*Optional[Int]*): Maximum length of audio chunks in seconds for long audio processing.
+- **`language`** (*String | None*): Language code for multilingual models (e.g., 'en', 'es', 'fr').
+- **`chunk_length_s`** (*Int | None*): Maximum length of audio chunks in seconds for long audio processing.
 - **`return_timestamps`** (*Bool*): Whether to return word-level timestamps (model dependent).
 
 **Returns:**
@@ -305,7 +305,7 @@ image_captioning(
     image: Image,
     *,
     model_id: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> String
 ```
 
@@ -313,7 +313,7 @@ image_captioning(
 
 - **`image`** (*Image*): The image to caption.
 - **`model_id`** (*String*): The pretrained model to use for captioning.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`.
+- **`model_kwargs`** (*Json | None*): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`.
 
 **Returns:**
 
@@ -355,8 +355,8 @@ image_to_image(
     prompt: String,
     *,
     model_id: String,
-    seed: Optional[Int] = None,
-    model_kwargs: Optional[Json] = None
+    seed: Int | None = None,
+    model_kwargs: Json | None = None
 )-> Image
 ```
 
@@ -365,8 +365,8 @@ image_to_image(
 - **`image`** (*Image*): The input image to transform.
 - **`prompt`** (*String*): The text prompt describing the desired transformation.
 - **`model_id`** (*String*): The pretrained image-to-image model to use.
-- **`seed`** (*Optional[Int]*): Random seed for reproducibility.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword arguments to pass to the model, such as `strength`, `guidance_scale`, or `num_inference_steps`.
+- **`seed`** (*Int | None*): Random seed for reproducibility.
+- **`model_kwargs`** (*Json | None*): Additional keyword arguments to pass to the model, such as `strength`, `guidance_scale`, or `num_inference_steps`.
 
 **Returns:**
 
@@ -407,8 +407,8 @@ image_to_video(
     model_id: String,
     num_frames: Int = 25,
     fps: Int = 6,
-    seed: Optional[Int] = None,
-    model_kwargs: Optional[Json] = None
+    seed: Int | None = None,
+    model_kwargs: Json | None = None
 )-> Video
 ```
 
@@ -418,8 +418,8 @@ image_to_video(
 - **`model_id`** (*String*): The pretrained image-to-video model to use.
 - **`num_frames`** (*Int*): Number of video frames to generate.
 - **`fps`** (*Int*): Frames per second for the output video.
-- **`seed`** (*Optional[Int]*): Random seed for reproducibility.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword arguments to pass to the model, such as `num_inference_steps`, `motion_bucket_id`, or `guidance_scale`.
+- **`seed`** (*Int | None*): Random seed for reproducibility.
+- **`model_kwargs`** (*Json | None*): Additional keyword arguments to pass to the model, such as `num_inference_steps`, `motion_bucket_id`, or `guidance_scale`.
 
 **Returns:**
 
@@ -568,7 +568,7 @@ speech2text_for_conditional_generation(
     audio: Audio,
     *,
     model_id: String,
-    language: Optional[String] = None
+    language: String | None = None
 )-> String
 ```
 
@@ -576,7 +576,7 @@ speech2text_for_conditional_generation(
 
 - **`audio`** (*Audio*): The audio clip to transcribe or translate.
 - **`model_id`** (*String*): The pretrained model to use for the transcription or translation.
-- **`language`** (*Optional[String]*): If using a multilingual translation model, the language code to translate to. If not provided, the model's default language will be used. If the model is not translation model, is not a multilingual model, or does not support the specified language, an error will be raised.
+- **`language`** (*String | None*): If using a multilingual translation model, the language code to translate to. If not provided, the model's default language will be used. If the model is not translation model, is not a multilingual model, or does not support the specified language, an error will be raised.
 
 **Returns:**
 
@@ -624,7 +624,7 @@ summarization(
     text: String,
     *,
     model_id: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> String
 ```
 
@@ -632,7 +632,7 @@ summarization(
 
 - **`text`** (*String*): The text to summarize.
 - **`model_id`** (*String*): The pretrained model to use for summarization.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`.
+- **`model_kwargs`** (*Json | None*): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`.
 
 **Returns:**
 
@@ -718,7 +718,7 @@ text_generation(
     text: String,
     *,
     model_id: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> String
 ```
 
@@ -726,7 +726,7 @@ text_generation(
 
 - **`text`** (*String*): The input text to continue/complete.
 - **`model_id`** (*String*): The pretrained model to use for text generation.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`, `temperature`, etc. See the [Hugging Face text_generation documentation](https://huggingface.co/docs/inference-providers/en/tasks/text-generation) for details.
+- **`model_kwargs`** (*Json | None*): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`, `temperature`, etc. See the [Hugging Face text_generation documentation](https://huggingface.co/docs/inference-providers/en/tasks/text-generation) for details.
 
 **Returns:**
 
@@ -769,8 +769,8 @@ text_to_image(
     model_id: String,
     height: Int = 512,
     width: Int = 512,
-    seed: Optional[Int] = None,
-    model_kwargs: Optional[Json] = None
+    seed: Int | None = None,
+    model_kwargs: Json | None = None
 )-> Image
 ```
 
@@ -780,8 +780,8 @@ text_to_image(
 - **`model_id`** (*String*): The pretrained text-to-image model to use.
 - **`height`** (*Int*): Height of the generated image in pixels.
 - **`width`** (*Int*): Width of the generated image in pixels.
-- **`seed`** (*Optional[Int]*): Optional random seed for reproducibility.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword arguments to pass to the model, such as `num_inference_steps`, `guidance_scale`, or `negative_prompt`.
+- **`seed`** (*Int | None*): Optional random seed for reproducibility.
+- **`model_kwargs`** (*Json | None*): Additional keyword arguments to pass to the model, such as `num_inference_steps`, `guidance_scale`, or `negative_prompt`.
 
 **Returns:**
 
@@ -826,8 +826,8 @@ text_to_speech(
     text: String,
     *,
     model_id: String,
-    speaker_id: Optional[Int] = None,
-    vocoder: Optional[String] = None
+    speaker_id: Int | None = None,
+    vocoder: String | None = None
 )-> Audio
 ```
 
@@ -835,8 +835,8 @@ text_to_speech(
 
 - **`text`** (*String*): The text to convert to speech.
 - **`model_id`** (*String*): The pretrained TTS model to use.
-- **`speaker_id`** (*Optional[Int]*): Speaker ID for multi-speaker models.
-- **`vocoder`** (*Optional[String]*): Optional vocoder model for higher quality audio.
+- **`speaker_id`** (*Int | None*): Speaker ID for multi-speaker models.
+- **`vocoder`** (*String | None*): Optional vocoder model for higher quality audio.
 
 **Returns:**
 
@@ -920,8 +920,8 @@ translation(
     text: String,
     *,
     model_id: String,
-    src_lang: Optional[String] = None,
-    target_lang: Optional[String] = None
+    src_lang: String | None = None,
+    target_lang: String | None = None
 )-> String
 ```
 
@@ -929,8 +929,8 @@ translation(
 
 - **`text`** (*String*): The text to translate.
 - **`model_id`** (*String*): The pretrained translation model to use.
-- **`src_lang`** (*Optional[String]*): Source language code (optional, can be inferred from model).
-- **`target_lang`** (*Optional[String]*): Target language code (optional, can be inferred from model).
+- **`src_lang`** (*String | None*): Source language code (optional, can be inferred from model).
+- **`target_lang`** (*String | None*): Target language code (optional, can be inferred from model).
 
 **Returns:**
 

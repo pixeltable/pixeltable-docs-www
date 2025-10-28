@@ -7,7 +7,7 @@ icon: "square-c"
 Represents a query for retrieving and transforming data from Pixeltable tables.
 
 
-<a href="https://github.com/pixeltable/pixeltable/blob/latest/pixeltable/dataframe.py#L188" target="_blank">View source on GitHub</a>
+<a href="https://github.com/pixeltable/pixeltable/blob/latest/pixeltable/dataframe.py#L177" target="_blank">View source on GitHub</a>
 
 ## Methods
 
@@ -292,23 +292,23 @@ The data is shuffled before creating the sample.
 
 ```python
 sample(
-    n: Optional[int] = None,
-    n_per_stratum: Optional[int] = None,
-    fraction: Optional[float] = None,
-    seed: Optional[int] = None,
+    n: int | None = None,
+    n_per_stratum: int | None = None,
+    fraction: float | None = None,
+    seed: int | None = None,
     stratify_by: Any = None
 )-> DataFrame
 ```
 
 **Parameters:**
 
-- **`n`** (*Optional[int]*): Total number of rows to produce as a sample.
+- **`n`** (*int | None*): Total number of rows to produce as a sample.
 
-- **`n_per_stratum`** (*Optional[int]*): Number of rows to produce per stratum as a sample. This parameter is only valid if `stratify_by` is specified. Only one of `n` or `n_per_stratum` can be specified.
+- **`n_per_stratum`** (*int | None*): Number of rows to produce per stratum as a sample. This parameter is only valid if `stratify_by` is specified. Only one of `n` or `n_per_stratum` can be specified.
 
-- **`fraction`** (*Optional[float]*): Fraction of available rows to produce as a sample. This parameter is not usable with `n` or `n_per_stratum`. The fraction must be between 0.0 and 1.0.
+- **`fraction`** (*float | None*): Fraction of available rows to produce as a sample. This parameter is not usable with `n` or `n_per_stratum`. The fraction must be between 0.0 and 1.0.
 
-- **`seed`** (*Optional[int]*): Random seed for reproducible shuffling
+- **`seed`** (*int | None*): Random seed for reproducible shuffling
 
 - **`stratify_by`** (*Any*): If specified, the sample will be stratified by these values.
 

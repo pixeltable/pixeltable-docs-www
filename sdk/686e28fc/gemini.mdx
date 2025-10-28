@@ -54,8 +54,8 @@ generate_content(
     contents: String,
     *,
     model: String,
-    config: Optional[Json] = None,
-    tools: Optional[Json] = None
+    config: Json | None = None,
+    tools: Json | None = None
 )-> Json
 ```
 
@@ -63,8 +63,8 @@ generate_content(
 
 - **`contents`** (*String*): The input content to generate from.
 - **`model`** (*String*): The name of the model to use.
-- **`config`** (*Optional[Json]*): Configuration for generation, corresponding to keyword arguments of `genai.types.GenerateContentConfig`. For details on the parameters, see: [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
-- **`tools`** (*Optional[Json]*): An optional list of Pixeltable tools to use. It is also possible to specify tools manually via the `config['tools']` parameter, but at most one of `config['tools']` or `tools` may be used.
+- **`config`** (*Json | None*): Configuration for generation, corresponding to keyword arguments of `genai.types.GenerateContentConfig`. For details on the parameters, see: [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
+- **`tools`** (*Json | None*): An optional list of Pixeltable tools to use. It is also possible to specify tools manually via the `config['tools']` parameter, but at most one of `config['tools']` or `tools` may be used.
 
 **Returns:**
 
@@ -103,7 +103,7 @@ generate_images(
     prompt: String,
     *,
     model: String,
-    config: Optional[Json] = None
+    config: Json | None = None
 )-> Image
 ```
 
@@ -111,7 +111,7 @@ generate_images(
 
 - **`prompt`** (*String*): A text description of the images to generate.
 - **`model`** (*String*): The model to use.
-- **`config`** (*Optional[Json]*): Configuration for generation, corresponding to keyword arguments of `genai.types.GenerateImagesConfig`. For details on the parameters, see: [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
+- **`config`** (*Json | None*): Configuration for generation, corresponding to keyword arguments of `genai.types.GenerateImagesConfig`. For details on the parameters, see: [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
 
 **Returns:**
 
@@ -147,20 +147,20 @@ Request throttling: Applies the rate limit set in the config (section `veo.rate_
 
 ```python
 generate_videos(
-    prompt: Optional[String] = None,
-    image: Optional[Image] = None,
+    prompt: String | None = None,
+    image: Image | None = None,
     *,
     model: String,
-    config: Optional[Json] = None
+    config: Json | None = None
 )-> Video
 ```
 
 **Parameters:**
 
-- **`prompt`** (*Optional[String]*): A text description of the videos to generate.
-- **`image`** (*Optional[Image]*): An optional image to use as the first frame of the video. At least one of `prompt` or `image` must be provided. (It is ok to specify both.)
+- **`prompt`** (*String | None*): A text description of the videos to generate.
+- **`image`** (*Image | None*): An optional image to use as the first frame of the video. At least one of `prompt` or `image` must be provided. (It is ok to specify both.)
 - **`model`** (*String*): The model to use.
-- **`config`** (*Optional[Json]*): Configuration for generation, corresponding to keyword arguments of `genai.types.GenerateVideosConfig`. For details on the parameters, see: [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
+- **`config`** (*Json | None*): Configuration for generation, corresponding to keyword arguments of `genai.types.GenerateVideosConfig`. For details on the parameters, see: [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
 
 **Returns:**
 

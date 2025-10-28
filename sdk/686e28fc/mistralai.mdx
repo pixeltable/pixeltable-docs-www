@@ -35,7 +35,7 @@ chat_completions(
     messages: Json,
     *,
     model: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> Json
 ```
 
@@ -43,7 +43,7 @@ chat_completions(
 
 - **`messages`** (*Json*): The prompt(s) to generate completions for.
 - **`model`** (*String*): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the Mistral `chat/completions` API. For details on the available parameters, see: [https://docs.mistral.ai/api/#tag/chat](https://docs.mistral.ai/api/#tag/chat)
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the Mistral `chat/completions` API. For details on the available parameters, see: [https://docs.mistral.ai/api/#tag/chat](https://docs.mistral.ai/api/#tag/chat)
 
 **Returns:**
 
@@ -120,7 +120,7 @@ fim_completions(
     prompt: String,
     *,
     model: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> Json
 ```
 
@@ -128,7 +128,7 @@ fim_completions(
 
 - **`prompt`** (*String*): The text/code to complete.
 - **`model`** (*String*): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the Mistral `fim/completions` API. For details on the available parameters, see: [https://docs.mistral.ai/api/#tag/fim](https://docs.mistral.ai/api/#tag/fim)
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the Mistral `fim/completions` API. For details on the available parameters, see: [https://docs.mistral.ai/api/#tag/fim](https://docs.mistral.ai/api/#tag/fim)
 
 **Returns:**
 

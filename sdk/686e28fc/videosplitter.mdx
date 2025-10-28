@@ -9,7 +9,7 @@ Iterator over segments of a video file, which is split into fixed-size segments 
 Args: duration: Video segment duration in seconds overlap: Overlap between consecutive segments in seconds. Only available for `mode='fast'`. min_segment_duration: Drop the last segment if it is smaller than min_segment_duration. mode: Segmentation mode: - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations) - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower) video_encoder: Video encoder to use. If not specified, uses the default encoder for the current platform. Only available for `mode='accurate'`. video_encoder_args: Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 
-<a href="https://github.com/pixeltable/pixeltable/blob/latest/pixeltable/iterators/video.py#L235" target="_blank">View source on GitHub</a>
+<a href="https://github.com/pixeltable/pixeltable/blob/latest/pixeltable/iterators/video.py#L230" target="_blank">View source on GitHub</a>
 
 ## Methods
 

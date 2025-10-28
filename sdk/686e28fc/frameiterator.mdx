@@ -9,9 +9,9 @@ Iterator over frames of a video. At most one of `fps` or `num_frames` may be spe
 Args: fps: Number of frames to extract per second of video. This may be a fractional value, such as 0.5. If omitted or set to 0.0, then the native framerate of the video will be used (all frames will be extracted). If `fps` is greater than the frame rate of the video, an error will be raised. num_frames: Exact number of frames to extract. The frames will be spaced as evenly as possible. If `num_frames` is greater than the number of frames in the video, all frames will be extracted. all_frame_attrs: If True, outputs a `pxt.Json` column `frame_attrs` with the following `pyav`-provided attributes (for more information, see `pyav`'s documentation on [VideoFrame](https://pyav.org/docs/develop/api/video.html#module-av.video.frame) and [Frame](https://pyav.org/docs/develop/api/frame.html)):
 
         * `index` (`int`)
-        * `pts` (`Optional[int]`)
-        * `dts` (`Optional[int]`)
-        * `time` (`Optional[float]`)
+        * `pts` (`int | None`)
+        * `dts` (`int | None`)
+        * `time` (`float | None`)
         * `is_corrupt` (`bool`)
         * `key_frame` (`bool`)
         * `pict_type` (`int`)

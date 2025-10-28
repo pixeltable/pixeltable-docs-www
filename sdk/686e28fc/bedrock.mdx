@@ -54,10 +54,10 @@ converse(
     messages: Json,
     *,
     model_id: String,
-    system: Optional[Json] = None,
-    inference_config: Optional[Json] = None,
-    additional_model_request_fields: Optional[Json] = None,
-    tool_config: Optional[Json] = None
+    system: Json | None = None,
+    inference_config: Json | None = None,
+    additional_model_request_fields: Json | None = None,
+    tool_config: Json | None = None
 )-> Json
 ```
 
@@ -65,9 +65,9 @@ converse(
 
 - **`messages`** (*Json*): Input messages.
 - **`model_id`** (*String*): The model that will complete your prompt.
-- **`system`** (*Optional[Json]*): An optional system prompt.
-- **`inference_config`** (*Optional[Json]*): Base inference parameters to use.
-- **`additional_model_request_fields`** (*Optional[Json]*): Additional inference parameters to use.
+- **`system`** (*Json | None*): An optional system prompt.
+- **`inference_config`** (*Json | None*): Base inference parameters to use.
+- **`additional_model_request_fields`** (*Json | None*): Additional inference parameters to use.
 
 **Returns:**
 

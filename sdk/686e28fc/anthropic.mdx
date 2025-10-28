@@ -55,9 +55,9 @@ messages(
     *,
     model: String,
     max_tokens: Int,
-    model_kwargs: Optional[Json] = None,
-    tools: Optional[Json] = None,
-    tool_choice: Optional[Json] = None
+    model_kwargs: Json | None = None,
+    tools: Json | None = None,
+    tool_choice: Json | None = None
 )-> Json
 ```
 
@@ -65,9 +65,9 @@ messages(
 
 - **`messages`** (*Json*): Input messages.
 - **`model`** (*String*): The model that will complete your prompt.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the Anthropic `messages` API. For details on the available parameters, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
-- **`tools`** (*Optional[Json]*): An optional list of Pixeltable tools to use for the request.
-- **`tool_choice`** (*Optional[Json]*): An optional tool choice configuration.
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the Anthropic `messages` API. For details on the available parameters, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
+- **`tools`** (*Json | None*): An optional list of Pixeltable tools to use for the request.
+- **`tool_choice`** (*Json | None*): An optional tool choice configuration.
 
 **Returns:**
 

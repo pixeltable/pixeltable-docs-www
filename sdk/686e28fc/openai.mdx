@@ -54,9 +54,9 @@ chat_completions(
     messages: Json,
     *,
     model: String,
-    model_kwargs: Optional[Json] = None,
-    tools: Optional[Json] = None,
-    tool_choice: Optional[Json] = None
+    model_kwargs: Json | None = None,
+    tools: Json | None = None,
+    tool_choice: Json | None = None
 )-> Json
 ```
 
@@ -64,7 +64,7 @@ chat_completions(
 
 - **`messages`** (*Json*): A list of messages to use for chat completion, as described in the OpenAI API documentation.
 - **`model`** (*String*): The model to use for chat completion.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the OpenAI `chat/completions` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/chat/create](https://platform.openai.com/docs/api-reference/chat/create)
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the OpenAI `chat/completions` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/chat/create](https://platform.openai.com/docs/api-reference/chat/create)
 
 **Returns:**
 
@@ -104,7 +104,7 @@ embeddings(
     input: String,
     *,
     model: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> Array[(None,), Float]
 ```
 
@@ -112,7 +112,7 @@ embeddings(
 
 - **`input`** (*String*): The text to embed.
 - **`model`** (*String*): The model to use for the embedding.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the OpenAI `embeddings` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/embeddings](https://platform.openai.com/docs/api-reference/embeddings)
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the OpenAI `embeddings` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/embeddings](https://platform.openai.com/docs/api-reference/embeddings)
 
 **Returns:**
 
@@ -156,7 +156,7 @@ image_generations(
     prompt: String,
     *,
     model: String = 'dall-e-2',
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> Image
 ```
 
@@ -164,7 +164,7 @@ image_generations(
 
 - **`prompt`** (*String*): Prompt for the image.
 - **`model`** (*String*): The model to use for the generations.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the OpenAI `images/generations` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/images/create](https://platform.openai.com/docs/api-reference/images/create)
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the OpenAI `images/generations` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/images/create](https://platform.openai.com/docs/api-reference/images/create)
 
 **Returns:**
 
@@ -249,7 +249,7 @@ speech(
     *,
     model: String,
     voice: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> Audio
 ```
 
@@ -258,7 +258,7 @@ speech(
 - **`input`** (*String*): The text to synthesize into speech.
 - **`model`** (*String*): The model to use for speech synthesis.
 - **`voice`** (*String*): The voice profile to use for speech synthesis. Supported options include: `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the OpenAI `audio/speech` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/audio/createSpeech](https://platform.openai.com/docs/api-reference/audio/createSpeech)
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the OpenAI `audio/speech` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/audio/createSpeech](https://platform.openai.com/docs/api-reference/audio/createSpeech)
 
 **Returns:**
 
@@ -297,7 +297,7 @@ transcriptions(
     audio: Audio,
     *,
     model: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> Json
 ```
 
@@ -305,7 +305,7 @@ transcriptions(
 
 - **`audio`** (*Audio*): The audio to transcribe.
 - **`model`** (*String*): The model to use for speech transcription.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the OpenAI `audio/transcriptions` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/audio/createTranscription](https://platform.openai.com/docs/api-reference/audio/createTranscription)
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the OpenAI `audio/transcriptions` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/audio/createTranscription](https://platform.openai.com/docs/api-reference/audio/createTranscription)
 
 **Returns:**
 
@@ -344,7 +344,7 @@ translations(
     audio: Audio,
     *,
     model: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> Json
 ```
 
@@ -352,7 +352,7 @@ translations(
 
 - **`audio`** (*Audio*): The audio to translate.
 - **`model`** (*String*): The model to use for speech transcription and translation.
-- **`model_kwargs`** (*Optional[Json]*): Additional keyword args for the OpenAI `audio/translations` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/audio/createTranslation](https://platform.openai.com/docs/api-reference/audio/createTranslation)
+- **`model_kwargs`** (*Json | None*): Additional keyword args for the OpenAI `audio/translations` API. For details on the available parameters, see: [https://platform.openai.com/docs/api-reference/audio/createTranslation](https://platform.openai.com/docs/api-reference/audio/createTranslation)
 
 **Returns:**
 
@@ -394,7 +394,7 @@ vision(
     image: Image,
     *,
     model: String,
-    model_kwargs: Optional[Json] = None
+    model_kwargs: Json | None = None
 )-> String
 ```
 

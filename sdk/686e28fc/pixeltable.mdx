@@ -24,19 +24,19 @@ Configure logging.
 ```python
 configure_logging(
     *,
-    to_stdout: Optional[bool] = None,
-    level: Optional[int] = None,
-    add: Optional[str] = None,
-    remove: Optional[str] = None
+    to_stdout: bool | None = None,
+    level: int | None = None,
+    add: str | None = None,
+    remove: str | None = None
 )-> None
 ```
 
 **Parameters:**
 
-- **`to_stdout`** (*Optional[bool]*): if True, also log to stdout
-- **`level`** (*Optional[int]*): default log level
-- **`add`** (*Optional[str]*): comma-separated list of 'module name:log level' pairs; ex.: add='video:10'
-- **`remove`** (*Optional[str]*): comma-separated list of module names
+- **`to_stdout`** (*bool | None*): if True, also log to stdout
+- **`level`** (*int | None*): default log level
+- **`add`** (*str | None*): comma-separated list of 'module name:log level' pairs; ex.: add='video:10'
+- **`remove`** (*str | None*): comma-separated list of module names
 
 
 ---
@@ -54,7 +54,7 @@ create_dir(
     *,
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error',
     parents: bool = False
-)-> Optional[catalog.Dir]
+)-> catalog.Dir | None
 ```
 
 **Parameters:**
@@ -69,7 +69,7 @@ create_dir(
 
 **Returns:**
 
-- *Optional[catalog.Dir]*: A handle to the newly created directory, or to an already existing directory at the path when `if_exists='ignore'`. Please note the existing directory may not be empty.
+- *catalog.Dir | None*: A handle to the newly created directory, or to an already existing directory at the path when `if_exists='ignore'`. Please note the existing directory may not be empty.
   
 
 
@@ -114,21 +114,21 @@ create_snapshot(
     path_str: str,
     base: catalog.Table | DataFrame,
     *,
-    additional_columns: Optional[dict[str, Any]] = None,
-    iterator: Optional[tuple[type[ComponentIterator], dict[str, Any]]] = None,
+    additional_columns: dict[str, Any] | None = None,
+    iterator: tuple[type[ComponentIterator], dict[str, Any]] | None = None,
     num_retained_versions: int = 10,
     comment: str = '',
     media_validation: Literal['on_read', 'on_write'] = 'on_write',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
-)-> Optional[catalog.Table]
+)-> catalog.Table | None
 ```
 
 **Parameters:**
 
 - **`path_str`** (*str*): A name for the snapshot; can be either a simple name such as `my_snapshot`, or a pathname such as `dir1.my_snapshot`.
 - **`base`** (*catalog.Table | DataFrame*): [`Table`](pixeltable.Table) (i.e., table or view or snapshot) or [`DataFrame`](pixeltable.DataFrame) to base the snapshot on.
-- **`additional_columns`** (*Optional[dict[str, Any]]*): If specified, will add these columns to the snapshot once it is created. The format of the `additional_columns` parameter is identical to the format of the `schema_or_df` parameter in [`create_table`](pixeltable.create_table).
-- **`iterator`** (*Optional[tuple[type[ComponentIterator], dict[str, Any]]]*): The iterator to use for this snapshot. If specified, then this snapshot will be a one-to-many view of the base table.
+- **`additional_columns`** (*dict[str, Any] | None*): If specified, will add these columns to the snapshot once it is created. The format of the `additional_columns` parameter is identical to the format of the `schema_or_df` parameter in [`create_table`](pixeltable.create_table).
+- **`iterator`** (*tuple[type[ComponentIterator], dict[str, Any]] | None*): The iterator to use for this snapshot. If specified, then this snapshot will be a one-to-many view of the base table.
 - **`num_retained_versions`** (*int*) = `10`: Number of versions of the view to retain.
 - **`comment`** (*str*) = ``: Optional comment for the snapshot.
 - **`media_validation`** (*Literal['on_read', 'on_write']*) = `on_write`: Media validation policy for the snapshot.
@@ -142,7 +142,7 @@ create_snapshot(
 
 **Returns:**
 
-- *Optional[catalog.Table]*: A handle to the [`Table`](pixeltable.Table) representing the newly created snapshot. Please note the schema or base of the existing snapshot may not match those provided in the call.
+- *catalog.Table | None*: A handle to the [`Table`](pixeltable.Table) representing the newly created snapshot. Please note the schema or base of the existing snapshot may not match those provided in the call.
   
 
 
@@ -184,28 +184,30 @@ If a `source` is provided, then Pixeltable will attempt to infer a data source f
 ```python
 create_table(
     path: str,
-    schema: Optional[dict[str, Any]] = None,
+    schema: dict[str, Any] | None = None,
     *,
-    source: Optional[TableDataSource] = None,
-    source_format: Optional[Literal['csv', 'excel', 'parquet', 'json']] = None,
-    schema_overrides: Optional[dict[str, Any]] = None,
+    source: TableDataSource | None = None,
+    source_format: Literal['csv', 'excel', 'parquet', 'json'] | None = None,
+    schema_overrides: dict[str, Any] | None = None,
+    create_default_idxs: bool = True,
     on_error: Literal['abort', 'ignore'] = 'abort',
     primary_key: str | list[str] | None = None,
     num_retained_versions: int = 10,
     comment: str = '',
     media_validation: Literal['on_read', 'on_write'] = 'on_write',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error',
-    extra_args: Optional[dict[str, Any]] = None
+    extra_args: dict[str, Any] | None = None
 )-> catalog.Table
 ```
 
 **Parameters:**
 
 - **`path`** (*str*): Pixeltable path (qualified name) of the table, such as `'my_table'` or `'my_dir.my_subdir.my_table'`.
-- **`schema`** (*Optional[dict[str, Any]]*): Schema for the new table, mapping column names to Pixeltable types.
-- **`source`** (*Optional[TableDataSource]*): A data source (file, URL, DataFrame, or list of rows) to import from.
-- **`source_format`** (*Optional[Literal['csv', 'excel', 'parquet', 'json']]*): Must be used in conjunction with a `source`. If specified, then the given format will be used to read the source data. (Otherwise, Pixeltable will attempt to infer the format from the source data.)
-- **`schema_overrides`** (*Optional[dict[str, Any]]*): Must be used in conjunction with a `source`. If specified, then columns in `schema_overrides` will be given the specified types. (Pixeltable will attempt to infer the types of any columns not specified.)
+- **`schema`** (*dict[str, Any] | None*): Schema for the new table, mapping column names to Pixeltable types.
+- **`source`** (*TableDataSource | None*): A data source (file, URL, DataFrame, or list of rows) to import from.
+- **`source_format`** (*Literal['csv', 'excel', 'parquet', 'json'] | None*): Must be used in conjunction with a `source`. If specified, then the given format will be used to read the source data. (Otherwise, Pixeltable will attempt to infer the format from the source data.)
+- **`schema_overrides`** (*dict[str, Any] | None*): Must be used in conjunction with a `source`. If specified, then columns in `schema_overrides` will be given the specified types. (Pixeltable will attempt to infer the types of any columns not specified.)
+- **`create_default_idxs`** (*bool*) = `True`: If True, creates a B-tree index on every scalar and media column that is not computed, except for boolean columns.
 - **`on_error`** (*Literal['abort', 'ignore']*) = `abort`: Determines the behavior if an error occurs while evaluating a computed column or detecting an invalid media file (such as a corrupt image) for one of the inserted rows.
   - If `on_error='abort'`, then an exception will be raised and the rows will not be inserted.
   - If `on_error='ignore'`, then execution will continue and the rows will be inserted. Any cells with errors will have a `None` value for that cell, with information about the error stored in the corresponding `tbl.col_name.errortype` and `tbl.col_name.errormsg` fields.
@@ -220,7 +222,7 @@ create_table(
   - `'ignore'`: do nothing and return the existing table handle
   - `'replace'`: if the existing table has no views or snapshots, drop and replace it with a new one; raise an error if the existing table has views or snapshots
   - `'replace_force'`: drop the existing table and all its views and snapshots, and create a new one
-- **`extra_args`** (*Optional[dict[str, Any]]*): Must be used in conjunction with a `source`. If specified, then additional arguments will be passed along to the source data provider.
+- **`extra_args`** (*dict[str, Any] | None*): Must be used in conjunction with a `source`. If specified, then additional arguments will be passed along to the source data provider.
 
 **Returns:**
 
@@ -271,23 +273,25 @@ create_view(
     path: str,
     base: catalog.Table | DataFrame,
     *,
-    additional_columns: Optional[dict[str, Any]] = None,
+    additional_columns: dict[str, Any] | None = None,
     is_snapshot: bool = False,
-    iterator: Optional[tuple[type[ComponentIterator], dict[str, Any]]] = None,
+    create_default_idxs: bool = False,
+    iterator: tuple[type[ComponentIterator], dict[str, Any]] | None = None,
     num_retained_versions: int = 10,
     comment: str = '',
     media_validation: Literal['on_read', 'on_write'] = 'on_write',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
-)-> Optional[catalog.Table]
+)-> catalog.Table | None
 ```
 
 **Parameters:**
 
 - **`path`** (*str*): A name for the view; can be either a simple name such as `my_view`, or a pathname such as `dir1.my_view`.
 - **`base`** (*catalog.Table | DataFrame*): [`Table`](pixeltable.Table) (i.e., table or view or snapshot) or [`DataFrame`](pixeltable.DataFrame) to base the view on.
-- **`additional_columns`** (*Optional[dict[str, Any]]*): If specified, will add these columns to the view once it is created. The format of the `additional_columns` parameter is identical to the format of the `schema_or_df` parameter in [`create_table`](pixeltable.create_table).
+- **`additional_columns`** (*dict[str, Any] | None*): If specified, will add these columns to the view once it is created. The format of the `additional_columns` parameter is identical to the format of the `schema_or_df` parameter in [`create_table`](pixeltable.create_table).
 - **`is_snapshot`** (*bool*) = `False`: Whether the view is a snapshot. Setting this to `True` is equivalent to calling [`create_snapshot`](pixeltable.create_snapshot).
-- **`iterator`** (*Optional[tuple[type[ComponentIterator], dict[str, Any]]]*): The iterator to use for this view. If specified, then this view will be a one-to-many view of the base table.
+- **`create_default_idxs`** (*bool*) = `False`: Whether to create default indexes on the view's columns (the base's columns are excluded). Cannot be `True` for snapshots.
+- **`iterator`** (*tuple[type[ComponentIterator], dict[str, Any]] | None*): The iterator to use for this view. If specified, then this view will be a one-to-many view of the base table.
 - **`num_retained_versions`** (*int*) = `10`: Number of versions of the view to retain.
 - **`comment`** (*str*) = ``: Optional comment for the view.
 - **`media_validation`** (*Literal['on_read', 'on_write']*) = `on_write`: Media validation policy for the view.
@@ -301,7 +305,7 @@ create_view(
 
 **Returns:**
 
-- *Optional[catalog.Table]*: A handle to the [`Table`](pixeltable.Table) representing the newly created view. If the path already exists and `if_exists='ignore'`, returns a handle to the existing view. Please note the schema or the base of the existing view may not match those provided in the call.
+- *catalog.Table | None*: A handle to the [`Table`](pixeltable.Table) representing the newly created view. If the path already exists and `if_exists='ignore'`, returns a handle to the existing view. Please note the schema or the base of the existing view may not match those provided in the call.
   
 
 
@@ -527,7 +531,7 @@ Initializes the Pixeltable environment.
 **Signature:**
 
 ```python
-init(config_overrides: Optional[dict[str, Any]] = None)-> None
+init(config_overrides: dict[str, Any] | None = None)-> None
 ```
 
 
