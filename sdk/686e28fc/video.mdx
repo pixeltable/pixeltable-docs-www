@@ -55,7 +55,7 @@ clip(
 **Returns:**
 
 - *Video | None*: New video containing only the specified time range or None if start_time is beyond the end of the video.
-  
+
 
 
 ---
@@ -83,7 +83,7 @@ concat_videos(videos: Json)-> Video
 **Returns:**
 
 - *Video*: A new video containing the merged videos.
-  
+
 
 
 ---
@@ -113,7 +113,7 @@ extract_audio(
 **Returns:**
 
 - *Audio*: The extracted audio.
-  
+
 
 
 **Example:**
@@ -149,7 +149,7 @@ extract_frame(
 **Returns:**
 
 - *Image | None*: The extracted frame as a PIL Image, or None if the timestamp is beyond the video duration.
-  
+
 
 
 **Example:**
@@ -185,7 +185,7 @@ get_duration(video: Video)-> Float | None
 **Returns:**
 
 - *Float | None*: The duration in seconds, or None if the duration cannot be determined.
-  
+
 
 
 ---
@@ -241,7 +241,7 @@ get_metadata(video: Video)-> Json
       ],
   }
   ```
-  
+
 
 
 **Example:**
@@ -310,7 +310,7 @@ overlay_text(
 **Returns:**
 
 - *Video*: A new video with the text overlay applied.
-  
+
 
 
 **Example:**
@@ -395,7 +395,7 @@ segment_video(
 **Returns:**
 
 - *Json*: List of file paths for the generated video segments.
-  
+
 
 
 **Example:**
@@ -461,7 +461,7 @@ with_audio(
 **Returns:**
 
 - *Video*: A new video file with the audio track added.
-  
+
 
 
 **Example:**

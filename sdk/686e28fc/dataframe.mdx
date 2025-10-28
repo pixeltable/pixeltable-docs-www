@@ -84,7 +84,7 @@ group_by(*grouping_items: Any)-> DataFrame
 **Returns:**
 
 - *DataFrame*: A new DataFrame with the specified group-by clause.
-  
+
 
 
 **Example:**
@@ -132,7 +132,7 @@ head(n: int = 10)-> DataFrameResultSet
 **Returns:**
 
 - *DataFrameResultSet*: A DataFrameResultSet with the first n rows of the DataFrame.
-  
+
 
 
 ---
@@ -177,7 +177,7 @@ join(
 **Returns:**
 
 - *DataFrame*: A new DataFrame.
-  
+
 
 
 **Example:**
@@ -222,7 +222,7 @@ limit(n: int)-> DataFrame
 **Returns:**
 
 - *DataFrame*: A new DataFrame with the specified limited rows.
-  
+
 
 
 ---
@@ -251,7 +251,7 @@ order_by(
 **Returns:**
 
 - *DataFrame*: A new DataFrame with the specified order-by clause.
-  
+
 
 
 **Example:**
@@ -316,7 +316,7 @@ sample(
 **Returns:**
 
 - *DataFrame*: A new DataFrame which specifies the sampled rows
-  
+
 
 
 **Example:**
@@ -369,7 +369,7 @@ select(
 **Returns:**
 
 - *DataFrame*: A new DataFrame with the specified select list.
-  
+
 
 
 **Example:**
@@ -424,7 +424,7 @@ tail(n: int = 10)-> DataFrameResultSet
 **Returns:**
 
 - *DataFrameResultSet*: A DataFrameResultSet with the last n rows of the DataFrame.
-  
+
 
 
 ---
@@ -446,7 +446,7 @@ to_coco_dataset()-> Path
 **Returns:**
 
 - *Path*: Path to the COCO dataset file.
-  
+
 
 
 ---
@@ -477,7 +477,7 @@ to_pytorch_dataset(image_format: str = 'pt')-> torch.utils.data.IterableDataset
 **Returns:**
 
 - *'torch.utils.data.IterableDataset'*: Columns become fields of the dataset, where rows are returned as a dictionary compatible with torch.utils.data.DataLoader default collation.
-  
+
 
 
 ---
@@ -501,7 +501,7 @@ where(pred: exprs.Expr)-> DataFrame
 **Returns:**
 
 - *DataFrame*: A new DataFrame with the specified predicates replacing the where-clause.
-  
+
 
 
 **Example:**

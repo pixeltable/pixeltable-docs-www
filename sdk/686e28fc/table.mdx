@@ -45,7 +45,7 @@ add_column(
 **Returns:**
 
 - *UpdateStatus*: Information about the execution status of the operation.
-  
+
 
 
 **Example:**
@@ -96,7 +96,7 @@ Note that the `if_exists` parameter is applied to all columns in the schema. To 
 **Returns:**
 
 - *UpdateStatus*: Information about the execution status of the operation.
-  
+
 
 
 **Example:**
@@ -157,7 +157,7 @@ add_computed_column(
 **Returns:**
 
 - *UpdateStatus*: Information about the execution status of the operation.
-  
+
 
 
 **Example:**
@@ -550,7 +550,7 @@ get_metadata()-> TableMetadata
 **Returns:**
 
 - *'TableMetadata'*: A \[TableMetadata\]\[pixeltable.TableMetadata\] instance containing this table's metadata.
-  
+
 
 
 ---
@@ -577,7 +577,7 @@ get_versions(n: int | None = None)-> list[VersionMetadata]
 **Returns:**
 
 - *list[VersionMetadata]*: A list of \[VersionMetadata\]\[pixeltable.VersionMetadata\] dictionaries, one per version retrieved, most recent first.
-  
+
 
 
 **Example:**
@@ -615,7 +615,7 @@ history(n: int | None = None)-> pd.DataFrame
 **Returns:**
 
 - *pd.DataFrame*: A report with information about each version, one per row, most recent first.
-  
+
 
 
 **Example:**
@@ -697,7 +697,7 @@ insert(
 **Returns:**
 
 - *UpdateStatus*: An [`UpdateStatus`](pixeltable.UpdateStatus) object containing information about the update.
-  
+
 
 
 **Example:**
@@ -750,7 +750,7 @@ list_views(
 **Returns:**
 
 - *list[str]*: A list of view paths.
-  
+
 
 
 ---
@@ -938,7 +938,7 @@ update(
 **Returns:**
 
 - *UpdateStatus*: An [`UpdateStatus`](pixeltable.UpdateStatus) object containing information about the update.
-  
+
 
 
 **Example:**
