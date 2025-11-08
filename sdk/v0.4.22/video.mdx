@@ -311,6 +311,391 @@ tbl.select(
 ```
 
 
+## udf `scene_detect_adaptive()`
+
+```python
+scene_detect_adaptive(
+    video: Video,
+    *,
+    fps: Float | None = None,
+    adaptive_threshold: Float = 3.0,
+    min_scene_len: Int = 15,
+    window_width: Int = 2,
+    min_content_val: Float = 15.0,
+    delta_hue: Float = 1.0,
+    delta_sat: Float = 1.0,
+    delta_lum: Float = 1.0,
+    delta_edges: Float = 0.0,
+    luma_only: Bool = False,
+    kernel_size: Int | None = None
+) -> Json
+```
+
+Detect scene cuts in a video using PySceneDetect's
+
+
+[AdaptiveDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.adaptive_detector.AdaptiveDetector).
+
+**Requirements:**
+
+- `pip install scenedetect`
+
+
+**Parameters:**
+
+- **`video`** (`Video`): The video to analyze for scene cuts.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames. Lower values process faster but may miss exact scene cuts.
+- **`adaptive_threshold`** (`Float`): Threshold that the score ratio must exceed to trigger a new scene cut. Lower values will detect more scenes (more sensitive), higher values will detect fewer scenes.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
+- **`window_width`** (`Int`): Size of window (number of frames) before and after each frame to average together in order to detect deviations from the mean. Must be at least 1.
+- **`min_content_val`** (`Float`): Minimum threshold (float) that the content_val must exceed in order to register as a new scene. This is calculated the same way that `scene_detect_content()` calculates frame score based on weights/luma_only/kernel_size.
+- **`delta_hue`** (`Float`): Weight for hue component changes. Higher values make hue changes more important.
+- **`delta_sat`** (`Float`): Weight for saturation component changes. Higher values make saturation changes more important.
+- **`delta_lum`** (`Float`): Weight for luminance component changes. Higher values make brightness changes more important.
+- **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important. Edge detection can help detect cuts in scenes with similar colors but different content.
+- **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel of the video, ignoring color information. This can be faster and may work better for grayscale content.
+- **`kernel_size`** (`Int | None`): Size of kernel to use for post edge detection filtering. If None, automatically set based on video resolution.
+
+**Returns:**
+
+- `Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Example:**
+
+Detect scene cuts with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_adaptive()).collect()
+```
+
+Detect more scenes by lowering the threshold:
+```python
+tbl.select(tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)).collect()
+```
+
+Use luminance-only detection with a longer minimum scene length:
+```python
+tbl.select(tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)).collect()
+```
+
+Add scene cuts as a computed column:
+```python
+tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_adaptive(adaptive_threshold=2.0))
+```
+
+Analyze at a lower frame rate for faster processing:
+```python
+tbl.select(tbl.video.scene_detect_adaptive(fps=2.0)).collect()
+```
+
+
+## udf `scene_detect_content()`
+
+```python
+scene_detect_content(
+    video: Video,
+    *,
+    fps: Float | None = None,
+    threshold: Float = 27.0,
+    min_scene_len: Int = 15,
+    delta_hue: Float = 1.0,
+    delta_sat: Float = 1.0,
+    delta_lum: Float = 1.0,
+    delta_edges: Float = 0.0,
+    luma_only: Bool = False,
+    kernel_size: Int | None = None,
+    filter_mode: String = 'merge'
+) -> Json
+```
+
+Detect scene cuts in a video using PySceneDetect's
+
+
+[ContentDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.content_detector.ContentDetector).
+
+**Requirements:**
+
+- `pip install scenedetect`
+
+
+**Parameters:**
+
+- **`video`** (`Video`): The video to analyze for scene cuts.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames. Lower values process faster but may miss exact scene cuts.
+- **`threshold`** (`Float`): Threshold that the weighted sum of component changes must exceed to trigger a scene cut. Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
+- **`delta_hue`** (`Float`): Weight for hue component changes. Higher values make hue changes more important.
+- **`delta_sat`** (`Float`): Weight for saturation component changes. Higher values make saturation changes more important.
+- **`delta_lum`** (`Float`): Weight for luminance component changes. Higher values make brightness changes more important.
+- **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important. Edge detection can help detect cuts in scenes with similar colors but different content.
+- **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel, ignoring color information. This can be faster and may work better for grayscale content.
+- **`kernel_size`** (`Int | None`): Size of kernel for expanding detected edges. Must be odd integer greater than or equal to 3. If None, automatically set using video resolution.
+- **`filter_mode`** (`String`): How to handle fast cuts/flashes. 'merge' combines quick cuts, 'suppress' filters them out.
+
+**Returns:**
+
+- `Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Example:**
+
+Detect scene cuts with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_content()).collect()
+```
+
+Detect more scenes by lowering the threshold:
+```python
+tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
+```
+
+Use luminance-only detection:
+```python
+tbl.select(tbl.video.scene_detect_content(luma_only=True)).collect()
+```
+
+Emphasize edge detection for scenes with similar colors:
+```python
+tbl.select(tbl.video.scene_detect_content(delta_edges=1.0, delta_hue=0.5, delta_sat=0.5)).collect()
+```
+
+Add scene cuts as a computed column:
+```python
+tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_content(threshold=20.0))
+```
+
+
+## udf `scene_detect_hash()`
+
+```python
+scene_detect_hash(
+    video: Video,
+    *,
+    fps: Float | None = None,
+    threshold: Float = 0.395,
+    size: Int = 16,
+    lowpass: Int = 2,
+    min_scene_len: Int = 15
+) -> Json
+```
+
+Detect scene cuts in a video using PySceneDetect's
+
+
+[HashDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.hash_detector.HashDetector).
+
+HashDetector uses perceptual hashing for very fast scene detection. It computes a hash of each frame at reduced resolution and compares hash distances.
+
+**Requirements:**
+
+- `pip install scenedetect`
+
+
+**Parameters:**
+
+- **`video`** (`Video`): The video to analyze for scene cuts.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames. Lower values process faster but may miss exact scene cuts.
+- **`threshold`** (`Float`): Value from 0.0 and 1.0 representing the relative hamming distance between the perceptual hashes of adjacent frames. A distance of 0 means the image is the same, and 1 means no correlation. Smaller threshold values thus require more correlation, making the detector more sensitive. The Hamming distance is divided by size x size before comparing to threshold for normalization. Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+- **`size`** (`Int`): Size of square of low frequency data to use for the DCT. Larger values are more precise but slower. Common values are 8, 16, or 32.
+- **`lowpass`** (`Int`): How much high frequency information to filter from the DCT. A value of 2 means keep lower 1/2 of the frequency data, 4 means only keep 1/4, etc. Larger values make the detector less sensitive to high-frequency details and noise.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
+
+**Returns:**
+
+- `Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Example:**
+
+Detect scene cuts with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_hash()).collect()
+```
+
+Detect more scenes by lowering the threshold:
+```python
+tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
+```
+
+Use larger hash size for more precision:
+```python
+tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
+```
+
+Use for fast processing with lower frame rate:
+```python
+tbl.select(tbl.video.scene_detect_hash(fps=1.0, threshold=0.4)).collect()
+```
+
+Add scene cuts as a computed column:
+```python
+tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_hash())
+```
+
+
+## udf `scene_detect_histogram()`
+
+```python
+scene_detect_histogram(
+    video: Video,
+    *,
+    fps: Float | None = None,
+    threshold: Float = 0.05,
+    bins: Int = 256,
+    min_scene_len: Int = 15
+) -> Json
+```
+
+Detect scene cuts in a video using PySceneDetect's
+
+
+[HistogramDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.histogram_detector.HistogramDetector).
+
+HistogramDetector compares frame histograms on the Y (luminance) channel after YUV conversion. It detects scenes based on relative histogram differences and is more robust to gradual lighting changes than content-based detection.
+
+**Requirements:**
+
+- `pip install scenedetect`
+
+
+**Parameters:**
+
+- **`video`** (`Video`): The video to analyze for scene cuts.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames. Lower values process faster but may miss exact scene cuts.
+- **`threshold`** (`Float`): Maximum relative difference between 0.0 and 1.0 that the histograms can differ. Histograms are calculated on the Y channel after converting the frame to YUV, and normalized based on the number of bins. Higher differences imply greater change in content, so larger threshold values are less sensitive to cuts. Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+- **`bins`** (`Int`): Number of bins to use for histogram calculation (typically 16-256). More bins provide finer granularity but may be more sensitive to noise.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
+
+**Returns:**
+
+- `Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Example:**
+
+Detect scene cuts with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_histogram()).collect()
+```
+
+Detect more scenes by lowering the threshold:
+```python
+tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
+```
+
+Use fewer bins for faster processing:
+```python
+tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
+```
+
+Use with a longer minimum scene length:
+```python
+tbl.select(tbl.video.scene_detect_histogram(min_scene_len=30)).collect()
+```
+
+Add scene cuts as a computed column:
+```python
+tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_histogram(threshold=0.04))
+```
+
+
+## udf `scene_detect_threshold()`
+
+```python
+scene_detect_threshold(
+    video: Video,
+    *,
+    fps: Float | None = None,
+    threshold: Float = 12.0,
+    min_scene_len: Int = 15,
+    fade_bias: Float = 0.0,
+    add_final_scene: Bool = False,
+    method: String = 'floor'
+) -> Json
+```
+
+Detect fade-in and fade-out transitions in a video using PySceneDetect's
+
+
+[ThresholdDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.threshold_detector.ThresholdDetector).
+
+ThresholdDetector identifies scenes by detecting when pixel brightness falls below or rises above a threshold value, suitable for detecting fade-to-black, fade-to-white, and similar transitions.
+
+**Requirements:**
+
+- `pip install scenedetect`
+
+
+**Parameters:**
+
+- **`video`** (`Video`): The video to analyze for fade transitions.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames. Lower values process faster but may miss exact transition points.
+- **`threshold`** (`Float`): 8-bit intensity value that each pixel value (R, G, and B) must be \<= to in order to trigger a fade in/out.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
+- **`fade_bias`** (`Float`): Float between -1.0 and +1.0 representing the percentage of timecode skew for the start of a scene (-1.0 causing a cut at the fade-to-black, 0.0 in the middle, and +1.0 causing the cut to be right at the position where the threshold is passed).
+- **`add_final_scene`** (`Bool`): Boolean indicating if the video ends on a fade-out to generate an additional scene at this timecode.
+- **`method`** (`String`): How to treat threshold when detecting fade events
+  - 'ceiling': Fade out happens when frame brightness rises above threshold.
+  - 'floor': Fade out happens when frame brightness falls below threshold.
+
+**Returns:**
+
+- `Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Example:**
+
+Detect fade-to-black transitions with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_threshold()).collect()
+```
+
+Use a lower threshold to detect darker fades:
+```python
+tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
+```
+
+Detect both fade-to-black and fade-to-white using absolute method:
+```python
+tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
+```
+
+Add final scene boundary:
+```python
+tbl.select(tbl.video.scene_detect_threshold(add_final_scene=True)).collect()
+```
+
+Add fade transitions as a computed column:
+```python
+tbl.add_computed_column(fade_cuts=tbl.video.scene_detect_threshold(threshold=15.0))
+```
+
+
 ## udf `segment_video()`
 
 ```python
