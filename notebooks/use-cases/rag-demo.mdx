@@ -1168,7 +1168,7 @@ There are two major parts to our RAG application:
 
 We’ll implement both parts in Pixeltable.
 
-## 1. Document Indexing {#document-indexing}
+## Document Indexing
 
 All data in Pixeltable, including documents, resides in tables.
 
@@ -1324,7 +1324,7 @@ chunks_t.add_embedding_index(
 This completes the first part of our application, creating an indexed
 document base. Next, we’ll use it to run some queries.
 
-## 2. Querying {#querying}
+## Querying
 
 In order to express a top-k lookup against our index, we use
 Pixeltable’s `similarity` operator in combination with the standard
