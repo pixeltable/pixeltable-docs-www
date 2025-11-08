@@ -235,7 +235,7 @@
             ]
           },
           {
-            "dropdown": "v0.4.23",
+            "dropdown": "v0.4.23.dev15+b1f47a83",
             "icon": "rocket",
             "groups": [
               {
@@ -244,69 +244,69 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/latest/pixeltable",
-                      "sdk/latest/table",
-                      "sdk/latest/dataframe",
-                      "sdk/latest/columnmetadata",
-                      "sdk/latest/dircontents",
-                      "sdk/latest/indexmetadata",
-                      "sdk/latest/tablemetadata",
-                      "sdk/latest/updatestatus",
-                      "sdk/latest/versionmetadata"
+                      "sdk/v0.4.23.dev15+b1f47a83/pixeltable",
+                      "sdk/v0.4.23.dev15+b1f47a83/table",
+                      "sdk/v0.4.23.dev15+b1f47a83/dataframe",
+                      "sdk/v0.4.23.dev15+b1f47a83/columnmetadata",
+                      "sdk/v0.4.23.dev15+b1f47a83/dircontents",
+                      "sdk/v0.4.23.dev15+b1f47a83/indexmetadata",
+                      "sdk/v0.4.23.dev15+b1f47a83/tablemetadata",
+                      "sdk/v0.4.23.dev15+b1f47a83/updatestatus",
+                      "sdk/v0.4.23.dev15+b1f47a83/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/latest/audio",
-                      "sdk/latest/date",
-                      "sdk/latest/image",
-                      "sdk/latest/json",
-                      "sdk/latest/math",
-                      "sdk/latest/string",
-                      "sdk/latest/timestamp",
-                      "sdk/latest/video"
+                      "sdk/v0.4.23.dev15+b1f47a83/audio",
+                      "sdk/v0.4.23.dev15+b1f47a83/date",
+                      "sdk/v0.4.23.dev15+b1f47a83/image",
+                      "sdk/v0.4.23.dev15+b1f47a83/json",
+                      "sdk/v0.4.23.dev15+b1f47a83/math",
+                      "sdk/v0.4.23.dev15+b1f47a83/string",
+                      "sdk/v0.4.23.dev15+b1f47a83/timestamp",
+                      "sdk/v0.4.23.dev15+b1f47a83/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/latest/anthropic",
-                      "sdk/latest/bedrock",
-                      "sdk/latest/deepseek",
-                      "sdk/latest/fireworks",
-                      "sdk/latest/gemini",
-                      "sdk/latest/groq",
-                      "sdk/latest/huggingface",
-                      "sdk/latest/llama_cpp",
-                      "sdk/latest/mistralai",
-                      "sdk/latest/ollama",
-                      "sdk/latest/openai",
-                      "sdk/latest/replicate",
-                      "sdk/latest/together",
-                      "sdk/latest/vision",
-                      "sdk/latest/whisper",
-                      "sdk/latest/yolox",
-                      "sdk/latest/whisperx"
+                      "sdk/v0.4.23.dev15+b1f47a83/anthropic",
+                      "sdk/v0.4.23.dev15+b1f47a83/bedrock",
+                      "sdk/v0.4.23.dev15+b1f47a83/deepseek",
+                      "sdk/v0.4.23.dev15+b1f47a83/fireworks",
+                      "sdk/v0.4.23.dev15+b1f47a83/gemini",
+                      "sdk/v0.4.23.dev15+b1f47a83/groq",
+                      "sdk/v0.4.23.dev15+b1f47a83/huggingface",
+                      "sdk/v0.4.23.dev15+b1f47a83/llama_cpp",
+                      "sdk/v0.4.23.dev15+b1f47a83/mistralai",
+                      "sdk/v0.4.23.dev15+b1f47a83/ollama",
+                      "sdk/v0.4.23.dev15+b1f47a83/openai",
+                      "sdk/v0.4.23.dev15+b1f47a83/replicate",
+                      "sdk/v0.4.23.dev15+b1f47a83/together",
+                      "sdk/v0.4.23.dev15+b1f47a83/vision",
+                      "sdk/v0.4.23.dev15+b1f47a83/whisper",
+                      "sdk/v0.4.23.dev15+b1f47a83/yolox",
+                      "sdk/v0.4.23.dev15+b1f47a83/whisperx"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/latest/iterators",
-                      "sdk/latest/audiosplitter",
-                      "sdk/latest/componentiterator",
-                      "sdk/latest/documentsplitter",
-                      "sdk/latest/frameiterator",
-                      "sdk/latest/stringsplitter",
-                      "sdk/latest/tileiterator",
-                      "sdk/latest/videosplitter"
+                      "sdk/v0.4.23.dev15+b1f47a83/iterators",
+                      "sdk/v0.4.23.dev15+b1f47a83/audiosplitter",
+                      "sdk/v0.4.23.dev15+b1f47a83/componentiterator",
+                      "sdk/v0.4.23.dev15+b1f47a83/documentsplitter",
+                      "sdk/v0.4.23.dev15+b1f47a83/frameiterator",
+                      "sdk/v0.4.23.dev15+b1f47a83/stringsplitter",
+                      "sdk/v0.4.23.dev15+b1f47a83/tileiterator",
+                      "sdk/v0.4.23.dev15+b1f47a83/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/latest/io"
+                      "sdk/v0.4.23.dev15+b1f47a83/io"
                     ]
                   }
                 ]
