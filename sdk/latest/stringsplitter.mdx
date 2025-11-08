@@ -1,0 +1,71 @@
+---
+title: "pixeltable.iterators.StringSplitter"
+sidebarTitle: "StringSplitter"
+icon: "square-c"
+---
+
+Base class for Pixeltable iterators.
+
+
+<a href="https://github.com/pixeltable/pixeltable/blob/latest/pixeltable/iterators/string.py#L8" target="_blank">View source on GitHub</a>
+
+
+## method `close()`
+
+```python
+close() -> None
+```
+
+Close the iterator and release all resources
+
+
+
+## method `create()`
+
+```python
+create(**kwargs: Any) -> tuple[type[ComponentIterator], dict[str, Any]]
+```
+
+
+## method `input_schema()`
+
+```python
+input_schema(
+    *args: Any,
+    **kwargs: Any
+) -> dict[str, pixeltable.type_system.ColumnType]
+```
+
+Provide the Pixeltable types of the init() parameters
+
+
+The keys need to match the names of the init() parameters. This is equivalent to the parameters_types parameter of the @function decorator.
+
+
+
+## method `output_schema()`
+
+```python
+output_schema(
+    *args: Any,
+    **kwargs: Any
+) -> tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]
+```
+
+Specify the dictionary returned by next() and a list of unstored column names
+
+
+**Returns:**
+
+- `tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]`: a dictionary which is turned into a list of columns in the output table a list of unstored column names
+
+
+## method `set_pos()`
+
+```python
+set_pos(pos: int) -> None
+```
+
+Set the iterator position to pos
+
+

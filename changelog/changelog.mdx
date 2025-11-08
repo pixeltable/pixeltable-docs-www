@@ -21,6 +21,58 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.4.22
+
+**Released:** November 04, 2025  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.4.22](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.22)
+
+#### What's Changed
+* Manage `additional_md` from Catalog, rather than TableVersion by [@aaron-siegel](https://github.com/aaron-siegel) in [#913](https://github.com/pixeltable/pixeltable/pull/913)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.21...v0.4.22
+
+---
+
+### v0.4.21
+
+**Released:** November 03, 2025  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.4.21](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.21)
+
+#### What's Changed
+* Hotfix for bug when publishing older versions of a table by [@aaron-siegel](https://github.com/aaron-siegel) in [#910](https://github.com/pixeltable/pixeltable/pull/910)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.20...v0.4.21
+
+---
+
+### v0.4.20
+
+**Released:** November 03, 2025  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.4.20](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.20)
+
+#### What's Changed
+* pyscenedetect udfs by [@mkornacker](https://github.com/mkornacker) in [#899](https://github.com/pixeltable/pixeltable/pull/899)
+* CockroachDB fixes + CI target by [@aaron-siegel](https://github.com/aaron-siegel) in [#900](https://github.com/pixeltable/pixeltable/pull/900)
+* Add protocol for replica operations. by [@amithadke](https://github.com/amithadke) in [#819](https://github.com/pixeltable/pixeltable/pull/819)
+* [PXT-822, PXT-674] Fix for querying snapshots of tables with unstored columns by [@aaron-siegel](https://github.com/aaron-siegel) in [#895](https://github.com/pixeltable/pixeltable/pull/895)
+* Switch to using random_tbl_ops_2 in stress-tests by [@aaron-siegel](https://github.com/aaron-siegel) in [#898](https://github.com/pixeltable/pixeltable/pull/898)
+* Fix nondeterminism in unit test by [@aaron-siegel](https://github.com/aaron-siegel) in [#905](https://github.com/pixeltable/pixeltable/pull/905)
+* [PXT-817] UDFs for reve.com by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#901](https://github.com/pixeltable/pixeltable/pull/901)
+* [PXT-826] Refactor index creation logic by [@aaron-siegel](https://github.com/aaron-siegel) in [#908](https://github.com/pixeltable/pixeltable/pull/908)
+* UV_OPTS in Makefile by [@aaron-siegel](https://github.com/aaron-siegel) in [#896](https://github.com/pixeltable/pixeltable/pull/896)
+* Ignore additional_mds when checking table or table version metadata by [@amithadke](https://github.com/amithadke) in [#903](https://github.com/pixeltable/pixeltable/pull/903)
+* [PXT-786] push() and pull() implementations by [@amithadke](https://github.com/amithadke) in [#907](https://github.com/pixeltable/pixeltable/pull/907)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.19...v0.4.20
+
+---
+
 ### v0.4.19
 
 **Released:** October 29, 2025  
@@ -1122,77 +1174,6 @@ Please refer to the Pixeltable documentation (https://pixeltable.readme.io/) for
 * [@anushas](https://github.com/anushas) made their first contribution in [#359](https://github.com/pixeltable/pixeltable/pull/359)
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.2.22...v0.2.23
-
----
-
-### v0.2.22
-
-**Released:** November 02, 2024  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.2.22](https://github.com/pixeltable/pixeltable/releases/tag/v0.2.22)
-
-#### What's Changed
-* Docs-fixed by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#330](https://github.com/pixeltable/pixeltable/pull/330)
-* Update .md and .ipynb files to use new type hint pattern by [@aaron-siegel](https://github.com/aaron-siegel) in [#336](https://github.com/pixeltable/pixeltable/pull/336)
-* Fixes for working-with-huggingface notebook by [@aaron-siegel](https://github.com/aaron-siegel) in [#338](https://github.com/pixeltable/pixeltable/pull/338)
-* Switch `FrameIterator` to use PyAV instead of OpenCV by [@aaron-siegel](https://github.com/aaron-siegel) in [#340](https://github.com/pixeltable/pixeltable/pull/340)
-* Update Whisper library version by [@aaron-siegel](https://github.com/aaron-siegel) in [#341](https://github.com/pixeltable/pixeltable/pull/341)
-* Ollama and llama_cpp integrations by [@aaron-siegel](https://github.com/aaron-siegel) in [#342](https://github.com/pixeltable/pixeltable/pull/342)
-* Add CONTRIBUTING.md by [@aaron-siegel](https://github.com/aaron-siegel) in [#346](https://github.com/pixeltable/pixeltable/pull/346)
-* Replicate adapter by [@aaron-siegel](https://github.com/aaron-siegel) in [#334](https://github.com/pixeltable/pixeltable/pull/334)
-* Support XML document type by [@aaron-siegel](https://github.com/aaron-siegel) in [#343](https://github.com/pixeltable/pixeltable/pull/343)
-* Fix Replicate notebook to work with external URLs by [@aaron-siegel](https://github.com/aaron-siegel) in [#350](https://github.com/pixeltable/pixeltable/pull/350)
-* Type-checking correctness for remaining Pixeltable packages by [@aaron-siegel](https://github.com/aaron-siegel) in [#339](https://github.com/pixeltable/pixeltable/pull/339)
-* Ensure FunctionCall return types have correct nullability by [@aaron-siegel](https://github.com/aaron-siegel) in [#347](https://github.com/pixeltable/pixeltable/pull/347)
-* Voxel51 Integration by [@aaron-siegel](https://github.com/aaron-siegel) in [#337](https://github.com/pixeltable/pixeltable/pull/337)
-* Add generate() and embed() functions for ollama by [@aaron-siegel](https://github.com/aaron-siegel) in [#352](https://github.com/pixeltable/pixeltable/pull/352)
-* Media validation on read by [@mkornacker](https://github.com/mkornacker) in [#328](https://github.com/pixeltable/pixeltable/pull/328)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.2.21...v0.2.22
-
----
-
-### v0.2.21
-
-**Released:** October 18, 2024  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.2.21](https://github.com/pixeltable/pixeltable/releases/tag/v0.2.21)
-
-#### What's Changed
-* A few updates to CI + Makefile by [@aaron-siegel](https://github.com/aaron-siegel) in [#317](https://github.com/pixeltable/pixeltable/pull/317)
-* Update macos-12 to macos-13 in github actions configs by [@aaron-siegel](https://github.com/aaron-siegel) in [#321](https://github.com/pixeltable/pixeltable/pull/321)
-* Streamline the create_view API, and update docstrings for globals.py and table.py by [@aaron-siegel](https://github.com/aaron-siegel) in [#318](https://github.com/pixeltable/pixeltable/pull/318)
-* Limit use of ubuntu-arm64 and ubuntu-x64-t4 to scheduled runs by [@aaron-siegel](https://github.com/aaron-siegel) in [#326](https://github.com/pixeltable/pixeltable/pull/326)
-* Allow [@query](https://github.com/query) to be redefined if in __main__ (notebook) scope by [@aaron-siegel](https://github.com/aaron-siegel) in [#325](https://github.com/pixeltable/pixeltable/pull/325)
-* Type-checking correctness for several additional packages. by [@aaron-siegel](https://github.com/aaron-siegel) in [#319](https://github.com/pixeltable/pixeltable/pull/319)
-* Converting aggregate FunctionCalls to SQL by [@mkornacker](https://github.com/mkornacker) in [#320](https://github.com/pixeltable/pixeltable/pull/320)
-* Custom type hints for all Pixeltable types by [@aaron-siegel](https://github.com/aaron-siegel) in [#314](https://github.com/pixeltable/pixeltable/pull/314)
-* Raise an exception if an error occurs during add_column() by [@aaron-siegel](https://github.com/aaron-siegel) in [#327](https://github.com/pixeltable/pixeltable/pull/327)
-* Add Image.point() to API by [@aaron-siegel](https://github.com/aaron-siegel) in [#331](https://github.com/pixeltable/pixeltable/pull/331)
-* Back out changes to BtreeIndex.str_filter and mark as `[@staticmethod](https://github.com/staticmethod)` by [@aaron-siegel](https://github.com/aaron-siegel) in [#333](https://github.com/pixeltable/pixeltable/pull/333)
-* Update documentation and display for new type hint pattern by [@aaron-siegel](https://github.com/aaron-siegel) in [#332](https://github.com/pixeltable/pixeltable/pull/332)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.2.20...v0.2.21
-
----
-
-### v0.2.20
-
-**Released:** October 04, 2024  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.2.20](https://github.com/pixeltable/pixeltable/releases/tag/v0.2.20)
-
-#### What's Changed
-* Support loading Huggingface datasets that contain images by [@aaron-siegel](https://github.com/aaron-siegel) in [#306](https://github.com/pixeltable/pixeltable/pull/306)
-* LRU eviction in FileCache by [@aaron-siegel](https://github.com/aaron-siegel) in [#276](https://github.com/pixeltable/pixeltable/pull/276)
-* Allow `__getitem__` syntax in JSON paths by [@aaron-siegel](https://github.com/aaron-siegel) in [#308](https://github.com/pixeltable/pixeltable/pull/308)
-* Fix Together AI image endpoint by [@aaron-siegel](https://github.com/aaron-siegel) in [#315](https://github.com/pixeltable/pixeltable/pull/315)
-* Allow Nones as input to iterators (and skip over rows with Nones) by [@aaron-siegel](https://github.com/aaron-siegel) in [#307](https://github.com/pixeltable/pixeltable/pull/307)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.2.19...v0.2.20
 
 ---
 
