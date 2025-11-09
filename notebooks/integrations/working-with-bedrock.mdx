@@ -1,3 +1,10 @@
+---
+title: "Working with Bedrock in Pixeltable"
+icon: "notebook"
+description: "[Open in Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-bedrock.ipynb) | [Open in Colab](https://colab.research.google.com/github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-bedrock.ipynb) | [View on GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-bedrock.ipynb)"
+---
+
+
 
 
 export const quartoRawHtml =
@@ -66,12 +73,6 @@ free to ask!</td>
 </tbody>
 </table>
 `];
-
-[![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-bedrock.ipynb)  
-[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-bedrock.ipynb)  
-<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/notebooks/integrations/working-with-bedrock.ipynb" download><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook"></a>
-
-# Working with Bedrock in Pixeltable
 
 Pixeltable’s Bedrock integration enables you to access AWS Bedrock via
 the Bedrock API.
@@ -185,7 +186,7 @@ UpdateStatus(num_rows=0, num_computed_values=0, num_excs=0, updated_cols=[], col
 
 ```python
 # Start a conversation
-t.insert(input="What was the outcome of the 1904 US Presidential election?")
+t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'}])
 t.select(t.input, t.response).show()
 ```
 
@@ -354,7 +355,7 @@ queries = [
 
 # Use the agent
 for query in queries:
-    tool_agent.insert(prompt=query)
+    tool_agent.insert([{'prompt': query}])
     result = tool_agent.select(
         tool_agent.prompt,
         tool_agent.tool_output,

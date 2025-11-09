@@ -1,3 +1,10 @@
+---
+title: "UDFs in Pixeltable"
+icon: "notebook"
+description: "[Open in Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/udfs-in-pixeltable.ipynb) | [Open in Colab](https://colab.research.google.com/github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/udfs-in-pixeltable.ipynb) | [View on GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/udfs-in-pixeltable.ipynb)"
+---
+
+
 
 
 export const quartoRawHtml =
@@ -287,11 +294,6 @@ export const quartoRawHtml =
 </table>
 `];
 
-[![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/udfs-in-pixeltable.ipynb)  
-[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/udfs-in-pixeltable.ipynb)
-
-# UDFs in Pixeltable
-
 Pixeltable comes with a library of built-in functions and integrations,
 but sooner or later, you’ll want to introduce some customized logic into
 your workflow. This is where Pixeltable’s rich UDF (User-Defined
@@ -413,7 +415,7 @@ Added 2 column values with 0 errors.
 
 
 ```python
-t.insert(input='Pixeltable updates tables incrementally.')
+t.insert([{'input': 'Pixeltable updates tables incrementally.'}])
 t.show()
 ```
 
@@ -527,7 +529,7 @@ as new rows are added to the table.
 
 
 ```python
-t.insert(input="Let's check that it still works.")
+t.insert([{'input': "Let's check that it still works."}])
 t.show()
 ```
 

@@ -1,3 +1,10 @@
+---
+title: "Working with Anthropic in Pixeltable"
+icon: "notebook"
+description: "[Open in Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-anthropic.ipynb) | [Open in Colab](https://colab.research.google.com/github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-anthropic.ipynb) | [View on GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-anthropic.ipynb)"
+---
+
+
 
 
 export const quartoRawHtml =
@@ -31,12 +38,6 @@ early 20th century.</td>
 </tbody>
 </table>
 `];
-
-[![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-anthropic.ipynb)  
-[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-anthropic.ipynb)  
-<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/notebooks/integrations/working-with-anthropic.ipynb" download><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook"></a>
-
-# Working with Anthropic in Pixeltable
 
 Pixeltable’s Anthropic integration enables you to access Anthropic’s
 Claude LLM via the Anthropic API.
@@ -136,7 +137,7 @@ Added 0 column values with 0 errors.
 
 ```python
 # Start a conversation
-t.insert(input="What was the outcome of the 1904 US Presidential election?")
+t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'}])
 t.select(t.input, t.response).show()
 ```
 

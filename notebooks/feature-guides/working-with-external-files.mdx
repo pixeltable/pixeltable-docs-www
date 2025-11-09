@@ -1,3 +1,10 @@
+---
+title: "Working with External Files"
+icon: "notebook"
+description: "[Open in Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/working-with-external-files.ipynb) | [Open in Colab](https://colab.research.google.com/github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/working-with-external-files.ipynb) | [View on GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/working-with-external-files.ipynb)"
+---
+
+
 
 
 export const quartoRawHtml =
@@ -122,11 +129,6 @@ occurred (404) when calling the HeadObject operation: Not Found</td>
 </table>
 `];
 
-[![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/working-with-external-files.ipynb)  
-[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/feature-guides/working-with-external-files.ipynb)
-
-# Working with External Files
-
 In Pixeltable, all media data (videos, images, audio) resides in
 external files, and Pixeltable stores references to those. The files can
 be local or remote (e.g., in S3). For the latter, Pixeltable
@@ -230,7 +232,7 @@ Now the insert:
 
 
 ```python
-v.insert(video=local_path)
+v.insert([{'video': local_path}])
 ```
 
 ``` text
@@ -295,7 +297,7 @@ behavior is to reject invalid media files:
 
 
 ```python
-v.insert(video=prefix + 'bad_path.mp4')
+v.insert([{'video': prefix + 'bad_path.mp4'}])
 ```
 
 ``` text
@@ -395,7 +397,7 @@ with tempfile.NamedTemporaryFile(mode='wb', suffix='.mp4', delete=False) as temp
     temp_file.write(random.randbytes(1024))
     corrupted_path = temp_file.name
 
-v.insert(video=corrupted_path)
+v.insert([{'video': corrupted_path}])
 ```
 
 ``` text

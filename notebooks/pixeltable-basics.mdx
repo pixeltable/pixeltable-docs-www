@@ -1,3 +1,10 @@
+---
+title: "Pixeltable Basics"
+icon: "notebook"
+description: "[Open in Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/pixeltable-basics.ipynb) | [Open in Colab](https://colab.research.google.com/github.com/pixeltable/pixeltable/blob/release/docs/notebooks/pixeltable-basics.ipynb) | [View on GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/pixeltable-basics.ipynb)"
+---
+
+
 
 
 export const quartoRawHtml =
@@ -438,11 +445,6 @@ fresh and inviting atmosphere.</td>
 </table>
 `];
 
-[![Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/pixeltable-basics.ipynb)  
-[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/pixeltable-basics.ipynb)
-
-# Pixeltable Basics
-
 Welcome to Pixeltable! In this tutorial, we’ll survey how to create
 tables, populate them with data, and enhance them with built-in and
 user-defined transformations and AI operations.
@@ -453,8 +455,8 @@ one of the badges above. - Locally in a self-managed Python environment:
 You’ll probably want to create your own empty notebook, then copy-paste
 each command from the website. Be sure your Jupyter kernel is running in
 a Python virtual environment; you can check out the [Getting Started
-with Pixeltable](https://docs.pixeltable.com/docs/pixeltable-basics)
-guide for step-by-step instructions.
+with Pixeltable](https://docs.pixeltable.com/overview/pixeltable) guide
+for step-by-step instructions.
 
 ## Install Python Packages
 
@@ -527,7 +529,7 @@ status updates indicating that the operation was successful.
 
 
 ```python
-t.insert(input_image='https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/images/000000000025.jpg')
+t.insert([{'input_image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/images/000000000025.jpg'}])
 ```
 
 ``` text
@@ -834,8 +836,8 @@ Congratulations! You’ve reached the end of the tutorial. Hopefully, this
 gives a good overview of the capabilities of Pixeltable, but there’s
 much more to explore. As a next step, you might check out one of the
 other tutorials, depending on your interests: - [Object Detection in
-Videos](https://pixeltable.readme.io/docs/object-detection-in-videos/) -
+Videos](https://github.com/pixeltable/pixeltable/blob/main/docs/notebooks/use-cases/object-detection-in-videos.ipynb) -
 [RAG Operations in
-Pixeltable](https://pixeltable.readme.io/docs/rag-operations/) -
+Pixeltable](https://github.com/pixeltable/pixeltable/blob/main/docs/notebooks/use-cases/rag-operations.ipynb) -
 [Working with OpenAI in
-Pixeltable](https://pixeltable.readme.io/docs/working-with-openai/)
+Pixeltable](https://github.com/pixeltable/pixeltable/blob/main/docs/notebooks/integrations/working-with-openai.ipynb)

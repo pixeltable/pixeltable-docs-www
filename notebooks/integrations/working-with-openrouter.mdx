@@ -1,0 +1,400 @@
+---
+title: "Working with OpenRouter in Pixeltable"
+icon: "notebook"
+description: "[Open in Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-openrouter.ipynb) | [Open in Colab](https://colab.research.google.com/github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-openrouter.ipynb) | [View on GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-openrouter.ipynb)"
+---
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How many species of felids have been classified?</td>
+<td>There are currently 40 recognized species of felids (members of the
+family Felidae), which includes all wild cats as well as domestic cats.
+These range from small cats like the rusty-spotted cat to large cats
+like tigers and lions. This classification can occasionally be updated
+as new research provides better understanding of cat taxonomy.</td>
+</tr>
+<tr>
+<td>Can you make me a coffee?</td>
+<td>I cannot make you a coffee as I am an AI language model - I don't
+have physical form or ability to interact with the physical world. I
+can, however, give you instructions on how to make different types of
+coffee, recommend coffee recipes, or provide information about coffee in
+general. Would you like any of those instead?</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">prompt</th>
+<th data-quarto-table-cell-role="th">claude</th>
+<th data-quarto-table-cell-role="th">gpt4</th>
+<th data-quarto-table-cell-role="th">llama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explain quantum entanglement in one sentence.</td>
+<td>Quantum entanglement is a phenomenon where two or more particles
+become so deeply connected that the quantum state of each particle
+cannot be described independently, even when separated by large
+distances.</td>
+<td>Quantum entanglement is a phenomenon in which two or more particles
+become interconnected in such a way that the state of one particle
+instantaneously influences the state of the other, regardless of the
+distance separating them.</td>
+<td>Quantum entanglement is a phenomenon in which two or more particles
+become interconnected in such a way that their properties, such as spin
+or polarization, are correlated, regardless of the distance between
+them.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What are the primary colors?</td>
+<td>The primary colors are: 1. Red 2. Blue 3. Yellow These are called
+primary colors because they cannot be created by mixing other colors
+together, and they can be combined to create all other colors. For
+example: - Red + Blue = Purple - Blue + Yellow = Green - Red + Yellow =
+Orange</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The main AI developments mentioned are: 1. Machine learning
+algorithms that detect patterns in data. 2. Deep learning, specifically
+in computer vision and natural language processing. 3. Advancements in
+reinforcement learning. 4. Developments in generative models.</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s OpenRouter integration enables you to access multiple LLM
+providers through a unified API via OpenRouter.
+
+### Prerequisites
+
+-   An OpenRouter account with an API key (https://openrouter.ai)
+
+### Important Notes
+
+-   OpenRouter usage may incur costs based on the models you use and
+    your usage volume.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
+
+First you’ll need to install required libraries and enter your
+OpenRouter API key.
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENROUTER_API_KEY' not in os.environ:
+    os.environ['OPENROUTER_API_KEY'] = getpass.getpass('Enter your OpenRouter API key:')
+```
+
+Now let’s create a Pixeltable directory to hold the tables for our demo.
+
+
+```python
+import pixeltable as pxt
+
+# Remove the 'openrouter_demo' directory and its contents, if it exists
+pxt.drop_dir('openrouter_demo', force=True)
+pxt.create_dir('openrouter_demo')
+```
+
+``` text
+Connected to Pixeltable database at: postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created directory 'openrouter_demo'.
+```
+
+## Chat Completions
+
+Create a Table: In Pixeltable, create a table with columns to represent
+your input data and the columns where you want to store the results from
+OpenRouter.
+
+
+```python
+from pixeltable.functions import openrouter
+
+# Create a table in Pixeltable and add a computed column that calls OpenRouter
+t = pxt.create_table('openrouter_demo.chat', {'input': pxt.String})
+
+messages = [{'role': 'user', 'content': t.input}]
+
+t.add_computed_column(output=openrouter.chat_completions(
+    messages=messages,
+    model='anthropic/claude-3.5-sonnet',
+    model_kwargs={
+        # Optional dict with parameters compatible with the model
+        'max_tokens': 300,
+        'temperature': 0.7
+    }
+))
+```
+
+``` text
+Created table 'chat'.
+Added 0 column values with 0 errors.
+```
+
+``` text
+No rows affected.
+```
+
+
+```python
+# Parse the response into a new column
+t.add_computed_column(response=t.output.choices[0].message.content)
+```
+
+``` text
+Added 0 column values with 0 errors.
+```
+
+``` text
+No rows affected.
+```
+
+
+```python
+# Start a conversation
+t.insert([
+    {'input': 'How many species of felids have been classified?'},
+    {'input': 'Can you make me a coffee?'}
+])
+t.select(t.input, t.response).head()
+```
+
+``` text
+Inserting rows into `chat`: 2 rows [00:00, 166.89 rows/s]
+Inserted 2 rows with 0 errors.
+```
+
+<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Using Different Models
+
+One of OpenRouter’s key benefits is easy access to models from multiple
+providers. Let’s create a table that compares responses from Anthropic
+Claude, OpenAI GPT-4, and Meta Llama.
+
+
+```python
+# Create a table to compare different models
+compare_t = pxt.create_table('openrouter_demo.compare_models', {'prompt': pxt.String})
+
+messages = [{'role': 'user', 'content': compare_t.prompt}]
+
+# Add responses from different models
+compare_t.add_computed_column(
+    claude=openrouter.chat_completions(
+        messages=messages,
+        model='anthropic/claude-3.5-sonnet',
+        model_kwargs={'max_tokens': 150}
+    ).choices[0].message.content
+)
+
+compare_t.add_computed_column(
+    gpt4=openrouter.chat_completions(
+        messages=messages,
+        model='openai/gpt-4o-mini',
+        model_kwargs={'max_tokens': 150}
+    ).choices[0].message.content
+)
+
+compare_t.add_computed_column(
+    llama=openrouter.chat_completions(
+        messages=messages,
+        model='meta-llama/llama-3.1-8b-instruct',
+        model_kwargs={'max_tokens': 150}
+    ).choices[0].message.content
+)
+
+```
+
+``` text
+Created table 'compare_models'.
+Added 0 column values with 0 errors.
+Added 0 column values with 0 errors.
+Added 0 column values with 0 errors.
+```
+
+``` text
+No rows affected.
+```
+
+
+```python
+# Insert a prompt and compare responses
+compare_t.insert([{'prompt': 'Explain quantum entanglement in one sentence.'}])
+compare_t.select(compare_t.prompt, compare_t.claude, compare_t.gpt4, compare_t.llama).head()
+```
+
+``` text
+Inserting rows into `compare_models`: 1 rows [00:00, 131.36 rows/s]
+Inserted 1 row with 0 errors.
+```
+
+<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Advanced Features: Provider Routing
+
+OpenRouter allows you to specify provider preferences for fallback
+behavior and cost optimization.
+
+
+```python
+# Create a table with provider routing
+routing_t = pxt.create_table('openrouter_demo.routing', {'input': pxt.String})
+
+messages = [{'role': 'user', 'content': routing_t.input}]
+routing_t.add_computed_column(
+    output=openrouter.chat_completions(
+        messages=messages,
+        model='anthropic/claude-3.5-sonnet',
+        model_kwargs={'max_tokens': 300},
+        # Specify provider preferences
+        provider={
+            'order': ['Anthropic', 'OpenAI'],  # Try Anthropic first, then OpenAI
+            'allow_fallbacks': True
+        }
+    )
+)
+
+routing_t.add_computed_column(response=routing_t.output.choices[0].message.content)
+```
+
+``` text
+Created table 'routing'.
+Added 0 column values with 0 errors.
+Added 0 column values with 0 errors.
+```
+
+``` text
+No rows affected.
+```
+
+
+```python
+routing_t.insert([{'input': 'What are the primary colors?'}])
+routing_t.select(routing_t.input, routing_t.response).head()
+```
+
+``` text
+Inserting rows into `routing`: 1 rows [00:00, 142.11 rows/s]
+Inserted 1 row with 0 errors.
+```
+
+<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## Advanced Features: Context Window Optimization
+
+OpenRouter supports transforms like ‘middle-out’ to optimize handling of
+long contexts.
+
+
+```python
+# Create a table with transforms for long context optimization
+transform_t = pxt.create_table('openrouter_demo.transforms', {'long_context': pxt.String})
+
+messages = [{'role': 'user', 'content': transform_t.long_context}]
+transform_t.add_computed_column(
+    output=openrouter.chat_completions(
+        messages=messages,
+        model='openai/gpt-4o-mini',
+        model_kwargs={'max_tokens': 200},
+        # Apply middle-out transform for better long context handling
+        transforms=['middle-out']
+    )
+)
+
+transform_t.add_computed_column(response=transform_t.output.choices[0].message.content)
+```
+
+``` text
+Created table 'transforms'.
+Added 0 column values with 0 errors.
+Added 0 column values with 0 errors.
+```
+
+``` text
+No rows affected.
+```
+
+
+```python
+# Example with longer context
+long_text = """
+Artificial intelligence has transformed many industries. Machine learning algorithms 
+can now detect patterns in data that humans might miss. Deep learning has revolutionized 
+computer vision and natural language processing. The future of AI looks promising with 
+developments in areas like reinforcement learning and generative models.
+
+Question: What are the main AI developments mentioned?
+"""
+
+transform_t.insert([{'long_context': long_text}])
+transform_t.select(transform_t.response).head()
+
+```
+
+``` text
+Inserting rows into `transforms`: 1 rows [00:00, 123.46 rows/s]
+Inserted 1 row with 0 errors.
+```
+
+<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+### Learn More
+
+To learn more about advanced techniques like RAG operations in
+Pixeltable, check out the [RAG Operations in
+Pixeltable](https://pixeltable.readme.io/docs/rag-operations-in-pixeltable)
+tutorial.
+
+For more information about OpenRouter’s features and available models,
+visit: - [OpenRouter Documentation](https://openrouter.ai/docs) -
+[Available Models](https://openrouter.ai/models)
+
+If you have any questions, don’t hesitate to reach out.
