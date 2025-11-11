@@ -11,6 +11,7 @@ icon: "square-m"
 YOLOX object detection functions.
 
 
+
 ## udf `yolo_to_coco()`
 
 ```python
@@ -18,6 +19,7 @@ yolo_to_coco(detections: Json) -> Json
 ```
 
 Converts the output of a YOLOX object detection model to COCO format.
+
 
 **Parameters:**
 
@@ -49,11 +51,13 @@ yolox(
 
 Computes YOLOX object detections for the specified image. `model_id` should reference one of the models
 
+
 defined in the [YOLOX documentation](https://github.com/Megvii-BaseDetection/YOLOX).
 
-__Requirements__:
+**Requirements**:
 
 - `pip install pixeltable-yolox`
+
 
 **Parameters:**
 

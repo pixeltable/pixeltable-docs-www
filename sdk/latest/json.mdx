@@ -11,13 +11,15 @@ icon: "square-m"
 Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) for `JsonType`.
 
 Example:
-```python
+
+``` python
 import pixeltable as pxt
 import pixeltable.functions as pxtf
 
 t = pxt.get_table(...)
 t.select(pxtf.json.make_list(t.json_col)).collect()
 ```
+
 
 
 ## udf `make_list()`
@@ -27,4 +29,5 @@ make_list(obj: Json) -> Json
 ```
 
 Collects arguments into a list.
+
 

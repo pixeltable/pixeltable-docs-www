@@ -11,12 +11,14 @@ icon: "square-m"
 Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) for mathematical operations.
 
 Example:
-```python
+
+``` python
 import pixeltable as pxt
 
 t = pxt.get_table(...)
 t.select(t.float_col.floor()).collect()
 ```
+
 
 
 ## udf `abs()`
@@ -27,7 +29,9 @@ abs(self: Float) -> Float
 
 Return the absolute value of the given number.
 
+
 Equivalent to Python [`builtins.abs()`](https://docs.python.org/3/library/functions.html#abs).
+
 
 
 ## udf `bitwise_and()`
@@ -38,8 +42,9 @@ bitwise_and(self: Int, other: Int) -> Int
 
 Bitwise AND of two integers.
 
-Equivalent to Python
-[`self & other`](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types).
+
+Equivalent to Python [`self & other`](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types).
+
 
 
 ## udf `bitwise_or()`
@@ -50,8 +55,9 @@ bitwise_or(self: Int, other: Int) -> Int
 
 Bitwise OR of two integers.
 
-Equivalent to Python
-[`self | other`](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types).
+
+Equivalent to Python [`self | other`](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types).
+
 
 
 ## udf `bitwise_xor()`
@@ -62,8 +68,9 @@ bitwise_xor(self: Int, other: Int) -> Int
 
 Bitwise XOR of two integers.
 
-Equivalent to Python
-[`self ^ other`](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types).
+
+Equivalent to Python [`self ^ other`](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types).
+
 
 
 ## udf `ceil()`
@@ -74,10 +81,9 @@ ceil(self: Float) -> Float
 
 Return the ceiling of the given number.
 
-Equivalent to Python [`float(math.ceil(self))`](https://docs.python.org/3/library/math.html#math.ceil) if `self`
-is finite, or `self` itself if `self` is infinite. (This is slightly different from the default behavior of
-`math.ceil(self)`, which always returns an `int` and raises an error if `self` is infinite. The behavior in
-Pixeltable generalizes the Python operator and is chosen to align with the SQL standard.)
+
+Equivalent to Python [`float(math.ceil(self))`](https://docs.python.org/3/library/math.html#math.ceil) if `self` is finite, or `self` itself if `self` is infinite. (This is slightly different from the default behavior of `math.ceil(self)`, which always returns an `int` and raises an error if `self` is infinite. The behavior in Pixeltable generalizes the Python operator and is chosen to align with the SQL standard.)
+
 
 
 ## udf `floor()`
@@ -88,10 +94,9 @@ floor(self: Float) -> Float
 
 Return the ceiling of the given number.
 
-Equivalent to Python [`float(math.floor(self))`](https://docs.python.org/3/library/math.html#math.ceil) if `self`
-is finite, or `self` itself if `self` is infinite. (This is slightly different from the default behavior of
-`math.floor(self)`, which always returns an `int` and raises an error if `self` is infinite. The behavior of
-Pixeltable generalizes the Python operator and is chosen to align with the SQL standard.)
+
+Equivalent to Python [`float(math.floor(self))`](https://docs.python.org/3/library/math.html#math.ceil) if `self` is finite, or `self` itself if `self` is infinite. (This is slightly different from the default behavior of `math.floor(self)`, which always returns an `int` and raises an error if `self` is infinite. The behavior of Pixeltable generalizes the Python operator and is chosen to align with the SQL standard.)
+
 
 
 ## udf `pow()`
@@ -102,7 +107,9 @@ pow(self: Int, other: Int) -> Float
 
 Raise `self` to the power of `other`.
 
+
 Equivalent to Python [`self ** other`](https://docs.python.org/3/library/functions.html#pow).
+
 
 
 ## udf `round()`
@@ -113,7 +120,7 @@ round(self: Float, digits: Int | None = None) -> Float
 
 Round a number to a given precision in decimal digits.
 
-Equivalent to Python [`builtins.round(self, digits or 0)`](https://docs.python.org/3/library/functions.html#round).
-Note that if `digits` is not specified, the behavior matches `builtins.round(self, 0)` rather than
-`builtins.round(self)`; this ensures that the return type is always `float` (as in SQL) rather than `int`.
+
+Equivalent to Python [`builtins.round(self, digits or 0)`](https://docs.python.org/3/library/functions.html#round). Note that if `digits` is not specified, the behavior matches `builtins.round(self, 0)` rather than `builtins.round(self)`; this ensures that the return type is always `float` (as in SQL) rather than `int`.
+
 

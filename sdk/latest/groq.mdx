@@ -8,10 +8,8 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/groq.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs)
-that wrap various endpoints from the Groq API. In order to use them, you must
-first `pip install groq` and configure your Groq credentials, as described in
-the [Working with Groq](https://pixeltable.readme.io/docs/working-with-groq) tutorial.
+Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) that wrap various endpoints from the Groq API. In order to use them, you must first `pip install groq` and configure your Groq credentials, as described in the [Working with Groq](https://pixeltable.readme.io/docs/working-with-groq) tutorial.
+
 
 
 ## func `invoke_tools()`
@@ -24,6 +22,7 @@ invoke_tools(
 ```
 
 Converts an OpenAI response dict to Pixeltable tool invocation format and calls `tools._invoke()`.
+
 
 
 ## udf `chat_completions()`
@@ -41,23 +40,21 @@ chat_completions(
 
 Chat Completion API.
 
-Equivalent to the Groq `chat/completions` API endpoint.
-For additional details, see: [https://console.groq.com/docs/api-reference#chat-create](https://console.groq.com/docs/api-reference#chat-create)
 
-Request throttling:
-Applies the rate limit set in the config (section `groq`, key `rate_limit`). If no rate
-limit is configured, uses a default of 600 RPM.
+Equivalent to the Groq `chat/completions` API endpoint. For additional details, see: [https://console.groq.com/docs/api-reference#chat-create](https://console.groq.com/docs/api-reference#chat-create)
 
-__Requirements:__
+Request throttling: Applies the rate limit set in the config (section `groq`, key `rate_limit`). If no rate limit is configured, uses a default of 600 RPM.
+
+**Requirements:**
 
 - `pip install groq`
+
 
 **Parameters:**
 
 - **`messages`** (`Json`): A list of messages comprising the conversation so far.
 - **`model`** (`String`): ID of the model to use. (See overview here: [https://console.groq.com/docs/models](https://console.groq.com/docs/models))
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the Groq `chat/completions` API.
-  For details on the available parameters, see: [https://console.groq.com/docs/api-reference#chat-create](https://console.groq.com/docs/api-reference#chat-create)
+- **`model_kwargs`** (`Json | None`): Additional keyword args for the Groq `chat/completions` API. For details on the available parameters, see: [https://console.groq.com/docs/api-reference#chat-create](https://console.groq.com/docs/api-reference#chat-create)
 
 **Returns:**
 

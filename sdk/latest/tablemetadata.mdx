@@ -9,6 +9,7 @@ icon: "square-c"
 
 Metadata for a Pixeltable table.
 
+
 ## attr `base`
 
 ```
@@ -16,6 +17,7 @@ base: str | None
 ```
 
 If this table is a view or snapshot, the full path of its base table; otherwise `None`.
+
 
 ## attr `columns`
 
@@ -25,6 +27,7 @@ columns: dict[str, ColumnMetadata]
 
 Column metadata for all of the visible columns of the table.
 
+
 ## attr `comment`
 
 ```
@@ -32,6 +35,7 @@ comment: str | None
 ```
 
 User-provided table comment, if one exists.
+
 
 ## attr `indices`
 
@@ -41,6 +45,7 @@ indices: dict[str, IndexMetadata]
 
 Index metadata for all of the indices of the table.
 
+
 ## attr `is_replica`
 
 ```
@@ -48,6 +53,7 @@ is_replica: bool
 ```
 
 `True` if this table is a replica of another (shared) table.
+
 
 ## attr `is_snapshot`
 
@@ -57,6 +63,7 @@ is_snapshot: bool
 
 `True` if this table is a snapshot.
 
+
 ## attr `is_view`
 
 ```
@@ -64,6 +71,7 @@ is_view: bool
 ```
 
 `True` if this table is a view.
+
 
 ## attr `media_validation`
 
@@ -73,6 +81,7 @@ media_validation: Literal['on_read', 'on_write']
 
 The media validation policy for this table.
 
+
 ## attr `name`
 
 ```
@@ -80,6 +89,7 @@ name: str
 ```
 
 The name of the table (ex: `'my_table'`).
+
 
 ## attr `path`
 
@@ -89,6 +99,7 @@ path: str
 
 The full path of the table (ex: `'my_dir.my_subdir.my_table'`).
 
+
 ## attr `schema_version`
 
 ```
@@ -96,6 +107,7 @@ schema_version: int
 ```
 
 The current schema version of the table.
+
 
 ## attr `version`
 
@@ -105,6 +117,7 @@ version: int
 
 The current version of the table.
 
+
 ## attr `version_created`
 
 ```
@@ -112,4 +125,5 @@ version_created: datetime.datetime
 ```
 
 The timestamp when this table version was created.
+
 

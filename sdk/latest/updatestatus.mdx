@@ -10,6 +10,7 @@ icon: "square-c"
 Information about changes to table data or table schema
 
 
+
 ## method `insert_to_update()`
 
 ```python
@@ -18,7 +19,9 @@ insert_to_update() -> UpdateStatus
 
 Convert the update status from an insert operation to an update operation.
 
+
 This is used when an insert operation is treated as an update.
+
 
 
 ## method `to_cascade()`
@@ -29,7 +32,9 @@ to_cascade() -> UpdateStatus
 
 Convert the update status to a cascade update status.
 
+
 This is used when an operation cascades changes to other tables.
+
 
 ## attr `ext_num_rows`
 
@@ -39,6 +44,7 @@ ext_num_rows: int
 
 Total number of rows affected in an external store.
 
+
 ## attr `external_rows_created`
 
 ```
@@ -46,6 +52,7 @@ external_rows_created: int
 ```
 
 Number of rows created in an external store.
+
 
 ## attr `external_rows_deleted`
 
@@ -55,6 +62,7 @@ external_rows_deleted: int
 
 Number of rows deleted from an external store.
 
+
 ## attr `external_rows_updated`
 
 ```
@@ -62,6 +70,7 @@ external_rows_updated: int
 ```
 
 Number of rows updated in an external store.
+
 
 ## attr `insert_msg`
 
@@ -71,6 +80,7 @@ insert_msg: str
 
 A message describing the results of an insert operation.
 
+
 ## attr `num_computed_values`
 
 ```
@@ -78,6 +88,7 @@ num_computed_values: int
 ```
 
 Total number of computed values affected (including cascaded changes).
+
 
 ## attr `num_excs`
 
@@ -87,6 +98,7 @@ num_excs: int
 
 Total number of exceptions encountered (including cascaded changes).
 
+
 ## attr `num_rows`
 
 ```
@@ -95,6 +107,7 @@ num_rows: int
 
 Total number of rows affected (including cascaded changes).
 
+
 ## attr `pxt_rows_updated`
 
 ```
@@ -102,4 +115,5 @@ pxt_rows_updated: int
 ```
 
 Returns the number of Pixeltable rows that were updated as a result of the operation.
+
 

@@ -8,12 +8,10 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/huggingface.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs)
-that wrap various models from the Hugging Face `transformers` package.
+Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) that wrap various models from the Hugging Face `transformers` package.
 
-These UDFs will cause Pixeltable to invoke the relevant models locally. In order to use them, you must
-first `pip install transformers` (or in some cases, `sentence-transformers`, as noted in the specific
-UDFs).
+These UDFs will cause Pixeltable to invoke the relevant models locally. In order to use them, you must first `pip install transformers` (or in some cases, `sentence-transformers`, as noted in the specific UDFs).
+
 
 ## UDFs
 
@@ -33,22 +31,22 @@ automatic_speech_recognition(
 
 Transcribes speech to text using a pretrained ASR model. `model_id` should be a reference to a
 
+
 pretrained [automatic-speech-recognition model](https://huggingface.co/models?pipeline_tag=automatic-speech-recognition).
 
-This is a **generic function** that works with many ASR model families. For production use with
-specific models, consider specialized functions like `whisper.transcribe()` or
-`speech2text_for_conditional_generation()`.
+This is a **generic function** that works with many ASR model families. For production use with specific models, consider specialized functions like `whisper.transcribe()` or `speech2text_for_conditional_generation()`.
 
-__Requirements:__
+**Requirements:**
 
 - `pip install torch transformers torchaudio`
 
-__Recommended Models:__
+**Recommended Models:**
 
 - **OpenAI Whisper**: `openai/whisper-tiny.en`, `openai/whisper-small`, `openai/whisper-base`
 - **Facebook Wav2Vec2**: `facebook/wav2vec2-base-960h`, `facebook/wav2vec2-large-960h-lv60-self`
 - **Microsoft SpeechT5**: `microsoft/speecht5_asr`
 - **Meta MMS (Multilingual)**: `facebook/mms-1b-all`
+
 
 **Parameters:**
 
@@ -94,11 +92,13 @@ clip(image: Image, model_id: String) -> Array[(None,), Float]
 
 Computes a CLIP embedding for the specified text or image. `model_id` should be a reference to a pretrained
 
+
 [CLIP Model](https://huggingface.co/docs/transformers/model_doc/clip).
 
-__Requirements:__
+**Requirements:**
 
 - `pip install torch transformers`
+
 
 **Parameters:**
 
@@ -130,13 +130,13 @@ cross_encoder(
 
 Performs predicts on the given sentence pair.
 
-`model_id` should be a pretrained Cross-Encoder model, as described in the
-[Cross-Encoder Pretrained Models](https://www.sbert.net/docs/cross_encoder/pretrained_models.html)
-documentation.
 
-__Requirements:__
+`model_id` should be a pretrained Cross-Encoder model, as described in the [Cross-Encoder Pretrained Models](https://www.sbert.net/docs/cross_encoder/pretrained_models.html) documentation.
+
+**Requirements:**
 
 - `pip install torch sentence-transformers`
+
 
 **Parameters:**
 
@@ -182,11 +182,13 @@ detr_for_object_detection(
 
 Computes DETR object detections for the specified image. `model_id` should be a reference to a pretrained
 
+
 [DETR Model](https://huggingface.co/docs/transformers/model_doc/detr).
 
-__Requirements:__
+**Requirements:**
 
 - `pip install torch transformers`
+
 
 **Parameters:**
 
@@ -196,14 +198,14 @@ __Requirements:__
 **Returns:**
 
 - `Json`: A dictionary containing the output of the object detection model, in the following format:
-  ```python
-  \{
+  ``` python
+  {
       'scores': [0.99, 0.999],  # list of confidence scores for each detected object
       'labels': [25, 25],  # list of COCO class labels for each detected object
       'label_text': ['giraffe', 'giraffe'],  # corresponding text names of class labels
       'boxes': [[51.942, 356.174, 181.481, 413.975], [383.225, 58.66, 605.64, 361.346]]
           # list of bounding boxes for each detected object, as [x1, y1, x2, y2]
-  \}
+  }
   ```
 
 **Example:**
@@ -223,6 +225,7 @@ detr_to_coco(image: Image, detr_info: Json) -> Json
 ```
 
 Converts the output of a DETR object detection model to COCO format.
+
 
 **Parameters:**
 
@@ -254,12 +257,13 @@ image_captioning(
 
 Generates captions for images using a pretrained image captioning model. `model_id` should be a reference to a
 
-pretrained [image-to-text model](https://huggingface.co/models?pipeline_tag=image-to-text) such as BLIP,
-Git, or LLaVA.
 
-__Requirements:__
+pretrained [image-to-text model](https://huggingface.co/models?pipeline_tag=image-to-text) such as BLIP, Git, or LLaVA.
+
+**Requirements:**
 
 - `pip install torch transformers`
+
 
 **Parameters:**
 
@@ -298,12 +302,13 @@ image_to_image(
 
 Transforms input images based on text prompts using a pretrained image-to-image model.
 
-`model_id` should be a reference to a pretrained
-[image-to-image model](https://huggingface.co/models?pipeline_tag=image-to-image).
 
-__Requirements:__
+`model_id` should be a reference to a pretrained [image-to-image model](https://huggingface.co/models?pipeline_tag=image-to-image).
+
+**Requirements:**
 
 - `pip install torch transformers diffusers accelerate`
+
 
 **Parameters:**
 
@@ -311,8 +316,7 @@ __Requirements:__
 - **`prompt`** (`String`): The text prompt describing the desired transformation.
 - **`model_id`** (`String`): The pretrained image-to-image model to use.
 - **`seed`** (`Int | None`): Random seed for reproducibility.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `strength`,
-  `guidance_scale`, or `num_inference_steps`.
+- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `strength`, `guidance_scale`, or `num_inference_steps`.
 
 **Returns:**
 
@@ -344,12 +348,13 @@ image_to_video(
 
 Generates videos from input images using a pretrained image-to-video model.
 
-`model_id` should be a reference to a pretrained
-[image-to-video model](https://huggingface.co/models?pipeline_tag=image-to-video).
 
-__Requirements:__
+`model_id` should be a reference to a pretrained [image-to-video model](https://huggingface.co/models?pipeline_tag=image-to-video).
+
+**Requirements:**
 
 - `pip install torch transformers diffusers accelerate`
+
 
 **Parameters:**
 
@@ -358,8 +363,7 @@ __Requirements:__
 - **`num_frames`** (`Int`): Number of video frames to generate.
 - **`fps`** (`Int`): Frames per second for the output video.
 - **`seed`** (`Int | None`): Random seed for reproducibility.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`,
-  `motion_bucket_id`, or `guidance_scale`.
+- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`, `motion_bucket_id`, or `guidance_scale`.
 
 **Returns:**
 
@@ -390,12 +394,13 @@ question_answering(
 
 Answers questions based on provided context using a pretrained QA model. `model_id` should be a reference to a
 
-pretrained [question answering model](https://huggingface.co/models?pipeline_tag=question-answering) such as
-BERT or RoBERTa.
 
-__Requirements:__
+pretrained [question answering model](https://huggingface.co/models?pipeline_tag=question-answering) such as BERT or RoBERTa.
+
+**Requirements:**
 
 - `pip install torch transformers`
+
 
 **Parameters:**
 
@@ -430,20 +435,19 @@ sentence_transformer(
 
 Computes sentence embeddings. `model_id` should be a pretrained Sentence Transformers model, as described
 
-in the [Sentence Transformers Pretrained Models](https://sbert.net/docs/sentence_transformer/pretrained_models.html)
-documentation.
 
-__Requirements:__
+in the [Sentence Transformers Pretrained Models](https://sbert.net/docs/sentence_transformer/pretrained_models.html) documentation.
+
+**Requirements:**
 
 - `pip install torch sentence-transformers`
+
 
 **Parameters:**
 
 - **`sentence`** (`String`): The sentence to embed.
 - **`model_id`** (`String`): The pretrained model to use for the encoding.
-- **`normalize_embeddings`** (`Bool`): If `True`, normalizes embeddings to length 1; see the
-  [Sentence Transformers API Docs](https://sbert.net/docs/package_reference/sentence_transformer/SentenceTransformer.html)
-  for more details
+- **`normalize_embeddings`** (`Bool`): If `True`, normalizes embeddings to length 1; see the [Sentence Transformers API Docs](https://sbert.net/docs/package_reference/sentence_transformer/SentenceTransformer.html) for more details
 
 **Returns:**
 
@@ -482,19 +486,19 @@ speech2text_for_conditional_generation(
 
 Transcribes or translates speech to text using a Speech2Text model. `model_id` should be a reference to a
 
+
 pretrained [Speech2Text](https://huggingface.co/docs/transformers/en/model_doc/speech_to_text) model.
 
-__Requirements:__
+**Requirements:**
 
 - `pip install torch torchaudio sentencepiece transformers`
+
 
 **Parameters:**
 
 - **`audio`** (`Audio`): The audio clip to transcribe or translate.
 - **`model_id`** (`String`): The pretrained model to use for the transcription or translation.
-- **`language`** (`String | None`): If using a multilingual translation model, the language code to translate to. If not provided,
-  the model's default language will be used. If the model is not translation model, is not a
-  multilingual model, or does not support the specified language, an error will be raised.
+- **`language`** (`String | None`): If using a multilingual translation model, the language code to translate to. If not provided, the model's default language will be used. If the model is not translation model, is not a multilingual model, or does not support the specified language, an error will be raised.
 
 **Returns:**
 
@@ -532,11 +536,13 @@ summarization(
 
 Summarizes text using a pretrained summarization model. `model_id` should be a reference to a pretrained
 
+
 [summarization model](https://huggingface.co/models?pipeline_tag=summarization) such as BART, T5, or Pegasus.
 
-__Requirements:__
+**Requirements:**
 
 - `pip install torch transformers`
+
 
 **Parameters:**
 
@@ -566,12 +572,13 @@ text_classification(text: String, *, model_id: String, top_k: Int = 5) -> Json
 
 Classifies text using a pretrained classification model. `model_id` should be a reference to a pretrained
 
-[text classification model](https://huggingface.co/models?pipeline_tag=text-classification)
-such as BERT, RoBERTa, or DistilBERT.
 
-__Requirements:__
+[text classification model](https://huggingface.co/models?pipeline_tag=text-classification) such as BERT, RoBERTa, or DistilBERT.
+
+**Requirements:**
 
 - `pip install torch transformers`
+
 
 **Parameters:**
 
@@ -606,20 +613,19 @@ text_generation(
 
 Generates text using a pretrained language model. `model_id` should be a reference to a pretrained
 
+
 [text generation model](https://huggingface.co/models?pipeline_tag=text-generation).
 
-__Requirements:__
+**Requirements:**
 
 - `pip install torch transformers`
+
 
 **Parameters:**
 
 - **`text`** (`String`): The input text to continue/complete.
 - **`model_id`** (`String`): The pretrained model to use for text generation.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`,
-  `temperature`, etc. See the
-  [Hugging Face text_generation documentation](https://huggingface.co/docs/inference-providers/en/tasks/text-generation)
-  for details.
+- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`, `temperature`, etc. See the [Hugging Face text_generation documentation](https://huggingface.co/docs/inference-providers/en/tasks/text-generation) for details.
 
 **Returns:**
 
@@ -653,12 +659,13 @@ text_to_image(
 
 Generates images from text prompts using a pretrained text-to-image model. `model_id` should be a reference to a
 
-pretrained [text-to-image model](https://huggingface.co/models?pipeline_tag=text-to-image) such as
-Stable Diffusion or FLUX.
 
-__Requirements:__
+pretrained [text-to-image model](https://huggingface.co/models?pipeline_tag=text-to-image) such as Stable Diffusion or FLUX.
+
+**Requirements:**
 
 - `pip install torch transformers diffusers accelerate`
+
 
 **Parameters:**
 
@@ -667,8 +674,7 @@ __Requirements:__
 - **`height`** (`Int`): Height of the generated image in pixels.
 - **`width`** (`Int`): Width of the generated image in pixels.
 - **`seed`** (`Int | None`): Optional random seed for reproducibility.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`,
-  `guidance_scale`, or `negative_prompt`.
+- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`, `guidance_scale`, or `negative_prompt`.
 
 **Returns:**
 
@@ -704,11 +710,13 @@ text_to_speech(
 
 Converts text to speech using a pretrained TTS model. `model_id` should be a reference to a
 
+
 pretrained [text-to-speech model](https://huggingface.co/models?pipeline_tag=text-to-speech).
 
-__Requirements:__
+**Requirements:**
 
 - `pip install torch transformers datasets soundfile`
+
 
 **Parameters:**
 
@@ -742,12 +750,13 @@ token_classification(
 
 Extracts named entities from text using a pretrained named entity recognition (NER) model.
 
-`model_id` should be a reference to a pretrained
-[token classification model](https://huggingface.co/models?pipeline_tag=token-classification) for NER.
 
-__Requirements:__
+`model_id` should be a reference to a pretrained [token classification model](https://huggingface.co/models?pipeline_tag=token-classification) for NER.
+
+**Requirements:**
 
 - `pip install torch transformers`
+
 
 **Parameters:**
 
@@ -783,11 +792,13 @@ translation(
 
 Translates text using a pretrained translation model. `model_id` should be a reference to a pretrained
 
+
 [translation model](https://huggingface.co/models?pipeline_tag=translation) such as MarianMT or T5.
 
-__Requirements:__
+**Requirements:**
 
 - `pip install torch transformers sentencepiece`
+
 
 **Parameters:**
 
@@ -818,17 +829,15 @@ vit_for_image_classification(image: Image, *, model_id: String, top_k: Int = 5) 
 
 Computes image classifications for the specified image using a Vision Transformer (ViT) model.
 
+
 `model_id` should be a reference to a pretrained [ViT Model](https://huggingface.co/docs/transformers/en/model_doc/vit).
 
-__Note:__ Be sure the model is a ViT model that is trained for image classification (that is, a model designed for
-use with the
-[ViTForImageClassification](https://huggingface.co/docs/transformers/en/model_doc/vit#transformers.ViTForImageClassification)
-class), such as `google/vit-base-patch16-224`. General feature-extraction models such as
-`google/vit-base-patch16-224-in21k` will not produce the desired results.
+**Note:** Be sure the model is a ViT model that is trained for image classification (that is, a model designed for use with the [ViTForImageClassification](https://huggingface.co/docs/transformers/en/model_doc/vit#transformers.ViTForImageClassification) class), such as `google/vit-base-patch16-224`. General feature-extraction models such as `google/vit-base-patch16-224-in21k` will not produce the desired results.
 
-__Requirements:__
+**Requirements:**
 
 - `pip install torch transformers`
+
 
 **Parameters:**
 
@@ -839,8 +848,8 @@ __Requirements:__
 **Returns:**
 
 - `Json`: A dictionary containing the output of the image classification model, in the following format:
-  ```python
-  \{
+  ``` python
+  {
       'scores': [0.325, 0.198, 0.105],  # list of probabilities of the top-k most likely classes
       'labels': [340, 353, 386],  # list of class IDs for the top-k most likely classes
       'label_text': ['zebra', 'gazelle', 'African elephant, Loxodonta africana'],

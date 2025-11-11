@@ -8,10 +8,8 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/fireworks.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs)
-that wrap various endpoints from the Fireworks AI API. In order to use them, you must
-first `pip install fireworks-ai` and configure your Fireworks AI credentials, as described in
-the [Working with Fireworks](https://pixeltable.readme.io/docs/working-with-fireworks) tutorial.
+Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) that wrap various endpoints from the Fireworks AI API. In order to use them, you must first `pip install fireworks-ai` and configure your Fireworks AI credentials, as described in the [Working with Fireworks](https://pixeltable.readme.io/docs/working-with-fireworks) tutorial.
+
 
 
 ## udf `chat_completions()`
@@ -27,23 +25,21 @@ chat_completions(
 
 Creates a model response for the given chat conversation.
 
-Equivalent to the Fireworks AI `chat/completions` API endpoint.
-For additional details, see: [https://docs.fireworks.ai/api-reference/post-chatcompletions](https://docs.fireworks.ai/api-reference/post-chatcompletions)
 
-Request throttling:
-Applies the rate limit set in the config (section `fireworks`, key `rate_limit`). If no rate
-limit is configured, uses a default of 600 RPM.
+Equivalent to the Fireworks AI `chat/completions` API endpoint. For additional details, see: [https://docs.fireworks.ai/api-reference/post-chatcompletions](https://docs.fireworks.ai/api-reference/post-chatcompletions)
 
-__Requirements:__
+Request throttling: Applies the rate limit set in the config (section `fireworks`, key `rate_limit`). If no rate limit is configured, uses a default of 600 RPM.
+
+**Requirements:**
 
 - `pip install fireworks-ai`
+
 
 **Parameters:**
 
 - **`messages`** (`Json`): A list of messages comprising the conversation so far.
 - **`model`** (`String`): The name of the model to use.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the Fireworks `chat_completions` API. For details on the available
-  parameters, see: [https://docs.fireworks.ai/api-reference/post-chatcompletions](https://docs.fireworks.ai/api-reference/post-chatcompletions)
+- **`model_kwargs`** (`Json | None`): Additional keyword args for the Fireworks `chat_completions` API. For details on the available parameters, see: [https://docs.fireworks.ai/api-reference/post-chatcompletions](https://docs.fireworks.ai/api-reference/post-chatcompletions)
 
 **Returns:**
 

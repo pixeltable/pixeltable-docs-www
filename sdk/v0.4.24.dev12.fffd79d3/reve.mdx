@@ -8,9 +8,8 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/reve.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDFs](https://docs.pixeltable.com/datastore/custom-functions) that wrap [Reve](https://app.reve.com/) image
-generation API. In order to use them, the API key must be specified either with `REVE_API_KEY` environment variable,
-or as `api_key` in the `reve` section of the Pixeltable config file.
+Pixeltable [UDFs](https://docs.pixeltable.com/datastore/custom-functions) that wrap [Reve](https://app.reve.com/) image generation API. In order to use them, the API key must be specified either with `REVE_API_KEY` environment variable, or as `api_key` in the `reve` section of the Pixeltable config file.
+
 
 
 ## udf `create()`
@@ -26,8 +25,9 @@ create(
 
 Creates an image from a text prompt.
 
-This UDF wraps the `https://api.reve.com/v1/image/create` endpoint. For more information, refer to the official
-[API documentation](https://api.reve.com/console/docs/create).
+
+This UDF wraps the `https://api.reve.com/v1/image/create` endpoint. For more information, refer to the official [API documentation](https://api.reve.com/console/docs/create).
+
 
 **Parameters:**
 
@@ -60,8 +60,9 @@ edit(
 
 Edits images based on a text prompt.
 
-This UDF wraps the `https://api.reve.com/v1/image/edit` endpoint. For more information, refer to the official
-[API documentation](https://api.reve.com/console/docs/edit)
+
+This UDF wraps the `https://api.reve.com/v1/image/edit` endpoint. For more information, refer to the official [API documentation](https://api.reve.com/console/docs/edit)
+
 
 **Parameters:**
 
@@ -99,10 +100,11 @@ remix(
 
 Creates images based on a text prompt and reference images.
 
-The prompt may include ``img`0`/img``, ``img`1`/img``, etc. tags to refer to the images in the `images` argument.
 
-This UDF wraps the `https://api.reve.com/v1/image/remix` endpoint. For more information, refer to the official
-[API documentation](https://api.reve.com/console/docs/remix)
+The prompt may include `<img>0</img>`, `<img>1</img>`, etc. tags to refer to the images in the `images` argument.
+
+This UDF wraps the `https://api.reve.com/v1/image/remix` endpoint. For more information, refer to the official [API documentation](https://api.reve.com/console/docs/remix)
+
 
 **Parameters:**
 

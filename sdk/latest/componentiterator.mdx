@@ -10,6 +10,7 @@ icon: "square-c"
 Base class for Pixeltable iterators.
 
 
+
 ## method `close()`
 
 ```python
@@ -17,6 +18,7 @@ close() -> None
 ```
 
 Close the iterator and release all resources
+
 
 
 ## method `create()`
@@ -34,8 +36,9 @@ input_schema() -> dict[str, ColumnType]
 
 Provide the Pixeltable types of the init() parameters
 
-The keys need to match the names of the init() parameters. This is equivalent to the parameters_types
-parameter of the @function decorator.
+
+The keys need to match the names of the init() parameters. This is equivalent to the parameters_types parameter of the @function decorator.
+
 
 
 ## method `output_schema()`
@@ -49,10 +52,10 @@ output_schema(
 
 Specify the dictionary returned by next() and a list of unstored column names
 
+
 **Returns:**
 
-- `tuple[dict[str, ColumnType], list[str]]`: a dictionary which is turned into a list of columns in the output table
-  a list of unstored column names
+- `tuple[dict[str, ColumnType], list[str]]`: a dictionary which is turned into a list of columns in the output table a list of unstored column names
 
 
 ## method `set_pos()`
@@ -62,4 +65,5 @@ set_pos(pos: int) -> None
 ```
 
 Set the iterator position to pos
+
 
