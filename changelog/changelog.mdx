@@ -21,6 +21,30 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.4.23
+
+**Released:** November 11, 2025  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.4.23](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.23)
+
+#### What's Changed
+* Add PIXELTABLE_API_KEY to CI environment by [@aaron-siegel](https://github.com/aaron-siegel) in [#914](https://github.com/pixeltable/pixeltable/pull/914)
+* `create_store_tbls: bool` option in Catalog.create_replica() by [@aaron-siegel](https://github.com/aaron-siegel) in [#916](https://github.com/pixeltable/pixeltable/pull/916)
+* [PXT-380] Remove NamedFunction object and related code in named_function.py by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#911](https://github.com/pixeltable/pixeltable/pull/911)
+* Switch to new random ops script in CI by [@aaron-siegel](https://github.com/aaron-siegel) in [#909](https://github.com/pixeltable/pixeltable/pull/909)
+* [PXT-799] Allow setting `fps` greater than the framerate of the video in `FrameIterator` by [@aaron-siegel](https://github.com/aaron-siegel) in [#918](https://github.com/pixeltable/pixeltable/pull/918)
+* Intelligible error message when replicating a view of an existing original base table by [@aaron-siegel](https://github.com/aaron-siegel) in [#897](https://github.com/pixeltable/pixeltable/pull/897)
+* [PXT-837] Support creating/inserting directly from an existing Table by [@aaron-siegel](https://github.com/aaron-siegel) in [#919](https://github.com/pixeltable/pixeltable/pull/919)
+* Add parameters to `make stresstest` by [@aaron-siegel](https://github.com/aaron-siegel) in [#920](https://github.com/pixeltable/pixeltable/pull/920)
+* Introduce "anchor tables" in TableVersion(Handle) for live replicas; working pull() by [@aaron-siegel](https://github.com/aaron-siegel) in [#917](https://github.com/pixeltable/pixeltable/pull/917)
+* Time travel for view over snapshot; replicas of view over snapshot by [@aaron-siegel](https://github.com/aaron-siegel) in [#924](https://github.com/pixeltable/pixeltable/pull/924)
+* Proper display of embeddings by [@aaron-siegel](https://github.com/aaron-siegel) in [#925](https://github.com/pixeltable/pixeltable/pull/925)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.22...v0.4.23
+
+---
+
 ### v0.4.22
 
 **Released:** November 04, 2025  
@@ -1147,33 +1171,6 @@ Please refer to the Pixeltable documentation (https://pixeltable.readme.io/) for
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.2.23...v0.2.24
-
----
-
-### v0.2.23
-
-**Released:** November 10, 2024  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.2.23](https://github.com/pixeltable/pixeltable/releases/tag/v0.2.23)
-
-#### What's Changed
-* Test infrastructure improvements by [@aaron-siegel](https://github.com/aaron-siegel) in [#353](https://github.com/pixeltable/pixeltable/pull/353)
-* Relocate DISCUSSION_TEMPLATE and rename yml files by [@aaron-siegel](https://github.com/aaron-siegel) in [#358](https://github.com/pixeltable/pixeltable/pull/358)
-* Code cleanup: Lowercase Dict/List/Set/Tuple/Type by [@aaron-siegel](https://github.com/aaron-siegel) in [#357](https://github.com/pixeltable/pixeltable/pull/357)
-* Add tests and a tutorial notebook for Ollama by [@aaron-siegel](https://github.com/aaron-siegel) in [#360](https://github.com/pixeltable/pixeltable/pull/360)
-* PXT-334 - Add columns property to the table handle by [@anushas](https://github.com/anushas) in [#359](https://github.com/pixeltable/pixeltable/pull/359)
-* Two new documentation notebooks by [@aaron-siegel](https://github.com/aaron-siegel) in [#349](https://github.com/pixeltable/pixeltable/pull/349)
-* CachePrefetchNode now fetches asynchronously by [@mkornacker](https://github.com/mkornacker) in [#354](https://github.com/pixeltable/pixeltable/pull/354)
-* Add support for Hugging Face Speech2TextForConditionalGeneration models by [@aaron-siegel](https://github.com/aaron-siegel) in [#362](https://github.com/pixeltable/pixeltable/pull/362)
-* Various API changes by [@aaron-siegel](https://github.com/aaron-siegel) in [#351](https://github.com/pixeltable/pixeltable/pull/351)
-* PXT-274 - Use GPUs for sentence_transformers when available by [@anushas](https://github.com/anushas) in [#361](https://github.com/pixeltable/pixeltable/pull/361)
-* Standalone Next.JS and FastAPI Application to demonstrate how to use Pixeltable as backend. by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#348](https://github.com/pixeltable/pixeltable/pull/348)
-* Update .examples/README.md with corrected paths by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#364](https://github.com/pixeltable/pixeltable/pull/364)
-
-#### New Contributors
-* [@anushas](https://github.com/anushas) made their first contribution in [#359](https://github.com/pixeltable/pixeltable/pull/359)
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.2.22...v0.2.23
 
 ---
 
