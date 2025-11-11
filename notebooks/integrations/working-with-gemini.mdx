@@ -243,7 +243,7 @@ images_t = pxt.create_table('gemini_demo.images', {'prompt': pxt.String})
 config = GenerateImagesConfigDict(aspect_ratio='16:9')
 images_t.add_computed_column(generated_image=gemini.generate_images(
     images_t.prompt,
-    model='imagen-3.0-generate-002',
+    model='imagen-4.0-generate-001',
     config=config
 ))
 ```
