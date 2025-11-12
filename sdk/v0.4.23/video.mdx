@@ -3,6 +3,8 @@ title: "pixeltable.functions.video"
 sidebarTitle: "video"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.video
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/video.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -10,7 +12,7 @@ Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs)
 
 
 
-## udf `clip()`
+## `udf` clip()
 
 ```python
 clip(
@@ -26,7 +28,6 @@ clip(
 ```
 
 Extract a clip from a video, specified by `start_time` and either `end_time` or `duration` (in seconds).
-
 
 If `start_time` is beyond the end of the video, returns None. Can only specify one of `end_time` and `duration`. If both `end_time` and `duration` are None, the clip goes to the end of the video.
 
@@ -51,14 +52,13 @@ If `start_time` is beyond the end of the video, returns None. Can only specify o
 - `Video | None`: New video containing only the specified time range or None if start_time is beyond the end of the video.
 
 
-## udf `concat_videos()`
+## `udf` concat_videos()
 
 ```python
 concat_videos(videos: Json) -> Video
 ```
 
 Merge multiple videos into a single video.
-
 
 **Requirements:**
 
@@ -74,7 +74,7 @@ Merge multiple videos into a single video.
 - `Video`: A new video containing the merged videos.
 
 
-## udf `extract_audio()`
+## `udf` extract_audio()
 
 ```python
 extract_audio(
@@ -98,15 +98,17 @@ Extract an audio stream from a video.
 
 - `Audio`: The extracted audio.
 
-**Example:**
+**Examples:**
 
 Add a computed column to a table `tbl` that extracts audio from an existing column `video_col`:
 ```python
-tbl.add_computed_column(extracted_audio=tbl.video_col.extract_audio(format='flac'))
+tbl.add_computed_column(
+    extracted_audio=tbl.video_col.extract_audio(format='flac')
+)
 ```
 
 
-## udf `extract_frame()`
+## `udf` extract_frame()
 
 ```python
 extract_frame(video: Video, *, timestamp: Float) -> Image | None
@@ -124,7 +126,7 @@ Extract a single frame from a video at a specific timestamp.
 
 - `Image | None`: The extracted frame as a PIL Image, or None if the timestamp is beyond the video duration.
 
-**Example:**
+**Examples:**
 
 Extract the first frame from each video in the `video` column of the table `tbl`:
 ```python
@@ -133,11 +135,15 @@ tbl.select(tbl.video.extract_frame(0.0)).collect()
 
 Extract a frame close to the end of each video in the `video` column of the table `tbl`:
 ```python
-tbl.select(tbl.video.extract_frame(tbl.video.get_metadata().streams[0].duration_seconds - 0.1)).collect()
+tbl.select(
+    tbl.video.extract_frame(
+        tbl.video.get_metadata().streams[0].duration_seconds - 0.1
+    )
+).collect()
 ```
 
 
-## udf `get_duration()`
+## `udf` get_duration()
 
 ```python
 get_duration(video: Video) -> Float | None
@@ -155,7 +161,7 @@ Get video duration in seconds.
 - `Float | None`: The duration in seconds, or None if the duration cannot be determined.
 
 
-## udf `get_metadata()`
+## `udf` get_metadata()
 
 ```python
 get_metadata(video: Video) -> Json
@@ -206,7 +212,7 @@ Gets various metadata associated with a video file and returns it as a dictionar
   }
   ```
 
-**Example:**
+**Examples:**
 
 Extract metadata for files in the `video_col` column of the table `tbl`:
 ```python
@@ -214,7 +220,7 @@ tbl.select(tbl.video_col.get_metadata()).collect()
 ```
 
 
-## udf `overlay_text()`
+## `udf` overlay_text()
 
 ```python
 overlay_text(
@@ -237,7 +243,6 @@ overlay_text(
 ```
 
 Overlay text on a video with customizable positioning and styling.
-
 
 **Requirements:**
 
@@ -269,7 +274,7 @@ Overlay text on a video with customizable positioning and styling.
 
 - `Video`: A new video with the text overlay applied.
 
-**Example:**
+**Examples:**
 
 Add a simple text overlay to videos in a table:
 ```python
@@ -290,7 +295,7 @@ tbl.select(
         box_border=[6, 14],
         horizontal_margin=10,
         vertical_align='bottom',
-        vertical_margin=70,
+        vertical_margin=70
     )
 ).collect()
 ```
@@ -305,13 +310,13 @@ tbl.select(
         box=True,
         box_color='black',
         box_opacity=0.6,
-        box_border=[20, 10],
+        box_border=[20, 10]
     )
 ).collect()
 ```
 
 
-## udf `scene_detect_adaptive()`
+## `udf` scene_detect_adaptive()
 
 ```python
 scene_detect_adaptive(
@@ -331,10 +336,7 @@ scene_detect_adaptive(
 ) -> Json
 ```
 
-Detect scene cuts in a video using PySceneDetect's
-
-
-[AdaptiveDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.adaptive_detector.AdaptiveDetector).
+Detect scene cuts in a video using PySceneDetect's [AdaptiveDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.adaptive_detector.AdaptiveDetector).
 
 **Requirements:**
 
@@ -366,7 +368,7 @@ Detect scene cuts in a video using PySceneDetect's
 
   The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
 
-**Example:**
+**Examples:**
 
 Detect scene cuts with default parameters:
 ```python
@@ -380,12 +382,19 @@ tbl.select(tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)).collect()
 
 Use luminance-only detection with a longer minimum scene length:
 ```python
-tbl.select(tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)).collect()
+tbl.select(
+    tbl.video.scene_detect_adaptive(
+        luma_only=True,
+        min_scene_len=30
+    )
+).collect()
 ```
 
 Add scene cuts as a computed column:
 ```python
-tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_adaptive(adaptive_threshold=2.0))
+tbl.add_computed_column(
+    scene_cuts=tbl.video.scene_detect_adaptive(adaptive_threshold=2.0)
+)
 ```
 
 Analyze at a lower frame rate for faster processing:
@@ -394,7 +403,7 @@ tbl.select(tbl.video.scene_detect_adaptive(fps=2.0)).collect()
 ```
 
 
-## udf `scene_detect_content()`
+## `udf` scene_detect_content()
 
 ```python
 scene_detect_content(
@@ -413,10 +422,7 @@ scene_detect_content(
 ) -> Json
 ```
 
-Detect scene cuts in a video using PySceneDetect's
-
-
-[ContentDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.content_detector.ContentDetector).
+Detect scene cuts in a video using PySceneDetect's [ContentDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.content_detector.ContentDetector).
 
 **Requirements:**
 
@@ -447,7 +453,7 @@ Detect scene cuts in a video using PySceneDetect's
 
   The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
 
-**Example:**
+**Examples:**
 
 Detect scene cuts with default parameters:
 ```python
@@ -466,16 +472,24 @@ tbl.select(tbl.video.scene_detect_content(luma_only=True)).collect()
 
 Emphasize edge detection for scenes with similar colors:
 ```python
-tbl.select(tbl.video.scene_detect_content(delta_edges=1.0, delta_hue=0.5, delta_sat=0.5)).collect()
+tbl.select(
+    tbl.video.scene_detect_content(
+        delta_edges=1.0,
+        delta_hue=0.5,
+        delta_sat=0.5
+    )
+).collect()
 ```
 
 Add scene cuts as a computed column:
 ```python
-tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_content(threshold=20.0))
+tbl.add_computed_column(
+    scene_cuts=tbl.video.scene_detect_content(threshold=20.0)
+)
 ```
 
 
-## udf `scene_detect_hash()`
+## `udf` scene_detect_hash()
 
 ```python
 scene_detect_hash(
@@ -489,10 +503,7 @@ scene_detect_hash(
 ) -> Json
 ```
 
-Detect scene cuts in a video using PySceneDetect's
-
-
-[HashDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.hash_detector.HashDetector).
+Detect scene cuts in a video using PySceneDetect's [HashDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.hash_detector.HashDetector).
 
 HashDetector uses perceptual hashing for very fast scene detection. It computes a hash of each frame at reduced resolution and compares hash distances.
 
@@ -520,7 +531,7 @@ HashDetector uses perceptual hashing for very fast scene detection. It computes 
 
   The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
 
-**Example:**
+**Examples:**
 
 Detect scene cuts with default parameters:
 ```python
@@ -539,16 +550,23 @@ tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
 
 Use for fast processing with lower frame rate:
 ```python
-tbl.select(tbl.video.scene_detect_hash(fps=1.0, threshold=0.4)).collect()
+tbl.select(
+    tbl.video.scene_detect_hash(
+        fps=1.0,
+        threshold=0.4
+    )
+).collect()
 ```
 
 Add scene cuts as a computed column:
 ```python
-tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_hash())
+tbl.add_computed_column(
+    scene_cuts=tbl.video.scene_detect_hash()
+)
 ```
 
 
-## udf `scene_detect_histogram()`
+## `udf` scene_detect_histogram()
 
 ```python
 scene_detect_histogram(
@@ -561,10 +579,7 @@ scene_detect_histogram(
 ) -> Json
 ```
 
-Detect scene cuts in a video using PySceneDetect's
-
-
-[HistogramDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.histogram_detector.HistogramDetector).
+Detect scene cuts in a video using PySceneDetect's [HistogramDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.histogram_detector.HistogramDetector).
 
 HistogramDetector compares frame histograms on the Y (luminance) channel after YUV conversion. It detects scenes based on relative histogram differences and is more robust to gradual lighting changes than content-based detection.
 
@@ -591,7 +606,7 @@ HistogramDetector compares frame histograms on the Y (luminance) channel after Y
 
   The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
 
-**Example:**
+**Examples:**
 
 Detect scene cuts with default parameters:
 ```python
@@ -610,16 +625,22 @@ tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
 
 Use with a longer minimum scene length:
 ```python
-tbl.select(tbl.video.scene_detect_histogram(min_scene_len=30)).collect()
+tbl.select(
+    tbl.video.scene_detect_histogram(
+        min_scene_len=30
+    )
+).collect()
 ```
 
 Add scene cuts as a computed column:
 ```python
-tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_histogram(threshold=0.04))
+tbl.add_computed_column(
+    scene_cuts=tbl.video.scene_detect_histogram(threshold=0.04)
+)
 ```
 
 
-## udf `scene_detect_threshold()`
+## `udf` scene_detect_threshold()
 
 ```python
 scene_detect_threshold(
@@ -634,10 +655,7 @@ scene_detect_threshold(
 ) -> Json
 ```
 
-Detect fade-in and fade-out transitions in a video using PySceneDetect's
-
-
-[ThresholdDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.threshold_detector.ThresholdDetector).
+Detect fade-in and fade-out transitions in a video using PySceneDetect's [ThresholdDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.threshold_detector.ThresholdDetector).
 
 ThresholdDetector identifies scenes by detecting when pixel brightness falls below or rises above a threshold value, suitable for detecting fade-to-black, fade-to-white, and similar transitions.
 
@@ -668,7 +686,7 @@ ThresholdDetector identifies scenes by detecting when pixel brightness falls bel
 
   The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
 
-**Example:**
+**Examples:**
 
 Detect fade-to-black transitions with default parameters:
 ```python
@@ -687,16 +705,22 @@ tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
 
 Add final scene boundary:
 ```python
-tbl.select(tbl.video.scene_detect_threshold(add_final_scene=True)).collect()
+tbl.select(
+    tbl.video.scene_detect_threshold(
+        add_final_scene=True
+    )
+).collect()
 ```
 
 Add fade transitions as a computed column:
 ```python
-tbl.add_computed_column(fade_cuts=tbl.video.scene_detect_threshold(threshold=15.0))
+tbl.add_computed_column(
+    fade_cuts=tbl.video.scene_detect_threshold(threshold=15.0)
+)
 ```
 
 
-## udf `segment_video()`
+## `udf` segment_video()
 
 ```python
 segment_video(
@@ -711,7 +735,6 @@ segment_video(
 ```
 
 Split a video into segments.
-
 
 **Requirements:**
 
@@ -733,18 +756,24 @@ Split a video into segments.
 
 - `Json`: List of file paths for the generated video segments.
 
-**Example:**
+**Examples:**
 
 Split a video at 1 minute intervals using fast mode:
 ```python
-tbl.select(segment_paths=tbl.video.segment_video(duration=60, mode='fast')).collect()
+tbl.select
+    segment_paths=tbl.video.segment_video(
+        duration=60, mode='fast'
+    )
+).collect()
 ```
 
 Split video into exact 10-second segments with default accurate mode, using the libx264 encoder with a CRF of 23 and slow preset (for smaller output files):
 ```python
 tbl.select(
     segment_paths=tbl.video.segment_video(
-        duration=10, video_encoder='libx264', video_encoder_args={'crf': 23, 'preset': 'slow'}
+        duration=10,
+        video_encoder='libx264',
+        video_encoder_args={'crf': 23, 'preset': 'slow'}
     )
 ).collect()
 ```
@@ -752,11 +781,15 @@ tbl.select(
 Split video into two parts at the midpoint:
 ```python
 duration = tbl.video.get_duration()
-tbl.select(segment_paths=tbl.video.segment_video(segment_times=[duration / 2])).collect()
+tbl.select(
+    segment_paths=tbl.video.segment_video(
+        segment_times=[duration / 2]
+    )
+).collect()
 ```
 
 
-## udf `with_audio()`
+## `udf` with_audio()
 
 ```python
 with_audio(
@@ -770,10 +803,7 @@ with_audio(
 ) -> Video
 ```
 
-Creates a new video that combines the video stream from `video` and the audio stream from `audio`.
-
-
-The `start_time` and `duration` parameters can be used to select a specific time range from each input. If the audio input (or selected time range) is longer than the video, the audio will be truncated.
+Creates a new video that combines the video stream from `video` and the audio stream from `audio`. The `start_time` and `duration` parameters can be used to select a specific time range from each input. If the audio input (or selected time range) is longer than the video, the audio will be truncated.
 
 **Requirements:**
 
@@ -793,7 +823,7 @@ The `start_time` and `duration` parameters can be used to select a specific time
 
 - `Video`: A new video file with the audio track added.
 
-**Example:**
+**Examples:**
 
 Add background music to a video:
 ```python
@@ -802,14 +832,24 @@ tbl.select(tbl.video.with_audio(tbl.music_track)).collect()
 
 Add audio starting 5 seconds into both files:
 ```python
-tbl.select(tbl.video.with_audio(tbl.music_track, video_start_time=5.0, audio_start_time=5.0)).collect()
+tbl.select(
+    tbl.video.with_audio(
+        tbl.music_track,
+        video_start_time=5.0,
+        audio_start_time=5.0
+    )
+).collect()
 ```
 
 Use a 10-second clip from the middle of both files:
 ```python
 tbl.select(
     tbl.video.with_audio(
-        tbl.music_track, video_start_time=30.0, video_duration=10.0, audio_start_time=15.0, audio_duration=10.0
+        tbl.music_track,
+        video_start_time=30.0,
+        video_duration=10.0,
+        audio_start_time=15.0,
+        audio_duration=10.0
     )
 ).collect()
 ```

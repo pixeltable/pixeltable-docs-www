@@ -3,6 +3,8 @@ title: "pixeltable.functions.openrouter"
 sidebarTitle: "openrouter"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.openrouter
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/openrouter.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -12,7 +14,7 @@ OpenRouter provides a unified interface to multiple LLM providers. In order to u
 
 
 
-## udf `chat_completions()`
+## `udf` chat_completions()
 
 ```python
 chat_completions(
@@ -28,7 +30,6 @@ chat_completions(
 ```
 
 Chat Completion API via OpenRouter.
-
 
 OpenRouter provides access to multiple LLM providers through a unified API. For additional details, see: [https://openrouter.ai/docs](https://openrouter.ai/docs)
 
@@ -55,19 +56,26 @@ Request throttling: Applies the rate limit set in the config (section `openroute
 
 - `Json`: A dictionary containing the response in OpenAI format.
 
-**Example:**
+**Examples:**
 
 Basic chat completion:
 ```python
 messages = [{'role': 'user', 'content': tbl.prompt}]
-tbl.add_computed_column(response=chat_completions(messages, model='anthropic/claude-3.5-sonnet'))
+tbl.add_computed_column(
+    response=chat_completions(
+        messages,
+        model='anthropic/claude-3.5-sonnet'
+    )
+)
 ```
 
 With provider routing:
 ```python
 tbl.add_computed_column(
     response=chat_completions(
-        messages, model='anthropic/claude-3.5-sonnet', provider={'require_parameters': True, 'order': ['Anthropic']}
+        messages,
+        model='anthropic/claude-3.5-sonnet',
+        provider={'require_parameters': True, 'order': ['Anthropic']}
     )
 )
 ```
@@ -78,7 +86,7 @@ tbl.add_computed_column(
     response=chat_completions(
         messages,
         model='openai/gpt-4',
-        transforms=['middle-out'],  # Optimize for long contexts
+        transforms=['middle-out']  # Optimize for long contexts
     )
 )
 ```

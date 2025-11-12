@@ -3,6 +3,8 @@ title: "pixeltable.functions.whisperx"
 sidebarTitle: "whisperx"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.whisperx
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/whisperx.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -10,7 +12,7 @@ WhisperX audio transcription and diarization functions.
 
 
 
-## udf `transcribe()`
+## `udf` transcribe()
 
 ```python
 transcribe(
@@ -33,7 +35,6 @@ transcribe(
 ```
 
 Transcribe an audio file using WhisperX.
-
 
 This UDF runs a transcription model *locally* using the WhisperX library, equivalent to the WhisperX `transcribe` function, as described in the [WhisperX library documentation](https://github.com/m-bain/whisperX).
 
@@ -65,7 +66,7 @@ If `diarize=True`, then speaker diarization will also be performed. Several of t
 
 - `Json`: A dictionary containing the audio transcription, diarization (if enabled), and various other metadata.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `tiny.en` to an existing Pixeltable column `tbl.audio` of the table `tbl`:
 ```python
@@ -74,6 +75,10 @@ tbl.add_computed_column(result=transcribe(tbl.audio, model='tiny.en'))
 
 Add a computed column that applies the model `tiny.en` to an existing Pixeltable column `tbl.audio` of the table `tbl`, with speaker diarization enabled, expecting at least 2 speakers:
 ```python
-tbl.add_computed_column(result=transcribe(tbl.audio, model='tiny.en', diarize=True, min_speakers=2))
+tbl.add_computed_column(
+    result=transcribe(
+        tbl.audio, model='tiny.en', diarize=True, min_speakers=2
+    )
+)
 ```
 

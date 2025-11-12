@@ -3,6 +3,8 @@ title: "pixeltable.functions.mistralai"
 sidebarTitle: "mistralai"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.mistralai
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/mistralai.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -10,7 +12,7 @@ Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs)
 
 
 
-## udf `chat_completions()`
+## `udf` chat_completions()
 
 ```python
 chat_completions(
@@ -22,7 +24,6 @@ chat_completions(
 ```
 
 Chat Completion API.
-
 
 Equivalent to the Mistral AI `chat/completions` API endpoint. For additional details, see: [https://docs.mistral.ai/api/#tag/chat](https://docs.mistral.ai/api/#tag/chat)
 
@@ -43,7 +44,7 @@ Request throttling: Applies the rate limit set in the config (section `mistral`,
 
 - `Json`: A dictionary containing the response and other metadata.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `mistral-latest-small` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
 ```python
@@ -52,14 +53,13 @@ tbl.add_computed_column(response=completions(messages, model='mistral-latest-sma
 ```
 
 
-## udf `embeddings()`
+## `udf` embeddings()
 
 ```python
 embeddings(input: String, *, model: String) -> Array[(None,), Float]
 ```
 
 Embeddings API.
-
 
 Equivalent to the Mistral AI `embeddings` API endpoint. For additional details, see: [https://docs.mistral.ai/api/#tag/embeddings](https://docs.mistral.ai/api/#tag/embeddings)
 
@@ -80,7 +80,7 @@ Request throttling: Applies the rate limit set in the config (section `mistral`,
 - `Array[(None,), Float]`: An array representing the application of the given embedding to `input`.
 
 
-## udf `fim_completions()`
+## `udf` fim_completions()
 
 ```python
 fim_completions(
@@ -92,7 +92,6 @@ fim_completions(
 ```
 
 Fill-in-the-middle Completion API.
-
 
 Equivalent to the Mistral AI `fim/completions` API endpoint. For additional details, see: [https://docs.mistral.ai/api/#tag/fim](https://docs.mistral.ai/api/#tag/fim)
 
@@ -113,7 +112,7 @@ Request throttling: Applies the rate limit set in the config (section `mistral`,
 
 - `Json`: A dictionary containing the response and other metadata.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `codestral-latest` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
 ```python

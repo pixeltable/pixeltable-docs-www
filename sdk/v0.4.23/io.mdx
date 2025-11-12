@@ -3,6 +3,8 @@ title: "pixeltable.io"
 sidebarTitle: "io"
 icon: "square-m"
 ---
+# `module` pixeltable.io
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/io/__init__.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -10,7 +12,7 @@ Functions for importing and exporting Pixeltable data.
 
 
 
-## func `create_label_studio_project()`
+## `func` create_label_studio_project()
 
 ```python
 create_label_studio_project(
@@ -27,7 +29,6 @@ create_label_studio_project(
 ```
 
 Create a new Label Studio project and link it to the specified [`Table`](pixeltable.Table).
-
 
 - A tutorial notebook with fully worked examples can be found here: [Using Label Studio for Annotations with Pixeltable](https://pixeltable.readme.io/docs/label-studio)
 
@@ -70,18 +71,18 @@ The API key and URL for a valid Label Studio server must be specified in Pixelta
 
 - `UpdateStatus`: An `UpdateStatus` representing the status of any synchronization operations that occurred.
 
-**Example:**
+**Examples:**
 
 Create a Label Studio project whose tasks correspond to videos stored in the `video_col` column of the table `tbl`:
 ```python
 config = """
 <View>
-<Video name="video_obj" value="$video_col"/>
-<Choices name="video-category" toName="video" showInLine="true">
-<Choice value="city"/>
-<Choice value="food"/>
-<Choice value="sports"/>
-</Choices>
+    <Video name="video_obj" value="$video_col"/>
+    <Choices name="video-category" toName="video" showInLine="true">
+        <Choice value="city"/>
+        <Choice value="food"/>
+        <Choice value="sports"/>
+    </Choices>
 </View>
 """
 create_label_studio_project(tbl, config)
@@ -90,12 +91,15 @@ create_label_studio_project(tbl, config)
 Create a Label Studio project with the same configuration, using `media_import_method='url'`, whose media are stored in an S3 bucket:
 ```python
 create_label_studio_project(
-    tbl, config, media_import_method='url', s3_configuration={'bucket': 'my-bucket', 'region_name': 'us-east-2'}
+    tbl,
+    config,
+    media_import_method='url',
+    s3_configuration={'bucket': 'my-bucket', 'region_name': 'us-east-2'}
 )
 ```
 
 
-## func `export_images_as_fo_dataset()`
+## `func` export_images_as_fo_dataset()
 
 ```python
 export_images_as_fo_dataset(
@@ -107,10 +111,7 @@ export_images_as_fo_dataset(
 ) -> fo.Dataset
 ```
 
-Export images from a Pixeltable table as a Voxel51 dataset. The data must consist of a single column
-
-
-(or expression) containing image data, along with optional additional columns containing labels. Currently, only classification and detection labels are supported.
+Export images from a Pixeltable table as a Voxel51 dataset. The data must consist of a single column (or expression) containing image data, along with optional additional columns containing labels. Currently, only classification and detection labels are supported.
 
 The [Working with Voxel51 in Pixeltable](https://docs.pixeltable.com/examples/vision/voxel51) tutorial contains a fully worked example showing how to export data from a Pixeltable table and load it into Voxel51.
 
@@ -147,15 +148,19 @@ The label parameters accept one or more sets of labels of each type. If a single
 
 - `'fo.Dataset'`: A Voxel51 dataset.
 
-**Example:**
+**Examples:**
 
 Export the images in the `image` column of the table `tbl` as a Voxel51 dataset, using classification labels from `tbl.classifications`:
 ```python
-export_images_as_fo_dataset(tbl, tbl.image, classifications=tbl.classifications)
+export_images_as_fo_dataset(
+    tbl,
+    tbl.image,
+    classifications=tbl.classifications
+)
 ```
 
 
-## func `export_lancedb()`
+## `func` export_lancedb()
 
 ```python
 export_lancedb(
@@ -168,7 +173,6 @@ export_lancedb(
 ```
 
 Exports a dataframe's data to a LanceDB table.
-
 
 This utilizes LanceDB's streaming interface for efficient table creation, via a sequence of in-memory pyarrow `RecordBatches`, the size of which can be controlled with the `batch_size_bytes` parameter.
 
@@ -189,7 +193,7 @@ This utilizes LanceDB's streaming interface for efficient table creation, via a 
   - `'append'`: append to the existing table
 
 
-## func `export_parquet()`
+## `func` export_parquet()
 
 ```python
 export_parquet(
@@ -202,7 +206,6 @@ export_parquet(
 
 Exports a dataframe's data to one or more Parquet files. Requires pyarrow to be installed.
 
-
 It additionally writes the pixeltable metadata in a json file, which would otherwise not be available in the parquet format.
 
 
@@ -214,7 +217,7 @@ It additionally writes the pixeltable metadata in a json file, which would other
 - **`inline_images `** (`Any`): If True, images are stored inline in the parquet file. This is useful for small images, to be imported as pytorch dataset. But can be inefficient for large images, and cannot be imported into pixeltable. If False, will raise an error if the Dataframe has any image column. Default False.
 
 
-## func `import_csv()`
+## `func` import_csv()
 
 ```python
 import_csv(
@@ -228,10 +231,7 @@ import_csv(
 ) -> pixeltable.catalog.table.Table
 ```
 
-Creates a new base table from a csv file. This is a convenience method and is equivalent
-
-
-to calling `import_pandas(table_path, pd.read_csv(filepath_or_buffer, **kwargs), schema=schema)`. See the Pandas documentation for [`read_csv`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) for more details.
+Creates a new base table from a csv file. This is a convenience method and is equivalent to calling `import_pandas(table_path, pd.read_csv(filepath_or_buffer, **kwargs), schema=schema)`. See the Pandas documentation for [`read_csv`](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) for more details.
 
 
 **Returns:**
@@ -239,7 +239,7 @@ to calling `import_pandas(table_path, pd.read_csv(filepath_or_buffer, **kwargs),
 - `pixeltable.catalog.table.Table`: A handle to the newly created [`Table`](pixeltable.Table).
 
 
-## func `import_excel()`
+## `func` import_excel()
 
 ```python
 import_excel(
@@ -254,10 +254,7 @@ import_excel(
 ) -> pixeltable.catalog.table.Table
 ```
 
-Creates a new base table from an Excel (.xlsx) file. This is a convenience method and is
-
-
-equivalent to calling `import_pandas(table_path, pd.read_excel(io, *args, **kwargs), schema=schema)`. See the Pandas documentation for [`read_excel`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) for more details.
+Creates a new base table from an Excel (.xlsx) file. This is a convenience method and is equivalent to calling `import_pandas(table_path, pd.read_excel(io, *args, **kwargs), schema=schema)`. See the Pandas documentation for [`read_excel`](https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html) for more details.
 
 
 **Returns:**
@@ -265,7 +262,7 @@ equivalent to calling `import_pandas(table_path, pd.read_excel(io, *args, **kwar
 - `pixeltable.catalog.table.Table`: A handle to the newly created [`Table`](pixeltable.Table).
 
 
-## func `import_huggingface_dataset()`
+## `func` import_huggingface_dataset()
 
 ```python
 import_huggingface_dataset(
@@ -278,10 +275,7 @@ import_huggingface_dataset(
 ) -> pxt.Table
 ```
 
-Create a new base table from a Huggingface dataset, or dataset dict with multiple splits.
-
-
-Requires `datasets` library to be installed.
+Create a new base table from a Huggingface dataset, or dataset dict with multiple splits. Requires `datasets` library to be installed.
 
 
 **Parameters:**
@@ -297,7 +291,7 @@ Requires `datasets` library to be installed.
 - `pxt.Table`: A handle to the newly created [`Table`](pixeltable.Table).
 
 
-## func `import_json()`
+## `func` import_json()
 
 ```python
 import_json(
@@ -312,10 +306,7 @@ import_json(
 ) -> pxt.Table
 ```
 
-Creates a new base table from a JSON file. This is a convenience method and is
-
-
-equivalent to calling `import_data(table_path, json.loads(file_contents, **kwargs), ...)`, where `file_contents` is the contents of the specified `filepath_or_url`.
+Creates a new base table from a JSON file. This is a convenience method and is equivalent to calling `import_data(table_path, json.loads(file_contents, **kwargs), ...)`, where `file_contents` is the contents of the specified `filepath_or_url`.
 
 
 **Parameters:**
@@ -333,7 +324,7 @@ equivalent to calling `import_data(table_path, json.loads(file_contents, **kwarg
 - `pxt.Table`: A handle to the newly created [`Table`](pixeltable.Table).
 
 
-## func `import_pandas()`
+## `func` import_pandas()
 
 ```python
 import_pandas(
@@ -347,10 +338,7 @@ import_pandas(
 ) -> pixeltable.catalog.table.Table
 ```
 
-Creates a new base table from a Pandas
-
-
-[`DataFrame`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html), with the specified name. The schema of the table will be inferred from the DataFrame.
+Creates a new base table from a Pandas [`DataFrame`](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html), with the specified name. The schema of the table will be inferred from the DataFrame.
 
 The column names of the new table will be identical to those in the DataFrame, as long as they are valid Pixeltable identifiers. If a column name is not a valid Pixeltable identifier, it will be normalized according to the following procedure:
 
@@ -370,7 +358,7 @@ The column names of the new table will be identical to those in the DataFrame, a
 - `pixeltable.catalog.table.Table`: A handle to the newly created [`Table`](pixeltable.Table).
 
 
-## func `import_parquet()`
+## `func` import_parquet()
 
 ```python
 import_parquet(
@@ -399,7 +387,7 @@ Creates a new base table from a Parquet file or set of files. Requires pyarrow t
 - `pxt.Table`: A handle to the newly created table.
 
 
-## func `import_rows()`
+## `func` import_rows()
 
 ```python
 import_rows(
@@ -413,10 +401,7 @@ import_rows(
 ) -> pxt.Table
 ```
 
-Creates a new base table from a list of dictionaries. The dictionaries must be of the
-
-
-form `{column_name: value, ...}`. Pixeltable will attempt to infer the schema of the table from the supplied data, using the most specific type that can represent all the values in a column.
+Creates a new base table from a list of dictionaries. The dictionaries must be of the form `{column_name: value, ...}`. Pixeltable will attempt to infer the schema of the table from the supplied data, using the most specific type that can represent all the values in a column.
 
 If `schema_overrides` is specified, then for each entry `(column_name, type)` in `schema_overrides`, Pixeltable will force the specified column to the specified type (and will not attempt any type inference for that column).
 

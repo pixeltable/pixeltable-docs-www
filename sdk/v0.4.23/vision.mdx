@@ -3,6 +3,8 @@ title: "pixeltable.functions.vision"
 sidebarTitle: "vision"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.vision
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/vision.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -20,7 +22,7 @@ t.select(pxtv.draw_bounding_boxes(t.img, boxes=t.boxes, label=t.labels)).collect
 
 
 
-## func `draw_bounding_boxes()`
+## `func` draw_bounding_boxes()
 
 ```python
 draw_bounding_boxes(
@@ -37,7 +39,6 @@ draw_bounding_boxes(
 ```
 
 Draws bounding boxes on the given image.
-
 
 Labels can be any type that supports `str()` and is hashable (e.g., strings, ints, etc.).
 
@@ -63,7 +64,7 @@ If no colors are specified, this function randomly assigns each label a specific
 - `Image`: The image with bounding boxes drawn on it.
 
 
-## func `eval_detections()`
+## `func` eval_detections()
 
 ```python
 eval_detections(
