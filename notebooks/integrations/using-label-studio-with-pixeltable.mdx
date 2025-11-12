@@ -1,7 +1,7 @@
 ---
 title: "Using Label Studio for Annotations with Pixeltable"
 icon: "notebook"
-description: "[Open in Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/using-label-studio-with-pixeltable.ipynb) | [Open in Colab](https://colab.research.google.com/github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/using-label-studio-with-pixeltable.ipynb) | [View on GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/using-label-studio-with-pixeltable.ipynb)"
+description: "[Open in Kaggle](https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/using-label-studio-with-pixeltable.ipynb) | [Open in Colab](https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/using-label-studio-with-pixeltable.ipynb) | [View on GitHub](https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/using-label-studio-with-pixeltable.ipynb)"
 ---
 
 
@@ -444,13 +444,14 @@ This tutorial demonstrates how to integrate Pixeltable with Label
 Studio, in order to provide seamless management of annotations data
 across the annotation workflow. We’ll assume that you’re at least
 somewhat familiar with Pixeltable and have read the [Pixeltable
-Basics](https://pixeltable.readme.io/docs/pixeltable-basics) tutorial.
+Basics](https://docs.pixeltable.com/notebooks/pixeltable-basics)
+tutorial.
 
 **This tutorial can only be run in a local Pixeltable installation, not
 in Colab or Kaggle**, since it relies on spinning up a locally running
 Label Studio instance. See the [Installation
-Guide](https://pixeltable.readme.io/docs/installation) for instructions
-on how to set up a local Pixeltable instance.
+Guide](https://docs.pixeltable.com/overview/installation) for
+instructions on how to set up a local Pixeltable instance.
 
 To begin, let’s ensure the requisite dependencies are installed.
 
@@ -882,11 +883,11 @@ effect of adding the preannotations from Resnet-50 to our workflow.
 ## Incremental Updates
 
 As we saw in the [Pixeltable
-Basics](https://pixeltable.readme.io/docs/pixeltable-basics) tutorial,
-adding new data to Pixeltable results in incremental updates of
-everything downstream. We can see this by inserting a new video into our
-base videos table: all of the downstream views and computed columns are
-updated automatically, including the video metadata, frames, and
+Basics](https://docs.pixeltable.com/notebooks/pixeltable-basics)
+tutorial, adding new data to Pixeltable results in incremental updates
+of everything downstream. We can see this by inserting a new video into
+our base videos table: all of the downstream views and computed columns
+are updated automatically, including the video metadata, frames, and
 preannotations.
 
 The update may take some time, so please be patient (it involves a

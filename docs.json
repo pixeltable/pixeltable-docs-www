@@ -11,7 +11,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "User Guide",
         "groups": [
           {
             "group": "Welcome to Pixeltable",
@@ -57,6 +57,7 @@
               {
                 "group": "Feature Guides",
                 "pages": [
+                  "notebooks/feature-guides/data-sharing",
                   "notebooks/feature-guides/embedding-indexes",
                   "notebooks/feature-guides/time-zones",
                   "notebooks/feature-guides/udfs-in-pixeltable",
@@ -93,61 +94,6 @@
                   "notebooks/use-cases/rag-operations"
                 ]
               }
-            ]
-          },
-          {
-            "group": "Tutorials",
-            "pages": [
-              "tutorials/fundamentals",
-              "tutorials/feature-guide"
-            ]
-          },
-          {
-            "group": "Libraries",
-            "pages": [
-              "libraries/pixelagent",
-              "libraries/mcp",
-              "libraries/yolox"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Examples",
-        "groups": [
-          {
-            "group": "Explore",
-            "pages": [
-              "examples/use-cases",
-              "examples/interactive-demos",
-              "examples/sample-apps"
-            ]
-          },
-          {
-            "group": "Chatbot",
-            "pages": [
-              "examples/chat/multimodal",
-              "examples/chat/memory",
-              "examples/chat/tools",
-              "examples/chat/evals"
-            ]
-          },
-          {
-            "group": "Computer Vision",
-            "pages": [
-              "examples/vision/label-studio",
-              "examples/vision/voxel51",
-              "examples/vision/yolox"
-            ]
-          },
-          {
-            "group": "Semantic Search",
-            "pages": [
-              "examples/search/audio",
-              "examples/search/images",
-              "examples/search/PDF",
-              "examples/search/website",
-              "examples/search/video"
             ]
           }
         ]
@@ -237,7 +183,7 @@
             ]
           },
           {
-            "dropdown": "v0.4.24.dev17.9ff8abe8",
+            "dropdown": "v0.4.25.dev6.8bd67809",
             "icon": "rocket",
             "groups": [
               {
@@ -246,75 +192,127 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.4.24.dev17.9ff8abe8/pixeltable",
-                      "sdk/v0.4.24.dev17.9ff8abe8/table",
-                      "sdk/v0.4.24.dev17.9ff8abe8/dataframe",
-                      "sdk/v0.4.24.dev17.9ff8abe8/columnmetadata",
-                      "sdk/v0.4.24.dev17.9ff8abe8/dircontents",
-                      "sdk/v0.4.24.dev17.9ff8abe8/indexmetadata",
-                      "sdk/v0.4.24.dev17.9ff8abe8/tablemetadata",
-                      "sdk/v0.4.24.dev17.9ff8abe8/updatestatus",
-                      "sdk/v0.4.24.dev17.9ff8abe8/versionmetadata"
+                      "sdk/v0.4.25.dev6.8bd67809/pixeltable",
+                      "sdk/v0.4.25.dev6.8bd67809/table",
+                      "sdk/v0.4.25.dev6.8bd67809/dataframe",
+                      "sdk/v0.4.25.dev6.8bd67809/columnmetadata",
+                      "sdk/v0.4.25.dev6.8bd67809/dircontents",
+                      "sdk/v0.4.25.dev6.8bd67809/indexmetadata",
+                      "sdk/v0.4.25.dev6.8bd67809/tablemetadata",
+                      "sdk/v0.4.25.dev6.8bd67809/updatestatus",
+                      "sdk/v0.4.25.dev6.8bd67809/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.4.24.dev17.9ff8abe8/audio",
-                      "sdk/v0.4.24.dev17.9ff8abe8/date",
-                      "sdk/v0.4.24.dev17.9ff8abe8/image",
-                      "sdk/v0.4.24.dev17.9ff8abe8/json",
-                      "sdk/v0.4.24.dev17.9ff8abe8/math",
-                      "sdk/v0.4.24.dev17.9ff8abe8/string",
-                      "sdk/v0.4.24.dev17.9ff8abe8/timestamp",
-                      "sdk/v0.4.24.dev17.9ff8abe8/video"
+                      "sdk/v0.4.25.dev6.8bd67809/audio",
+                      "sdk/v0.4.25.dev6.8bd67809/date",
+                      "sdk/v0.4.25.dev6.8bd67809/image",
+                      "sdk/v0.4.25.dev6.8bd67809/json",
+                      "sdk/v0.4.25.dev6.8bd67809/math",
+                      "sdk/v0.4.25.dev6.8bd67809/string",
+                      "sdk/v0.4.25.dev6.8bd67809/timestamp",
+                      "sdk/v0.4.25.dev6.8bd67809/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.4.24.dev17.9ff8abe8/anthropic",
-                      "sdk/v0.4.24.dev17.9ff8abe8/bedrock",
-                      "sdk/v0.4.24.dev17.9ff8abe8/deepseek",
-                      "sdk/v0.4.24.dev17.9ff8abe8/fireworks",
-                      "sdk/v0.4.24.dev17.9ff8abe8/gemini",
-                      "sdk/v0.4.24.dev17.9ff8abe8/groq",
-                      "sdk/v0.4.24.dev17.9ff8abe8/huggingface",
-                      "sdk/v0.4.24.dev17.9ff8abe8/llama_cpp",
-                      "sdk/v0.4.24.dev17.9ff8abe8/mistralai",
-                      "sdk/v0.4.24.dev17.9ff8abe8/ollama",
-                      "sdk/v0.4.24.dev17.9ff8abe8/openai",
-                      "sdk/v0.4.24.dev17.9ff8abe8/openrouter",
-                      "sdk/v0.4.24.dev17.9ff8abe8/replicate",
-                      "sdk/v0.4.24.dev17.9ff8abe8/reve",
-                      "sdk/v0.4.24.dev17.9ff8abe8/together",
-                      "sdk/v0.4.24.dev17.9ff8abe8/vision",
-                      "sdk/v0.4.24.dev17.9ff8abe8/whisper",
-                      "sdk/v0.4.24.dev17.9ff8abe8/yolox",
-                      "sdk/v0.4.24.dev17.9ff8abe8/whisperx"
+                      "sdk/v0.4.25.dev6.8bd67809/anthropic",
+                      "sdk/v0.4.25.dev6.8bd67809/bedrock",
+                      "sdk/v0.4.25.dev6.8bd67809/deepseek",
+                      "sdk/v0.4.25.dev6.8bd67809/fireworks",
+                      "sdk/v0.4.25.dev6.8bd67809/gemini",
+                      "sdk/v0.4.25.dev6.8bd67809/groq",
+                      "sdk/v0.4.25.dev6.8bd67809/huggingface",
+                      "sdk/v0.4.25.dev6.8bd67809/llama_cpp",
+                      "sdk/v0.4.25.dev6.8bd67809/mistralai",
+                      "sdk/v0.4.25.dev6.8bd67809/ollama",
+                      "sdk/v0.4.25.dev6.8bd67809/openai",
+                      "sdk/v0.4.25.dev6.8bd67809/openrouter",
+                      "sdk/v0.4.25.dev6.8bd67809/replicate",
+                      "sdk/v0.4.25.dev6.8bd67809/reve",
+                      "sdk/v0.4.25.dev6.8bd67809/together",
+                      "sdk/v0.4.25.dev6.8bd67809/vision",
+                      "sdk/v0.4.25.dev6.8bd67809/whisper",
+                      "sdk/v0.4.25.dev6.8bd67809/yolox",
+                      "sdk/v0.4.25.dev6.8bd67809/whisperx"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/v0.4.24.dev17.9ff8abe8/iterators",
-                      "sdk/v0.4.24.dev17.9ff8abe8/audiosplitter",
-                      "sdk/v0.4.24.dev17.9ff8abe8/componentiterator",
-                      "sdk/v0.4.24.dev17.9ff8abe8/documentsplitter",
-                      "sdk/v0.4.24.dev17.9ff8abe8/frameiterator",
-                      "sdk/v0.4.24.dev17.9ff8abe8/stringsplitter",
-                      "sdk/v0.4.24.dev17.9ff8abe8/tileiterator",
-                      "sdk/v0.4.24.dev17.9ff8abe8/videosplitter"
+                      "sdk/v0.4.25.dev6.8bd67809/iterators",
+                      "sdk/v0.4.25.dev6.8bd67809/audiosplitter",
+                      "sdk/v0.4.25.dev6.8bd67809/componentiterator",
+                      "sdk/v0.4.25.dev6.8bd67809/documentsplitter",
+                      "sdk/v0.4.25.dev6.8bd67809/frameiterator",
+                      "sdk/v0.4.25.dev6.8bd67809/stringsplitter",
+                      "sdk/v0.4.25.dev6.8bd67809/tileiterator",
+                      "sdk/v0.4.25.dev6.8bd67809/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.4.24.dev17.9ff8abe8/io"
+                      "sdk/v0.4.25.dev6.8bd67809/io"
                     ]
                   }
                 ]
               }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Cloud",
+        "groups": [
+          {
+            "group": "Cloud",
+            "pages": [
+              "cloud/get-started",
+              "cloud/faq"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Examples",
+        "groups": [
+          {
+            "group": "Explore",
+            "pages": [
+              "examples/use-cases",
+              "examples/interactive-demos",
+              "examples/sample-apps"
+            ]
+          },
+          {
+            "group": "Chatbot",
+            "pages": [
+              "examples/chat/multimodal",
+              "examples/chat/memory",
+              "examples/chat/tools",
+              "examples/chat/evals"
+            ]
+          },
+          {
+            "group": "Computer Vision",
+            "pages": [
+              "examples/vision/label-studio",
+              "examples/vision/voxel51",
+              "examples/vision/yolox"
+            ]
+          },
+          {
+            "group": "Semantic Search",
+            "pages": [
+              "examples/search/audio",
+              "examples/search/images",
+              "examples/search/PDF",
+              "examples/search/website",
+              "examples/search/video"
             ]
           }
         ]
@@ -344,18 +342,6 @@
             "group": "Release History",
             "pages": [
               "changelog/changelog"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Support",
-        "groups": [
-          {
-            "group": "Support",
-            "pages": [
-              "support/getting-help",
-              "support/faq"
             ]
           }
         ]
