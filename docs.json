@@ -11,7 +11,7 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "User Guide",
         "groups": [
           {
             "group": "Welcome to Pixeltable",
@@ -95,20 +95,101 @@
                 ]
               }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "SDK",
+        "dropdowns": [
           {
-            "group": "Tutorials",
-            "pages": [
-              "tutorials/fundamentals",
-              "tutorials/feature-guide"
+            "dropdown": "latest",
+            "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/latest/pixeltable",
+                      "sdk/latest/table",
+                      "sdk/latest/dataframe",
+                      "sdk/latest/columnmetadata",
+                      "sdk/latest/dircontents",
+                      "sdk/latest/indexmetadata",
+                      "sdk/latest/tablemetadata",
+                      "sdk/latest/updatestatus",
+                      "sdk/latest/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/latest/audio",
+                      "sdk/latest/date",
+                      "sdk/latest/image",
+                      "sdk/latest/json",
+                      "sdk/latest/math",
+                      "sdk/latest/string",
+                      "sdk/latest/timestamp",
+                      "sdk/latest/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/latest/anthropic",
+                      "sdk/latest/bedrock",
+                      "sdk/latest/deepseek",
+                      "sdk/latest/fireworks",
+                      "sdk/latest/gemini",
+                      "sdk/latest/groq",
+                      "sdk/latest/huggingface",
+                      "sdk/latest/llama_cpp",
+                      "sdk/latest/mistralai",
+                      "sdk/latest/ollama",
+                      "sdk/latest/openai",
+                      "sdk/latest/replicate",
+                      "sdk/latest/together",
+                      "sdk/latest/vision",
+                      "sdk/latest/whisper",
+                      "sdk/latest/whisperx",
+                      "sdk/latest/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Iterators",
+                    "pages": [
+                      "sdk/latest/iterators",
+                      "sdk/latest/audiosplitter",
+                      "sdk/latest/componentiterator",
+                      "sdk/latest/documentsplitter",
+                      "sdk/latest/frameiterator",
+                      "sdk/latest/stringsplitter",
+                      "sdk/latest/tileiterator",
+                      "sdk/latest/videosplitter"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/latest/io"
+                    ]
+                  }
+                ]
+              }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "Cloud",
+        "groups": [
           {
-            "group": "Libraries",
+            "group": "Cloud",
             "pages": [
-              "libraries/pixelagent",
-              "libraries/mcp",
-              "libraries/yolox"
+              "cloud/get-started",
+              "cloud/faq"
             ]
           }
         ]
@@ -149,6 +230,35 @@
               "examples/search/PDF",
               "examples/search/website",
               "examples/search/video"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Integrations",
+        "groups": [
+          {
+            "group": "Built-in Integrations",
+            "pages": [
+              "integrations/frameworks",
+              "integrations/models"
+            ]
+          },
+          {
+            "group": "Bring Your Own",
+            "pages": [
+              "integrations/embedding-model"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Changelog",
+        "groups": [
+          {
+            "group": "Release History",
+            "pages": [
+              "changelog/changelog"
             ]
           }
         ]
@@ -239,7 +349,7 @@
           },
           {
             "dropdown": "v0.4.24",
-            "icon": "archive",
+            "icon": "rocket",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -320,7 +430,7 @@
           },
           {
             "dropdown": "v0.4.23",
-            "icon": "rocket",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -478,47 +588,6 @@
                   }
                 ]
               }
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Integrations",
-        "groups": [
-          {
-            "group": "Built-in Integrations",
-            "pages": [
-              "integrations/frameworks",
-              "integrations/models"
-            ]
-          },
-          {
-            "group": "Bring Your Own",
-            "pages": [
-              "integrations/embedding-model"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Changelog",
-        "groups": [
-          {
-            "group": "Release History",
-            "pages": [
-              "changelog/changelog"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Pixeltable Cloud",
-        "groups": [
-          {
-            "group": "Cloud",
-            "pages": [
-              "cloud/get-started",
-              "cloud/faq"
             ]
           }
         ]
