@@ -1,89 +1,129 @@
 ---
-title: "pixeltable.TableMetadata"
-sidebarTitle: "TableMetadata"
+title: "TableMetadata"
 icon: "square-c"
 ---
+# `class` pixeltable.TableMetadata
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table_metadata.py#L50" target="_blank">View source on GitHub</a>
 
 
 Metadata for a Pixeltable table.
 
 
-## field `base`
+## `attr` base
 
-⚠️ **No documentation**
+```
+base: str | None
+```
 
-**Type:** field: str | None (required)
+If this table is a view or snapshot, the full path of its base table; otherwise `None`.
 
-## field `columns`
 
-⚠️ **No documentation**
+## `attr` columns
 
-**Type:** field: dict (required)
+```
+columns: dict[str, ColumnMetadata]
+```
 
-## field `comment`
+Column metadata for all of the visible columns of the table.
 
-⚠️ **No documentation**
 
-**Type:** field: str | None (required)
+## `attr` comment
 
-## field `indices`
+```
+comment: str | None
+```
 
-⚠️ **No documentation**
+User-provided table comment, if one exists.
 
-**Type:** field: dict (required)
 
-## field `is_replica`
+## `attr` indices
 
-⚠️ **No documentation**
+```
+indices: dict[str, IndexMetadata]
+```
 
-**Type:** field: bool (required)
+Index metadata for all of the indices of the table.
 
-## field `is_snapshot`
 
-⚠️ **No documentation**
+## `attr` is_replica
 
-**Type:** field: bool (required)
+```
+is_replica: bool
+```
 
-## field `is_view`
+`True` if this table is a replica of another (shared) table.
 
-⚠️ **No documentation**
 
-**Type:** field: bool (required)
+## `attr` is_snapshot
 
-## field `media_validation`
+```
+is_snapshot: bool
+```
 
-⚠️ **No documentation**
+`True` if this table is a snapshot.
 
-**Type:** field: typing.Literal (required)
 
-## field `name`
+## `attr` is_view
 
-⚠️ **No documentation**
+```
+is_view: bool
+```
 
-**Type:** field: str (required)
+`True` if this table is a view.
 
-## field `path`
 
-⚠️ **No documentation**
+## `attr` media_validation
 
-**Type:** field: str (required)
+```
+media_validation: Literal['on_read', 'on_write']
+```
 
-## field `schema_version`
+The media validation policy for this table.
 
-⚠️ **No documentation**
 
-**Type:** field: int (required)
+## `attr` name
 
-## field `version`
+```
+name: str
+```
 
-⚠️ **No documentation**
+The name of the table (ex: `'my_table'`).
 
-**Type:** field: int (required)
 
-## field `version_created`
+## `attr` path
 
-⚠️ **No documentation**
+```
+path: str
+```
 
-**Type:** field: datetime.datetime (required)
+The full path of the table (ex: `'my_dir.my_subdir.my_table'`).
+
+
+## `attr` schema_version
+
+```
+schema_version: int
+```
+
+The current schema version of the table.
+
+
+## `attr` version
+
+```
+version: int
+```
+
+The current version of the table.
+
+
+## `attr` version_created
+
+```
+version_created: datetime.datetime
+```
+
+The timestamp when this table version was created.
+
 

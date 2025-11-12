@@ -3,6 +3,8 @@ title: "pixeltable.functions.anthropic"
 sidebarTitle: "anthropic"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.anthropic
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/anthropic.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -10,7 +12,7 @@ Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs)
 
 
 
-## func `invoke_tools()`
+## `func` invoke_tools()
 
 ```python
 invoke_tools(
@@ -23,7 +25,7 @@ Converts an Anthropic response dict to Pixeltable tool invocation format and cal
 
 
 
-## udf `messages()`
+## `udf` messages()
 
 ```python
 messages(
@@ -38,7 +40,6 @@ messages(
 ```
 
 Create a Message.
-
 
 Equivalent to the Anthropic `messages` API endpoint. For additional details, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
 
@@ -61,7 +62,7 @@ Request throttling: Uses the rate limit-related headers returned by the API to t
 
 - `Json`: A dictionary containing the response and other metadata.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `claude-3-5-sonnet-20241022` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
 ```python

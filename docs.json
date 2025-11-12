@@ -57,6 +57,7 @@
               {
                 "group": "Feature Guides",
                 "pages": [
+                  "notebooks/feature-guides/data-sharing",
                   "notebooks/feature-guides/embedding-indexes",
                   "notebooks/feature-guides/time-zones",
                   "notebooks/feature-guides/udfs-in-pixeltable",
@@ -238,7 +239,7 @@
           },
           {
             "dropdown": "v0.4.24",
-            "icon": "rocket",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -319,7 +320,7 @@
           },
           {
             "dropdown": "v0.4.23",
-            "icon": "archive",
+            "icon": "rocket",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -511,13 +512,13 @@
         ]
       },
       {
-        "tab": "Support",
+        "tab": "Pixeltable Cloud",
         "groups": [
           {
-            "group": "Support",
+            "group": "Cloud",
             "pages": [
-              "support/getting-help",
-              "support/faq"
+              "cloud/get-started",
+              "cloud/faq"
             ]
           }
         ]

@@ -3,6 +3,8 @@ title: "pixeltable.functions.whisper"
 sidebarTitle: "whisper"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.whisper
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/whisper.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -12,7 +14,7 @@ This UDF will cause Pixeltable to invoke the relevant model locally. In order to
 
 
 
-## udf `transcribe()`
+## `udf` transcribe()
 
 ```python
 transcribe(
@@ -34,7 +36,6 @@ transcribe(
 
 Transcribe an audio file using Whisper.
 
-
 This UDF runs a transcription model *locally* using the Whisper library, equivalent to the Whisper `transcribe` function, as described in the [Whisper library documentation](https://github.com/openai/whisper).
 
 **Requirements:**
@@ -51,7 +52,7 @@ This UDF runs a transcription model *locally* using the Whisper library, equival
 
 - `Json`: A dictionary containing the transcription and various other metadata.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `base.en` to an existing Pixeltable column `tbl.audio` of the table `tbl`:
 ```python

@@ -1,8 +1,9 @@
 ---
-title: "pixeltable.iterators.AudioSplitter"
-sidebarTitle: "AudioSplitter"
+title: "AudioSplitter"
 icon: "square-c"
 ---
+# `class` pixeltable.iterators.AudioSplitter
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/audio.py#L16" target="_blank">View source on GitHub</a>
 
 
@@ -12,7 +13,7 @@ Args: chunk_duration_sec: Audio chunk duration in seconds overlap_sec: Overlap b
 
 
 
-## method `build_chunks()`
+## `method` build_chunks()
 
 ```python
 build_chunks(
@@ -25,7 +26,7 @@ build_chunks(
 ```
 
 
-## method `close()`
+## `method` close()
 
 ```python
 close() -> None
@@ -35,14 +36,14 @@ Close the iterator and release all resources
 
 
 
-## method `create()`
+## `method` create()
 
 ```python
 create(**kwargs: Any) -> tuple[type[ComponentIterator], dict[str, Any]]
 ```
 
 
-## method `input_schema()`
+## `method` input_schema()
 
 ```python
 input_schema() -> dict[str, pixeltable.type_system.ColumnType]
@@ -50,12 +51,11 @@ input_schema() -> dict[str, pixeltable.type_system.ColumnType]
 
 Provide the Pixeltable types of the init() parameters
 
-
 The keys need to match the names of the init() parameters. This is equivalent to the parameters_types parameter of the @function decorator.
 
 
 
-## method `output_schema()`
+## `method` output_schema()
 
 ```python
 output_schema(
@@ -72,7 +72,7 @@ Specify the dictionary returned by next() and a list of unstored column names
 - `tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]`: a dictionary which is turned into a list of columns in the output table a list of unstored column names
 
 
-## method `set_pos()`
+## `method` set_pos()
 
 ```python
 set_pos(pos: int) -> None

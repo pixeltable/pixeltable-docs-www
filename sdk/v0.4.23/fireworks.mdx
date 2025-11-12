@@ -3,6 +3,8 @@ title: "pixeltable.functions.fireworks"
 sidebarTitle: "fireworks"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.fireworks
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/fireworks.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -10,7 +12,7 @@ Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs)
 
 
 
-## udf `chat_completions()`
+## `udf` chat_completions()
 
 ```python
 chat_completions(
@@ -22,7 +24,6 @@ chat_completions(
 ```
 
 Creates a model response for the given chat conversation.
-
 
 Equivalent to the Fireworks AI `chat/completions` API endpoint. For additional details, see: [https://docs.fireworks.ai/api-reference/post-chatcompletions](https://docs.fireworks.ai/api-reference/post-chatcompletions)
 
@@ -43,11 +44,13 @@ Request throttling: Applies the rate limit set in the config (section `fireworks
 
 - `Json`: A dictionary containing the response and other metadata.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `accounts/fireworks/models/mixtral-8x22b-instruct` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
 ```python
 messages = [{'role': 'user', 'content': tbl.prompt}]
-tbl.add_computed_column(response=chat_completions(messages, model='accounts/fireworks/models/mixtral-8x22b-instruct'))
+tbl.add_computed_column(
+    response=chat_completions(messages, model='accounts/fireworks/models/mixtral-8x22b-instruct')
+)
 ```
 

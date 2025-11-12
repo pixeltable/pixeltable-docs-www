@@ -1,71 +1,102 @@
 ---
-title: "pixeltable.VersionMetadata"
-sidebarTitle: "VersionMetadata"
+title: "VersionMetadata"
 icon: "square-c"
 ---
+# `class` pixeltable.VersionMetadata
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table_metadata.py#L81" target="_blank">View source on GitHub</a>
 
 
 Metadata for a specific version of a Pixeltable table.
 
 
-## field `change_type`
+## `attr` change_type
 
-⚠️ **No documentation**
+```
+change_type: Literal['data', 'schema']
+```
 
-**Type:** field: typing.Literal (required)
+The type of table transformation that this version represents (`'data'` or `'schema'`).
 
-## field `computed`
 
-⚠️ **No documentation**
+## `attr` computed
 
-**Type:** field: int (required)
+```
+computed: int
+```
 
-## field `created_at`
+The number of computed values calculated in this version.
 
-⚠️ **No documentation**
 
-**Type:** field: datetime.datetime (required)
+## `attr` created_at
 
-## field `deletes`
+```
+created_at: datetime.datetime
+```
 
-⚠️ **No documentation**
+The timestamp when this version was created.
 
-**Type:** field: int (required)
 
-## field `errors`
+## `attr` deletes
 
-⚠️ **No documentation**
+```
+deletes: int
+```
 
-**Type:** field: int (required)
+The number of rows deleted in this version.
 
-## field `inserts`
 
-⚠️ **No documentation**
+## `attr` errors
 
-**Type:** field: int (required)
+```
+errors: int
+```
 
-## field `schema_change`
+The number of errors encountered during this version.
 
-⚠️ **No documentation**
 
-**Type:** field: str | None (required)
+## `attr` inserts
 
-## field `updates`
+```
+inserts: int
+```
 
-⚠️ **No documentation**
+The number of rows inserted in this version.
 
-**Type:** field: int (required)
 
-## field `user`
+## `attr` schema_change
 
-⚠️ **No documentation**
+```
+schema_change: str | None
+```
 
-**Type:** field: str | None (required)
+A description of the schema change that occurred in this version, if any.
 
-## field `version`
 
-⚠️ **No documentation**
+## `attr` updates
 
-**Type:** field: int (required)
+```
+updates: int
+```
+
+The number of rows updated in this version.
+
+
+## `attr` user
+
+```
+user: str | None
+```
+
+The user who created this version, if defined.
+
+
+## `attr` version
+
+```
+version: int
+```
+
+The version number.
+
 

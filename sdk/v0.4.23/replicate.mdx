@@ -3,6 +3,8 @@ title: "pixeltable.functions.replicate"
 sidebarTitle: "replicate"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.replicate
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/replicate.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -10,14 +12,13 @@ Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs)
 
 
 
-## udf `run()`
+## `udf` run()
 
 ```python
 run(input: Json, *, ref: String) -> Json
 ```
 
 Run a model on Replicate.
-
 
 For additional details, see: [https://replicate.com/docs/topics/models/run-a-model](https://replicate.com/docs/topics/models/run-a-model)
 
@@ -37,7 +38,7 @@ Request throttling: Applies the rate limit set in the config (section `replicate
 
 - `Json`: The output of the model.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `meta/meta-llama-3-8b-instruct` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
 ```python

@@ -3,6 +3,8 @@ title: "pixeltable.functions.huggingface"
 sidebarTitle: "huggingface"
 icon: "square-m"
 ---
+# `module` pixeltable.functions.huggingface
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/huggingface.py#L0" target="_blank">View source on GitHub</a>
 
 
@@ -14,7 +16,7 @@ These UDFs will cause Pixeltable to invoke the relevant models locally. In order
 ## UDFs
 
 
-## udf `automatic_speech_recognition()`
+## `udf` automatic_speech_recognition()
 
 ```python
 automatic_speech_recognition(
@@ -27,10 +29,7 @@ automatic_speech_recognition(
 ) -> String
 ```
 
-Transcribes speech to text using a pretrained ASR model. `model_id` should be a reference to a
-
-
-pretrained [automatic-speech-recognition model](https://huggingface.co/models?pipeline_tag=automatic-speech-recognition).
+Transcribes speech to text using a pretrained ASR model. `model_id` should be a reference to a pretrained [automatic-speech-recognition model](https://huggingface.co/models?pipeline_tag=automatic-speech-recognition).
 
 This is a **generic function** that works with many ASR model families. For production use with specific models, consider specialized functions like `whisper.transcribe()` or `speech2text_for_conditional_generation()`.
 
@@ -58,27 +57,27 @@ This is a **generic function** that works with many ASR model families. For prod
 
 - `String`: The transcribed text.
 
-**Example:**
+**Examples:**
 
 Add a computed column that transcribes audio files:
 ```python
-tbl.add_computed_column(
-    transcription=automatic_speech_recognition(
-        tbl.audio_file,
-        model_id='openai/whisper-tiny.en',  # Recommended
-    )
-)
+tbl.add_computed_column(transcription=automatic_speech_recognition(
+    tbl.audio_file,
+    model_id='openai/whisper-tiny.en'  # Recommended
+))
 ```
 
 Transcribe with language specification:
 ```python
-tbl.add_computed_column(
-    transcription=automatic_speech_recognition(tbl.audio_file, model_id='facebook/mms-1b-all', language='en')
-)
+tbl.add_computed_column(transcription=automatic_speech_recognition(
+    tbl.audio_file,
+    model_id='facebook/mms-1b-all',
+    language='en'
+))
 ```
 
 
-## udf `clip()`
+## `udf` clip()
 
 ```python
 # Signature 1:
@@ -88,10 +87,7 @@ clip(text: String, model_id: String) -> Array[(None,), Float]
 clip(image: Image, model_id: String) -> Array[(None,), Float]
 ```
 
-Computes a CLIP embedding for the specified text or image. `model_id` should be a reference to a pretrained
-
-
-[CLIP Model](https://huggingface.co/docs/transformers/model_doc/clip).
+Computes a CLIP embedding for the specified text or image. `model_id` should be a reference to a pretrained [CLIP Model](https://huggingface.co/docs/transformers/model_doc/clip).
 
 **Requirements:**
 
@@ -107,15 +103,17 @@ Computes a CLIP embedding for the specified text or image. `model_id` should be 
 
 - `Array[(None,), Float]`: An array containing the output of the embedding model.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `openai/clip-vit-base-patch32` to an existing Pixeltable column `tbl.text` of the table `tbl`:
 ```python
-tbl.add_computed_column(result=clip(tbl.text, model_id='openai/clip-vit-base-patch32'))
+tbl.add_computed_column(
+    result=clip(tbl.text, model_id='openai/clip-vit-base-patch32')
+)
 ```
 
 
-## udf `cross_encoder()`
+## `udf` cross_encoder()
 
 ```python
 cross_encoder(
@@ -126,10 +124,7 @@ cross_encoder(
 ) -> Float
 ```
 
-Performs predicts on the given sentence pair.
-
-
-`model_id` should be a pretrained Cross-Encoder model, as described in the [Cross-Encoder Pretrained Models](https://www.sbert.net/docs/cross_encoder/pretrained_models.html) documentation.
+Performs predicts on the given sentence pair. `model_id` should be a pretrained Cross-Encoder model, as described in the [Cross-Encoder Pretrained Models](https://www.sbert.net/docs/cross_encoder/pretrained_models.html) documentation.
 
 **Requirements:**
 
@@ -146,15 +141,17 @@ Performs predicts on the given sentence pair.
 
 - `Float`: The similarity score between the inputs.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `ms-marco-MiniLM-L-4-v2` to the sentences in columns `tbl.sentence1` and `tbl.sentence2`:
 ```python
-tbl.add_computed_column(result=sentence_transformer(tbl.sentence1, tbl.sentence2, model_id='ms-marco-MiniLM-L-4-v2'))
+tbl.add_computed_column(result=sentence_transformer(
+    tbl.sentence1, tbl.sentence2, model_id='ms-marco-MiniLM-L-4-v2'
+))
 ```
 
 
-## udf `cross_encoder_list()`
+## `udf` cross_encoder_list()
 
 ```python
 cross_encoder_list(
@@ -166,7 +163,7 @@ cross_encoder_list(
 ```
 
 
-## udf `detr_for_object_detection()`
+## `udf` detr_for_object_detection()
 
 ```python
 detr_for_object_detection(
@@ -178,10 +175,7 @@ detr_for_object_detection(
 ) -> Json
 ```
 
-Computes DETR object detections for the specified image. `model_id` should be a reference to a pretrained
-
-
-[DETR Model](https://huggingface.co/docs/transformers/model_doc/detr).
+Computes DETR object detections for the specified image. `model_id` should be a reference to a pretrained [DETR Model](https://huggingface.co/docs/transformers/model_doc/detr).
 
 **Requirements:**
 
@@ -206,17 +200,19 @@ Computes DETR object detections for the specified image. `model_id` should be a 
   }
   ```
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `facebook/detr-resnet-50` to an existing Pixeltable column `image` of the table `tbl`:
 ```python
-tbl.add_computed_column(
-    detections=detr_for_object_detection(tbl.image, model_id='facebook/detr-resnet-50', threshold=0.8)
-)
+tbl.add_computed_column(detections=detr_for_object_detection(
+    tbl.image,
+    model_id='facebook/detr-resnet-50',
+    threshold=0.8
+))
 ```
 
 
-## udf `detr_to_coco()`
+## `udf` detr_to_coco()
 
 ```python
 detr_to_coco(image: Image, detr_info: Json) -> Json
@@ -234,7 +230,7 @@ Converts the output of a DETR object detection model to COCO format.
 
 - `Json`: A dictionary containing the data from `detr_info`, converted to COCO format.
 
-**Example:**
+**Examples:**
 
 Add a computed column that converts the output `tbl.detections` to COCO format, where `tbl.image` is the image for which detections were computed:
 ```python
@@ -242,7 +238,7 @@ tbl.add_computed_column(detections_coco=detr_to_coco(tbl.image, tbl.detections))
 ```
 
 
-## udf `image_captioning()`
+## `udf` image_captioning()
 
 ```python
 image_captioning(
@@ -253,10 +249,7 @@ image_captioning(
 ) -> String
 ```
 
-Generates captions for images using a pretrained image captioning model. `model_id` should be a reference to a
-
-
-pretrained [image-to-text model](https://huggingface.co/models?pipeline_tag=image-to-text) such as BLIP, Git, or LLaVA.
+Generates captions for images using a pretrained image captioning model. `model_id` should be a reference to a pretrained [image-to-text model](https://huggingface.co/models?pipeline_tag=image-to-text) such as BLIP, Git, or LLaVA.
 
 **Requirements:**
 
@@ -273,19 +266,19 @@ pretrained [image-to-text model](https://huggingface.co/models?pipeline_tag=imag
 
 - `String`: The generated caption text.
 
-**Example:**
+**Examples:**
 
 Add a computed column `caption` to an existing table `tbl` that generates captions using the `Salesforce/blip-image-captioning-base` model:
 ```python
-tbl.add_computed_column(
-    caption=image_captioning(
-        tbl.image, model_id='Salesforce/blip-image-captioning-base', model_kwargs={'max_length': 30}
-    )
-)
+tbl.add_computed_column(caption=image_captioning(
+    tbl.image,
+    model_id='Salesforce/blip-image-captioning-base',
+    model_kwargs={'max_length': 30}
+))
 ```
 
 
-## udf `image_to_image()`
+## `udf` image_to_image()
 
 ```python
 image_to_image(
@@ -298,10 +291,7 @@ image_to_image(
 ) -> Image
 ```
 
-Transforms input images based on text prompts using a pretrained image-to-image model.
-
-
-`model_id` should be a reference to a pretrained [image-to-image model](https://huggingface.co/models?pipeline_tag=image-to-image).
+Transforms input images based on text prompts using a pretrained image-to-image model. `model_id` should be a reference to a pretrained [image-to-image model](https://huggingface.co/models?pipeline_tag=image-to-image).
 
 **Requirements:**
 
@@ -320,17 +310,19 @@ Transforms input images based on text prompts using a pretrained image-to-image 
 
 - `Image`: The transformed image.
 
-**Example:**
+**Examples:**
 
 Add a computed column that transforms images based on prompts:
 ```python
-tbl.add_computed_column(
-    transformed=image_to_image(tbl.source_image, tbl.transformation_prompt, model_id='runwayml/stable-diffusion-v1-5')
-)
+tbl.add_computed_column(transformed=image_to_image(
+    tbl.source_image,
+    tbl.transformation_prompt,
+    model_id='runwayml/stable-diffusion-v1-5'
+))
 ```
 
 
-## udf `image_to_video()`
+## `udf` image_to_video()
 
 ```python
 image_to_video(
@@ -344,10 +336,7 @@ image_to_video(
 ) -> Video
 ```
 
-Generates videos from input images using a pretrained image-to-video model.
-
-
-`model_id` should be a reference to a pretrained [image-to-video model](https://huggingface.co/models?pipeline_tag=image-to-video).
+Generates videos from input images using a pretrained image-to-video model. `model_id` should be a reference to a pretrained [image-to-video model](https://huggingface.co/models?pipeline_tag=image-to-video).
 
 **Requirements:**
 
@@ -367,19 +356,20 @@ Generates videos from input images using a pretrained image-to-video model.
 
 - `Video`: The generated video file.
 
-**Example:**
+**Examples:**
 
 Add a computed column that creates videos from images:
 ```python
-tbl.add_computed_column(
-    video=image_to_video(
-        tbl.input_image, model_id='stabilityai/stable-video-diffusion-img2vid-xt', num_frames=25, fps=7
-    )
-)
+tbl.add_computed_column(video=image_to_video(
+    tbl.input_image,
+    model_id='stabilityai/stable-video-diffusion-img2vid-xt',
+    num_frames=25,
+    fps=7
+))
 ```
 
 
-## udf `question_answering()`
+## `udf` question_answering()
 
 ```python
 question_answering(
@@ -390,10 +380,7 @@ question_answering(
 ) -> Json
 ```
 
-Answers questions based on provided context using a pretrained QA model. `model_id` should be a reference to a
-
-
-pretrained [question answering model](https://huggingface.co/models?pipeline_tag=question-answering) such as BERT or RoBERTa.
+Answers questions based on provided context using a pretrained QA model. `model_id` should be a reference to a pretrained [question answering model](https://huggingface.co/models?pipeline_tag=question-answering) such as BERT or RoBERTa.
 
 **Requirements:**
 
@@ -410,17 +397,19 @@ pretrained [question answering model](https://huggingface.co/models?pipeline_tag
 
 - `Json`: A dictionary containing the answer, confidence score, and start/end positions.
 
-**Example:**
+**Examples:**
 
 Add a computed column that answers questions based on document context:
 ```python
-tbl.add_computed_column(
-    answer=question_answering(tbl.document_text, tbl.question, model_id='deepset/roberta-base-squad2')
-)
+tbl.add_computed_column(answer=question_answering(
+    tbl.document_text,
+    tbl.question,
+    model_id='deepset/roberta-base-squad2'
+))
 ```
 
 
-## udf `sentence_transformer()`
+## `udf` sentence_transformer()
 
 ```python
 sentence_transformer(
@@ -431,10 +420,7 @@ sentence_transformer(
 ) -> Array[(None,), Float]
 ```
 
-Computes sentence embeddings. `model_id` should be a pretrained Sentence Transformers model, as described
-
-
-in the [Sentence Transformers Pretrained Models](https://sbert.net/docs/sentence_transformer/pretrained_models.html) documentation.
+Computes sentence embeddings. `model_id` should be a pretrained Sentence Transformers model, as described in the [Sentence Transformers Pretrained Models](https://sbert.net/docs/sentence_transformer/pretrained_models.html) documentation.
 
 **Requirements:**
 
@@ -451,7 +437,7 @@ in the [Sentence Transformers Pretrained Models](https://sbert.net/docs/sentence
 
 - `Array[(None,), Float]`: An array containing the output of the embedding model.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `all-mpnet-base-2` to an existing Pixeltable column `tbl.sentence` of the table `tbl`:
 ```python
@@ -459,7 +445,7 @@ tbl.add_computed_column(result=sentence_transformer(tbl.sentence, model_id='all-
 ```
 
 
-## udf `sentence_transformer_list()`
+## `udf` sentence_transformer_list()
 
 ```python
 sentence_transformer_list(
@@ -471,7 +457,7 @@ sentence_transformer_list(
 ```
 
 
-## udf `speech2text_for_conditional_generation()`
+## `udf` speech2text_for_conditional_generation()
 
 ```python
 speech2text_for_conditional_generation(
@@ -482,10 +468,7 @@ speech2text_for_conditional_generation(
 ) -> String
 ```
 
-Transcribes or translates speech to text using a Speech2Text model. `model_id` should be a reference to a
-
-
-pretrained [Speech2Text](https://huggingface.co/docs/transformers/en/model_doc/speech_to_text) model.
+Transcribes or translates speech to text using a Speech2Text model. `model_id` should be a reference to a pretrained [Speech2Text](https://huggingface.co/docs/transformers/en/model_doc/speech_to_text) model.
 
 **Requirements:**
 
@@ -502,26 +485,27 @@ pretrained [Speech2Text](https://huggingface.co/docs/transformers/en/model_doc/s
 
 - `String`: The transcribed or translated text.
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `facebook/s2t-small-librispeech-asr` to an existing Pixeltable column `audio` of the table `tbl`:
 ```python
-tbl.add_computed_column(
-    transcription=speech2text_for_conditional_generation(tbl.audio, model_id='facebook/s2t-small-librispeech-asr')
-)
+tbl.add_computed_column(transcription=speech2text_for_conditional_generation(
+    tbl.audio,
+    model_id='facebook/s2t-small-librispeech-asr'
+))
 ```
 
 Add a computed column that applies the model `facebook/s2t-medium-mustc-multilingual-st` to an existing Pixeltable column `audio` of the table `tbl`, translating the audio to French:
 ```python
-tbl.add_computed_column(
-    translation=speech2text_for_conditional_generation(
-        tbl.audio, model_id='facebook/s2t-medium-mustc-multilingual-st', language='fr'
-    )
-)
+tbl.add_computed_column(translation=speech2text_for_conditional_generation(
+    tbl.audio,
+    model_id='facebook/s2t-medium-mustc-multilingual-st',
+    language='fr'
+))
 ```
 
 
-## udf `summarization()`
+## `udf` summarization()
 
 ```python
 summarization(
@@ -532,10 +516,7 @@ summarization(
 ) -> String
 ```
 
-Summarizes text using a pretrained summarization model. `model_id` should be a reference to a pretrained
-
-
-[summarization model](https://huggingface.co/models?pipeline_tag=summarization) such as BART, T5, or Pegasus.
+Summarizes text using a pretrained summarization model. `model_id` should be a reference to a pretrained [summarization model](https://huggingface.co/models?pipeline_tag=summarization) such as BART, T5, or Pegasus.
 
 **Requirements:**
 
@@ -552,26 +533,25 @@ Summarizes text using a pretrained summarization model. `model_id` should be a r
 
 - `String`: The generated summary text.
 
-**Example:**
+**Examples:**
 
 Add a computed column that summarizes documents:
 ```python
-tbl.add_computed_column(
-    summary=text_summarization(tbl.document_text, model_id='facebook/bart-large-cnn', max_length=100)
-)
+tbl.add_computed_column(summary=text_summarization(
+    tbl.document_text,
+    model_id='facebook/bart-large-cnn',
+    max_length=100
+))
 ```
 
 
-## udf `text_classification()`
+## `udf` text_classification()
 
 ```python
 text_classification(text: String, *, model_id: String, top_k: Int = 5) -> Json
 ```
 
-Classifies text using a pretrained classification model. `model_id` should be a reference to a pretrained
-
-
-[text classification model](https://huggingface.co/models?pipeline_tag=text-classification) such as BERT, RoBERTa, or DistilBERT.
+Classifies text using a pretrained classification model. `model_id` should be a reference to a pretrained [text classification model](https://huggingface.co/models?pipeline_tag=text-classification) such as BERT, RoBERTa, or DistilBERT.
 
 **Requirements:**
 
@@ -588,17 +568,18 @@ Classifies text using a pretrained classification model. `model_id` should be a 
 
 - `Json`: A dictionary containing classification results with scores, labels, and label text.
 
-**Example:**
+**Examples:**
 
 Add a computed column for sentiment analysis:
 ```python
-tbl.add_computed_column(
-    sentiment=text_classification(tbl.review_text, model_id='cardiffnlp/twitter-roberta-base-sentiment-latest')
-)
+tbl.add_computed_column(sentiment=text_classification(
+    tbl.review_text,
+    model_id='cardiffnlp/twitter-roberta-base-sentiment-latest'
+))
 ```
 
 
-## udf `text_generation()`
+## `udf` text_generation()
 
 ```python
 text_generation(
@@ -609,10 +590,7 @@ text_generation(
 ) -> String
 ```
 
-Generates text using a pretrained language model. `model_id` should be a reference to a pretrained
-
-
-[text generation model](https://huggingface.co/models?pipeline_tag=text-generation).
+Generates text using a pretrained language model. `model_id` should be a reference to a pretrained [text generation model](https://huggingface.co/models?pipeline_tag=text-generation).
 
 **Requirements:**
 
@@ -629,19 +607,19 @@ Generates text using a pretrained language model. `model_id` should be a referen
 
 - `String`: The generated text completion.
 
-**Example:**
+**Examples:**
 
 Add a computed column that generates text completions using the `Qwen/Qwen3-0.6B` model:
 ```python
-tbl.add_computed_column(
-    completion=text_generation(
-        tbl.prompt, model_id='Qwen/Qwen3-0.6B', model_kwargs={'temperature': 0.5, 'max_length': 150}
-    )
-)
+tbl.add_computed_column(completion=text_generation(
+    tbl.prompt,
+    model_id='Qwen/Qwen3-0.6B',
+    model_kwargs={'temperature': 0.5, 'max_length': 150}
+))
 ```
 
 
-## udf `text_to_image()`
+## `udf` text_to_image()
 
 ```python
 text_to_image(
@@ -655,10 +633,7 @@ text_to_image(
 ) -> Image
 ```
 
-Generates images from text prompts using a pretrained text-to-image model. `model_id` should be a reference to a
-
-
-pretrained [text-to-image model](https://huggingface.co/models?pipeline_tag=text-to-image) such as Stable Diffusion or FLUX.
+Generates images from text prompts using a pretrained text-to-image model. `model_id` should be a reference to a pretrained [text-to-image model](https://huggingface.co/models?pipeline_tag=text-to-image) such as Stable Diffusion or FLUX.
 
 **Requirements:**
 
@@ -678,23 +653,21 @@ pretrained [text-to-image model](https://huggingface.co/models?pipeline_tag=text
 
 - `Image`: The generated Image.
 
-**Example:**
+**Examples:**
 
 Add a computed column that generates images from text prompts:
 ```python
-tbl.add_computed_column(
-    generated_image=text_to_image(
-        tbl.prompt,
-        model_id='stable-diffusion-v1.5/stable-diffusion-v1-5',
-        height=512,
-        width=512,
-        model_kwargs={'num_inference_steps': 25},
-    )
-)
+tbl.add_computed_column(generated_image=text_to_image(
+    tbl.prompt,
+    model_id='stable-diffusion-v1.5/stable-diffusion-v1-5',
+    height=512,
+    width=512,
+    model_kwargs={'num_inference_steps': 25},
+))
 ```
 
 
-## udf `text_to_speech()`
+## `udf` text_to_speech()
 
 ```python
 text_to_speech(
@@ -706,10 +679,7 @@ text_to_speech(
 ) -> Audio
 ```
 
-Converts text to speech using a pretrained TTS model. `model_id` should be a reference to a
-
-
-pretrained [text-to-speech model](https://huggingface.co/models?pipeline_tag=text-to-speech).
+Converts text to speech using a pretrained TTS model. `model_id` should be a reference to a pretrained [text-to-speech model](https://huggingface.co/models?pipeline_tag=text-to-speech).
 
 **Requirements:**
 
@@ -727,15 +697,19 @@ pretrained [text-to-speech model](https://huggingface.co/models?pipeline_tag=tex
 
 - `Audio`: The generated audio file.
 
-**Example:**
+**Examples:**
 
 Add a computed column that converts text to speech:
 ```python
-tbl.add_computed_column(audio=text_to_speech(tbl.text_content, model_id='microsoft/speecht5_tts', speaker_id=0))
+tbl.add_computed_column(audio=text_to_speech(
+    tbl.text_content,
+    model_id='microsoft/speecht5_tts',
+    speaker_id=0
+))
 ```
 
 
-## udf `token_classification()`
+## `udf` token_classification()
 
 ```python
 token_classification(
@@ -746,10 +720,7 @@ token_classification(
 ) -> Json
 ```
 
-Extracts named entities from text using a pretrained named entity recognition (NER) model.
-
-
-`model_id` should be a reference to a pretrained [token classification model](https://huggingface.co/models?pipeline_tag=token-classification) for NER.
+Extracts named entities from text using a pretrained named entity recognition (NER) model. `model_id` should be a reference to a pretrained [token classification model](https://huggingface.co/models?pipeline_tag=token-classification) for NER.
 
 **Requirements:**
 
@@ -766,17 +737,18 @@ Extracts named entities from text using a pretrained named entity recognition (N
 
 - `Json`: A list of dictionaries containing entity information (text, label, confidence, start, end).
 
-**Example:**
+**Examples:**
 
 Add a computed column that extracts named entities:
 ```python
-tbl.add_computed_column(
-    entities=token_classification(tbl.text, model_id='dbmdz/bert-large-cased-finetuned-conll03-english')
-)
+tbl.add_computed_column(entities=token_classification(
+    tbl.text,
+    model_id='dbmdz/bert-large-cased-finetuned-conll03-english'
+))
 ```
 
 
-## udf `translation()`
+## `udf` translation()
 
 ```python
 translation(
@@ -788,10 +760,7 @@ translation(
 ) -> String
 ```
 
-Translates text using a pretrained translation model. `model_id` should be a reference to a pretrained
-
-
-[translation model](https://huggingface.co/models?pipeline_tag=translation) such as MarianMT or T5.
+Translates text using a pretrained translation model. `model_id` should be a reference to a pretrained [translation model](https://huggingface.co/models?pipeline_tag=translation) such as MarianMT or T5.
 
 **Requirements:**
 
@@ -809,26 +778,26 @@ Translates text using a pretrained translation model. `model_id` should be a ref
 
 - `String`: The translated text.
 
-**Example:**
+**Examples:**
 
 Add a computed column that translates text:
 ```python
-tbl.add_computed_column(
-    french_text=translation(tbl.english_text, model_id='Helsinki-NLP/opus-mt-en-fr', src_lang='en', target_lang='fr')
-)
+tbl.add_computed_column(french_text=translation(
+    tbl.english_text,
+    model_id='Helsinki-NLP/opus-mt-en-fr',
+    src_lang='en',
+    target_lang='fr'
+))
 ```
 
 
-## udf `vit_for_image_classification()`
+## `udf` vit_for_image_classification()
 
 ```python
 vit_for_image_classification(image: Image, *, model_id: String, top_k: Int = 5) -> Json
 ```
 
-Computes image classifications for the specified image using a Vision Transformer (ViT) model.
-
-
-`model_id` should be a reference to a pretrained [ViT Model](https://huggingface.co/docs/transformers/en/model_doc/vit).
+Computes image classifications for the specified image using a Vision Transformer (ViT) model. `model_id` should be a reference to a pretrained [ViT Model](https://huggingface.co/docs/transformers/en/model_doc/vit).
 
 **Note:** Be sure the model is a ViT model that is trained for image classification (that is, a model designed for use with the [ViTForImageClassification](https://huggingface.co/docs/transformers/en/model_doc/vit#transformers.ViTForImageClassification) class), such as `google/vit-base-patch16-224`. General feature-extraction models such as `google/vit-base-patch16-224-in21k` will not produce the desired results.
 
@@ -854,12 +823,14 @@ Computes image classifications for the specified image using a Vision Transforme
           # corresponding text names of the top-k most likely classes
   ```
 
-**Example:**
+**Examples:**
 
 Add a computed column that applies the model `google/vit-base-patch16-224` to an existing Pixeltable column `image` of the table `tbl`, returning the 10 most likely classes for each image:
 ```python
-tbl.add_computed_column(
-    image_class=vit_for_image_classification(tbl.image, model_id='google/vit-base-patch16-224', top_k=10)
-)
+tbl.add_computed_column(image_class=vit_for_image_classification(
+    tbl.image,
+    model_id='google/vit-base-patch16-224',
+    top_k=10
+))
 ```
 

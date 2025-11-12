@@ -1,35 +1,48 @@
 ---
-title: "pixeltable.IndexMetadata"
-sidebarTitle: "IndexMetadata"
+title: "IndexMetadata"
 icon: "square-c"
 ---
+# `class` pixeltable.IndexMetadata
+
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table_metadata.py#L37" target="_blank">View source on GitHub</a>
 
 
 Metadata for a column of a Pixeltable table.
 
 
-## field `columns`
+## `attr` columns
 
-⚠️ **No documentation**
+```
+columns: list[str]
+```
 
-**Type:** field: list (required)
+The table columns that are indexed.
 
-## field `index_type`
 
-⚠️ **No documentation**
+## `attr` index_type
 
-**Type:** field: typing.Literal (required)
+```
+index_type: Literal['embedding']
+```
 
-## field `name`
+The type of index (currently only `'embedding'` is supported, but others will be added in the future).
 
-⚠️ **No documentation**
 
-**Type:** field: str (required)
+## `attr` name
 
-## field `parameters`
+```
+name: str
+```
 
-⚠️ **No documentation**
+The name of the index.
 
-**Type:** field: pixeltable.catalog.table_metadata.EmbeddingIndexParams (required)
+
+## `attr` parameters
+
+```
+parameters: EmbeddingIndexParams
+```
+
+Parameters specific to the index type.
+
 
