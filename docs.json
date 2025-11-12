@@ -99,87 +99,6 @@
         ]
       },
       {
-        "tab": "Cloud",
-        "groups": [
-          {
-            "group": "Cloud",
-            "pages": [
-              "cloud/get-started",
-              "cloud/faq"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Examples",
-        "groups": [
-          {
-            "group": "Explore",
-            "pages": [
-              "examples/use-cases",
-              "examples/interactive-demos",
-              "examples/sample-apps"
-            ]
-          },
-          {
-            "group": "Chatbot",
-            "pages": [
-              "examples/chat/multimodal",
-              "examples/chat/memory",
-              "examples/chat/tools",
-              "examples/chat/evals"
-            ]
-          },
-          {
-            "group": "Computer Vision",
-            "pages": [
-              "examples/vision/label-studio",
-              "examples/vision/voxel51",
-              "examples/vision/yolox"
-            ]
-          },
-          {
-            "group": "Semantic Search",
-            "pages": [
-              "examples/search/audio",
-              "examples/search/images",
-              "examples/search/PDF",
-              "examples/search/website",
-              "examples/search/video"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Integrations",
-        "groups": [
-          {
-            "group": "Built-in Integrations",
-            "pages": [
-              "integrations/frameworks",
-              "integrations/models"
-            ]
-          },
-          {
-            "group": "Bring Your Own",
-            "pages": [
-              "integrations/embedding-model"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "Changelog",
-        "groups": [
-          {
-            "group": "Release History",
-            "pages": [
-              "changelog/changelog"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Pixeltable SDK",
         "dropdowns": [
           {
@@ -504,6 +423,87 @@
                   }
                 ]
               }
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Cloud",
+        "groups": [
+          {
+            "group": "Cloud",
+            "pages": [
+              "cloud/get-started",
+              "cloud/faq"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Examples",
+        "groups": [
+          {
+            "group": "Explore",
+            "pages": [
+              "examples/use-cases",
+              "examples/interactive-demos",
+              "examples/sample-apps"
+            ]
+          },
+          {
+            "group": "Chatbot",
+            "pages": [
+              "examples/chat/multimodal",
+              "examples/chat/memory",
+              "examples/chat/tools",
+              "examples/chat/evals"
+            ]
+          },
+          {
+            "group": "Computer Vision",
+            "pages": [
+              "examples/vision/label-studio",
+              "examples/vision/voxel51",
+              "examples/vision/yolox"
+            ]
+          },
+          {
+            "group": "Semantic Search",
+            "pages": [
+              "examples/search/audio",
+              "examples/search/images",
+              "examples/search/PDF",
+              "examples/search/website",
+              "examples/search/video"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Integrations",
+        "groups": [
+          {
+            "group": "Built-in Integrations",
+            "pages": [
+              "integrations/frameworks",
+              "integrations/models"
+            ]
+          },
+          {
+            "group": "Bring Your Own",
+            "pages": [
+              "integrations/embedding-model"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Changelog",
+        "groups": [
+          {
+            "group": "Release History",
+            "pages": [
+              "changelog/changelog"
             ]
           }
         ]
