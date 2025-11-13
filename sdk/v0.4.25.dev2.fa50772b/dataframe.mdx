@@ -13,14 +13,14 @@ Represents a query for retrieving and transforming data from Pixeltable tables.
 ## `method` collect()
 
 ```python
-collect(self) -> DataFrameResultSet
+collect() -> DataFrameResultSet
 ```
 
 
 ## `method` distinct()
 
 ```python
-distinct(self) -> DataFrame
+distinct() -> DataFrame
 ```
 
 Remove duplicate rows from this DataFrame.
@@ -49,7 +49,7 @@ results = addresses.select(addresses.street, addresses.city).where(addresses.sta
 ## `method` group_by()
 
 ```python
-group_by(self, *grouping_items: Any) -> DataFrame
+group_by(*grouping_items: Any) -> DataFrame
 ```
 
 Add a group-by clause to this DataFrame.
@@ -95,7 +95,7 @@ df = book.group_by(t.genre).select(t.genre, total=sum(t.price)).show()
 ## `method` head()
 
 ```python
-head(self, n: int = 10) -> DataFrameResultSet
+head(n: int = 10) -> DataFrameResultSet
 ```
 
 Return the first n rows of the DataFrame, in insertion order of the underlying Table.
@@ -115,7 +115,6 @@ head() is not supported for joins.
 
 ```python
 join(
-    self,
     other: catalog.Table,
     on: exprs.Expr | Sequence[exprs.ColumnRef] | None = None,
     how: plan.JoinType.LiteralType = 'inner'
@@ -176,7 +175,7 @@ df = t.join(d, on=(t.d1 == d.pk1) & (t.d2 == d.pk2), how='left')
 ## `method` limit()
 
 ```python
-limit(self, n: int) -> DataFrame
+limit(n: int) -> DataFrame
 ```
 
 Limit the number of rows in the DataFrame.
@@ -194,11 +193,7 @@ Limit the number of rows in the DataFrame.
 ## `method` order_by()
 
 ```python
-order_by(
-    self,
-    *expr_list: exprs.Expr,
-    asc: bool = True
-) -> DataFrame
+order_by(*expr_list: exprs.Expr, asc: bool = True) -> DataFrame
 ```
 
 Add an order-by clause to this DataFrame.
@@ -236,7 +231,6 @@ df = book.order_by(t.price, asc=False).order_by(t.pages)
 
 ```python
 sample(
-    self,
     n: int | None = None,
     n_per_stratum: int | None = None,
     fraction: float | None = None,
@@ -303,7 +297,7 @@ df = person.where(t.age > 30).sample(n=100)
 ## `method` select()
 
 ```python
-select(self, *items: Any, **named_items: Any) -> DataFrame
+select(*items: Any, **named_items: Any) -> DataFrame
 ```
 
 Select columns or expressions from the DataFrame.
@@ -339,14 +333,14 @@ df = person.select(t.name, is_adult=(t.age >= 18))
 ## `method` show()
 
 ```python
-show(self, n: int = 20) -> DataFrameResultSet
+show(n: int = 20) -> DataFrameResultSet
 ```
 
 
 ## `method` tail()
 
 ```python
-tail(self, n: int = 10) -> DataFrameResultSet
+tail(n: int = 10) -> DataFrameResultSet
 ```
 
 Return the last n rows of the DataFrame, in insertion order of the underlying Table.
@@ -365,7 +359,7 @@ tail() is not supported for joins.
 ## `method` to_coco_dataset()
 
 ```python
-to_coco_dataset(self) -> Path
+to_coco_dataset() -> Path
 ```
 
 Convert the dataframe to a COCO dataset.
@@ -392,10 +386,7 @@ This dataframe must return a single json-typed output column in the following fo
 ## `method` to_pytorch_dataset()
 
 ```python
-to_pytorch_dataset(
-    self,
-    image_format: str = 'pt'
-) -> torch.utils.data.IterableDataset
+to_pytorch_dataset(image_format: str = 'pt') -> torch.utils.data.IterableDataset
 ```
 
 Convert the dataframe to a pytorch IterableDataset suitable for parallel loading
@@ -422,7 +413,7 @@ re-executing the query. This data is cached to disk for future re-use.
 ## `method` where()
 
 ```python
-where(self, pred: exprs.Expr) -> DataFrame
+where(pred: exprs.Expr) -> DataFrame
 ```
 
 Filter rows based on a predicate.

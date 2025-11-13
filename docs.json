@@ -155,8 +155,8 @@
                       "sdk/latest/together",
                       "sdk/latest/vision",
                       "sdk/latest/whisper",
-                      "sdk/latest/yolox",
-                      "sdk/latest/whisperx"
+                      "sdk/latest/whisperx",
+                      "sdk/latest/yolox"
                     ]
                   },
                   {
@@ -236,8 +236,8 @@
                       "sdk/v0.4.25.dev2.fa50772b/together",
                       "sdk/v0.4.25.dev2.fa50772b/vision",
                       "sdk/v0.4.25.dev2.fa50772b/whisper",
-                      "sdk/v0.4.25.dev2.fa50772b/yolox",
-                      "sdk/v0.4.25.dev2.fa50772b/whisperx"
+                      "sdk/v0.4.25.dev2.fa50772b/whisperx",
+                      "sdk/v0.4.25.dev2.fa50772b/yolox"
                     ]
                   },
                   {

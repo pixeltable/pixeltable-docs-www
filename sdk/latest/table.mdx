@@ -18,7 +18,6 @@ FileCache.emit_eviction_warnings() at the end of the operation.
 
 ```python
 add_column(
-    self,
     *,
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error',
     **kwargs: ts.ColumnType | builtins.type | _GenericAlias | exprs.Expr
@@ -58,7 +57,6 @@ tbl.add_columns({'new_col': pxt.Int})
 
 ```python
 add_columns(
-    self,
     schema: dict[str, ts.ColumnType | builtins.type | _GenericAlias],
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
 ) -> UpdateStatus
@@ -103,7 +101,6 @@ tbl.add_columns(schema)
 
 ```python
 add_computed_column(
-    self,
     *,
     stored: bool | None = None,
     destination: str | Path | None = None,
@@ -157,7 +154,6 @@ tbl.add_computed_column(rotated=tbl.frame.rotate(90), stored=False)
 
 ```python
 add_embedding_index(
-    self,
     column: str | ColumnRef,
     *,
     idx_name: str | None = None,
@@ -235,7 +231,6 @@ tbl.add_embedding_index(
 
 ```python
 batch_update(
-    self,
     rows: Iterable[dict[str, Any]],
     cascade: bool = True,
     if_not_exists: Literal['error', 'ignore', 'insert'] = 'error'
@@ -276,7 +271,7 @@ tbl.batch_update(
 ## `method` columns()
 
 ```python
-columns(self) -> list[str]
+columns() -> list[str]
 ```
 
 Return the names of the columns in this table.
@@ -285,7 +280,7 @@ Return the names of the columns in this table.
 ## `method` count()
 
 ```python
-count(self) -> int
+count() -> int
 ```
 
 Return the number of rows in this table.
@@ -294,7 +289,7 @@ Return the number of rows in this table.
 ## `method` delete()
 
 ```python
-delete(self, where: exprs.Expr | None = None) -> UpdateStatus
+delete(where: exprs.Expr | None = None) -> UpdateStatus
 ```
 
 Delete rows in this table.
@@ -320,7 +315,7 @@ tbl.delete(tbl.a > 5)
 ## `method` describe()
 
 ```python
-describe(self) -> None
+describe() -> None
 ```
 
 Print the table schema.
@@ -330,7 +325,6 @@ Print the table schema.
 
 ```python
 drop_column(
-    self,
     column: str | ColumnRef,
     if_not_exists: Literal['error', 'ignore'] = 'error'
 ) -> None
@@ -371,7 +365,6 @@ tbl.drop_col(tbl.col, if_not_exists='ignore')
 
 ```python
 drop_embedding_index(
-    self,
     *,
     column: str | ColumnRef | None = None,
     idx_name: str | None = None,
@@ -427,7 +420,6 @@ tbl.drop_embedding_index(idx_name='idx1', if_not_exists='ignore')
 
 ```python
 drop_index(
-    self,
     *,
     column: str | ColumnRef | None = None,
     idx_name: str | None = None,
@@ -482,7 +474,7 @@ tbl.drop_index(idx_name='idx1', if_not_exists='ignore')
 ## `method` get_metadata()
 
 ```python
-get_metadata(self) -> TableMetadata
+get_metadata() -> TableMetadata
 ```
 
 Retrieves metadata associated with this table.
@@ -496,7 +488,7 @@ Retrieves metadata associated with this table.
 ## `method` get_versions()
 
 ```python
-get_versions(self, n: int | None = None) -> list[VersionMetadata]
+get_versions(n: int | None = None) -> list[VersionMetadata]
 ```
 
 Returns information about versions of this table, most recent first.
@@ -529,7 +521,7 @@ tbl.get_versions(n=5)
 ## `method` history()
 
 ```python
-history(self, n: int | None = None) -> pd.DataFrame
+history(n: int | None = None) -> pd.DataFrame
 ```
 
 Returns a human-readable report about versions of this table.
@@ -562,7 +554,6 @@ tbl.history(n=5)
 
 ```python
 insert(
-    self,
     source: TableDataSource | None = None,
     /,
     *,
@@ -652,7 +643,7 @@ tbl.insert(models)
 ## `method` list_views()
 
 ```python
-list_views(self, *, recursive: bool = True) -> list[str]
+list_views(*, recursive: bool = True) -> list[str]
 ```
 
 Returns a list of all views and snapshots of this `Table`.
@@ -672,7 +663,6 @@ Returns a list of all views and snapshots of this `Table`.
 
 ```python
 recompute_columns(
-    self,
     *columns: str | ColumnRef,
     where: exprs.Expr | None = None,
     errors_only: bool = False,
@@ -717,7 +707,7 @@ tbl.recompute_columns('c1', errors_only=True)
 ## `method` rename_column()
 
 ```python
-rename_column(self, old_name: str, new_name: str) -> None
+rename_column(old_name: str, new_name: str) -> None
 ```
 
 Rename a column.
@@ -740,7 +730,7 @@ tbl.rename_column('col1', 'col2')
 ## `method` revert()
 
 ```python
-revert(self) -> None
+revert() -> None
 ```
 
 Reverts the table to the previous version.
@@ -753,7 +743,6 @@ Reverts the table to the previous version.
 
 ```python
 sync(
-    self,
     stores: str | list[str] | None = None,
     *,
     export_data: bool = True,
@@ -776,7 +765,6 @@ Synchronizes this table with its linked external stores.
 
 ```python
 unlink_external_stores(
-    self,
     stores: str | list[str] | None = None,
     *,
     delete_external_data: bool = False,
@@ -801,7 +789,6 @@ Unlinks this table's external stores.
 
 ```python
 update(
-    self,
     value_spec: dict[str, Any],
     where: exprs.Expr | None = None,
     cascade: bool = True
