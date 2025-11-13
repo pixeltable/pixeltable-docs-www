@@ -81,8 +81,8 @@ Equivalent to
 **Parameters:**
 
 - **`mode`** (`String`): The mode to convert to. See the
-  [Pillow documentation](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes)
-  for a list of supported modes.
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes)
+    for a list of supported modes.
 
 
 ## `udf` crop()
@@ -169,7 +169,7 @@ Equivalent to [`PIL.Image.Image.getbbox()`](https://pillow.readthedocs.io/en/sta
 **Parameters:**
 
 - **`alpha_only`** (`Bool`): If `True`, and the image has an alpha channel, trim transparent pixels. Otherwise,
-  trim pixels when all channels are zero.
+    trim pixels when all channels are zero.
 
 
 ## `udf` getchannel()
@@ -341,13 +341,13 @@ Equivalent to
 
 - **`colors`** (`Int`): The number of colors to quantize to.
 - **`method`** (`Int | None`): The quantization method. See the
-  [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
-  for a list of supported methods.
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
+    for a list of supported methods.
 - **`kmeans`** (`Int`): The number of k-means clusters to use.
 - **`palette`** (`Image | None`): The palette to use.
 - **`dither`** (`Int`): The dithering method. See the
-  [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
-  for a list of supported methods.
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
+    for a list of supported methods.
 
 
 ## `udf` reduce()
@@ -365,7 +365,7 @@ Equivalent to
 
 - **`factor`** (`Int`): The reduction factor.
 - **`box`** (`Json | None`): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within
-  (0, 0, width, height) rectangle. If omitted or None, the entire source is used.
+    (0, 0, width, height) rectangle. If omitted or None, the entire source is used.
 
 
 ## `udf` resize()
@@ -410,8 +410,8 @@ Equivalent to
 **Parameters:**
 
 - **`method`** (`Int`): The transpose method. See the
-  [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.transpose)
-  for a list of supported methods.
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.transpose)
+    for a list of supported methods.
 
 
 ## `udf` width()

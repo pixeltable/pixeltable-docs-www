@@ -52,24 +52,24 @@ __Requirements:__
 - **`model`** (`String`): The name of the model to use for transcription.
 - **`diarize`** (`Bool`): Whether to perform speaker diarization.
 - **`compute_type`** (`String | None`): The compute type to use for the model (e.g., `'int8'`, `'float16'`). If `None`,
-  defaults to `'float16'` on CUDA devices and `'int8'` otherwise.
+    defaults to `'float16'` on CUDA devices and `'int8'` otherwise.
 - **`language`** (`String | None`): The language code for the transcription (e.g., `'en'` for English).
 - **`task`** (`String | None`): The task to perform (e.g., `'transcribe'` or `'translate'`). Defaults to `'transcribe'`.
 - **`chunk_size`** (`Int | None`): The size of the audio chunks to process, in seconds. Defaults to `30`.
 - **`alignment_model_name`** (`String | None`): The name of the alignment model to use. If `None`, uses the default model for the given
-  language. Only valid if `diarize=True`.
+    language. Only valid if `diarize=True`.
 - **`interpolate_method`** (`String | None`): The method to use for interpolation of the alignment results. If not specified, uses the
-  WhisperX default (`'nearest'`). Only valid if `diarize=True`.
+    WhisperX default (`'nearest'`). Only valid if `diarize=True`.
 - **`return_char_alignments`** (`Bool | None`): Whether to return character-level alignments. Defaults to `False`.
-  Only valid if `diarize=True`.
+    Only valid if `diarize=True`.
 - **`diarization_model_name`** (`String | None`): The name of the diarization model to use. Defaults to
-  `pyannote/speaker-diarization-3.1`. Only valid if `diarize=True`.
+    `pyannote/speaker-diarization-3.1`. Only valid if `diarize=True`.
 - **`num_speakers`** (`Int | None`): The number of speakers to expect in the audio. By default, the model with try to detect the
-  number of speakers. Only valid if `diarize=True`.
+    number of speakers. Only valid if `diarize=True`.
 - **`min_speakers`** (`Int | None`): If specified, the minimum number of speakers to expect in the audio.
-  Only valid if `diarize=True`.
+    Only valid if `diarize=True`.
 - **`max_speakers`** (`Int | None`): If specified, the maximum number of speakers to expect in the audio.
-  Only valid if `diarize=True`.
+    Only valid if `diarize=True`.
 
 **Returns:**
 

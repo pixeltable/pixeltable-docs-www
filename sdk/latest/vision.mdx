@@ -56,9 +56,9 @@ If no colors are specified, this function randomly assigns each label a specific
 - **`fill`** (`Bool`): Whether to fill the bounding boxes with color.
 - **`width`** (`Int`): Width of the bounding box borders.
 - **`font`** (`String | None`): Name of a system font or path to a TrueType font file, as required by
-  [`PIL.ImageFont.truetype()`](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.truetype).
-  If `None`, uses the default provided by
-  [`PIL.ImageFont.load_default()`](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.load_default).
+    [`PIL.ImageFont.truetype()`](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.truetype).
+    If `None`, uses the default provided by
+    [`PIL.ImageFont.load_default()`](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.load_default).
 - **`font_size`** (`Int | None`): Size of the font used for labels in points. Only used in conjunction with non-`None` `font` argument.
 
 **Returns:**
@@ -90,7 +90,7 @@ Evaluates the performance of a set of predicted bounding boxes against a set of 
 - **`gt_bboxes`** (`Json`): List of ground truth bounding boxes, each represented as [xmin, ymin, xmax, ymax].
 - **`gt_labels`** (`Json`): List of ground truth labels.
 - **`min_iou`** (`Float`): Minimum intersection-over-union (IoU) threshold for a predicted bounding box to be
-  considered a true positive.
+    considered a true positive.
 
 **Returns:**
 

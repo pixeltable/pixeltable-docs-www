@@ -313,7 +313,7 @@ __Requirements:__
 - **`model_id`** (`String`): The pretrained image-to-image model to use.
 - **`seed`** (`Int | None`): Random seed for reproducibility.
 - **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `strength`,
-  `guidance_scale`, or `num_inference_steps`.
+    `guidance_scale`, or `num_inference_steps`.
 
 **Returns:**
 
@@ -361,7 +361,7 @@ __Requirements:__
 - **`fps`** (`Int`): Frames per second for the output video.
 - **`seed`** (`Int | None`): Random seed for reproducibility.
 - **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`,
-  `motion_bucket_id`, or `guidance_scale`.
+    `motion_bucket_id`, or `guidance_scale`.
 
 **Returns:**
 
@@ -445,8 +445,8 @@ __Requirements:__
 - **`sentence`** (`String`): The sentence to embed.
 - **`model_id`** (`String`): The pretrained model to use for the encoding.
 - **`normalize_embeddings`** (`Bool`): If `True`, normalizes embeddings to length 1; see the
-  [Sentence Transformers API Docs](https://sbert.net/docs/package_reference/sentence_transformer/SentenceTransformer.html)
-  for more details
+    [Sentence Transformers API Docs](https://sbert.net/docs/package_reference/sentence_transformer/SentenceTransformer.html)
+    for more details
 
 **Returns:**
 
@@ -495,8 +495,8 @@ __Requirements:__
 - **`audio`** (`Audio`): The audio clip to transcribe or translate.
 - **`model_id`** (`String`): The pretrained model to use for the transcription or translation.
 - **`language`** (`String | None`): If using a multilingual translation model, the language code to translate to. If not provided,
-  the model's default language will be used. If the model is not translation model, is not a
-  multilingual model, or does not support the specified language, an error will be raised.
+    the model's default language will be used. If the model is not translation model, is not a
+    multilingual model, or does not support the specified language, an error will be raised.
 
 **Returns:**
 
@@ -620,9 +620,9 @@ __Requirements:__
 - **`text`** (`String`): The input text to continue/complete.
 - **`model_id`** (`String`): The pretrained model to use for text generation.
 - **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`,
-  `temperature`, etc. See the
-  [Hugging Face text_generation documentation](https://huggingface.co/docs/inference-providers/en/tasks/text-generation)
-  for details.
+    `temperature`, etc. See the
+    [Hugging Face text_generation documentation](https://huggingface.co/docs/inference-providers/en/tasks/text-generation)
+    for details.
 
 **Returns:**
 
@@ -670,7 +670,7 @@ __Requirements:__
 - **`width`** (`Int`): Width of the generated image in pixels.
 - **`seed`** (`Int | None`): Optional random seed for reproducibility.
 - **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`,
-  `guidance_scale`, or `negative_prompt`.
+    `guidance_scale`, or `negative_prompt`.
 
 **Returns:**
 

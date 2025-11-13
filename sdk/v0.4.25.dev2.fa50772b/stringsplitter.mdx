@@ -1,27 +1,19 @@
 ---
-title: "TileIterator"
+title: "StringSplitter"
 icon: "square-c"
 ---
-# `class` pixeltable.iterators.TileIterator
+# `class` pixeltable.iterators.StringSplitter
 
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/image.py#L10" target="_blank">View source on GitHub</a>
+<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/string.py#L8" target="_blank">View source on GitHub</a>
 
 
-Iterator over tiles of an image. Each image will be divided into tiles of size `tile_size`, and the tiles will be
-iterated over in row-major order (left-to-right, then top-to-bottom). An optional `overlap` parameter may be
-specified. If the tiles do not exactly cover the image, then the rightmost and bottommost tiles will be padded with
-blackspace, so that the output images all have the exact size `tile_size`.
-
-Args:
-    image: Image to split into tiles.
-    tile_size: Size of each tile, as a pair of integers `[width, height]`.
-    overlap: Amount of overlap between adjacent tiles, as a pair of integers `[width, height]`.
+Base class for Pixeltable iterators.
 
 
 ## `method` close()
 
 ```python
-close() -> None
+close(self) -> None
 ```
 
 Close the iterator and release all resources
@@ -70,7 +62,7 @@ Specify the dictionary returned by next() and a list of unstored column names
 ## `method` set_pos()
 
 ```python
-set_pos(pos: int) -> None
+set_pos(self, pos: int) -> None
 ```
 
 Set the iterator position to pos

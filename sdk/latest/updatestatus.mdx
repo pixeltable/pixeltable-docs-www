@@ -13,7 +13,7 @@ Information about changes to table data or table schema
 ## `method` insert_to_update()
 
 ```python
-insert_to_update() -> UpdateStatus
+insert_to_update(self) -> UpdateStatus
 ```
 
 Convert the update status from an insert operation to an update operation.
@@ -23,7 +23,7 @@ This is used when an insert operation is treated as an update.
 ## `method` to_cascade()
 
 ```python
-to_cascade() -> UpdateStatus
+to_cascade(self) -> UpdateStatus
 ```
 
 Convert the update status to a cascade update status.

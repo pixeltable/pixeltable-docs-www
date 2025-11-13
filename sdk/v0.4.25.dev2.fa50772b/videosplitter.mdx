@@ -25,14 +25,14 @@ Args:
 ## `method` accurate_iter()
 
 ```python
-accurate_iter() -> Iterator[dict[str, Any]]
+accurate_iter(self) -> Iterator[dict[str, Any]]
 ```
 
 
 ## `method` close()
 
 ```python
-close() -> None
+close(self) -> None
 ```
 
 Close the iterator and release all resources
@@ -48,7 +48,7 @@ create(**kwargs: Any) -> tuple[type[ComponentIterator], dict[str, Any]]
 ## `method` fast_iter()
 
 ```python
-fast_iter() -> Iterator[dict[str, Any]]
+fast_iter(self) -> Iterator[dict[str, Any]]
 ```
 
 
@@ -85,7 +85,7 @@ Specify the dictionary returned by next() and a list of unstored column names
 ## `method` set_pos()
 
 ```python
-set_pos(pos: int) -> None
+set_pos(self, pos: int) -> None
 ```
 
 Set the iterator position to pos

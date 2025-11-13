@@ -54,10 +54,10 @@ __Requirements:__
 - **`contents`** (`String`): The input content to generate from.
 - **`model`** (`String`): The name of the model to use.
 - **`config`** (`Json | None`): Configuration for generation, corresponding to keyword arguments of
-  `genai.types.GenerateContentConfig`. For details on the parameters, see:
-  [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
+    `genai.types.GenerateContentConfig`. For details on the parameters, see:
+    [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
 - **`tools`** (`Json | None`): An optional list of Pixeltable tools to use. It is also possible to specify tools manually via the
-  `config['tools']` parameter, but at most one of `config['tools']` or `tools` may be used.
+    `config['tools']` parameter, but at most one of `config['tools']` or `tools` may be used.
 
 **Returns:**
 
@@ -98,8 +98,8 @@ __Requirements:__
 - **`prompt`** (`String`): A text description of the images to generate.
 - **`model`** (`String`): The model to use.
 - **`config`** (`Json | None`): Configuration for generation, corresponding to keyword arguments of
-  `genai.types.GenerateImagesConfig`. For details on the parameters, see:
-  [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
+    `genai.types.GenerateImagesConfig`. For details on the parameters, see:
+    [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
 
 **Returns:**
 
@@ -140,11 +140,11 @@ __Requirements:__
 
 - **`prompt`** (`String | None`): A text description of the videos to generate.
 - **`image`** (`Image | None`): An optional image to use as the first frame of the video. At least one of `prompt` or `image` must be
-  provided. (It is ok to specify both.)
+    provided. (It is ok to specify both.)
 - **`model`** (`String`): The model to use.
 - **`config`** (`Json | None`): Configuration for generation, corresponding to keyword arguments of
-  `genai.types.GenerateVideosConfig`. For details on the parameters, see:
-  [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
+    `genai.types.GenerateVideosConfig`. For details on the parameters, see:
+    [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
 
 **Returns:**
 
