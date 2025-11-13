@@ -8,8 +8,10 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/replicate.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) that wrap various endpoints from the Replicate API. In order to use them, you must first `pip install replicate` and configure your Replicate credentials, as described in the [Working with Replicate](https://pixeltable.readme.io/docs/working-with-replicate) tutorial.
-
+Pixeltable UDFs
+that wrap various endpoints from the Replicate API. In order to use them, you must
+first `pip install replicate` and configure your Replicate credentials, as described in
+the [Working with Replicate](https://docs.pixeltable.com/notebooks/integrations/working-with-replicate) tutorial.
 
 
 ## `udf` run()
@@ -22,12 +24,13 @@ Run a model on Replicate.
 
 For additional details, see: [https://replicate.com/docs/topics/models/run-a-model](https://replicate.com/docs/topics/models/run-a-model)
 
-Request throttling: Applies the rate limit set in the config (section `replicate`, key `rate_limit`). If no rate limit is configured, uses a default of 600 RPM.
+Request throttling:
+Applies the rate limit set in the config (section `replicate`, key `rate_limit`). If no rate
+limit is configured, uses a default of 600 RPM.
 
-**Requirements:**
+__Requirements:__
 
 - `pip install replicate`
-
 
 **Parameters:**
 

@@ -8,17 +8,16 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/string.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) for `StringType`. It closely follows the Pandas `pandas.Series.str` API.
+Pixeltable UDFs for `StringType`.
+It closely follows the Pandas `pandas.Series.str` API.
 
 Example:
-
-``` python
+```python
 import pixeltable as pxt
 
 t = pxt.get_table(...)
 t.select(t.str_col.capitalize()).collect()
 ```
-
 
 
 ## `udf` capitalize()
@@ -32,7 +31,6 @@ Return string with its first character capitalized and the rest lowercased.
 Equivalent to [`str.capitalize()`](https://docs.python.org/3/library/stdtypes.html#str.capitalize).
 
 
-
 ## `udf` casefold()
 
 ```python
@@ -44,7 +42,6 @@ Return a casefolded copy of string.
 Equivalent to [`str.casefold()`](https://docs.python.org/3/library/stdtypes.html#str.casefold).
 
 
-
 ## `udf` center()
 
 ```python
@@ -54,7 +51,6 @@ center(self: String, width: Int, fillchar: String = ' ') -> String
 Return a centered string of length `width`.
 
 Equivalent to [`str.center()`](https://docs.python.org/3/library/stdtypes.html#str.center).
-
 
 **Parameters:**
 
@@ -117,7 +113,6 @@ Return `True` if the string ends with the specified suffix, otherwise return `Fa
 
 Equivalent to [`str.endswith()`](https://docs.python.org/3/library/stdtypes.html#str.endswith).
 
-
 **Parameters:**
 
 - **`substr`** (`String`): string literal
@@ -132,7 +127,6 @@ fill(self: String, width: Int) -> String
 Wraps the single paragraph in string, and returns a single string containing the wrapped paragraph.
 
 Equivalent to [`textwrap.fill()`](https://docs.python.org/3/library/textwrap.html#textwrap.fill).
-
 
 **Parameters:**
 
@@ -155,7 +149,6 @@ Return the lowest index in string where `substr` is found within the slice `s[st
 
 Equivalent to [`str.find()`](https://docs.python.org/3/library/stdtypes.html#str.find).
 
-
 **Parameters:**
 
 - **`substr`** (`String`): substring to search for
@@ -172,7 +165,6 @@ findall(self: String, pattern: String, flags: Int = 0) -> Json
 Find all occurrences of a regular expression pattern in string.
 
 Equivalent to [`re.findall()`](https://docs.python.org/3/library/re.html#re.findall).
-
 
 **Parameters:**
 
@@ -191,7 +183,6 @@ Perform string formatting.
 Equivalent to [`str.format()`](https://docs.python.org/3/library/stdtypes.html#str.format).
 
 
-
 ## `udf` fullmatch()
 
 ```python
@@ -206,7 +197,6 @@ fullmatch(
 Determine if string fully matches a regular expression.
 
 Equivalent to [`re.fullmatch()`](https://docs.python.org/3/library/re.html#re.fullmatch).
-
 
 **Parameters:**
 
@@ -226,10 +216,10 @@ index(
 ) -> Int
 ```
 
-Return the lowest index in string where `substr` is found within the slice `[start:end]`. Raises ValueError if `substr` is not found.
+Return the lowest index in string where `substr` is found within the slice `[start:end]`.
+Raises ValueError if `substr` is not found.
 
 Equivalent to [`str.index()`](https://docs.python.org/3/library/stdtypes.html#str.index).
-
 
 **Parameters:**
 
@@ -244,10 +234,10 @@ Equivalent to [`str.index()`](https://docs.python.org/3/library/stdtypes.html#st
 isalnum(self: String) -> Bool
 ```
 
-Return `True` if all characters in the string are alphanumeric and there is at least one character, `False` otherwise.
+Return `True` if all characters in the string are alphanumeric and there is at least one character, `False`
+otherwise.
 
-Equivalent to \[`str.isalnum()`\](https://docs.python.org/3/library/stdtypes.html#str.isalnum
-
+Equivalent to [`str.isalnum()`](https://docs.python.org/3/library/stdtypes.html#str.isalnum
 
 
 ## `udf` isalpha()
@@ -261,7 +251,6 @@ Return `True` if all characters in the string are alphabetic and there is at lea
 Equivalent to [`str.isalpha()`](https://docs.python.org/3/library/stdtypes.html#str.isalpha).
 
 
-
 ## `udf` isascii()
 
 ```python
@@ -273,17 +262,16 @@ Return `True` if the string is empty or all characters in the string are ASCII, 
 Equivalent to [`str.isascii()`](https://docs.python.org/3/library/stdtypes.html#str.isascii).
 
 
-
 ## `udf` isdecimal()
 
 ```python
 isdecimal(self: String) -> Bool
 ```
 
-Return `True` if all characters in the string are decimal characters and there is at least one character, `False` otherwise.
+Return `True` if all characters in the string are decimal characters and there is at least one character, `False`
+otherwise.
 
 Equivalent to [`str.isdecimal()`](https://docs.python.org/3/library/stdtypes.html#str.isdecimal).
-
 
 
 ## `udf` isdigit()
@@ -297,7 +285,6 @@ Return `True` if all characters in the string are digits and there is at least o
 Equivalent to [`str.isdigit()`](https://docs.python.org/3/library/stdtypes.html#str.isdigit).
 
 
-
 ## `udf` isidentifier()
 
 ```python
@@ -309,17 +296,16 @@ Return `True` if the string is a valid identifier according to the language defi
 Equivalent to [`str.isidentifier()`](https://docs.python.org/3/library/stdtypes.html#str.isidentifier)
 
 
-
 ## `udf` islower()
 
 ```python
 islower(self: String) -> Bool
 ```
 
-Return `True` if all cased characters in the string are lowercase and there is at least one cased character, `False` otherwise.
+Return `True` if all cased characters in the string are lowercase and there is at least one cased character,
+`False` otherwise.
 
 Equivalent to [`str.islower()`](https://docs.python.org/3/library/stdtypes.html#str.islower)
-
 
 
 ## `udf` isnumeric()
@@ -333,17 +319,16 @@ Return `True` if all characters in the string are numeric characters, `False` ot
 Equivalent to [`str.isnumeric()`](https://docs.python.org/3/library/stdtypes.html#str.isnumeric)
 
 
-
 ## `udf` isspace()
 
 ```python
 isspace(self: String) -> Bool
 ```
 
-Return `True` if there are only whitespace characters in the string and there is at least one character, `False` otherwise.
+Return `True` if there are only whitespace characters in the string and there is at least one character,
+`False` otherwise.
 
 Equivalent to [`str.isspace()`](https://docs.python.org/3/library/stdtypes.html#str.isspace)
-
 
 
 ## `udf` istitle()
@@ -357,17 +342,16 @@ Return `True` if the string is a titlecased string and there is at least one cha
 Equivalent to [`str.istitle()`](https://docs.python.org/3/library/stdtypes.html#str.istitle)
 
 
-
 ## `udf` isupper()
 
 ```python
 isupper(self: String) -> Bool
 ```
 
-Return `True` if all cased characters in the string are uppercase and there is at least one cased character, `False` otherwise.
+Return `True` if all cased characters in the string are uppercase and there is at least one cased character,
+`False` otherwise.
 
 Equivalent to [`str.isupper()`](https://docs.python.org/3/library/stdtypes.html#str.isupper)
-
 
 
 ## `udf` join()
@@ -381,7 +365,6 @@ Return a string which is the concatenation of the strings in `elements`.
 Equivalent to [`str.join()`](https://docs.python.org/3/library/stdtypes.html#str.join)
 
 
-
 ## `udf` len()
 
 ```python
@@ -391,7 +374,6 @@ len(self: String) -> Int
 Return the number of characters in the string.
 
 Equivalent to [`len(str)`](https://docs.python.org/3/library/functions.html#len)
-
 
 
 ## `udf` ljust()
@@ -404,10 +386,10 @@ Return the string left-justified in a string of length `width`.
 
 Equivalent to [`str.ljust()`](https://docs.python.org/3/library/stdtypes.html#str.ljust)
 
-
 **Parameters:**
 
-- **`width`** (`Int`): Minimum width of resulting string; additional characters will be filled with character defined in `fillchar`.
+- **`width`** (`Int`): Minimum width of resulting string; additional characters will be filled with character defined in
+  `fillchar`.
 - **`fillchar`** (`String`): Additional character for filling.
 
 
@@ -422,17 +404,16 @@ Return a copy of the string with all the cased characters converted to lowercase
 Equivalent to [`str.lower()`](https://docs.python.org/3/library/stdtypes.html#str.lower)
 
 
-
 ## `udf` lstrip()
 
 ```python
 lstrip(self: String, chars: String | None = None) -> String
 ```
 
-Return a copy of the string with leading characters removed. The `chars` argument is a string specifying the set of characters to be removed. If omitted or `None`, whitespace characters are removed.
+Return a copy of the string with leading characters removed. The `chars` argument is a string specifying the set of
+characters to be removed. If omitted or `None`, whitespace characters are removed.
 
 Equivalent to [`str.lstrip()`](https://docs.python.org/3/library/stdtypes.html#str.lstrip)
-
 
 **Parameters:**
 
@@ -470,7 +451,6 @@ Return the Unicode normal form.
 
 Equivalent to [`unicodedata.normalize()`](https://docs.python.org/3/library/unicodedata.html#unicodedata.normalize)
 
-
 **Parameters:**
 
 - **`form`** (`String`): Unicode normal form (`'NFC'`, `'NFKC'`, `'NFD'`, `'NFKD'`)
@@ -492,7 +472,8 @@ Pad string up to width
 
 **Parameters:**
 
-- **`width`** (`Int`): Minimum width of resulting string; additional characters will be filled with character defined in `fillchar`.
+- **`width`** (`Int`): Minimum width of resulting string; additional characters will be filled with character defined in
+  `fillchar`.
 - **`side`** (`String`): Side from which to fill resulting string (`'left'`, `'right'`, `'both'`)
 - **`fillchar`** (`String`): Additional character for filling
 
@@ -503,8 +484,9 @@ Pad string up to width
 partition(self: String, sep: String = ' ') -> Json
 ```
 
-Splits string at the first occurrence of `sep`, and returns 3 elements containing the part before the separator, the separator itself, and the part after the separator. If the separator is not found, return 3 elements containing string itself, followed by two empty strings.
-
+Splits string at the first occurrence of `sep`, and returns 3 elements containing the part before the
+separator, the separator itself, and the part after the separator. If the separator is not found, return 3 elements
+containing string itself, followed by two empty strings.
 
 
 ## `udf` removeprefix()
@@ -516,7 +498,6 @@ removeprefix(self: String, prefix: String) -> String
 Remove prefix. If the prefix is not present, returns string.
 
 
-
 ## `udf` removesuffix()
 
 ```python
@@ -526,7 +507,6 @@ removesuffix(self: String, suffix: String) -> String
 Remove suffix. If the suffix is not present, returns string.
 
 
-
 ## `udf` repeat()
 
 ```python
@@ -534,7 +514,6 @@ repeat(self: String, n: Int) -> String
 ```
 
 Repeat string `n` times.
-
 
 
 ## `udf` replace()
@@ -551,7 +530,6 @@ replace(
 Replace occurrences of `substr` with `repl`.
 
 Equivalent to [`str.replace()`](https://docs.python.org/3/library/stdtypes.html#str.replace).
-
 
 **Parameters:**
 
@@ -576,7 +554,6 @@ Replace occurrences of a regular expression pattern with `repl`.
 
 Equivalent to [`re.sub()`](https://docs.python.org/3/library/re.html#re.sub).
 
-
 **Parameters:**
 
 - **`pattern`** (`String`): regular expression pattern
@@ -596,7 +573,6 @@ Return a reversed copy of the string.
 Equivalent to `str[::-1]`.
 
 
-
 ## `udf` rfind()
 
 ```python
@@ -611,7 +587,6 @@ rfind(
 Return the highest index where `substr` is found, such that `substr` is contained within `[start:end]`.
 
 Equivalent to [`str.rfind()`](https://docs.python.org/3/library/stdtypes.html#str.rfind).
-
 
 **Parameters:**
 
@@ -631,10 +606,10 @@ rindex(
 ) -> Int
 ```
 
-Return the highest index where `substr` is found, such that `substr` is contained within `[start:end]`. Raises ValueError if `substr` is not found.
+Return the highest index where `substr` is found, such that `substr` is contained within `[start:end]`.
+Raises ValueError if `substr` is not found.
 
 Equivalent to [`str.rindex()`](https://docs.python.org/3/library/stdtypes.html#str.rindex).
-
 
 
 ## `udf` rjust()
@@ -646,7 +621,6 @@ rjust(self: String, width: Int, fillchar: String = ' ') -> String
 Return the string right-justified in a string of length `width`.
 
 Equivalent to [`str.rjust()`](https://docs.python.org/3/library/stdtypes.html#str.rjust).
-
 
 **Parameters:**
 
@@ -660,8 +634,8 @@ Equivalent to [`str.rjust()`](https://docs.python.org/3/library/stdtypes.html#st
 rpartition(self: String, sep: String = ' ') -> Json
 ```
 
-This method splits string at the last occurrence of `sep`, and returns a list containing the part before the separator, the separator itself, and the part after the separator.
-
+This method splits string at the last occurrence of `sep`, and returns a list containing the part before the
+separator, the separator itself, and the part after the separator.
 
 
 ## `udf` rstrip()
@@ -673,7 +647,6 @@ rstrip(self: String, chars: String | None = None) -> String
 Return a copy of string with trailing characters removed.
 
 Equivalent to [`str.rstrip()`](https://docs.python.org/3/library/stdtypes.html#str.rstrip).
-
 
 **Parameters:**
 
@@ -732,7 +705,6 @@ Return `True` if string starts with `substr`, otherwise return `False`.
 
 Equivalent to [`str.startswith()`](https://docs.python.org/3/library/stdtypes.html#str.startswith).
 
-
 **Parameters:**
 
 - **`substr`** (`String`): string literal
@@ -747,7 +719,6 @@ strip(self: String, chars: String | None = None) -> String
 Return a copy of string with leading and trailing characters removed.
 
 Equivalent to [`str.strip()`](https://docs.python.org/3/library/stdtypes.html#str.strip).
-
 
 **Parameters:**
 
@@ -765,17 +736,16 @@ Return a copy of string with uppercase characters converted to lowercase and vic
 Equivalent to [`str.swapcase()`](https://docs.python.org/3/library/stdtypes.html#str.swapcase).
 
 
-
 ## `udf` title()
 
 ```python
 title(self: String) -> String
 ```
 
-Return a titlecased version of string, i.e. words start with uppercase characters, all remaining cased characters are lowercase.
+Return a titlecased version of string, i.e. words start with uppercase characters, all remaining cased characters
+are lowercase.
 
 Equivalent to [`str.title()`](https://docs.python.org/3/library/stdtypes.html#str.title).
-
 
 
 ## `udf` upper()
@@ -789,17 +759,16 @@ Return a copy of string converted to uppercase.
 Equivalent to [`str.upper()`](https://docs.python.org/3/library/stdtypes.html#str.upper).
 
 
-
 ## `udf` wrap()
 
 ```python
 wrap(self: String, width: Int) -> Json
 ```
 
-Wraps the single paragraph in string so every line is at most `width` characters long. Returns a list of output lines, without final newlines.
+Wraps the single paragraph in string so every line is at most `width` characters long.
+Returns a list of output lines, without final newlines.
 
 Equivalent to [`textwrap.fill()`](https://docs.python.org/3/library/textwrap.html#textwrap.fill).
-
 
 **Parameters:**
 

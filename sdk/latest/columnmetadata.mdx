@@ -9,7 +9,6 @@ icon: "square-c"
 
 Metadata for a column of a Pixeltable table.
 
-
 ## `attr` computed_with
 
 ```
@@ -17,7 +16,6 @@ computed_with: str | None
 ```
 
 Expression used to compute this column; `None` if this is not a computed column.
-
 
 ## `attr` defined_in
 
@@ -29,7 +27,6 @@ Name of the table where this column was originally defined.
 
 If the current table is a view, then `defined_in` may differ from the current table name.
 
-
 ## `attr` is_primary_key
 
 ```
@@ -37,7 +34,6 @@ is_primary_key: bool
 ```
 
 `True` if this column is part of the table's primary key.
-
 
 ## `attr` is_stored
 
@@ -47,7 +43,6 @@ is_stored: bool
 
 `True` if this is a stored column; `False` if it is dynamically computed.
 
-
 ## `attr` media_validation
 
 ```
@@ -55,7 +50,6 @@ media_validation: Literal['on_read', 'on_write'] | None
 ```
 
 The media validation policy for this column.
-
 
 ## `attr` name
 
@@ -65,7 +59,6 @@ name: str
 
 The name of the column.
 
-
 ## `attr` type_
 
 ```
@@ -74,7 +67,6 @@ type_: str
 
 The type specifier of the column.
 
-
 ## `attr` version_added
 
 ```
@@ -82,5 +74,4 @@ version_added: int
 ```
 
 The table version when this column was added.
-
 

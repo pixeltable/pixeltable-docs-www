@@ -8,10 +8,11 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/whisper.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDF](https://pixeltable.readme.io/docs/user-defined-functions-udfs) that wraps the OpenAI Whisper library.
+Pixeltable UDFs
+that wraps the OpenAI Whisper library.
 
-This UDF will cause Pixeltable to invoke the relevant model locally. In order to use it, you must first `pip install openai-whisper`.
-
+This UDF will cause Pixeltable to invoke the relevant model locally. In order to use it, you must
+first `pip install openai-whisper`.
 
 
 ## `udf` transcribe()
@@ -36,12 +37,13 @@ transcribe(
 
 Transcribe an audio file using Whisper.
 
-This UDF runs a transcription model *locally* using the Whisper library, equivalent to the Whisper `transcribe` function, as described in the [Whisper library documentation](https://github.com/openai/whisper).
+This UDF runs a transcription model _locally_ using the Whisper library,
+equivalent to the Whisper `transcribe` function, as described in the
+[Whisper library documentation](https://github.com/openai/whisper).
 
-**Requirements:**
+__Requirements:__
 
 - `pip install openai-whisper`
-
 
 **Parameters:**
 

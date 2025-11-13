@@ -8,17 +8,15 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/date.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) for `DateType`.
+Pixeltable UDFs for `DateType`.
 
 Usage example:
-
-``` python
+```python
 import pixeltable as pxt
 
 t = pxt.get_table(...)
 t.select(t.date_col.year, t.date_col.weekday()).collect()
 ```
-
 
 
 ## `udf` add_days()
@@ -32,7 +30,6 @@ Add `n` days to the date.
 Equivalent to [`date + timedelta(days=n)`](https://docs.python.org/3/library/datetime.html#datetime.timedelta).
 
 
-
 ## `udf` day()
 
 ```python
@@ -44,7 +41,6 @@ Between 1 and the number of days in the given month of the given year.
 Equivalent to [`date.day`](https://docs.python.org/3/library/datetime.html#datetime.date.day).
 
 
-
 ## `udf` isocalendar()
 
 ```python
@@ -53,8 +49,8 @@ isocalendar(self: Date) -> Json
 
 Return a dictionary with three entries: `'year'`, `'week'`, and `'weekday'`.
 
-Equivalent to [`date.isocalendar()`](https://docs.python.org/3/library/datetime.html#datetime.date.isocalendar).
-
+Equivalent to
+[`date.isocalendar()`](https://docs.python.org/3/library/datetime.html#datetime.date.isocalendar).
 
 
 ## `udf` isoformat()
@@ -71,11 +67,12 @@ Return a string representing the date and time in ISO 8601 format.
 
 Equivalent to [`date.isoformat()`](https://docs.python.org/3/library/datetime.html#datetime.date.isoformat).
 
-
 **Parameters:**
 
 - **`sep`** (`String`): Separator between date and time.
-- **`timespec`** (`String`): The number of additional terms in the output. See the [`date.isoformat()`](https://docs.python.org/3/library/datetime.html#datetime.date.isoformat) documentation for more details.
+- **`timespec`** (`String`): The number of additional terms in the output. See the
+  [`date.isoformat()`](https://docs.python.org/3/library/datetime.html#datetime.date.isoformat)
+  documentation for more details.
 
 
 ## `udf` isoweekday()
@@ -89,7 +86,6 @@ Return the day of the week as an integer, where Monday is 1 and Sunday is 7.
 Equivalent to [`date.isoweekday()`](https://docs.python.org/3/library/datetime.html#datetime.date.isoweekday).
 
 
-
 ## `udf` make_date()
 
 ```python
@@ -99,7 +95,6 @@ make_date(year: Int, month: Int, day: Int) -> Date
 Create a date.
 
 Equivalent to [`datetime()`](https://docs.python.org/3/library/datetime.html#datetime.date).
-
 
 
 ## `udf` month()
@@ -113,7 +108,6 @@ Between 1 and 12 inclusive.
 Equivalent to [`date.month`](https://docs.python.org/3/library/datetime.html#datetime.date.month).
 
 
-
 ## `udf` strftime()
 
 ```python
@@ -124,10 +118,10 @@ Return a string representing the date and time, controlled by an explicit format
 
 Equivalent to [`date.strftime()`](https://docs.python.org/3/library/datetime.html#datetime.date.strftime).
 
-
 **Parameters:**
 
-- **`format`** (`String`): The format string to control the output. For a complete list of formatting directives, see [`strftime()` and `strptime()` Behavior](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
+- **`format`** (`String`): The format string to control the output. For a complete list of formatting directives, see
+  [`strftime()` and `strptime()` Behavior](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
 
 
 ## `udf` toordinal()
@@ -141,7 +135,6 @@ Return the proleptic Gregorian ordinal of the date, where January 1 of year 1 ha
 Equivalent to [`date.toordinal()`](https://docs.python.org/3/library/datetime.html#datetime.date.toordinal).
 
 
-
 ## `udf` weekday()
 
 ```python
@@ -153,7 +146,6 @@ Between 0 (Monday) and 6 (Sunday) inclusive.
 Equivalent to [`date.weekday()`](https://docs.python.org/3/library/datetime.html#datetime.date.weekday).
 
 
-
 ## `udf` year()
 
 ```python
@@ -162,8 +154,9 @@ year(self: Date) -> Int
 
 Between 1 and 9999 inclusive.
 
-(Between [`MINYEAR`](https://docs.python.org/3/library/datetime.html#datetime.MINYEAR) and [`MAXYEAR`](https://docs.python.org/3/library/datetime.html#datetime.MAXYEAR) as defined by the Python `datetime` library).
+(Between [`MINYEAR`](https://docs.python.org/3/library/datetime.html#datetime.MINYEAR) and
+[`MAXYEAR`](https://docs.python.org/3/library/datetime.html#datetime.MAXYEAR) as defined by the Python `datetime`
+library).
 
 Equivalent to [`date.year`](https://docs.python.org/3/library/datetime.html#datetime.date.year).
-
 

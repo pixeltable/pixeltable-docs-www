@@ -10,8 +10,8 @@ icon: "square-m"
 
 Pixeltable UDFs for AWS Bedrock AI models.
 
-Provides integration with AWS Bedrock for accessing various foundation models including Anthropic Claude, Amazon Titan, and other providers.
-
+Provides integration with AWS Bedrock for accessing various foundation models
+including Anthropic Claude, Amazon Titan, and other providers.
 
 
 ## `func` invoke_tools()
@@ -24,7 +24,6 @@ invoke_tools(
 ```
 
 Converts an Anthropic response dict to Pixeltable tool invocation format and calls `tools._invoke()`.
-
 
 
 ## `udf` converse()
@@ -43,12 +42,12 @@ converse(
 
 Generate a conversation response.
 
-Equivalent to the AWS Bedrock `converse` API endpoint. For additional details, see: [https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html)
+Equivalent to the AWS Bedrock `converse` API endpoint.
+For additional details, see: [https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference.html)
 
-**Requirements:**
+__Requirements:__
 
 - `pip install boto3`
-
 
 **Parameters:**
 

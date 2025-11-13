@@ -9,7 +9,6 @@ icon: "square-c"
 
 Metadata for a specific version of a Pixeltable table.
 
-
 ## `attr` change_type
 
 ```
@@ -17,7 +16,6 @@ change_type: Literal['data', 'schema']
 ```
 
 The type of table transformation that this version represents (`'data'` or `'schema'`).
-
 
 ## `attr` computed
 
@@ -27,7 +25,6 @@ computed: int
 
 The number of computed values calculated in this version.
 
-
 ## `attr` created_at
 
 ```
@@ -35,7 +32,6 @@ created_at: datetime.datetime
 ```
 
 The timestamp when this version was created.
-
 
 ## `attr` deletes
 
@@ -45,7 +41,6 @@ deletes: int
 
 The number of rows deleted in this version.
 
-
 ## `attr` errors
 
 ```
@@ -53,7 +48,6 @@ errors: int
 ```
 
 The number of errors encountered during this version.
-
 
 ## `attr` inserts
 
@@ -63,7 +57,6 @@ inserts: int
 
 The number of rows inserted in this version.
 
-
 ## `attr` schema_change
 
 ```
@@ -71,7 +64,6 @@ schema_change: str | None
 ```
 
 A description of the schema change that occurred in this version, if any.
-
 
 ## `attr` updates
 
@@ -81,7 +73,6 @@ updates: int
 
 The number of rows updated in this version.
 
-
 ## `attr` user
 
 ```
@@ -90,7 +81,6 @@ user: str | None
 
 The user who created this version, if defined.
 
-
 ## `attr` version
 
 ```
@@ -98,5 +88,4 @@ version: int
 ```
 
 The version number.
-
 

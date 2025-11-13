@@ -8,8 +8,10 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/anthropic.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) that wrap various endpoints from the Anthropic API. In order to use them, you must first `pip install anthropic` and configure your Anthropic credentials, as described in the [Working with Anthropic](https://pixeltable.readme.io/docs/working-with-anthropic) tutorial.
-
+Pixeltable UDFs
+that wrap various endpoints from the Anthropic API. In order to use them, you must
+first `pip install anthropic` and configure your Anthropic credentials, as described in
+the [Working with Anthropic](https://docs.pixeltable.com/notebooks/integrations/working-with-anthropic) tutorial.
 
 
 ## `func` invoke_tools()
@@ -22,7 +24,6 @@ invoke_tools(
 ```
 
 Converts an Anthropic response dict to Pixeltable tool invocation format and calls `tools._invoke()`.
-
 
 
 ## `udf` messages()
@@ -41,20 +42,23 @@ messages(
 
 Create a Message.
 
-Equivalent to the Anthropic `messages` API endpoint. For additional details, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
+Equivalent to the Anthropic `messages` API endpoint.
+For additional details, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
 
-Request throttling: Uses the rate limit-related headers returned by the API to throttle requests adaptively, based on available request and token capacity. No configuration is necessary.
+Request throttling:
+Uses the rate limit-related headers returned by the API to throttle requests adaptively, based on available
+request and token capacity. No configuration is necessary.
 
-**Requirements:**
+__Requirements:__
 
 - `pip install anthropic`
-
 
 **Parameters:**
 
 - **`messages`** (`Json`): Input messages.
 - **`model`** (`String`): The model that will complete your prompt.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the Anthropic `messages` API. For details on the available parameters, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
+- **`model_kwargs`** (`Json | None`): Additional keyword args for the Anthropic `messages` API.
+  For details on the available parameters, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
 - **`tools`** (`Json | None`): An optional list of Pixeltable tools to use for the request.
 - **`tool_choice`** (`Json | None`): An optional tool choice configuration.
 

@@ -8,8 +8,7 @@ icon: "square-m"
 <a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/video.py#L0" target="_blank">View source on GitHub</a>
 
 
-Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) for `VideoType`.
-
+Pixeltable UDFs for `VideoType`.
 
 
 ## `udf` clip()
@@ -29,12 +28,12 @@ clip(
 
 Extract a clip from a video, specified by `start_time` and either `end_time` or `duration` (in seconds).
 
-If `start_time` is beyond the end of the video, returns None. Can only specify one of `end_time` and `duration`. If both `end_time` and `duration` are None, the clip goes to the end of the video.
+If `start_time` is beyond the end of the video, returns None. Can only specify one of `end_time` and `duration`.
+If both `end_time` and `duration` are None, the clip goes to the end of the video.
 
-**Requirements:**
+__Requirements:__
 
 - `ffmpeg` needs to be installed and in PATH
-
 
 **Parameters:**
 
@@ -42,9 +41,11 @@ If `start_time` is beyond the end of the video, returns None. Can only specify o
 - **`start_time`** (`Float`): Start time in seconds
 - **`end_time`** (`Float | None`): End time in seconds
 - **`duration`** (`Float | None`): Duration of the clip in seconds
-- **`mode`** (`String`): - `'fast'`: avoids re-encoding but starts the clip at the nearest keyframes and as a result, the clip duration will be slightly longer than requested
+- **`mode`** (`String`): - `'fast'`: avoids re-encoding but starts the clip at the nearest keyframes and as a result, the clip
+  duration will be slightly longer than requested
   - `'accurate'`: extracts a frame-accurate clip, but requires re-encoding
-- **`video_encoder`** (`String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform. Only available for `mode='accurate'`.
+- **`video_encoder`** (`String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+  Only available for `mode='accurate'`.
 - **`video_encoder_args`** (`Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 **Returns:**
@@ -60,10 +61,9 @@ concat_videos(videos: Json) -> Video
 
 Merge multiple videos into a single video.
 
-**Requirements:**
+__Requirements:__
 
 - `ffmpeg` needs to be installed and in PATH
-
 
 **Parameters:**
 
@@ -177,7 +177,7 @@ Gets various metadata associated with a video file and returns it as a dictionar
 **Returns:**
 
 - `Json`: A `dict` such as the following:
-  ``` json
+  ```json
   {
       'bit_exact': False,
       'bit_rate': 967260,
@@ -244,10 +244,9 @@ overlay_text(
 
 Overlay text on a video with customizable positioning and styling.
 
-**Requirements:**
+__Requirements:__
 
 - `ffmpeg` needs to be installed and in PATH
-
 
 **Parameters:**
 
@@ -336,27 +335,36 @@ scene_detect_adaptive(
 ) -> Json
 ```
 
-Detect scene cuts in a video using PySceneDetect's [AdaptiveDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.adaptive_detector.AdaptiveDetector).
+Detect scene cuts in a video using PySceneDetect's
+[AdaptiveDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.adaptive_detector.AdaptiveDetector).
 
-**Requirements:**
+__Requirements:__
 
 - `pip install scenedetect`
-
 
 **Parameters:**
 
 - **`video`** (`Video`): The video to analyze for scene cuts.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames. Lower values process faster but may miss exact scene cuts.
-- **`adaptive_threshold`** (`Float`): Threshold that the score ratio must exceed to trigger a new scene cut. Lower values will detect more scenes (more sensitive), higher values will detect fewer scenes.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
-- **`window_width`** (`Int`): Size of window (number of frames) before and after each frame to average together in order to detect deviations from the mean. Must be at least 1.
-- **`min_content_val`** (`Float`): Minimum threshold (float) that the content_val must exceed in order to register as a new scene. This is calculated the same way that `scene_detect_content()` calculates frame score based on weights/luma_only/kernel_size.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+  Lower values process faster but may miss exact scene cuts.
+- **`adaptive_threshold`** (`Float`): Threshold that the score ratio must exceed to trigger a new scene cut.
+  Lower values will detect more scenes (more sensitive), higher values will detect fewer scenes.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+  list.
+- **`window_width`** (`Int`): Size of window (number of frames) before and after each frame to average together in order to
+  detect deviations from the mean. Must be at least 1.
+- **`min_content_val`** (`Float`): Minimum threshold (float) that the content_val must exceed in order to register as a new scene.
+  This is calculated the same way that `scene_detect_content()` calculates frame
+  score based on weights/luma_only/kernel_size.
 - **`delta_hue`** (`Float`): Weight for hue component changes. Higher values make hue changes more important.
 - **`delta_sat`** (`Float`): Weight for saturation component changes. Higher values make saturation changes more important.
 - **`delta_lum`** (`Float`): Weight for luminance component changes. Higher values make brightness changes more important.
-- **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important. Edge detection can help detect cuts in scenes with similar colors but different content.
-- **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel of the video, ignoring color information. This can be faster and may work better for grayscale content.
-- **`kernel_size`** (`Int | None`): Size of kernel to use for post edge detection filtering. If None, automatically set based on video resolution.
+- **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important.
+  Edge detection can help detect cuts in scenes with similar colors but different content.
+- **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel of the video,
+  ignoring color information. This can be faster and may work better for grayscale content.
+- **`kernel_size`** (`Int | None`): Size of kernel to use for post edge detection filtering. If None, automatically set based on video
+  resolution.
 
 **Returns:**
 
@@ -422,25 +430,31 @@ scene_detect_content(
 ) -> Json
 ```
 
-Detect scene cuts in a video using PySceneDetect's [ContentDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.content_detector.ContentDetector).
+Detect scene cuts in a video using PySceneDetect's
+[ContentDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.content_detector.ContentDetector).
 
-**Requirements:**
+__Requirements:__
 
 - `pip install scenedetect`
-
 
 **Parameters:**
 
 - **`video`** (`Video`): The video to analyze for scene cuts.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames. Lower values process faster but may miss exact scene cuts.
-- **`threshold`** (`Float`): Threshold that the weighted sum of component changes must exceed to trigger a scene cut. Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
+  Lower values process faster but may miss exact scene cuts.
+- **`threshold`** (`Float`): Threshold that the weighted sum of component changes must exceed to trigger a scene cut.
+  Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+  list.
 - **`delta_hue`** (`Float`): Weight for hue component changes. Higher values make hue changes more important.
 - **`delta_sat`** (`Float`): Weight for saturation component changes. Higher values make saturation changes more important.
 - **`delta_lum`** (`Float`): Weight for luminance component changes. Higher values make brightness changes more important.
-- **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important. Edge detection can help detect cuts in scenes with similar colors but different content.
-- **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel, ignoring color information. This can be faster and may work better for grayscale content.
-- **`kernel_size`** (`Int | None`): Size of kernel for expanding detected edges. Must be odd integer greater than or equal to 3. If None, automatically set using video resolution.
+- **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important.
+  Edge detection can help detect cuts in scenes with similar colors but different content.
+- **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel,
+  ignoring color information. This can be faster and may work better for grayscale content.
+- **`kernel_size`** (`Int | None`): Size of kernel for expanding detected edges. Must be odd integer greater than or equal to 3. If
+  None, automatically set using video resolution.
 - **`filter_mode`** (`String`): How to handle fast cuts/flashes. 'merge' combines quick cuts, 'suppress' filters them out.
 
 **Returns:**
@@ -503,23 +517,33 @@ scene_detect_hash(
 ) -> Json
 ```
 
-Detect scene cuts in a video using PySceneDetect's [HashDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.hash_detector.HashDetector).
+Detect scene cuts in a video using PySceneDetect's
+[HashDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.hash_detector.HashDetector).
 
-HashDetector uses perceptual hashing for very fast scene detection. It computes a hash of each frame at reduced resolution and compares hash distances.
+HashDetector uses perceptual hashing for very fast scene detection. It computes a hash of each
+frame at reduced resolution and compares hash distances.
 
-**Requirements:**
+__Requirements:__
 
 - `pip install scenedetect`
-
 
 **Parameters:**
 
 - **`video`** (`Video`): The video to analyze for scene cuts.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames. Lower values process faster but may miss exact scene cuts.
-- **`threshold`** (`Float`): Value from 0.0 and 1.0 representing the relative hamming distance between the perceptual hashes of adjacent frames. A distance of 0 means the image is the same, and 1 means no correlation. Smaller threshold values thus require more correlation, making the detector more sensitive. The Hamming distance is divided by size x size before comparing to threshold for normalization. Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
-- **`size`** (`Int`): Size of square of low frequency data to use for the DCT. Larger values are more precise but slower. Common values are 8, 16, or 32.
-- **`lowpass`** (`Int`): How much high frequency information to filter from the DCT. A value of 2 means keep lower 1/2 of the frequency data, 4 means only keep 1/4, etc. Larger values make the detector less sensitive to high-frequency details and noise.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
+  Lower values process faster but may miss exact scene cuts.
+- **`threshold`** (`Float`): Value from 0.0 and 1.0 representing the relative hamming distance between the perceptual hashes of
+  adjacent frames. A distance of 0 means the image is the same, and 1 means no correlation. Smaller threshold
+  values thus require more correlation, making the detector more sensitive. The Hamming distance is divided
+  by size x size before comparing to threshold for normalization.
+  Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+- **`size`** (`Int`): Size of square of low frequency data to use for the DCT. Larger values are more precise but slower.
+  Common values are 8, 16, or 32.
+- **`lowpass`** (`Int`): How much high frequency information to filter from the DCT. A value of 2 means keep lower 1/2 of the
+  frequency data, 4 means only keep 1/4, etc. Larger values make the
+  detector less sensitive to high-frequency details and noise.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+  list.
 
 **Returns:**
 
@@ -579,22 +603,30 @@ scene_detect_histogram(
 ) -> Json
 ```
 
-Detect scene cuts in a video using PySceneDetect's [HistogramDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.histogram_detector.HistogramDetector).
+Detect scene cuts in a video using PySceneDetect's
+[HistogramDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.histogram_detector.HistogramDetector).
 
-HistogramDetector compares frame histograms on the Y (luminance) channel after YUV conversion. It detects scenes based on relative histogram differences and is more robust to gradual lighting changes than content-based detection.
+HistogramDetector compares frame histograms on the Y (luminance) channel after YUV conversion.
+It detects scenes based on relative histogram differences and is more robust to gradual lighting
+changes than content-based detection.
 
-**Requirements:**
+__Requirements:__
 
 - `pip install scenedetect`
-
 
 **Parameters:**
 
 - **`video`** (`Video`): The video to analyze for scene cuts.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames. Lower values process faster but may miss exact scene cuts.
-- **`threshold`** (`Float`): Maximum relative difference between 0.0 and 1.0 that the histograms can differ. Histograms are calculated on the Y channel after converting the frame to YUV, and normalized based on the number of bins. Higher differences imply greater change in content, so larger threshold values are less sensitive to cuts. Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
-- **`bins`** (`Int`): Number of bins to use for histogram calculation (typically 16-256). More bins provide finer granularity but may be more sensitive to noise.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+  Lower values process faster but may miss exact scene cuts.
+- **`threshold`** (`Float`): Maximum relative difference between 0.0 and 1.0 that the histograms can differ. Histograms are
+  calculated on the Y channel after converting the frame to YUV, and normalized based on the number of bins.
+  Higher differences imply greater change in content, so larger threshold values are less sensitive to cuts.
+  Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+- **`bins`** (`Int`): Number of bins to use for histogram calculation (typically 16-256). More bins provide
+  finer granularity but may be more sensitive to noise.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+  list.
 
 **Returns:**
 
@@ -655,23 +687,30 @@ scene_detect_threshold(
 ) -> Json
 ```
 
-Detect fade-in and fade-out transitions in a video using PySceneDetect's [ThresholdDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.threshold_detector.ThresholdDetector).
+Detect fade-in and fade-out transitions in a video using PySceneDetect's
+[ThresholdDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.threshold_detector.ThresholdDetector).
 
-ThresholdDetector identifies scenes by detecting when pixel brightness falls below or rises above a threshold value, suitable for detecting fade-to-black, fade-to-white, and similar transitions.
+ThresholdDetector identifies scenes by detecting when pixel brightness falls below or rises above
+a threshold value, suitable for detecting fade-to-black, fade-to-white, and similar transitions.
 
-**Requirements:**
+__Requirements:__
 
 - `pip install scenedetect`
-
 
 **Parameters:**
 
 - **`video`** (`Video`): The video to analyze for fade transitions.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames. Lower values process faster but may miss exact transition points.
-- **`threshold`** (`Float`): 8-bit intensity value that each pixel value (R, G, and B) must be \<= to in order to trigger a fade in/out.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene list.
-- **`fade_bias`** (`Float`): Float between -1.0 and +1.0 representing the percentage of timecode skew for the start of a scene (-1.0 causing a cut at the fade-to-black, 0.0 in the middle, and +1.0 causing the cut to be right at the position where the threshold is passed).
-- **`add_final_scene`** (`Bool`): Boolean indicating if the video ends on a fade-out to generate an additional scene at this timecode.
+- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+  Lower values process faster but may miss exact transition points.
+- **`threshold`** (`Float`): 8-bit intensity value that each pixel value (R, G, and B) must be less than or equal to in order
+  to trigger a fade in/out.
+- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+  list.
+- **`fade_bias`** (`Float`): Float between -1.0 and +1.0 representing the percentage of timecode skew for the start of a scene
+  (-1.0 causing a cut at the fade-to-black, 0.0 in the middle, and +1.0 causing the cut to be right at the
+  position where the threshold is passed).
+- **`add_final_scene`** (`Bool`): Boolean indicating if the video ends on a fade-out to generate an additional scene at this
+  timecode.
 - **`method`** (`String`): How to treat threshold when detecting fade events
   - 'ceiling': Fade out happens when frame brightness rises above threshold.
   - 'floor': Fade out happens when frame brightness falls below threshold.
@@ -736,20 +775,24 @@ segment_video(
 
 Split a video into segments.
 
-**Requirements:**
+__Requirements:__
 
 - `ffmpeg` needs to be installed and in PATH
-
 
 **Parameters:**
 
 - **`video`** (`Video`): Input video file to segment
-- **`duration`** (`Float | None`): Duration of each segment (in seconds). For `mode='fast'`, this is approximate; for `mode='accurate'`, segments will have exact durations. Cannot be specified together with `segment_times`.
-- **`segment_times`** (`Json | None`): List of timestamps (in seconds) in video where segments should be split. Note that these are not segment durations. If all segment times are less than the duration of the video, produces exactly `len(segment_times) + 1` segments. Cannot be empty or be specified together with `duration`.
+- **`duration`** (`Float | None`): Duration of each segment (in seconds). For `mode='fast'`, this is approximate;
+  for `mode='accurate'`, segments will have exact durations. Cannot be specified together with
+  `segment_times`.
+- **`segment_times`** (`Json | None`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
+  segment durations. If all segment times are less than the duration of the video, produces exactly
+  `len(segment_times) + 1` segments. Cannot be empty or be specified together with `duration`.
 - **`mode`** (`String`): Segmentation mode:
   - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations)
   - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower)
-- **`video_encoder`** (`String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform. Only available for `mode='accurate'`.
+- **`video_encoder`** (`String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+  Only available for `mode='accurate'`.
 - **`video_encoder_args`** (`Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 **Returns:**
@@ -803,21 +846,25 @@ with_audio(
 ) -> Video
 ```
 
-Creates a new video that combines the video stream from `video` and the audio stream from `audio`. The `start_time` and `duration` parameters can be used to select a specific time range from each input. If the audio input (or selected time range) is longer than the video, the audio will be truncated.
+Creates a new video that combines the video stream from `video` and the audio stream from `audio`.
+The `start_time` and `duration` parameters can be used to select a specific time range from each input.
+If the audio input (or selected time range) is longer than the video, the audio will be truncated.
 
-**Requirements:**
+
+__Requirements:__
 
 - `ffmpeg` needs to be installed and in PATH
-
 
 **Parameters:**
 
 - **`video`** (`Video`): Input video.
 - **`audio`** (`Audio`): Input audio.
 - **`video_start_time`** (`Float`): Start time in the video input (in seconds).
-- **`video_duration`** (`Float | None`): Duration of video segment (in seconds). If None, uses the remainder of the video after `video_start_time`. `video_duration` determines the duration of the output video.
+- **`video_duration`** (`Float | None`): Duration of video segment (in seconds). If None, uses the remainder of the video after
+  `video_start_time`. `video_duration` determines the duration of the output video.
 - **`audio_start_time`** (`Float`): Start time in the audio input (in seconds).
-- **`audio_duration`** (`Float | None`): Duration of audio segment (in seconds). If None, uses the remainder of the audio after `audio_start_time`. If the audio is longer than the output video, it will be truncated.
+- **`audio_duration`** (`Float | None`): Duration of audio segment (in seconds). If None, uses the remainder of the audio after
+  `audio_start_time`. If the audio is longer than the output video, it will be truncated.
 
 **Returns:**
 
