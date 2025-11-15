@@ -1,20 +1,19 @@
 ---
-title: "pixeltable.functions.openrouter"
-sidebarTitle: "openrouter"
+title: "openrouter"
 icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/openrouter.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
-# `module` pixeltable.functions.openrouter
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/openrouter.py#L0" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.openrouter
 
 
 Pixeltable UDFs that wrap the OpenRouter API.
 
-OpenRouter provides a unified interface to multiple LLM providers. In order to use it, you must first sign up at https://openrouter.ai, create an API key, and configure it as described in the Working with OpenRouter tutorial.
+OpenRouter provides a unified interface to multiple LLM providers. In order to use it,
+you must first sign up at https://openrouter.ai, create an API key, and configure it
+as described in the Working with OpenRouter tutorial.
 
 
-
-## `udf` chat_completions()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat_completions()
 
 ```python
 chat_completions(
@@ -31,26 +30,28 @@ chat_completions(
 
 Chat Completion API via OpenRouter.
 
-OpenRouter provides access to multiple LLM providers through a unified API. For additional details, see: [https://openrouter.ai/docs](https://openrouter.ai/docs)
+OpenRouter provides access to multiple LLM providers through a unified API.
+For additional details, see: [https://openrouter.ai/docs](https://openrouter.ai/docs)
 
 Supported models can be found at: [https://openrouter.ai/models](https://openrouter.ai/models)
 
-Request throttling: Applies the rate limit set in the config (section `openrouter`, key `rate_limit`). If no rate limit is configured, uses a default of 600 RPM.
+Request throttling:
+Applies the rate limit set in the config (section `openrouter`, key `rate_limit`). If no rate
+limit is configured, uses a default of 600 RPM.
 
-**Requirements:**
+__Requirements:__
 
 - `pip install openai`
-
 
 **Parameters:**
 
 - **`messages`** (`Json`): A list of messages comprising the conversation so far.
-- **`model`** (`String`): ID of the model to use (e.g., 'anthropic/claude-3.5-sonnet', 'openai/gpt-4').
+- **`model`** (`String`): ID of the model to use (e.g., `'anthropic/claude-3.5-sonnet'`, `'openai/gpt-4'`).
 - **`model_kwargs`** (`Json | None`): Additional OpenAI-compatible parameters.
 - **`tools`** (`Json | None`): List of tools available to the model.
 - **`tool_choice`** (`Json | None`): Controls which (if any) tool is called by the model.
-- **`provider`** (`Json | None`): OpenRouter-specific provider preferences (e.g., \{'order': \['Anthropic', 'OpenAI'\]\}).
-- **`transforms`** (`Json | None`): List of message transforms to apply (e.g., \['middle-out'\]).
+- **`provider`** (`Json | None`): OpenRouter-specific provider preferences (e.g., `{'order': ['Anthropic', 'OpenAI']}`).
+- **`transforms`** (`Json | None`): List of message transforms to apply (e.g., `['middle-out']`).
 
 **Returns:**
 
@@ -63,8 +64,7 @@ Basic chat completion:
 messages = [{'role': 'user', 'content': tbl.prompt}]
 tbl.add_computed_column(
     response=chat_completions(
-        messages,
-        model='anthropic/claude-3.5-sonnet'
+        messages, model='anthropic/claude-3.5-sonnet'
     )
 )
 ```
@@ -75,7 +75,7 @@ tbl.add_computed_column(
     response=chat_completions(
         messages,
         model='anthropic/claude-3.5-sonnet',
-        provider={'require_parameters': True, 'order': ['Anthropic']}
+        provider={'require_parameters': True, 'order': ['Anthropic']},
     )
 )
 ```
@@ -86,7 +86,7 @@ tbl.add_computed_column(
     response=chat_completions(
         messages,
         model='openai/gpt-4',
-        transforms=['middle-out']  # Optimize for long contexts
+        transforms=['middle-out'],  # Optimize for long contexts
     )
 )
 ```

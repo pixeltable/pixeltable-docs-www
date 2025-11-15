@@ -1,18 +1,17 @@
 ---
-title: "pixeltable.functions.reve"
-sidebarTitle: "reve"
+title: "reve"
 icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/reve.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
-# `module` pixeltable.functions.reve
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/reve.py#L0" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.reve
 
 
-Pixeltable [UDFs](https://docs.pixeltable.com/datastore/custom-functions) that wrap [Reve](https://app.reve.com/) image generation API. In order to use them, the API key must be specified either with `REVE_API_KEY` environment variable, or as `api_key` in the `reve` section of the Pixeltable config file.
+Pixeltable [UDFs](https://docs.pixeltable.com/datastore/custom-functions) that wrap [Reve](https://app.reve.com/) image
+generation API. In order to use them, the API key must be specified either with `REVE_API_KEY` environment variable,
+or as `api_key` in the `reve` section of the Pixeltable config file.
 
 
-
-## `udf` create()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; create()
 
 ```python
 create(
@@ -25,8 +24,8 @@ create(
 
 Creates an image from a text prompt.
 
-This UDF wraps the `https://api.reve.com/v1/image/create` endpoint. For more information, refer to the official [API documentation](https://api.reve.com/console/docs/create).
-
+This UDF wraps the `https://api.reve.com/v1/image/create` endpoint. For more information, refer to the official
+[API documentation](https://api.reve.com/console/docs/create).
 
 **Parameters:**
 
@@ -42,13 +41,11 @@ This UDF wraps the `https://api.reve.com/v1/image/create` endpoint. For more inf
 
 Add a computed column with generated square images to a table with text prompts:
 ```python
-t.add_computed_column(
-    img=reve.create(t.prompt, aspect_ratio='1:1')
-)
+t.add_computed_column(img=reve.create(t.prompt, aspect_ratio='1:1'))
 ```
 
 
-## `udf` edit()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; edit()
 
 ```python
 edit(
@@ -61,8 +58,8 @@ edit(
 
 Edits images based on a text prompt.
 
-This UDF wraps the `https://api.reve.com/v1/image/edit` endpoint. For more information, refer to the official [API documentation](https://api.reve.com/console/docs/edit)
-
+This UDF wraps the `https://api.reve.com/v1/image/edit` endpoint. For more information, refer to the official
+[API documentation](https://api.reve.com/console/docs/edit)
 
 **Parameters:**
 
@@ -81,13 +78,13 @@ Add a computed column with catalog-ready images to the table with product pictur
 t.add_computed_column(
     catalog_img=reve.edit(
         t.product_img,
-        'Remove background and distractions from the product picture, improve lighting.'
+        'Remove background and distractions from the product picture, improve lighting.',
     )
 )
 ```
 
 
-## `udf` remix()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; remix()
 
 ```python
 remix(
@@ -103,8 +100,8 @@ Creates images based on a text prompt and reference images.
 
 The prompt may include `<img>0</img>`, `<img>1</img>`, etc. tags to refer to the images in the `images` argument.
 
-This UDF wraps the `https://api.reve.com/v1/image/remix` endpoint. For more information, refer to the official [API documentation](https://api.reve.com/console/docs/remix)
-
+This UDF wraps the `https://api.reve.com/v1/image/remix` endpoint. For more information, refer to the official
+[API documentation](https://api.reve.com/console/docs/remix)
 
 **Parameters:**
 

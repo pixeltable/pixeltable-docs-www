@@ -1,18 +1,15 @@
 ---
-title: "pixeltable.functions.image"
-sidebarTitle: "image"
+title: "image"
 icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/image.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
-# `module` pixeltable.functions.image
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/image.py#L0" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.image
 
 
-Pixeltable [UDFs](https://pixeltable.readme.io/docs/user-defined-functions-udfs) for `ImageType`.
+Pixeltable UDFs for `ImageType`.
 
 Example:
-
-``` python
+```python
 import pixeltable as pxt
 
 t = pxt.get_table(...)
@@ -20,27 +17,18 @@ t.select(t.img_col.convert('L')).collect()
 ```
 
 
-
-## `udf` alpha_composite()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; alpha_composite()
 
 ```python
 alpha_composite(im1: Image, im2: Image) -> Image
 ```
 
-Alpha composite im2 over im1.
+Alpha composite `im2` over `im1`.
+
+Equivalent to [`PIL.Image.alpha_composite()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.alpha_composite)
 
 
-**Parameters:**
-
-- **`im1`** (`Image`): The first image. Must have mode RGBA.
-- **`im2`** (`Image`): The second image. Must have mode RGBA, and the same size as the first image.
-
-**Returns:**
-
-- `Image`: An `~PIL.Image.Image` object.
-
-
-## `udf` b64_encode()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; b64_encode()
 
 ```python
 b64_encode(img: Image, image_format: String = 'png') -> String
@@ -55,45 +43,29 @@ Convert image to a base64-encoded string.
 - **`image_format`** (`String`): image format [supported by PIL](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#fully-supported-formats)
 
 
-## `udf` blend()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; blend()
 
 ```python
 blend(im1: Image, im2: Image, alpha: Float) -> Image
 ```
 
-Creates a new image by interpolating between two input images, using a constant alpha::
+Return a new image by interpolating between two input images, using a constant alpha.
 
-    out = image1 * (1.0 - alpha) + image2 * alpha
-
-
-**Parameters:**
-
-- **`im1`** (`Image`): The first image.
-- **`im2`** (`Image`): The second image. Must have the same mode and size as the first image.
-- **`alpha`** (`Float`): The interpolation alpha factor. If alpha is 0.0, a copy of the first image is returned. If alpha is 1.0, a copy of the second image is returned. There are no restrictions on the alpha value. If necessary, the result is clipped to fit into the allowed output range.
-
-**Returns:**
-
-- `Image`: An `~PIL.Image.Image` object.
+Equivalent to [`PIL.Image.blend()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.blend)
 
 
-## `udf` composite()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; composite()
 
 ```python
 composite(image1: Image, image2: Image, mask: Image) -> Image
 ```
 
-Create composite image by blending images using a transparency mask.
+Return a composite image by blending two images using a mask.
+
+Equivalent to [`PIL.Image.composite()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.composite)
 
 
-**Parameters:**
-
-- **`image1`** (`Image`): The first image.
-- **`image2`** (`Image`): The second image. Must have the same mode and size as the first image.
-- **`mask`** (`Image`): A mask image. This image can have mode "1", "L", or "RGBA", and must have the same size as the other two images.
-
-
-## `udf` convert()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; convert()
 
 ```python
 convert(self: Image, mode: String) -> Image
@@ -101,35 +73,30 @@ convert(self: Image, mode: String) -> Image
 
 Convert the image to a different mode.
 
-Equivalent to [`PIL.Image.Image.convert()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.convert).
-
+Equivalent to
+[`PIL.Image.Image.convert()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.convert).
 
 **Parameters:**
 
-- **`mode`** (`String`): The mode to convert to. See the [Pillow documentation](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes) for a list of supported modes.
+- **`mode`** (`String`): The mode to convert to. See the
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes)
+    for a list of supported modes.
 
 
-## `udf` crop()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; crop()
 
 ```python
-crop(self: Image, box: Json = None) -> Image
+crop(self: Image, box: Json) -> Image
 ```
 
-Returns a rectangular region from this image. The box is a 4-tuple defining the left, upper, right, and lower pixel coordinate. See :ref:`coordinate-system`.
+Return a rectangular region from the image. The box is a 4-tuple defining the left, upper, right, and lower pixel
+coordinates.
 
-Note: Prior to Pillow 3.4.0, this was a lazy operation.
-
-
-**Parameters:**
-
-- **`box`** (`Json`): The crop rectangle, as a (left, upper, right, lower)-tuple.
-
-**Returns:**
-
-- `Image`: An `~PIL.Image.Image` object.
+Equivalent to
+[`PIL.Image.Image.crop()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.crop)
 
 
-## `udf` effect_spread()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; effect_spread()
 
 ```python
 effect_spread(self: Image, distance: Int) -> Image
@@ -137,13 +104,15 @@ effect_spread(self: Image, distance: Int) -> Image
 
 Randomly spread pixels in an image.
 
+Equivalent to
+[`PIL.Image.Image.effect_spread()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.effect_spread)
 
 **Parameters:**
 
-- **`distance`** (`Int`): Distance to spread pixels.
+- **`distance`** (`Int`): The distance to spread pixels.
 
 
-## `udf` entropy()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; entropy()
 
 ```python
 entropy(
@@ -153,24 +122,18 @@ entropy(
 ) -> Float
 ```
 
-Calculates and returns the entropy for the image.
+Returns the entropy of the image, optionally using a mask and extrema.
 
-A bilevel image (mode "1") is treated as a grayscale ("L") image by this method.
-
-If a mask is provided, the method employs the histogram for those parts of the image where the mask image is non-zero. The mask image must have the same size as the image, and be either a bi-level image (mode "1") or a grayscale image ("L").
-
+Equivalent to
+[`PIL.Image.Image.entropy()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.entropy)
 
 **Parameters:**
 
-- **`mask`** (`Image | None`): An optional mask.
-- **`extrema`** (`Json | None`): An optional tuple of manually-specified extrema.
-
-**Returns:**
-
-- `Float`: A float value representing the image entropy
+- **`mask`** (`Image | None`): An optional mask image.
+- **`extrema`** (`Json | None`): An optional list of extrema.
 
 
-## `udf` get_metadata()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get_metadata()
 
 ```python
 get_metadata(self: Image) -> Json
@@ -179,111 +142,95 @@ get_metadata(self: Image) -> Json
 Return metadata for the image.
 
 
-
-## `udf` getbands()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getbands()
 
 ```python
 getbands(self: Image) -> Json
 ```
 
-Returns a tuple containing the name of each band in this image. For example, `getbands` on an RGB image returns ("R", "G", "B").
+Return a tuple containing the names of the image bands.
+
+Equivalent to
+[`PIL.Image.Image.getbands()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getbands)
 
 
-**Returns:**
-
-- `Json`: A tuple containing band names.
-
-
-## `udf` getbbox()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getbbox()
 
 ```python
-getbbox(self: Image, *, alpha_only: Bool = True) -> Json
+getbbox(self: Image, *, alpha_only: Bool = True) -> Json | None
 ```
 
-Calculates the bounding box of the non-zero regions in the image.
+Return a bounding box for the non-zero regions of the image.
 
+Equivalent to [`PIL.Image.Image.getbbox()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getbbox)
 
 **Parameters:**
 
-- **`alpha_only`** (`Bool`): Optional flag, defaulting to `True`. If `True` and the image has an alpha channel, trim transparent pixels. Otherwise, trim pixels when all channels are zero. Keyword-only argument.
-
-**Returns:**
-
-- `Json`: The bounding box is returned as a 4-tuple defining the left, upper, right, and lower pixel coordinate. See :ref:`coordinate-system`. If the image is completely empty, this method returns None.
+- **`alpha_only`** (`Bool`): If `True`, and the image has an alpha channel, trim transparent pixels. Otherwise,
+    trim pixels when all channels are zero.
 
 
-## `udf` getchannel()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getchannel()
 
 ```python
 getchannel(self: Image, channel: Int) -> Image
 ```
 
-Returns an image containing a single channel of the source image.
+Return an L-mode image containing a single channel of the original image.
 
+Equivalent to
+[`PIL.Image.Image.getchannel()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getchannel)
 
 **Parameters:**
 
-- **`channel`** (`Int`): What channel to return. Could be index (0 for "R" channel of "RGB") or channel name ("A" for alpha channel of "RGBA").
-
-**Returns:**
-
-- `Image`: An image in "L" mode. .. versionadded:: 4.3.0
+- **`channel`** (`Int`): The channel to extract. This is a 0-based index.
 
 
-## `udf` getcolors()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getcolors()
 
 ```python
 getcolors(self: Image, maxcolors: Int = 256) -> Json
 ```
 
-Returns a list of colors used in this image.
+Return a list of colors used in the image, up to a maximum of `maxcolors`.
 
-The colors will be in the image's mode. For example, an RGB image will return a tuple of (red, green, blue) color values, and a P image will return the index of the color in the palette.
-
+Equivalent to
+[`PIL.Image.Image.getcolors()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getcolors)
 
 **Parameters:**
 
-- **`maxcolors`** (`Int`): Maximum number of colors. If this number is exceeded, this method returns None. The default limit is 256 colors.
-
-**Returns:**
-
-- `Json`: An unsorted list of (count, pixel) values.
+- **`maxcolors`** (`Int`): The maximum number of colors to return.
 
 
-## `udf` getextrema()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getextrema()
 
 ```python
 getextrema(self: Image) -> Json
 ```
 
-Gets the minimum and maximum pixel values for each band in the image.
+Return a 2-tuple containing the minimum and maximum pixel values of the image.
+
+Equivalent to
+[`PIL.Image.Image.getextrema()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getextrema)
 
 
-**Returns:**
-
-- `Json`: For a single-band image, a 2-tuple containing the minimum and maximum pixel value. For a multi-band image, a tuple containing one 2-tuple for each band.
-
-
-## `udf` getpalette()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getpalette()
 
 ```python
-getpalette(self: Image) -> Json
+getpalette(self: Image, mode: String | None = None) -> Json | None
 ```
 
-Returns the image palette as a list.
+Return the palette of the image, optionally converting it to a different mode.
 
+Equivalent to
+[`PIL.Image.Image.getpalette()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getpalette)
 
 **Parameters:**
 
-- **`rawmode`** (`Any`): The mode in which to return the palette. `None` will return the palette in its current mode.
-  .. versionadded:: 9.1.0
-
-**Returns:**
-
-- `Json`: A list of color values \[r, g, b, ...\], or None if the image has no palette.
+- **`mode`** (`String | None`): The mode to convert the palette to.
 
 
-## `udf` getpixel()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getpixel()
 
 ```python
 getpixel(self: Image, xy: Json) -> Json
@@ -291,36 +238,36 @@ getpixel(self: Image, xy: Json) -> Json
 
 Return the pixel value at the given position. The position `xy` is a tuple containing the x and y coordinates.
 
-Equivalent to [`PIL.Image.Image.getpixel()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getpixel)
-
+Equivalent to
+[`PIL.Image.Image.getpixel()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getpixel)
 
 **Parameters:**
 
 - **`xy`** (`Json`): The coordinates, given as (x, y).
 
 
-## `udf` getprojection()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getprojection()
 
 ```python
 getprojection(self: Image) -> Json
 ```
 
-Get projection to x and y axes
+Return two sequences representing the horizontal and vertical projection of the image.
+
+Equivalent to
+[`PIL.Image.Image.getprojection()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getprojection)
 
 
-**Returns:**
-
-- `Json`: Two sequences, indicating where there are non-zero pixels along the X-axis and the Y-axis, respectively.
-
-
-## `udf` height()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; height()
 
 ```python
 height(self: Image) -> Int
 ```
 
+Return the height of the image.
 
-## `udf` histogram()
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; histogram()
 
 ```python
 histogram(
@@ -330,31 +277,27 @@ histogram(
 ) -> Json
 ```
 
-Returns a histogram for the image. The histogram is returned as a list of pixel counts, one for each pixel value in the source image. Counts are grouped into 256 bins for each band, even if the image has more than 8 bits per band. If the image has more than one band, the histograms for all bands are concatenated (for example, the histogram for an "RGB" image contains 768 values).
+Return a histogram for the image.
 
-A bilevel image (mode "1") is treated as a grayscale ("L") image by this method.
-
-If a mask is provided, the method returns a histogram for those parts of the image where the mask image is non-zero. The mask image must have the same size as the image, and be either a bi-level image (mode "1") or a grayscale image ("L").
-
+Equivalent to
+[`PIL.Image.Image.histogram()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.histogram)
 
 **Parameters:**
 
-- **`mask`** (`Image | None`): An optional mask.
-- **`extrema`** (`Json | None`): An optional tuple of manually-specified extrema.
-
-**Returns:**
-
-- `Json`: A list containing pixel counts.
+- **`mask`** (`Image | None`): An optional mask image.
+- **`extrema`** (`Json | None`): An optional list of extrema.
 
 
-## `udf` mode()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; mode()
 
 ```python
 mode(self: Image) -> String
 ```
 
+Return the image mode.
 
-## `udf` point()
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; point()
 
 ```python
 point(
@@ -366,15 +309,15 @@ point(
 
 Map image pixels through a lookup table.
 
-Equivalent to [`PIL.Image.Image.point()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.point)
-
+Equivalent to
+[`PIL.Image.Image.point()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.point)
 
 **Parameters:**
 
 - **`lut`** (`Json`): A lookup table.
 
 
-## `udf` quantize()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; quantize()
 
 ```python
 quantize(
@@ -382,45 +325,48 @@ quantize(
     colors: Int = 256,
     method: Int | None = None,
     kmeans: Int = 0,
-    palette: Int | None = None,
+    palette: Image | None = None,
     dither: Int = <Dither.FLOYDSTEINBERG: 3>
 ) -> Image
 ```
 
 Convert the image to 'P' mode with the specified number of colors.
 
+Equivalent to
+ [`PIL.Image.Image.quantize()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
 
 **Parameters:**
 
-- **`colors`** (`Int`): The desired number of colors, \<= 256
-- **`method`** (`Int | None`): `Quantize.MEDIANCUT` (median cut), `Quantize.MAXCOVERAGE` (maximum coverage), `Quantize.FASTOCTREE` (fast octree), `Quantize.LIBIMAGEQUANT` (libimagequant; check support using `PIL.features.check_feature` with `feature="libimagequant"`).
-  By default, `Quantize.MEDIANCUT` will be used.
-  The exception to this is RGBA images. `Quantize.MEDIANCUT` and `Quantize.MAXCOVERAGE` do not support RGBA images, so `Quantize.FASTOCTREE` is used by default instead.
-- **`kmeans`** (`Int`): Integer greater than or equal to zero.
-- **`palette`** (`Int | None`): Quantize to the palette of given `PIL.Image.Image`.
-- **`dither`** (`Int`): Dithering method, used when converting from mode "RGB" to "P" or from "RGB" or "L" to "1". Available methods are `Dither.NONE` or `Dither.FLOYDSTEINBERG` (default).
-
-**Returns:**
-
-- `Image`: A new image
+- **`colors`** (`Int`): The number of colors to quantize to.
+- **`method`** (`Int | None`): The quantization method. See the
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
+    for a list of supported methods.
+- **`kmeans`** (`Int`): The number of k-means clusters to use.
+- **`palette`** (`Image | None`): The palette to use.
+- **`dither`** (`Int`): The dithering method. See the
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
+    for a list of supported methods.
 
 
-## `udf` reduce()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; reduce()
 
 ```python
 reduce(self: Image, factor: Int, box: Json | None = None) -> Image
 ```
 
-Returns a copy of the image reduced `factor` times. If the size of the image is not dividable by `factor`, the resulting size will be rounded up.
+Reduce the image by the given factor.
 
+Equivalent to
+[`PIL.Image.Image.reduce()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.reduce)
 
 **Parameters:**
 
-- **`factor`** (`Int`): A greater than 0 integer or tuple of two integers for width and height separately.
-- **`box`** (`Json | None`): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within `(0, 0, width, height)` rectangle. If omitted or `None`, the entire source is used.
+- **`factor`** (`Int`): The reduction factor.
+- **`box`** (`Json | None`): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within
+    (0, 0, width, height) rectangle. If omitted or None, the entire source is used.
 
 
-## `udf` resize()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; resize()
 
 ```python
 resize(self: Image, size: Json) -> Image
@@ -428,11 +374,11 @@ resize(self: Image, size: Json) -> Image
 
 Return a resized copy of the image. The size parameter is a tuple containing the width and height of the new image.
 
-Equivalent to [`PIL.Image.Image.resize()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize)
+Equivalent to
+[`PIL.Image.Image.resize()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize)
 
 
-
-## `udf` rotate()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; rotate()
 
 ```python
 rotate(self: Image, angle: Int) -> Image
@@ -440,35 +386,37 @@ rotate(self: Image, angle: Int) -> Image
 
 Return a copy of the image rotated by the given angle.
 
-Equivalent to [`PIL.Image.Image.rotate()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.rotate)
-
+Equivalent to
+[`PIL.Image.Image.rotate()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.rotate)
 
 **Parameters:**
 
 - **`angle`** (`Int`): The angle to rotate the image, in degrees. Positive angles are counter-clockwise.
 
 
-## `udf` transpose()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; transpose()
 
 ```python
 transpose(self: Image, method: Int) -> Image
 ```
 
-Transpose image (flip or rotate in 90 degree steps)
+Transpose the image.
 
+Equivalent to
+[`PIL.Image.Image.transpose()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.transpose)
 
 **Parameters:**
 
-- **`method`** (`Int`): One of :py`Transpose.FLIP_LEFT_RIGHT`, :py`Transpose.FLIP_TOP_BOTTOM`, :py`Transpose.ROTATE_90`, :py`Transpose.ROTATE_180`, :py`Transpose.ROTATE_270`, :py`Transpose.TRANSPOSE` or :py`Transpose.TRANSVERSE`.
-
-**Returns:**
-
-- `Image`: Returns a flipped or rotated copy of this image.
+- **`method`** (`Int`): The transpose method. See the
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.transpose)
+    for a list of supported methods.
 
 
-## `udf` width()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; width()
 
 ```python
 width(self: Image) -> Int
 ```
+
+Return the width of the image.
 

@@ -1,19 +1,23 @@
 ---
 title: "AudioSplitter"
 icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/audio.py#L16\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
-# `class` pixeltable.iterators.AudioSplitter
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/audio.py#L16" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.iterators.AudioSplitter
 
 
-Iterator over chunks of an audio file. The audio file is split into smaller chunks, where the duration of each chunk is determined by chunk_duration_sec. The iterator yields audio chunks as pxt.Audio, along with the start and end time of each chunk. If the input contains no audio, no chunks are yielded.
+Iterator over chunks of an audio file. The audio file is split into smaller chunks,
+where the duration of each chunk is determined by chunk_duration_sec.
+The iterator yields audio chunks as pxt.Audio, along with the start and end time of each chunk.
+If the input contains no audio, no chunks are yielded.
 
-Args: chunk_duration_sec: Audio chunk duration in seconds overlap_sec: Overlap between consecutive chunks in seconds. min_chunk_duration_sec: Drop the last chunk if it is smaller than min_chunk_duration_sec
+Args:
+    chunk_duration_sec: Audio chunk duration in seconds
+    overlap_sec: Overlap between consecutive chunks in seconds.
+    min_chunk_duration_sec: Drop the last chunk if it is smaller than min_chunk_duration_sec
 
 
-
-## `method` build_chunks()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; build_chunks()
 
 ```python
 build_chunks(
@@ -26,7 +30,7 @@ build_chunks(
 ```
 
 
-## `method` close()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; close()
 
 ```python
 close() -> None
@@ -35,15 +39,14 @@ close() -> None
 Close the iterator and release all resources
 
 
-
-## `method` create()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; create()
 
 ```python
 create(**kwargs: Any) -> tuple[type[ComponentIterator], dict[str, Any]]
 ```
 
 
-## `method` input_schema()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; input_schema()
 
 ```python
 input_schema() -> dict[str, pixeltable.type_system.ColumnType]
@@ -51,11 +54,11 @@ input_schema() -> dict[str, pixeltable.type_system.ColumnType]
 
 Provide the Pixeltable types of the init() parameters
 
-The keys need to match the names of the init() parameters. This is equivalent to the parameters_types parameter of the @function decorator.
+The keys need to match the names of the init() parameters. This is equivalent to the parameters_types
+parameter of the @function decorator.
 
 
-
-## `method` output_schema()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; output_schema()
 
 ```python
 output_schema(
@@ -69,15 +72,15 @@ Specify the dictionary returned by next() and a list of unstored column names
 
 **Returns:**
 
-- `tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]`: a dictionary which is turned into a list of columns in the output table a list of unstored column names
+- `tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]`: a dictionary which is turned into a list of columns in the output table
+  a list of unstored column names
 
 
-## `method` set_pos()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; set_pos()
 
 ```python
 set_pos(pos: int) -> None
 ```
 
 Set the iterator position to pos
-
 
