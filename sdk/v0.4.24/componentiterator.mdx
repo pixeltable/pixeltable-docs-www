@@ -1,16 +1,15 @@
 ---
 title: "ComponentIterator"
 icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/base.py#L9\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: \"inline\", margin: \"0px\" }} noZoom /></a>"
 ---
-# `class` pixeltable.iterators.ComponentIterator
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/base.py#L9" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.iterators.ComponentIterator
 
 
 Base class for Pixeltable iterators.
 
 
-## `method` close()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; close()
 
 ```python
 close() -> None
@@ -19,14 +18,14 @@ close() -> None
 Close the iterator and release all resources
 
 
-## `method` create()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; create()
 
 ```python
 create(**kwargs: Any) -> tuple[type[ComponentIterator], dict[str, Any]]
 ```
 
 
-## `method` input_schema()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; input_schema()
 
 ```python
 input_schema() -> dict[str, ColumnType]
@@ -38,7 +37,7 @@ The keys need to match the names of the init() parameters. This is equivalent to
 parameter of the @function decorator.
 
 
-## `method` output_schema()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; output_schema()
 
 ```python
 output_schema(
@@ -56,7 +55,7 @@ Specify the dictionary returned by next() and a list of unstored column names
   a list of unstored column names
 
 
-## `method` set_pos()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; set_pos()
 
 ```python
 set_pos(pos: int) -> None

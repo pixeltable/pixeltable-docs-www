@@ -1,11 +1,9 @@
 ---
-title: "pixeltable.functions.anthropic"
-sidebarTitle: "anthropic"
+title: "anthropic"
 icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/anthropic.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: \"inline\", margin: \"0px\" }} noZoom /></a>"
 ---
-# `module` pixeltable.functions.anthropic
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/anthropic.py#L0" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.anthropic
 
 
 Pixeltable UDFs
@@ -14,7 +12,7 @@ first `pip install anthropic` and configure your Anthropic credentials, as descr
 the [Working with Anthropic](https://docs.pixeltable.com/notebooks/integrations/working-with-anthropic) tutorial.
 
 
-## `func` invoke_tools()
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; invoke_tools()
 
 ```python
 invoke_tools(
@@ -26,7 +24,7 @@ invoke_tools(
 Converts an Anthropic response dict to Pixeltable tool invocation format and calls `tools._invoke()`.
 
 
-## `udf` messages()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; messages()
 
 ```python
 messages(
@@ -58,7 +56,7 @@ __Requirements:__
 - **`messages`** (`Json`): Input messages.
 - **`model`** (`String`): The model that will complete your prompt.
 - **`model_kwargs`** (`Json | None`): Additional keyword args for the Anthropic `messages` API.
-  For details on the available parameters, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
+    For details on the available parameters, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
 - **`tools`** (`Json | None`): An optional list of Pixeltable tools to use for the request.
 - **`tool_choice`** (`Json | None`): An optional tool choice configuration.
 
@@ -71,6 +69,8 @@ __Requirements:__
 Add a computed column that applies the model `claude-3-5-sonnet-20241022` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
 ```python
 msgs = [{'role': 'user', 'content': tbl.prompt}]
-tbl.add_computed_column(response=messages(msgs, model='claude-3-5-sonnet-20241022'))
+tbl.add_computed_column(
+    response=messages(msgs, model='claude-3-5-sonnet-20241022')
+)
 ```
 

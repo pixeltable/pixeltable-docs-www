@@ -1,17 +1,15 @@
 ---
-title: "pixeltable.functions.yolox"
-sidebarTitle: "yolox"
+title: "yolox"
 icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/yolox.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: \"inline\", margin: \"0px\" }} noZoom /></a>"
 ---
-# `module` pixeltable.functions.yolox
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/yolox.py#L0" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.yolox
 
 
 YOLOX object detection functions.
 
 
-## `udf` yolo_to_coco()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; yolo_to_coco()
 
 ```python
 yolo_to_coco(detections: Json) -> Json
@@ -32,12 +30,14 @@ Converts the output of a YOLOX object detection model to COCO format.
 
 Add a computed column that converts the output `tbl.detections` to COCO format, where `tbl.image` is the image for which detections were computed:
 ```python
-tbl.add_computed_column(detections=yolox(tbl.image, model_id='yolox_m', threshold=0.8))
+tbl.add_computed_column(
+    detections=yolox(tbl.image, model_id='yolox_m', threshold=0.8)
+)
 tbl.add_computed_column(detections_coco=yolo_to_coco(tbl.detections))
 ```
 
 
-## `udf` yolox()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; yolox()
 
 ```python
 yolox(
@@ -68,6 +68,8 @@ __Requirements__:
 
 Add a computed column that applies the model `yolox_m` to an existing Pixeltable column `tbl.image` of the table `tbl`:
 ```python
-tbl.add_computed_column(detections=yolox(tbl.image, model_id='yolox_m', threshold=0.8))
+tbl.add_computed_column(
+    detections=yolox(tbl.image, model_id='yolox_m', threshold=0.8)
+)
 ```
 

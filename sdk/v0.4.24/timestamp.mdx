@@ -1,11 +1,9 @@
 ---
-title: "pixeltable.functions.timestamp"
-sidebarTitle: "timestamp"
+title: "timestamp"
 icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/timestamp.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: \"inline\", margin: \"0px\" }} noZoom /></a>"
 ---
-# `module` pixeltable.functions.timestamp
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/timestamp.py#L0" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.timestamp
 
 
 Pixeltable UDFs for `TimestampType`.
@@ -19,7 +17,7 @@ t.select(t.timestamp_col.year, t.timestamp_col.weekday()).collect()
 ```
 
 
-## `udf` astimezone()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; astimezone()
 
 ```python
 astimezone(self: Timestamp, tz: String) -> Timestamp
@@ -31,10 +29,10 @@ Convert the datetime to the given time zone.
 **Parameters:**
 
 - **`tz`** (`String`): The time zone to convert to. Must be a valid time zone name from the
-  [IANA Time Zone Database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+    [IANA Time Zone Database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
 
-## `udf` day()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; day()
 
 ```python
 day(self: Timestamp) -> Int
@@ -45,7 +43,7 @@ Between 1 and the number of days in the given month of the given year.
 Equivalent to [`datetime.day`](https://docs.python.org/3/library/datetime.html#datetime.datetime.day).
 
 
-## `udf` hour()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; hour()
 
 ```python
 hour(self: Timestamp) -> Int
@@ -56,7 +54,7 @@ Between 0 and 23 inclusive.
 Equivalent to [`datetime.hour`](https://docs.python.org/3/library/datetime.html#datetime.datetime.hour).
 
 
-## `udf` isocalendar()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isocalendar()
 
 ```python
 isocalendar(self: Timestamp) -> Json
@@ -68,7 +66,7 @@ Equivalent to
 [`datetime.isocalendar()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.isocalendar).
 
 
-## `udf` isoformat()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isoformat()
 
 ```python
 isoformat(
@@ -86,11 +84,11 @@ Equivalent to [`datetime.isoformat()`](https://docs.python.org/3/library/datetim
 
 - **`sep`** (`String`): Separator between date and time.
 - **`timespec`** (`String`): The number of additional terms in the output. See the
-  [`datetime.isoformat()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.isoformat)
-  documentation for more details.
+    [`datetime.isoformat()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.isoformat)
+    documentation for more details.
 
 
-## `udf` isoweekday()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isoweekday()
 
 ```python
 isoweekday(self: Timestamp) -> Int
@@ -101,7 +99,7 @@ Return the day of the week as an integer, where Monday is 1 and Sunday is 7.
 Equivalent to [`datetime.isoweekday()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.isoweekday).
 
 
-## `udf` make_timestamp()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; make_timestamp()
 
 ```python
 make_timestamp(
@@ -120,7 +118,7 @@ Create a timestamp.
 Equivalent to [`datetime()`](https://docs.python.org/3/library/datetime.html#datetime.datetime).
 
 
-## `udf` microsecond()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; microsecond()
 
 ```python
 microsecond(self: Timestamp) -> Int
@@ -131,7 +129,7 @@ Between 0 and 999999 inclusive.
 Equivalent to [`datetime.microsecond`](https://docs.python.org/3/library/datetime.html#datetime.datetime.microsecond).
 
 
-## `udf` minute()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; minute()
 
 ```python
 minute(self: Timestamp) -> Int
@@ -142,7 +140,7 @@ Between 0 and 59 inclusive.
 Equivalent to [`datetime.minute`](https://docs.python.org/3/library/datetime.html#datetime.datetime.minute).
 
 
-## `udf` month()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; month()
 
 ```python
 month(self: Timestamp) -> Int
@@ -153,7 +151,7 @@ Between 1 and 12 inclusive.
 Equivalent to [`datetime.month`](https://docs.python.org/3/library/datetime.html#datetime.datetime.month).
 
 
-## `udf` posix_timestamp()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; posix_timestamp()
 
 ```python
 posix_timestamp(self: Timestamp) -> Float
@@ -164,7 +162,7 @@ Return POSIX timestamp corresponding to the datetime instance.
 Equivalent to [`datetime.timestamp()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.timestamp).
 
 
-## `udf` replace()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; replace()
 
 ```python
 replace(
@@ -185,7 +183,7 @@ arguments are specified.
 Equivalent to [`datetime.replace()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.replace).
 
 
-## `udf` second()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; second()
 
 ```python
 second(self: Timestamp) -> Int
@@ -196,7 +194,7 @@ Between 0 and 59 inclusive.
 Equivalent to [`datetime.second`](https://docs.python.org/3/library/datetime.html#datetime.datetime.second).
 
 
-## `udf` strftime()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; strftime()
 
 ```python
 strftime(self: Timestamp, format: String) -> String
@@ -209,10 +207,10 @@ Equivalent to [`datetime.strftime()`](https://docs.python.org/3/library/datetime
 **Parameters:**
 
 - **`format`** (`String`): The format string to control the output. For a complete list of formatting directives, see
-  [`strftime()` and `strptime()` Behavior](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
+    [`strftime()` and `strptime()` Behavior](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
 
 
-## `udf` toordinal()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; toordinal()
 
 ```python
 toordinal(self: Timestamp) -> Int
@@ -223,7 +221,7 @@ Return the proleptic Gregorian ordinal of the date, where January 1 of year 1 ha
 Equivalent to [`datetime.toordinal()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.toordinal).
 
 
-## `udf` weekday()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; weekday()
 
 ```python
 weekday(self: Timestamp) -> Int
@@ -234,7 +232,7 @@ Between 0 (Monday) and 6 (Sunday) inclusive.
 Equivalent to [`datetime.weekday()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.weekday).
 
 
-## `udf` year()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; year()
 
 ```python
 year(self: Timestamp) -> Int

@@ -1,10 +1,9 @@
 ---
 title: "Table"
 icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L59\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: \"inline\", margin: \"0px\" }} noZoom /></a>"
 ---
-# `class` pixeltable.Table
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L59" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Table
 
 
 A handle to a table, view, or snapshot. This class is the primary interface through which table operations
@@ -14,7 +13,7 @@ Every user-invoked operation that runs an ExecNode tree (directly or indirectly)
 FileCache.emit_eviction_warnings() at the end of the operation.
 
 
-## `method` add_column()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_column()
 
 ```python
 add_column(
@@ -30,29 +29,30 @@ Adds an ordinary (non-computed) column to the table.
 **Parameters:**
 
 - **`kwargs`** (`ts.ColumnType | builtins.type | _GenericAlias | exprs.Expr`): Exactly one keyword argument of the form `col_name=col_type`.
-- **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `error`): Determines the behavior if the column already exists. Must be one of the following:
-- `'error'`: an exception will be raised.
-- `'ignore'`: do nothing and return.
-- `'replace' or 'replace_force'`: drop the existing column and add the new column, if it has
-    no dependents.
+- **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Determines the behavior if the column already exists. Must be one of the following:
+    - `'error'`: an exception will be raised.
+    - `'ignore'`: do nothing and return.
+    - `'replace'` or `'replace_force'`: drop the existing column and add the new column, if it has
+        no dependents.
 
 **Returns:**
 
 - `UpdateStatus`: Information about the execution status of the operation.
 
-
 **Examples:**
 
 Add an int column:
 ```python
- tbl.add_column(new_col=pxt.Int)
-```
-Alternatively, this can also be expressed as:
-```python
- tbl.add_columns({'new_col': pxt.Int})
+tbl.add_column(new_col=pxt.Int)
 ```
 
-## `method` add_columns()
+Alternatively, this can also be expressed as:
+```python
+tbl.add_columns({'new_col': pxt.Int})
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_columns()
 
 ```python
 add_columns(
@@ -62,41 +62,38 @@ add_columns(
 ```
 
 Adds multiple columns to the table. The columns must be concrete (non-computed) columns; to add computed
-columns, use [`add_computed_column()`][pixeltable.catalog.Table.add_computed_column] instead.
+columns, use [`add_computed_column()`](./table#method-add-computed-column) instead.
 
 The format of the `schema` argument is a dict mapping column names to their types.
 
 **Parameters:**
 
 - **`schema`** (`dict[str, ts.ColumnType | builtins.type | _GenericAlias]`): A dictionary mapping column names to types.
-- **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `error`): Determines the behavior if a column already exists. Must be one of the following:
-- `'error'`: an exception will be raised.
-- `'ignore'`: do nothing and return.
-- `'replace' or 'replace_force'`: drop the existing column and add the new column, if it has no
-    dependents.
+- **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Determines the behavior if a column already exists. Must be one of the following:
+    - `'error'`: an exception will be raised.
+    - `'ignore'`: do nothing and return.
+    - `'replace' or 'replace_force'`: drop the existing column and add the new column, if it has no
+        dependents.
 
-Note that the `if_exists` parameter is applied to all columns in the schema.
-To apply different behaviors to different columns, please use
-[`add_column()`][pixeltable.Table.add_column] for each column.
+    Note that the `if_exists` parameter is applied to all columns in the schema.
+    To apply different behaviors to different columns, please use
+    [`add_column()`](./table#method-add-column) for each column.
 
 **Returns:**
 
 - `UpdateStatus`: Information about the execution status of the operation.
 
-
 **Examples:**
 
 Add multiple columns to the table `my_table`:
 ```python
- tbl = pxt.get_table('my_table')
- schema = {
-     'new_col_1': pxt.Int,
-     'new_col_2': pxt.String,
- }
- tbl.add_columns(schema)
+tbl = pxt.get_table('my_table')
+schema = {'new_col_1': pxt.Int, 'new_col_2': pxt.String}
+tbl.add_columns(schema)
 ```
 
-## `method` add_computed_column()
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_computed_column()
 
 ```python
 add_computed_column(
@@ -119,37 +116,37 @@ Adds a computed column to the table.
 - **`stored`** (`bool | None`): Whether the column is materialized and stored or computed on demand.
 - **`destination`** (`str | Path | None`): An object store reference for persisting computed files.
 - **`print_stats`** (`bool`, default: `False`): If `True`, print execution metrics during evaluation.
-- **`on_error`** (`Literal['abort', 'ignore']`, default: `abort`): Determines the behavior if an error occurs while evaluating the column expression for at least one
-row.
+- **`on_error`** (`Literal['abort', 'ignore']`, default: `'abort'`): Determines the behavior if an error occurs while evaluating the column expression for at least one
+    row.
 
-- `'abort'`: an exception will be raised and the column will not be added.
-- `'ignore'`: execution will continue and the column will be added. Any rows
-    with errors will have a `None` value for the column, with information about the error stored in the
-    corresponding `tbl.col_name.errormsg` and `tbl.col_name.errortype` fields.
-- **`if_exists`** (`Literal['error', 'ignore', 'replace']`, default: `error`): Determines the behavior if the column already exists. Must be one of the following:
-- `'error'`: an exception will be raised.
-- `'ignore'`: do nothing and return.
-- `'replace' or 'replace_force'`: drop the existing column and add the new column, iff it has
-    no dependents.
+    - `'abort'`: an exception will be raised and the column will not be added.
+    - `'ignore'`: execution will continue and the column will be added. Any rows
+        with errors will have a `None` value for the column, with information about the error stored in the
+        corresponding `tbl.col_name.errormsg` and `tbl.col_name.errortype` fields.
+- **`if_exists`** (`Literal['error', 'ignore', 'replace']`, default: `'error'`): Determines the behavior if the column already exists. Must be one of the following:
+    - `'error'`: an exception will be raised.
+    - `'ignore'`: do nothing and return.
+    - `'replace' or 'replace_force'`: drop the existing column and add the new column, iff it has
+        no dependents.
 
 **Returns:**
 
 - `UpdateStatus`: Information about the execution status of the operation.
 
-
 **Examples:**
 
-For a table with an image column `frame`, add an image column `rotated` that rotates the image by
-90 degrees:
+For a table with an image column `frame`, add an image column `rotated` that rotates the image by 90 degrees:
 ```python
- tbl.add_computed_column(rotated=tbl.frame.rotate(90))
-```
-Do the same, but now the column is unstored:
-```python
- tbl.add_computed_column(rotated=tbl.frame.rotate(90), stored=False)
+tbl.add_computed_column(rotated=tbl.frame.rotate(90))
 ```
 
-## `method` add_embedding_index()
+Do the same, but now the column is unstored:
+```python
+tbl.add_computed_column(rotated=tbl.frame.rotate(90), stored=False)
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_embedding_index()
 
 ```python
 add_embedding_index(
@@ -174,57 +171,57 @@ Only `String` and `Image` columns are currently supported.
 
 - **`column`** (`str | ColumnRef`): The name of, or reference to, the column to be indexed; must be a `String` or `Image` column.
 - **`idx_name`** (`str | None`): An optional name for the index. If not specified, a name such as `'idx0'` will be generated
-automatically. If specified, the name must be unique for this table and a valid pixeltable column name.
+    automatically. If specified, the name must be unique for this table and a valid pixeltable column name.
 - **`embedding`** (`pxt.Function | None`): The UDF to use for the embedding. Must be a UDF that accepts a single argument of type `String`
-or `Image` (as appropriate for the column being indexed) and returns a fixed-size 1-dimensional
-array of floats.
+    or `Image` (as appropriate for the column being indexed) and returns a fixed-size 1-dimensional
+    array of floats.
 - **`string_embed`** (`pxt.Function | None`): An optional UDF to use for the string embedding component of this index.
-Can be used in conjunction with `image_embed` to construct multimodal embeddings manually, by
-specifying different embedding functions for different data types.
+    Can be used in conjunction with `image_embed` to construct multimodal embeddings manually, by
+    specifying different embedding functions for different data types.
 - **`image_embed`** (`pxt.Function | None`): An optional UDF to use for the image embedding component of this index.
-Can be used in conjunction with `string_embed` to construct multimodal embeddings manually, by
-specifying different embedding functions for different data types.
-- **`metric`** (`Literal['cosine', 'ip', 'l2']`, default: `cosine`): Distance metric to use for the index; one of `'cosine'`, `'ip'`, or `'l2'`.
-The default is `'cosine'`.
-- **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `error`): Directive for handling an existing index with the same name. Must be one of the following:
-- `'error'`: raise an error if an index with the same name already exists.
-- `'ignore'`: do nothing if an index with the same name already exists.
-- `'replace'` or `'replace_force'`: replace the existing index with the new one.
-
+    Can be used in conjunction with `string_embed` to construct multimodal embeddings manually, by
+    specifying different embedding functions for different data types.
+- **`metric`** (`Literal['cosine', 'ip', 'l2']`, default: `'cosine'`): Distance metric to use for the index; one of `'cosine'`, `'ip'`, or `'l2'`.
+    The default is `'cosine'`.
+- **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Directive for handling an existing index with the same name. Must be one of the following:
+    - `'error'`: raise an error if an index with the same name already exists.
+    - `'ignore'`: do nothing if an index with the same name already exists.
+    - `'replace'` or `'replace_force'`: replace the existing index with the new one.
 
 **Examples:**
 
 Add an index to the `img` column of the table `my_table`:
 ```python
- from pixeltable.functions.huggingface import clip
- tbl = pxt.get_table('my_table')
- embedding_fn = clip.using(model_id='openai/clip-vit-base-patch32')
- tbl.add_embedding_index(tbl.img, embedding=embedding_fn)
-```
-Alternatively, the `img` column may be specified by name:
-```python
- tbl.add_embedding_index('img', embedding=embedding_fn)
-```
-Add a second index to the `img` column, using the inner product as the distance metric,
-and with a specific name:
-```python
- tbl.add_embedding_index(
-     tbl.img,
-     idx_name='ip_idx',
-     embedding=embedding_fn,
-     metric='ip'
- )
-```
-Add an index using separately specified string and image embeddings:
-```python
- tbl.add_embedding_index(
-     tbl.img,
-     string_embed=string_embedding_fn,
-     image_embed=image_embedding_fn
- )
+from pixeltable.functions.huggingface import clip
+
+tbl = pxt.get_table('my_table')
+embedding_fn = clip.using(model_id='openai/clip-vit-base-patch32')
+tbl.add_embedding_index(tbl.img, embedding=embedding_fn)
 ```
 
-## `method` batch_update()
+Alternatively, the `img` column may be specified by name:
+```python
+tbl.add_embedding_index('img', embedding=embedding_fn)
+```
+
+Add a second index to the `img` column, using the inner product as the distance metric, and with a specific name:
+```python
+tbl.add_embedding_index(
+    tbl.img, idx_name='ip_idx', embedding=embedding_fn, metric='ip'
+)
+```
+
+Add an index using separately specified string and image embeddings:
+```python
+tbl.add_embedding_index(
+    tbl.img,
+    string_embed=string_embedding_fn,
+    image_embed=image_embedding_fn,
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; batch_update()
 
 ```python
 batch_update(
@@ -240,33 +237,38 @@ Update rows in this table.
 **Parameters:**
 
 - **`rows`** (`Iterable[dict[str, Any]]`): an Iterable of dictionaries containing values for the updated columns plus values for the primary key
-columns.
+    columns.
 - **`cascade`** (`bool`, default: `True`): if True, also update all computed columns that transitively depend on the updated columns.
-- **`if_not_exists`** (`Literal['error', 'ignore', 'insert']`, default: `error`): Specifies the behavior if a row to update does not exist:
-- `'error'`: Raise an error.
-- `'ignore'`: Skip the row silently.
-- `'insert'`: Insert the row.
-
+- **`if_not_exists`** (`Literal['error', 'ignore', 'insert']`, default: `'error'`): Specifies the behavior if a row to update does not exist:
+    - `'error'`: Raise an error.
+    - `'ignore'`: Skip the row silently.
+    - `'insert'`: Insert the row.
 
 **Examples:**
 
-Update the `name` and `age` columns for the rows with ids 1 and 2 (assuming `id` is the primary key).
-If either row does not exist, this raises an error:
+Update the `name` and `age` columns for the rows with ids 1 and 2 (assuming `id` is the primary key). If either row does not exist, this raises an error:
 ```python
- tbl.batch_update(
-     [{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 2, 'name': 'Bob', 'age': 40}]
- )
-```
-Update the `name` and `age` columns for the row with `id` 1 (assuming `id` is the primary key) and insert
-the row with new `id` 3 (assuming this key does not exist):
-```python
- tbl.batch_update(
-     [{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 3, 'name': 'Bob', 'age': 40}],
-     if_not_exists='insert'
- )
+tbl.batch_update(
+    [
+        {'id': 1, 'name': 'Alice', 'age': 30},
+        {'id': 2, 'name': 'Bob', 'age': 40},
+    ]
+)
 ```
 
-## `method` columns()
+Update the `name` and `age` columns for the row with `id` 1 (assuming `id` is the primary key) and insert the row with new `id` 3 (assuming this key does not exist):
+```python
+tbl.batch_update(
+    [
+        {'id': 1, 'name': 'Alice', 'age': 30},
+        {'id': 3, 'name': 'Bob', 'age': 40},
+    ],
+    if_not_exists='insert',
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; columns()
 
 ```python
 columns() -> list[str]
@@ -275,7 +277,7 @@ columns() -> list[str]
 Return the names of the columns in this table.
 
 
-## `method` count()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; count()
 
 ```python
 count() -> int
@@ -284,7 +286,7 @@ count() -> int
 Return the number of rows in this table.
 
 
-## `method` delete()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; delete()
 
 ```python
 delete(where: exprs.Expr | None = None) -> UpdateStatus
@@ -297,19 +299,20 @@ Delete rows in this table.
 
 - **`where`** (`'exprs.Expr' | None`): a predicate to filter rows to delete.
 
-
 **Examples:**
 
 Delete all rows in a table:
 ```python
- tbl.delete()
-```
-Delete all rows in a table where column `a` is greater than 5:
-```python
- tbl.delete(tbl.a > 5)
+tbl.delete()
 ```
 
-## `method` describe()
+Delete all rows in a table where column `a` is greater than 5:
+```python
+tbl.delete(tbl.a > 5)
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; describe()
 
 ```python
 describe() -> None
@@ -318,7 +321,7 @@ describe() -> None
 Print the table schema.
 
 
-## `method` drop_column()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; drop_column()
 
 ```python
 drop_column(
@@ -333,30 +336,32 @@ Drop a column from the table.
 **Parameters:**
 
 - **`column`** (`str | ColumnRef`): The name or reference of the column to drop.
-- **`if_not_exists`** (`Literal['error', 'ignore']`, default: `error`): Directive for handling a non-existent column. Must be one of the following:
-- `'error'`: raise an error if the column does not exist.
-- `'ignore'`: do nothing if the column does not exist.
-
+- **`if_not_exists`** (`Literal['error', 'ignore']`, default: `'error'`): Directive for handling a non-existent column. Must be one of the following:
+    - `'error'`: raise an error if the column does not exist.
+    - `'ignore'`: do nothing if the column does not exist.
 
 **Examples:**
 
 Drop the column `col` from the table `my_table` by column name:
 ```python
- tbl = pxt.get_table('my_table')
- tbl.drop_column('col')
-```
-Drop the column `col` from the table `my_table` by column reference:
-```python
- tbl = pxt.get_table('my_table')
- tbl.drop_column(tbl.col)
-```
-Drop the column `col` from the table `my_table` if it exists, otherwise do nothing:
-```python
- tbl = pxt.get_table('my_table')
- tbl.drop_col(tbl.col, if_not_exists='ignore')
+tbl = pxt.get_table('my_table')
+tbl.drop_column('col')
 ```
 
-## `method` drop_embedding_index()
+Drop the column `col` from the table `my_table` by column reference:
+```python
+tbl = pxt.get_table('my_table')
+tbl.drop_column(tbl.col)
+```
+
+Drop the column `col` from the table `my_table` if it exists, otherwise do nothing:
+```python
+tbl = pxt.get_table('my_table')
+tbl.drop_col(tbl.col, if_not_exists='ignore')
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; drop_embedding_index()
 
 ```python
 drop_embedding_index(
@@ -374,41 +379,44 @@ embedding index; otherwise the specific index name must be provided instead.
 **Parameters:**
 
 - **`column`** (`str | ColumnRef | None`): The name of, or reference to, the column from which to drop the index.
-The column must have only one embedding index.
+    The column must have only one embedding index.
 - **`idx_name`** (`str | None`): The name of the index to drop.
-- **`if_not_exists`** (`Literal['error', 'ignore']`, default: `error`): Directive for handling a non-existent index. Must be one of the following:
-- `'error'`: raise an error if the index does not exist.
-- `'ignore'`: do nothing if the index does not exist.
+- **`if_not_exists`** (`Literal['error', 'ignore']`, default: `'error'`): Directive for handling a non-existent index. Must be one of the following:
+    - `'error'`: raise an error if the index does not exist.
+    - `'ignore'`: do nothing if the index does not exist.
 
-Note that `if_not_exists` parameter is only applicable when an `idx_name` is specified
-and it does not exist, or when `column` is specified and it has no index.
-`if_not_exists` does not apply to non-exisitng column.
-
+    Note that `if_not_exists` parameter is only applicable when an `idx_name` is specified
+    and it does not exist, or when `column` is specified and it has no index.
+    `if_not_exists` does not apply to non-exisitng column.
 
 **Examples:**
 
 Drop the embedding index on the `img` column of the table `my_table` by column name:
 ```python
- tbl = pxt.get_table('my_table')
- tbl.drop_embedding_index(column='img')
-```
-Drop the embedding index on the `img` column of the table `my_table` by column reference:
-```python
- tbl = pxt.get_table('my_table')
- tbl.drop_embedding_index(column=tbl.img)
-```
-Drop the embedding index `idx1` of the table `my_table` by index name:
-```python
- tbl = pxt.get_table('my_table')
- tbl.drop_embedding_index(idx_name='idx1')
-```
-Drop the embedding index `idx1` of the table `my_table` by index name, if it exists, otherwise do nothing:
-```python
- tbl = pxt.get_table('my_table')
- tbl.drop_embedding_index(idx_name='idx1', if_not_exists='ignore')
+tbl = pxt.get_table('my_table')
+tbl.drop_embedding_index(column='img')
 ```
 
-## `method` drop_index()
+Drop the embedding index on the `img` column of the table `my_table` by column reference:
+```python
+tbl = pxt.get_table('my_table')
+tbl.drop_embedding_index(column=tbl.img)
+```
+
+Drop the embedding index `idx1` of the table `my_table` by index name:
+```python
+tbl = pxt.get_table('my_table')
+tbl.drop_embedding_index(idx_name='idx1')
+```
+
+Drop the embedding index `idx1` of the table `my_table` by index name, if it exists, otherwise do nothing:
+```python
+tbl = pxt.get_table('my_table')
+tbl.drop_embedding_index(idx_name='idx1', if_not_exists='ignore')
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; drop_index()
 
 ```python
 drop_index(
@@ -426,41 +434,44 @@ otherwise the specific index name must be provided instead.
 **Parameters:**
 
 - **`column`** (`str | ColumnRef | None`): The name of, or reference to, the column from which to drop the index.
-The column must have only one embedding index.
+    The column must have only one embedding index.
 - **`idx_name`** (`str | None`): The name of the index to drop.
-- **`if_not_exists`** (`Literal['error', 'ignore']`, default: `error`): Directive for handling a non-existent index. Must be one of the following:
-- `'error'`: raise an error if the index does not exist.
-- `'ignore'`: do nothing if the index does not exist.
+- **`if_not_exists`** (`Literal['error', 'ignore']`, default: `'error'`): Directive for handling a non-existent index. Must be one of the following:
+    - `'error'`: raise an error if the index does not exist.
+    - `'ignore'`: do nothing if the index does not exist.
 
-Note that `if_not_exists` parameter is only applicable when an `idx_name` is specified
-and it does not exist, or when `column` is specified and it has no index.
-`if_not_exists` does not apply to non-exisitng column.
-
+    Note that `if_not_exists` parameter is only applicable when an `idx_name` is specified
+    and it does not exist, or when `column` is specified and it has no index.
+    `if_not_exists` does not apply to non-exisitng column.
 
 **Examples:**
 
 Drop the index on the `img` column of the table `my_table` by column name:
 ```python
- tbl = pxt.get_table('my_table')
- tbl.drop_index(column_name='img')
-```
-Drop the index on the `img` column of the table `my_table` by column reference:
-```python
- tbl = pxt.get_table('my_table')
- tbl.drop_index(tbl.img)
-```
-Drop the index `idx1` of the table `my_table` by index name:
-```python
- tbl = pxt.get_table('my_table')
- tbl.drop_index(idx_name='idx1')
-```
-Drop the index `idx1` of the table `my_table` by index name, if it exists, otherwise do nothing:
-```python
- tbl = pxt.get_table('my_table')
- tbl.drop_index(idx_name='idx1', if_not_exists='ignore')
+tbl = pxt.get_table('my_table')
+tbl.drop_index(column_name='img')
 ```
 
-## `method` get_metadata()
+Drop the index on the `img` column of the table `my_table` by column reference:
+```python
+tbl = pxt.get_table('my_table')
+tbl.drop_index(tbl.img)
+```
+
+Drop the index `idx1` of the table `my_table` by index name:
+```python
+tbl = pxt.get_table('my_table')
+tbl.drop_index(idx_name='idx1')
+```
+
+Drop the index `idx1` of the table `my_table` by index name, if it exists, otherwise do nothing:
+```python
+tbl = pxt.get_table('my_table')
+tbl.drop_index(idx_name='idx1', if_not_exists='ignore')
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; get_metadata()
 
 ```python
 get_metadata() -> TableMetadata
@@ -471,10 +482,10 @@ Retrieves metadata associated with this table.
 
 **Returns:**
 
-- `'TableMetadata'`: A [TableMetadata][pixeltable.TableMetadata] instance containing this table's metadata.
+- `'TableMetadata'`: A [TableMetadata](./tablemetadata) instance containing this table's metadata.
 
 
-## `method` get_versions()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; get_versions()
 
 ```python
 get_versions(n: int | None = None) -> list[VersionMetadata]
@@ -483,7 +494,7 @@ get_versions(n: int | None = None) -> list[VersionMetadata]
 Returns information about versions of this table, most recent first.
 
 `get_versions()` is intended for programmatic access to version metadata; for human-readable
-output, use [`history()`][pixeltable.Table.history] instead.
+output, use [`history()`](./table#method-history) instead.
 
 **Parameters:**
 
@@ -491,22 +502,23 @@ output, use [`history()`][pixeltable.Table.history] instead.
 
 **Returns:**
 
-- `list[VersionMetadata]`: A list of [VersionMetadata][pixeltable.VersionMetadata] dictionaries, one per version retrieved, most
+- `list[VersionMetadata]`: A list of [VersionMetadata](./versionmetadata) dictionaries, one per version retrieved, most
   recent first.
-
 
 **Examples:**
 
 Retrieve metadata about all versions of the table `tbl`:
 ```python
- tbl.get_versions()
-```
-Retrieve metadata about the most recent 5 versions of the table `tbl`:
-```python
- tbl.get_versions(n=5)
+tbl.get_versions()
 ```
 
-## `method` history()
+Retrieve metadata about the most recent 5 versions of the table `tbl`:
+```python
+tbl.get_versions(n=5)
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; history()
 
 ```python
 history(n: int | None = None) -> pd.DataFrame
@@ -515,7 +527,7 @@ history(n: int | None = None) -> pd.DataFrame
 Returns a human-readable report about versions of this table.
 
 `history()` is intended for human-readable output of version metadata; for programmatic access,
-use [`get_versions()`][pixeltable.Table.get_versions] instead.
+use [`get_versions()`](./table#method-get-versions) instead.
 
 **Parameters:**
 
@@ -525,19 +537,20 @@ use [`get_versions()`][pixeltable.Table.get_versions] instead.
 
 - `pd.DataFrame`: A report with information about each version, one per row, most recent first.
 
-
 **Examples:**
 
 Report all versions of the table:
 ```python
- tbl.history()
-```
-Report only the most recent 5 changes to the table:
-```python
- tbl.history(n=5)
+tbl.history()
 ```
 
-## `method` insert()
+Report only the most recent 5 changes to the table:
+```python
+tbl.history(n=5)
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; insert()
 
 ```python
 insert(
@@ -582,50 +595,53 @@ insert(
 
 - **`source`** (`TableDataSource | None`): A data source from which data can be imported.
 - **`kwargs`** (`Any`): (if inserting a single row) Keyword-argument pairs representing column names and values.
-(if inserting multiple rows) Additional keyword arguments are passed to the data source.
+    (if inserting multiple rows) Additional keyword arguments are passed to the data source.
 - **`source_format`** (`Literal['csv', 'excel', 'parquet', 'json'] | None`): A hint about the format of the source data
 - **`schema_overrides`** (`dict[str, ts.ColumnType] | None`): If specified, then columns in `schema_overrides` will be given the specified types
-- **`on_error`** (`Literal['abort', 'ignore']`, default: `abort`): Determines the behavior if an error occurs while evaluating a computed column or detecting an
-invalid media file (such as a corrupt image) for one of the inserted rows.
+- **`on_error`** (`Literal['abort', 'ignore']`, default: `'abort'`): Determines the behavior if an error occurs while evaluating a computed column or detecting an
+    invalid media file (such as a corrupt image) for one of the inserted rows.
 
-- If `on_error='abort'`, then an exception will be raised and the rows will not be inserted.
-- If `on_error='ignore'`, then execution will continue and the rows will be inserted. Any cells
-    with errors will have a `None` value for that cell, with information about the error stored in the
-    corresponding `tbl.col_name.errortype` and `tbl.col_name.errormsg` fields.
+    - If `on_error='abort'`, then an exception will be raised and the rows will not be inserted.
+    - If `on_error='ignore'`, then execution will continue and the rows will be inserted. Any cells
+        with errors will have a `None` value for that cell, with information about the error stored in the
+        corresponding `tbl.col_name.errortype` and `tbl.col_name.errormsg` fields.
 - **`print_stats`** (`bool`, default: `False`): If `True`, print statistics about the cost of computed columns.
 
 **Returns:**
 
-- `UpdateStatus`: An [`UpdateStatus`][pixeltable.UpdateStatus] object containing information about the update.
-
+- `UpdateStatus`: An [`UpdateStatus`](./updatestatus) object containing information about the update.
 
 **Examples:**
 
-Insert two rows into the table `my_table` with three int columns ``a``, ``b``, and ``c``.
-Column ``c`` is nullable:
+Insert two rows into the table `my_table` with three int columns ``a``, ``b``, and ``c``. Column ``c`` is nullable:
 ```python
- tbl = pxt.get_table('my_table')
- tbl.insert([{'a': 1, 'b': 1, 'c': 1}, {'a': 2, 'b': 2}])
+tbl = pxt.get_table('my_table')
+tbl.insert([{'a': 1, 'b': 1, 'c': 1}, {'a': 2, 'b': 2}])
 ```
+
 Insert a single row using the alternative syntax:
 ```python
- tbl.insert(a=3, b=3, c=3)
+tbl.insert(a=3, b=3, c=3)
 ```
+
 Insert rows from a CSV file:
 ```python
- tbl.insert(source='path/to/file.csv')
+tbl.insert(source='path/to/file.csv')
 ```
+
 Insert Pydantic model instances into a table with two `pxt.Int` columns `a` and `b`:
 ```python
- class MyModel(pydantic.BaseModel):
-     a: int
-     b: int
+class MyModel(pydantic.BaseModel):
+    a: int
+    b: int
 
- models = [MyModel(a=1, b=2), MyModel(a=3, b=4)]
- tbl.insert(models)
+
+models = [MyModel(a=1, b=2), MyModel(a=3, b=4)]
+tbl.insert(models)
 ```
 
-## `method` list_views()
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; list_views()
 
 ```python
 list_views(*, recursive: bool = True) -> list[str]
@@ -637,14 +653,14 @@ Returns a list of all views and snapshots of this `Table`.
 **Parameters:**
 
 - **`recursive`** (`bool`, default: `True`): If `False`, returns only the immediate successor views of this `Table`. If `True`, returns
-all sub-views (including views of views, etc.)
+    all sub-views (including views of views, etc.)
 
 **Returns:**
 
 - `list[str]`: A list of view paths.
 
 
-## `method` recompute_columns()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; recompute_columns()
 
 ```python
 recompute_columns(
@@ -663,32 +679,33 @@ Recompute the values in one or more computed columns of this table.
 - **`columns`** (`str | ColumnRef`): The names or references of the computed columns to recompute.
 - **`where`** (`'exprs.Expr' | None`): A predicate to filter rows to recompute.
 - **`errors_only`** (`bool`, default: `False`): If True, only run the recomputation for rows that have errors in the column (ie, the column's
-`errortype` property indicates that an error occurred). Only allowed for recomputing a single column.
+    `errortype` property indicates that an error occurred). Only allowed for recomputing a single column.
 - **`cascade`** (`bool`, default: `True`): if True, also update all computed columns that transitively depend on the recomputed columns.
-
 
 **Examples:**
 
-Recompute computed columns `c1` and `c2` for all rows in this table, and everything that transitively
-depends on them:
+Recompute computed columns `c1` and `c2` for all rows in this table, and everything that transitively depends on them:
 ```python
- tbl.recompute_columns('c1', 'c2')
-```
-Recompute computed column `c1` for all rows in this table, but don't recompute other columns that depend on
-it:
-```python
- tbl.recompute_columns(tbl.c1, tbl.c2, cascade=False)
-```
-Recompute column `c1` and its dependents, but only for rows with `c2` == 0:
-```python
- tbl.recompute_columns('c1', where=tbl.c2 == 0)
-```
-Recompute column `c1` and its dependents, but only for rows that have errors in it:
-```python
- tbl.recompute_columns('c1', errors_only=True)
+tbl.recompute_columns('c1', 'c2')
 ```
 
-## `method` rename_column()
+Recompute computed column `c1` for all rows in this table, but don't recompute other columns that depend on it:
+```python
+tbl.recompute_columns(tbl.c1, tbl.c2, cascade=False)
+```
+
+Recompute column `c1` and its dependents, but only for rows with `c2` == 0:
+```python
+tbl.recompute_columns('c1', where=tbl.c2 == 0)
+```
+
+Recompute column `c1` and its dependents, but only for rows that have errors in it:
+```python
+tbl.recompute_columns('c1', errors_only=True)
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; rename_column()
 
 ```python
 rename_column(old_name: str, new_name: str) -> None
@@ -702,16 +719,16 @@ Rename a column.
 - **`old_name`** (`str`): The current name of the column.
 - **`new_name`** (`str`): The new name of the column.
 
-
 **Examples:**
 
 Rename the column `col1` to `col2` of the table `my_table`:
 ```python
- tbl = pxt.get_table('my_table')
- tbl.rename_column('col1', 'col2')
+tbl = pxt.get_table('my_table')
+tbl.rename_column('col1', 'col2')
 ```
 
-## `method` revert()
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; revert()
 
 ```python
 revert() -> None
@@ -723,7 +740,7 @@ Reverts the table to the previous version.
     This operation is irreversible.
 
 
-## `method` sync()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; sync()
 
 ```python
 sync(
@@ -740,12 +757,12 @@ Synchronizes this table with its linked external stores.
 **Parameters:**
 
 - **`stores`** (`str | list[str] | None`): If specified, will synchronize only the specified named store or list of stores. If not specified,
-will synchronize all of this table's external stores.
+    will synchronize all of this table's external stores.
 - **`export_data`** (`bool`, default: `True`): If `True`, data from this table will be exported to the external stores during synchronization.
 - **`import_data`** (`bool`, default: `True`): If `True`, data from the external stores will be imported to this table during synchronization.
 
 
-## `method` unlink_external_stores()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; unlink_external_stores()
 
 ```python
 unlink_external_stores(
@@ -762,14 +779,14 @@ Unlinks this table's external stores.
 **Parameters:**
 
 - **`stores`** (`str | list[str] | None`): If specified, will unlink only the specified named store or list of stores. If not specified,
-will unlink all of this table's external stores.
+    will unlink all of this table's external stores.
 - **`ignore_errors`** (`bool`, default: `False`): If `True`, no exception will be thrown if a specified store is not linked
-to this table.
+    to this table.
 - **`delete_external_data`** (`bool`, default: `False`): If `True`, then the external data store will also be deleted. WARNING: This
-is a destructive operation that will delete data outside Pixeltable, and cannot be undone.
+    is a destructive operation that will delete data outside Pixeltable, and cannot be undone.
 
 
-## `method` update()
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; update()
 
 ```python
 update(
@@ -790,24 +807,27 @@ Update rows in this table.
 
 **Returns:**
 
-- `UpdateStatus`: An [`UpdateStatus`][pixeltable.UpdateStatus] object containing information about the update.
-
+- `UpdateStatus`: An [`UpdateStatus`](./updatestatus) object containing information about the update.
 
 **Examples:**
 
 Set column `int_col` to 1 for all rows:
 ```python
- tbl.update({'int_col': 1})
+tbl.update({'int_col': 1})
 ```
+
 Set column `int_col` to 1 for all rows where `int_col` is 0:
 ```python
- tbl.update({'int_col': 1}, where=tbl.int_col == 0)
+tbl.update({'int_col': 1}, where=tbl.int_col == 0)
 ```
+
 Set `int_col` to the value of `other_int_col` + 1:
 ```python
- tbl.update({'int_col': tbl.other_int_col + 1})
+tbl.update({'int_col': tbl.other_int_col + 1})
 ```
+
 Increment `int_col` by 1 for all rows where `int_col` is 0:
 ```python
- tbl.update({'int_col': tbl.int_col + 1}, where=tbl.int_col == 0)
+tbl.update({'int_col': tbl.int_col + 1}, where=tbl.int_col == 0)
 ```
+

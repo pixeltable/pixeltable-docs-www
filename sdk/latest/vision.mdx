@@ -1,11 +1,9 @@
 ---
-title: "pixeltable.functions.vision"
-sidebarTitle: "vision"
+title: "vision"
 icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/vision.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: \"inline\", margin: \"0px\" }} noZoom /></a>"
 ---
-# `module` pixeltable.functions.vision
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/vision.py#L0" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.vision
 
 
 Pixeltable UDFs for Computer Vision.
@@ -20,7 +18,7 @@ t.select(pxtv.draw_bounding_boxes(t.img, boxes=t.boxes, label=t.labels)).collect
 ```
 
 
-## `func` draw_bounding_boxes()
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; draw_bounding_boxes()
 
 ```python
 draw_bounding_boxes(
@@ -56,9 +54,9 @@ If no colors are specified, this function randomly assigns each label a specific
 - **`fill`** (`Bool`): Whether to fill the bounding boxes with color.
 - **`width`** (`Int`): Width of the bounding box borders.
 - **`font`** (`String | None`): Name of a system font or path to a TrueType font file, as required by
-  [`PIL.ImageFont.truetype()`](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.truetype).
-  If `None`, uses the default provided by
-  [`PIL.ImageFont.load_default()`](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.load_default).
+    [`PIL.ImageFont.truetype()`](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.truetype).
+    If `None`, uses the default provided by
+    [`PIL.ImageFont.load_default()`](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.load_default).
 - **`font_size`** (`Int | None`): Size of the font used for labels in points. Only used in conjunction with non-`None` `font` argument.
 
 **Returns:**
@@ -66,7 +64,7 @@ If no colors are specified, this function randomly assigns each label a specific
 - `Image`: The image with bounding boxes drawn on it.
 
 
-## `func` eval_detections()
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; eval_detections()
 
 ```python
 eval_detections(
@@ -90,7 +88,7 @@ Evaluates the performance of a set of predicted bounding boxes against a set of 
 - **`gt_bboxes`** (`Json`): List of ground truth bounding boxes, each represented as [xmin, ymin, xmax, ymax].
 - **`gt_labels`** (`Json`): List of ground truth labels.
 - **`min_iou`** (`Float`): Minimum intersection-over-union (IoU) threshold for a predicted bounding box to be
-  considered a true positive.
+    considered a true positive.
 
 **Returns:**
 

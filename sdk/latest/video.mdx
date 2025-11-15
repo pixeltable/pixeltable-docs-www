@@ -1,17 +1,15 @@
 ---
-title: "pixeltable.functions.video"
-sidebarTitle: "video"
+title: "video"
 icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/video.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: \"inline\", margin: \"0px\" }} noZoom /></a>"
 ---
-# `module` pixeltable.functions.video
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/video.py#L0" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.video
 
 
 Pixeltable UDFs for `VideoType`.
 
 
-## `udf` clip()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; clip()
 
 ```python
 clip(
@@ -42,10 +40,10 @@ __Requirements:__
 - **`end_time`** (`Float | None`): End time in seconds
 - **`duration`** (`Float | None`): Duration of the clip in seconds
 - **`mode`** (`String`): - `'fast'`: avoids re-encoding but starts the clip at the nearest keyframes and as a result, the clip
-  duration will be slightly longer than requested
-  - `'accurate'`: extracts a frame-accurate clip, but requires re-encoding
+        duration will be slightly longer than requested
+    - `'accurate'`: extracts a frame-accurate clip, but requires re-encoding
 - **`video_encoder`** (`String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
-  Only available for `mode='accurate'`.
+    Only available for `mode='accurate'`.
 - **`video_encoder_args`** (`Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 **Returns:**
@@ -53,7 +51,7 @@ __Requirements:__
 - `Video | None`: New video containing only the specified time range or None if start_time is beyond the end of the video.
 
 
-## `udf` concat_videos()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; concat_videos()
 
 ```python
 concat_videos(videos: Json) -> Video
@@ -74,7 +72,7 @@ __Requirements:__
 - `Video`: A new video containing the merged videos.
 
 
-## `udf` extract_audio()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; extract_audio()
 
 ```python
 extract_audio(
@@ -108,7 +106,7 @@ tbl.add_computed_column(
 ```
 
 
-## `udf` extract_frame()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; extract_frame()
 
 ```python
 extract_frame(video: Video, *, timestamp: Float) -> Image | None
@@ -143,7 +141,7 @@ tbl.select(
 ```
 
 
-## `udf` get_duration()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get_duration()
 
 ```python
 get_duration(video: Video) -> Float | None
@@ -161,7 +159,7 @@ Get video duration in seconds.
 - `Float | None`: The duration in seconds, or None if the duration cannot be determined.
 
 
-## `udf` get_metadata()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get_metadata()
 
 ```python
 get_metadata(video: Video) -> Json
@@ -220,7 +218,7 @@ tbl.select(tbl.video_col.get_metadata()).collect()
 ```
 
 
-## `udf` overlay_text()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; overlay_text()
 
 ```python
 overlay_text(
@@ -264,10 +262,10 @@ __Requirements:__
 - **`box_color`** (`String`): Background box color as a string.
 - **`box_opacity`** (`Float`): Background box opacity from 0.0 to 1.0.
 - **`box_border`** (`Json | None`): Padding around text in the box in pixels.
-  - `[10]`: 10 pixels on all sides
-  - `[10, 20]`: 10 pixels on top/bottom, 20 on left/right
-  - `[10, 20, 30]`: 10 pixels on top, 20 on left/right, 30 on bottom
-  - `[10, 20, 30, 40]`: 10 pixels on top, 20 on right, 30 on bottom, 40 on left
+    - `[10]`: 10 pixels on all sides
+    - `[10, 20]`: 10 pixels on top/bottom, 20 on left/right
+    - `[10, 20, 30]`: 10 pixels on top, 20 on left/right, 30 on bottom
+    - `[10, 20, 30, 40]`: 10 pixels on top, 20 on right, 30 on bottom, 40 on left
 
 **Returns:**
 
@@ -294,7 +292,7 @@ tbl.select(
         box_border=[6, 14],
         horizontal_margin=10,
         vertical_align='bottom',
-        vertical_margin=70
+        vertical_margin=70,
     )
 ).collect()
 ```
@@ -309,13 +307,13 @@ tbl.select(
         box=True,
         box_color='black',
         box_opacity=0.6,
-        box_border=[20, 10]
+        box_border=[20, 10],
     )
 ).collect()
 ```
 
 
-## `udf` scene_detect_adaptive()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_adaptive()
 
 ```python
 scene_detect_adaptive(
@@ -346,25 +344,25 @@ __Requirements:__
 
 - **`video`** (`Video`): The video to analyze for scene cuts.
 - **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
-  Lower values process faster but may miss exact scene cuts.
+    Lower values process faster but may miss exact scene cuts.
 - **`adaptive_threshold`** (`Float`): Threshold that the score ratio must exceed to trigger a new scene cut.
-  Lower values will detect more scenes (more sensitive), higher values will detect fewer scenes.
+    Lower values will detect more scenes (more sensitive), higher values will detect fewer scenes.
 - **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
-  list.
+    list.
 - **`window_width`** (`Int`): Size of window (number of frames) before and after each frame to average together in order to
-  detect deviations from the mean. Must be at least 1.
+    detect deviations from the mean. Must be at least 1.
 - **`min_content_val`** (`Float`): Minimum threshold (float) that the content_val must exceed in order to register as a new scene.
-  This is calculated the same way that `scene_detect_content()` calculates frame
-  score based on weights/luma_only/kernel_size.
+    This is calculated the same way that `scene_detect_content()` calculates frame
+    score based on weights/luma_only/kernel_size.
 - **`delta_hue`** (`Float`): Weight for hue component changes. Higher values make hue changes more important.
 - **`delta_sat`** (`Float`): Weight for saturation component changes. Higher values make saturation changes more important.
 - **`delta_lum`** (`Float`): Weight for luminance component changes. Higher values make brightness changes more important.
 - **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important.
-  Edge detection can help detect cuts in scenes with similar colors but different content.
+    Edge detection can help detect cuts in scenes with similar colors but different content.
 - **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel of the video,
-  ignoring color information. This can be faster and may work better for grayscale content.
+    ignoring color information. This can be faster and may work better for grayscale content.
 - **`kernel_size`** (`Int | None`): Size of kernel to use for post edge detection filtering. If None, automatically set based on video
-  resolution.
+    resolution.
 
 **Returns:**
 
@@ -385,16 +383,15 @@ tbl.select(tbl.video.scene_detect_adaptive()).collect()
 
 Detect more scenes by lowering the threshold:
 ```python
-tbl.select(tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)).collect()
+tbl.select(
+    tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
+).collect()
 ```
 
 Use luminance-only detection with a longer minimum scene length:
 ```python
 tbl.select(
-    tbl.video.scene_detect_adaptive(
-        luma_only=True,
-        min_scene_len=30
-    )
+    tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)
 ).collect()
 ```
 
@@ -411,7 +408,7 @@ tbl.select(tbl.video.scene_detect_adaptive(fps=2.0)).collect()
 ```
 
 
-## `udf` scene_detect_content()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_content()
 
 ```python
 scene_detect_content(
@@ -441,20 +438,20 @@ __Requirements:__
 
 - **`video`** (`Video`): The video to analyze for scene cuts.
 - **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
-  Lower values process faster but may miss exact scene cuts.
+    Lower values process faster but may miss exact scene cuts.
 - **`threshold`** (`Float`): Threshold that the weighted sum of component changes must exceed to trigger a scene cut.
-  Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+    Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
 - **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
-  list.
+    list.
 - **`delta_hue`** (`Float`): Weight for hue component changes. Higher values make hue changes more important.
 - **`delta_sat`** (`Float`): Weight for saturation component changes. Higher values make saturation changes more important.
 - **`delta_lum`** (`Float`): Weight for luminance component changes. Higher values make brightness changes more important.
 - **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important.
-  Edge detection can help detect cuts in scenes with similar colors but different content.
+    Edge detection can help detect cuts in scenes with similar colors but different content.
 - **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel,
-  ignoring color information. This can be faster and may work better for grayscale content.
+    ignoring color information. This can be faster and may work better for grayscale content.
 - **`kernel_size`** (`Int | None`): Size of kernel for expanding detected edges. Must be odd integer greater than or equal to 3. If
-  None, automatically set using video resolution.
+    None, automatically set using video resolution.
 - **`filter_mode`** (`String`): How to handle fast cuts/flashes. 'merge' combines quick cuts, 'suppress' filters them out.
 
 **Returns:**
@@ -488,9 +485,7 @@ Emphasize edge detection for scenes with similar colors:
 ```python
 tbl.select(
     tbl.video.scene_detect_content(
-        delta_edges=1.0,
-        delta_hue=0.5,
-        delta_sat=0.5
+        delta_edges=1.0, delta_hue=0.5, delta_sat=0.5
     )
 ).collect()
 ```
@@ -503,7 +498,7 @@ tbl.add_computed_column(
 ```
 
 
-## `udf` scene_detect_hash()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_hash()
 
 ```python
 scene_detect_hash(
@@ -531,19 +526,19 @@ __Requirements:__
 
 - **`video`** (`Video`): The video to analyze for scene cuts.
 - **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
-  Lower values process faster but may miss exact scene cuts.
+    Lower values process faster but may miss exact scene cuts.
 - **`threshold`** (`Float`): Value from 0.0 and 1.0 representing the relative hamming distance between the perceptual hashes of
-  adjacent frames. A distance of 0 means the image is the same, and 1 means no correlation. Smaller threshold
-  values thus require more correlation, making the detector more sensitive. The Hamming distance is divided
-  by size x size before comparing to threshold for normalization.
-  Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+    adjacent frames. A distance of 0 means the image is the same, and 1 means no correlation. Smaller threshold
+    values thus require more correlation, making the detector more sensitive. The Hamming distance is divided
+    by size x size before comparing to threshold for normalization.
+    Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
 - **`size`** (`Int`): Size of square of low frequency data to use for the DCT. Larger values are more precise but slower.
-  Common values are 8, 16, or 32.
+    Common values are 8, 16, or 32.
 - **`lowpass`** (`Int`): How much high frequency information to filter from the DCT. A value of 2 means keep lower 1/2 of the
-  frequency data, 4 means only keep 1/4, etc. Larger values make the
-  detector less sensitive to high-frequency details and noise.
+    frequency data, 4 means only keep 1/4, etc. Larger values make the
+    detector less sensitive to high-frequency details and noise.
 - **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
-  list.
+    list.
 
 **Returns:**
 
@@ -574,23 +569,16 @@ tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
 
 Use for fast processing with lower frame rate:
 ```python
-tbl.select(
-    tbl.video.scene_detect_hash(
-        fps=1.0,
-        threshold=0.4
-    )
-).collect()
+tbl.select(tbl.video.scene_detect_hash(fps=1.0, threshold=0.4)).collect()
 ```
 
 Add scene cuts as a computed column:
 ```python
-tbl.add_computed_column(
-    scene_cuts=tbl.video.scene_detect_hash()
-)
+tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_hash())
 ```
 
 
-## `udf` scene_detect_histogram()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_histogram()
 
 ```python
 scene_detect_histogram(
@@ -618,15 +606,15 @@ __Requirements:__
 
 - **`video`** (`Video`): The video to analyze for scene cuts.
 - **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
-  Lower values process faster but may miss exact scene cuts.
+    Lower values process faster but may miss exact scene cuts.
 - **`threshold`** (`Float`): Maximum relative difference between 0.0 and 1.0 that the histograms can differ. Histograms are
-  calculated on the Y channel after converting the frame to YUV, and normalized based on the number of bins.
-  Higher differences imply greater change in content, so larger threshold values are less sensitive to cuts.
-  Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+    calculated on the Y channel after converting the frame to YUV, and normalized based on the number of bins.
+    Higher differences imply greater change in content, so larger threshold values are less sensitive to cuts.
+    Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
 - **`bins`** (`Int`): Number of bins to use for histogram calculation (typically 16-256). More bins provide
-  finer granularity but may be more sensitive to noise.
+    finer granularity but may be more sensitive to noise.
 - **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
-  list.
+    list.
 
 **Returns:**
 
@@ -657,11 +645,7 @@ tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
 
 Use with a longer minimum scene length:
 ```python
-tbl.select(
-    tbl.video.scene_detect_histogram(
-        min_scene_len=30
-    )
-).collect()
+tbl.select(tbl.video.scene_detect_histogram(min_scene_len=30)).collect()
 ```
 
 Add scene cuts as a computed column:
@@ -672,7 +656,7 @@ tbl.add_computed_column(
 ```
 
 
-## `udf` scene_detect_threshold()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_threshold()
 
 ```python
 scene_detect_threshold(
@@ -701,19 +685,19 @@ __Requirements:__
 
 - **`video`** (`Video`): The video to analyze for fade transitions.
 - **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
-  Lower values process faster but may miss exact transition points.
+    Lower values process faster but may miss exact transition points.
 - **`threshold`** (`Float`): 8-bit intensity value that each pixel value (R, G, and B) must be less than or equal to in order
-  to trigger a fade in/out.
+    to trigger a fade in/out.
 - **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
-  list.
+    list.
 - **`fade_bias`** (`Float`): Float between -1.0 and +1.0 representing the percentage of timecode skew for the start of a scene
-  (-1.0 causing a cut at the fade-to-black, 0.0 in the middle, and +1.0 causing the cut to be right at the
-  position where the threshold is passed).
+    (-1.0 causing a cut at the fade-to-black, 0.0 in the middle, and +1.0 causing the cut to be right at the
+    position where the threshold is passed).
 - **`add_final_scene`** (`Bool`): Boolean indicating if the video ends on a fade-out to generate an additional scene at this
-  timecode.
+    timecode.
 - **`method`** (`String`): How to treat threshold when detecting fade events
-  - 'ceiling': Fade out happens when frame brightness rises above threshold.
-  - 'floor': Fade out happens when frame brightness falls below threshold.
+    - 'ceiling': Fade out happens when frame brightness rises above threshold.
+    - 'floor': Fade out happens when frame brightness falls below threshold.
 
 **Returns:**
 
@@ -745,9 +729,7 @@ tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
 Add final scene boundary:
 ```python
 tbl.select(
-    tbl.video.scene_detect_threshold(
-        add_final_scene=True
-    )
+    tbl.video.scene_detect_threshold(add_final_scene=True)
 ).collect()
 ```
 
@@ -759,7 +741,7 @@ tbl.add_computed_column(
 ```
 
 
-## `udf` segment_video()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; segment_video()
 
 ```python
 segment_video(
@@ -783,16 +765,16 @@ __Requirements:__
 
 - **`video`** (`Video`): Input video file to segment
 - **`duration`** (`Float | None`): Duration of each segment (in seconds). For `mode='fast'`, this is approximate;
-  for `mode='accurate'`, segments will have exact durations. Cannot be specified together with
-  `segment_times`.
+    for `mode='accurate'`, segments will have exact durations. Cannot be specified together with
+    `segment_times`.
 - **`segment_times`** (`Json | None`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
-  segment durations. If all segment times are less than the duration of the video, produces exactly
-  `len(segment_times) + 1` segments. Cannot be empty or be specified together with `duration`.
+    segment durations. If all segment times are less than the duration of the video, produces exactly
+    `len(segment_times) + 1` segments. Cannot be empty or be specified together with `duration`.
 - **`mode`** (`String`): Segmentation mode:
-  - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations)
-  - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower)
+    - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations)
+    - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower)
 - **`video_encoder`** (`String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
-  Only available for `mode='accurate'`.
+    Only available for `mode='accurate'`.
 - **`video_encoder_args`** (`Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 **Returns:**
@@ -816,7 +798,7 @@ tbl.select(
     segment_paths=tbl.video.segment_video(
         duration=10,
         video_encoder='libx264',
-        video_encoder_args={'crf': 23, 'preset': 'slow'}
+        video_encoder_args={'crf': 23, 'preset': 'slow'},
     )
 ).collect()
 ```
@@ -825,14 +807,12 @@ Split video into two parts at the midpoint:
 ```python
 duration = tbl.video.get_duration()
 tbl.select(
-    segment_paths=tbl.video.segment_video(
-        segment_times=[duration / 2]
-    )
+    segment_paths=tbl.video.segment_video(segment_times=[duration / 2])
 ).collect()
 ```
 
 
-## `udf` with_audio()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; with_audio()
 
 ```python
 with_audio(
@@ -861,10 +841,10 @@ __Requirements:__
 - **`audio`** (`Audio`): Input audio.
 - **`video_start_time`** (`Float`): Start time in the video input (in seconds).
 - **`video_duration`** (`Float | None`): Duration of video segment (in seconds). If None, uses the remainder of the video after
-  `video_start_time`. `video_duration` determines the duration of the output video.
+    `video_start_time`. `video_duration` determines the duration of the output video.
 - **`audio_start_time`** (`Float`): Start time in the audio input (in seconds).
 - **`audio_duration`** (`Float | None`): Duration of audio segment (in seconds). If None, uses the remainder of the audio after
-  `audio_start_time`. If the audio is longer than the output video, it will be truncated.
+    `audio_start_time`. If the audio is longer than the output video, it will be truncated.
 
 **Returns:**
 
@@ -881,9 +861,7 @@ Add audio starting 5 seconds into both files:
 ```python
 tbl.select(
     tbl.video.with_audio(
-        tbl.music_track,
-        video_start_time=5.0,
-        audio_start_time=5.0
+        tbl.music_track, video_start_time=5.0, audio_start_time=5.0
     )
 ).collect()
 ```
@@ -896,7 +874,7 @@ tbl.select(
         video_start_time=30.0,
         video_duration=10.0,
         audio_start_time=15.0,
-        audio_duration=10.0
+        audio_duration=10.0,
     )
 ).collect()
 ```

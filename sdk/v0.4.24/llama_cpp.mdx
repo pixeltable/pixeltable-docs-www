@@ -1,11 +1,9 @@
 ---
-title: "pixeltable.functions.llama_cpp"
-sidebarTitle: "llama_cpp"
+title: "llama_cpp"
 icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/llama_cpp.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: \"inline\", margin: \"0px\" }} noZoom /></a>"
 ---
-# `module` pixeltable.functions.llama_cpp
-
-<a href="https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/llama_cpp.py#L0" target="_blank">View source on GitHub</a>
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.llama_cpp
 
 
 Pixeltable UDFs for llama.cpp models.
@@ -14,7 +12,7 @@ Provides integration with llama.cpp for running quantized language models locall
 supporting chat completions and embeddings with GGUF format models.
 
 
-## `udf` create_chat_completion()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; create_chat_completion()
 
 ```python
 create_chat_completion(
@@ -42,8 +40,8 @@ For additional details, see the
 - **`model_path`** (`String | None`): Path to the model (if using a local model).
 - **`repo_id`** (`String | None`): The Hugging Face model repo id (if using a pretrained model).
 - **`repo_filename`** (`String | None`): A filename or glob pattern to match the model file in the repo (optional, if using a
-  pretrained model).
+    pretrained model).
 - **`model_kwargs`** (`Json | None`): Additional keyword args for the llama_cpp `create_chat_completions` API, such as `max_tokens`,
-  `temperature`, `top_p`, and `top_k`. For details, see the
-  [llama_cpp create_chat_completions documentation](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.create_chat_completion).
+    `temperature`, `top_p`, and `top_k`. For details, see the
+    [llama_cpp create_chat_completions documentation](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.create_chat_completion).
 
