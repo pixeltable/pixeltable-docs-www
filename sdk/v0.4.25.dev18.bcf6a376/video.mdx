@@ -383,7 +383,9 @@ tbl.select(tbl.video.scene_detect_adaptive()).collect()
 
 Detect more scenes by lowering the threshold:
 ```python
-tbl.select(tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)).collect()
+tbl.select(
+    tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
+).collect()
 ```
 
 Use luminance-only detection with a longer minimum scene length:
@@ -726,7 +728,9 @@ tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
 
 Add final scene boundary:
 ```python
-tbl.select(tbl.video.scene_detect_threshold(add_final_scene=True)).collect()
+tbl.select(
+    tbl.video.scene_detect_threshold(add_final_scene=True)
+).collect()
 ```
 
 Add fade transitions as a computed column:

@@ -214,7 +214,9 @@ tbl.add_embedding_index(
 Add an index using separately specified string and image embeddings:
 ```python
 tbl.add_embedding_index(
-    tbl.img, string_embed=string_embedding_fn, image_embed=image_embedding_fn
+    tbl.img,
+    string_embed=string_embedding_fn,
+    image_embed=image_embedding_fn,
 )
 ```
 
@@ -247,7 +249,10 @@ Update rows in this table.
 Update the `name` and `age` columns for the rows with ids 1 and 2 (assuming `id` is the primary key). If either row does not exist, this raises an error:
 ```python
 tbl.batch_update(
-    [{'id': 1, 'name': 'Alice', 'age': 30}, {'id': 2, 'name': 'Bob', 'age': 40}]
+    [
+        {'id': 1, 'name': 'Alice', 'age': 30},
+        {'id': 2, 'name': 'Bob', 'age': 40},
+    ]
 )
 ```
 

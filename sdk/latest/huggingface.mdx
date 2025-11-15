@@ -242,7 +242,9 @@ Converts the output of a DETR object detection model to COCO format.
 
 Add a computed column that converts the output `tbl.detections` to COCO format, where `tbl.image` is the image for which detections were computed:
 ```python
-tbl.add_computed_column(detections_coco=detr_to_coco(tbl.image, tbl.detections))
+tbl.add_computed_column(
+    detections_coco=detr_to_coco(tbl.image, tbl.detections)
+)
 ```
 
 
@@ -423,7 +425,9 @@ Add a computed column that answers questions based on document context:
 ```python
 tbl.add_computed_column(
     answer=question_answering(
-        tbl.document_text, tbl.question, model_id='deepset/roberta-base-squad2'
+        tbl.document_text,
+        tbl.question,
+        model_id='deepset/roberta-base-squad2',
     )
 )
 ```
@@ -465,7 +469,9 @@ __Requirements:__
 Add a computed column that applies the model `all-mpnet-base-2` to an existing Pixeltable column `tbl.sentence` of the table `tbl`:
 ```python
 tbl.add_computed_column(
-    result=sentence_transformer(tbl.sentence, model_id='all-mpnet-base-v2')
+    result=sentence_transformer(
+        tbl.sentence, model_id='all-mpnet-base-v2'
+    )
 )
 ```
 
@@ -569,7 +575,9 @@ Add a computed column that summarizes documents:
 ```python
 tbl.add_computed_column(
     summary=text_summarization(
-        tbl.document_text, model_id='facebook/bart-large-cnn', max_length=100
+        tbl.document_text,
+        model_id='facebook/bart-large-cnn',
+        max_length=100,
     )
 )
 ```
@@ -786,7 +794,8 @@ Add a computed column that extracts named entities:
 ```python
 tbl.add_computed_column(
     entities=token_classification(
-        tbl.text, model_id='dbmdz/bert-large-cased-finetuned-conll03-english'
+        tbl.text,
+        model_id='dbmdz/bert-large-cased-finetuned-conll03-english',
     )
 )
 ```

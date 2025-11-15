@@ -199,7 +199,9 @@ __Requirements:__
 
 Export the images in the `image` column of the table `tbl` as a Voxel51 dataset, using classification labels from `tbl.classifications`:
 ```python
-export_images_as_fo_dataset(tbl, tbl.image, classifications=tbl.classifications)
+export_images_as_fo_dataset(
+    tbl, tbl.image, classifications=tbl.classifications
+)
 ```
 
 

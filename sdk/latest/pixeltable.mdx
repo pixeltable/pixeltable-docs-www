@@ -137,7 +137,9 @@ snapshot = pxt.create_snapshot(
 Create a snapshot `my_snapshot` on a table `my_table`, and replace any existing snapshot named `my_snapshot`:
 ```python
 tbl = pxt.get_table('my_table')
-snapshot = pxt.create_snapshot('my_snapshot', tbl, if_exists='replace_force')
+snapshot = pxt.create_snapshot(
+    'my_snapshot', tbl, if_exists='replace_force'
+)
 ```
 
 
@@ -215,7 +217,9 @@ source format and/or schema can be specified directly via the `source_format` an
 
 Create a table with an int and a string column:
 ```python
-tbl = pxt.create_table('my_table', schema={'col1': pxt.Int, 'col2': pxt.String})
+tbl = pxt.create_table(
+    'my_table', schema={'col1': pxt.Int, 'col2': pxt.String}
+)
 ```
 
 Create a table from a select statement over an existing table `orig_table` (this will create a new table containing the exact contents of the query):
@@ -229,14 +233,18 @@ tbl2 = pxt.create_table(
 Create a table if it does not already exist, otherwise get the existing table:
 ```python
 tbl = pxt.create_table(
-    'my_table', schema={'col1': pxt.Int, 'col2': pxt.String}, if_exists='ignore'
+    'my_table',
+    schema={'col1': pxt.Int, 'col2': pxt.String},
+    if_exists='ignore',
 )
 ```
 
 Create a table with an int and a float column, and replace any existing table:
 ```python
 tbl = pxt.create_table(
-    'my_table', schema={'col1': pxt.Int, 'col2': pxt.Float}, if_exists='replace'
+    'my_table',
+    schema={'col1': pxt.Int, 'col2': pxt.Float},
+    if_exists='replace',
 )
 ```
 
@@ -312,7 +320,9 @@ view = pxt.create_view('my_view', tbl.where(tbl.col1 > 10))
 Create a view `my_view` of an existing table `my_table`, filtering on rows where `col1` is greater than 10, and if it not already exist. Otherwise, get the existing view named `my_view`:
 ```python
 tbl = pxt.get_table('my_table')
-view = pxt.create_view('my_view', tbl.where(tbl.col1 > 10), if_exists='ignore')
+view = pxt.create_view(
+    'my_view', tbl.where(tbl.col1 > 10), if_exists='ignore'
+)
 ```
 
 Create a view `my_view` of an existing table `my_table`, filtering on rows where `col1` is greater than 100, and replace any existing view named `my_view`:

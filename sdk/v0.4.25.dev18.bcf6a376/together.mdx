@@ -53,7 +53,9 @@ Add a computed column that applies the model `mistralai/Mixtral-8x7B-v0.1` to an
 ```python
 messages = [{'role': 'user', 'content': tbl.prompt}]
 tbl.add_computed_column(
-    response=chat_completions(messages, model='mistralai/Mixtral-8x7B-v0.1')
+    response=chat_completions(
+        messages, model='mistralai/Mixtral-8x7B-v0.1'
+    )
 )
 ```
 

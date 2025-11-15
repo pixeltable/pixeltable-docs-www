@@ -83,7 +83,9 @@ tbl.add_computed_column(result=transcribe(tbl.audio, model='tiny.en'))
 Add a computed column that applies the model `tiny.en` to an existing Pixeltable column `tbl.audio` of the table `tbl`, with speaker diarization enabled, expecting at least 2 speakers:
 ```python
 tbl.add_computed_column(
-    result=transcribe(tbl.audio, model='tiny.en', diarize=True, min_speakers=2)
+    result=transcribe(
+        tbl.audio, model='tiny.en', diarize=True, min_speakers=2
+    )
 )
 ```
 

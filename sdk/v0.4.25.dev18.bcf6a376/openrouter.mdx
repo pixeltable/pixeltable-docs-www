@@ -63,7 +63,9 @@ Basic chat completion:
 ```python
 messages = [{'role': 'user', 'content': tbl.prompt}]
 tbl.add_computed_column(
-    response=chat_completions(messages, model='anthropic/claude-3.5-sonnet')
+    response=chat_completions(
+        messages, model='anthropic/claude-3.5-sonnet'
+    )
 )
 ```
 
