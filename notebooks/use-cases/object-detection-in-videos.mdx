@@ -662,7 +662,7 @@ videos_table = pxt.create_table(
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;detection_demo&#x27;.
-Created&nbsp;table&nbsp;`videos`.
+Created&nbsp;table&nbsp;\`videos\`.
 </pre>
 
 In order to interact with the frames, we take advantage of Pixeltable’s
@@ -684,7 +684,7 @@ frames_view = pxt.create_view(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;view&nbsp;`frames`&nbsp;with&nbsp;0&nbsp;rows,&nbsp;0&nbsp;exceptions.
+Created&nbsp;view&nbsp;\`frames\`&nbsp;with&nbsp;0&nbsp;rows,&nbsp;0&nbsp;exceptions.
 </pre>
 
 You’ll see that neither the `videos` table nor the `frames` view has any
@@ -726,8 +726,8 @@ videos_table.insert([
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;`videos`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;321.33&nbsp;rows/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;`frames`:&nbsp;461&nbsp;rows&nbsp;\[00:00,&nbsp;14957.29&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`videos\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;321.33&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`frames\`:&nbsp;461&nbsp;rows&nbsp;\[00:00,&nbsp;14957.29&nbsp;rows/s\]
 Inserted&nbsp;462&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=462,&nbsp;num_computed_values=2,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>

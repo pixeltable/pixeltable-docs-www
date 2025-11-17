@@ -240,8 +240,8 @@ imgs = pxt.create_table('indices_demo.img_tbl', schema)
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;`indices_demo`.
-Created&nbsp;table&nbsp;`img_tbl`.
+Created&nbsp;directory&nbsp;\`indices_demo\`.
+Created&nbsp;table&nbsp;\`img_tbl\`.
 </pre>
 
 We start out by inserting 10 rows:
@@ -265,7 +265,7 @@ imgs.insert({'id': i, 'img': url} for i, url in enumerate(img_urls))
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;&nbsp;80%|█████████████████████████████████▌&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;16/20&nbsp;\[00:01&lt;00:00,&nbsp;14.67&nbsp;cells/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;`img_tbl`:&nbsp;10&nbsp;rows&nbsp;\[00:00,&nbsp;3589.17&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`img_tbl\`:&nbsp;10&nbsp;rows&nbsp;\[00:00,&nbsp;3589.17&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|██████████████████████████████████████████|&nbsp;20/20&nbsp;\[00:01&lt;00:00,&nbsp;18.16&nbsp;cells/s\]
 Inserted&nbsp;10&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=10,&nbsp;num_computed_values=20,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
@@ -445,7 +445,7 @@ imgs.insert({'id': 10 + i, 'img': url} for i, url in enumerate(more_img_urls))
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;&nbsp;33%|██████████████&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;10/30&nbsp;\[00:01&lt;00:02,&nbsp;&nbsp;8.90&nbsp;cells/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;`img_tbl`:&nbsp;10&nbsp;rows&nbsp;\[00:00,&nbsp;1337.60&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`img_tbl\`:&nbsp;10&nbsp;rows&nbsp;\[00:00,&nbsp;1337.60&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|██████████████████████████████████████████|&nbsp;30/30&nbsp;\[00:01&lt;00:00,&nbsp;24.55&nbsp;cells/s\]
 Inserted&nbsp;10&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=10,&nbsp;num_computed_values=30,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
@@ -515,8 +515,8 @@ txts.insert({'text': s} for s in sentences)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;`text_tbl`.
-Inserting&nbsp;rows&nbsp;into&nbsp;`text_tbl`:&nbsp;10&nbsp;rows&nbsp;\[00:00,&nbsp;3599.64&nbsp;rows/s\]
+Created&nbsp;table&nbsp;\`text_tbl\`.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`text_tbl\`:&nbsp;10&nbsp;rows&nbsp;\[00:00,&nbsp;3599.64&nbsp;rows/s\]
 Inserted&nbsp;10&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=10,&nbsp;num_computed_values=10,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>

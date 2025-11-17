@@ -485,8 +485,8 @@ t = pxt.create_table('demo.first', {'input_image': pxt.Image})
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;`demo`.
-Created&nbsp;table&nbsp;`first`.
+Created&nbsp;directory&nbsp;\`demo\`.
+Created&nbsp;table&nbsp;\`first\`.
 </pre>
 
 We can use `t.describe()` to examine the table schema. We see that it
@@ -528,7 +528,7 @@ t.insert([{'input_image': 'https://raw.githubusercontent.com/pixeltable/pixeltab
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;`first`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;336.92&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`first\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;336.92&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=1,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
@@ -651,7 +651,7 @@ t.insert({'input_image': image} for image in more_images)
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;&nbsp;50%|██████████████████████&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;4/8&nbsp;\[00:01&lt;00:01,&nbsp;&nbsp;3.67&nbsp;cells/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;`first`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;3478.59&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`first\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;3478.59&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;8/8&nbsp;\[00:01&lt;00:00,&nbsp;&nbsp;7.32&nbsp;cells/s\]
 Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=4,&nbsp;num_computed_values=8,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])

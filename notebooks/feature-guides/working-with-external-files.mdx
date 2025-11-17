@@ -167,7 +167,7 @@ pxt.create_dir('external_data')
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;`external_data`.
+Created&nbsp;directory&nbsp;\`external_data\`.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x176646bb0&gt;
 </pre>
 
@@ -185,9 +185,9 @@ v.insert({'video': prefix + p} for p in paths)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;`videos`.
+Created&nbsp;table&nbsp;\`videos\`.
 Computing&nbsp;cells:&nbsp;&nbsp;&nbsp;0%|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;0/6&nbsp;\[00:00&lt;?,&nbsp;?&nbsp;cells/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;`videos`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1004.62&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`videos\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1004.62&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;6/6&nbsp;\[00:00&lt;00:00,&nbsp;79.14&nbsp;cells/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=3,&nbsp;num_computed_values=6,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
@@ -234,7 +234,7 @@ v.insert([{'video': local_path}])
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;&nbsp;&nbsp;0%|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;0/2&nbsp;\[00:00&lt;?,&nbsp;?&nbsp;cells/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;`videos`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;725.78&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`videos\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;725.78&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;53.23&nbsp;cells/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=1,&nbsp;num_computed_values=2,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
@@ -458,7 +458,7 @@ v.insert([{'video': prefix + 'bad_path.mp4'}, {'video': corrupted_path}], on_err
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:00&lt;00:00,&nbsp;20.98&nbsp;cells/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;`videos`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;671.63&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`videos\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;671.63&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:00&lt;00:00,&nbsp;20.13&nbsp;cells/s\]
 Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;4&nbsp;errors&nbsp;across&nbsp;2&nbsp;columns&nbsp;(videos.video,&nbsp;videos.None).
 UpdateStatus(num_rows=2,&nbsp;num_computed_values=4,&nbsp;num_excs=4,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[&#x27;videos.video&#x27;,&nbsp;&#x27;videos.None&#x27;\])
