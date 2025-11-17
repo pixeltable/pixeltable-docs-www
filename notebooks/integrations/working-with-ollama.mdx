@@ -103,7 +103,7 @@ ollama.pull('qwen2.5:0.5b')
 ollama.generate('qwen2.5:0.5b', 'What is the capital of Missouri?')['response']
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 &quot;The&nbsp;capital&nbsp;city&nbsp;of&nbsp;Missouri&nbsp;is&nbsp;Jefferson&nbsp;City.&nbsp;It&#x27;s&nbsp;located&nbsp;in&nbsp;the&nbsp;central&nbsp;part&nbsp;of&nbsp;the&nbsp;state&nbsp;and&nbsp;serves&nbsp;as&nbsp;the&nbsp;administrative&nbsp;center&nbsp;for&nbsp;the&nbsp;Midwestern&nbsp;U.S.&nbsp;territory&nbsp;of&nbsp;Missouri.&nbsp;The&nbsp;state&nbsp;is&nbsp;known&nbsp;for&nbsp;its&nbsp;rich&nbsp;history,&nbsp;particularly&nbsp;regarding&nbsp;the&nbsp;Missouri&nbsp;River,&nbsp;which&nbsp;runs&nbsp;through&nbsp;its&nbsp;central&nbsp;parts&nbsp;and&nbsp;provides&nbsp;access&nbsp;to&nbsp;major&nbsp;cities&nbsp;along&nbsp;the&nbsp;border&nbsp;with&nbsp;Illinois.&quot;
 </pre>
 
@@ -139,7 +139,7 @@ t.add_computed_column(output=chat(
 t.add_computed_column(response=t.output.message.content)
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;`ollama_demo`.
 Created&nbsp;table&nbsp;`chat`.
@@ -158,7 +158,7 @@ t.insert(input='What are the most popular services for LLM inference?')
 t.select(t.input, t.response).show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.18&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`chat`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;75.39&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.17&nbsp;cells/s\]

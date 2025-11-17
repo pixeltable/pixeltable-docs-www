@@ -1105,7 +1105,7 @@ our environment.
 %pip install -q pixeltable sentence-transformers tiktoken openai openpyxl
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
 </pre>
 
@@ -1119,7 +1119,7 @@ pxt.drop_dir('rag_demo', force=True)
 pxt.create_dir('rag_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/home/marcel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;rag_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x7eb34c1eceb0&gt;
@@ -1138,7 +1138,7 @@ qa_url = base + 'Q-A-Rag.xlsx'
 queries_t = pxt.create_table('rag_demo.queries', source=qa_url)
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;queries&#x27;.
 Inserting&nbsp;rows&nbsp;into&nbsp;`queries`:&nbsp;8&nbsp;rows&nbsp;\[00:00,&nbsp;1853.94&nbsp;rows/s\]
 Inserted&nbsp;8&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
@@ -1181,7 +1181,7 @@ documents_t = pxt.create_table(
 documents_t
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;documents&#x27;.
 </pre>
 
@@ -1215,7 +1215,7 @@ documents_t.insert({'document': url} for url in document_urls[:3])
 documents_t.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`documents`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1925.76&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -1252,7 +1252,7 @@ chunks_t = pxt.create_view(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`chunks`:&nbsp;41&nbsp;rows&nbsp;\[00:00,&nbsp;21767.91&nbsp;rows/s\]
 </pre>
 
@@ -1368,7 +1368,7 @@ queries_t.add_computed_column(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;8&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 8&nbsp;rows&nbsp;updated,&nbsp;8&nbsp;values&nbsp;computed.
 </pre>
@@ -1436,7 +1436,7 @@ queries_t.add_computed_column(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;8&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 8&nbsp;rows&nbsp;updated,&nbsp;16&nbsp;values&nbsp;computed.
 </pre>
@@ -1490,7 +1490,7 @@ queries_t.add_computed_column(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;8&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 8&nbsp;rows&nbsp;updated,&nbsp;8&nbsp;values&nbsp;computed.
 </pre>
@@ -1507,7 +1507,7 @@ queries_t.add_computed_column(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;8&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 8&nbsp;rows&nbsp;updated,&nbsp;8&nbsp;values&nbsp;computed.
 </pre>
@@ -1552,7 +1552,7 @@ sync with `documents`:
 documents_t.insert({'document': p} for p in document_urls[3:])
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`documents`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1949.63&nbsp;rows/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`chunks`:&nbsp;68&nbsp;rows&nbsp;\[00:00,&nbsp;601.57&nbsp;rows/s\]
 Inserted&nbsp;71&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
@@ -1598,7 +1598,7 @@ automatically recompute the `answer` column as well.
 queries_t.recompute_columns('response')
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`queries`:&nbsp;8&nbsp;rows&nbsp;\[00:00,&nbsp;2128.01&nbsp;rows/s\]
 8&nbsp;rows&nbsp;updated,&nbsp;16&nbsp;values&nbsp;computed.
 </pre>

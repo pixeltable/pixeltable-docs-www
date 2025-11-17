@@ -1206,7 +1206,7 @@ pxt.drop_dir('rag_ops_demo', force=True)
 pxt.create_dir('rag_ops_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;`rag_ops_demo`.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x341466e50&gt;
@@ -1229,7 +1229,7 @@ docs = pxt.create_table(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`docs`.
 </pre>
 
@@ -1274,7 +1274,7 @@ sentences = pxt.create_view(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;view&nbsp;`sentences`&nbsp;with&nbsp;0&nbsp;rows,&nbsp;0&nbsp;exceptions.
 </pre>
 
@@ -1311,7 +1311,7 @@ URL:
 docs.insert([{'source_doc': 'https://en.wikipedia.org/wiki/Marc_Chagall'}])
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;14.50&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`docs`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;739.08&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;14.20&nbsp;cells/s\]
@@ -1372,7 +1372,7 @@ chunks = pxt.create_view(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`chunks`:&nbsp;205&nbsp;rows&nbsp;\[00:00,&nbsp;16715.90&nbsp;rows/s\]
 Created&nbsp;view&nbsp;`chunks`&nbsp;with&nbsp;205&nbsp;rows,&nbsp;0&nbsp;exceptions.
 </pre>
@@ -1391,7 +1391,7 @@ short_chunks = pxt.create_view(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`short_chunks`:&nbsp;531&nbsp;rows&nbsp;\[00:00,&nbsp;23858.59&nbsp;rows/s\]
 Created&nbsp;view&nbsp;`short_chunks`&nbsp;with&nbsp;531&nbsp;rows,&nbsp;0&nbsp;exceptions.
 </pre>
@@ -1410,7 +1410,7 @@ short_char_chunks = pxt.create_view(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`short_char_chunks`:&nbsp;1764&nbsp;rows&nbsp;\[00:00,&nbsp;17427.53&nbsp;rows/s\]
 Created&nbsp;view&nbsp;`short_char_chunks`&nbsp;with&nbsp;1764&nbsp;rows,&nbsp;0&nbsp;exceptions.
 </pre>
@@ -1450,7 +1450,7 @@ urls = [
 docs.insert({'source_doc': url} for url in urls)
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;6/6&nbsp;\[00:00&lt;00:00,&nbsp;53.63&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`docs`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;2365.21&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;6/6&nbsp;\[00:00&lt;00:00,&nbsp;52.39&nbsp;cells/s\]
@@ -1499,7 +1499,7 @@ chunks.add_computed_column(minilm_embed=sentence_transformer(
 ))
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████|&nbsp;481/481&nbsp;\[00:02&lt;00:00,&nbsp;222.59&nbsp;cells/s\]
 Added&nbsp;481&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=481,&nbsp;num_computed_values=481,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
@@ -1542,7 +1542,7 @@ chunks.add_computed_column(clip_embed=clip(
 ))
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████|&nbsp;481/481&nbsp;\[00:05&lt;00:00,&nbsp;93.49&nbsp;cells/s\]
 Added&nbsp;481&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=481,&nbsp;num_computed_values=481,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])

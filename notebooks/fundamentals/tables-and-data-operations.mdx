@@ -1562,7 +1562,7 @@ pxt.drop_dir('fundamentals', force=True)
 pxt.create_dir('fundamentals')
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;fundamentals&#x27;.
 </pre>
@@ -1581,7 +1581,7 @@ films_t = pxt.create_table('fundamentals.films', {
 })
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;films&#x27;.
 </pre>
 
@@ -1597,7 +1597,7 @@ films_t.insert([
 ])
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`films`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;572.84&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;3&nbsp;values&nbsp;computed.
@@ -1611,7 +1611,7 @@ that is sometimes more convenient.
 films_t.insert([{'film_name': 'Inside Out 2', 'year': 2024, 'revenue': 1462.7}])
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`films`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;318.76&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 1&nbsp;row&nbsp;inserted,&nbsp;1&nbsp;value&nbsp;computed.
@@ -1704,7 +1704,7 @@ so that `films_t` is no longer defined.
 films_t.collect()  # Throws an exception now
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 NameError:&nbsp;name&nbsp;&#x27;films_t&#x27;&nbsp;is&nbsp;not&nbsp;defined
 \[0;31m---------------------------------------------------------------------------\[0m
 \[0;31mNameError\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Traceback&nbsp;(most&nbsp;recent&nbsp;call&nbsp;last)
@@ -1850,7 +1850,7 @@ eq_t = pxt.create_table(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;earthquakes&#x27;.
 Inserting&nbsp;rows&nbsp;into&nbsp;`earthquakes`:&nbsp;1823&nbsp;rows&nbsp;\[00:00,&nbsp;19554.24&nbsp;rows/s\]
 Inserted&nbsp;1823&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
@@ -1942,7 +1942,7 @@ The following examples showcase some common data operations.
 eq_t.count()  # Number of rows in the table
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 1823
 </pre>
 
@@ -2043,7 +2043,7 @@ result = eq_t.limit(5).collect()
 result[0]  # Get the first row of the results as a dict
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 \{&#x27;id&#x27;:&nbsp;0,
 &nbsp;&#x27;magnitude&#x27;:&nbsp;1.15,
 &nbsp;&#x27;location&#x27;:&nbsp;&#x27;10&nbsp;km&nbsp;NW&nbsp;of&nbsp;Belfair,&nbsp;Washington&#x27;,
@@ -2057,7 +2057,7 @@ result[0]  # Get the first row of the results as a dict
 result['timestamp']  # Get a list of the `timestamp` field of all the rows that were queried
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 \[datetime.datetime(2023,&nbsp;1,&nbsp;1,&nbsp;8,&nbsp;10,&nbsp;37,&nbsp;50000,&nbsp;tzinfo=zoneinfo.ZoneInfo(key=&#x27;America/Los_Angeles&#x27;)),
 &nbsp;datetime.datetime(2023,&nbsp;1,&nbsp;2,&nbsp;1,&nbsp;2,&nbsp;43,&nbsp;950000,&nbsp;tzinfo=zoneinfo.ZoneInfo(key=&#x27;America/Los_Angeles&#x27;)),
 &nbsp;datetime.datetime(2023,&nbsp;1,&nbsp;2,&nbsp;12,&nbsp;5,&nbsp;1,&nbsp;420000,&nbsp;tzinfo=zoneinfo.ZoneInfo(key=&#x27;America/Los_Angeles&#x27;)),
@@ -2071,7 +2071,7 @@ df = result.to_pandas()  # Convert the result set into a Pandas dataframe
 df['magnitude'].describe()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 count&nbsp;&nbsp;&nbsp;&nbsp;5.000000
 mean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.744000
 std&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.587988
@@ -2094,7 +2094,7 @@ df = eq_t.collect().to_pandas()
 df['magnitude'].describe()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 count&nbsp;&nbsp;&nbsp;&nbsp;1823.000000
 mean&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.900378
 std&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.625492
@@ -2118,7 +2118,7 @@ can do this with the `add_column()` method:
 eq_t.add_column(note=pxt.String)
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;1823&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 1823&nbsp;rows&nbsp;updated,&nbsp;1823&nbsp;values&nbsp;computed.
 </pre>
@@ -2131,7 +2131,7 @@ the new column.
 eq_t.add_column(contact_email=pxt.String)
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;1823&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 1823&nbsp;rows&nbsp;updated,&nbsp;1823&nbsp;values&nbsp;computed.
 </pre>
@@ -2167,7 +2167,7 @@ Table rows can be modified and deleted with the SQL-like `update()` and
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`earthquakes`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;366.84&nbsp;rows/s\]
 2&nbsp;rows&nbsp;updated,&nbsp;4&nbsp;values&nbsp;computed.
 </pre>
@@ -2190,7 +2190,7 @@ is with an `update()` clause, using a Pixeltable expression with the
 eq_t.update({'location': eq_t.location.replace('Washington', 'WA')})
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`earthquakes`:&nbsp;1823&nbsp;rows&nbsp;\[00:00,&nbsp;21494.07&nbsp;rows/s\]
 1823&nbsp;rows&nbsp;updated,&nbsp;1823&nbsp;values&nbsp;computed.
 </pre>
@@ -2227,7 +2227,7 @@ updates = [
 eq_t.batch_update(updates)
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`earthquakes`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;984.58&nbsp;rows/s\]
 3&nbsp;rows&nbsp;updated,&nbsp;3&nbsp;values&nbsp;computed.
 </pre>
@@ -2250,7 +2250,7 @@ To delete rows from a table, use the `delete()` method.
 eq_t.where(eq_t.timestamp >= datetime(2024, 1, 1)).delete()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 587&nbsp;rows&nbsp;deleted.
 </pre>
 
@@ -2259,7 +2259,7 @@ eq_t.where(eq_t.timestamp >= datetime(2024, 1, 1)).delete()
 eq_t.count()  # How many are left after deleting?
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 1236
 </pre>
 
@@ -2272,7 +2272,7 @@ table will be deleted.
 eq_t.delete()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 1236&nbsp;rows&nbsp;deleted.
 </pre>
 
@@ -2281,7 +2281,7 @@ eq_t.delete()
 eq_t.count()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 0
 </pre>
 
@@ -2330,7 +2330,7 @@ eq_t.revert()
 eq_t.count()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 1236
 </pre>
 
@@ -2344,7 +2344,7 @@ eq_t.revert()
 eq_t.count()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 1823
 </pre>
 
@@ -2370,7 +2370,7 @@ eq_t.add_column(map_image=pxt.Image)
 eq_t.describe()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;1823&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -2391,7 +2391,7 @@ eq_t.where(eq_t.id == 1002).update(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`earthquakes`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;192.79&nbsp;rows/s\]
 1&nbsp;row&nbsp;updated,&nbsp;1&nbsp;value&nbsp;computed.
 </pre>
@@ -2428,7 +2428,7 @@ pxt.create_dir('fundamentals.subdir.subsubdir')
 pxt.create_table('fundamentals.subdir.subsubdir.my_table', {'my_col': pxt.String})
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;directory&nbsp;&#x27;fundamentals.subdir&#x27;.
 Created&nbsp;directory&nbsp;&#x27;fundamentals.subdir.subsubdir&#x27;.
 Created&nbsp;table&nbsp;&#x27;my_table&#x27;.

@@ -260,7 +260,7 @@ pxt.drop_dir('fo_demo', force=True)
 pxt.create_dir('fo_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;`fo_demo`.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x387766700&gt;
@@ -284,7 +284,7 @@ t.insert({'image': url} for url in urls)
 t.head()
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`images`.
 Inserting&nbsp;rows&nbsp;into&nbsp;`images`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;2775.85&nbsp;rows/s\]
 Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
@@ -324,7 +324,7 @@ t.add_computed_column(detections=detr_for_object_detection(
 ))
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:00&lt;00:00,&nbsp;&nbsp;5.86&nbsp;cells/s\]
 Added&nbsp;4&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:01&lt;00:00,&nbsp;&nbsp;2.15&nbsp;cells/s\]
@@ -422,7 +422,7 @@ t.add_computed_column(detections_101=detr_for_object_detection(
 ))
 ```
 
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:01&lt;00:00,&nbsp;&nbsp;2.90&nbsp;cells/s\]
 Added&nbsp;4&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=4,&nbsp;num_computed_values=4,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
