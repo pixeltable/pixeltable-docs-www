@@ -222,7 +222,7 @@ pxt.create_dir('llama_demo')
 t = pxt.create_table('llama_demo.chat', {'input': pxt.String})
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;`llama_demo`.
 Created&nbsp;table&nbsp;`chat`.
@@ -267,12 +267,12 @@ t.add_computed_column(result=llama_cpp.create_chat_completion(
 t.add_computed_column(output=t.result.choices[0].message.content)
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -290,14 +290,14 @@ t.insert([
 ])
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;9/9&nbsp;\[00:03&lt;00:00,&nbsp;&nbsp;2.25&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`chat`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1112.74&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;9/9&nbsp;\[00:03&lt;00:00,&nbsp;&nbsp;2.25&nbsp;cells/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=3,&nbsp;num_computed_values=9,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -329,7 +329,7 @@ t.add_computed_column(output_l3=t.result_l3.choices[0].message.content)
 t.select(t.input, t.output, t.output_l3).collect()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:08&lt;00:00,&nbsp;&nbsp;2.74s/&nbsp;cells\]
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:00&lt;00:00,&nbsp;349.89&nbsp;cells/s\]
@@ -361,7 +361,7 @@ t.add_computed_column(output_teacher=t.result_teacher.choices[0].message.content
 t.select(t.input, t.output_teacher).collect()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:06&lt;00:00,&nbsp;&nbsp;2.30s/&nbsp;cells\]
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:00&lt;00:00,&nbsp;605.33&nbsp;cells/s\]

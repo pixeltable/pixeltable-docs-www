@@ -850,7 +850,7 @@ video_table = pxt.create_table(
 video_table
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;`transcription_demo`.
 Created&nbsp;table&nbsp;`video_table`.
@@ -882,7 +882,7 @@ video_table.insert({'video': video} for video in videos[:2])
 video_table.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:00&lt;00:00,&nbsp;26.25&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`video_table`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;1073.67&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:00&lt;00:00,&nbsp;25.69&nbsp;cells/s\]
@@ -907,7 +907,7 @@ video_table.add_computed_column(
 video_table.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;&nbsp;2.20&nbsp;cells/s\]
 Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -943,7 +943,7 @@ video_table.add_computed_column(
 video_table.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;289.64&nbsp;cells/s\]
 Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -976,7 +976,7 @@ video_table.select(
 ).show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:04&lt;00:00,&nbsp;&nbsp;2.11s/&nbsp;cells\]
 Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -1001,7 +1001,7 @@ sentences_view = pxt.create_view(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`sentences_view`:&nbsp;25&nbsp;rows&nbsp;\[00:00,&nbsp;9187.56&nbsp;rows/s\]
 Created&nbsp;view&nbsp;`sentences_view`&nbsp;with&nbsp;25&nbsp;rows,&nbsp;0&nbsp;exceptions.
 </pre>
@@ -1035,7 +1035,7 @@ sentences_view.add_embedding_index(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|██████████████████████████████████████████|&nbsp;25/25&nbsp;\[00:03&lt;00:00,&nbsp;&nbsp;8.18&nbsp;cells/s\]
 </pre>
 
@@ -1071,7 +1071,7 @@ the index.
 video_table.insert([{'video': videos[2]}])
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;5/5&nbsp;\[00:01&lt;00:00,&nbsp;&nbsp;2.58&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`video_table`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;277.18&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;5/5&nbsp;\[00:01&lt;00:00,&nbsp;&nbsp;2.57&nbsp;cells/s\]
@@ -1079,7 +1079,7 @@ Inserting&nbsp;rows&nbsp;into&nbsp;`sentences_view`:&nbsp;8&nbsp;rows&nbsp;\[00:
 Inserted&nbsp;9&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=9,&nbsp;num_computed_values=5,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -1131,7 +1131,7 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key:')
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 OpenAI&nbsp;API&nbsp;Key:&nbsp;········
 </pre>
 
@@ -1147,12 +1147,12 @@ video_table.add_computed_column(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:12&lt;00:00,&nbsp;&nbsp;4.14s/&nbsp;cells\]
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=3,&nbsp;num_computed_values=3,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 

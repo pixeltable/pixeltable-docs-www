@@ -329,7 +329,7 @@ t.insert([{'input': 'Hello, world!'}, {'input': 'You can do a lot with Pixeltabl
 t.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;`udf_demo`.
 Created&nbsp;table&nbsp;`strings`.
@@ -380,7 +380,7 @@ def longest_word(sentence: str, strip_punctuation: bool = False) -> str:
 longest_word("Let's check that it works.", strip_punctuation=True)
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 &#x27;check&#x27;
 </pre>
 
@@ -410,7 +410,7 @@ t.add_computed_column(longest_word=longest_word(t.input))
 t.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;138.28&nbsp;cells/s\]
 Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -423,7 +423,7 @@ t.insert([{'input': 'Pixeltable updates tables incrementally.'}])
 t.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;&nbsp;&nbsp;0%|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;0/3&nbsp;\[00:00&lt;?,&nbsp;?&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`strings`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;255.24&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:00&lt;00:00,&nbsp;364.69&nbsp;cells/s\]
@@ -448,7 +448,7 @@ t.add_computed_column(
 t.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:00&lt;00:00,&nbsp;252.91&nbsp;cells/s\]
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -543,7 +543,7 @@ t.insert([{'input': "Let's check that it still works."}])
 t.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;&nbsp;&nbsp;0%|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;0/5&nbsp;\[00:00&lt;?,&nbsp;?&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`strings`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;242.01&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;5/5&nbsp;\[00:00&lt;00:00,&nbsp;623.99&nbsp;cells/s\]
@@ -563,7 +563,7 @@ t.add_computed_column(
 t.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:00&lt;00:00,&nbsp;348.89&nbsp;cells/s\]
 Added&nbsp;4&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -636,7 +636,7 @@ t.add_computed_column(
 t.show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:00&lt;00:00,&nbsp;353.90&nbsp;cells/s\]
 Added&nbsp;4&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -670,13 +670,13 @@ t = pxt.create_table('udf_demo.values', {'val': pxt.Int})
 t.insert({'val': n} for n in range(50))
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`values`.
 Inserting&nbsp;rows&nbsp;into&nbsp;`values`:&nbsp;50&nbsp;rows&nbsp;\[00:00,&nbsp;9267.95&nbsp;rows/s\]
 Inserted&nbsp;50&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=50,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 

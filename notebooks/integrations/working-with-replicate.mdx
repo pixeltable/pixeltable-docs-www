@@ -120,12 +120,12 @@ pxt.drop_dir('replicate_demo', force=True)
 pxt.create_dir('replicate_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;`replicate_demo`.
 </pre>
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x334624190&gt;
 </pre>
 
@@ -154,7 +154,7 @@ input = {
 t.add_computed_column(output=run(input, ref='meta/meta-llama-3-8b-instruct'))
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`chat`.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -165,7 +165,7 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 t.add_computed_column(response=pxt.functions.string.join('', t.output))
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -176,7 +176,7 @@ t.insert([{'prompt': 'What foods are rich in selenium?'}])
 t.select(t.prompt, t.response).show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:07&lt;00:00,&nbsp;&nbsp;1.89s/&nbsp;cells\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`chat`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;171.89&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:07&lt;00:00,&nbsp;&nbsp;1.89s/&nbsp;cells\]
@@ -202,7 +202,7 @@ input = {
 t.add_computed_column(output=run(input, ref='black-forest-labs/flux-schnell'))
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`images`.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -212,14 +212,14 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 t.insert([{'prompt': 'Draw a pencil sketch of a friendly dinosaur playing tennis in a cornfield.'}])
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;&nbsp;2.17&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`images`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;198.61&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;&nbsp;2.14&nbsp;cells/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=1,&nbsp;num_computed_values=2,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -240,7 +240,7 @@ t.add_computed_column(image=t.output[0].astype(pxt.Image))
 t.select(t.image).collect()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;1/1&nbsp;\[00:00&lt;00:00,&nbsp;93.29&nbsp;cells/s\]
 Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
