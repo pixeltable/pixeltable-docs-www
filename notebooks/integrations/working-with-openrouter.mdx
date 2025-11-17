@@ -146,7 +146,7 @@ pxt.drop_dir('openrouter_demo', force=True)
 pxt.create_dir('openrouter_demo')
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;openrouter_demo&#x27;.
 </pre>
@@ -177,12 +177,12 @@ t.add_computed_column(output=openrouter.chat_completions(
 ))
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;chat&#x27;.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 No&nbsp;rows&nbsp;affected.
 </pre>
 
@@ -192,11 +192,11 @@ No&nbsp;rows&nbsp;affected.
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 No&nbsp;rows&nbsp;affected.
 </pre>
 
@@ -210,7 +210,7 @@ t.insert([
 t.select(t.input, t.response).head()
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`chat`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;166.89&nbsp;rows/s\]
 Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -257,14 +257,14 @@ compare_t.add_computed_column(
 
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;compare_models&#x27;.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 No&nbsp;rows&nbsp;affected.
 </pre>
 
@@ -275,7 +275,7 @@ compare_t.insert([{'prompt': 'Explain quantum entanglement in one sentence.'}])
 compare_t.select(compare_t.prompt, compare_t.claude, compare_t.gpt4, compare_t.llama).head()
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`compare_models`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;131.36&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -309,13 +309,13 @@ routing_t.add_computed_column(
 routing_t.add_computed_column(response=routing_t.output.choices[0].message.content)
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;routing&#x27;.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 No&nbsp;rows&nbsp;affected.
 </pre>
 
@@ -325,7 +325,7 @@ routing_t.insert([{'input': 'What are the primary colors?'}])
 routing_t.select(routing_t.input, routing_t.response).head()
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`routing`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;142.11&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -356,13 +356,13 @@ transform_t.add_computed_column(
 transform_t.add_computed_column(response=transform_t.output.choices[0].message.content)
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;transforms&#x27;.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 No&nbsp;rows&nbsp;affected.
 </pre>
 
@@ -383,7 +383,7 @@ transform_t.select(transform_t.response).head()
 
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`transforms`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;123.46&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 </pre>

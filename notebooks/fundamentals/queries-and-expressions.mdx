@@ -1048,7 +1048,7 @@ pxt.drop_dir('demo', force=True)
 pxt.create_dir('demo')
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;demo&#x27;.
 </pre>
@@ -1070,7 +1070,7 @@ ds = datasets.load_dataset('ylecun/mnist', split='train[:50]')
 t = pxt.create_table('demo.mnist', source=ds)
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;mnist&#x27;.
 Inserting&nbsp;rows&nbsp;into&nbsp;`mnist`:&nbsp;50&nbsp;rows&nbsp;\[00:00,&nbsp;7516.67&nbsp;rows/s\]
 Inserted&nbsp;50&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
@@ -1127,11 +1127,11 @@ t.add_computed_column(classification=vit_for_image_classification(
 ))
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;50&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 50&nbsp;rows&nbsp;updated,&nbsp;50&nbsp;values&nbsp;computed.
 </pre>
 
@@ -1199,7 +1199,7 @@ if we just give the expression by itself, without a query:
 t.classification.labels
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 classification.labels
 </pre>
 
@@ -1244,7 +1244,7 @@ t.add_computed_column(pred_label=t.classification.label_text[0])
 t
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;50&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -1476,7 +1476,7 @@ t.add_computed_column(clip=clip(t.image, model_id='openai/clip-vit-base-patch32'
 t.select(t.image, t.clip).head(5)
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;50&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -1533,7 +1533,7 @@ exception. Here’s an example:
 t.classification.label_text[0].col_type
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Optional\[Json\]
 </pre>
 
@@ -1545,7 +1545,7 @@ Optional\[Json\]
 t.classification.label_text[0].astype(pxt.String).col_type
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Optional\[String\]
 </pre>
 
@@ -1584,7 +1584,7 @@ and the `add_computed_column` operation is aborted.
 t.add_computed_column(channel=t.image.getchannel(1))
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Error:&nbsp;Error&nbsp;while&nbsp;evaluating&nbsp;computed&nbsp;column&nbsp;&#x27;channel&#x27;:
 band&nbsp;index&nbsp;out&nbsp;of&nbsp;range
 \[0;31m---------------------------------------------------------------------------\[0m
@@ -1646,11 +1646,11 @@ column properties instead.
 t.add_computed_column(channel=t.image.getchannel(1), on_error='ignore')
 ```
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;50&nbsp;column&nbsp;values&nbsp;with&nbsp;50&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 50&nbsp;rows&nbsp;updated,&nbsp;50&nbsp;values&nbsp;computed,&nbsp;50&nbsp;exceptions.
 </pre>
 
