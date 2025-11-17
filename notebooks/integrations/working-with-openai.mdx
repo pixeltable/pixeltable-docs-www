@@ -199,9 +199,6 @@ pxt.create_dir('openai_demo')
 <pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;openai_demo&#x27;.
-</pre>
-
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x32c099c30&gt;
 </pre>
 
@@ -235,9 +232,6 @@ t.add_computed_column(output=openai.chat_completions(
 <pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`chat`.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -249,9 +243,6 @@ t.add_computed_column(response=t.output.choices[0].message.content)
 
 <pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -285,9 +276,6 @@ emb_t.add_computed_column(embedding=openai.embeddings(
 <pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`embeddings`.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -299,9 +287,6 @@ emb_t.insert([{'input': 'OpenAI provides a variety of embeddings models.'}])
 <pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`embeddings`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;164.18&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=1,&nbsp;num_computed_values=2,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -326,9 +311,6 @@ image_t.add_computed_column(img=openai.image_generations(
 <pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`images`.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -342,9 +324,6 @@ image_t.insert([
 <pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`images`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;444.88&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=1,&nbsp;num_computed_values=2,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -386,9 +365,6 @@ audio_t.add_computed_column(result=openai.transcriptions(
 <pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`audio`.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -404,9 +380,6 @@ audio_t.insert([{'input': url}])
 <pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`audio`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;160.69&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<pre style={{ 'margin': '-20px 20px 20px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=1,&nbsp;num_computed_values=3,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
