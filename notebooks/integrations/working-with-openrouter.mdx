@@ -22,16 +22,16 @@ export const quartoRawHtml =
 </thead>
 <tbody>
 <tr>
-<td>How many species of felids have been classified?</td>
-<td>There are currently 40 recognized species of felids (members of the
+<td style="vertical-align: middle;">How many species of felids have been classified?</td>
+<td style="vertical-align: middle;">There are currently 40 recognized species of felids (members of the
 family Felidae), which includes all wild cats as well as domestic cats.
 These range from small cats like the rusty-spotted cat to large cats
 like tigers and lions. This classification can occasionally be updated
 as new research provides better understanding of cat taxonomy.</td>
 </tr>
 <tr>
-<td>Can you make me a coffee?</td>
-<td>I cannot make you a coffee as I am an AI language model - I don't
+<td style="vertical-align: middle;">Can you make me a coffee?</td>
+<td style="vertical-align: middle;">I cannot make you a coffee as I am an AI language model - I don't
 have physical form or ability to interact with the physical world. I
 can, however, give you instructions on how to make different types of
 coffee, recommend coffee recipes, or provide information about coffee in
@@ -51,16 +51,16 @@ general. Would you like any of those instead?</td>
 </thead>
 <tbody>
 <tr>
-<td>Explain quantum entanglement in one sentence.</td>
-<td>Quantum entanglement is a phenomenon where two or more particles
+<td style="vertical-align: middle;">Explain quantum entanglement in one sentence.</td>
+<td style="vertical-align: middle;">Quantum entanglement is a phenomenon where two or more particles
 become so deeply connected that the quantum state of each particle
 cannot be described independently, even when separated by large
 distances.</td>
-<td>Quantum entanglement is a phenomenon in which two or more particles
+<td style="vertical-align: middle;">Quantum entanglement is a phenomenon in which two or more particles
 become interconnected in such a way that the state of one particle
 instantaneously influences the state of the other, regardless of the
 distance separating them.</td>
-<td>Quantum entanglement is a phenomenon in which two or more particles
+<td style="vertical-align: middle;">Quantum entanglement is a phenomenon in which two or more particles
 become interconnected in such a way that their properties, such as spin
 or polarization, are correlated, regardless of the distance between
 them.</td>
@@ -77,8 +77,8 @@ them.</td>
 </thead>
 <tbody>
 <tr>
-<td>What are the primary colors?</td>
-<td>The primary colors are: 1. Red 2. Blue 3. Yellow These are called
+<td style="vertical-align: middle;">What are the primary colors?</td>
+<td style="vertical-align: middle;">The primary colors are: 1. Red 2. Blue 3. Yellow These are called
 primary colors because they cannot be created by mixing other colors
 together, and they can be combined to create all other colors. For
 example: - Red + Blue = Purple - Blue + Yellow = Green - Red + Yellow =
@@ -95,7 +95,7 @@ Orange</td>
 </thead>
 <tbody>
 <tr>
-<td>The main AI developments mentioned are: 1. Machine learning
+<td style="vertical-align: middle;">The main AI developments mentioned are: 1. Machine learning
 algorithms that detect patterns in data. 2. Deep learning, specifically
 in computer vision and natural language processing. 3. Advancements in
 reinforcement learning. 4. Developments in generative models.</td>
@@ -146,10 +146,10 @@ pxt.drop_dir('openrouter_demo', force=True)
 pxt.create_dir('openrouter_demo')
 ```
 
-``` text
-Connected to Pixeltable database at: postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created directory 'openrouter_demo'.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;openrouter_demo&#x27;.
+</pre>
 
 ## Chat Completions
 
@@ -177,14 +177,11 @@ t.add_computed_column(output=openrouter.chat_completions(
 ))
 ```
 
-``` text
-Created table 'chat'.
-Added 0 column values with 0 errors.
-```
-
-``` text
-No rows affected.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -192,13 +189,10 @@ No rows affected.
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
 
-``` text
-Added 0 column values with 0 errors.
-```
-
-``` text
-No rows affected.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -210,12 +204,12 @@ t.insert([
 t.select(t.input, t.response).head()
 ```
 
-``` text
-Inserting rows into `chat`: 2 rows [00:00, 166.89 rows/s]
-Inserted 2 rows with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;166.89&nbsp;rows/s\]
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
-<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ## Using Different Models
 
@@ -257,16 +251,13 @@ compare_t.add_computed_column(
 
 ```
 
-``` text
-Created table 'compare_models'.
-Added 0 column values with 0 errors.
-Added 0 column values with 0 errors.
-Added 0 column values with 0 errors.
-```
-
-``` text
-No rows affected.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;compare_models&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -275,12 +266,12 @@ compare_t.insert([{'prompt': 'Explain quantum entanglement in one sentence.'}])
 compare_t.select(compare_t.prompt, compare_t.claude, compare_t.gpt4, compare_t.llama).head()
 ```
 
-``` text
-Inserting rows into `compare_models`: 1 rows [00:00, 131.36 rows/s]
-Inserted 1 row with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`compare_models\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;131.36&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
-<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ## Advanced Features: Provider Routing
 
@@ -309,15 +300,12 @@ routing_t.add_computed_column(
 routing_t.add_computed_column(response=routing_t.output.choices[0].message.content)
 ```
 
-``` text
-Created table 'routing'.
-Added 0 column values with 0 errors.
-Added 0 column values with 0 errors.
-```
-
-``` text
-No rows affected.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;routing&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -325,12 +313,12 @@ routing_t.insert([{'input': 'What are the primary colors?'}])
 routing_t.select(routing_t.input, routing_t.response).head()
 ```
 
-``` text
-Inserting rows into `routing`: 1 rows [00:00, 142.11 rows/s]
-Inserted 1 row with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`routing\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;142.11&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
-<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 ## Advanced Features: Context Window Optimization
 
@@ -356,15 +344,12 @@ transform_t.add_computed_column(
 transform_t.add_computed_column(response=transform_t.output.choices[0].message.content)
 ```
 
-``` text
-Created table 'transforms'.
-Added 0 column values with 0 errors.
-Added 0 column values with 0 errors.
-```
-
-``` text
-No rows affected.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;transforms&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -383,18 +368,18 @@ transform_t.select(transform_t.response).head()
 
 ```
 
-``` text
-Inserting rows into `transforms`: 1 rows [00:00, 123.46 rows/s]
-Inserted 1 row with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`transforms\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;123.46&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
-<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 ### Learn More
 
 To learn more about advanced techniques like RAG operations in
 Pixeltable, check out the [RAG Operations in
-Pixeltable](https://docs.pixeltable.com/notebooks/use-cases/rag-operations)
+Pixeltable](/notebooks/use-cases/rag-operations)
 tutorial.
 
 For more information about OpenRouter’s features and available models,
