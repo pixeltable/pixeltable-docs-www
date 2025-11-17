@@ -165,12 +165,12 @@ pxt.drop_dir('external_data', force=True)
 pxt.create_dir('external_data')
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;`external_data`.
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x176646bb0&gt;
 </pre>
 
@@ -187,7 +187,7 @@ paths = [
 v.insert({'video': prefix + p} for p in paths)
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;`videos`.
 Computing&nbsp;cells:&nbsp;&nbsp;&nbsp;0%|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;0/6&nbsp;\[00:00&lt;?,&nbsp;?&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`videos`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1004.62&nbsp;rows/s\]
@@ -195,11 +195,11 @@ Computing&nbsp;cells:&nbsp;100%|████████████████
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=3,&nbsp;num_computed_values=6,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=3,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -216,7 +216,7 @@ rows = list(v.select(v.video).collect())
 rows[0]
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 \{&#x27;video&#x27;:&nbsp;&#x27;/Users/asiegel/.pixeltable/file_cache/682f022a704d4459adb2f29f7fe9577c_0_1fcfcb221263cff76a2853250fbbb2e90375dd495454c0007bc6ff4430c9a4a7.mp4&#x27;\}
 </pre>
 
@@ -230,7 +230,7 @@ shutil.copyfile(rows[0]['video'], local_path)
 local_path
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 &#x27;/var/folders/hb/qd0dztsj43j_mdb6hbl1gzyc0000gn/T/tmp1jo4a7ca.mp4&#x27;
 </pre>
 
@@ -241,14 +241,14 @@ Now the insert:
 v.insert([{'video': local_path}])
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;&nbsp;&nbsp;0%|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;0/2&nbsp;\[00:00&lt;?,&nbsp;?&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`videos`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;725.78&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;53.23&nbsp;cells/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=1,&nbsp;num_computed_values=2,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -260,7 +260,7 @@ rows = list(v.select(v.video).collect())
 rows
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 \[\{&#x27;video&#x27;:&nbsp;&#x27;/Users/asiegel/.pixeltable/file_cache/682f022a704d4459adb2f29f7fe9577c_0_1fcfcb221263cff76a2853250fbbb2e90375dd495454c0007bc6ff4430c9a4a7.mp4&#x27;\},
 &nbsp;\{&#x27;video&#x27;:&nbsp;&#x27;/Users/asiegel/.pixeltable/file_cache/682f022a704d4459adb2f29f7fe9577c_0_fc11428b32768ae782193a57ebcbad706f45bbd9fa13354471e0bcd798fee3ea.mp4&#x27;\},
 &nbsp;\{&#x27;video&#x27;:&nbsp;&#x27;/Users/asiegel/.pixeltable/file_cache/682f022a704d4459adb2f29f7fe9577c_0_b9fb0d9411bc9cd183a36866911baa7a8834f22f665bce47608566b38485c16a.mp4&#x27;\},
@@ -282,7 +282,7 @@ def f(v: pxt.Video) -> int:
 v.select(f(v.video)).show()
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 &lt;class&nbsp;&#x27;str&#x27;&gt;:&nbsp;/Users/asiegel/.pixeltable/file_cache/682f022a704d4459adb2f29f7fe9577c_0_1fcfcb221263cff76a2853250fbbb2e90375dd495454c0007bc6ff4430c9a4a7.mp4
 &lt;class&nbsp;&#x27;str&#x27;&gt;:&nbsp;/Users/asiegel/.pixeltable/file_cache/682f022a704d4459adb2f29f7fe9577c_0_fc11428b32768ae782193a57ebcbad706f45bbd9fa13354471e0bcd798fee3ea.mp4
 &lt;class&nbsp;&#x27;str&#x27;&gt;:&nbsp;/Users/asiegel/.pixeltable/file_cache/682f022a704d4459adb2f29f7fe9577c_0_b9fb0d9411bc9cd183a36866911baa7a8834f22f665bce47608566b38485c16a.mp4
@@ -306,11 +306,11 @@ behavior is to reject invalid media files:
 v.insert([{'video': prefix + 'bad_path.mp4'}])
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;&nbsp;&nbsp;0%|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;0/2&nbsp;\[00:01&lt;?,&nbsp;?&nbsp;cells/s\]
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Error:&nbsp;Failed&nbsp;to&nbsp;download&nbsp;s3://multimedia-commons/bad_path.mp4:&nbsp;An&nbsp;error&nbsp;occurred&nbsp;(404)&nbsp;when&nbsp;calling&nbsp;the&nbsp;HeadObject&nbsp;operation:&nbsp;Not&nbsp;Found
 \[0;31m---------------------------------------------------------------------------\[0m
 \[0;31mError\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Traceback&nbsp;(most&nbsp;recent&nbsp;call&nbsp;last)
@@ -406,11 +406,11 @@ with tempfile.NamedTemporaryFile(mode='wb', suffix='.mp4', delete=False) as temp
 v.insert([{'video': corrupted_path}])
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|██████████████████████████████████████████|&nbsp;2/2&nbsp;\[00:00&lt;00:00,&nbsp;1084.64&nbsp;cells/s\]
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Error:&nbsp;Not&nbsp;a&nbsp;valid&nbsp;video:&nbsp;/var/folders/hb/qd0dztsj43j_mdb6hbl1gzyc0000gn/T/tmp3djgfyjp.mp4
 \[0;31m---------------------------------------------------------------------------\[0m
 \[0;31mError\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Traceback&nbsp;(most&nbsp;recent&nbsp;call&nbsp;last)
@@ -474,14 +474,14 @@ conditions and proceed with the ingest, via the `on_error` flag
 v.insert([{'video': prefix + 'bad_path.mp4'}, {'video': corrupted_path}], on_error='ignore')
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:00&lt;00:00,&nbsp;20.98&nbsp;cells/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`videos`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;671.63&nbsp;rows/s\]
 Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;4/4&nbsp;\[00:00&lt;00:00,&nbsp;20.13&nbsp;cells/s\]
 Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;4&nbsp;errors&nbsp;across&nbsp;2&nbsp;columns&nbsp;(videos.video,&nbsp;videos.None).
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=2,&nbsp;num_computed_values=4,&nbsp;num_excs=4,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[&#x27;videos.video&#x27;,&nbsp;&#x27;videos.None&#x27;\])
 </pre>
 

@@ -483,7 +483,7 @@ import subprocess
 ls_process = subprocess.Popen(['label-studio'], stderr=subprocess.PIPE)
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Performing&nbsp;system&nbsp;checks...
 
 System&nbsp;check&nbsp;identified&nbsp;no&nbsp;issues&nbsp;(1&nbsp;silenced).
@@ -519,7 +519,7 @@ if 'LABEL_STUDIO_API_KEY' not in os.environ:
     os.environ['LABEL_STUDIO_API_KEY'] = getpass.getpass('Label Studio API key: ')
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Label&nbsp;Studio&nbsp;API&nbsp;key:&nbsp;&nbsp;········
 </pre>
 
@@ -545,7 +545,7 @@ pxt.create_dir('ls_demo')
 videos_table = pxt.create_table('ls_demo.videos', schema)
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;`ls_demo`.
 Created&nbsp;table&nbsp;`videos`.
@@ -573,12 +573,12 @@ today = datetime(2024, 4, 22)
 videos_table.insert({'video': url_prefix + file, 'date': today} for file in files)
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`videos`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;993.05&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=3,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -627,7 +627,7 @@ label_config = '''
 pxt.io.create_label_studio_project(v, label_config)
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`videos_2024_04_22`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1864.69&nbsp;rows/s\]
 Created&nbsp;view&nbsp;`videos_2024_04_22`&nbsp;with&nbsp;3&nbsp;rows,&nbsp;0&nbsp;exceptions.
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
@@ -636,7 +636,7 @@ Linked&nbsp;external&nbsp;store&nbsp;`ls_project_0`&nbsp;to&nbsp;table&nbsp;`vid
 Created&nbsp;3&nbsp;new&nbsp;task(s)&nbsp;in&nbsp;LabelStudioProject&nbsp;`videos_2024_04_22`.
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 SyncStatus(external_rows_created=3,&nbsp;external_rows_deleted=0,&nbsp;external_rows_updated=0,&nbsp;pxt_rows_updated=0,&nbsp;num_excs=0)
 </pre>
 
@@ -690,12 +690,12 @@ v = pxt.get_table('ls_demo.videos_2024_04_22')
 v.sync()
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;0&nbsp;new&nbsp;task(s)&nbsp;in&nbsp;LabelStudioProject&nbsp;`videos_2024_04_22`.
 Updated&nbsp;annotation(s)&nbsp;from&nbsp;1&nbsp;task(s)&nbsp;in&nbsp;LabelStudioProject&nbsp;`videos_2024_04_22`.
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 SyncStatus(external_rows_created=0,&nbsp;external_rows_deleted=0,&nbsp;external_rows_updated=0,&nbsp;pxt_rows_updated=1,&nbsp;num_excs=0)
 </pre>
 
@@ -725,7 +725,7 @@ v.add_computed_column(
 v.select(v.video, v.annotations, v.video_category).head()
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:00&lt;00:00,&nbsp;394.63&nbsp;cells/s\]
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -745,7 +745,7 @@ v.add_computed_column(video_metadata=get_metadata(v.video))
 v.select(v.video, v.annotations, v.video_category, v.video_metadata).head()
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|███████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:00&lt;00:00,&nbsp;138.97&nbsp;cells/s\]
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -779,7 +779,7 @@ frames = pxt.create_view(
 )
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`frames_2024_04_22`:&nbsp;13&nbsp;rows&nbsp;\[00:00,&nbsp;5434.66&nbsp;rows/s\]
 Created&nbsp;view&nbsp;`frames_2024_04_22`&nbsp;with&nbsp;13&nbsp;rows,&nbsp;0&nbsp;exceptions.
 </pre>
@@ -809,7 +809,7 @@ frames.add_computed_column(detections=detr_for_object_detection(
 frames.select(frames.frame, frames.detections).head(3)
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|██████████████████████████████████████████|&nbsp;13/13&nbsp;\[00:06&lt;00:00,&nbsp;&nbsp;2.10&nbsp;cells/s\]
 Added&nbsp;13&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -832,7 +832,7 @@ frames.add_computed_column(
 frames.select(frames.frame, frames.detections, frames.preannotations).head(3)
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Computing&nbsp;cells:&nbsp;100%|██████████████████████████████████████████|&nbsp;13/13&nbsp;\[00:00&lt;00:00,&nbsp;42.79&nbsp;cells/s\]
 Added&nbsp;13&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
@@ -870,14 +870,14 @@ frames_config = '''
 pxt.io.create_label_studio_project(frames, frames_config)
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;13&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 Computing&nbsp;cells:&nbsp;100%|██████████████████████████████████████████|&nbsp;13/13&nbsp;\[00:00&lt;00:00,&nbsp;42.09&nbsp;cells/s\]
 Linked&nbsp;external&nbsp;store&nbsp;`ls_project_0`&nbsp;to&nbsp;table&nbsp;`frames_2024_04_22`.
 Created&nbsp;13&nbsp;new&nbsp;task(s)&nbsp;in&nbsp;LabelStudioProject&nbsp;`frames_2024_04_22`.
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 SyncStatus(external_rows_created=13,&nbsp;external_rows_deleted=0,&nbsp;external_rows_updated=0,&nbsp;pxt_rows_updated=0,&nbsp;num_excs=0)
 </pre>
 
@@ -906,14 +906,14 @@ videos_table.insert(
 )
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Inserting&nbsp;rows&nbsp;into&nbsp;`videos`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;808.31&nbsp;rows/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`videos_2024_04_22`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;849.57&nbsp;rows/s\]
 Inserting&nbsp;rows&nbsp;into&nbsp;`frames_2024_04_22`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&nbsp;3225.89&nbsp;rows/s\]
 Inserted&nbsp;7&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 UpdateStatus(num_rows=7,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
@@ -929,12 +929,12 @@ v.sync()
 frames.sync()
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;1&nbsp;new&nbsp;task(s)&nbsp;in&nbsp;LabelStudioProject&nbsp;`videos_2024_04_22`.
 Created&nbsp;5&nbsp;new&nbsp;task(s)&nbsp;in&nbsp;LabelStudioProject&nbsp;`frames_2024_04_22`.
 </pre>
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 SyncStatus(external_rows_created=5,&nbsp;external_rows_deleted=0,&nbsp;external_rows_updated=0,&nbsp;pxt_rows_updated=0,&nbsp;num_excs=0)
 </pre>
 
@@ -954,7 +954,7 @@ later want to get rid of it).
 v.external_stores  # Get a list of all external stores for `v`
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 \[&#x27;ls_project_0&#x27;\]
 </pre>
 
@@ -963,7 +963,7 @@ v.external_stores  # Get a list of all external stores for `v`
 v.unlink_external_stores('ls_project_0', delete_external_data=True)
 ```
 
-<pre style={{ 'margin': '-24px 20px -16px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+<pre style={{ 'margin': '0px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Deleted&nbsp;Label&nbsp;Studio&nbsp;project:&nbsp;videos_2024_04_22
 Unlinked&nbsp;external&nbsp;store&nbsp;from&nbsp;table&nbsp;`videos_2024_04_22`:&nbsp;ls_project_0
 </pre>
