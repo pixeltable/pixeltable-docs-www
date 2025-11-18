@@ -113,7 +113,7 @@
                     "pages": [
                       "sdk/latest/pixeltable",
                       "sdk/latest/table",
-                      "sdk/latest/dataframe",
+                      "sdk/latest/query",
                       "sdk/latest/columnmetadata",
                       "sdk/latest/dircontents",
                       "sdk/latest/indexmetadata",
@@ -183,8 +183,89 @@
             ]
           },
           {
-            "dropdown": "v0.4.24",
+            "dropdown": "v0.5.0",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.0/pixeltable",
+                      "sdk/v0.5.0/table",
+                      "sdk/v0.5.0/query",
+                      "sdk/v0.5.0/columnmetadata",
+                      "sdk/v0.5.0/dircontents",
+                      "sdk/v0.5.0/indexmetadata",
+                      "sdk/v0.5.0/tablemetadata",
+                      "sdk/v0.5.0/updatestatus",
+                      "sdk/v0.5.0/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.0/audio",
+                      "sdk/v0.5.0/date",
+                      "sdk/v0.5.0/image",
+                      "sdk/v0.5.0/json",
+                      "sdk/v0.5.0/math",
+                      "sdk/v0.5.0/string",
+                      "sdk/v0.5.0/timestamp",
+                      "sdk/v0.5.0/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.0/anthropic",
+                      "sdk/v0.5.0/bedrock",
+                      "sdk/v0.5.0/deepseek",
+                      "sdk/v0.5.0/fireworks",
+                      "sdk/v0.5.0/gemini",
+                      "sdk/v0.5.0/groq",
+                      "sdk/v0.5.0/huggingface",
+                      "sdk/v0.5.0/llama_cpp",
+                      "sdk/v0.5.0/mistralai",
+                      "sdk/v0.5.0/ollama",
+                      "sdk/v0.5.0/openai",
+                      "sdk/v0.5.0/openrouter",
+                      "sdk/v0.5.0/replicate",
+                      "sdk/v0.5.0/reve",
+                      "sdk/v0.5.0/together",
+                      "sdk/v0.5.0/vision",
+                      "sdk/v0.5.0/whisper",
+                      "sdk/v0.5.0/whisperx",
+                      "sdk/v0.5.0/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Iterators",
+                    "pages": [
+                      "sdk/v0.5.0/iterators",
+                      "sdk/v0.5.0/audiosplitter",
+                      "sdk/v0.5.0/componentiterator",
+                      "sdk/v0.5.0/documentsplitter",
+                      "sdk/v0.5.0/frameiterator",
+                      "sdk/v0.5.0/stringsplitter",
+                      "sdk/v0.5.0/tileiterator",
+                      "sdk/v0.5.0/videosplitter"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.0/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.4.24",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
