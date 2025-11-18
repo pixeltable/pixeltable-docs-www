@@ -1,0 +1,117 @@
+---
+title: "math"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/math.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.math
+
+
+Pixeltable UDFs for mathematical operations.
+
+Example:
+```python
+import pixeltable as pxt
+
+t = pxt.get_table(...)
+t.select(t.float_col.floor()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; abs()
+
+```python
+abs(self: Float) -> Float
+```
+
+Return the absolute value of the given number.
+
+Equivalent to Python [`builtins.abs()`](https://docs.python.org/3/library/functions.html#abs).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bitwise_and()
+
+```python
+bitwise_and(self: Int, other: Int) -> Int
+```
+
+Bitwise AND of two integers.
+
+Equivalent to Python
+[`self & other`](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bitwise_or()
+
+```python
+bitwise_or(self: Int, other: Int) -> Int
+```
+
+Bitwise OR of two integers.
+
+Equivalent to Python
+[`self | other`](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bitwise_xor()
+
+```python
+bitwise_xor(self: Int, other: Int) -> Int
+```
+
+Bitwise XOR of two integers.
+
+Equivalent to Python
+[`self ^ other`](https://docs.python.org/3/library/stdtypes.html#bitwise-operations-on-integer-types).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; ceil()
+
+```python
+ceil(self: Float) -> Float
+```
+
+Return the ceiling of the given number.
+
+Equivalent to Python [`float(math.ceil(self))`](https://docs.python.org/3/library/math.html#math.ceil) if `self`
+is finite, or `self` itself if `self` is infinite. (This is slightly different from the default behavior of
+`math.ceil(self)`, which always returns an `int` and raises an error if `self` is infinite. The behavior in
+Pixeltable generalizes the Python operator and is chosen to align with the SQL standard.)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; floor()
+
+```python
+floor(self: Float) -> Float
+```
+
+Return the ceiling of the given number.
+
+Equivalent to Python [`float(math.floor(self))`](https://docs.python.org/3/library/math.html#math.ceil) if `self`
+is finite, or `self` itself if `self` is infinite. (This is slightly different from the default behavior of
+`math.floor(self)`, which always returns an `int` and raises an error if `self` is infinite. The behavior of
+Pixeltable generalizes the Python operator and is chosen to align with the SQL standard.)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; pow()
+
+```python
+pow(self: Int, other: Int) -> Float
+```
+
+Raise `self` to the power of `other`.
+
+Equivalent to Python [`self ** other`](https://docs.python.org/3/library/functions.html#pow).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; round()
+
+```python
+round(self: Float, digits: Int | None = None) -> Float
+```
+
+Round a number to a given precision in decimal digits.
+
+Equivalent to Python [`builtins.round(self, digits or 0)`](https://docs.python.org/3/library/functions.html#round).
+Note that if `digits` is not specified, the behavior matches `builtins.round(self, 0)` rather than
+`builtins.round(self)`; this ensures that the return type is always `float` (as in SQL) rather than `int`.
+
