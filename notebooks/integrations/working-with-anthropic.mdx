@@ -22,8 +22,8 @@ export const quartoRawHtml =
 </thead>
 <tbody>
 <tr>
-<td>What was the outcome of the 1904 US Presidential election?</td>
-<td>The outcome of the 1904 US presidential election was: - The
+<td style="vertical-align: middle;">What was the outcome of the 1904 US Presidential election?</td>
+<td style="vertical-align: middle;">The outcome of the 1904 US presidential election was: - The
 Republican candidate, Theodore Roosevelt, won the election. Roosevelt
 had become president in 1901 after the assassination of President
 William McKinley, and this was his first election as the Republican
@@ -85,14 +85,11 @@ pxt.drop_dir('anthropic_demo', force=True)
 pxt.create_dir('anthropic_demo')
 ```
 
-``` text
-Connected to Pixeltable database at: postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created directory `anthropic_demo`.
-```
-
-``` text
-<pixeltable.catalog.dir.Dir at 0x33944b3a0>
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;\`anthropic_demo\`.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x33944b3a0&gt;
+</pre>
 
 ## Messages
 
@@ -123,10 +120,10 @@ t.add_computed_column(output=anthropic.messages(
 ))
 ```
 
-``` text
-Created table `chat`.
-Added 0 column values with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`chat\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
 
 ```python
@@ -134,9 +131,9 @@ Added 0 column values with 0 errors.
 t.add_computed_column(response=t.output.content[0].text)
 ```
 
-``` text
-Added 0 column values with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
 
 ```python
@@ -145,20 +142,20 @@ t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'
 t.select(t.input, t.response).show()
 ```
 
-``` text
-Computing cells: 100%|████████████████████████████████████████████| 3/3 [00:01<00:00,  1.54 cells/s]
-Inserting rows into `chat`: 1 rows [00:00, 149.28 rows/s]
-Computing cells: 100%|████████████████████████████████████████████| 3/3 [00:01<00:00,  1.53 cells/s]
-Inserted 1 row with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:01&lt;00:00,&nbsp;&nbsp;1.54&nbsp;cells/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;149.28&nbsp;rows/s\]
+Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:01&lt;00:00,&nbsp;&nbsp;1.53&nbsp;cells/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
-<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn More
 
 To learn more about advanced techniques like RAG operations in
 Pixeltable, check out the [RAG Operations in
-Pixeltable](https://docs.pixeltable.com/notebooks/use-cases/rag-operations)
+Pixeltable](/notebooks/use-cases/rag-operations)
 tutorial.
 
 If you have any questions, don’t hesitate to reach out.

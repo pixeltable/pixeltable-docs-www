@@ -22,8 +22,8 @@ export const quartoRawHtml =
 </thead>
 <tbody>
 <tr>
-<td>What are the most popular services for LLM inference?</td>
-<td>LLM (Large Language Model) inference is a complex process that
+<td style="vertical-align: middle;">What are the most popular services for LLM inference?</td>
+<td style="vertical-align: middle;">LLM (Large Language Model) inference is a complex process that
 involves generating human-like text using artificial intelligence
 models. The most popular services and technologies used in this field
 include: 1. **Hugging Face**: Hugging Face, an open-source platform,
@@ -103,9 +103,9 @@ ollama.pull('qwen2.5:0.5b')
 ollama.generate('qwen2.5:0.5b', 'What is the capital of Missouri?')['response']
 ```
 
-``` text
-"The capital city of Missouri is Jefferson City. It's located in the central part of the state and serves as the administrative center for the Midwestern U.S. territory of Missouri. The state is known for its rich history, particularly regarding the Missouri River, which runs through its central parts and provides access to major cities along the border with Illinois."
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+&quot;The&nbsp;capital&nbsp;city&nbsp;of&nbsp;Missouri&nbsp;is&nbsp;Jefferson&nbsp;City.&nbsp;It&#x27;s&nbsp;located&nbsp;in&nbsp;the&nbsp;central&nbsp;part&nbsp;of&nbsp;the&nbsp;state&nbsp;and&nbsp;serves&nbsp;as&nbsp;the&nbsp;administrative&nbsp;center&nbsp;for&nbsp;the&nbsp;Midwestern&nbsp;U.S.&nbsp;territory&nbsp;of&nbsp;Missouri.&nbsp;The&nbsp;state&nbsp;is&nbsp;known&nbsp;for&nbsp;its&nbsp;rich&nbsp;history,&nbsp;particularly&nbsp;regarding&nbsp;the&nbsp;Missouri&nbsp;River,&nbsp;which&nbsp;runs&nbsp;through&nbsp;its&nbsp;central&nbsp;parts&nbsp;and&nbsp;provides&nbsp;access&nbsp;to&nbsp;major&nbsp;cities&nbsp;along&nbsp;the&nbsp;border&nbsp;with&nbsp;Illinois.&quot;
+</pre>
 
 ## Install Pixeltable
 
@@ -139,13 +139,13 @@ t.add_computed_column(output=chat(
 t.add_computed_column(response=t.output.message.content)
 ```
 
-``` text
-Connected to Pixeltable database at: postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created directory `ollama_demo`.
-Created table `chat`.
-Added 0 column values with 0 errors.
-Added 0 column values with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;\`ollama_demo\`.
+Created&nbsp;table&nbsp;\`chat\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
 We can insert our input prompts into the table now. As always,
 Pixeltable automatically updates the computed columns by calling the
@@ -158,20 +158,20 @@ t.insert(input='What are the most popular services for LLM inference?')
 t.select(t.input, t.response).show()
 ```
 
-``` text
-Computing cells: 100%|████████████████████████████████████████████| 3/3 [00:02<00:00,  1.18 cells/s]
-Inserting rows into `chat`: 1 rows [00:00, 75.39 rows/s]
-Computing cells: 100%|████████████████████████████████████████████| 3/3 [00:02<00:00,  1.17 cells/s]
-Inserted 1 row with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.18&nbsp;cells/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;75.39&nbsp;rows/s\]
+Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.17&nbsp;cells/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
-<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn More
 
 To learn more about advanced techniques like RAG operations in
 Pixeltable, check out the [RAG Operations in
-Pixeltable](https://docs.pixeltable.com/notebooks/use-cases/rag-operations)
+Pixeltable](/notebooks/use-cases/rag-operations)
 tutorial.
 
 If you have any questions, don’t hesitate to reach out.

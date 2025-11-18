@@ -22,8 +22,8 @@ export const quartoRawHtml =
 </thead>
 <tbody>
 <tr>
-<td>How many islands are in the Aleutian island chain?</td>
-<td>The Aleutian Island chain is a part of Alaska, United States, and it
+<td style="vertical-align: middle;">How many islands are in the Aleutian island chain?</td>
+<td style="vertical-align: middle;">The Aleutian Island chain is a part of Alaska, United States, and it
 stretches for approximately 1,200 miles (1,950 km) westward from the
 Alaska Peninsula toward Japan. The chain consists of more than 300
 islands, with the largest island being Unimak Island. According to the
@@ -81,14 +81,11 @@ pxt.drop_dir('groq_demo', force=True)
 pxt.create_dir('groq_demo')
 ```
 
-``` text
-Connected to Pixeltable database at: postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created directory 'groq_demo'.
-```
-
-``` text
-<pixeltable.catalog.dir.Dir at 0x30bb80b20>
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;groq_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30bb80b20&gt;
+</pre>
 
 ## Chat Completions
 
@@ -117,14 +114,11 @@ t.add_computed_column(output=groq.chat_completions(
 ))
 ```
 
-``` text
-Created table `chat`.
-Added 0 column values with 0 errors.
-```
-
-``` text
-UpdateStatus(num_rows=0, num_computed_values=0, num_excs=0, updated_cols=[], cols_with_excs=[])
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`chat\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
 
 
 ```python
@@ -132,13 +126,10 @@ UpdateStatus(num_rows=0, num_computed_values=0, num_excs=0, updated_cols=[], col
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
 
-``` text
-Added 0 column values with 0 errors.
-```
-
-``` text
-UpdateStatus(num_rows=0, num_computed_values=0, num_excs=0, updated_cols=[], cols_with_excs=[])
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
 
 
 ```python
@@ -147,18 +138,18 @@ t.insert([{'input': 'How many islands are in the Aleutian island chain?'}])
 t.select(t.input, t.response).head()
 ```
 
-``` text
-Inserting rows into `chat`: 1 rows [00:00, 76.95 rows/s]
-Inserted 1 row with 0 errors.
-```
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;76.95&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
 
-<div dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn More
 
 To learn more about advanced techniques like RAG operations in
 Pixeltable, check out the [RAG Operations in
-Pixeltable](https://docs.pixeltable.com/notebooks/use-cases/rag-operations)
+Pixeltable](/notebooks/use-cases/rag-operations)
 tutorial.
 
 If you have any questions, don’t hesitate to reach out.
