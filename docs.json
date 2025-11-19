@@ -113,7 +113,7 @@
                     "pages": [
                       "sdk/latest/pixeltable",
                       "sdk/latest/table",
-                      "sdk/latest/dataframe",
+                      "sdk/latest/query",
                       "sdk/latest/columnmetadata",
                       "sdk/latest/dircontents",
                       "sdk/latest/indexmetadata",
@@ -183,7 +183,7 @@
             ]
           },
           {
-            "dropdown": "v0.4.25.dev7.24563a68",
+            "dropdown": "v0.5.2.dev3.1a9843e5",
             "icon": "rocket",
             "groups": [
               {
@@ -192,71 +192,71 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.4.25.dev7.24563a68/pixeltable",
-                      "sdk/v0.4.25.dev7.24563a68/table",
-                      "sdk/v0.4.25.dev7.24563a68/dataframe",
-                      "sdk/v0.4.25.dev7.24563a68/columnmetadata",
-                      "sdk/v0.4.25.dev7.24563a68/dircontents",
-                      "sdk/v0.4.25.dev7.24563a68/indexmetadata",
-                      "sdk/v0.4.25.dev7.24563a68/tablemetadata",
-                      "sdk/v0.4.25.dev7.24563a68/updatestatus",
-                      "sdk/v0.4.25.dev7.24563a68/versionmetadata"
+                      "sdk/v0.5.2.dev3.1a9843e5/pixeltable",
+                      "sdk/v0.5.2.dev3.1a9843e5/table",
+                      "sdk/v0.5.2.dev3.1a9843e5/query",
+                      "sdk/v0.5.2.dev3.1a9843e5/columnmetadata",
+                      "sdk/v0.5.2.dev3.1a9843e5/dircontents",
+                      "sdk/v0.5.2.dev3.1a9843e5/indexmetadata",
+                      "sdk/v0.5.2.dev3.1a9843e5/tablemetadata",
+                      "sdk/v0.5.2.dev3.1a9843e5/updatestatus",
+                      "sdk/v0.5.2.dev3.1a9843e5/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.4.25.dev7.24563a68/audio",
-                      "sdk/v0.4.25.dev7.24563a68/date",
-                      "sdk/v0.4.25.dev7.24563a68/image",
-                      "sdk/v0.4.25.dev7.24563a68/json",
-                      "sdk/v0.4.25.dev7.24563a68/math",
-                      "sdk/v0.4.25.dev7.24563a68/string",
-                      "sdk/v0.4.25.dev7.24563a68/timestamp",
-                      "sdk/v0.4.25.dev7.24563a68/video"
+                      "sdk/v0.5.2.dev3.1a9843e5/audio",
+                      "sdk/v0.5.2.dev3.1a9843e5/date",
+                      "sdk/v0.5.2.dev3.1a9843e5/image",
+                      "sdk/v0.5.2.dev3.1a9843e5/json",
+                      "sdk/v0.5.2.dev3.1a9843e5/math",
+                      "sdk/v0.5.2.dev3.1a9843e5/string",
+                      "sdk/v0.5.2.dev3.1a9843e5/timestamp",
+                      "sdk/v0.5.2.dev3.1a9843e5/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.4.25.dev7.24563a68/anthropic",
-                      "sdk/v0.4.25.dev7.24563a68/bedrock",
-                      "sdk/v0.4.25.dev7.24563a68/deepseek",
-                      "sdk/v0.4.25.dev7.24563a68/fireworks",
-                      "sdk/v0.4.25.dev7.24563a68/gemini",
-                      "sdk/v0.4.25.dev7.24563a68/groq",
-                      "sdk/v0.4.25.dev7.24563a68/huggingface",
-                      "sdk/v0.4.25.dev7.24563a68/llama_cpp",
-                      "sdk/v0.4.25.dev7.24563a68/mistralai",
-                      "sdk/v0.4.25.dev7.24563a68/ollama",
-                      "sdk/v0.4.25.dev7.24563a68/openai",
-                      "sdk/v0.4.25.dev7.24563a68/openrouter",
-                      "sdk/v0.4.25.dev7.24563a68/replicate",
-                      "sdk/v0.4.25.dev7.24563a68/reve",
-                      "sdk/v0.4.25.dev7.24563a68/together",
-                      "sdk/v0.4.25.dev7.24563a68/vision",
-                      "sdk/v0.4.25.dev7.24563a68/whisper",
-                      "sdk/v0.4.25.dev7.24563a68/whisperx",
-                      "sdk/v0.4.25.dev7.24563a68/yolox"
+                      "sdk/v0.5.2.dev3.1a9843e5/anthropic",
+                      "sdk/v0.5.2.dev3.1a9843e5/bedrock",
+                      "sdk/v0.5.2.dev3.1a9843e5/deepseek",
+                      "sdk/v0.5.2.dev3.1a9843e5/fireworks",
+                      "sdk/v0.5.2.dev3.1a9843e5/gemini",
+                      "sdk/v0.5.2.dev3.1a9843e5/groq",
+                      "sdk/v0.5.2.dev3.1a9843e5/huggingface",
+                      "sdk/v0.5.2.dev3.1a9843e5/llama_cpp",
+                      "sdk/v0.5.2.dev3.1a9843e5/mistralai",
+                      "sdk/v0.5.2.dev3.1a9843e5/ollama",
+                      "sdk/v0.5.2.dev3.1a9843e5/openai",
+                      "sdk/v0.5.2.dev3.1a9843e5/openrouter",
+                      "sdk/v0.5.2.dev3.1a9843e5/replicate",
+                      "sdk/v0.5.2.dev3.1a9843e5/reve",
+                      "sdk/v0.5.2.dev3.1a9843e5/together",
+                      "sdk/v0.5.2.dev3.1a9843e5/vision",
+                      "sdk/v0.5.2.dev3.1a9843e5/whisper",
+                      "sdk/v0.5.2.dev3.1a9843e5/whisperx",
+                      "sdk/v0.5.2.dev3.1a9843e5/yolox"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/v0.4.25.dev7.24563a68/iterators",
-                      "sdk/v0.4.25.dev7.24563a68/audiosplitter",
-                      "sdk/v0.4.25.dev7.24563a68/componentiterator",
-                      "sdk/v0.4.25.dev7.24563a68/documentsplitter",
-                      "sdk/v0.4.25.dev7.24563a68/frameiterator",
-                      "sdk/v0.4.25.dev7.24563a68/stringsplitter",
-                      "sdk/v0.4.25.dev7.24563a68/tileiterator",
-                      "sdk/v0.4.25.dev7.24563a68/videosplitter"
+                      "sdk/v0.5.2.dev3.1a9843e5/iterators",
+                      "sdk/v0.5.2.dev3.1a9843e5/audiosplitter",
+                      "sdk/v0.5.2.dev3.1a9843e5/componentiterator",
+                      "sdk/v0.5.2.dev3.1a9843e5/documentsplitter",
+                      "sdk/v0.5.2.dev3.1a9843e5/frameiterator",
+                      "sdk/v0.5.2.dev3.1a9843e5/stringsplitter",
+                      "sdk/v0.5.2.dev3.1a9843e5/tileiterator",
+                      "sdk/v0.5.2.dev3.1a9843e5/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.4.25.dev7.24563a68/io"
+                      "sdk/v0.5.2.dev3.1a9843e5/io"
                     ]
                   }
                 ]

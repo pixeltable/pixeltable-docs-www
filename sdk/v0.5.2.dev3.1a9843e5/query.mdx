@@ -1,9 +1,9 @@
 ---
-title: "DataFrame"
+title: "Query"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/dataframe.py#L177\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L177\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
-# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.DataFrame
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Query
 
 
 Represents a query for retrieving and transforming data from Pixeltable tables.
@@ -12,19 +12,19 @@ Represents a query for retrieving and transforming data from Pixeltable tables.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; collect()
 
 ```python
-collect() -> DataFrameResultSet
+collect() -> ResultSet
 ```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; distinct()
 
 ```python
-distinct() -> DataFrame
+distinct() -> Query
 ```
 
-Remove duplicate rows from this DataFrame.
+Remove duplicate rows from this Query.
 
-Note that grouping will be applied to the rows based on the select clause of this Dataframe.
+Note that grouping will be applied to the rows based on the select clause of this Query.
 In the absence of a select clause, by default, all columns are selected in the grouping.
 
 **Examples:**
@@ -52,10 +52,10 @@ results = (
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; group_by()
 
 ```python
-group_by(*grouping_items: Any) -> DataFrame
+group_by(*grouping_items: Any) -> Query
 ```
 
-Add a group-by clause to this DataFrame.
+Add a group-by clause to this Query.
 
 Variants:
 - group_by(base_tbl): group a component view by their respective base table rows
@@ -70,38 +70,40 @@ used with an aggregation function like sum(), count() etc.
 
 **Returns:**
 
-- `DataFrame`: A new DataFrame with the specified group-by clause.
+- `Query`: A new Query with the specified group-by clause.
 
 **Examples:**
 
-Given the DataFrame book from a table t with all its columns and rows:
+Given the Query book from a table t with all its columns and rows:
 ```python
 book = t.select()
 ```
 
-Group the above DataFrame book by the 'genre' column (referenced in table t):
+Group the above Query book by the 'genre' column (referenced in table t):
 ```python
-df = book.group_by(t.genre)
+query = book.group_by(t.genre)
 ```
 
-Use the above DataFrame df grouped by genre to count the number of books for each 'genre':
+Use the above Query grouped by genre to count the number of books for each 'genre':
 ```python
-df = book.group_by(t.genre).select(t.genre, count=count(t.genre)).show()
+query = (
+    book.group_by(t.genre).select(t.genre, count=count(t.genre)).show()
+)
 ```
 
-Use the above DataFrame df grouped by genre to the total price of books for each 'genre':
+Use the above Query grouped by genre to the total price of books for each 'genre':
 ```python
-df = book.group_by(t.genre).select(t.genre, total=sum(t.price)).show()
+query = book.group_by(t.genre).select(t.genre, total=sum(t.price)).show()
 ```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; head()
 
 ```python
-head(n: int = 10) -> DataFrameResultSet
+head(n: int = 10) -> ResultSet
 ```
 
-Return the first n rows of the DataFrame, in insertion order of the underlying Table.
+Return the first n rows of the Query, in insertion order of the underlying Table.
 
 head() is not supported for joins.
 
@@ -111,7 +113,7 @@ head() is not supported for joins.
 
 **Returns:**
 
-- `DataFrameResultSet`: A DataFrameResultSet with the first n rows of the DataFrame.
+- `ResultSet`: A ResultSet with the first n rows of the Query.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; join()
@@ -121,10 +123,10 @@ join(
     other: catalog.Table,
     on: exprs.Expr | Sequence[exprs.ColumnRef] | None = None,
     how: plan.JoinType.LiteralType = 'inner'
-) -> DataFrame
+) -> Query
 ```
 
-Join this DataFrame with a table.
+Join this Query with a table.
 
 
 **Parameters:**
@@ -134,23 +136,23 @@ Join this DataFrame with a table.
     expression.
 
     - column references: implies an equality predicate that matches columns in both this
-        DataFrame and `other` by name.
+        Query and `other` by name.
 
-        - column in `other`: A column with that same name must be present in this DataFrame, and **it must
+        - column in `other`: A column with that same name must be present in this Query, and **it must
             be unique** (otherwise the join is ambiguous).
-        - column in this DataFrame: A column with that same name must be present in `other`.
+        - column in this Query: A column with that same name must be present in `other`.
 
     - boolean expression: The expressions must be valid in the context of the joined tables.
 - **`how`** (`plan.JoinType.LiteralType`, default: `'inner'`): the type of join to perform.
     - `'inner'`: only keep rows that have a match in both
-    - `'left'`: keep all rows from this DataFrame and only matching rows from the other table
-    - `'right'`: keep all rows from the other table and only matching rows from this DataFrame
-    - `'full_outer'`: keep all rows from both this DataFrame and the other table
+    - `'left'`: keep all rows from this Query and only matching rows from the other table
+    - `'right'`: keep all rows from the other table and only matching rows from this Query
+    - `'full_outer'`: keep all rows from both this Query and the other table
     - `'cross'`: Cartesian product; no `on` condition allowed
 
 **Returns:**
 
-- `DataFrame`: A new DataFrame.
+- `Query`: A new Query.
 
 **Examples:**
 
@@ -171,17 +173,17 @@ join2 = join1.join(t3, on=t2.id == t3.id, how='left')
 
 Join t with d, which has a composite primary key (columns pk1 and pk2, with corresponding foreign key columns d1 and d2 in t):
 ```python
-df = t.join(d, on=(t.d1 == d.pk1) & (t.d2 == d.pk2), how='left')
+query = t.join(d, on=(t.d1 == d.pk1) & (t.d2 == d.pk2), how='left')
 ```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; limit()
 
 ```python
-limit(n: int) -> DataFrame
+limit(n: int) -> Query
 ```
 
-Limit the number of rows in the DataFrame.
+Limit the number of rows in the Query.
 
 
 **Parameters:**
@@ -190,16 +192,16 @@ Limit the number of rows in the DataFrame.
 
 **Returns:**
 
-- `DataFrame`: A new DataFrame with the specified limited rows.
+- `Query`: A new Query with the specified limited rows.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; order_by()
 
 ```python
-order_by(*expr_list: exprs.Expr, asc: bool = True) -> DataFrame
+order_by(*expr_list: exprs.Expr, asc: bool = True) -> Query
 ```
 
-Add an order-by clause to this DataFrame.
+Add an order-by clause to this Query.
 
 
 **Parameters:**
@@ -210,23 +212,23 @@ Add an order-by clause to this DataFrame.
 
 **Returns:**
 
-- `DataFrame`: A new DataFrame with the specified order-by clause.
+- `Query`: A new Query with the specified order-by clause.
 
 **Examples:**
 
-Given the DataFrame book from a table t with all its columns and rows:
+Given the Query book from a table t with all its columns and rows:
 ```python
 book = t.select()
 ```
 
-Order the above DataFrame book by two columns (price, pages) in descending order:
+Order the above Query book by two columns (price, pages) in descending order:
 ```python
-df = book.order_by(t.price, t.pages, asc=False)
+query = book.order_by(t.price, t.pages, asc=False)
 ```
 
-Order the above DataFrame book by price in descending order, but order the pages in ascending order:
+Order the above Query book by price in descending order, but order the pages in ascending order:
 ```python
-df = book.order_by(t.price, asc=False).order_by(t.pages)
+query = book.order_by(t.price, asc=False).order_by(t.pages)
 ```
 
 
@@ -239,10 +241,10 @@ sample(
     fraction: float | None = None,
     seed: int | None = None,
     stratify_by: Any = None
-) -> DataFrame
+) -> Query
 ```
 
-Return a new DataFrame specifying a sample of rows from the DataFrame, considered in a shuffled order.
+Return a new Query specifying a sample of rows from the Query, considered in a shuffled order.
 
 The size of the sample can be specified in three ways:
 
@@ -267,43 +269,43 @@ The data is shuffled before creating the sample.
 
 **Returns:**
 
-- `DataFrame`: A new DataFrame which specifies the sampled rows
+- `Query`: A new Query which specifies the sampled rows
 
 **Examples:**
 
 Given the Table `person` containing the field 'age', we can create samples of the table in various ways: Sample 100 rows from the above Table:
 ```python
-df = person.sample(n=100)
+query = person.sample(n=100)
 ```
 
 Sample 10% of the rows from the above Table:
 ```python
-df = person.sample(fraction=0.1)
+query = person.sample(fraction=0.1)
 ```
 
 Sample 10% of the rows from the above Table, stratified by the column 'age':
 ```python
-df = person.sample(fraction=0.1, stratify_by=t.age)
+query = person.sample(fraction=0.1, stratify_by=t.age)
 ```
 
 Equal allocation sampling: Sample 2 rows from each age present in the above Table:
 ```python
-df = person.sample(n_per_stratum=2, stratify_by=t.age)
+query = person.sample(n_per_stratum=2, stratify_by=t.age)
 ```
 
-Sampling is compatible with the where clause, so we can also sample from a filtered DataFrame:
+Sampling is compatible with the where clause, so we can also sample from a filtered Query:
 ```python
-df = person.where(t.age > 30).sample(n=100)
+query = person.where(t.age > 30).sample(n=100)
 ```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; select()
 
 ```python
-select(*items: Any, **named_items: Any) -> DataFrame
+select(*items: Any, **named_items: Any) -> Query
 ```
 
-Select columns or expressions from the DataFrame.
+Select columns or expressions from the Query.
 
 
 **Parameters:**
@@ -313,40 +315,40 @@ Select columns or expressions from the DataFrame.
 
 **Returns:**
 
-- `DataFrame`: A new DataFrame with the specified select list.
+- `Query`: A new Query with the specified select list.
 
 **Examples:**
 
-Given the DataFrame person from a table t with all its columns and rows:
+Given the Query person from a table t with all its columns and rows:
 ```python
 person = t.select()
 ```
 
-Select the columns 'name' and 'age' (referenced in table t) from the DataFrame person:
+Select the columns 'name' and 'age' (referenced in table t) from the Query person:
 ```python
-df = person.select(t.name, t.age)
+query = person.select(t.name, t.age)
 ```
 
-Select the columns 'name' (referenced in table t) from the DataFrame person, and a named column 'is_adult' from the expression `age >= 18` where 'age' is another column in table t:
+Select the columns 'name' (referenced in table t) from the Query person, and a named column 'is_adult' from the expression `age >= 18` where 'age' is another column in table t:
 ```python
-df = person.select(t.name, is_adult=(t.age >= 18))
+query = person.select(t.name, is_adult=(t.age >= 18))
 ```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; show()
 
 ```python
-show(n: int = 20) -> DataFrameResultSet
+show(n: int = 20) -> ResultSet
 ```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; tail()
 
 ```python
-tail(n: int = 10) -> DataFrameResultSet
+tail(n: int = 10) -> ResultSet
 ```
 
-Return the last n rows of the DataFrame, in insertion order of the underlying Table.
+Return the last n rows of the Query, in insertion order of the underlying Table.
 
 tail() is not supported for joins.
 
@@ -356,7 +358,7 @@ tail() is not supported for joins.
 
 **Returns:**
 
-- `DataFrameResultSet`: A DataFrameResultSet with the last n rows of the DataFrame.
+- `ResultSet`: A ResultSet with the last n rows of the Query.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; to_coco_dataset()
@@ -365,8 +367,8 @@ tail() is not supported for joins.
 to_coco_dataset() -> Path
 ```
 
-Convert the dataframe to a COCO dataset.
-This dataframe must return a single json-typed output column in the following format:
+Convert the Query to a COCO dataset.
+This Query must return a single json-typed output column in the following format:
 
 ```python
 {
@@ -392,7 +394,7 @@ This dataframe must return a single json-typed output column in the following fo
 to_pytorch_dataset(image_format: str = 'pt') -> torch.utils.data.IterableDataset
 ```
 
-Convert the dataframe to a pytorch IterableDataset suitable for parallel loading
+Convert the Query to a pytorch IterableDataset suitable for parallel loading
 with torch.utils.data.DataLoader.
 
 This method requires pyarrow >= 13, torch and torchvision to work.
@@ -416,7 +418,7 @@ re-executing the query. This data is cached to disk for future re-use.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; where()
 
 ```python
-where(pred: exprs.Expr) -> DataFrame
+where(pred: exprs.Expr) -> Query
 ```
 
 Filter rows based on a predicate.
@@ -428,18 +430,18 @@ Filter rows based on a predicate.
 
 **Returns:**
 
-- `DataFrame`: A new DataFrame with the specified predicates replacing the where-clause.
+- `Query`: A new Query with the specified predicates replacing the where-clause.
 
 **Examples:**
 
-Given the DataFrame person from a table t with all its columns and rows:
+Given the Query person from a table t with all its columns and rows:
 ```python
 person = t.select()
 ```
 
-Filter the above DataFrame person to only include rows where the column 'age' (referenced in table t) is greater than 30:
+Filter the above Query person to only include rows where the column 'age' (referenced in table t) is greater than 30:
 ```python
-df = person.where(t.age > 30)
+query = person.where(t.age > 30)
 ```
 
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; schema
@@ -448,5 +450,5 @@ df = person.where(t.age > 30)
 schema: dict[str, ColumnType]
 ```
 
-Column names and types in this DataFrame.
+Column names and types in this Query.
 

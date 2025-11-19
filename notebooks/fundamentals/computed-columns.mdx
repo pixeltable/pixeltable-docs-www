@@ -1188,7 +1188,7 @@ population change from 2022 to 2023. In the previous tutorial section,
 [Tables and Data
 Operations](/notebooks/fundamentals/tables-and-data-operations),
 we saw how one might `select()` such a quantity into a Pixeltable
-`DataFrame`, giving it the name `yoy_change` (year-over-year change):
+`Query`, giving it the name `yoy_change` (year-over-year change):
 
 
 ```python
@@ -1276,12 +1276,12 @@ pop_t.select(pop_t.country, pop_t.yoy_change, pop_t.yoy_percent_change).head(5)
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[15] }} />
 
-Although computed columns appear superficially similar to DataFrames,
-there is a key difference. Because computed columns are a permanent part
-of the table, they will be automatically updated any time new data is
-added to the table. These updates will propagate through any other
-computed columns that are “downstream” of the new data, ensuring that
-the state of the entire data is kept up-to-date.
+Although computed columns appear superficially similar to Queries, there
+is a key difference. Because computed columns are a permanent part of
+the table, they will be automatically updated any time new data is added
+to the table. These updates will propagate through any other computed
+columns that are “downstream” of the new data, ensuring that the state
+of the entire data is kept up-to-date.
 
 <Note>
  In traditional data workflows, it is commonplace

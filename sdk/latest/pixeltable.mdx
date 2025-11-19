@@ -72,7 +72,7 @@ pxt.create_dir('parent1.parent2.sub_dir', parents=True)
 ```python
 create_snapshot(
     path_str: str,
-    base: catalog.Table | DataFrame,
+    base: catalog.Table | Query,
     *,
     additional_columns: dict[str, Any] | None = None,
     iterator: tuple[type[ComponentIterator], dict[str, Any]] | None = None,
@@ -90,10 +90,10 @@ Create a snapshot of an existing table object (which itself can be a view or a s
 
 - **`path_str`** (`str`): A name for the snapshot; can be either a simple name such as `my_snapshot`, or a pathname such as
     `dir1.my_snapshot`.
-- **`base`** (`catalog.Table | DataFrame`): [`Table`](./table) (i.e., table or view or snapshot) or [`DataFrame`](./dataframe) to
+- **`base`** (`catalog.Table | Query`): [`Table`](./table) (i.e., table or view or snapshot) or [`Query`](./query) to
     base the snapshot on.
 - **`additional_columns`** (`dict[str, Any] | None`): If specified, will add these columns to the snapshot once it is created. The format
-    of the `additional_columns` parameter is identical to the format of the `schema_or_df` parameter in
+    of the `additional_columns` parameter is identical to the format of the `schema` parameter in
     [`create_table`](./pixeltable#func-create-table).
 - **`iterator`** (`tuple[type[ComponentIterator], dict[str, Any]] | None`): The iterator to use for this snapshot. If specified, then this snapshot will be a one-to-many view of
     the base table.
@@ -176,7 +176,7 @@ source format and/or schema can be specified directly via the `source_format` an
 
 - **`path`** (`str`): Pixeltable path (qualified name) of the table, such as `'my_table'` or `'my_dir.my_subdir.my_table'`.
 - **`schema`** (`dict[str, Any] | None`): Schema for the new table, mapping column names to Pixeltable types.
-- **`source`** (`TableDataSource | None`): A data source (file, URL, Table, DataFrame, or list of rows) to import from.
+- **`source`** (`TableDataSource | None`): A data source (file, URL, Table, Query, or list of rows) to import from.
 - **`source_format`** (`Literal['csv', 'excel', 'parquet', 'json'] | None`): Must be used in conjunction with a `source`.
     If specified, then the given format will be used to read the source data. (Otherwise,
     Pixeltable will attempt to infer the format from the source data.)
@@ -259,7 +259,7 @@ tbl = pxt.create_table('my_table', source='data.csv')
 ```python
 create_view(
     path: str,
-    base: catalog.Table | DataFrame,
+    base: catalog.Table | Query,
     *,
     additional_columns: dict[str, Any] | None = None,
     is_snapshot: bool = False,
@@ -279,10 +279,10 @@ Create a view of an existing table object (which itself can be a view or a snaps
 
 - **`path`** (`str`): A name for the view; can be either a simple name such as `my_view`, or a pathname such as
     `dir1.my_view`.
-- **`base`** (`catalog.Table | DataFrame`): [`Table`](./table) (i.e., table or view or snapshot) or [`DataFrame`](./dataframe) to
+- **`base`** (`catalog.Table | Query`): [`Table`](./table) (i.e., table or view or snapshot) or [`Query`](./query) to
     base the view on.
 - **`additional_columns`** (`dict[str, Any] | None`): If specified, will add these columns to the view once it is created. The format
-    of the `additional_columns` parameter is identical to the format of the `schema_or_df` parameter in
+    of the `additional_columns` parameter is identical to the format of the `schema` parameter in
     [`create_table`](./pixeltable#func-create-table).
 - **`is_snapshot`** (`bool`, default: `False`): Whether the view is a snapshot. Setting this to `True` is equivalent to calling
     [`create_snapshot`](./pixeltable#func-create-snapshot).

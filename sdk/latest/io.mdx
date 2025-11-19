@@ -209,7 +209,7 @@ export_images_as_fo_dataset(
 
 ```python
 export_lancedb(
-    table_or_df: pxt.Table | pxt.DataFrame,
+    table_or_query: pxt.Table | pxt.Query,
     db_uri: Path,
     table_name: str,
     batch_size_bytes: int = 134217728,
@@ -217,7 +217,7 @@ export_lancedb(
 ) -> None
 ```
 
-Exports a dataframe's data to a LanceDB table.
+Exports a Query's data to a LanceDB table.
 
 This utilizes LanceDB's streaming interface for efficient table creation, via a sequence of in-memory pyarrow
 `RecordBatches`, the size of which can be controlled with the `batch_size_bytes` parameter.
@@ -228,7 +228,7 @@ __Requirements:__
 
 **Parameters:**
 
-- **`table_or_df `** (`Any`): Table or Dataframe to export.
+- **`table_or_query `** (`Any`): Table or Query to export.
 - **`db_uri`** (`Path`): Local Path to the LanceDB database.
 - **`table_name `** (`Any`): Name of the table in the LanceDB database.
 - **`batch_size_bytes `** (`Any`): Maximum size in bytes for each batch.
@@ -242,27 +242,27 @@ __Requirements:__
 
 ```python
 export_parquet(
-    table_or_df: pxt.Table | pxt.DataFrame,
+    table_or_query: pxt.Table | pxt.Query,
     parquet_path: Path,
     partition_size_bytes: int = 100000000,
     inline_images: bool = False
 ) -> None
 ```
 
-Exports a dataframe's data to one or more Parquet files. Requires pyarrow to be installed.
+Exports a Query's data to one or more Parquet files. Requires pyarrow to be installed.
 
 It additionally writes the pixeltable metadata in a json file, which would otherwise
 not be available in the parquet format.
 
 **Parameters:**
 
-- **`table_or_df `** (`Any`): Table or Dataframe to export.
+- **`table_or_query `** (`Any`): Table or Query to export.
 - **`parquet_path `** (`Any`): Path to directory to write the parquet files to.
 - **`partition_size_bytes `** (`Any`): The maximum target size for each chunk. Default 100_000_000 bytes.
 - **`inline_images `** (`Any`): If True, images are stored inline in the parquet file. This is useful
     for small images, to be imported as pytorch dataset. But can be inefficient
     for large images, and cannot be imported into pixeltable.
-    If False, will raise an error if the Dataframe has any image column.
+    If False, will raise an error if the Query has any image column.
     Default False.
 
 
