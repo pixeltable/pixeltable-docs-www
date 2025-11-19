@@ -1,0 +1,87 @@
+---
+title: "DocumentSplitter"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/document.py#L112\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.iterators.DocumentSplitter
+
+
+Iterator over chunks of a document. The document is chunked according to the specified `separators`.
+
+The iterator yields a `text` field containing the text of the chunk, and it may also
+include additional metadata fields if specified in the `metadata` parameter, as explained below.
+
+Chunked text will be cleaned with `ftfy.fix_text` to fix up common problems with unicode sequences.
+
+How to init the `DocumentSplitter` class?
+
+Args:
+    separators: separators to use to chunk the document. Options are:
+         `'heading'`, `'paragraph'`, `'sentence'`, `'token_limit'`, `'char_limit'`, `'page'`.
+         This may be a comma-separated string, e.g., `'heading,token_limit'`.
+    elements: list of elements to extract from the document. Options are:
+        `'text'`, `'image'`. Defaults to `['text']` if not specified. The `'image'` element is only supported
+        for the `'page'` separator on PDF documents.
+    limit: the maximum number of tokens or characters in each chunk, if `'token_limit'`
+         or `'char_limit'` is specified.
+    metadata: additional metadata fields to include in the output. Options are:
+         `'title'`, `'heading'` (HTML and Markdown), `'sourceline'` (HTML), `'page'` (PDF), `'bounding_box'`
+         (PDF). The input may be a comma-separated string, e.g., `'title,heading,sourceline'`.
+    image_dpi: DPI to use when extracting images from PDFs. Defaults to 300.
+    image_format: format to use when extracting images from PDFs. Defaults to 'png'.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; close()
+
+```python
+close() -> None
+```
+
+Close the iterator and release all resources
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; create()
+
+```python
+create(**kwargs: Any) -> tuple[type[ComponentIterator], dict[str, Any]]
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; input_schema()
+
+```python
+input_schema() -> dict[str, pixeltable.type_system.ColumnType]
+```
+
+Provide the Pixeltable types of the init() parameters
+
+The keys need to match the names of the init() parameters. This is equivalent to the parameters_types
+parameter of the @function decorator.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; output_schema()
+
+```python
+output_schema(
+    *args: Any,
+    **kwargs: Any
+) -> tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]
+```
+
+Specify the dictionary returned by next() and a list of unstored column names
+
+
+**Returns:**
+
+- `tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]`: a dictionary which is turned into a list of columns in the output table
+  a list of unstored column names
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; set_pos()
+
+```python
+set_pos(pos: int) -> None
+```
+
+Set the iterator position to pos
+

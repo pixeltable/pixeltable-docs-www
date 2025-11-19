@@ -183,8 +183,89 @@
             ]
           },
           {
-            "dropdown": "v0.5.0",
+            "dropdown": "v0.5.1",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.1/pixeltable",
+                      "sdk/v0.5.1/table",
+                      "sdk/v0.5.1/query",
+                      "sdk/v0.5.1/columnmetadata",
+                      "sdk/v0.5.1/dircontents",
+                      "sdk/v0.5.1/indexmetadata",
+                      "sdk/v0.5.1/tablemetadata",
+                      "sdk/v0.5.1/updatestatus",
+                      "sdk/v0.5.1/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.1/audio",
+                      "sdk/v0.5.1/date",
+                      "sdk/v0.5.1/image",
+                      "sdk/v0.5.1/json",
+                      "sdk/v0.5.1/math",
+                      "sdk/v0.5.1/string",
+                      "sdk/v0.5.1/timestamp",
+                      "sdk/v0.5.1/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.1/anthropic",
+                      "sdk/v0.5.1/bedrock",
+                      "sdk/v0.5.1/deepseek",
+                      "sdk/v0.5.1/fireworks",
+                      "sdk/v0.5.1/gemini",
+                      "sdk/v0.5.1/groq",
+                      "sdk/v0.5.1/huggingface",
+                      "sdk/v0.5.1/llama_cpp",
+                      "sdk/v0.5.1/mistralai",
+                      "sdk/v0.5.1/ollama",
+                      "sdk/v0.5.1/openai",
+                      "sdk/v0.5.1/openrouter",
+                      "sdk/v0.5.1/replicate",
+                      "sdk/v0.5.1/reve",
+                      "sdk/v0.5.1/together",
+                      "sdk/v0.5.1/vision",
+                      "sdk/v0.5.1/whisper",
+                      "sdk/v0.5.1/whisperx",
+                      "sdk/v0.5.1/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Iterators",
+                    "pages": [
+                      "sdk/v0.5.1/iterators",
+                      "sdk/v0.5.1/audiosplitter",
+                      "sdk/v0.5.1/componentiterator",
+                      "sdk/v0.5.1/documentsplitter",
+                      "sdk/v0.5.1/frameiterator",
+                      "sdk/v0.5.1/stringsplitter",
+                      "sdk/v0.5.1/tileiterator",
+                      "sdk/v0.5.1/videosplitter"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.1/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.0",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
