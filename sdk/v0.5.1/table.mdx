@@ -1,7 +1,7 @@
 ---
 title: "Table"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L59\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L60\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Table
 
@@ -15,7 +15,7 @@ FileCache.emit_eviction_warnings() at the end of the operation.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_column()
 
-```python
+```python Signature
 add_column(
     *,
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error',
@@ -54,7 +54,7 @@ tbl.add_columns({'new_col': pxt.Int})
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_columns()
 
-```python
+```python Signature
 add_columns(
     schema: dict[str, ts.ColumnType | builtins.type | _GenericAlias],
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
@@ -95,7 +95,7 @@ tbl.add_columns(schema)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_computed_column()
 
-```python
+```python Signature
 add_computed_column(
     *,
     stored: bool | None = None,
@@ -148,7 +148,7 @@ tbl.add_computed_column(rotated=tbl.frame.rotate(90), stored=False)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_embedding_index()
 
-```python
+```python Signature
 add_embedding_index(
     column: str | ColumnRef,
     *,
@@ -223,7 +223,7 @@ tbl.add_embedding_index(
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; batch_update()
 
-```python
+```python Signature
 batch_update(
     rows: Iterable[dict[str, Any]],
     cascade: bool = True,
@@ -270,7 +270,7 @@ tbl.batch_update(
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; columns()
 
-```python
+```python Signature
 columns() -> list[str]
 ```
 
@@ -279,7 +279,7 @@ Return the names of the columns in this table.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; count()
 
-```python
+```python Signature
 count() -> int
 ```
 
@@ -288,7 +288,7 @@ Return the number of rows in this table.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; delete()
 
-```python
+```python Signature
 delete(where: exprs.Expr | None = None) -> UpdateStatus
 ```
 
@@ -314,7 +314,7 @@ tbl.delete(tbl.a > 5)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; describe()
 
-```python
+```python Signature
 describe() -> None
 ```
 
@@ -323,7 +323,7 @@ Print the table schema.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; drop_column()
 
-```python
+```python Signature
 drop_column(
     column: str | ColumnRef,
     if_not_exists: Literal['error', 'ignore'] = 'error'
@@ -363,7 +363,7 @@ tbl.drop_col(tbl.col, if_not_exists='ignore')
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; drop_embedding_index()
 
-```python
+```python Signature
 drop_embedding_index(
     *,
     column: str | ColumnRef | None = None,
@@ -418,7 +418,7 @@ tbl.drop_embedding_index(idx_name='idx1', if_not_exists='ignore')
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; drop_index()
 
-```python
+```python Signature
 drop_index(
     *,
     column: str | ColumnRef | None = None,
@@ -473,7 +473,7 @@ tbl.drop_index(idx_name='idx1', if_not_exists='ignore')
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; get_metadata()
 
-```python
+```python Signature
 get_metadata() -> TableMetadata
 ```
 
@@ -487,7 +487,7 @@ Retrieves metadata associated with this table.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; get_versions()
 
-```python
+```python Signature
 get_versions(n: int | None = None) -> list[VersionMetadata]
 ```
 
@@ -520,7 +520,7 @@ tbl.get_versions(n=5)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; history()
 
-```python
+```python Signature
 history(n: int | None = None) -> pd.DataFrame
 ```
 
@@ -552,13 +552,22 @@ tbl.history(n=5)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; insert()
 
-```python
+```python Signatures
+# Signature 1:
 insert(
-    source: TableDataSource | None = None,
+    source: TableDataSource,
     /,
     *,
     source_format: Literal['csv', 'excel', 'parquet', 'json'] | None = None,
     schema_overrides: dict[str, ts.ColumnType] | None = None,
+    on_error: Literal['abort', 'ignore'] = 'abort',
+    print_stats: bool = False,
+    **kwargs: Any
+) -> UpdateStatus
+
+# Signature 2:
+insert(
+    *,
     on_error: Literal['abort', 'ignore'] = 'abort',
     print_stats: bool = False,
     **kwargs: Any
@@ -643,7 +652,7 @@ tbl.insert(models)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; list_views()
 
-```python
+```python Signature
 list_views(*, recursive: bool = True) -> list[str]
 ```
 
@@ -662,7 +671,7 @@ Returns a list of all views and snapshots of this `Table`.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; recompute_columns()
 
-```python
+```python Signature
 recompute_columns(
     *columns: str | ColumnRef,
     where: exprs.Expr | None = None,
@@ -707,7 +716,7 @@ tbl.recompute_columns('c1', errors_only=True)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; rename_column()
 
-```python
+```python Signature
 rename_column(old_name: str, new_name: str) -> None
 ```
 
@@ -730,7 +739,7 @@ tbl.rename_column('col1', 'col2')
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; revert()
 
-```python
+```python Signature
 revert() -> None
 ```
 
@@ -742,7 +751,7 @@ Reverts the table to the previous version.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; sync()
 
-```python
+```python Signature
 sync(
     stores: str | list[str] | None = None,
     *,
@@ -764,7 +773,7 @@ Synchronizes this table with its linked external stores.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; unlink_external_stores()
 
-```python
+```python Signature
 unlink_external_stores(
     stores: str | list[str] | None = None,
     *,
@@ -788,7 +797,7 @@ Unlinks this table's external stores.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; update()
 
-```python
+```python Signature
 update(
     value_spec: dict[str, Any],
     where: exprs.Expr | None = None,

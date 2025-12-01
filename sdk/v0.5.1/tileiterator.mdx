@@ -11,66 +11,9 @@ iterated over in row-major order (left-to-right, then top-to-bottom). An optiona
 specified. If the tiles do not exactly cover the image, then the rightmost and bottommost tiles will be padded with
 blackspace, so that the output images all have the exact size `tile_size`.
 
-Args:
-    image: Image to split into tiles.
-    tile_size: Size of each tile, as a pair of integers `[width, height]`.
-    overlap: Amount of overlap between adjacent tiles, as a pair of integers `[width, height]`.
+**Parameters:**
 
-
-## <span style={{ 'color': 'gray' }}>method</span>&nbsp; close()
-
-```python
-close() -> None
-```
-
-Close the iterator and release all resources
-
-
-## <span style={{ 'color': 'gray' }}>method</span>&nbsp; create()
-
-```python
-create(**kwargs: Any) -> tuple[type[ComponentIterator], dict[str, Any]]
-```
-
-
-## <span style={{ 'color': 'gray' }}>method</span>&nbsp; input_schema()
-
-```python
-input_schema(
-    *args: Any,
-    **kwargs: Any
-) -> dict[str, pixeltable.type_system.ColumnType]
-```
-
-Provide the Pixeltable types of the init() parameters
-
-The keys need to match the names of the init() parameters. This is equivalent to the parameters_types
-parameter of the @function decorator.
-
-
-## <span style={{ 'color': 'gray' }}>method</span>&nbsp; output_schema()
-
-```python
-output_schema(
-    *args: Any,
-    **kwargs: Any
-) -> tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]
-```
-
-Specify the dictionary returned by next() and a list of unstored column names
-
-
-**Returns:**
-
-- `tuple[dict[str, pixeltable.type_system.ColumnType], list[str]]`: a dictionary which is turned into a list of columns in the output table
-  a list of unstored column names
-
-
-## <span style={{ 'color': 'gray' }}>method</span>&nbsp; set_pos()
-
-```python
-set_pos(pos: int) -> None
-```
-
-Set the iterator position to pos
+- **`image`** (`PIL.Image.Image`): Image to split into tiles.
+- **`tile_size`** (`tuple[int, int]`): Size of each tile, as a pair of integers `[width, height]`.
+- **`overlap`** (`tuple[int, int]`, default: `(0, 0)`): Amount of overlap between adjacent tiles, as a pair of integers `[width, height]`.
 

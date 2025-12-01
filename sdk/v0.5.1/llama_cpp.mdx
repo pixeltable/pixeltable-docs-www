@@ -14,14 +14,14 @@ supporting chat completions and embeddings with GGUF format models.
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; create_chat_completion()
 
-```python
+```python Signature
 create_chat_completion(
-    messages: Json,
+    messages: pxt.Json,
     *,
-    model_path: String | None = None,
-    repo_id: String | None = None,
-    repo_filename: String | None = None,
-    model_kwargs: Json | None = None
+    model_path: pxt.String | None = None,
+    repo_id: pxt.String | None = None,
+    repo_filename: pxt.String | None = None,
+    model_kwargs: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -36,12 +36,12 @@ For additional details, see the
 
 **Parameters:**
 
-- **`messages`** (`Json`): A list of messages to generate a response for.
-- **`model_path`** (`String | None`): Path to the model (if using a local model).
-- **`repo_id`** (`String | None`): The Hugging Face model repo id (if using a pretrained model).
-- **`repo_filename`** (`String | None`): A filename or glob pattern to match the model file in the repo (optional, if using a
+- **`messages`** (`pxt.Json`): A list of messages to generate a response for.
+- **`model_path`** (`pxt.String | None`): Path to the model (if using a local model).
+- **`repo_id`** (`pxt.String | None`): The Hugging Face model repo id (if using a pretrained model).
+- **`repo_filename`** (`pxt.String | None`): A filename or glob pattern to match the model file in the repo (optional, if using a
     pretrained model).
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the llama_cpp `create_chat_completions` API, such as `max_tokens`,
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the llama_cpp `create_chat_completions` API, such as `max_tokens`,
     `temperature`, `top_p`, and `top_k`. For details, see the
     [llama_cpp create_chat_completions documentation](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.create_chat_completion).
 

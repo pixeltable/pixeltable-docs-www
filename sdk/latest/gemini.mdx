@@ -14,7 +14,7 @@ the [Working with Gemini](https://docs.pixeltable.com/notebooks/integrations/wor
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; invoke_tools()
 
-```python
+```python Signature
 invoke_tools(
     tools: pixeltable.func.tools.Tools,
     response: pixeltable.exprs.expr.Expr
@@ -26,13 +26,13 @@ Converts an OpenAI response dict to Pixeltable tool invocation format and calls 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate_content()
 
-```python
+```python Signature
 generate_content(
-    contents: String,
+    contents: pxt.String,
     *,
-    model: String,
-    config: Json | None = None,
-    tools: Json | None = None
+    model: pxt.String,
+    config: pxt.Json | None = None,
+    tools: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -49,12 +49,12 @@ __Requirements:__
 
 **Parameters:**
 
-- **`contents`** (`String`): The input content to generate from.
-- **`model`** (`String`): The name of the model to use.
-- **`config`** (`Json | None`): Configuration for generation, corresponding to keyword arguments of
+- **`contents`** (`pxt.String`): The input content to generate from.
+- **`model`** (`pxt.String`): The name of the model to use.
+- **`config`** (`pxt.Json | None`): Configuration for generation, corresponding to keyword arguments of
     `genai.types.GenerateContentConfig`. For details on the parameters, see:
     [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
-- **`tools`** (`Json | None`): An optional list of Pixeltable tools to use. It is also possible to specify tools manually via the
+- **`tools`** (`pxt.Json | None`): An optional list of Pixeltable tools to use. It is also possible to specify tools manually via the
     `config['tools']` parameter, but at most one of `config['tools']` or `tools` may be used.
 
 **Returns:**
@@ -73,12 +73,12 @@ tbl.add_computed_column(
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate_images()
 
-```python
+```python Signature
 generate_images(
-    prompt: String,
+    prompt: pxt.String,
     *,
-    model: String,
-    config: Json | None = None
+    model: pxt.String,
+    config: pxt.Json | None = None
 ) -> Image
 ```
 
@@ -95,9 +95,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`prompt`** (`String`): A text description of the images to generate.
-- **`model`** (`String`): The model to use.
-- **`config`** (`Json | None`): Configuration for generation, corresponding to keyword arguments of
+- **`prompt`** (`pxt.String`): A text description of the images to generate.
+- **`model`** (`pxt.String`): The model to use.
+- **`config`** (`pxt.Json | None`): Configuration for generation, corresponding to keyword arguments of
     `genai.types.GenerateImagesConfig`. For details on the parameters, see:
     [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
 
@@ -117,13 +117,13 @@ tbl.add_computed_column(
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate_videos()
 
-```python
+```python Signature
 generate_videos(
-    prompt: String | None = None,
-    image: Image | None = None,
+    prompt: pxt.String | None = None,
+    image: pxt.Image | None = None,
     *,
-    model: String,
-    config: Json | None = None
+    model: pxt.String,
+    config: pxt.Json | None = None
 ) -> Video
 ```
 
@@ -140,11 +140,11 @@ __Requirements:__
 
 **Parameters:**
 
-- **`prompt`** (`String | None`): A text description of the videos to generate.
-- **`image`** (`Image | None`): An optional image to use as the first frame of the video. At least one of `prompt` or `image` must be
+- **`prompt`** (`pxt.String | None`): A text description of the videos to generate.
+- **`image`** (`pxt.Image | None`): An optional image to use as the first frame of the video. At least one of `prompt` or `image` must be
     provided. (It is ok to specify both.)
-- **`model`** (`String`): The model to use.
-- **`config`** (`Json | None`): Configuration for generation, corresponding to keyword arguments of
+- **`model`** (`pxt.String`): The model to use.
+- **`config`** (`pxt.Json | None`): Configuration for generation, corresponding to keyword arguments of
     `genai.types.GenerateVideosConfig`. For details on the parameters, see:
     [https://googleapis.github.io/python-genai/genai.html#module-genai.types](https://googleapis.github.io/python-genai/genai.html#module-genai.types)
 

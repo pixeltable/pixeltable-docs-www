@@ -15,21 +15,21 @@ first `pip install openai-whisper`.
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; transcribe()
 
-```python
+```python Signature
 transcribe(
-    audio: Audio,
+    audio: pxt.Audio,
     *,
-    model: String,
-    temperature: Json | None = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
-    compression_ratio_threshold: Float | None = 2.4,
-    logprob_threshold: Float | None = -1.0,
-    no_speech_threshold: Float | None = 0.6,
-    condition_on_previous_text: Bool = True,
-    initial_prompt: String | None = None,
-    word_timestamps: Bool = False,
-    prepend_punctuations: String = '"\'“¿([{-',
-    append_punctuations: String = '"\'.。,，!！?？:：”)]}、',
-    decode_options: Json | None = None
+    model: pxt.String,
+    temperature: pxt.Json | None = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
+    compression_ratio_threshold: pxt.Float | None = 2.4,
+    logprob_threshold: pxt.Float | None = -1.0,
+    no_speech_threshold: pxt.Float | None = 0.6,
+    condition_on_previous_text: pxt.Bool = True,
+    initial_prompt: pxt.String | None = None,
+    word_timestamps: pxt.Bool = False,
+    prepend_punctuations: pxt.String = '"\'“¿([{-',
+    append_punctuations: pxt.String = '"\'.。,，!！?？:：”)]}、',
+    decode_options: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -45,8 +45,8 @@ __Requirements:__
 
 **Parameters:**
 
-- **`audio`** (`Audio`): The audio file to transcribe.
-- **`model`** (`String`): The name of the model to use for transcription.
+- **`audio`** (`pxt.Audio`): The audio file to transcribe.
+- **`model`** (`pxt.String`): The name of the model to use for transcription.
 
 **Returns:**
 

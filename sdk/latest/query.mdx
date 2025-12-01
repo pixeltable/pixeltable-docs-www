@@ -11,14 +11,14 @@ Represents a query for retrieving and transforming data from Pixeltable tables.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; collect()
 
-```python
+```python Signature
 collect() -> ResultSet
 ```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; distinct()
 
-```python
+```python Signature
 distinct() -> Query
 ```
 
@@ -51,7 +51,7 @@ results = (
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; group_by()
 
-```python
+```python Signature
 group_by(*grouping_items: Any) -> Query
 ```
 
@@ -99,7 +99,7 @@ query = book.group_by(t.genre).select(t.genre, total=sum(t.price)).show()
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; head()
 
-```python
+```python Signature
 head(n: int = 10) -> ResultSet
 ```
 
@@ -118,7 +118,7 @@ head() is not supported for joins.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; join()
 
-```python
+```python Signature
 join(
     other: catalog.Table,
     on: exprs.Expr | Sequence[exprs.ColumnRef] | None = None,
@@ -179,7 +179,7 @@ query = t.join(d, on=(t.d1 == d.pk1) & (t.d2 == d.pk2), how='left')
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; limit()
 
-```python
+```python Signature
 limit(n: int) -> Query
 ```
 
@@ -197,7 +197,7 @@ Limit the number of rows in the Query.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; order_by()
 
-```python
+```python Signature
 order_by(*expr_list: exprs.Expr, asc: bool = True) -> Query
 ```
 
@@ -234,7 +234,7 @@ query = book.order_by(t.price, asc=False).order_by(t.pages)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; sample()
 
-```python
+```python Signature
 sample(
     n: int | None = None,
     n_per_stratum: int | None = None,
@@ -301,7 +301,7 @@ query = person.where(t.age > 30).sample(n=100)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; select()
 
-```python
+```python Signature
 select(*items: Any, **named_items: Any) -> Query
 ```
 
@@ -337,14 +337,14 @@ query = person.select(t.name, is_adult=(t.age >= 18))
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; show()
 
-```python
+```python Signature
 show(n: int = 20) -> ResultSet
 ```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; tail()
 
-```python
+```python Signature
 tail(n: int = 10) -> ResultSet
 ```
 
@@ -363,7 +363,7 @@ tail() is not supported for joins.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; to_coco_dataset()
 
-```python
+```python Signature
 to_coco_dataset() -> Path
 ```
 
@@ -390,7 +390,7 @@ This Query must return a single json-typed output column in the following format
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; to_pytorch_dataset()
 
-```python
+```python Signature
 to_pytorch_dataset(image_format: str = 'pt') -> torch.utils.data.IterableDataset
 ```
 
@@ -417,7 +417,7 @@ re-executing the query. This data is cached to disk for future re-use.
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; where()
 
-```python
+```python Signature
 where(pred: exprs.Expr) -> Query
 ```
 

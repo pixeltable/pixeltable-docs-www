@@ -13,12 +13,12 @@ or as `api_key` in the `reve` section of the Pixeltable config file.
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; create()
 
-```python
+```python Signature
 create(
-    prompt: String,
+    prompt: pxt.String,
     *,
-    aspect_ratio: String | None = None,
-    version: String | None = None
+    aspect_ratio: pxt.String | None = None,
+    version: pxt.String | None = None
 ) -> Image
 ```
 
@@ -29,9 +29,9 @@ This UDF wraps the `https://api.reve.com/v1/image/create` endpoint. For more inf
 
 **Parameters:**
 
-- **`prompt`** (`String`): prompt describing the desired image
-- **`aspect_ratio`** (`String | None`): desired image aspect ratio, e.g. '3:2', '16:9', '1:1', etc.
-- **`version`** (`String | None`): specific model version to use. Latest if not specified.
+- **`prompt`** (`pxt.String`): prompt describing the desired image
+- **`aspect_ratio`** (`pxt.String | None`): desired image aspect ratio, e.g. '3:2', '16:9', '1:1', etc.
+- **`version`** (`pxt.String | None`): specific model version to use. Latest if not specified.
 
 **Returns:**
 
@@ -47,12 +47,12 @@ t.add_computed_column(img=reve.create(t.prompt, aspect_ratio='1:1'))
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; edit()
 
-```python
+```python Signature
 edit(
-    image: Image,
-    edit_instruction: String,
+    image: pxt.Image,
+    edit_instruction: pxt.String,
     *,
-    version: String | None = None
+    version: pxt.String | None = None
 ) -> Image
 ```
 
@@ -63,9 +63,9 @@ This UDF wraps the `https://api.reve.com/v1/image/edit` endpoint. For more infor
 
 **Parameters:**
 
-- **`image`** (`Image`): image to edit
-- **`edit_instruction`** (`String`): text prompt describing the desired edit
-- **`version`** (`String | None`): specific model version to use. Latest if not specified.
+- **`image`** (`pxt.Image`): image to edit
+- **`edit_instruction`** (`pxt.String`): text prompt describing the desired edit
+- **`version`** (`pxt.String | None`): specific model version to use. Latest if not specified.
 
 **Returns:**
 
@@ -86,13 +86,13 @@ t.add_computed_column(
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; remix()
 
-```python
+```python Signature
 remix(
-    prompt: String,
-    images: Json,
+    prompt: pxt.String,
+    images: pxt.Json,
     *,
-    aspect_ratio: String | None = None,
-    version: String | None = None
+    aspect_ratio: pxt.String | None = None,
+    version: pxt.String | None = None
 ) -> Image
 ```
 
@@ -105,10 +105,10 @@ This UDF wraps the `https://api.reve.com/v1/image/remix` endpoint. For more info
 
 **Parameters:**
 
-- **`prompt`** (`String`): prompt describing the desired image
-- **`images`** (`Json`): list of reference images
-- **`aspect_ratio`** (`String | None`): desired image aspect ratio, e.g. '3:2', '16:9', '1:1', etc.
-- **`version`** (`String | None`): specific model version to use. Latest by default.
+- **`prompt`** (`pxt.String`): prompt describing the desired image
+- **`images`** (`pxt.Json`): list of reference images
+- **`aspect_ratio`** (`pxt.String | None`): desired image aspect ratio, e.g. '3:2', '16:9', '1:1', etc.
+- **`version`** (`pxt.String | None`): specific model version to use. Latest by default.
 
 **Returns:**
 

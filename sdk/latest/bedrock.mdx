@@ -14,7 +14,7 @@ including Anthropic Claude, Amazon Titan, and other providers.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; invoke_tools()
 
-```python
+```python Signature
 invoke_tools(
     tools: pixeltable.func.tools.Tools,
     response: pixeltable.exprs.expr.Expr
@@ -26,15 +26,15 @@ Converts an Anthropic response dict to Pixeltable tool invocation format and cal
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; converse()
 
-```python
+```python Signature
 converse(
-    messages: Json,
+    messages: pxt.Json,
     *,
-    model_id: String,
-    system: Json | None = None,
-    inference_config: Json | None = None,
-    additional_model_request_fields: Json | None = None,
-    tool_config: Json | None = None
+    model_id: pxt.String,
+    system: pxt.Json | None = None,
+    inference_config: pxt.Json | None = None,
+    additional_model_request_fields: pxt.Json | None = None,
+    tool_config: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -49,11 +49,11 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`Json`): Input messages.
-- **`model_id`** (`String`): The model that will complete your prompt.
-- **`system`** (`Json | None`): An optional system prompt.
-- **`inference_config`** (`Json | None`): Base inference parameters to use.
-- **`additional_model_request_fields`** (`Json | None`): Additional inference parameters to use.
+- **`messages`** (`pxt.Json`): Input messages.
+- **`model_id`** (`pxt.String`): The model that will complete your prompt.
+- **`system`** (`pxt.Json | None`): An optional system prompt.
+- **`inference_config`** (`pxt.Json | None`): Base inference parameters to use.
+- **`additional_model_request_fields`** (`pxt.Json | None`): Additional inference parameters to use.
 
 **Returns:**
 

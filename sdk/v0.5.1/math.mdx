@@ -19,8 +19,8 @@ t.select(t.float_col.floor()).collect()
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; abs()
 
-```python
-abs(self: Float) -> Float
+```python Signature
+abs(self: pxt.Float) -> Float
 ```
 
 Return the absolute value of the given number.
@@ -30,8 +30,8 @@ Equivalent to Python [`builtins.abs()`](https://docs.python.org/3/library/functi
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bitwise_and()
 
-```python
-bitwise_and(self: Int, other: Int) -> Int
+```python Signature
+bitwise_and(self: pxt.Int, other: pxt.Int) -> Int
 ```
 
 Bitwise AND of two integers.
@@ -42,8 +42,8 @@ Equivalent to Python
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bitwise_or()
 
-```python
-bitwise_or(self: Int, other: Int) -> Int
+```python Signature
+bitwise_or(self: pxt.Int, other: pxt.Int) -> Int
 ```
 
 Bitwise OR of two integers.
@@ -54,8 +54,8 @@ Equivalent to Python
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bitwise_xor()
 
-```python
-bitwise_xor(self: Int, other: Int) -> Int
+```python Signature
+bitwise_xor(self: pxt.Int, other: pxt.Int) -> Int
 ```
 
 Bitwise XOR of two integers.
@@ -66,8 +66,8 @@ Equivalent to Python
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; ceil()
 
-```python
-ceil(self: Float) -> Float
+```python Signature
+ceil(self: pxt.Float) -> Float
 ```
 
 Return the ceiling of the given number.
@@ -80,8 +80,8 @@ Pixeltable generalizes the Python operator and is chosen to align with the SQL s
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; floor()
 
-```python
-floor(self: Float) -> Float
+```python Signature
+floor(self: pxt.Float) -> Float
 ```
 
 Return the ceiling of the given number.
@@ -94,8 +94,8 @@ Pixeltable generalizes the Python operator and is chosen to align with the SQL s
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; pow()
 
-```python
-pow(self: Int, other: Int) -> Float
+```python Signature
+pow(self: pxt.Int, other: pxt.Int) -> Float
 ```
 
 Raise `self` to the power of `other`.
@@ -105,8 +105,8 @@ Equivalent to Python [`self ** other`](https://docs.python.org/3/library/functio
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; round()
 
-```python
-round(self: Float, digits: Int | None = None) -> Float
+```python Signature
+round(self: pxt.Float, digits: pxt.Int | None = None) -> Float
 ```
 
 Round a number to a given precision in decimal digits.
