@@ -20,11 +20,12 @@
               "overview/installation",
               "overview/configuration",
               "overview/quick-start",
+              "overview/deployment",
               "overview/building-pixeltable-with-llms"
             ]
           },
           {
-            "group": "Multimodal AI Datastore",
+            "group": "Concepts",
             "pages": [
               "datastore/tables-and-operations",
               "datastore/views",
@@ -80,6 +81,7 @@
                   "notebooks/integrations/working-with-openai",
                   "notebooks/integrations/working-with-openrouter",
                   "notebooks/integrations/working-with-replicate",
+                  "notebooks/integrations/working-with-reve",
                   "notebooks/integrations/working-with-together",
                   "notebooks/integrations/using-label-studio-with-pixeltable",
                   "notebooks/integrations/working-with-fiftyone"
@@ -183,7 +185,7 @@
             ]
           },
           {
-            "dropdown": "v0.5.2.dev5.95b82a5d",
+            "dropdown": "v0.5.2.dev10.315df4a2",
             "icon": "rocket",
             "groups": [
               {
@@ -192,71 +194,71 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.5.2.dev5.95b82a5d/pixeltable",
-                      "sdk/v0.5.2.dev5.95b82a5d/table",
-                      "sdk/v0.5.2.dev5.95b82a5d/query",
-                      "sdk/v0.5.2.dev5.95b82a5d/columnmetadata",
-                      "sdk/v0.5.2.dev5.95b82a5d/dircontents",
-                      "sdk/v0.5.2.dev5.95b82a5d/indexmetadata",
-                      "sdk/v0.5.2.dev5.95b82a5d/tablemetadata",
-                      "sdk/v0.5.2.dev5.95b82a5d/updatestatus",
-                      "sdk/v0.5.2.dev5.95b82a5d/versionmetadata"
+                      "sdk/v0.5.2.dev10.315df4a2/pixeltable",
+                      "sdk/v0.5.2.dev10.315df4a2/table",
+                      "sdk/v0.5.2.dev10.315df4a2/query",
+                      "sdk/v0.5.2.dev10.315df4a2/columnmetadata",
+                      "sdk/v0.5.2.dev10.315df4a2/dircontents",
+                      "sdk/v0.5.2.dev10.315df4a2/indexmetadata",
+                      "sdk/v0.5.2.dev10.315df4a2/tablemetadata",
+                      "sdk/v0.5.2.dev10.315df4a2/updatestatus",
+                      "sdk/v0.5.2.dev10.315df4a2/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.5.2.dev5.95b82a5d/audio",
-                      "sdk/v0.5.2.dev5.95b82a5d/date",
-                      "sdk/v0.5.2.dev5.95b82a5d/image",
-                      "sdk/v0.5.2.dev5.95b82a5d/json",
-                      "sdk/v0.5.2.dev5.95b82a5d/math",
-                      "sdk/v0.5.2.dev5.95b82a5d/string",
-                      "sdk/v0.5.2.dev5.95b82a5d/timestamp",
-                      "sdk/v0.5.2.dev5.95b82a5d/video"
+                      "sdk/v0.5.2.dev10.315df4a2/audio",
+                      "sdk/v0.5.2.dev10.315df4a2/date",
+                      "sdk/v0.5.2.dev10.315df4a2/image",
+                      "sdk/v0.5.2.dev10.315df4a2/json",
+                      "sdk/v0.5.2.dev10.315df4a2/math",
+                      "sdk/v0.5.2.dev10.315df4a2/string",
+                      "sdk/v0.5.2.dev10.315df4a2/timestamp",
+                      "sdk/v0.5.2.dev10.315df4a2/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.5.2.dev5.95b82a5d/anthropic",
-                      "sdk/v0.5.2.dev5.95b82a5d/bedrock",
-                      "sdk/v0.5.2.dev5.95b82a5d/deepseek",
-                      "sdk/v0.5.2.dev5.95b82a5d/fireworks",
-                      "sdk/v0.5.2.dev5.95b82a5d/gemini",
-                      "sdk/v0.5.2.dev5.95b82a5d/groq",
-                      "sdk/v0.5.2.dev5.95b82a5d/huggingface",
-                      "sdk/v0.5.2.dev5.95b82a5d/llama_cpp",
-                      "sdk/v0.5.2.dev5.95b82a5d/mistralai",
-                      "sdk/v0.5.2.dev5.95b82a5d/ollama",
-                      "sdk/v0.5.2.dev5.95b82a5d/openai",
-                      "sdk/v0.5.2.dev5.95b82a5d/openrouter",
-                      "sdk/v0.5.2.dev5.95b82a5d/replicate",
-                      "sdk/v0.5.2.dev5.95b82a5d/reve",
-                      "sdk/v0.5.2.dev5.95b82a5d/together",
-                      "sdk/v0.5.2.dev5.95b82a5d/vision",
-                      "sdk/v0.5.2.dev5.95b82a5d/whisper",
-                      "sdk/v0.5.2.dev5.95b82a5d/whisperx",
-                      "sdk/v0.5.2.dev5.95b82a5d/yolox"
+                      "sdk/v0.5.2.dev10.315df4a2/anthropic",
+                      "sdk/v0.5.2.dev10.315df4a2/bedrock",
+                      "sdk/v0.5.2.dev10.315df4a2/deepseek",
+                      "sdk/v0.5.2.dev10.315df4a2/fireworks",
+                      "sdk/v0.5.2.dev10.315df4a2/gemini",
+                      "sdk/v0.5.2.dev10.315df4a2/groq",
+                      "sdk/v0.5.2.dev10.315df4a2/huggingface",
+                      "sdk/v0.5.2.dev10.315df4a2/llama_cpp",
+                      "sdk/v0.5.2.dev10.315df4a2/mistralai",
+                      "sdk/v0.5.2.dev10.315df4a2/ollama",
+                      "sdk/v0.5.2.dev10.315df4a2/openai",
+                      "sdk/v0.5.2.dev10.315df4a2/openrouter",
+                      "sdk/v0.5.2.dev10.315df4a2/replicate",
+                      "sdk/v0.5.2.dev10.315df4a2/reve",
+                      "sdk/v0.5.2.dev10.315df4a2/together",
+                      "sdk/v0.5.2.dev10.315df4a2/vision",
+                      "sdk/v0.5.2.dev10.315df4a2/whisper",
+                      "sdk/v0.5.2.dev10.315df4a2/whisperx",
+                      "sdk/v0.5.2.dev10.315df4a2/yolox"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/v0.5.2.dev5.95b82a5d/iterators",
-                      "sdk/v0.5.2.dev5.95b82a5d/audiosplitter",
-                      "sdk/v0.5.2.dev5.95b82a5d/componentiterator",
-                      "sdk/v0.5.2.dev5.95b82a5d/documentsplitter",
-                      "sdk/v0.5.2.dev5.95b82a5d/frameiterator",
-                      "sdk/v0.5.2.dev5.95b82a5d/stringsplitter",
-                      "sdk/v0.5.2.dev5.95b82a5d/tileiterator",
-                      "sdk/v0.5.2.dev5.95b82a5d/videosplitter"
+                      "sdk/v0.5.2.dev10.315df4a2/iterators",
+                      "sdk/v0.5.2.dev10.315df4a2/audiosplitter",
+                      "sdk/v0.5.2.dev10.315df4a2/componentiterator",
+                      "sdk/v0.5.2.dev10.315df4a2/documentsplitter",
+                      "sdk/v0.5.2.dev10.315df4a2/frameiterator",
+                      "sdk/v0.5.2.dev10.315df4a2/stringsplitter",
+                      "sdk/v0.5.2.dev10.315df4a2/tileiterator",
+                      "sdk/v0.5.2.dev10.315df4a2/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.5.2.dev5.95b82a5d/io"
+                      "sdk/v0.5.2.dev10.315df4a2/io"
                     ]
                   }
                 ]
@@ -278,46 +280,6 @@
         ]
       },
       {
-        "tab": "Examples",
-        "groups": [
-          {
-            "group": "Explore",
-            "pages": [
-              "examples/use-cases",
-              "examples/interactive-demos",
-              "examples/sample-apps"
-            ]
-          },
-          {
-            "group": "Chatbot",
-            "pages": [
-              "examples/chat/multimodal",
-              "examples/chat/memory",
-              "examples/chat/tools",
-              "examples/chat/evals"
-            ]
-          },
-          {
-            "group": "Computer Vision",
-            "pages": [
-              "examples/vision/label-studio",
-              "examples/vision/voxel51",
-              "examples/vision/yolox"
-            ]
-          },
-          {
-            "group": "Semantic Search",
-            "pages": [
-              "examples/search/audio",
-              "examples/search/images",
-              "examples/search/PDF",
-              "examples/search/website",
-              "examples/search/video"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "Integrations",
         "groups": [
           {
@@ -325,6 +287,12 @@
             "pages": [
               "integrations/frameworks",
               "integrations/models"
+            ]
+          },
+          {
+            "group": "Infrastructure",
+            "pages": [
+              "integrations/cloud-storage"
             ]
           },
           {

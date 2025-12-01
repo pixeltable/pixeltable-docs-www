@@ -1,0 +1,23 @@
+---
+title: "VideoSplitter"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/video.py#L248\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.iterators.VideoSplitter
+
+
+Iterator over segments of a video file, which is split into fixed-size segments of length `segment_duration`
+seconds.
+
+**Parameters:**
+
+- **`duration`** (`float | None`): Video segment duration in seconds
+- **`overlap`** (`float | None`): Overlap between consecutive segments in seconds. Only available for `mode='fast'`.
+- **`min_segment_duration`** (`float | None`): Drop the last segment if it is smaller than min_segment_duration.
+- **`mode`** (`typing.Literal['fast', 'accurate']`, default: `'accurate'`): Segmentation mode:
+    - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations)
+    - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower)
+- **`video_encoder`** (`str | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+    Only available for `mode='accurate'`.
+- **`video_encoder_args`** (`dict[str, typing.Any] | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
+

@@ -1,0 +1,245 @@
+---
+title: "timestamp"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/timestamp.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.timestamp
+
+
+Pixeltable UDFs for `TimestampType`.
+
+Usage example:
+```python
+import pixeltable as pxt
+
+t = pxt.get_table(...)
+t.select(t.timestamp_col.year, t.timestamp_col.weekday()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; astimezone()
+
+```python Signature
+astimezone(self: pxt.Timestamp, tz: pxt.String) -> Timestamp
+```
+
+Convert the datetime to the given time zone.
+
+
+**Parameters:**
+
+- **`tz`** (`pxt.String`): The time zone to convert to. Must be a valid time zone name from the
+    [IANA Time Zone Database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; day()
+
+```python Signature
+day(self: pxt.Timestamp) -> Int
+```
+
+Between 1 and the number of days in the given month of the given year.
+
+Equivalent to [`datetime.day`](https://docs.python.org/3/library/datetime.html#datetime.datetime.day).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; hour()
+
+```python Signature
+hour(self: pxt.Timestamp) -> Int
+```
+
+Between 0 and 23 inclusive.
+
+Equivalent to [`datetime.hour`](https://docs.python.org/3/library/datetime.html#datetime.datetime.hour).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isocalendar()
+
+```python Signature
+isocalendar(self: pxt.Timestamp) -> Json
+```
+
+Return a dictionary with three entries: `'year'`, `'week'`, and `'weekday'`.
+
+Equivalent to
+[`datetime.isocalendar()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.isocalendar).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isoformat()
+
+```python Signature
+isoformat(
+    self: pxt.Timestamp,
+    sep: pxt.String = 'T',
+    timespec: pxt.String = 'auto'
+) -> String
+```
+
+Return a string representing the date and time in ISO 8601 format.
+
+Equivalent to [`datetime.isoformat()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.isoformat).
+
+**Parameters:**
+
+- **`sep`** (`pxt.String`): Separator between date and time.
+- **`timespec`** (`pxt.String`): The number of additional terms in the output. See the
+    [`datetime.isoformat()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.isoformat)
+    documentation for more details.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isoweekday()
+
+```python Signature
+isoweekday(self: pxt.Timestamp) -> Int
+```
+
+Return the day of the week as an integer, where Monday is 1 and Sunday is 7.
+
+Equivalent to [`datetime.isoweekday()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.isoweekday).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; make_timestamp()
+
+```python Signature
+make_timestamp(
+    year: pxt.Int,
+    month: pxt.Int,
+    day: pxt.Int,
+    hour: pxt.Int = 0,
+    minute: pxt.Int = 0,
+    second: pxt.Int = 0,
+    microsecond: pxt.Int = 0
+) -> Timestamp
+```
+
+Create a timestamp.
+
+Equivalent to [`datetime()`](https://docs.python.org/3/library/datetime.html#datetime.datetime).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; microsecond()
+
+```python Signature
+microsecond(self: pxt.Timestamp) -> Int
+```
+
+Between 0 and 999999 inclusive.
+
+Equivalent to [`datetime.microsecond`](https://docs.python.org/3/library/datetime.html#datetime.datetime.microsecond).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; minute()
+
+```python Signature
+minute(self: pxt.Timestamp) -> Int
+```
+
+Between 0 and 59 inclusive.
+
+Equivalent to [`datetime.minute`](https://docs.python.org/3/library/datetime.html#datetime.datetime.minute).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; month()
+
+```python Signature
+month(self: pxt.Timestamp) -> Int
+```
+
+Between 1 and 12 inclusive.
+
+Equivalent to [`datetime.month`](https://docs.python.org/3/library/datetime.html#datetime.datetime.month).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; posix_timestamp()
+
+```python Signature
+posix_timestamp(self: pxt.Timestamp) -> Float
+```
+
+Return POSIX timestamp corresponding to the datetime instance.
+
+Equivalent to [`datetime.timestamp()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.timestamp).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; replace()
+
+```python Signature
+replace(
+    self: pxt.Timestamp,
+    year: pxt.Int | None = None,
+    month: pxt.Int | None = None,
+    day: pxt.Int | None = None,
+    hour: pxt.Int | None = None,
+    minute: pxt.Int | None = None,
+    second: pxt.Int | None = None,
+    microsecond: pxt.Int | None = None
+) -> Timestamp
+```
+
+Return a datetime with the same attributes, except for those attributes given new values by whichever keyword
+arguments are specified.
+
+Equivalent to [`datetime.replace()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.replace).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; second()
+
+```python Signature
+second(self: pxt.Timestamp) -> Int
+```
+
+Between 0 and 59 inclusive.
+
+Equivalent to [`datetime.second`](https://docs.python.org/3/library/datetime.html#datetime.datetime.second).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; strftime()
+
+```python Signature
+strftime(self: pxt.Timestamp, format: pxt.String) -> String
+```
+
+Return a string representing the date and time, controlled by an explicit format string.
+
+Equivalent to [`datetime.strftime()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.strftime).
+
+**Parameters:**
+
+- **`format`** (`pxt.String`): The format string to control the output. For a complete list of formatting directives, see
+    [`strftime()` and `strptime()` Behavior](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; toordinal()
+
+```python Signature
+toordinal(self: pxt.Timestamp) -> Int
+```
+
+Return the proleptic Gregorian ordinal of the date, where January 1 of year 1 has ordinal 1.
+
+Equivalent to [`datetime.toordinal()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.toordinal).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; weekday()
+
+```python Signature
+weekday(self: pxt.Timestamp) -> Int
+```
+
+Between 0 (Monday) and 6 (Sunday) inclusive.
+
+Equivalent to [`datetime.weekday()`](https://docs.python.org/3/library/datetime.html#datetime.datetime.weekday).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; year()
+
+```python Signature
+year(self: pxt.Timestamp) -> Int
+```
+
+Between [`MINYEAR`](https://docs.python.org/3/library/datetime.html#datetime.MINYEAR) and
+[`MAXYEAR`](https://docs.python.org/3/library/datetime.html#datetime.MAXYEAR) inclusive.
+
+Equivalent to [`datetime.year`](https://docs.python.org/3/library/datetime.html#datetime.datetime.year).
+
