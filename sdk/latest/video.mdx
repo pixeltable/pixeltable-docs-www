@@ -13,14 +13,14 @@ Pixeltable UDFs for `VideoType`.
 
 ```python Signature
 clip(
-    video: Video,
+    video: pxt.Video,
     *,
-    start_time: Float,
-    end_time: Float | None = None,
-    duration: Float | None = None,
-    mode: String = 'accurate',
-    video_encoder: String | None = None,
-    video_encoder_args: Json | None = None
+    start_time: pxt.Float,
+    end_time: pxt.Float | None = None,
+    duration: pxt.Float | None = None,
+    mode: pxt.String = 'accurate',
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
 ) -> Video | None
 ```
 
@@ -35,16 +35,16 @@ __Requirements:__
 
 **Parameters:**
 
-- **`video`** (`Video`): Input video file
-- **`start_time`** (`Float`): Start time in seconds
-- **`end_time`** (`Float | None`): End time in seconds
-- **`duration`** (`Float | None`): Duration of the clip in seconds
-- **`mode`** (`String`): - `'fast'`: avoids re-encoding but starts the clip at the nearest keyframes and as a result, the clip
+- **`video`** (`pxt.Video`): Input video file
+- **`start_time`** (`pxt.Float`): Start time in seconds
+- **`end_time`** (`pxt.Float | None`): End time in seconds
+- **`duration`** (`pxt.Float | None`): Duration of the clip in seconds
+- **`mode`** (`pxt.String`): - `'fast'`: avoids re-encoding but starts the clip at the nearest keyframes and as a result, the clip
         duration will be slightly longer than requested
     - `'accurate'`: extracts a frame-accurate clip, but requires re-encoding
-- **`video_encoder`** (`String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
     Only available for `mode='accurate'`.
-- **`video_encoder_args`** (`Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
+- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 **Returns:**
 
@@ -54,7 +54,7 @@ __Requirements:__
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; concat_videos()
 
 ```python Signature
-concat_videos(videos: Json) -> Video
+concat_videos(videos: pxt.Json) -> Video
 ```
 
 Merge multiple videos into a single video.
@@ -65,7 +65,7 @@ __Requirements:__
 
 **Parameters:**
 
-- **`videos`** (`Json`): List of videos to merge.
+- **`videos`** (`pxt.Json`): List of videos to merge.
 
 **Returns:**
 
@@ -76,10 +76,10 @@ __Requirements:__
 
 ```python Signature
 extract_audio(
-    video_path: Video,
-    stream_idx: Int = 0,
-    format: String = 'wav',
-    codec: String | None = None
+    video_path: pxt.Video,
+    stream_idx: pxt.Int = 0,
+    format: pxt.String = 'wav',
+    codec: pxt.String | None = None
 ) -> Audio
 ```
 
@@ -88,9 +88,9 @@ Extract an audio stream from a video.
 
 **Parameters:**
 
-- **`stream_idx`** (`Int`): Index of the audio stream to extract.
-- **`format`** (`String`): The target audio format. (`'wav'`, `'mp3'`, `'flac'`).
-- **`codec`** (`String | None`): The codec to use for the audio stream. If not provided, a default codec will be used.
+- **`stream_idx`** (`pxt.Int`): Index of the audio stream to extract.
+- **`format`** (`pxt.String`): The target audio format. (`'wav'`, `'mp3'`, `'flac'`).
+- **`codec`** (`pxt.String | None`): The codec to use for the audio stream. If not provided, a default codec will be used.
 
 **Returns:**
 
@@ -109,7 +109,7 @@ tbl.add_computed_column(
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; extract_frame()
 
 ```python Signature
-extract_frame(video: Video, *, timestamp: Float) -> Image | None
+extract_frame(video: pxt.Video, *, timestamp: pxt.Float) -> Image | None
 ```
 
 Extract a single frame from a video at a specific timestamp.
@@ -117,8 +117,8 @@ Extract a single frame from a video at a specific timestamp.
 
 **Parameters:**
 
-- **`video`** (`Video`): The video from which to extract the frame.
-- **`timestamp`** (`Float`): Extract frame at this timestamp (in seconds).
+- **`video`** (`pxt.Video`): The video from which to extract the frame.
+- **`timestamp`** (`pxt.Float`): Extract frame at this timestamp (in seconds).
 
 **Returns:**
 
@@ -144,7 +144,7 @@ tbl.select(
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get_duration()
 
 ```python Signature
-get_duration(video: Video) -> Float | None
+get_duration(video: pxt.Video) -> Float | None
 ```
 
 Get video duration in seconds.
@@ -152,7 +152,7 @@ Get video duration in seconds.
 
 **Parameters:**
 
-- **`video`** (`Video`): The video for which to get the duration.
+- **`video`** (`pxt.Video`): The video for which to get the duration.
 
 **Returns:**
 
@@ -162,7 +162,7 @@ Get video duration in seconds.
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get_metadata()
 
 ```python Signature
-get_metadata(video: Video) -> Json
+get_metadata(video: pxt.Video) -> Json
 ```
 
 Gets various metadata associated with a video file and returns it as a dictionary.
@@ -170,7 +170,7 @@ Gets various metadata associated with a video file and returns it as a dictionar
 
 **Parameters:**
 
-- **`video`** (`Video`): The video for which to get metadata.
+- **`video`** (`pxt.Video`): The video for which to get metadata.
 
 **Returns:**
 
@@ -222,21 +222,21 @@ tbl.select(tbl.video_col.get_metadata()).collect()
 
 ```python Signature
 overlay_text(
-    video: Video,
-    text: String,
+    video: pxt.Video,
+    text: pxt.String,
     *,
-    font: String | None = None,
-    font_size: Int = 24,
-    color: String = 'white',
-    opacity: Float = 1.0,
-    horizontal_align: String = 'center',
-    horizontal_margin: Int = 0,
-    vertical_align: String = 'center',
-    vertical_margin: Int = 0,
-    box: Bool = False,
-    box_color: String = 'black',
-    box_opacity: Float = 1.0,
-    box_border: Json | None = None
+    font: pxt.String | None = None,
+    font_size: pxt.Int = 24,
+    color: pxt.String = 'white',
+    opacity: pxt.Float = 1.0,
+    horizontal_align: pxt.String = 'center',
+    horizontal_margin: pxt.Int = 0,
+    vertical_align: pxt.String = 'center',
+    vertical_margin: pxt.Int = 0,
+    box: pxt.Bool = False,
+    box_color: pxt.String = 'black',
+    box_opacity: pxt.Float = 1.0,
+    box_border: pxt.Json | None = None
 ) -> Video
 ```
 
@@ -248,20 +248,20 @@ __Requirements:__
 
 **Parameters:**
 
-- **`video`** (`Video`): Input video to overlay text on.
-- **`text`** (`String`): The text string to overlay on the video.
-- **`font`** (`String | None`): Font family or path to font file. If None, uses the system default.
-- **`font_size`** (`Int`): Size of the text in points.
-- **`color`** (`String`): Text color (e.g., `'white'`, `'red'`, `'#FF0000'`).
-- **`opacity`** (`Float`): Text opacity from 0.0 (transparent) to 1.0 (opaque).
-- **`horizontal_align`** (`String`): Horizontal text alignment (`'left'`, `'center'`, `'right'`).
-- **`horizontal_margin`** (`Int`): Horizontal margin in pixels from the alignment edge.
-- **`vertical_align`** (`String`): Vertical text alignment (`'top'`, `'center'`, `'bottom'`).
-- **`vertical_margin`** (`Int`): Vertical margin in pixels from the alignment edge.
-- **`box`** (`Bool`): Whether to draw a background box behind the text.
-- **`box_color`** (`String`): Background box color as a string.
-- **`box_opacity`** (`Float`): Background box opacity from 0.0 to 1.0.
-- **`box_border`** (`Json | None`): Padding around text in the box in pixels.
+- **`video`** (`pxt.Video`): Input video to overlay text on.
+- **`text`** (`pxt.String`): The text string to overlay on the video.
+- **`font`** (`pxt.String | None`): Font family or path to font file. If None, uses the system default.
+- **`font_size`** (`pxt.Int`): Size of the text in points.
+- **`color`** (`pxt.String`): Text color (e.g., `'white'`, `'red'`, `'#FF0000'`).
+- **`opacity`** (`pxt.Float`): Text opacity from 0.0 (transparent) to 1.0 (opaque).
+- **`horizontal_align`** (`pxt.String`): Horizontal text alignment (`'left'`, `'center'`, `'right'`).
+- **`horizontal_margin`** (`pxt.Int`): Horizontal margin in pixels from the alignment edge.
+- **`vertical_align`** (`pxt.String`): Vertical text alignment (`'top'`, `'center'`, `'bottom'`).
+- **`vertical_margin`** (`pxt.Int`): Vertical margin in pixels from the alignment edge.
+- **`box`** (`pxt.Bool`): Whether to draw a background box behind the text.
+- **`box_color`** (`pxt.String`): Background box color as a string.
+- **`box_opacity`** (`pxt.Float`): Background box opacity from 0.0 to 1.0.
+- **`box_border`** (`pxt.Json | None`): Padding around text in the box in pixels.
     - `[10]`: 10 pixels on all sides
     - `[10, 20]`: 10 pixels on top/bottom, 20 on left/right
     - `[10, 20, 30]`: 10 pixels on top, 20 on left/right, 30 on bottom
@@ -317,19 +317,19 @@ tbl.select(
 
 ```python Signature
 scene_detect_adaptive(
-    video: Video,
+    video: pxt.Video,
     *,
-    fps: Float | None = None,
-    adaptive_threshold: Float = 3.0,
-    min_scene_len: Int = 15,
-    window_width: Int = 2,
-    min_content_val: Float = 15.0,
-    delta_hue: Float = 1.0,
-    delta_sat: Float = 1.0,
-    delta_lum: Float = 1.0,
-    delta_edges: Float = 0.0,
-    luma_only: Bool = False,
-    kernel_size: Int | None = None
+    fps: pxt.Float | None = None,
+    adaptive_threshold: pxt.Float = 3.0,
+    min_scene_len: pxt.Int = 15,
+    window_width: pxt.Int = 2,
+    min_content_val: pxt.Float = 15.0,
+    delta_hue: pxt.Float = 1.0,
+    delta_sat: pxt.Float = 1.0,
+    delta_lum: pxt.Float = 1.0,
+    delta_edges: pxt.Float = 0.0,
+    luma_only: pxt.Bool = False,
+    kernel_size: pxt.Int | None = None
 ) -> Json
 ```
 
@@ -342,26 +342,26 @@ __Requirements:__
 
 **Parameters:**
 
-- **`video`** (`Video`): The video to analyze for scene cuts.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+- **`video`** (`pxt.Video`): The video to analyze for scene cuts.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
     Lower values process faster but may miss exact scene cuts.
-- **`adaptive_threshold`** (`Float`): Threshold that the score ratio must exceed to trigger a new scene cut.
+- **`adaptive_threshold`** (`pxt.Float`): Threshold that the score ratio must exceed to trigger a new scene cut.
     Lower values will detect more scenes (more sensitive), higher values will detect fewer scenes.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
     list.
-- **`window_width`** (`Int`): Size of window (number of frames) before and after each frame to average together in order to
+- **`window_width`** (`pxt.Int`): Size of window (number of frames) before and after each frame to average together in order to
     detect deviations from the mean. Must be at least 1.
-- **`min_content_val`** (`Float`): Minimum threshold (float) that the content_val must exceed in order to register as a new scene.
+- **`min_content_val`** (`pxt.Float`): Minimum threshold (float) that the content_val must exceed in order to register as a new scene.
     This is calculated the same way that `scene_detect_content()` calculates frame
     score based on weights/luma_only/kernel_size.
-- **`delta_hue`** (`Float`): Weight for hue component changes. Higher values make hue changes more important.
-- **`delta_sat`** (`Float`): Weight for saturation component changes. Higher values make saturation changes more important.
-- **`delta_lum`** (`Float`): Weight for luminance component changes. Higher values make brightness changes more important.
-- **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important.
+- **`delta_hue`** (`pxt.Float`): Weight for hue component changes. Higher values make hue changes more important.
+- **`delta_sat`** (`pxt.Float`): Weight for saturation component changes. Higher values make saturation changes more important.
+- **`delta_lum`** (`pxt.Float`): Weight for luminance component changes. Higher values make brightness changes more important.
+- **`delta_edges`** (`pxt.Float`): Weight for edge detection changes. Higher values make edge changes more important.
     Edge detection can help detect cuts in scenes with similar colors but different content.
-- **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel of the video,
+- **`luma_only`** (`pxt.Bool`): If True, only analyzes changes in the luminance (brightness) channel of the video,
     ignoring color information. This can be faster and may work better for grayscale content.
-- **`kernel_size`** (`Int | None`): Size of kernel to use for post edge detection filtering. If None, automatically set based on video
+- **`kernel_size`** (`pxt.Int | None`): Size of kernel to use for post edge detection filtering. If None, automatically set based on video
     resolution.
 
 **Returns:**
@@ -412,18 +412,18 @@ tbl.select(tbl.video.scene_detect_adaptive(fps=2.0)).collect()
 
 ```python Signature
 scene_detect_content(
-    video: Video,
+    video: pxt.Video,
     *,
-    fps: Float | None = None,
-    threshold: Float = 27.0,
-    min_scene_len: Int = 15,
-    delta_hue: Float = 1.0,
-    delta_sat: Float = 1.0,
-    delta_lum: Float = 1.0,
-    delta_edges: Float = 0.0,
-    luma_only: Bool = False,
-    kernel_size: Int | None = None,
-    filter_mode: String = 'merge'
+    fps: pxt.Float | None = None,
+    threshold: pxt.Float = 27.0,
+    min_scene_len: pxt.Int = 15,
+    delta_hue: pxt.Float = 1.0,
+    delta_sat: pxt.Float = 1.0,
+    delta_lum: pxt.Float = 1.0,
+    delta_edges: pxt.Float = 0.0,
+    luma_only: pxt.Bool = False,
+    kernel_size: pxt.Int | None = None,
+    filter_mode: pxt.String = 'merge'
 ) -> Json
 ```
 
@@ -436,23 +436,23 @@ __Requirements:__
 
 **Parameters:**
 
-- **`video`** (`Video`): The video to analyze for scene cuts.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
+- **`video`** (`pxt.Video`): The video to analyze for scene cuts.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
     Lower values process faster but may miss exact scene cuts.
-- **`threshold`** (`Float`): Threshold that the weighted sum of component changes must exceed to trigger a scene cut.
+- **`threshold`** (`pxt.Float`): Threshold that the weighted sum of component changes must exceed to trigger a scene cut.
     Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
     list.
-- **`delta_hue`** (`Float`): Weight for hue component changes. Higher values make hue changes more important.
-- **`delta_sat`** (`Float`): Weight for saturation component changes. Higher values make saturation changes more important.
-- **`delta_lum`** (`Float`): Weight for luminance component changes. Higher values make brightness changes more important.
-- **`delta_edges`** (`Float`): Weight for edge detection changes. Higher values make edge changes more important.
+- **`delta_hue`** (`pxt.Float`): Weight for hue component changes. Higher values make hue changes more important.
+- **`delta_sat`** (`pxt.Float`): Weight for saturation component changes. Higher values make saturation changes more important.
+- **`delta_lum`** (`pxt.Float`): Weight for luminance component changes. Higher values make brightness changes more important.
+- **`delta_edges`** (`pxt.Float`): Weight for edge detection changes. Higher values make edge changes more important.
     Edge detection can help detect cuts in scenes with similar colors but different content.
-- **`luma_only`** (`Bool`): If True, only analyzes changes in the luminance (brightness) channel,
+- **`luma_only`** (`pxt.Bool`): If True, only analyzes changes in the luminance (brightness) channel,
     ignoring color information. This can be faster and may work better for grayscale content.
-- **`kernel_size`** (`Int | None`): Size of kernel for expanding detected edges. Must be odd integer greater than or equal to 3. If
+- **`kernel_size`** (`pxt.Int | None`): Size of kernel for expanding detected edges. Must be odd integer greater than or equal to 3. If
     None, automatically set using video resolution.
-- **`filter_mode`** (`String`): How to handle fast cuts/flashes. 'merge' combines quick cuts, 'suppress' filters them out.
+- **`filter_mode`** (`pxt.String`): How to handle fast cuts/flashes. 'merge' combines quick cuts, 'suppress' filters them out.
 
 **Returns:**
 
@@ -502,13 +502,13 @@ tbl.add_computed_column(
 
 ```python Signature
 scene_detect_hash(
-    video: Video,
+    video: pxt.Video,
     *,
-    fps: Float | None = None,
-    threshold: Float = 0.395,
-    size: Int = 16,
-    lowpass: Int = 2,
-    min_scene_len: Int = 15
+    fps: pxt.Float | None = None,
+    threshold: pxt.Float = 0.395,
+    size: pxt.Int = 16,
+    lowpass: pxt.Int = 2,
+    min_scene_len: pxt.Int = 15
 ) -> Json
 ```
 
@@ -524,20 +524,20 @@ __Requirements:__
 
 **Parameters:**
 
-- **`video`** (`Video`): The video to analyze for scene cuts.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
+- **`video`** (`pxt.Video`): The video to analyze for scene cuts.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
     Lower values process faster but may miss exact scene cuts.
-- **`threshold`** (`Float`): Value from 0.0 and 1.0 representing the relative hamming distance between the perceptual hashes of
+- **`threshold`** (`pxt.Float`): Value from 0.0 and 1.0 representing the relative hamming distance between the perceptual hashes of
     adjacent frames. A distance of 0 means the image is the same, and 1 means no correlation. Smaller threshold
     values thus require more correlation, making the detector more sensitive. The Hamming distance is divided
     by size x size before comparing to threshold for normalization.
     Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
-- **`size`** (`Int`): Size of square of low frequency data to use for the DCT. Larger values are more precise but slower.
+- **`size`** (`pxt.Int`): Size of square of low frequency data to use for the DCT. Larger values are more precise but slower.
     Common values are 8, 16, or 32.
-- **`lowpass`** (`Int`): How much high frequency information to filter from the DCT. A value of 2 means keep lower 1/2 of the
+- **`lowpass`** (`pxt.Int`): How much high frequency information to filter from the DCT. A value of 2 means keep lower 1/2 of the
     frequency data, 4 means only keep 1/4, etc. Larger values make the
     detector less sensitive to high-frequency details and noise.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
     list.
 
 **Returns:**
@@ -582,12 +582,12 @@ tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_hash())
 
 ```python Signature
 scene_detect_histogram(
-    video: Video,
+    video: pxt.Video,
     *,
-    fps: Float | None = None,
-    threshold: Float = 0.05,
-    bins: Int = 256,
-    min_scene_len: Int = 15
+    fps: pxt.Float | None = None,
+    threshold: pxt.Float = 0.05,
+    bins: pxt.Int = 256,
+    min_scene_len: pxt.Int = 15
 ) -> Json
 ```
 
@@ -604,16 +604,16 @@ __Requirements:__
 
 **Parameters:**
 
-- **`video`** (`Video`): The video to analyze for scene cuts.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+- **`video`** (`pxt.Video`): The video to analyze for scene cuts.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
     Lower values process faster but may miss exact scene cuts.
-- **`threshold`** (`Float`): Maximum relative difference between 0.0 and 1.0 that the histograms can differ. Histograms are
+- **`threshold`** (`pxt.Float`): Maximum relative difference between 0.0 and 1.0 that the histograms can differ. Histograms are
     calculated on the Y channel after converting the frame to YUV, and normalized based on the number of bins.
     Higher differences imply greater change in content, so larger threshold values are less sensitive to cuts.
     Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
-- **`bins`** (`Int`): Number of bins to use for histogram calculation (typically 16-256). More bins provide
+- **`bins`** (`pxt.Int`): Number of bins to use for histogram calculation (typically 16-256). More bins provide
     finer granularity but may be more sensitive to noise.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
     list.
 
 **Returns:**
@@ -660,14 +660,14 @@ tbl.add_computed_column(
 
 ```python Signature
 scene_detect_threshold(
-    video: Video,
+    video: pxt.Video,
     *,
-    fps: Float | None = None,
-    threshold: Float = 12.0,
-    min_scene_len: Int = 15,
-    fade_bias: Float = 0.0,
-    add_final_scene: Bool = False,
-    method: String = 'floor'
+    fps: pxt.Float | None = None,
+    threshold: pxt.Float = 12.0,
+    min_scene_len: pxt.Int = 15,
+    fade_bias: pxt.Float = 0.0,
+    add_final_scene: pxt.Bool = False,
+    method: pxt.String = 'floor'
 ) -> Json
 ```
 
@@ -683,19 +683,19 @@ __Requirements:__
 
 **Parameters:**
 
-- **`video`** (`Video`): The video to analyze for fade transitions.
-- **`fps`** (`Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+- **`video`** (`pxt.Video`): The video to analyze for fade transitions.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
     Lower values process faster but may miss exact transition points.
-- **`threshold`** (`Float`): 8-bit intensity value that each pixel value (R, G, and B) must be less than or equal to in order
+- **`threshold`** (`pxt.Float`): 8-bit intensity value that each pixel value (R, G, and B) must be less than or equal to in order
     to trigger a fade in/out.
-- **`min_scene_len`** (`Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
     list.
-- **`fade_bias`** (`Float`): Float between -1.0 and +1.0 representing the percentage of timecode skew for the start of a scene
+- **`fade_bias`** (`pxt.Float`): Float between -1.0 and +1.0 representing the percentage of timecode skew for the start of a scene
     (-1.0 causing a cut at the fade-to-black, 0.0 in the middle, and +1.0 causing the cut to be right at the
     position where the threshold is passed).
-- **`add_final_scene`** (`Bool`): Boolean indicating if the video ends on a fade-out to generate an additional scene at this
+- **`add_final_scene`** (`pxt.Bool`): Boolean indicating if the video ends on a fade-out to generate an additional scene at this
     timecode.
-- **`method`** (`String`): How to treat threshold when detecting fade events
+- **`method`** (`pxt.String`): How to treat threshold when detecting fade events
     - 'ceiling': Fade out happens when frame brightness rises above threshold.
     - 'floor': Fade out happens when frame brightness falls below threshold.
 
@@ -745,13 +745,13 @@ tbl.add_computed_column(
 
 ```python Signature
 segment_video(
-    video: Video,
+    video: pxt.Video,
     *,
-    duration: Float | None = None,
-    segment_times: Json | None = None,
-    mode: String = 'accurate',
-    video_encoder: String | None = None,
-    video_encoder_args: Json | None = None
+    duration: pxt.Float | None = None,
+    segment_times: pxt.Json | None = None,
+    mode: pxt.String = 'accurate',
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -763,19 +763,19 @@ __Requirements:__
 
 **Parameters:**
 
-- **`video`** (`Video`): Input video file to segment
-- **`duration`** (`Float | None`): Duration of each segment (in seconds). For `mode='fast'`, this is approximate;
+- **`video`** (`pxt.Video`): Input video file to segment
+- **`duration`** (`pxt.Float | None`): Duration of each segment (in seconds). For `mode='fast'`, this is approximate;
     for `mode='accurate'`, segments will have exact durations. Cannot be specified together with
     `segment_times`.
-- **`segment_times`** (`Json | None`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
+- **`segment_times`** (`pxt.Json | None`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
     segment durations. If all segment times are less than the duration of the video, produces exactly
     `len(segment_times) + 1` segments. Cannot be empty or be specified together with `duration`.
-- **`mode`** (`String`): Segmentation mode:
+- **`mode`** (`pxt.String`): Segmentation mode:
     - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations)
     - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower)
-- **`video_encoder`** (`String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
     Only available for `mode='accurate'`.
-- **`video_encoder_args`** (`Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
+- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 **Returns:**
 
@@ -816,13 +816,13 @@ tbl.select(
 
 ```python Signature
 with_audio(
-    video: Video,
-    audio: Audio,
+    video: pxt.Video,
+    audio: pxt.Audio,
     *,
-    video_start_time: Float = 0.0,
-    video_duration: Float | None = None,
-    audio_start_time: Float = 0.0,
-    audio_duration: Float | None = None
+    video_start_time: pxt.Float = 0.0,
+    video_duration: pxt.Float | None = None,
+    audio_start_time: pxt.Float = 0.0,
+    audio_duration: pxt.Float | None = None
 ) -> Video
 ```
 
@@ -837,13 +837,13 @@ __Requirements:__
 
 **Parameters:**
 
-- **`video`** (`Video`): Input video.
-- **`audio`** (`Audio`): Input audio.
-- **`video_start_time`** (`Float`): Start time in the video input (in seconds).
-- **`video_duration`** (`Float | None`): Duration of video segment (in seconds). If None, uses the remainder of the video after
+- **`video`** (`pxt.Video`): Input video.
+- **`audio`** (`pxt.Audio`): Input audio.
+- **`video_start_time`** (`pxt.Float`): Start time in the video input (in seconds).
+- **`video_duration`** (`pxt.Float | None`): Duration of video segment (in seconds). If None, uses the remainder of the video after
     `video_start_time`. `video_duration` determines the duration of the output video.
-- **`audio_start_time`** (`Float`): Start time in the audio input (in seconds).
-- **`audio_duration`** (`Float | None`): Duration of audio segment (in seconds). If None, uses the remainder of the audio after
+- **`audio_start_time`** (`pxt.Float`): Start time in the audio input (in seconds).
+- **`audio_duration`** (`pxt.Float | None`): Duration of audio segment (in seconds). If None, uses the remainder of the audio after
     `audio_start_time`. If the audio is longer than the output video, it will be truncated.
 
 **Returns:**

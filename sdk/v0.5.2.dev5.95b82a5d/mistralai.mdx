@@ -16,10 +16,10 @@ the [Working with Mistral AI](https://docs.pixeltable.com/notebooks/integrations
 
 ```python Signature
 chat_completions(
-    messages: Json,
+    messages: pxt.Json,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -38,9 +38,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`Json`): The prompt(s) to generate completions for.
-- **`model`** (`String`): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the Mistral `chat/completions` API.
+- **`messages`** (`pxt.Json`): The prompt(s) to generate completions for.
+- **`model`** (`pxt.String`): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Mistral `chat/completions` API.
     For details on the available parameters, see: [https://docs.mistral.ai/api/#tag/chat](https://docs.mistral.ai/api/#tag/chat)
 
 **Returns:**
@@ -61,7 +61,11 @@ tbl.add_computed_column(
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embeddings()
 
 ```python Signature
-embeddings(input: String, *, model: String) -> Array[(None,), Float]
+embeddings(
+    input: pxt.String,
+    *,
+    model: pxt.String
+) -> Array[(None,), Float]
 ```
 
 Embeddings API.
@@ -79,8 +83,8 @@ __Requirements:__
 
 **Parameters:**
 
-- **`input`** (`String`): Text to embed.
-- **`model`** (`String`): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
+- **`input`** (`pxt.String`): Text to embed.
+- **`model`** (`pxt.String`): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
 
 **Returns:**
 
@@ -91,10 +95,10 @@ __Requirements:__
 
 ```python Signature
 fim_completions(
-    prompt: String,
+    prompt: pxt.String,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -113,9 +117,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`prompt`** (`String`): The text/code to complete.
-- **`model`** (`String`): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the Mistral `fim/completions` API.
+- **`prompt`** (`pxt.String`): The text/code to complete.
+- **`model`** (`pxt.String`): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Mistral `fim/completions` API.
     For details on the available parameters, see: [https://docs.mistral.ai/api/#tag/fim](https://docs.mistral.ai/api/#tag/fim)
 
 **Returns:**

@@ -16,10 +16,10 @@ the [Working with Fireworks](https://docs.pixeltable.com/notebooks/integrations/
 
 ```python Signature
 chat_completions(
-    messages: Json,
+    messages: pxt.Json,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -38,9 +38,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`Json`): A list of messages comprising the conversation so far.
-- **`model`** (`String`): The name of the model to use.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the Fireworks `chat_completions` API. For details on the available
+- **`messages`** (`pxt.Json`): A list of messages comprising the conversation so far.
+- **`model`** (`pxt.String`): The name of the model to use.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Fireworks `chat_completions` API. For details on the available
     parameters, see: [https://docs.fireworks.ai/api-reference/post-chatcompletions](https://docs.fireworks.ai/api-reference/post-chatcompletions)
 
 **Returns:**

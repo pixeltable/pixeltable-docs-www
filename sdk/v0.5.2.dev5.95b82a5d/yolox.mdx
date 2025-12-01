@@ -12,7 +12,7 @@ YOLOX object detection functions.
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; yolo_to_coco()
 
 ```python Signature
-yolo_to_coco(detections: Json) -> Json
+yolo_to_coco(detections: pxt.Json) -> Json
 ```
 
 Converts the output of a YOLOX object detection model to COCO format.
@@ -20,7 +20,7 @@ Converts the output of a YOLOX object detection model to COCO format.
 
 **Parameters:**
 
-- **`detections`** (`Json`): The output of a YOLOX object detection model, as returned by `yolox`.
+- **`detections`** (`pxt.Json`): The output of a YOLOX object detection model, as returned by `yolox`.
 
 **Returns:**
 
@@ -41,10 +41,10 @@ tbl.add_computed_column(detections_coco=yolo_to_coco(tbl.detections))
 
 ```python Signature
 yolox(
-    images: Image,
+    images: pxt.Image,
     *,
-    model_id: String,
-    threshold: Float = 0.5
+    model_id: pxt.String,
+    threshold: pxt.Float = 0.5
 ) -> Json
 ```
 
@@ -57,8 +57,8 @@ __Requirements__:
 
 **Parameters:**
 
-- **`model_id`** (`String`): one of: `yolox_nano`, `yolox_tiny`, `yolox_s`, `yolox_m`, `yolox_l`, `yolox_x`
-- **`threshold`** (`Float`): the threshold for object detection
+- **`model_id`** (`pxt.String`): one of: `yolox_nano`, `yolox_tiny`, `yolox_s`, `yolox_m`, `yolox_l`, `yolox_x`
+- **`threshold`** (`pxt.Float`): the threshold for object detection
 
 **Returns:**
 

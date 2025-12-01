@@ -20,7 +20,7 @@ t.select(t.date_col.year, t.date_col.weekday()).collect()
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; add_days()
 
 ```python Signature
-add_days(self: Date, n: Int) -> Date
+add_days(self: pxt.Date, n: pxt.Int) -> Date
 ```
 
 Add `n` days to the date.
@@ -31,7 +31,7 @@ Equivalent to [`date + timedelta(days=n)`](https://docs.python.org/3/library/dat
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; day()
 
 ```python Signature
-day(self: Date) -> Int
+day(self: pxt.Date) -> Int
 ```
 
 Between 1 and the number of days in the given month of the given year.
@@ -42,7 +42,7 @@ Equivalent to [`date.day`](https://docs.python.org/3/library/datetime.html#datet
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isocalendar()
 
 ```python Signature
-isocalendar(self: Date) -> Json
+isocalendar(self: pxt.Date) -> Json
 ```
 
 Return a dictionary with three entries: `'year'`, `'week'`, and `'weekday'`.
@@ -55,9 +55,9 @@ Equivalent to
 
 ```python Signature
 isoformat(
-    self: Date,
-    sep: String = 'T',
-    timespec: String = 'auto'
+    self: pxt.Date,
+    sep: pxt.String = 'T',
+    timespec: pxt.String = 'auto'
 ) -> String
 ```
 
@@ -67,8 +67,8 @@ Equivalent to [`date.isoformat()`](https://docs.python.org/3/library/datetime.ht
 
 **Parameters:**
 
-- **`sep`** (`String`): Separator between date and time.
-- **`timespec`** (`String`): The number of additional terms in the output. See the
+- **`sep`** (`pxt.String`): Separator between date and time.
+- **`timespec`** (`pxt.String`): The number of additional terms in the output. See the
     [`date.isoformat()`](https://docs.python.org/3/library/datetime.html#datetime.date.isoformat)
     documentation for more details.
 
@@ -76,7 +76,7 @@ Equivalent to [`date.isoformat()`](https://docs.python.org/3/library/datetime.ht
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isoweekday()
 
 ```python Signature
-isoweekday(self: Date) -> Int
+isoweekday(self: pxt.Date) -> Int
 ```
 
 Return the day of the week as an integer, where Monday is 1 and Sunday is 7.
@@ -87,7 +87,7 @@ Equivalent to [`date.isoweekday()`](https://docs.python.org/3/library/datetime.h
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; make_date()
 
 ```python Signature
-make_date(year: Int, month: Int, day: Int) -> Date
+make_date(year: pxt.Int, month: pxt.Int, day: pxt.Int) -> Date
 ```
 
 Create a date.
@@ -98,7 +98,7 @@ Equivalent to [`datetime()`](https://docs.python.org/3/library/datetime.html#dat
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; month()
 
 ```python Signature
-month(self: Date) -> Int
+month(self: pxt.Date) -> Int
 ```
 
 Between 1 and 12 inclusive.
@@ -109,7 +109,7 @@ Equivalent to [`date.month`](https://docs.python.org/3/library/datetime.html#dat
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; strftime()
 
 ```python Signature
-strftime(self: Date, format: String) -> String
+strftime(self: pxt.Date, format: pxt.String) -> String
 ```
 
 Return a string representing the date and time, controlled by an explicit format string.
@@ -118,14 +118,14 @@ Equivalent to [`date.strftime()`](https://docs.python.org/3/library/datetime.htm
 
 **Parameters:**
 
-- **`format`** (`String`): The format string to control the output. For a complete list of formatting directives, see
+- **`format`** (`pxt.String`): The format string to control the output. For a complete list of formatting directives, see
     [`strftime()` and `strptime()` Behavior](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; toordinal()
 
 ```python Signature
-toordinal(self: Date) -> Int
+toordinal(self: pxt.Date) -> Int
 ```
 
 Return the proleptic Gregorian ordinal of the date, where January 1 of year 1 has ordinal 1.
@@ -136,7 +136,7 @@ Equivalent to [`date.toordinal()`](https://docs.python.org/3/library/datetime.ht
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; weekday()
 
 ```python Signature
-weekday(self: Date) -> Int
+weekday(self: pxt.Date) -> Int
 ```
 
 Between 0 (Monday) and 6 (Sunday) inclusive.
@@ -147,7 +147,7 @@ Equivalent to [`date.weekday()`](https://docs.python.org/3/library/datetime.html
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; year()
 
 ```python Signature
-year(self: Date) -> Int
+year(self: pxt.Date) -> Int
 ```
 
 Between 1 and 9999 inclusive.

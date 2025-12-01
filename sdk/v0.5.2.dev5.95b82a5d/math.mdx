@@ -20,7 +20,7 @@ t.select(t.float_col.floor()).collect()
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; abs()
 
 ```python Signature
-abs(self: Float) -> Float
+abs(self: pxt.Float) -> Float
 ```
 
 Return the absolute value of the given number.
@@ -31,7 +31,7 @@ Equivalent to Python [`builtins.abs()`](https://docs.python.org/3/library/functi
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bitwise_and()
 
 ```python Signature
-bitwise_and(self: Int, other: Int) -> Int
+bitwise_and(self: pxt.Int, other: pxt.Int) -> Int
 ```
 
 Bitwise AND of two integers.
@@ -43,7 +43,7 @@ Equivalent to Python
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bitwise_or()
 
 ```python Signature
-bitwise_or(self: Int, other: Int) -> Int
+bitwise_or(self: pxt.Int, other: pxt.Int) -> Int
 ```
 
 Bitwise OR of two integers.
@@ -55,7 +55,7 @@ Equivalent to Python
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bitwise_xor()
 
 ```python Signature
-bitwise_xor(self: Int, other: Int) -> Int
+bitwise_xor(self: pxt.Int, other: pxt.Int) -> Int
 ```
 
 Bitwise XOR of two integers.
@@ -67,7 +67,7 @@ Equivalent to Python
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; ceil()
 
 ```python Signature
-ceil(self: Float) -> Float
+ceil(self: pxt.Float) -> Float
 ```
 
 Return the ceiling of the given number.
@@ -81,7 +81,7 @@ Pixeltable generalizes the Python operator and is chosen to align with the SQL s
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; floor()
 
 ```python Signature
-floor(self: Float) -> Float
+floor(self: pxt.Float) -> Float
 ```
 
 Return the ceiling of the given number.
@@ -95,7 +95,7 @@ Pixeltable generalizes the Python operator and is chosen to align with the SQL s
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; pow()
 
 ```python Signature
-pow(self: Int, other: Int) -> Float
+pow(self: pxt.Int, other: pxt.Int) -> Float
 ```
 
 Raise `self` to the power of `other`.
@@ -106,7 +106,7 @@ Equivalent to Python [`self ** other`](https://docs.python.org/3/library/functio
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; round()
 
 ```python Signature
-round(self: Float, digits: Int | None = None) -> Float
+round(self: pxt.Float, digits: pxt.Int | None = None) -> Float
 ```
 
 Round a number to a given precision in decimal digits.

@@ -28,12 +28,12 @@ Converts an OpenAI response dict to Pixeltable tool invocation format and calls 
 
 ```python Signature
 chat_completions(
-    messages: Json,
+    messages: pxt.Json,
     *,
-    model: String,
-    model_kwargs: Json | None = None,
-    tools: Json | None = None,
-    tool_choice: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None,
+    tools: pxt.Json | None = None,
+    tool_choice: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -52,9 +52,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`Json`): A list of messages comprising the conversation so far.
-- **`model`** (`String`): ID of the model to use. (See overview here: [https://console.groq.com/docs/models](https://console.groq.com/docs/models))
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the Groq `chat/completions` API.
+- **`messages`** (`pxt.Json`): A list of messages comprising the conversation so far.
+- **`model`** (`pxt.String`): ID of the model to use. (See overview here: [https://console.groq.com/docs/models](https://console.groq.com/docs/models))
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Groq `chat/completions` API.
     For details on the available parameters, see: [https://console.groq.com/docs/api-reference#chat-create](https://console.groq.com/docs/api-reference#chat-create)
 
 **Returns:**

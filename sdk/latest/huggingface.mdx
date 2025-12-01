@@ -20,12 +20,12 @@ UDFs).
 
 ```python Signature
 automatic_speech_recognition(
-    audio: Audio,
+    audio: pxt.Audio,
     *,
-    model_id: String,
-    language: String | None = None,
-    chunk_length_s: Int | None = None,
-    return_timestamps: Bool = False
+    model_id: pxt.String,
+    language: pxt.String | None = None,
+    chunk_length_s: pxt.Int | None = None,
+    return_timestamps: pxt.Bool = False
 ) -> String
 ```
 
@@ -49,11 +49,11 @@ __Recommended Models:__
 
 **Parameters:**
 
-- **`audio`** (`Audio`): The audio file(s) to transcribe.
-- **`model_id`** (`String`): The pretrained ASR model to use.
-- **`language`** (`String | None`): Language code for multilingual models (e.g., 'en', 'es', 'fr').
-- **`chunk_length_s`** (`Int | None`): Maximum length of audio chunks in seconds for long audio processing.
-- **`return_timestamps`** (`Bool`): Whether to return word-level timestamps (model dependent).
+- **`audio`** (`pxt.Audio`): The audio file(s) to transcribe.
+- **`model_id`** (`pxt.String`): The pretrained ASR model to use.
+- **`language`** (`pxt.String | None`): Language code for multilingual models (e.g., 'en', 'es', 'fr').
+- **`chunk_length_s`** (`pxt.Int | None`): Maximum length of audio chunks in seconds for long audio processing.
+- **`return_timestamps`** (`pxt.Bool`): Whether to return word-level timestamps (model dependent).
 
 **Returns:**
 
@@ -85,10 +85,16 @@ tbl.add_computed_column(
 
 ```python Signatures
 # Signature 1:
-clip(text: String, model_id: String) -> Array[(None,), Float]
+clip(
+    text: pxt.String,
+    model_id: pxt.String
+) -> Array[(None,), Float]
 
 # Signature 2:
-clip(image: Image, model_id: String) -> Array[(None,), Float]
+clip(
+    image: pxt.Image,
+    model_id: pxt.String
+) -> Array[(None,), Float]
 ```
 
 Computes a CLIP embedding for the specified text or image. `model_id` should be a reference to a pretrained
@@ -121,10 +127,10 @@ tbl.add_computed_column(
 
 ```python Signature
 cross_encoder(
-    sentences1: String,
-    sentences2: String,
+    sentences1: pxt.String,
+    sentences2: pxt.String,
     *,
-    model_id: String
+    model_id: pxt.String
 ) -> Float
 ```
 
@@ -139,9 +145,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`sentences1`** (`String`): The first sentence to be paired.
-- **`sentences2`** (`String`): The second sentence to be paired.
-- **`model_id`** (`String`): The identifier of the cross-encoder model to use.
+- **`sentences1`** (`pxt.String`): The first sentence to be paired.
+- **`sentences2`** (`pxt.String`): The second sentence to be paired.
+- **`model_id`** (`pxt.String`): The identifier of the cross-encoder model to use.
 
 **Returns:**
 
@@ -163,10 +169,10 @@ tbl.add_computed_column(
 
 ```python Signature
 cross_encoder_list(
-    sentence1: String,
-    sentences2: Json,
+    sentence1: pxt.String,
+    sentences2: pxt.Json,
     *,
-    model_id: String
+    model_id: pxt.String
 ) -> Json
 ```
 
@@ -175,11 +181,11 @@ cross_encoder_list(
 
 ```python Signature
 detr_for_object_detection(
-    image: Image,
+    image: pxt.Image,
     *,
-    model_id: String,
-    threshold: Float = 0.5,
-    revision: String = 'no_timm'
+    model_id: pxt.String,
+    threshold: pxt.Float = 0.5,
+    revision: pxt.String = 'no_timm'
 ) -> Json
 ```
 
@@ -192,8 +198,8 @@ __Requirements:__
 
 **Parameters:**
 
-- **`image`** (`Image`): The image to embed.
-- **`model_id`** (`String`): The pretrained model to use for object detection.
+- **`image`** (`pxt.Image`): The image to embed.
+- **`model_id`** (`pxt.String`): The pretrained model to use for object detection.
 
 **Returns:**
 
@@ -223,7 +229,7 @@ tbl.add_computed_column(
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; detr_to_coco()
 
 ```python Signature
-detr_to_coco(image: Image, detr_info: Json) -> Json
+detr_to_coco(image: pxt.Image, detr_info: pxt.Json) -> Json
 ```
 
 Converts the output of a DETR object detection model to COCO format.
@@ -231,8 +237,8 @@ Converts the output of a DETR object detection model to COCO format.
 
 **Parameters:**
 
-- **`image`** (`Image`): The image for which detections were computed.
-- **`detr_info`** (`Json`): The output of a DETR object detection model, as returned by `detr_for_object_detection`.
+- **`image`** (`pxt.Image`): The image for which detections were computed.
+- **`detr_info`** (`pxt.Json`): The output of a DETR object detection model, as returned by `detr_for_object_detection`.
 
 **Returns:**
 
@@ -252,10 +258,10 @@ tbl.add_computed_column(
 
 ```python Signature
 image_captioning(
-    image: Image,
+    image: pxt.Image,
     *,
-    model_id: String,
-    model_kwargs: Json | None = None
+    model_id: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> String
 ```
 
@@ -269,9 +275,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`image`** (`Image`): The image to caption.
-- **`model_id`** (`String`): The pretrained model to use for captioning.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`.
+- **`image`** (`pxt.Image`): The image to caption.
+- **`model_id`** (`pxt.String`): The pretrained model to use for captioning.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`.
 
 **Returns:**
 
@@ -295,12 +301,12 @@ tbl.add_computed_column(
 
 ```python Signature
 image_to_image(
-    image: Image,
-    prompt: String,
+    image: pxt.Image,
+    prompt: pxt.String,
     *,
-    model_id: String,
-    seed: Int | None = None,
-    model_kwargs: Json | None = None
+    model_id: pxt.String,
+    seed: pxt.Int | None = None,
+    model_kwargs: pxt.Json | None = None
 ) -> Image
 ```
 
@@ -314,11 +320,11 @@ __Requirements:__
 
 **Parameters:**
 
-- **`image`** (`Image`): The input image to transform.
-- **`prompt`** (`String`): The text prompt describing the desired transformation.
-- **`model_id`** (`String`): The pretrained image-to-image model to use.
-- **`seed`** (`Int | None`): Random seed for reproducibility.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `strength`,
+- **`image`** (`pxt.Image`): The input image to transform.
+- **`prompt`** (`pxt.String`): The text prompt describing the desired transformation.
+- **`model_id`** (`pxt.String`): The pretrained image-to-image model to use.
+- **`seed`** (`pxt.Int | None`): Random seed for reproducibility.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword arguments to pass to the model, such as `strength`,
     `guidance_scale`, or `num_inference_steps`.
 
 **Returns:**
@@ -343,13 +349,13 @@ tbl.add_computed_column(
 
 ```python Signature
 image_to_video(
-    image: Image,
+    image: pxt.Image,
     *,
-    model_id: String,
-    num_frames: Int = 25,
-    fps: Int = 6,
-    seed: Int | None = None,
-    model_kwargs: Json | None = None
+    model_id: pxt.String,
+    num_frames: pxt.Int = 25,
+    fps: pxt.Int = 6,
+    seed: pxt.Int | None = None,
+    model_kwargs: pxt.Json | None = None
 ) -> Video
 ```
 
@@ -363,12 +369,12 @@ __Requirements:__
 
 **Parameters:**
 
-- **`image`** (`Image`): The input image to animate into a video.
-- **`model_id`** (`String`): The pretrained image-to-video model to use.
-- **`num_frames`** (`Int`): Number of video frames to generate.
-- **`fps`** (`Int`): Frames per second for the output video.
-- **`seed`** (`Int | None`): Random seed for reproducibility.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`,
+- **`image`** (`pxt.Image`): The input image to animate into a video.
+- **`model_id`** (`pxt.String`): The pretrained image-to-video model to use.
+- **`num_frames`** (`pxt.Int`): Number of video frames to generate.
+- **`fps`** (`pxt.Int`): Frames per second for the output video.
+- **`seed`** (`pxt.Int | None`): Random seed for reproducibility.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`,
     `motion_bucket_id`, or `guidance_scale`.
 
 **Returns:**
@@ -394,10 +400,10 @@ tbl.add_computed_column(
 
 ```python Signature
 question_answering(
-    context: String,
-    question: String,
+    context: pxt.String,
+    question: pxt.String,
     *,
-    model_id: String
+    model_id: pxt.String
 ) -> Json
 ```
 
@@ -411,9 +417,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`context`** (`String`): The context text containing the answer.
-- **`question`** (`String`): The question to answer.
-- **`model_id`** (`String`): The pretrained QA model to use.
+- **`context`** (`pxt.String`): The context text containing the answer.
+- **`question`** (`pxt.String`): The question to answer.
+- **`model_id`** (`pxt.String`): The pretrained QA model to use.
 
 **Returns:**
 
@@ -437,10 +443,10 @@ tbl.add_computed_column(
 
 ```python Signature
 sentence_transformer(
-    sentence: String,
+    sentence: pxt.String,
     *,
-    model_id: String,
-    normalize_embeddings: Bool = False
+    model_id: pxt.String,
+    normalize_embeddings: pxt.Bool = False
 ) -> Array[(None,), Float]
 ```
 
@@ -454,9 +460,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`sentence`** (`String`): The sentence to embed.
-- **`model_id`** (`String`): The pretrained model to use for the encoding.
-- **`normalize_embeddings`** (`Bool`): If `True`, normalizes embeddings to length 1; see the
+- **`sentence`** (`pxt.String`): The sentence to embed.
+- **`model_id`** (`pxt.String`): The pretrained model to use for the encoding.
+- **`normalize_embeddings`** (`pxt.Bool`): If `True`, normalizes embeddings to length 1; see the
     [Sentence Transformers API Docs](https://sbert.net/docs/package_reference/sentence_transformer/SentenceTransformer.html)
     for more details
 
@@ -480,10 +486,10 @@ tbl.add_computed_column(
 
 ```python Signature
 sentence_transformer_list(
-    sentences: Json,
+    sentences: pxt.Json,
     *,
-    model_id: String,
-    normalize_embeddings: Bool = False
+    model_id: pxt.String,
+    normalize_embeddings: pxt.Bool = False
 ) -> Json
 ```
 
@@ -492,10 +498,10 @@ sentence_transformer_list(
 
 ```python Signature
 speech2text_for_conditional_generation(
-    audio: Audio,
+    audio: pxt.Audio,
     *,
-    model_id: String,
-    language: String | None = None
+    model_id: pxt.String,
+    language: pxt.String | None = None
 ) -> String
 ```
 
@@ -508,9 +514,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`audio`** (`Audio`): The audio clip to transcribe or translate.
-- **`model_id`** (`String`): The pretrained model to use for the transcription or translation.
-- **`language`** (`String | None`): If using a multilingual translation model, the language code to translate to. If not provided,
+- **`audio`** (`pxt.Audio`): The audio clip to transcribe or translate.
+- **`model_id`** (`pxt.String`): The pretrained model to use for the transcription or translation.
+- **`language`** (`pxt.String | None`): If using a multilingual translation model, the language code to translate to. If not provided,
     the model's default language will be used. If the model is not translation model, is not a
     multilingual model, or does not support the specified language, an error will be raised.
 
@@ -545,10 +551,10 @@ tbl.add_computed_column(
 
 ```python Signature
 summarization(
-    text: String,
+    text: pxt.String,
     *,
-    model_id: String,
-    model_kwargs: Json | None = None
+    model_id: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> String
 ```
 
@@ -561,9 +567,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`text`** (`String`): The text to summarize.
-- **`model_id`** (`String`): The pretrained model to use for summarization.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`.
+- **`text`** (`pxt.String`): The text to summarize.
+- **`model_id`** (`pxt.String`): The pretrained model to use for summarization.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`.
 
 **Returns:**
 
@@ -586,7 +592,12 @@ tbl.add_computed_column(
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; text_classification()
 
 ```python Signature
-text_classification(text: String, *, model_id: String, top_k: Int = 5) -> Json
+text_classification(
+    text: pxt.String,
+    *,
+    model_id: pxt.String,
+    top_k: pxt.Int = 5
+) -> Json
 ```
 
 Classifies text using a pretrained classification model. `model_id` should be a reference to a pretrained
@@ -599,9 +610,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`text`** (`String`): The text to classify.
-- **`model_id`** (`String`): The pretrained model to use for classification.
-- **`top_k`** (`Int`): The number of top predictions to return.
+- **`text`** (`pxt.String`): The text to classify.
+- **`model_id`** (`pxt.String`): The pretrained model to use for classification.
+- **`top_k`** (`pxt.Int`): The number of top predictions to return.
 
 **Returns:**
 
@@ -624,10 +635,10 @@ tbl.add_computed_column(
 
 ```python Signature
 text_generation(
-    text: String,
+    text: pxt.String,
     *,
-    model_id: String,
-    model_kwargs: Json | None = None
+    model_id: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> String
 ```
 
@@ -640,9 +651,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`text`** (`String`): The input text to continue/complete.
-- **`model_id`** (`String`): The pretrained model to use for text generation.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`,
+- **`text`** (`pxt.String`): The input text to continue/complete.
+- **`model_id`** (`pxt.String`): The pretrained model to use for text generation.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword arguments to pass to the model's `generate` method, such as `max_length`,
     `temperature`, etc. See the
     [Hugging Face text_generation documentation](https://huggingface.co/docs/inference-providers/en/tasks/text-generation)
     for details.
@@ -669,13 +680,13 @@ tbl.add_computed_column(
 
 ```python Signature
 text_to_image(
-    prompt: String,
+    prompt: pxt.String,
     *,
-    model_id: String,
-    height: Int = 512,
-    width: Int = 512,
-    seed: Int | None = None,
-    model_kwargs: Json | None = None
+    model_id: pxt.String,
+    height: pxt.Int = 512,
+    width: pxt.Int = 512,
+    seed: pxt.Int | None = None,
+    model_kwargs: pxt.Json | None = None
 ) -> Image
 ```
 
@@ -689,12 +700,12 @@ __Requirements:__
 
 **Parameters:**
 
-- **`prompt`** (`String`): The text prompt describing the desired image.
-- **`model_id`** (`String`): The pretrained text-to-image model to use.
-- **`height`** (`Int`): Height of the generated image in pixels.
-- **`width`** (`Int`): Width of the generated image in pixels.
-- **`seed`** (`Int | None`): Optional random seed for reproducibility.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`,
+- **`prompt`** (`pxt.String`): The text prompt describing the desired image.
+- **`model_id`** (`pxt.String`): The pretrained text-to-image model to use.
+- **`height`** (`pxt.Int`): Height of the generated image in pixels.
+- **`width`** (`pxt.Int`): Width of the generated image in pixels.
+- **`seed`** (`pxt.Int | None`): Optional random seed for reproducibility.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword arguments to pass to the model, such as `num_inference_steps`,
     `guidance_scale`, or `negative_prompt`.
 
 **Returns:**
@@ -721,11 +732,11 @@ tbl.add_computed_column(
 
 ```python Signature
 text_to_speech(
-    text: String,
+    text: pxt.String,
     *,
-    model_id: String,
-    speaker_id: Int | None = None,
-    vocoder: String | None = None
+    model_id: pxt.String,
+    speaker_id: pxt.Int | None = None,
+    vocoder: pxt.String | None = None
 ) -> Audio
 ```
 
@@ -738,10 +749,10 @@ __Requirements:__
 
 **Parameters:**
 
-- **`text`** (`String`): The text to convert to speech.
-- **`model_id`** (`String`): The pretrained TTS model to use.
-- **`speaker_id`** (`Int | None`): Speaker ID for multi-speaker models.
-- **`vocoder`** (`String | None`): Optional vocoder model for higher quality audio.
+- **`text`** (`pxt.String`): The text to convert to speech.
+- **`model_id`** (`pxt.String`): The pretrained TTS model to use.
+- **`speaker_id`** (`pxt.Int | None`): Speaker ID for multi-speaker models.
+- **`vocoder`** (`pxt.String | None`): Optional vocoder model for higher quality audio.
 
 **Returns:**
 
@@ -763,10 +774,10 @@ tbl.add_computed_column(
 
 ```python Signature
 token_classification(
-    text: String,
+    text: pxt.String,
     *,
-    model_id: String,
-    aggregation_strategy: String = 'simple'
+    model_id: pxt.String,
+    aggregation_strategy: pxt.String = 'simple'
 ) -> Json
 ```
 
@@ -780,9 +791,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`text`** (`String`): The text to analyze for named entities.
-- **`model_id`** (`String`): The pretrained model to use.
-- **`aggregation_strategy`** (`String`): Method used to aggregate tokens.
+- **`text`** (`pxt.String`): The text to analyze for named entities.
+- **`model_id`** (`pxt.String`): The pretrained model to use.
+- **`aggregation_strategy`** (`pxt.String`): Method used to aggregate tokens.
 
 **Returns:**
 
@@ -805,11 +816,11 @@ tbl.add_computed_column(
 
 ```python Signature
 translation(
-    text: String,
+    text: pxt.String,
     *,
-    model_id: String,
-    src_lang: String | None = None,
-    target_lang: String | None = None
+    model_id: pxt.String,
+    src_lang: pxt.String | None = None,
+    target_lang: pxt.String | None = None
 ) -> String
 ```
 
@@ -822,10 +833,10 @@ __Requirements:__
 
 **Parameters:**
 
-- **`text`** (`String`): The text to translate.
-- **`model_id`** (`String`): The pretrained translation model to use.
-- **`src_lang`** (`String | None`): Source language code (optional, can be inferred from model).
-- **`target_lang`** (`String | None`): Target language code (optional, can be inferred from model).
+- **`text`** (`pxt.String`): The text to translate.
+- **`model_id`** (`pxt.String`): The pretrained translation model to use.
+- **`src_lang`** (`pxt.String | None`): Source language code (optional, can be inferred from model).
+- **`target_lang`** (`pxt.String | None`): Target language code (optional, can be inferred from model).
 
 **Returns:**
 
@@ -849,7 +860,12 @@ tbl.add_computed_column(
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; vit_for_image_classification()
 
 ```python Signature
-vit_for_image_classification(image: Image, *, model_id: String, top_k: Int = 5) -> Json
+vit_for_image_classification(
+    image: pxt.Image,
+    *,
+    model_id: pxt.String,
+    top_k: pxt.Int = 5
+) -> Json
 ```
 
 Computes image classifications for the specified image using a Vision Transformer (ViT) model.
@@ -867,9 +883,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`image`** (`Image`): The image to classify.
-- **`model_id`** (`String`): The pretrained model to use for the classification.
-- **`top_k`** (`Int`): The number of classes to return.
+- **`image`** (`pxt.Image`): The image to classify.
+- **`model_id`** (`pxt.String`): The pretrained model to use for the classification.
+- **`top_k`** (`pxt.Int`): The number of classes to return.
 
 **Returns:**
 

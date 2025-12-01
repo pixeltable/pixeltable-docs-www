@@ -16,12 +16,12 @@ and other AI capabilities.
 
 ```python Signature
 chat_completions(
-    messages: Json,
+    messages: pxt.Json,
     *,
-    model: String,
-    model_kwargs: Json | None = None,
-    tools: Json | None = None,
-    tool_choice: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None,
+    tools: pxt.Json | None = None,
+    tool_choice: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -42,12 +42,12 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`Json`): A list of messages to use for chat completion, as described in the Deepseek API documentation.
-- **`model`** (`String`): The model to use for chat completion.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the Deepseek `chat/completions` API.
+- **`messages`** (`pxt.Json`): A list of messages to use for chat completion, as described in the Deepseek API documentation.
+- **`model`** (`pxt.String`): The model to use for chat completion.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Deepseek `chat/completions` API.
     For details on the available parameters, see: [https://api-docs.deepseek.com/api/create-chat-completion](https://api-docs.deepseek.com/api/create-chat-completion)
-- **`tools`** (`Json | None`): An optional list of Pixeltable tools to use for the request.
-- **`tool_choice`** (`Json | None`): An optional tool choice configuration.
+- **`tools`** (`pxt.Json | None`): An optional list of Pixeltable tools to use for the request.
+- **`tool_choice`** (`pxt.Json | None`): An optional tool choice configuration.
 
 **Returns:**
 

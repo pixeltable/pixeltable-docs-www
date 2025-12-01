@@ -28,12 +28,12 @@ Converts an OpenAI response dict to Pixeltable tool invocation format and calls 
 
 ```python Signature
 chat_completions(
-    messages: Json,
+    messages: pxt.Json,
     *,
-    model: String,
-    model_kwargs: Json | None = None,
-    tools: Json | None = None,
-    tool_choice: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None,
+    tools: pxt.Json | None = None,
+    tool_choice: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -52,9 +52,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`Json`): A list of messages to use for chat completion, as described in the OpenAI API documentation.
-- **`model`** (`String`): The model to use for chat completion.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the OpenAI `chat/completions` API. For details on the available
+- **`messages`** (`pxt.Json`): A list of messages to use for chat completion, as described in the OpenAI API documentation.
+- **`model`** (`pxt.String`): The model to use for chat completion.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the OpenAI `chat/completions` API. For details on the available
     parameters, see: [https://platform.openai.com/docs/api-reference/chat/create](https://platform.openai.com/docs/api-reference/chat/create)
 
 **Returns:**
@@ -79,10 +79,10 @@ tbl.add_computed_column(
 
 ```python Signature
 embeddings(
-    input: String,
+    input: pxt.String,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Array[(None,), Float]
 ```
 
@@ -101,9 +101,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`input`** (`String`): The text to embed.
-- **`model`** (`String`): The model to use for the embedding.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the OpenAI `embeddings` API. For details on the available
+- **`input`** (`pxt.String`): The text to embed.
+- **`model`** (`pxt.String`): The model to use for the embedding.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the OpenAI `embeddings` API. For details on the available
     parameters, see: [https://platform.openai.com/docs/api-reference/embeddings](https://platform.openai.com/docs/api-reference/embeddings)
 
 **Returns:**
@@ -131,10 +131,10 @@ tbl.add_embedding_index(
 
 ```python Signature
 image_generations(
-    prompt: String,
+    prompt: pxt.String,
     *,
-    model: String = 'dall-e-2',
-    model_kwargs: Json | None = None
+    model: pxt.String = 'dall-e-2',
+    model_kwargs: pxt.Json | None = None
 ) -> Image
 ```
 
@@ -153,9 +153,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`prompt`** (`String`): Prompt for the image.
-- **`model`** (`String`): The model to use for the generations.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the OpenAI `images/generations` API. For details on the available
+- **`prompt`** (`pxt.String`): Prompt for the image.
+- **`model`** (`pxt.String`): The model to use for the generations.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the OpenAI `images/generations` API. For details on the available
     parameters, see: [https://platform.openai.com/docs/api-reference/images/create](https://platform.openai.com/docs/api-reference/images/create)
 
 **Returns:**
@@ -176,9 +176,9 @@ tbl.add_computed_column(
 
 ```python Signature
 moderations(
-    input: String,
+    input: pxt.String,
     *,
-    model: String = 'omni-moderation-latest'
+    model: pxt.String = 'omni-moderation-latest'
 ) -> Json
 ```
 
@@ -197,8 +197,8 @@ __Requirements:__
 
 **Parameters:**
 
-- **`input`** (`String`): Text to analyze with the moderations model.
-- **`model`** (`String`): The model to use for moderations.
+- **`input`** (`pxt.String`): Text to analyze with the moderations model.
+- **`model`** (`pxt.String`): The model to use for moderations.
 
 **Returns:**
 
@@ -218,11 +218,11 @@ tbl.add_computed_column(
 
 ```python Signature
 speech(
-    input: String,
+    input: pxt.String,
     *,
-    model: String,
-    voice: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    voice: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Audio
 ```
 
@@ -241,11 +241,11 @@ __Requirements:__
 
 **Parameters:**
 
-- **`input`** (`String`): The text to synthesize into speech.
-- **`model`** (`String`): The model to use for speech synthesis.
-- **`voice`** (`String`): The voice profile to use for speech synthesis. Supported options include:
+- **`input`** (`pxt.String`): The text to synthesize into speech.
+- **`model`** (`pxt.String`): The model to use for speech synthesis.
+- **`voice`** (`pxt.String`): The voice profile to use for speech synthesis. Supported options include:
     `alloy`, `echo`, `fable`, `onyx`, `nova`, and `shimmer`.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the OpenAI `audio/speech` API. For details on the available
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the OpenAI `audio/speech` API. For details on the available
     parameters, see: [https://platform.openai.com/docs/api-reference/audio/createSpeech](https://platform.openai.com/docs/api-reference/audio/createSpeech)
 
 **Returns:**
@@ -266,10 +266,10 @@ tbl.add_computed_column(
 
 ```python Signature
 transcriptions(
-    audio: Audio,
+    audio: pxt.Audio,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -288,9 +288,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`audio`** (`Audio`): The audio to transcribe.
-- **`model`** (`String`): The model to use for speech transcription.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the OpenAI `audio/transcriptions` API. For details on the available
+- **`audio`** (`pxt.Audio`): The audio to transcribe.
+- **`model`** (`pxt.String`): The model to use for speech transcription.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the OpenAI `audio/transcriptions` API. For details on the available
     parameters, see: [https://platform.openai.com/docs/api-reference/audio/createTranscription](https://platform.openai.com/docs/api-reference/audio/createTranscription)
 
 **Returns:**
@@ -313,10 +313,10 @@ tbl.add_computed_column(
 
 ```python Signature
 translations(
-    audio: Audio,
+    audio: pxt.Audio,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -335,9 +335,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`audio`** (`Audio`): The audio to translate.
-- **`model`** (`String`): The model to use for speech transcription and translation.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the OpenAI `audio/translations` API. For details on the available
+- **`audio`** (`pxt.Audio`): The audio to translate.
+- **`model`** (`pxt.String`): The model to use for speech transcription and translation.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the OpenAI `audio/translations` API. For details on the available
     parameters, see: [https://platform.openai.com/docs/api-reference/audio/createTranslation](https://platform.openai.com/docs/api-reference/audio/createTranslation)
 
 **Returns:**
@@ -358,11 +358,11 @@ tbl.add_computed_column(
 
 ```python Signature
 vision(
-    prompt: String,
-    image: Image,
+    prompt: pxt.String,
+    image: pxt.Image,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> String
 ```
 
@@ -381,9 +381,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`prompt`** (`String`): A prompt for the OpenAI vision request.
-- **`image`** (`Image`): The image to analyze.
-- **`model`** (`String`): The model to use for OpenAI vision.
+- **`prompt`** (`pxt.String`): A prompt for the OpenAI vision request.
+- **`image`** (`pxt.Image`): The image to analyze.
+- **`model`** (`pxt.String`): The model to use for OpenAI vision.
 
 **Returns:**
 

@@ -21,7 +21,7 @@ t.select(t.str_col.capitalize()).collect()
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; capitalize()
 
 ```python Signature
-capitalize(self: String) -> String
+capitalize(self: pxt.String) -> String
 ```
 
 Return string with its first character capitalized and the rest lowercased.
@@ -32,7 +32,7 @@ Equivalent to [`str.capitalize()`](https://docs.python.org/3/library/stdtypes.ht
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; casefold()
 
 ```python Signature
-casefold(self: String) -> String
+casefold(self: pxt.String) -> String
 ```
 
 Return a casefolded copy of string.
@@ -43,7 +43,11 @@ Equivalent to [`str.casefold()`](https://docs.python.org/3/library/stdtypes.html
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; center()
 
 ```python Signature
-center(self: String, width: Int, fillchar: String = ' ') -> String
+center(
+    self: pxt.String,
+    width: pxt.Int,
+    fillchar: pxt.String = ' '
+) -> String
 ```
 
 Return a centered string of length `width`.
@@ -52,14 +56,18 @@ Equivalent to [`str.center()`](https://docs.python.org/3/library/stdtypes.html#s
 
 **Parameters:**
 
-- **`width`** (`Int`): Total width of the resulting string.
-- **`fillchar`** (`String`): Character used for padding.
+- **`width`** (`pxt.Int`): Total width of the resulting string.
+- **`fillchar`** (`pxt.String`): Character used for padding.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; contains()
 
 ```python Signature
-contains(self: String, substr: String, case: Bool = True) -> Bool
+contains(
+    self: pxt.String,
+    substr: pxt.String,
+    case: pxt.Bool = True
+) -> Bool
 ```
 
 Test if string contains a substring.
@@ -67,14 +75,18 @@ Test if string contains a substring.
 
 **Parameters:**
 
-- **`substr`** (`String`): string literal or regular expression
-- **`case`** (`Bool`): if False, ignore case
+- **`substr`** (`pxt.String`): string literal or regular expression
+- **`case`** (`pxt.Bool`): if False, ignore case
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; contains_re()
 
 ```python Signature
-contains_re(self: String, pattern: String, flags: Int = 0) -> Bool
+contains_re(
+    self: pxt.String,
+    pattern: pxt.String,
+    flags: pxt.Int = 0
+) -> Bool
 ```
 
 Test if string contains a regular expression pattern.
@@ -82,14 +94,18 @@ Test if string contains a regular expression pattern.
 
 **Parameters:**
 
-- **`pattern`** (`String`): regular expression pattern
-- **`flags`** (`Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
+- **`pattern`** (`pxt.String`): regular expression pattern
+- **`flags`** (`pxt.Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; count()
 
 ```python Signature
-count(self: String, pattern: String, flags: Int = 0) -> Int
+count(
+    self: pxt.String,
+    pattern: pxt.String,
+    flags: pxt.Int = 0
+) -> Int
 ```
 
 Count occurrences of pattern or regex.
@@ -97,14 +113,14 @@ Count occurrences of pattern or regex.
 
 **Parameters:**
 
-- **`pattern`** (`String`): string literal or regular expression
-- **`flags`** (`Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
+- **`pattern`** (`pxt.String`): string literal or regular expression
+- **`flags`** (`pxt.Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; endswith()
 
 ```python Signature
-endswith(self: String, substr: String) -> Bool
+endswith(self: pxt.String, substr: pxt.String) -> Bool
 ```
 
 Return `True` if the string ends with the specified suffix, otherwise return `False`.
@@ -113,13 +129,13 @@ Equivalent to [`str.endswith()`](https://docs.python.org/3/library/stdtypes.html
 
 **Parameters:**
 
-- **`substr`** (`String`): string literal
+- **`substr`** (`pxt.String`): string literal
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; fill()
 
 ```python Signature
-fill(self: String, width: Int) -> String
+fill(self: pxt.String, width: pxt.Int) -> String
 ```
 
 Wraps the single paragraph in string, and returns a single string containing the wrapped paragraph.
@@ -128,7 +144,7 @@ Equivalent to [`textwrap.fill()`](https://docs.python.org/3/library/textwrap.htm
 
 **Parameters:**
 
-- **`width`** (`Int`): Maximum line width.
+- **`width`** (`pxt.Int`): Maximum line width.
 - **`kwargs`** (`Any`): Additional keyword arguments to pass to `textwrap.fill()`.
 
 
@@ -136,10 +152,10 @@ Equivalent to [`textwrap.fill()`](https://docs.python.org/3/library/textwrap.htm
 
 ```python Signature
 find(
-    self: String,
-    substr: String,
-    start: Int = 0,
-    end: Int | None = None
+    self: pxt.String,
+    substr: pxt.String,
+    start: pxt.Int = 0,
+    end: pxt.Int | None = None
 ) -> Int
 ```
 
@@ -149,15 +165,19 @@ Equivalent to [`str.find()`](https://docs.python.org/3/library/stdtypes.html#str
 
 **Parameters:**
 
-- **`substr`** (`String`): substring to search for
-- **`start`** (`Int`): slice start
-- **`end`** (`Int | None`): slice end
+- **`substr`** (`pxt.String`): substring to search for
+- **`start`** (`pxt.Int`): slice start
+- **`end`** (`pxt.Int | None`): slice end
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; findall()
 
 ```python Signature
-findall(self: String, pattern: String, flags: Int = 0) -> Json
+findall(
+    self: pxt.String,
+    pattern: pxt.String,
+    flags: pxt.Int = 0
+) -> Json
 ```
 
 Find all occurrences of a regular expression pattern in string.
@@ -166,14 +186,14 @@ Equivalent to [`re.findall()`](https://docs.python.org/3/library/re.html#re.find
 
 **Parameters:**
 
-- **`pattern`** (`String`): regular expression pattern
-- **`flags`** (`Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
+- **`pattern`** (`pxt.String`): regular expression pattern
+- **`flags`** (`pxt.Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; format()
 
 ```python Signature
-format(self: String) -> String
+format(self: pxt.String) -> String
 ```
 
 Perform string formatting.
@@ -185,10 +205,10 @@ Equivalent to [`str.format()`](https://docs.python.org/3/library/stdtypes.html#s
 
 ```python Signature
 fullmatch(
-    self: String,
-    pattern: String,
-    case: Bool = True,
-    flags: Int = 0
+    self: pxt.String,
+    pattern: pxt.String,
+    case: pxt.Bool = True,
+    flags: pxt.Int = 0
 ) -> Bool
 ```
 
@@ -198,19 +218,19 @@ Equivalent to [`re.fullmatch()`](https://docs.python.org/3/library/re.html#re.fu
 
 **Parameters:**
 
-- **`pattern`** (`String`): regular expression pattern
-- **`case`** (`Bool`): if False, ignore case
-- **`flags`** (`Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
+- **`pattern`** (`pxt.String`): regular expression pattern
+- **`case`** (`pxt.Bool`): if False, ignore case
+- **`flags`** (`pxt.Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; index()
 
 ```python Signature
 index(
-    self: String,
-    substr: String,
-    start: Int = 0,
-    end: Int | None = None
+    self: pxt.String,
+    substr: pxt.String,
+    start: pxt.Int = 0,
+    end: pxt.Int | None = None
 ) -> Int
 ```
 
@@ -221,15 +241,15 @@ Equivalent to [`str.index()`](https://docs.python.org/3/library/stdtypes.html#st
 
 **Parameters:**
 
-- **`substr`** (`String`): substring to search for
-- **`start`** (`Int`): slice start
-- **`end`** (`Int | None`): slice end
+- **`substr`** (`pxt.String`): substring to search for
+- **`start`** (`pxt.Int`): slice start
+- **`end`** (`pxt.Int | None`): slice end
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isalnum()
 
 ```python Signature
-isalnum(self: String) -> Bool
+isalnum(self: pxt.String) -> Bool
 ```
 
 Return `True` if all characters in the string are alphanumeric and there is at least one character, `False`
@@ -241,7 +261,7 @@ Equivalent to [`str.isalnum()`](https://docs.python.org/3/library/stdtypes.html#
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isalpha()
 
 ```python Signature
-isalpha(self: String) -> Bool
+isalpha(self: pxt.String) -> Bool
 ```
 
 Return `True` if all characters in the string are alphabetic and there is at least one character, `False` otherwise.
@@ -252,7 +272,7 @@ Equivalent to [`str.isalpha()`](https://docs.python.org/3/library/stdtypes.html#
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isascii()
 
 ```python Signature
-isascii(self: String) -> Bool
+isascii(self: pxt.String) -> Bool
 ```
 
 Return `True` if the string is empty or all characters in the string are ASCII, `False` otherwise.
@@ -263,7 +283,7 @@ Equivalent to [`str.isascii()`](https://docs.python.org/3/library/stdtypes.html#
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isdecimal()
 
 ```python Signature
-isdecimal(self: String) -> Bool
+isdecimal(self: pxt.String) -> Bool
 ```
 
 Return `True` if all characters in the string are decimal characters and there is at least one character, `False`
@@ -275,7 +295,7 @@ Equivalent to [`str.isdecimal()`](https://docs.python.org/3/library/stdtypes.htm
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isdigit()
 
 ```python Signature
-isdigit(self: String) -> Bool
+isdigit(self: pxt.String) -> Bool
 ```
 
 Return `True` if all characters in the string are digits and there is at least one character, `False` otherwise.
@@ -286,7 +306,7 @@ Equivalent to [`str.isdigit()`](https://docs.python.org/3/library/stdtypes.html#
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isidentifier()
 
 ```python Signature
-isidentifier(self: String) -> Bool
+isidentifier(self: pxt.String) -> Bool
 ```
 
 Return `True` if the string is a valid identifier according to the language definition, `False` otherwise.
@@ -297,7 +317,7 @@ Equivalent to [`str.isidentifier()`](https://docs.python.org/3/library/stdtypes.
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; islower()
 
 ```python Signature
-islower(self: String) -> Bool
+islower(self: pxt.String) -> Bool
 ```
 
 Return `True` if all cased characters in the string are lowercase and there is at least one cased character,
@@ -309,7 +329,7 @@ Equivalent to [`str.islower()`](https://docs.python.org/3/library/stdtypes.html#
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isnumeric()
 
 ```python Signature
-isnumeric(self: String) -> Bool
+isnumeric(self: pxt.String) -> Bool
 ```
 
 Return `True` if all characters in the string are numeric characters, `False` otherwise.
@@ -320,7 +340,7 @@ Equivalent to [`str.isnumeric()`](https://docs.python.org/3/library/stdtypes.htm
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isspace()
 
 ```python Signature
-isspace(self: String) -> Bool
+isspace(self: pxt.String) -> Bool
 ```
 
 Return `True` if there are only whitespace characters in the string and there is at least one character,
@@ -332,7 +352,7 @@ Equivalent to [`str.isspace()`](https://docs.python.org/3/library/stdtypes.html#
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; istitle()
 
 ```python Signature
-istitle(self: String) -> Bool
+istitle(self: pxt.String) -> Bool
 ```
 
 Return `True` if the string is a titlecased string and there is at least one character, `False` otherwise.
@@ -343,7 +363,7 @@ Equivalent to [`str.istitle()`](https://docs.python.org/3/library/stdtypes.html#
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; isupper()
 
 ```python Signature
-isupper(self: String) -> Bool
+isupper(self: pxt.String) -> Bool
 ```
 
 Return `True` if all cased characters in the string are uppercase and there is at least one cased character,
@@ -355,7 +375,7 @@ Equivalent to [`str.isupper()`](https://docs.python.org/3/library/stdtypes.html#
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; join()
 
 ```python Signature
-join(sep: String, elements: Json) -> String
+join(sep: pxt.String, elements: pxt.Json) -> String
 ```
 
 Return a string which is the concatenation of the strings in `elements`.
@@ -366,7 +386,7 @@ Equivalent to [`str.join()`](https://docs.python.org/3/library/stdtypes.html#str
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; len()
 
 ```python Signature
-len(self: String) -> Int
+len(self: pxt.String) -> Int
 ```
 
 Return the number of characters in the string.
@@ -377,7 +397,11 @@ Equivalent to [`len(str)`](https://docs.python.org/3/library/functions.html#len)
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; ljust()
 
 ```python Signature
-ljust(self: String, width: Int, fillchar: String = ' ') -> String
+ljust(
+    self: pxt.String,
+    width: pxt.Int,
+    fillchar: pxt.String = ' '
+) -> String
 ```
 
 Return the string left-justified in a string of length `width`.
@@ -386,15 +410,15 @@ Equivalent to [`str.ljust()`](https://docs.python.org/3/library/stdtypes.html#st
 
 **Parameters:**
 
-- **`width`** (`Int`): Minimum width of resulting string; additional characters will be filled with character defined in
+- **`width`** (`pxt.Int`): Minimum width of resulting string; additional characters will be filled with character defined in
     `fillchar`.
-- **`fillchar`** (`String`): Additional character for filling.
+- **`fillchar`** (`pxt.String`): Additional character for filling.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; lower()
 
 ```python Signature
-lower(self: String) -> String
+lower(self: pxt.String) -> String
 ```
 
 Return a copy of the string with all the cased characters converted to lowercase.
@@ -405,7 +429,10 @@ Equivalent to [`str.lower()`](https://docs.python.org/3/library/stdtypes.html#st
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; lstrip()
 
 ```python Signature
-lstrip(self: String, chars: String | None = None) -> String
+lstrip(
+    self: pxt.String,
+    chars: pxt.String | None = None
+) -> String
 ```
 
 Return a copy of the string with leading characters removed. The `chars` argument is a string specifying the set of
@@ -415,17 +442,17 @@ Equivalent to [`str.lstrip()`](https://docs.python.org/3/library/stdtypes.html#s
 
 **Parameters:**
 
-- **`chars`** (`String | None`): The set of characters to be removed.
+- **`chars`** (`pxt.String | None`): The set of characters to be removed.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; match()
 
 ```python Signature
 match(
-    self: String,
-    pattern: String,
-    case: Bool = True,
-    flags: Int = 0
+    self: pxt.String,
+    pattern: pxt.String,
+    case: pxt.Bool = True,
+    flags: pxt.Int = 0
 ) -> Bool
 ```
 
@@ -434,15 +461,15 @@ Determine if string starts with a match of a regular expression
 
 **Parameters:**
 
-- **`pattern`** (`String`): regular expression pattern
-- **`case`** (`Bool`): if False, ignore case
-- **`flags`** (`Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
+- **`pattern`** (`pxt.String`): regular expression pattern
+- **`case`** (`pxt.Bool`): if False, ignore case
+- **`flags`** (`pxt.Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; normalize()
 
 ```python Signature
-normalize(self: String, form: String) -> String
+normalize(self: pxt.String, form: pxt.String) -> String
 ```
 
 Return the Unicode normal form.
@@ -451,17 +478,17 @@ Equivalent to [`unicodedata.normalize()`](https://docs.python.org/3/library/unic
 
 **Parameters:**
 
-- **`form`** (`String`): Unicode normal form (`'NFC'`, `'NFKC'`, `'NFD'`, `'NFKD'`)
+- **`form`** (`pxt.String`): Unicode normal form (`'NFC'`, `'NFKC'`, `'NFD'`, `'NFKD'`)
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; pad()
 
 ```python Signature
 pad(
-    self: String,
-    width: Int,
-    side: String = 'left',
-    fillchar: String = ' '
+    self: pxt.String,
+    width: pxt.Int,
+    side: pxt.String = 'left',
+    fillchar: pxt.String = ' '
 ) -> String
 ```
 
@@ -470,16 +497,16 @@ Pad string up to width
 
 **Parameters:**
 
-- **`width`** (`Int`): Minimum width of resulting string; additional characters will be filled with character defined in
+- **`width`** (`pxt.Int`): Minimum width of resulting string; additional characters will be filled with character defined in
     `fillchar`.
-- **`side`** (`String`): Side from which to fill resulting string (`'left'`, `'right'`, `'both'`)
-- **`fillchar`** (`String`): Additional character for filling
+- **`side`** (`pxt.String`): Side from which to fill resulting string (`'left'`, `'right'`, `'both'`)
+- **`fillchar`** (`pxt.String`): Additional character for filling
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; partition()
 
 ```python Signature
-partition(self: String, sep: String = ' ') -> Json
+partition(self: pxt.String, sep: pxt.String = ' ') -> Json
 ```
 
 Splits string at the first occurrence of `sep`, and returns 3 elements containing the part before the
@@ -490,7 +517,7 @@ containing string itself, followed by two empty strings.
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; removeprefix()
 
 ```python Signature
-removeprefix(self: String, prefix: String) -> String
+removeprefix(self: pxt.String, prefix: pxt.String) -> String
 ```
 
 Remove prefix. If the prefix is not present, returns string.
@@ -499,7 +526,7 @@ Remove prefix. If the prefix is not present, returns string.
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; removesuffix()
 
 ```python Signature
-removesuffix(self: String, suffix: String) -> String
+removesuffix(self: pxt.String, suffix: pxt.String) -> String
 ```
 
 Remove suffix. If the suffix is not present, returns string.
@@ -508,7 +535,7 @@ Remove suffix. If the suffix is not present, returns string.
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; repeat()
 
 ```python Signature
-repeat(self: String, n: Int) -> String
+repeat(self: pxt.String, n: pxt.Int) -> String
 ```
 
 Repeat string `n` times.
@@ -518,10 +545,10 @@ Repeat string `n` times.
 
 ```python Signature
 replace(
-    self: String,
-    substr: String,
-    repl: String,
-    n: Int | None = None
+    self: pxt.String,
+    substr: pxt.String,
+    repl: pxt.String,
+    n: pxt.Int | None = None
 ) -> String
 ```
 
@@ -531,20 +558,20 @@ Equivalent to [`str.replace()`](https://docs.python.org/3/library/stdtypes.html#
 
 **Parameters:**
 
-- **`substr`** (`String`): string literal
-- **`repl`** (`String`): replacement string
-- **`n`** (`Int | None`): number of replacements to make (if `None`, replace all occurrences)
+- **`substr`** (`pxt.String`): string literal
+- **`repl`** (`pxt.String`): replacement string
+- **`n`** (`pxt.Int | None`): number of replacements to make (if `None`, replace all occurrences)
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; replace_re()
 
 ```python Signature
 replace_re(
-    self: String,
-    pattern: String,
-    repl: String,
-    n: Int | None = None,
-    flags: Int = 0
+    self: pxt.String,
+    pattern: pxt.String,
+    repl: pxt.String,
+    n: pxt.Int | None = None,
+    flags: pxt.Int = 0
 ) -> String
 ```
 
@@ -554,16 +581,16 @@ Equivalent to [`re.sub()`](https://docs.python.org/3/library/re.html#re.sub).
 
 **Parameters:**
 
-- **`pattern`** (`String`): regular expression pattern
-- **`repl`** (`String`): replacement string
-- **`n`** (`Int | None`): number of replacements to make (if `None`, replace all occurrences)
-- **`flags`** (`Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
+- **`pattern`** (`pxt.String`): regular expression pattern
+- **`repl`** (`pxt.String`): replacement string
+- **`n`** (`pxt.Int | None`): number of replacements to make (if `None`, replace all occurrences)
+- **`flags`** (`pxt.Int`): [flags](https://docs.python.org/3/library/re.html#flags) for the `re` module
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; reverse()
 
 ```python Signature
-reverse(self: String) -> String
+reverse(self: pxt.String) -> String
 ```
 
 Return a reversed copy of the string.
@@ -575,10 +602,10 @@ Equivalent to `str[::-1]`.
 
 ```python Signature
 rfind(
-    self: String,
-    substr: String,
-    start: Int | None = 0,
-    end: Int | None = None
+    self: pxt.String,
+    substr: pxt.String,
+    start: pxt.Int | None = 0,
+    end: pxt.Int | None = None
 ) -> Int
 ```
 
@@ -588,19 +615,19 @@ Equivalent to [`str.rfind()`](https://docs.python.org/3/library/stdtypes.html#st
 
 **Parameters:**
 
-- **`substr`** (`String`): substring to search for
-- **`start`** (`Int | None`): slice start
-- **`end`** (`Int | None`): slice end
+- **`substr`** (`pxt.String`): substring to search for
+- **`start`** (`pxt.Int | None`): slice start
+- **`end`** (`pxt.Int | None`): slice end
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; rindex()
 
 ```python Signature
 rindex(
-    self: String,
-    substr: String,
-    start: Int | None = 0,
-    end: Int | None = None
+    self: pxt.String,
+    substr: pxt.String,
+    start: pxt.Int | None = 0,
+    end: pxt.Int | None = None
 ) -> Int
 ```
 
@@ -613,7 +640,11 @@ Equivalent to [`str.rindex()`](https://docs.python.org/3/library/stdtypes.html#s
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; rjust()
 
 ```python Signature
-rjust(self: String, width: Int, fillchar: String = ' ') -> String
+rjust(
+    self: pxt.String,
+    width: pxt.Int,
+    fillchar: pxt.String = ' '
+) -> String
 ```
 
 Return the string right-justified in a string of length `width`.
@@ -622,14 +653,14 @@ Equivalent to [`str.rjust()`](https://docs.python.org/3/library/stdtypes.html#st
 
 **Parameters:**
 
-- **`width`** (`Int`): Minimum width of resulting string.
-- **`fillchar`** (`String`): Additional character for filling.
+- **`width`** (`pxt.Int`): Minimum width of resulting string.
+- **`fillchar`** (`pxt.String`): Additional character for filling.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; rpartition()
 
 ```python Signature
-rpartition(self: String, sep: String = ' ') -> Json
+rpartition(self: pxt.String, sep: pxt.String = ' ') -> Json
 ```
 
 This method splits string at the last occurrence of `sep`, and returns a list containing the part before the
@@ -639,7 +670,10 @@ separator, the separator itself, and the part after the separator.
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; rstrip()
 
 ```python Signature
-rstrip(self: String, chars: String | None = None) -> String
+rstrip(
+    self: pxt.String,
+    chars: pxt.String | None = None
+) -> String
 ```
 
 Return a copy of string with trailing characters removed.
@@ -648,17 +682,17 @@ Equivalent to [`str.rstrip()`](https://docs.python.org/3/library/stdtypes.html#s
 
 **Parameters:**
 
-- **`chars`** (`String | None`): The set of characters to be removed. If omitted or `None`, whitespace characters are removed.
+- **`chars`** (`pxt.String | None`): The set of characters to be removed. If omitted or `None`, whitespace characters are removed.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; slice()
 
 ```python Signature
 slice(
-    self: String,
-    start: Int | None = None,
-    stop: Int | None = None,
-    step: Int | None = None
+    self: pxt.String,
+    start: pxt.Int | None = None,
+    stop: pxt.Int | None = None,
+    step: pxt.Int | None = None
 ) -> String
 ```
 
@@ -667,19 +701,19 @@ Return a slice.
 
 **Parameters:**
 
-- **`start`** (`Int | None`): slice start
-- **`stop`** (`Int | None`): slice end
-- **`step`** (`Int | None`): slice step
+- **`start`** (`pxt.Int | None`): slice start
+- **`stop`** (`pxt.Int | None`): slice end
+- **`step`** (`pxt.Int | None`): slice step
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; slice_replace()
 
 ```python Signature
 slice_replace(
-    self: String,
-    start: Int | None = None,
-    stop: Int | None = None,
-    repl: String | None = None
+    self: pxt.String,
+    start: pxt.Int | None = None,
+    stop: pxt.Int | None = None,
+    repl: pxt.String | None = None
 ) -> String
 ```
 
@@ -688,15 +722,15 @@ Replace a positional slice with another value.
 
 **Parameters:**
 
-- **`start`** (`Int | None`): slice start
-- **`stop`** (`Int | None`): slice end
-- **`repl`** (`String | None`): replacement value
+- **`start`** (`pxt.Int | None`): slice start
+- **`stop`** (`pxt.Int | None`): slice end
+- **`repl`** (`pxt.String | None`): replacement value
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; startswith()
 
 ```python Signature
-startswith(self: String, substr: String) -> Int
+startswith(self: pxt.String, substr: pxt.String) -> Int
 ```
 
 Return `True` if string starts with `substr`, otherwise return `False`.
@@ -705,13 +739,16 @@ Equivalent to [`str.startswith()`](https://docs.python.org/3/library/stdtypes.ht
 
 **Parameters:**
 
-- **`substr`** (`String`): string literal
+- **`substr`** (`pxt.String`): string literal
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; strip()
 
 ```python Signature
-strip(self: String, chars: String | None = None) -> String
+strip(
+    self: pxt.String,
+    chars: pxt.String | None = None
+) -> String
 ```
 
 Return a copy of string with leading and trailing characters removed.
@@ -720,13 +757,13 @@ Equivalent to [`str.strip()`](https://docs.python.org/3/library/stdtypes.html#st
 
 **Parameters:**
 
-- **`chars`** (`String | None`): The set of characters to be removed. If omitted or `None`, whitespace characters are removed.
+- **`chars`** (`pxt.String | None`): The set of characters to be removed. If omitted or `None`, whitespace characters are removed.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; swapcase()
 
 ```python Signature
-swapcase(self: String) -> String
+swapcase(self: pxt.String) -> String
 ```
 
 Return a copy of string with uppercase characters converted to lowercase and vice versa.
@@ -737,7 +774,7 @@ Equivalent to [`str.swapcase()`](https://docs.python.org/3/library/stdtypes.html
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; title()
 
 ```python Signature
-title(self: String) -> String
+title(self: pxt.String) -> String
 ```
 
 Return a titlecased version of string, i.e. words start with uppercase characters, all remaining cased characters
@@ -749,7 +786,7 @@ Equivalent to [`str.title()`](https://docs.python.org/3/library/stdtypes.html#st
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; upper()
 
 ```python Signature
-upper(self: String) -> String
+upper(self: pxt.String) -> String
 ```
 
 Return a copy of string converted to uppercase.
@@ -760,7 +797,7 @@ Equivalent to [`str.upper()`](https://docs.python.org/3/library/stdtypes.html#st
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; wrap()
 
 ```python Signature
-wrap(self: String, width: Int) -> Json
+wrap(self: pxt.String, width: pxt.Int) -> Json
 ```
 
 Wraps the single paragraph in string so every line is at most `width` characters long.
@@ -770,6 +807,6 @@ Equivalent to [`textwrap.fill()`](https://docs.python.org/3/library/textwrap.htm
 
 **Parameters:**
 
-- **`width`** (`Int`): Maximum line width.
+- **`width`** (`pxt.Int`): Maximum line width.
 - **`kwargs`** (`Any`): Additional keyword arguments to pass to `textwrap.fill()`.
 
