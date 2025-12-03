@@ -211,7 +211,7 @@ documents = [
     "Shakespeare's works, like 'Hamlet' and 'A Midsummer Night's Dream,' endure in literature."
 ]
 
-docs_t.insert([{'text': doc} for doc in documents])
+docs_t.insert({'text': doc} for doc in documents)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -243,7 +243,7 @@ embed_fn = voyageai.embeddings.using(model='voyage-3.5', input_type='document')
 search_t.add_embedding_index('text', string_embed=embed_fn)
 
 # Insert documents
-search_t.insert([{'text': doc} for doc in documents])
+search_t.insert({'text': doc} for doc in documents)
 
 # Perform similarity search
 sim = search_t.text.similarity("What are the health benefits of Mediterranean food?")
