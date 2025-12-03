@@ -14,12 +14,12 @@ the [Working with Together AI](https://docs.pixeltable.com/notebooks/integration
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat_completions()
 
-```python
+```python Signature
 chat_completions(
-    messages: Json,
+    messages: pxt.Json,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -38,9 +38,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`Json`): A list of messages comprising the conversation so far.
-- **`model`** (`String`): The name of the model to query.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments for the Together `chat/completions` API.
+- **`messages`** (`pxt.Json`): A list of messages comprising the conversation so far.
+- **`model`** (`pxt.String`): The name of the model to query.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword arguments for the Together `chat/completions` API.
     For details on the available parameters, see: [https://docs.together.ai/reference/chat-completions-1](https://docs.together.ai/reference/chat-completions-1)
 
 **Returns:**
@@ -62,12 +62,12 @@ tbl.add_computed_column(
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; completions()
 
-```python
+```python Signature
 completions(
-    prompt: String,
+    prompt: pxt.String,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -86,9 +86,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`prompt`** (`String`): A string providing context for the model to complete.
-- **`model`** (`String`): The name of the model to query.
-- **`model_kwargs`** (`Json | None`): Additional keyword arguments for the Together `completions` API.
+- **`prompt`** (`pxt.String`): A string providing context for the model to complete.
+- **`model`** (`pxt.String`): The name of the model to query.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword arguments for the Together `completions` API.
     For details on the available parameters, see: [https://docs.together.ai/reference/completions-1](https://docs.together.ai/reference/completions-1)
 
 **Returns:**
@@ -107,8 +107,12 @@ tbl.add_computed_column(
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embeddings()
 
-```python
-embeddings(input: String, *, model: String) -> Array[(None,), Float]
+```python Signature
+embeddings(
+    input: pxt.String,
+    *,
+    model: pxt.String
+) -> Array[(None,), Float]
 ```
 
 Query an embedding model for a given string of text.
@@ -126,8 +130,8 @@ __Requirements:__
 
 **Parameters:**
 
-- **`input`** (`String`): A string providing the text for the model to embed.
-- **`model`** (`String`): The name of the embedding model to use.
+- **`input`** (`pxt.String`): A string providing the text for the model to embed.
+- **`model`** (`pxt.String`): The name of the embedding model to use.
 
 **Returns:**
 
@@ -147,12 +151,12 @@ tbl.add_computed_column(
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; image_generations()
 
-```python
+```python Signature
 image_generations(
-    prompt: String,
+    prompt: pxt.String,
     *,
-    model: String,
-    model_kwargs: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
 ) -> Image
 ```
 
@@ -171,9 +175,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`prompt`** (`String`): A description of the desired images.
-- **`model`** (`String`): The model to use for image generation.
-- **`model_kwargs`** (`Json | None`): Additional keyword args for the Together `images/generations` API.
+- **`prompt`** (`pxt.String`): A description of the desired images.
+- **`model`** (`pxt.String`): The model to use for image generation.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Together `images/generations` API.
     For details on the available parameters, see: [https://docs.together.ai/reference/post_images-generations](https://docs.together.ai/reference/post_images-generations)
 
 **Returns:**

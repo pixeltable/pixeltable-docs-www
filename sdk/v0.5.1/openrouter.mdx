@@ -15,16 +15,16 @@ as described in the Working with OpenRouter tutorial.
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat_completions()
 
-```python
+```python Signature
 chat_completions(
-    messages: Json,
+    messages: pxt.Json,
     *,
-    model: String,
-    model_kwargs: Json | None = None,
-    tools: Json | None = None,
-    tool_choice: Json | None = None,
-    provider: Json | None = None,
-    transforms: Json | None = None
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None,
+    tools: pxt.Json | None = None,
+    tool_choice: pxt.Json | None = None,
+    provider: pxt.Json | None = None,
+    transforms: pxt.Json | None = None
 ) -> Json
 ```
 
@@ -45,13 +45,13 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`Json`): A list of messages comprising the conversation so far.
-- **`model`** (`String`): ID of the model to use (e.g., `'anthropic/claude-3.5-sonnet'`, `'openai/gpt-4'`).
-- **`model_kwargs`** (`Json | None`): Additional OpenAI-compatible parameters.
-- **`tools`** (`Json | None`): List of tools available to the model.
-- **`tool_choice`** (`Json | None`): Controls which (if any) tool is called by the model.
-- **`provider`** (`Json | None`): OpenRouter-specific provider preferences (e.g., `{'order': ['Anthropic', 'OpenAI']}`).
-- **`transforms`** (`Json | None`): List of message transforms to apply (e.g., `['middle-out']`).
+- **`messages`** (`pxt.Json`): A list of messages comprising the conversation so far.
+- **`model`** (`pxt.String`): ID of the model to use (e.g., `'anthropic/claude-3.5-sonnet'`, `'openai/gpt-4'`).
+- **`model_kwargs`** (`pxt.Json | None`): Additional OpenAI-compatible parameters.
+- **`tools`** (`pxt.Json | None`): List of tools available to the model.
+- **`tool_choice`** (`pxt.Json | None`): Controls which (if any) tool is called by the model.
+- **`provider`** (`pxt.Json | None`): OpenRouter-specific provider preferences (e.g., `{'order': ['Anthropic', 'OpenAI']}`).
+- **`transforms`** (`pxt.Json | None`): List of message transforms to apply (e.g., `['middle-out']`).
 
 **Returns:**
 

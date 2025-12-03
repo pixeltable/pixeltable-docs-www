@@ -11,7 +11,7 @@ Functions for importing and exporting Pixeltable data.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; create_label_studio_project()
 
-```python
+```python Signature
 create_label_studio_project(
     t: Table,
     label_config: str,
@@ -130,7 +130,7 @@ create_label_studio_project(
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_images_as_fo_dataset()
 
-```python
+```python Signature
 export_images_as_fo_dataset(
     tbl: pxt.Table,
     images: exprs.Expr,
@@ -207,7 +207,7 @@ export_images_as_fo_dataset(
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_lancedb()
 
-```python
+```python Signature
 export_lancedb(
     table_or_query: pxt.Table | pxt.Query,
     db_uri: Path,
@@ -240,7 +240,7 @@ __Requirements:__
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_parquet()
 
-```python
+```python Signature
 export_parquet(
     table_or_query: pxt.Table | pxt.Query,
     parquet_path: Path,
@@ -268,7 +268,7 @@ not be available in the parquet format.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_csv()
 
-```python
+```python Signature
 import_csv(
     tbl_name: str,
     filepath_or_buffer: str | os.PathLike,
@@ -292,7 +292,7 @@ for more details.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_excel()
 
-```python
+```python Signature
 import_excel(
     tbl_name: str,
     io: str | os.PathLike,
@@ -317,7 +317,7 @@ for more details.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_huggingface_dataset()
 
-```python
+```python Signature
 import_huggingface_dataset(
     table_path: str,
     dataset: datasets.Dataset | datasets.DatasetDict,
@@ -353,7 +353,7 @@ Requires `datasets` library to be installed.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_json()
 
-```python
+```python Signature
 import_json(
     tbl_path: str,
     filepath_or_url: str,
@@ -389,7 +389,7 @@ is the contents of the specified `filepath_or_url`.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_pandas()
 
-```python
+```python Signature
 import_pandas(
     tbl_name: str,
     df: pandas.core.frame.DataFrame,
@@ -428,7 +428,7 @@ the following procedure:
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_parquet()
 
-```python
+```python Signature
 import_parquet(
     table: str,
     *,
@@ -460,7 +460,7 @@ Creates a new base table from a Parquet file or set of files. Requires pyarrow t
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_rows()
 
-```python
+```python Signature
 import_rows(
     tbl_path: str,
     rows: list[dict[str, Any]],

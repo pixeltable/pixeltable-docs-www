@@ -11,7 +11,7 @@ Core Pixeltable API for table operations, data processing, and UDF management.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; create_dir()
 
-```python
+```python Signature
 create_dir(
     path: str,
     *,
@@ -69,7 +69,7 @@ pxt.create_dir('parent1.parent2.sub_dir', parents=True)
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; create_snapshot()
 
-```python
+```python Signature
 create_snapshot(
     path_str: str,
     base: catalog.Table | Query,
@@ -145,7 +145,7 @@ snapshot = pxt.create_snapshot(
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; create_table()
 
-```python
+```python Signature
 create_table(
     path: str,
     schema: dict[str, Any] | None = None,
@@ -256,7 +256,7 @@ tbl = pxt.create_table('my_table', source='data.csv')
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; create_view()
 
-```python
+```python Signature
 create_view(
     path: str,
     base: catalog.Table | Query,
@@ -336,7 +336,7 @@ view = pxt.create_view(
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; drop_dir()
 
-```python
+```python Signature
 drop_dir(
     path: str,
     force: bool = False,
@@ -383,7 +383,7 @@ pxt.drop_dir('my_dir', force=True)
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; drop_table()
 
-```python
+```python Signature
 drop_table(
     table: str | catalog.Table,
     force: bool = False,
@@ -431,7 +431,7 @@ pxt.drop_table('subdir.my_table', force=True)
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; get_dir_contents()
 
-```python
+```python Signature
 get_dir_contents(dir_path: str = '', recursive: bool = True) -> DirContents
 ```
 
@@ -464,7 +464,7 @@ pxt.get_dir_contents('dir1')
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; get_table()
 
-```python
+```python Signature
 get_table(
     path: str,
     if_not_exists: Literal['error', 'ignore'] = 'error'
@@ -512,7 +512,7 @@ tbl = pxt.get_table('my_table:722')
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; init()
 
-```python
+```python Signature
 init(config_overrides: dict[str, Any] | None = None) -> None
 ```
 
@@ -521,7 +521,7 @@ Initializes the Pixeltable environment.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; ls()
 
-```python
+```python Signature
 ls(path: str = '') -> pd.DataFrame
 ```
 
@@ -536,7 +536,7 @@ instead.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; move()
 
-```python
+```python Signature
 move(
     path: str,
     new_path: str,
@@ -579,7 +579,7 @@ Rename a table:
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; publish()
 
-```python
+```python Signature
 publish(
     source: str | catalog.Table,
     destination_uri: str,
@@ -605,7 +605,7 @@ URI per Pixeltable cloud database.
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; replicate()
 
-```python
+```python Signature
 replicate(remote_uri: str, local_path: str) -> catalog.Table
 ```
 

@@ -71,6 +71,7 @@
                   "notebooks/integrations/working-with-anthropic",
                   "notebooks/integrations/working-with-bedrock",
                   "notebooks/integrations/working-with-deepseek",
+                  "notebooks/integrations/working-with-fiftyone",
                   "notebooks/integrations/working-with-fireworks",
                   "notebooks/integrations/working-with-gemini",
                   "notebooks/integrations/working-with-groq",
@@ -81,9 +82,10 @@
                   "notebooks/integrations/working-with-openai",
                   "notebooks/integrations/working-with-openrouter",
                   "notebooks/integrations/working-with-replicate",
+                  "notebooks/integrations/working-with-reve",
                   "notebooks/integrations/working-with-together",
-                  "notebooks/integrations/using-label-studio-with-pixeltable",
-                  "notebooks/integrations/working-with-fiftyone"
+                  "notebooks/integrations/working-with-voyageai",
+                  "notebooks/integrations/using-label-studio-with-pixeltable"
                 ]
               },
               {
@@ -184,8 +186,89 @@
             ]
           },
           {
-            "dropdown": "v0.5.1",
+            "dropdown": "v0.5.2",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.2/pixeltable",
+                      "sdk/v0.5.2/table",
+                      "sdk/v0.5.2/query",
+                      "sdk/v0.5.2/columnmetadata",
+                      "sdk/v0.5.2/dircontents",
+                      "sdk/v0.5.2/indexmetadata",
+                      "sdk/v0.5.2/tablemetadata",
+                      "sdk/v0.5.2/updatestatus",
+                      "sdk/v0.5.2/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.2/audio",
+                      "sdk/v0.5.2/date",
+                      "sdk/v0.5.2/image",
+                      "sdk/v0.5.2/json",
+                      "sdk/v0.5.2/math",
+                      "sdk/v0.5.2/string",
+                      "sdk/v0.5.2/timestamp",
+                      "sdk/v0.5.2/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.2/anthropic",
+                      "sdk/v0.5.2/bedrock",
+                      "sdk/v0.5.2/deepseek",
+                      "sdk/v0.5.2/fireworks",
+                      "sdk/v0.5.2/gemini",
+                      "sdk/v0.5.2/groq",
+                      "sdk/v0.5.2/huggingface",
+                      "sdk/v0.5.2/llama_cpp",
+                      "sdk/v0.5.2/mistralai",
+                      "sdk/v0.5.2/ollama",
+                      "sdk/v0.5.2/openai",
+                      "sdk/v0.5.2/openrouter",
+                      "sdk/v0.5.2/replicate",
+                      "sdk/v0.5.2/reve",
+                      "sdk/v0.5.2/together",
+                      "sdk/v0.5.2/vision",
+                      "sdk/v0.5.2/whisper",
+                      "sdk/v0.5.2/whisperx",
+                      "sdk/v0.5.2/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Iterators",
+                    "pages": [
+                      "sdk/v0.5.2/iterators",
+                      "sdk/v0.5.2/audiosplitter",
+                      "sdk/v0.5.2/componentiterator",
+                      "sdk/v0.5.2/documentsplitter",
+                      "sdk/v0.5.2/frameiterator",
+                      "sdk/v0.5.2/stringsplitter",
+                      "sdk/v0.5.2/tileiterator",
+                      "sdk/v0.5.2/videosplitter"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.2/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.1",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",

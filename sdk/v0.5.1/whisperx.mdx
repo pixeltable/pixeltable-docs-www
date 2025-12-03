@@ -11,23 +11,23 @@ WhisperX audio transcription and diarization functions.
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; transcribe()
 
-```python
+```python Signature
 transcribe(
-    audio: Audio,
+    audio: pxt.Audio,
     *,
-    model: String,
-    diarize: Bool = False,
-    compute_type: String | None = None,
-    language: String | None = None,
-    task: String | None = None,
-    chunk_size: Int | None = None,
-    alignment_model_name: String | None = None,
-    interpolate_method: String | None = None,
-    return_char_alignments: Bool | None = None,
-    diarization_model_name: String | None = None,
-    num_speakers: Int | None = None,
-    min_speakers: Int | None = None,
-    max_speakers: Int | None = None
+    model: pxt.String,
+    diarize: pxt.Bool = False,
+    compute_type: pxt.String | None = None,
+    language: pxt.String | None = None,
+    task: pxt.String | None = None,
+    chunk_size: pxt.Int | None = None,
+    alignment_model_name: pxt.String | None = None,
+    interpolate_method: pxt.String | None = None,
+    return_char_alignments: pxt.Bool | None = None,
+    diarization_model_name: pxt.String | None = None,
+    num_speakers: pxt.Int | None = None,
+    min_speakers: pxt.Int | None = None,
+    max_speakers: pxt.Int | None = None
 ) -> Json
 ```
 
@@ -46,27 +46,27 @@ __Requirements:__
 
 **Parameters:**
 
-- **`audio`** (`Audio`): The audio file to transcribe.
-- **`model`** (`String`): The name of the model to use for transcription.
-- **`diarize`** (`Bool`): Whether to perform speaker diarization.
-- **`compute_type`** (`String | None`): The compute type to use for the model (e.g., `'int8'`, `'float16'`). If `None`,
+- **`audio`** (`pxt.Audio`): The audio file to transcribe.
+- **`model`** (`pxt.String`): The name of the model to use for transcription.
+- **`diarize`** (`pxt.Bool`): Whether to perform speaker diarization.
+- **`compute_type`** (`pxt.String | None`): The compute type to use for the model (e.g., `'int8'`, `'float16'`). If `None`,
     defaults to `'float16'` on CUDA devices and `'int8'` otherwise.
-- **`language`** (`String | None`): The language code for the transcription (e.g., `'en'` for English).
-- **`task`** (`String | None`): The task to perform (e.g., `'transcribe'` or `'translate'`). Defaults to `'transcribe'`.
-- **`chunk_size`** (`Int | None`): The size of the audio chunks to process, in seconds. Defaults to `30`.
-- **`alignment_model_name`** (`String | None`): The name of the alignment model to use. If `None`, uses the default model for the given
+- **`language`** (`pxt.String | None`): The language code for the transcription (e.g., `'en'` for English).
+- **`task`** (`pxt.String | None`): The task to perform (e.g., `'transcribe'` or `'translate'`). Defaults to `'transcribe'`.
+- **`chunk_size`** (`pxt.Int | None`): The size of the audio chunks to process, in seconds. Defaults to `30`.
+- **`alignment_model_name`** (`pxt.String | None`): The name of the alignment model to use. If `None`, uses the default model for the given
     language. Only valid if `diarize=True`.
-- **`interpolate_method`** (`String | None`): The method to use for interpolation of the alignment results. If not specified, uses the
+- **`interpolate_method`** (`pxt.String | None`): The method to use for interpolation of the alignment results. If not specified, uses the
     WhisperX default (`'nearest'`). Only valid if `diarize=True`.
-- **`return_char_alignments`** (`Bool | None`): Whether to return character-level alignments. Defaults to `False`.
+- **`return_char_alignments`** (`pxt.Bool | None`): Whether to return character-level alignments. Defaults to `False`.
     Only valid if `diarize=True`.
-- **`diarization_model_name`** (`String | None`): The name of the diarization model to use. Defaults to
+- **`diarization_model_name`** (`pxt.String | None`): The name of the diarization model to use. Defaults to
     `pyannote/speaker-diarization-3.1`. Only valid if `diarize=True`.
-- **`num_speakers`** (`Int | None`): The number of speakers to expect in the audio. By default, the model with try to detect the
+- **`num_speakers`** (`pxt.Int | None`): The number of speakers to expect in the audio. By default, the model with try to detect the
     number of speakers. Only valid if `diarize=True`.
-- **`min_speakers`** (`Int | None`): If specified, the minimum number of speakers to expect in the audio.
+- **`min_speakers`** (`pxt.Int | None`): If specified, the minimum number of speakers to expect in the audio.
     Only valid if `diarize=True`.
-- **`max_speakers`** (`Int | None`): If specified, the maximum number of speakers to expect in the audio.
+- **`max_speakers`** (`pxt.Int | None`): If specified, the maximum number of speakers to expect in the audio.
     Only valid if `diarize=True`.
 
 **Returns:**
