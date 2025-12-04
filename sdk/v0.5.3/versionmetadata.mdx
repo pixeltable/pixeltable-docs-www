@@ -1,0 +1,90 @@
+---
+title: "VersionMetadata"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table_metadata.py#L81\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.VersionMetadata
+
+
+Metadata for a specific version of a Pixeltable table.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; change_type
+
+```
+change_type: Literal['data', 'schema']
+```
+
+The type of table transformation that this version represents (`'data'` or `'schema'`).
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; computed
+
+```
+computed: int
+```
+
+The number of computed values calculated in this version.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; created_at
+
+```
+created_at: datetime.datetime
+```
+
+The timestamp when this version was created.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; deletes
+
+```
+deletes: int
+```
+
+The number of rows deleted in this version.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; errors
+
+```
+errors: int
+```
+
+The number of errors encountered during this version.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; inserts
+
+```
+inserts: int
+```
+
+The number of rows inserted in this version.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; schema_change
+
+```
+schema_change: str | None
+```
+
+A description of the schema change that occurred in this version, if any.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; updates
+
+```
+updates: int
+```
+
+The number of rows updated in this version.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; user
+
+```
+user: str | None
+```
+
+The user who created this version, if defined.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; version
+
+```
+version: int
+```
+
+The version number.
+
