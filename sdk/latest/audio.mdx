@@ -13,7 +13,7 @@ Pixeltable UDFs for `AudioType`.
 
 ```python Signature
 encode_audio(
-    audio_data: pxt.Array[Float],
+    audio_data: pxt.Array[float32],
     *,
     input_sample_rate: pxt.Int,
     format: pxt.String,
@@ -26,7 +26,7 @@ Encodes an audio clip represented as an array into a specified audio format.
 
 **Parameters:**
 
-- **`audio_data`** (`pxt.Array[Float]`): An array of sampled amplitudes. The accepted array shapes are `(N,)` or `(1, N)` for mono audio
+- **`audio_data`** (`pxt.Array[float32]`): An array of sampled amplitudes. The accepted array shapes are `(N,)` or `(1, N)` for mono audio
     or `(2, N)` for stereo.
 - **`input_sample_rate`** (`pxt.Int`): The sample rate of the input audio data.
 - **`format`** (`pxt.String`): The desired output audio format. The supported formats are 'wav', 'mp3', 'flac', and 'mp4'.

@@ -88,13 +88,13 @@ tbl.add_computed_column(
 clip(
     text: pxt.String,
     model_id: pxt.String
-) -> pxt.Array[(None,), Float]
+) -> pxt.Array[(None,), float32]
 
 # Signature 2:
 clip(
     image: pxt.Image,
     model_id: pxt.String
-) -> pxt.Array[(None,), Float]
+) -> pxt.Array[(None,), float32]
 ```
 
 Computes a CLIP embedding for the specified text or image. `model_id` should be a reference to a pretrained
@@ -111,7 +111,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Array[(None,), Float]`: An array containing the output of the embedding model.
+- `pxt.Array[(None,), float32]`: An array containing the output of the embedding model.
 
 **Examples:**
 
@@ -447,7 +447,7 @@ sentence_transformer(
     *,
     model_id: pxt.String,
     normalize_embeddings: pxt.Bool = False
-) -> pxt.Array[(None,), Float]
+) -> pxt.Array[(None,), float32]
 ```
 
 Computes sentence embeddings. `model_id` should be a pretrained Sentence Transformers model, as described
@@ -468,7 +468,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Array[(None,), Float]`: An array containing the output of the embedding model.
+- `pxt.Array[(None,), float32]`: An array containing the output of the embedding model.
 
 **Examples:**
 

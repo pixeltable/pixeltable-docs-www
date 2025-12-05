@@ -23,7 +23,7 @@ embeddings(
     truncation: pxt.Bool | None = None,
     output_dimension: pxt.Int | None = None,
     output_dtype: pxt.String | None = None
-) -> pxt.Array[(None,), Float]
+) -> pxt.Array[(None,), float32]
 ```
 
 Creates an embedding vector representing the input text.
@@ -56,7 +56,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Array[(None,), Float]`: An array representing the application of the given embedding to `input`.
+- `pxt.Array[(None,), float32]`: An array representing the application of the given embedding to `input`.
 
 **Examples:**
 
@@ -84,7 +84,7 @@ multimodal_embed(
     model: pxt.String,
     input_type: pxt.String | None,
     truncation: pxt.Bool
-) -> pxt.Array[(1024,), Float]
+) -> pxt.Array[(1024,), float32]
 
 # Signature 2:
 multimodal_embed(
@@ -92,7 +92,7 @@ multimodal_embed(
     model: pxt.String,
     input_type: pxt.String | None,
     truncation: pxt.Bool
-) -> pxt.Array[(1024,), Float]
+) -> pxt.Array[(1024,), float32]
 ```
 
 Creates an embedding vector for text or images using Voyage AI's multimodal model.
@@ -118,7 +118,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Array[(1024,), Float]`: An array of 1024 floats representing the embedding.
+- `pxt.Array[(1024,), float32]`: An array of 1024 floats representing the embedding.
 
 **Examples:**
 
