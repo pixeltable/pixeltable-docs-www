@@ -1,0 +1,438 @@
+---
+title: "Working with Voyage AI in Pixeltable"
+sidebarTitle: "Voyage AI"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/cookbooks/providers/working-with-voyageai.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/cookbooks/providers/working-with-voyageai.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/cookbooks/providers/working-with-voyageai.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">embedding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">The Mediterranean diet emphasizes fish, olive oil, and vegetables,
+believed to reduce chronic diseases.</td>
+<td style="vertical-align: middle;">[ 0.048 0.016 0.002 0.026 0.038 0.013 ... -0.015 -0.034 -0.016 0.007
+0.046 -0.011]</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Photosynthesis in plants converts light energy into glucose and
+produces essential oxygen.</td>
+<td style="vertical-align: middle;">[ 0.013 0.023 -0.004 0.052 0.037 0.022 ... -0.013 -0.042 0.001 0.008
+-0.02 -0.016]</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">20th-century innovations, from radios to smartphones, centered on
+electronic advancements.</td>
+<td style="vertical-align: middle;">[ 4.373e-03 4.474e-02 -6.796e-05 2.745e-02 4.904e-02 6.148e-03 ...
+-1.833e-02 -4.274e-02 -4.713e-03 -1.739e-02 -1.540e-03 -2.306e-02]</td>
+</tr>
+</tbody>
+</table>
+`,`<style type="text/css">
+#T_04f86 th {
+  text-align: left;
+}
+#T_04f86_row0_col0, #T_04f86_row0_col1, #T_04f86_row0_col2, #T_04f86_row1_col0, #T_04f86_row1_col1, #T_04f86_row1_col2 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+</style>
+`,`
+<table id="T_04f86" data-quarto-postprocess="true">
+<thead>
+<tr>
+<th id="T_04f86_level0_col0" class="col_heading level0 col0"
+data-quarto-table-cell-role="th">Name</th>
+<th id="T_04f86_level0_col1" class="col_heading level0 col1"
+data-quarto-table-cell-role="th">Type</th>
+<th id="T_04f86_level0_col2" class="col_heading level0 col2"
+data-quarto-table-cell-role="th">Expression</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="T_04f86_row0_col0" class="data row0 col0">text</td>
+<td id="T_04f86_row0_col1" class="data row0 col1">String</td>
+<td id="T_04f86_row0_col2" class="data row0 col2">text</td>
+</tr>
+<tr>
+<td id="T_04f86_row1_col0" class="data row1 col0">score</td>
+<td id="T_04f86_row1_col1" class="data row1 col1">Required[Float]</td>
+<td id="T_04f86_row1_col2" class="data row1 col2">text.similarity('What
+are the health benefits of Mediterranean food?')</td>
+</tr>
+</tbody>
+</table>
+`,`
+<style type="text/css">
+#T_244e0 th {
+  text-align: left;
+}
+#T_244e0_row0_col0, #T_244e0_row1_col0, #T_244e0_row2_col0 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+</style>
+`,`
+<table id="T_244e0" data-quarto-postprocess="true">
+<tbody>
+<tr>
+<td id="T_244e0_level0_row0" class="row_heading level0 row0"
+data-quarto-table-cell-role="th">From</td>
+<td id="T_244e0_row0_col0" class="data row0 col0">search</td>
+</tr>
+<tr>
+<td id="T_244e0_level0_row1" class="row_heading level0 row1"
+data-quarto-table-cell-role="th">Order By</td>
+<td id="T_244e0_row1_col0" class="data row1 col0">text.similarity('What
+are the health benefits of Mediterranean food?') desc</td>
+</tr>
+<tr>
+<td id="T_244e0_level0_row2" class="row_heading level0 row2"
+data-quarto-table-cell-role="th">Limit</td>
+<td id="T_244e0_row2_col0" class="data row2 col0">3</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">image</th>
+<th data-quarto-table-cell-role="th">caption</th>
+<th data-quarto-table-cell-role="th">image_embedding</th>
+<th data-quarto-table-cell-role="th">text_embedding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><div class="pxt_image" style="width:480px;">
+<img
+src="data:image/webp;base64,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"
+width="480" />
+</div></td>
+<td style="vertical-align: middle;">A person standing next to an elephant</td>
+<td style="vertical-align: middle;">[-0.017 -0.001 0.015 0.008 -0.025 -0.012 ... 0.01 0.058 -0.031 0.017
+0.011 -0.055]</td>
+<td style="vertical-align: middle;">[ 0.012 -0.002 -0.024 0.012 -0.036 -0.003 ... -0.041 0.007 0.019
+-0.013 0.027 0.001]</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Voyage AI integration enables you to access
+state-of-the-art embedding and reranker models via the Voyage AI API.
+
+### Prerequisites
+
+-   A Voyage AI account with an API key (https://www.voyageai.com/)
+
+### Important Notes
+
+-   Voyage AI usage may incur costs based on your Voyage AI plan.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
+
+First you’ll need to install required libraries and enter your Voyage AI
+API key.
+
+
+```python
+%pip install -qU voyageai
+```
+
+
+```python
+import os
+import getpass
+if 'VOYAGE_API_KEY' not in os.environ:
+    os.environ['VOYAGE_API_KEY'] = getpass.getpass('Enter your Voyage AI API key:')
+```
+
+Now let’s create a Pixeltable directory to hold the tables for our demo.
+
+
+```python
+import pixeltable as pxt
+
+# Remove the 'voyageai_demo' directory and its contents, if it exists
+pxt.drop_dir('voyageai_demo', force=True)
+pxt.create_dir('voyageai_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;voyageai_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x10bf32bd0&gt;
+</pre>
+
+## Text Embeddings
+
+Voyage AI provides state-of-the-art embedding models for semantic search
+and RAG applications.
+
+
+```python
+from pixeltable.functions import voyageai
+
+# Create a table for document embeddings
+docs_t = pxt.create_table('voyageai_demo.documents', {'text': pxt.String})
+
+# Add computed column with Voyage embeddings
+docs_t.add_computed_column(
+    embedding=voyageai.embeddings(
+        docs_t.text,
+        model='voyage-3.5',
+        input_type='document'
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;documents&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Insert some sample documents
+documents = [
+    "The Mediterranean diet emphasizes fish, olive oil, and vegetables, believed to reduce chronic diseases.",
+    "Photosynthesis in plants converts light energy into glucose and produces essential oxygen.",
+    "20th-century innovations, from radios to smartphones, centered on electronic advancements.",
+    "Rivers provide water, irrigation, and habitat for aquatic species, vital for ecosystems.",
+    "Apple's conference call to discuss fourth fiscal quarter results is scheduled for Thursday, November 2, 2023.",
+    "Shakespeare's works, like 'Hamlet' and 'A Midsummer Night's Dream,' endure in literature."
+]
+
+docs_t.insert({'text': doc} for doc in documents)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;939.37&nbsp;rows/s\]
+Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+6&nbsp;rows&nbsp;inserted,&nbsp;12&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View the embeddings
+docs_t.select(docs_t.text, docs_t.embedding).head(3)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Embedding Index for Similarity Search
+
+You can use Voyage AI embeddings with Pixeltable’s embedding index for
+efficient similarity search.
+
+
+```python
+# Create a table with an embedding index
+search_t = pxt.create_table('voyageai_demo.search', {'text': pxt.String})
+
+# Add embedding index for similarity search
+embed_fn = voyageai.embeddings.using(model='voyage-3.5', input_type='document')
+search_t.add_embedding_index('text', string_embed=embed_fn)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;search&#x27;.
+</pre>
+
+
+```python
+# Insert documents
+search_t.insert({'text': doc} for doc in documents)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`search\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`search\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;911.18&nbsp;rows/s\]
+Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+6&nbsp;rows&nbsp;inserted,&nbsp;12&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# Perform similarity search
+sim = search_t.text.similarity("What are the health benefits of Mediterranean food?")
+search_t.order_by(sim, asc=False).limit(3).select(search_t.text, score=sim)
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+## Reranking
+
+Voyage AI’s rerankers can refine search results by providing more
+accurate relevance scores.
+
+
+```python
+# Create a table for reranking
+rerank_t = pxt.create_table(
+    'voyageai_demo.rerank',
+    {'query': pxt.String, 'documents': pxt.Json}
+)
+
+# Add computed column with reranking results
+rerank_t.add_computed_column(
+    reranked=voyageai.rerank(
+        rerank_t.query,
+        rerank_t.documents,
+        model='rerank-2.5',
+        top_k=3
+    )
+)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;rerank&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Insert query and documents to rerank
+rerank_t.insert([{
+    'query': "When is Apple's conference call scheduled?",
+    'documents': documents
+}])
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`rerank\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`rerank\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;601.33&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View reranking results
+results = rerank_t.select(rerank_t.query, rerank_t.reranked).collect()
+reranked_results = results[0]['reranked']['results']
+
+print("Top 3 most relevant documents:\n")
+for i, result in enumerate(reranked_results, 1):
+    print(f"{i}. (Score: {result['relevance_score']:.3f})")
+    print(f"   {result['document']}\n")
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Top&nbsp;3&nbsp;most&nbsp;relevant&nbsp;documents:
+
+1.&nbsp;(Score:&nbsp;0.930)
+&nbsp;&nbsp;&nbsp;Apple&#x27;s&nbsp;conference&nbsp;call&nbsp;to&nbsp;discuss&nbsp;fourth&nbsp;fiscal&nbsp;quarter&nbsp;results&nbsp;is&nbsp;scheduled&nbsp;for&nbsp;Thursday,&nbsp;November&nbsp;2,&nbsp;2023.
+
+2.&nbsp;(Score:&nbsp;0.283)
+&nbsp;&nbsp;&nbsp;20th-century&nbsp;innovations,&nbsp;from&nbsp;radios&nbsp;to&nbsp;smartphones,&nbsp;centered&nbsp;on&nbsp;electronic&nbsp;advancements.
+
+3.&nbsp;(Score:&nbsp;0.264)
+&nbsp;&nbsp;&nbsp;The&nbsp;Mediterranean&nbsp;diet&nbsp;emphasizes&nbsp;fish,&nbsp;olive&nbsp;oil,&nbsp;and&nbsp;vegetables,&nbsp;believed&nbsp;to&nbsp;reduce&nbsp;chronic&nbsp;diseases.
+</pre>
+
+## Multimodal Embeddings
+
+Voyage AI’s multimodal model (`voyage-multimodal-3`) can embed both
+images and text into the same vector space, enabling cross-modal
+similarity search.
+
+
+```python
+# Create a table for multimodal embeddings
+mm_t = pxt.create_table('voyageai_demo.multimodal', {'image': pxt.Image, 'caption': pxt.String}, if_exists='replace')
+
+# Add computed columns for image and text embeddings
+# multimodal_embed can embed either images or text independently
+mm_t.add_computed_column(
+    image_embedding=voyageai.multimodal_embed(mm_t.image, input_type='document')
+)
+mm_t.add_computed_column(
+    text_embedding=voyageai.multimodal_embed(mm_t.caption, input_type='document')
+)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;multimodal&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Insert a sample image with caption
+mm_t.insert([{
+    'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000139.jpg',
+    'caption': 'A person standing next to an elephant'
+}])
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`multimodal\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`multimodal\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;524.88&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;5&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View the multimodal embeddings
+mm_t.select(mm_t.image, mm_t.caption, mm_t.image_embedding, mm_t.text_embedding).head()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+### Learn More
+
+To learn more about RAG operations in Pixeltable, check out the [RAG
+Operations in
+Pixeltable](/cookbooks/app-workflows/rag-operations)
+tutorial.
+
+For more information about Voyage AI models and features, visit:
+
+-   [Voyage AI Documentation](https://docs.voyageai.com/)
+-   [Text Embeddings](https://docs.voyageai.com/docs/embeddings)
+-   [Multimodal
+    Embeddings](https://docs.voyageai.com/docs/multimodal-embeddings)
+-   [Rerankers](https://docs.voyageai.com/docs/reranker)
+
+If you have any questions, don’t hesitate to reach out.

@@ -1,0 +1,559 @@
+---
+title: "Get fast feedback on transformations"
+sidebarTitle: "Get fast feedback on transformations"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/cookbooks/app-workflows/dev-iterative-workflow.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/cookbooks/app-workflows/dev-iterative-workflow.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/cookbooks/app-workflows/dev-iterative-workflow.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">uppercase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tumble out of bed and I stumble to the kitchen</td>
+<td style="vertical-align: middle;">TUMBLE OUT OF BED AND I STUMBLE TO THE KITCHEN</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pour myself a cup of ambition</td>
+<td style="vertical-align: middle;">POUR MYSELF A CUP OF AMBITION</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tumble out of bed and I stumble to the kitchen</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pour myself a cup of ambition</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">uppercase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tumble out of bed and I stumble to the kitchen</td>
+<td style="vertical-align: middle;">TUMBLE OUT OF BED AND I STUMBLE TO THE KITCHEN</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pour myself a cup of ambition</td>
+<td style="vertical-align: middle;">POUR MYSELF A CUP OF AMBITION</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">And yawn and stretch and try to come to life</td>
+<td style="vertical-align: middle;">AND YAWN AND STRETCH AND TRY TO COME TO LIFE</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Jump in the shower and the blood starts pumpin'</td>
+<td style="vertical-align: middle;">JUMP IN THE SHOWER AND THE BLOOD STARTS PUMPIN'</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Out on the street, the traffic starts jumpin'</td>
+<td style="vertical-align: middle;">OUT ON THE STREET, THE TRAFFIC STARTS JUMPIN'</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">With folks like me on the job from nine to five</td>
+<td style="vertical-align: middle;">WITH FOLKS LIKE ME ON THE JOB FROM NINE TO FIVE</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">char_count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tumble out of bed and I stumble to the kitchen</td>
+<td style="vertical-align: middle;">46</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pour myself a cup of ambition</td>
+<td style="vertical-align: middle;">29</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">uppercase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tumble out of bed and I stumble to the kitchen</td>
+<td style="vertical-align: middle;">TUMBLE OUT OF BED AND I STUMBLE TO THE KITCHEN</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pour myself a cup of ambition</td>
+<td style="vertical-align: middle;">POUR MYSELF A CUP OF AMBITION</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">uppercase</th>
+<th data-quarto-table-cell-role="th">char_count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tumble out of bed and I stumble to the kitchen</td>
+<td style="vertical-align: middle;">TUMBLE OUT OF BED AND I STUMBLE TO THE KITCHEN</td>
+<td style="vertical-align: middle;">46</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pour myself a cup of ambition</td>
+<td style="vertical-align: middle;">POUR MYSELF A CUP OF AMBITION</td>
+<td style="vertical-align: middle;">29</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">And yawn and stretch and try to come to life</td>
+<td style="vertical-align: middle;">AND YAWN AND STRETCH AND TRY TO COME TO LIFE</td>
+<td style="vertical-align: middle;">44</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Jump in the shower and the blood starts pumpin'</td>
+<td style="vertical-align: middle;">JUMP IN THE SHOWER AND THE BLOOD STARTS PUMPIN'</td>
+<td style="vertical-align: middle;">47</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Out on the street, the traffic starts jumpin'</td>
+<td style="vertical-align: middle;">OUT ON THE STREET, THE TRAFFIC STARTS JUMPIN'</td>
+<td style="vertical-align: middle;">45</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">With folks like me on the job from nine to five</td>
+<td style="vertical-align: middle;">WITH FOLKS LIKE ME ON THE JOB FROM NINE TO FIVE</td>
+<td style="vertical-align: middle;">47</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">word_count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tumble out of bed and I stumble to the kitchen</td>
+<td style="vertical-align: middle;">10</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pour myself a cup of ambition</td>
+<td style="vertical-align: middle;">6</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">uppercase</th>
+<th data-quarto-table-cell-role="th">char_count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tumble out of bed and I stumble to the kitchen</td>
+<td style="vertical-align: middle;">TUMBLE OUT OF BED AND I STUMBLE TO THE KITCHEN</td>
+<td style="vertical-align: middle;">46</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pour myself a cup of ambition</td>
+<td style="vertical-align: middle;">POUR MYSELF A CUP OF AMBITION</td>
+<td style="vertical-align: middle;">29</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">uppercase</th>
+<th data-quarto-table-cell-role="th">char_count</th>
+<th data-quarto-table-cell-role="th">word_count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tumble out of bed and I stumble to the kitchen</td>
+<td style="vertical-align: middle;">TUMBLE OUT OF BED AND I STUMBLE TO THE KITCHEN</td>
+<td style="vertical-align: middle;">46</td>
+<td style="vertical-align: middle;">10</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pour myself a cup of ambition</td>
+<td style="vertical-align: middle;">POUR MYSELF A CUP OF AMBITION</td>
+<td style="vertical-align: middle;">29</td>
+<td style="vertical-align: middle;">6</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">And yawn and stretch and try to come to life</td>
+<td style="vertical-align: middle;">AND YAWN AND STRETCH AND TRY TO COME TO LIFE</td>
+<td style="vertical-align: middle;">44</td>
+<td style="vertical-align: middle;">10</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Jump in the shower and the blood starts pumpin'</td>
+<td style="vertical-align: middle;">JUMP IN THE SHOWER AND THE BLOOD STARTS PUMPIN'</td>
+<td style="vertical-align: middle;">47</td>
+<td style="vertical-align: middle;">9</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Out on the street, the traffic starts jumpin'</td>
+<td style="vertical-align: middle;">OUT ON THE STREET, THE TRAFFIC STARTS JUMPIN'</td>
+<td style="vertical-align: middle;">45</td>
+<td style="vertical-align: middle;">8</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">With folks like me on the job from nine to five</td>
+<td style="vertical-align: middle;">WITH FOLKS LIKE ME ON THE JOB FROM NINE TO FIVE</td>
+<td style="vertical-align: middle;">47</td>
+<td style="vertical-align: middle;">11</td>
+</tr>
+</tbody>
+</table>
+`];
+
+## Problem
+
+You need to iterate on transformation logic before running it on your
+entire dataset—especially for expensive operations like API calls or
+model inference.
+
+## Solution
+
+**What’s in this recipe:** - Test transformations on sample rows before
+applying to your full dataset - Save expressions as variables to
+guarantee consistent logic - Apply the iterate-then-add workflow with
+built-in functions, expressions, and custom UDFs
+
+You test transformation logic on sample rows before processing your
+entire dataset using the iterate-then-add workflow. This lets you
+validate logic on a few rows before committing to your full table.
+
+You use `.select()` with `.collect()` to preview transformations—nothing
+is stored in your table. If you want to collect only the first few rows,
+use `.head(n)` instead of `.collect()`. Once you’re satisfied with the
+results, use `.add_computed_column()` with the same expression to
+persist the transformation across your full table.
+
+This workflow applies to any data type in Pixeltable: images, videos,
+audio files, documents, and structured tabular data. This recipe uses
+text data and shows three examples:
+
+1.  Testing built-in functions on sample data
+2.  Saving expressions as variables to ensure consistency
+3.  Iterating with custom user-defined functions (UDFs)
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+```
+
+
+```python
+import pixeltable as pxt
+```
+
+### Create sample data
+
+
+```python
+# Create a fresh directory (drop existing if present)
+pxt.drop_dir('demo_project', force=True)
+pxt.create_dir('demo_project')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;demo_project&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x157b96250&gt;
+</pre>
+
+
+```python
+t = pxt.create_table('demo_project.lyrics', {'text': pxt.String})
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;lyrics&#x27;.
+</pre>
+
+
+```python
+t.insert([
+    {'text': 'Tumble out of bed and I stumble to the kitchen'},
+    {'text': 'Pour myself a cup of ambition'},
+    {'text': 'And yawn and stretch and try to come to life'},
+    {'text': "Jump in the shower and the blood starts pumpin'"},
+    {'text': "Out on the street, the traffic starts jumpin'"},
+    {'text': 'With folks like me on the job from nine to five'}
+])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`lyrics\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;2755.78&nbsp;rows/s\]
+Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+6&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
+
+### Example 1: Built-in functions
+
+Iterate with built-in functions, then add to the table.
+
+
+```python
+# Test uppercase transformation on subset
+t.select(
+    t.text,
+    uppercase=t.text.upper()
+).head(2)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+
+```python
+# Confirm the transformation was only in memory—table unchanged
+t.head(2)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+
+```python
+# Apply to all rows (same expression)
+t.add_computed_column(uppercase=t.text.upper())
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;6&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+6&nbsp;rows&nbsp;updated,&nbsp;12&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View text with uppercase column
+t.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+### Example 2: Save and reuse expressions
+
+Save an expression as a variable to guarantee the same logic in both
+iterate and add steps.
+
+
+```python
+# Define the expression once - no duplication
+char_count_expr = t.text.len()
+
+# Iterate: Test on subset
+t.select(
+    t.text,
+    char_count=char_count_expr
+).head(2)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+
+```python
+# Confirm the transformation was only in memory—table unchanged
+t.head(2)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+
+```python
+# Add: Use the SAME expression to persist
+t.add_computed_column(char_count=char_count_expr)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;6&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+6&nbsp;rows&nbsp;updated,&nbsp;12&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View text with char_count column
+t.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+This pattern works with any expression: - Built-in functions:
+`resize_expr = t.image.resize((224, 224))` - UDFs:
+`watermark_expr = add_watermark(t.image, '© 2024')` - Chained
+operations: `processed_expr = t.image.resize((224, 224)).rotate(90)`
+
+Benefits: - Write the expression once, use it twice - No
+copy-paste—reuse the same logic - Easy to iterate: change in one place,
+test again
+
+### Example 3: Custom UDF
+
+Iterate with a user-defined function, then add to the table.
+
+
+```python
+# Define a custom transformation
+@pxt.udf
+def word_count(text: str) -> int:
+    return len(text.split())
+```
+
+
+```python
+# Iterate: Test UDF on subset
+t.select(
+    t.text,
+    word_count=word_count(t.text)
+).head(2)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+
+
+```python
+# Confirm the transformation was only in memory—table unchanged
+t.head(2)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
+
+
+```python
+# Add: Apply to all rows (same expression)
+t.add_computed_column(word_count=word_count(t.text))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;6&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+6&nbsp;rows&nbsp;updated,&nbsp;12&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View text with word_count column
+t.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[8] }} />
+
+## Explanation
+
+**How the iterate-then-add workflow works:**
+
+Queries and computed columns serve different purposes. Queries let you
+test transformations on sample rows without storing anything. Once
+you’re satisfied with the results, you use the exact same expression
+with `.add_computed_column()` to persist it across your entire table.
+
+This workflow is especially valuable for expensive operations—API calls,
+model inference, complex image processing—where you want to validate
+logic before processing your full dataset. Test on 2-3 rows to catch
+errors early, then commit once.
+
+**To customize this workflow:**
+
+-   **Sample size**: Use `.head(n)` to collect only the first n
+    rows—`.head(1)` for single-row testing, `.head(10)` for broader
+    validation, or `.collect()` to collect all rows
+-   **Save expressions**: Store transformations as variables (Example 2)
+    to guarantee identical logic in both iterate and add steps
+-   **Chain transformations**: Test multiple operations
+    together—`.select(t.text.upper().split())` works just like single
+    operations
+-   **Use with any data type**: This pattern works with images, videos,
+    audio, documents—not just text. For multimodal data, visual
+    inspection during iteration is especially valuable
+
+**The Pixeltable workflow:**
+
+In traditional databases, `.select()` just picks which columns to view.
+In Pixeltable, `.select()` also lets you compute new transformations on
+the fly—define new columns without storing them. This makes `.select()`
+perfect for testing transformations before you commit them.
+
+When you use `.select()`, you’re creating a query. Queries are temporary
+operations that retrieve and transform data from tables—they don’t store
+anything. Queries use lazy evaluation, meaning they don’t execute until
+you call `.collect()`. You must use `.collect()` to execute the query
+and return results. `.head(n)` is a convenience method that collects
+only the first n rows instead of all rows. Use `.head(n)` when iterating
+to get fast feedback without processing your entire dataset.
+
+Nothing is stored in your table when you run queries. You can test
+different approaches quickly without affecting your data. You can store
+query results in a Python variable to work with them in your session.
+
+
+```python
+# Store query results as a variable (in memory only)
+results = t.select(
+    t.text,
+    uppercase=t.text.upper()  # Label the transformed column
+).head(3)
+```
+
+These results are stored in memory and will not persist across
+sessions—only `.add_computed_column()` persists data to your table.
+
+Once you’re satisfied, `.add_computed_column()` uses the same expression
+but adds it as a persistent column in your table. Now the transformation
+runs on all rows and results are stored permanently.
+
+## See also
+
+-   [Transform images with PIL
+    operations](/cookbooks/images/img-pil-transforms)
+-   [Convert RGB images to
+    grayscale](/cookbooks/images/img-rgb-to-grayscale)
+-   [Apply filters to
+    images](/cookbooks/images/img-apply-filters)

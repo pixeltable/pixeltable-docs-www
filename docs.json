@@ -17,85 +17,113 @@
             "group": "Welcome to Pixeltable",
             "pages": [
               "overview/pixeltable",
-              "overview/installation",
-              "overview/configuration",
               "overview/quick-start",
-              "overview/deployment",
+              "overview/ten-minute-tour",
               "overview/building-pixeltable-with-llms"
             ]
           },
           {
-            "group": "Concepts",
+            "group": "Platform",
             "pages": [
-              "datastore/tables-and-operations",
-              "datastore/views",
-              "datastore/iterators",
-              "datastore/bringing-data",
-              "datastore/filtering-and-selecting",
-              "datastore/computed-columns",
-              "datastore/vector-database",
-              "datastore/custom-functions",
-              "datastore/sampling"
+              {
+                "group": "Tables",
+                "pages": [
+                  "platform/tables",
+                  "platform/views",
+                  "platform/computed-columns",
+                  "platform/iterators",
+                  "platform/vector-database",
+                  "platform/embedding-indexes"
+                ]
+              },
+              {
+                "group": "Working with Data",
+                "pages": [
+                  "platform/filtering-and-selecting",
+                  "platform/bringing-data",
+                  "platform/external-files",
+                  "platform/sampling",
+                  "platform/data-sharing",
+                  "platform/time-zones"
+                ]
+              },
+              {
+                "group": "Extending Pixeltable",
+                "pages": [
+                  "platform/custom-functions",
+                  "platform/udfs-in-pixeltable"
+                ]
+              },
+              "platform/deployment",
+              "platform/configuration"
             ]
           },
           {
-            "group": "Notebooks",
+            "group": "Cookbooks",
             "pages": [
               {
-                "group": "Getting Started",
+                "group": "Model Providers",
                 "pages": [
-                  "notebooks/pixeltable-basics"
+                  "cookbooks/providers/working-with-anthropic",
+                  "cookbooks/providers/working-with-bedrock",
+                  "cookbooks/providers/working-with-deepseek",
+                  "cookbooks/providers/working-with-fal",
+                  "cookbooks/providers/working-with-fireworks",
+                  "cookbooks/providers/working-with-gemini",
+                  "cookbooks/providers/working-with-groq",
+                  "cookbooks/providers/working-with-mistralai",
+                  "cookbooks/providers/working-with-openai",
+                  "cookbooks/providers/working-with-openrouter",
+                  "cookbooks/providers/working-with-replicate",
+                  "cookbooks/providers/working-with-reve",
+                  "cookbooks/providers/working-with-together",
+                  "cookbooks/providers/working-with-voyageai"
                 ]
               },
               {
-                "group": "Fundamentals",
+                "group": "Local Models",
                 "pages": [
-                  "notebooks/fundamentals/tables-and-data-operations",
-                  "notebooks/fundamentals/computed-columns",
-                  "notebooks/fundamentals/queries-and-expressions"
+                  "cookbooks/local-models/using-label-studio-with-pixeltable",
+                  "cookbooks/local-models/working-with-hugging-face",
+                  "cookbooks/local-models/working-with-llama-cpp",
+                  "cookbooks/local-models/working-with-ollama",
+                  "cookbooks/local-models/working-with-fiftyone"
                 ]
               },
               {
-                "group": "Feature Guides",
+                "group": "Images",
                 "pages": [
-                  "notebooks/feature-guides/data-sharing",
-                  "notebooks/feature-guides/embedding-indexes",
-                  "notebooks/feature-guides/time-zones",
-                  "notebooks/feature-guides/udfs-in-pixeltable",
-                  "notebooks/feature-guides/working-with-external-files"
+                  "cookbooks/images/img-add-watermarks",
+                  "cookbooks/images/img-adjust-opacity",
+                  "cookbooks/images/img-apply-filters",
+                  "cookbooks/images/img-brightness-contrast",
+                  "cookbooks/images/img-pil-transforms",
+                  "cookbooks/images/img-rgb-to-grayscale"
                 ]
               },
               {
-                "group": "Integrations",
+                "group": "Audio/Video",
                 "pages": [
-                  "notebooks/integrations/working-with-anthropic",
-                  "notebooks/integrations/working-with-bedrock",
-                  "notebooks/integrations/working-with-deepseek",
-                  "notebooks/integrations/working-with-fireworks",
-                  "notebooks/integrations/working-with-gemini",
-                  "notebooks/integrations/working-with-groq",
-                  "notebooks/integrations/working-with-hugging-face",
-                  "notebooks/integrations/working-with-llama-cpp",
-                  "notebooks/integrations/working-with-mistralai",
-                  "notebooks/integrations/working-with-ollama",
-                  "notebooks/integrations/working-with-openai",
-                  "notebooks/integrations/working-with-openrouter",
-                  "notebooks/integrations/working-with-replicate",
-                  "notebooks/integrations/working-with-reve",
-                  "notebooks/integrations/working-with-together",
-                  "notebooks/integrations/using-label-studio-with-pixeltable",
-                  "notebooks/integrations/working-with-fiftyone"
+                  "cookbooks/av/audio-transcriptions",
+                  "cookbooks/av/object-detection-in-videos"
                 ]
               },
               {
-                "group": "Use Cases",
+                "group": "Application Workflows",
                 "pages": [
-                  "notebooks/use-cases/audio-transcriptions",
-                  "notebooks/use-cases/object-detection-in-videos",
-                  "notebooks/use-cases/rag-demo",
-                  "notebooks/use-cases/rag-operations"
+                  "cookbooks/app-workflows/dev-iterative-workflow",
+                  "cookbooks/app-workflows/rag-demo",
+                  "cookbooks/app-workflows/rag-operations"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Tutorials",
+            "pages": [
+              "tutorials/tables-and-data-operations",
+              "tutorials/computed-columns",
+              "tutorials/queries-and-expressions"
             ]
           }
         ]
@@ -143,6 +171,7 @@
                       "sdk/latest/anthropic",
                       "sdk/latest/bedrock",
                       "sdk/latest/deepseek",
+                      "sdk/latest/fal",
                       "sdk/latest/fireworks",
                       "sdk/latest/gemini",
                       "sdk/latest/groq",
@@ -155,7 +184,9 @@
                       "sdk/latest/replicate",
                       "sdk/latest/reve",
                       "sdk/latest/together",
+                      "sdk/latest/twelvelabs",
                       "sdk/latest/vision",
+                      "sdk/latest/voyageai",
                       "sdk/latest/whisper",
                       "sdk/latest/whisperx",
                       "sdk/latest/yolox"
@@ -185,7 +216,7 @@
             ]
           },
           {
-            "dropdown": "v0.5.2.dev10.315df4a2",
+            "dropdown": "v0.5.4.dev9.3a2417d8",
             "icon": "rocket",
             "groups": [
               {
@@ -194,71 +225,74 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.5.2.dev10.315df4a2/pixeltable",
-                      "sdk/v0.5.2.dev10.315df4a2/table",
-                      "sdk/v0.5.2.dev10.315df4a2/query",
-                      "sdk/v0.5.2.dev10.315df4a2/columnmetadata",
-                      "sdk/v0.5.2.dev10.315df4a2/dircontents",
-                      "sdk/v0.5.2.dev10.315df4a2/indexmetadata",
-                      "sdk/v0.5.2.dev10.315df4a2/tablemetadata",
-                      "sdk/v0.5.2.dev10.315df4a2/updatestatus",
-                      "sdk/v0.5.2.dev10.315df4a2/versionmetadata"
+                      "sdk/v0.5.4.dev9.3a2417d8/pixeltable",
+                      "sdk/v0.5.4.dev9.3a2417d8/table",
+                      "sdk/v0.5.4.dev9.3a2417d8/query",
+                      "sdk/v0.5.4.dev9.3a2417d8/columnmetadata",
+                      "sdk/v0.5.4.dev9.3a2417d8/dircontents",
+                      "sdk/v0.5.4.dev9.3a2417d8/indexmetadata",
+                      "sdk/v0.5.4.dev9.3a2417d8/tablemetadata",
+                      "sdk/v0.5.4.dev9.3a2417d8/updatestatus",
+                      "sdk/v0.5.4.dev9.3a2417d8/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.5.2.dev10.315df4a2/audio",
-                      "sdk/v0.5.2.dev10.315df4a2/date",
-                      "sdk/v0.5.2.dev10.315df4a2/image",
-                      "sdk/v0.5.2.dev10.315df4a2/json",
-                      "sdk/v0.5.2.dev10.315df4a2/math",
-                      "sdk/v0.5.2.dev10.315df4a2/string",
-                      "sdk/v0.5.2.dev10.315df4a2/timestamp",
-                      "sdk/v0.5.2.dev10.315df4a2/video"
+                      "sdk/v0.5.4.dev9.3a2417d8/audio",
+                      "sdk/v0.5.4.dev9.3a2417d8/date",
+                      "sdk/v0.5.4.dev9.3a2417d8/image",
+                      "sdk/v0.5.4.dev9.3a2417d8/json",
+                      "sdk/v0.5.4.dev9.3a2417d8/math",
+                      "sdk/v0.5.4.dev9.3a2417d8/string",
+                      "sdk/v0.5.4.dev9.3a2417d8/timestamp",
+                      "sdk/v0.5.4.dev9.3a2417d8/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.5.2.dev10.315df4a2/anthropic",
-                      "sdk/v0.5.2.dev10.315df4a2/bedrock",
-                      "sdk/v0.5.2.dev10.315df4a2/deepseek",
-                      "sdk/v0.5.2.dev10.315df4a2/fireworks",
-                      "sdk/v0.5.2.dev10.315df4a2/gemini",
-                      "sdk/v0.5.2.dev10.315df4a2/groq",
-                      "sdk/v0.5.2.dev10.315df4a2/huggingface",
-                      "sdk/v0.5.2.dev10.315df4a2/llama_cpp",
-                      "sdk/v0.5.2.dev10.315df4a2/mistralai",
-                      "sdk/v0.5.2.dev10.315df4a2/ollama",
-                      "sdk/v0.5.2.dev10.315df4a2/openai",
-                      "sdk/v0.5.2.dev10.315df4a2/openrouter",
-                      "sdk/v0.5.2.dev10.315df4a2/replicate",
-                      "sdk/v0.5.2.dev10.315df4a2/reve",
-                      "sdk/v0.5.2.dev10.315df4a2/together",
-                      "sdk/v0.5.2.dev10.315df4a2/vision",
-                      "sdk/v0.5.2.dev10.315df4a2/whisper",
-                      "sdk/v0.5.2.dev10.315df4a2/whisperx",
-                      "sdk/v0.5.2.dev10.315df4a2/yolox"
+                      "sdk/v0.5.4.dev9.3a2417d8/anthropic",
+                      "sdk/v0.5.4.dev9.3a2417d8/bedrock",
+                      "sdk/v0.5.4.dev9.3a2417d8/deepseek",
+                      "sdk/v0.5.4.dev9.3a2417d8/fal",
+                      "sdk/v0.5.4.dev9.3a2417d8/fireworks",
+                      "sdk/v0.5.4.dev9.3a2417d8/gemini",
+                      "sdk/v0.5.4.dev9.3a2417d8/groq",
+                      "sdk/v0.5.4.dev9.3a2417d8/huggingface",
+                      "sdk/v0.5.4.dev9.3a2417d8/llama_cpp",
+                      "sdk/v0.5.4.dev9.3a2417d8/mistralai",
+                      "sdk/v0.5.4.dev9.3a2417d8/ollama",
+                      "sdk/v0.5.4.dev9.3a2417d8/openai",
+                      "sdk/v0.5.4.dev9.3a2417d8/openrouter",
+                      "sdk/v0.5.4.dev9.3a2417d8/replicate",
+                      "sdk/v0.5.4.dev9.3a2417d8/reve",
+                      "sdk/v0.5.4.dev9.3a2417d8/together",
+                      "sdk/v0.5.4.dev9.3a2417d8/twelvelabs",
+                      "sdk/v0.5.4.dev9.3a2417d8/vision",
+                      "sdk/v0.5.4.dev9.3a2417d8/voyageai",
+                      "sdk/v0.5.4.dev9.3a2417d8/whisper",
+                      "sdk/v0.5.4.dev9.3a2417d8/whisperx",
+                      "sdk/v0.5.4.dev9.3a2417d8/yolox"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/v0.5.2.dev10.315df4a2/iterators",
-                      "sdk/v0.5.2.dev10.315df4a2/audiosplitter",
-                      "sdk/v0.5.2.dev10.315df4a2/componentiterator",
-                      "sdk/v0.5.2.dev10.315df4a2/documentsplitter",
-                      "sdk/v0.5.2.dev10.315df4a2/frameiterator",
-                      "sdk/v0.5.2.dev10.315df4a2/stringsplitter",
-                      "sdk/v0.5.2.dev10.315df4a2/tileiterator",
-                      "sdk/v0.5.2.dev10.315df4a2/videosplitter"
+                      "sdk/v0.5.4.dev9.3a2417d8/iterators",
+                      "sdk/v0.5.4.dev9.3a2417d8/audiosplitter",
+                      "sdk/v0.5.4.dev9.3a2417d8/componentiterator",
+                      "sdk/v0.5.4.dev9.3a2417d8/documentsplitter",
+                      "sdk/v0.5.4.dev9.3a2417d8/frameiterator",
+                      "sdk/v0.5.4.dev9.3a2417d8/stringsplitter",
+                      "sdk/v0.5.4.dev9.3a2417d8/tileiterator",
+                      "sdk/v0.5.4.dev9.3a2417d8/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.5.2.dev10.315df4a2/io"
+                      "sdk/v0.5.4.dev9.3a2417d8/io"
                     ]
                   }
                 ]
