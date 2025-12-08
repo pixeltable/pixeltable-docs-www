@@ -1,0 +1,11 @@
+nav a[class*="navbar"] {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+/* Adjust spacing */
+nav a[class*="sidebar"] svg {
+  margin-left: 8px;
+  margin-right: 0;
+}
