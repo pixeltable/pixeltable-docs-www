@@ -1,0 +1,410 @@
+---
+title: "Working with OpenAI in Pixeltable"
+sidebarTitle: "OpenAI"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-openai.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-openai.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-openai.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">How many islands are in the Aleutian island chain?</td>
+<td style="vertical-align: middle;">The Aleutian Islands are a chain of over 300 islands that extend
+approximately 1,200 miles (1,900 km) from the southwestern tip of the
+Alaska Peninsula to the tip of the Kamchatka Peninsula in Russia. The
+exact number of islands can vary depending on how one defines an
+"island," but there are generally recognized to be around 200
+significant islands in the chain, with many smaller islets and rocks as
+well.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">embedding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">OpenAI provides a variety of embeddings models.</td>
+<td style="vertical-align: middle;">[-0.023 -0.045 0.069 -0.017 -0.008 -0.027 ... 0.009 0.005 0.021
+0.018 -0.012 -0.008]</td>
+</tr>
+</tbody>
+</table>
+`,`<style type="text/css">
+#T_d40f4_row0_col0 {
+  white-space: pre-wrap;
+  text-align: left;
+  font-weight: bold;
+}
+</style>
+`,`
+<table id="T_d40f4" data-quarto-postprocess="true">
+<tbody>
+<tr>
+<td id="T_d40f4_row0_col0" class="data row0 col0">Table
+'openai_demo.images'</td>
+</tr>
+</tbody>
+</table>
+`,`
+<style type="text/css">
+#T_3a1a7 th {
+  text-align: left;
+}
+#T_3a1a7_row0_col0, #T_3a1a7_row0_col1, #T_3a1a7_row0_col2, #T_3a1a7_row1_col0, #T_3a1a7_row1_col1, #T_3a1a7_row1_col2 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+</style>
+`,`
+<table id="T_3a1a7" data-quarto-postprocess="true">
+<thead>
+<tr>
+<th id="T_3a1a7_level0_col0" class="col_heading level0 col0"
+data-quarto-table-cell-role="th">Column Name</th>
+<th id="T_3a1a7_level0_col1" class="col_heading level0 col1"
+data-quarto-table-cell-role="th">Type</th>
+<th id="T_3a1a7_level0_col2" class="col_heading level0 col2"
+data-quarto-table-cell-role="th">Computed With</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="T_3a1a7_row0_col0" class="data row0 col0">input</td>
+<td id="T_3a1a7_row0_col1" class="data row0 col1">String</td>
+<td id="T_3a1a7_row0_col2" class="data row0 col2"></td>
+</tr>
+<tr>
+<td id="T_3a1a7_row1_col0" class="data row1 col0">img</td>
+<td id="T_3a1a7_row1_col1" class="data row1 col1">Image[(1024,
+1024)]</td>
+<td id="T_3a1a7_row1_col2"
+class="data row1 col2">image_generations(input, model='dall-e-2')</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">img</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">A giant Pixel floating in the open ocean in a sea of data</td>
+<td style="vertical-align: middle;"><div class="pxt_image" style="width:480px;">
+<img
+src="data:image/webp;base64,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"
+width="480" />
+</div></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+<audio controls>
+<source src="http://127.0.0.1:63078/Users/asiegel/.pixeltable/file_cache/a32356262d254ce3bfad351cffd2e147_0_f7ba8b0e8780147e90d1e8dec4499cee2c8f9689c70b6b62d49e1738fbb0e2d4.flac" type="audio/x-flac">
+</source>
+</audio>
+</div></td>
+<td style="vertical-align: middle;">{"text": "Allow me to illustrate. During the last 60 days, I have
+been at the task of constructing an administration. It has been a long
+and deliberate proc ...... hill. The eyes of all peoples are upon us.
+Today, the eyes of all people are truly upon us. And our governments, in
+every branch, at every level,"}</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s OpenAI integration enables you to access OpenAI models via
+the OpenAI API.
+
+### Prerequisites
+
+-   An OpenAI account with an API key
+    (https://openai.com/index/openai-api/)
+
+### Important Notes
+
+-   OpenAI usage may incur costs based on your OpenAI plan.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
+
+First you’ll need to install required libraries and enter your OpenAI
+API key.
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import os
+import getpass
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('Enter your OpenAI API key:')
+```
+
+Now let’s create a Pixeltable directory to hold the tables for our demo.
+
+
+```python
+import pixeltable as pxt
+
+# Remove the 'openai_demo' directory and its contents, if it exists
+pxt.drop_dir('openai_demo', force=True)
+pxt.create_dir('openai_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;openai_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x32c099c30&gt;
+</pre>
+
+## Chat Completions
+
+Create a Table: In Pixeltable, create a table with columns to represent
+your input data and the columns where you want to store the results from
+OpenAI.
+
+
+```python
+from pixeltable.functions import openai
+
+# Create a table in Pixeltable and add a computed column that calls OpenAI
+
+t = pxt.create_table('openai_demo.chat', {'input': pxt.String})
+
+messages = [{'role': 'user', 'content': t.input}]
+t.add_computed_column(output=openai.chat_completions(
+    messages=messages,
+    model='gpt-4o-mini',
+    model_kwargs={
+        # Optional dict with parameters for the OpenAI API
+        'max_tokens': 300,
+        'top_p': 0.9,
+        'temperature': 0.7
+    }
+))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`chat\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Parse the response into a new column
+t.add_computed_column(response=t.output.choices[0].message.content)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Start a conversation
+t.insert([{'input': 'How many islands are in the Aleutian island chain?'}])
+t.select(t.input, t.response).head()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;106.84&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Embeddings
+
+Note: OpenAI Embeddings API is not available with free tier API keys
+
+
+```python
+emb_t = pxt.create_table('openai_demo.embeddings', {'input': pxt.String})
+emb_t.add_computed_column(embedding=openai.embeddings(
+    input=emb_t.input,
+    model='text-embedding-3-small'
+))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`embeddings\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+emb_t.insert([{'input': 'OpenAI provides a variety of embeddings models.'}])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`embeddings\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;164.18&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=1,&nbsp;num_computed_values=2,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+emb_t.head()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Image Generations
+
+
+```python
+image_t = pxt.create_table('openai_demo.images', {'input': pxt.String})
+image_t.add_computed_column(img=openai.image_generations(
+    image_t.input,
+    model='dall-e-2',
+))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`images\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+image_t.insert([
+    {'input': 'A giant Pixel floating in the open ocean in a sea of data'}
+])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`images\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;444.88&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=1,&nbsp;num_computed_values=2,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+image_t
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+
+```python
+image_t.head()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+
+## Audio Transcription
+
+
+```python
+audio_t = pxt.create_table('openai_demo.audio', {'input': pxt.Audio})
+audio_t.add_computed_column(result=openai.transcriptions(
+    audio_t.input,
+    model='whisper-1',
+    model_kwargs={
+        'language': 'en',
+        'prompt': 'Transcribe the contents of this recording.'
+    },
+))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`audio\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+url = (
+    'https://github.com/pixeltable/pixeltable/raw/release/tests/data/audio/'
+    'jfk_1961_0109_cityuponahill-excerpt.flac'
+)
+audio_t.insert([{'input': url}])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`audio\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;160.69&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=1,&nbsp;num_computed_values=3,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+audio_t.head()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
+
+
+```python
+audio_t.head()[0]['result']['text']
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+&#x27;Allow&nbsp;me&nbsp;to&nbsp;illustrate.&nbsp;During&nbsp;the&nbsp;last&nbsp;60&nbsp;days,&nbsp;I&nbsp;have&nbsp;been&nbsp;at&nbsp;the&nbsp;task&nbsp;of&nbsp;constructing&nbsp;an&nbsp;administration.&nbsp;It&nbsp;has&nbsp;been&nbsp;a&nbsp;long&nbsp;and&nbsp;deliberate&nbsp;process.&nbsp;Some&nbsp;have&nbsp;counseled&nbsp;greater&nbsp;speed.&nbsp;Others&nbsp;have&nbsp;counseled&nbsp;more&nbsp;expedient&nbsp;tests.&nbsp;But&nbsp;I&nbsp;have&nbsp;been&nbsp;guided&nbsp;by&nbsp;the&nbsp;standard&nbsp;John&nbsp;Winthrop&nbsp;set&nbsp;before&nbsp;his&nbsp;shipmates&nbsp;on&nbsp;the&nbsp;flagship&nbsp;Arabella&nbsp;331&nbsp;years&nbsp;ago,&nbsp;as&nbsp;they&nbsp;too&nbsp;faced&nbsp;the&nbsp;task&nbsp;of&nbsp;building&nbsp;a&nbsp;new&nbsp;government&nbsp;on&nbsp;a&nbsp;perilous&nbsp;frontier.&nbsp;We&nbsp;must&nbsp;always&nbsp;consider,&nbsp;he&nbsp;said,&nbsp;that&nbsp;we&nbsp;shall&nbsp;be&nbsp;as&nbsp;a&nbsp;city&nbsp;upon&nbsp;a&nbsp;hill.&nbsp;The&nbsp;eyes&nbsp;of&nbsp;all&nbsp;peoples&nbsp;are&nbsp;upon&nbsp;us.&nbsp;Today,&nbsp;the&nbsp;eyes&nbsp;of&nbsp;all&nbsp;people&nbsp;are&nbsp;truly&nbsp;upon&nbsp;us.&nbsp;And&nbsp;our&nbsp;governments,&nbsp;in&nbsp;every&nbsp;branch,&nbsp;at&nbsp;every&nbsp;level,&#x27;
+</pre>
+
+### Learn More
+
+To learn more about advanced techniques like RAG operations in
+Pixeltable, check out the [RAG Operations in
+Pixeltable](/cookbooks/app-workflows/rag-operations)
+tutorial.
+
+If you have any questions, don’t hesitate to reach out.

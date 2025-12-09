@@ -1,0 +1,437 @@
+---
+title: "Working with Bedrock in Pixeltable"
+sidebarTitle: "Bedrock"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-bedrock.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-bedrock.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-bedrock.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What was the outcome of the 1904 US Presidential election?</td>
+<td style="vertical-align: middle;">The 1904 United States Presidential election was held on November 8,
+1904. The outcome was a victory for the incumbent President, Theodore
+Roosevelt, who ran as the Republican candidate. Here are the key details
+of the election: ### Candidates: - **Theodore Roosevelt (Republican
+Party)**: Incumbent President who had assumed office in 1901 following
+the assassination of President William McKinley. - **Alton B. Parker
+(Democratic Party)**: A New York judge and the Democratic nominee. -
+**Euge ...... actions and conservation efforts, were popular. 2.
+**Economic Prosperity**: The country was experiencing economic growth,
+which benefited the incumbent. 3. **Personal Popularity**: Roosevelt’s
+dynamic personality and vigorous campaign style resonated with the
+public. Roosevelt’s win in 1904 allowed him to implement his "Square
+Deal" domestic program and continue his foreign policy initiatives,
+including the construction of the Panama Canal and increased American
+influence in global affairs.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">prompt</th>
+<th data-quarto-table-cell-role="th">answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What's the latest news about SpaceX?</td>
+<td style="vertical-align: middle;">Here's the latest news about SpaceX: 1. **Starbase City Proposal**:
+- **Title**: The home of Elon Musk's SpaceX could become an official
+Texas city called Starbase - **Source**: The Associated Press -
+**Published**: 2025-04-30 - **Snippet**: An election is scheduled for
+Saturday to determine whether a small area of coastal South Texas, which
+is home to SpaceX, will become an official city named Starbase. 2.
+**250th Starlink Satellite Mission**: - **Title**: SpaceX launches 2
+...... Press - **Published**: 2025-04-29 - **Snippet**: Amazon launched
+its first set of internet satellites using an Atlas V rocket, aiming to
+compete with SpaceX's Starlink. 5. **Recent Starlink Satellite Launch**:
+- **Title**: SpaceX launches batch of Starlink satellites into low-Earth
+orbit - **Source**: UPI - **Published**: 2025-04-28 - **Snippet**:
+SpaceX launched a Falcon 9 rocket carrying nearly two dozen Starlink
+satellites into low-Earth orbit from Florida's east coast.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What's the weather in San Francisco?</td>
+<td style="vertical-align: middle;">Based on the tool output provided, here's the current weather in San
+Francisco: - **Temperature:** 72°F - **Condition:** Partly Cloudy If you
+need more detailed information or a forecast for the upcoming days, feel
+free to ask!</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Bedrock integration enables you to access AWS Bedrock via
+the Bedrock API.
+
+### Prerequisites
+
+-   Activate Bedrock in your AWS account.
+-   Request access to your desired models (e.g. Claude Sonnet 3.7,
+    Amazon Nova Pro)
+-   Optional - you may need to configure AWS CLI locally to authenticate
+    with your AWS account.
+
+### Important Notes
+
+-   Bedrock usage may incur costs based on your Bedrock plan.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
+
+First you’ll need to install required libraries and enter an Bedrock API
+key.
+
+
+```python
+%pip install -qU pixeltable boto3 duckduckgo-search
+```
+
+
+```python
+import os
+import getpass
+
+if 'AWS_ACCESS_KEY' not in os.environ:
+    os.environ['AWS_ACCESS_KEY'] = getpass.getpass('Enter your AWS Access Key:')
+
+if 'AWS_SECRET_ACCESS_KEY' not in os.environ:
+    os.environ['AWS_SECRET_ACCESS_KEY'] = getpass.getpass('Enter your AWS Secret Access Key:')
+```
+
+Now let’s create a Pixeltable directory to hold the tables for our demo.
+
+
+```python
+import pixeltable as pxt
+
+# Remove the `bedrock_demo` directory and its contents, if it exists
+pxt.drop_dir('bedrock_demo', force=True)
+pxt.create_dir('bedrock_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;bedrock_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1d4253ae930&gt;
+</pre>
+
+## Basic Messages
+
+Create a Table: In Pixeltable, create a table with columns to represent
+your input data and the columns where you want to store the results from
+Bedrock.
+
+
+```python
+from pixeltable.functions import bedrock
+
+# Create a table in Pixeltable and pick a model hosted on Bedrock with some parameters
+
+t = pxt.create_table('bedrock_demo.chat', {'input': pxt.String})
+
+msgs = [{'role': 'user', 'content': t.input}]
+t.add_computed_column(output=bedrock.converse(
+        model_id="amazon.nova-pro-v1:0",
+        messages=[
+            {
+                'role': 'user',
+                'content': [
+                    {
+                        'text': t.input,
+                    }
+                ]
+            }
+        ],
+    ))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`chat\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Parse the response into a new column
+t.add_computed_column(response=t.output.output.message.content[0].text)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Start a conversation
+t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'}])
+t.select(t.input, t.response).show()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;147.54&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Advanced: Tool-based Agent with Bedrock
+
+Now let’s create a more advanced example using Bedrock with tools for
+news search and weather information.
+
+
+```python
+import pixeltable as pxt
+import pixeltable.functions as pxtf
+from pixeltable.functions.bedrock import converse, invoke_tools
+from duckduckgo_search import DDGS
+
+# Initialize app structure
+pxt.drop_dir("agents", force=True)
+pxt.create_dir("agents")
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;agents&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1d4252acdd0&gt;
+</pre>
+
+
+```python
+# Define tools
+@pxt.udf
+def search_news(keywords: str, max_results: int) -> str:
+    """Search news using DuckDuckGo and return results."""
+    try:
+        with DDGS() as ddgs:
+            results = ddgs.news(
+                keywords=keywords,
+                region="wt-wt",
+                safesearch="off",
+                timelimit="m",
+                max_results=max_results,
+            )
+            formatted_results = []
+            for i, r in enumerate(results, 1):
+                formatted_results.append(
+                    f"{i}. Title: {r['title']}\n"
+                    f"   Source: {r['source']}\n"
+                    f"   Published: {r['date']}\n"
+                    f"   Snippet: {r['body']}\n"
+                )
+            return "\n".join(formatted_results)
+    except Exception as e:
+        return f"Search failed: {str(e)}"
+
+@pxt.udf
+def get_weather(location: str) -> str:
+    """Mock weather function - replace with actual API call."""
+    return f"Current weather in {location}: 72°F, Partly Cloudy"
+
+# Register all tools
+tools = pxt.tools(search_news, get_weather)
+```
+
+
+```python
+# Create base table
+tool_agent = pxt.create_table(
+    "agents.tools", 
+    {"prompt": pxt.String}, 
+    if_exists="ignore"
+)
+
+# Add tool selection and execution workflow
+tool_agent.add_computed_column(
+    initial_response=converse(
+        model_id="amazon.nova-pro-v1:0",
+        messages=[
+            {
+                'role': 'user',
+                'content': [
+                    {
+                        'text': tool_agent.prompt,
+                    }
+                ]
+            }
+        ],
+        tool_config=tools,
+    )
+)
+
+# Add tool execution
+tool_agent.add_computed_column(
+    tool_output=invoke_tools(tools, tool_agent.initial_response)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`tools\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Add response formatting
+tool_agent.add_computed_column(
+    tool_response_prompt=pxtf.string.format(
+        "Orginal Prompt\n{0}: Tool Output\n{1}", 
+        tool_agent.prompt, 
+        tool_agent.tool_output
+    ),
+    if_exists="ignore",
+)
+
+# Add final response generation
+tool_agent.add_computed_column(
+    final_response=converse(
+        model_id="amazon.nova-pro-v1:0",
+        messages=[
+            {
+                'role': 'user',
+                'content': [
+                    {
+                        'text': tool_agent.tool_response_prompt,
+                    }
+                ]
+            }
+        ]
+    )
+)
+
+tool_agent.add_computed_column(
+    answer=tool_agent.final_response.output.message.content[0].text
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Example queries using different tools
+queries = [
+    "What's the latest news about SpaceX?",
+    "What's the weather in San Francisco?",
+]
+
+# Use the agent
+for query in queries:
+    tool_agent.insert([{'prompt': query}])
+    result = tool_agent.select(
+        tool_agent.prompt,
+        tool_agent.tool_output,
+        tool_agent.answer
+    ).tail(1)
+    print(f"\nQuery: {query}")
+    print(f"Answer: {result['answer'][0]}")
+
+# Display the full table
+tool_agent.select(tool_agent.prompt, tool_agent.answer).show()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`tools\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;168.89&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+
+Query:&nbsp;What&#x27;s&nbsp;the&nbsp;latest&nbsp;news&nbsp;about&nbsp;SpaceX?
+Answer:&nbsp;Here&#x27;s&nbsp;the&nbsp;latest&nbsp;news&nbsp;about&nbsp;SpaceX:
+
+1.&nbsp;**Starbase&nbsp;City&nbsp;Proposal**:
+&nbsp;&nbsp;&nbsp;-&nbsp;**Title**:&nbsp;The&nbsp;home&nbsp;of&nbsp;Elon&nbsp;Musk&#x27;s&nbsp;SpaceX&nbsp;could&nbsp;become&nbsp;an&nbsp;official&nbsp;Texas&nbsp;city&nbsp;called&nbsp;Starbase
+&nbsp;&nbsp;&nbsp;-&nbsp;**Source**:&nbsp;The&nbsp;Associated&nbsp;Press
+&nbsp;&nbsp;&nbsp;-&nbsp;**Published**:&nbsp;2025-04-30
+&nbsp;&nbsp;&nbsp;-&nbsp;**Snippet**:&nbsp;An&nbsp;election&nbsp;is&nbsp;scheduled&nbsp;for&nbsp;Saturday&nbsp;to&nbsp;determine&nbsp;whether&nbsp;a&nbsp;small&nbsp;area&nbsp;of&nbsp;coastal&nbsp;South&nbsp;Texas,&nbsp;which&nbsp;is&nbsp;home&nbsp;to&nbsp;SpaceX,&nbsp;will&nbsp;become&nbsp;an&nbsp;official&nbsp;city&nbsp;named&nbsp;Starbase.
+
+2.&nbsp;**250th&nbsp;Starlink&nbsp;Satellite&nbsp;Mission**:
+&nbsp;&nbsp;&nbsp;-&nbsp;**Title**:&nbsp;SpaceX&nbsp;launches&nbsp;250th&nbsp;Starlink&nbsp;satellite&nbsp;mission,&nbsp;lands&nbsp;rocket&nbsp;at&nbsp;sea&nbsp;(video,&nbsp;photos)
+&nbsp;&nbsp;&nbsp;-&nbsp;**Source**:&nbsp;Space.com
+&nbsp;&nbsp;&nbsp;-&nbsp;**Published**:&nbsp;2025-04-28
+&nbsp;&nbsp;&nbsp;-&nbsp;**Snippet**:&nbsp;SpaceX&nbsp;achieved&nbsp;a&nbsp;milestone&nbsp;by&nbsp;launching&nbsp;its&nbsp;250th&nbsp;Starlink&nbsp;mission.&nbsp;A&nbsp;Falcon&nbsp;9&nbsp;rocket&nbsp;carrying&nbsp;23&nbsp;Starlink&nbsp;satellites,&nbsp;including&nbsp;13&nbsp;with&nbsp;direct-to-cell&nbsp;capability,&nbsp;lifted&nbsp;off&nbsp;from&nbsp;Cape&nbsp;Canaveral&nbsp;Space&nbsp;Force&nbsp;Station.
+
+3.&nbsp;**Back-to-Back&nbsp;Starlink&nbsp;Launches**:
+&nbsp;&nbsp;&nbsp;-&nbsp;**Title**:&nbsp;SpaceX&nbsp;Falcon&nbsp;9&nbsp;rocket&nbsp;launches&nbsp;1st&nbsp;of&nbsp;2&nbsp;planned&nbsp;Starlink&nbsp;launches&nbsp;in&nbsp;2&nbsp;days,&nbsp;lands&nbsp;booster&nbsp;at&nbsp;sea&nbsp;(video)
+&nbsp;&nbsp;&nbsp;-&nbsp;**Source**:&nbsp;Space.com
+&nbsp;&nbsp;&nbsp;-&nbsp;**Published**:&nbsp;2025-04-28
+&nbsp;&nbsp;&nbsp;-&nbsp;**Snippet**:&nbsp;SpaceX&nbsp;conducted&nbsp;its&nbsp;49th&nbsp;Falcon&nbsp;9&nbsp;mission&nbsp;of&nbsp;2025&nbsp;and&nbsp;has&nbsp;another&nbsp;Starlink&nbsp;launch&nbsp;scheduled&nbsp;for&nbsp;later&nbsp;that&nbsp;night&nbsp;from&nbsp;Cape&nbsp;Canaveral&nbsp;Space&nbsp;Force&nbsp;Station.
+
+4.&nbsp;**Amazon’s&nbsp;Satellite&nbsp;Internet&nbsp;Competition**:
+&nbsp;&nbsp;&nbsp;-&nbsp;**Title**:&nbsp;Amazon&nbsp;Just&nbsp;Launched&nbsp;Its&nbsp;First&nbsp;Internet&nbsp;Satellites&nbsp;to&nbsp;Compete&nbsp;Against&nbsp;SpaceX&#x27;s&nbsp;Starlink
+&nbsp;&nbsp;&nbsp;-&nbsp;**Source**:&nbsp;The&nbsp;Associated&nbsp;Press
+&nbsp;&nbsp;&nbsp;-&nbsp;**Published**:&nbsp;2025-04-29
+&nbsp;&nbsp;&nbsp;-&nbsp;**Snippet**:&nbsp;Amazon&nbsp;launched&nbsp;its&nbsp;first&nbsp;set&nbsp;of&nbsp;internet&nbsp;satellites&nbsp;using&nbsp;an&nbsp;Atlas&nbsp;V&nbsp;rocket,&nbsp;aiming&nbsp;to&nbsp;compete&nbsp;with&nbsp;SpaceX&#x27;s&nbsp;Starlink.
+
+5.&nbsp;**Recent&nbsp;Starlink&nbsp;Satellite&nbsp;Launch**:
+&nbsp;&nbsp;&nbsp;-&nbsp;**Title**:&nbsp;SpaceX&nbsp;launches&nbsp;batch&nbsp;of&nbsp;Starlink&nbsp;satellites&nbsp;into&nbsp;low-Earth&nbsp;orbit
+&nbsp;&nbsp;&nbsp;-&nbsp;**Source**:&nbsp;UPI
+&nbsp;&nbsp;&nbsp;-&nbsp;**Published**:&nbsp;2025-04-28
+&nbsp;&nbsp;&nbsp;-&nbsp;**Snippet**:&nbsp;SpaceX&nbsp;launched&nbsp;a&nbsp;Falcon&nbsp;9&nbsp;rocket&nbsp;carrying&nbsp;nearly&nbsp;two&nbsp;dozen&nbsp;Starlink&nbsp;satellites&nbsp;into&nbsp;low-Earth&nbsp;orbit&nbsp;from&nbsp;Florida&#x27;s&nbsp;east&nbsp;coast.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`tools\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;363.87&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+
+Query:&nbsp;What&#x27;s&nbsp;the&nbsp;weather&nbsp;in&nbsp;San&nbsp;Francisco?
+Answer:&nbsp;Based&nbsp;on&nbsp;the&nbsp;tool&nbsp;output&nbsp;provided,&nbsp;here&#x27;s&nbsp;the&nbsp;current&nbsp;weather&nbsp;in&nbsp;San&nbsp;Francisco:
+
+-&nbsp;**Temperature:**&nbsp;72°F
+-&nbsp;**Condition:**&nbsp;Partly&nbsp;Cloudy
+
+If&nbsp;you&nbsp;need&nbsp;more&nbsp;detailed&nbsp;information&nbsp;or&nbsp;a&nbsp;forecast&nbsp;for&nbsp;the&nbsp;upcoming&nbsp;days,&nbsp;feel&nbsp;free&nbsp;to&nbsp;ask!
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## How It Works
+
+This notebook demonstrates two key Bedrock integration patterns:
+
+1.  **Basic Message Completion**: Using the `bedrock.messages()`
+    function to generate responses from Bedrock models.
+
+2.  **Tool-based Agent**: Using `bedrock.converse()` and
+    `bedrock.invoke_tools()` to create an agent that can:
+
+    -   Analyze user queries
+    -   Select appropriate tools (news search or weather)
+    -   Execute the tools to retrieve information
+    -   Generate a final response based on the tool output
+
+This pattern demonstrates how Pixeltable can be used as an agent
+engineering framework, allowing you to create complex, multi-step
+workflows with LLMs and external tools.
+
+### Learn More
+
+To learn more about advanced techniques like RAG operations in
+Pixeltable, check out the [RAG Operations in
+Pixeltable](/cookbooks/app-workflows/rag-operations)
+tutorial.
+
+For more on agent engineering with Pixeltable, see the [PixelAgent
+documentation](/libraries/pixelagent).
+
+If you have any questions, don’t hesitate to reach out.
