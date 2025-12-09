@@ -1,0 +1,152 @@
+---
+title: "Working with Mistral AI in Pixeltable"
+sidebarTitle: "Mistral AI"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-mistralai.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-mistralai.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-mistralai.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What three species of fish have the highest mercury content?</td>
+<td style="vertical-align: middle;">The three species of fish that typically have the highest mercury
+content are: 1. King Mackerel 2. Shark 3. Swordfish These fish are often
+at the top of the food chain and consume other fish that have
+accumulated mercury in their bodies. As a result, they tend to have
+higher mercury levels. It's recommended to limit consumption of these
+fish, especially for pregnant women, nursing mothers, young children,
+and people who eat fish frequently.</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Mistral AI integration enables you to access Mistral’s LLM
+and other models via the Mistral AI API.
+
+### Prerequisites
+
+-   A Mistral AI account with an API key
+    (https://console.mistral.ai/api-keys/)
+
+### Important Notes
+
+-   Mistral AI usage may incur costs based on your Mistral AI plan.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
+
+First you’ll need to install required libraries and enter a Mistral AI
+API key.
+
+
+```python
+%pip install -qU pixeltable mistralai
+```
+
+
+```python
+import os
+import getpass
+
+if 'MISTRAL_API_KEY' not in os.environ:
+    os.environ['MISTRAL_API_KEY'] = getpass.getpass('Mistral AI API Key:')
+```
+
+Now let’s create a Pixeltable directory to hold the tables for our demo.
+
+
+```python
+import pixeltable as pxt
+
+# Remove the 'mistralai_demo' directory and its contents, if it exists
+pxt.drop_dir('mistralai_demo', force=True)
+pxt.create_dir('mistralai_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;\`mistralai_demo\`.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x3381254c0&gt;
+</pre>
+
+## Messages
+
+Create a Table: In Pixeltable, create a table with columns to represent
+your input data and the columns where you want to store the results from
+Mistral.
+
+
+```python
+from pixeltable.functions.mistralai import chat_completions
+
+# Create a table in Pixeltable and add a computed column that calls Mistral AI
+
+t = pxt.create_table('mistralai_demo.chat', {'input': pxt.String})
+
+messages = [{'role': 'user', 'content': t.input}]
+t.add_computed_column(output=chat_completions(
+    messages=messages,
+    model='mistral-small-latest',
+    model_kwargs={
+        # Optional dict with parameters for the Mistral API
+        'max_tokens': 300,
+        'top_p': 0.9,
+        'temperature': 0.7
+    }
+))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`chat\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+
+```python
+# Parse the response into a new column
+t.add_computed_column(response=t.output.choices[0].message.content)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+
+```python
+# Start a conversation
+t.insert([{'input': 'What three species of fish have the highest mercury content?'}])
+t.select(t.input, t.response).show()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.26&nbsp;cells/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;134.12&nbsp;rows/s\]
+Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.26&nbsp;cells/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+### Learn More
+
+To learn more about advanced techniques like RAG operations in
+Pixeltable, check out the [RAG Operations in
+Pixeltable](/howto/use-cases/rag-operations)
+tutorial.
+
+If you have any questions, don’t hesitate to reach out.

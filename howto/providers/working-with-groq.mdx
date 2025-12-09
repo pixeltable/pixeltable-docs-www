@@ -1,0 +1,156 @@
+---
+title: "Working with Groq in Pixeltable"
+sidebarTitle: "Groq"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-groq.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-groq.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-groq.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">How many islands are in the Aleutian island chain?</td>
+<td style="vertical-align: middle;">The Aleutian Island chain is a part of Alaska, United States, and it
+stretches for approximately 1,200 miles (1,950 km) westward from the
+Alaska Peninsula toward Japan. The chain consists of more than 300
+islands, with the largest island being Unimak Island. According to the
+Alaska Geographic Society, there are 314 islands in the Aleutian Island
+chain, although the exact number can vary depending on how the islands
+are defined and counted. Some sources may group certain islands together
+or recognize smaller islands that others do not. The Aleutian Islands
+are a remote and rugged chain, with many of the islands being
+uninhabited. The islands are volcanic in origin, and they are home to a
+diverse range of wildlife, including sea otters, puffins, and brown
+bears.</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Groq integration enables you to access Groq models via the
+Groq API.
+
+### Prerequisites
+
+-   A Groq account with an API key
+    (https://console.groq.com/docs/quickstart)
+
+### Important Notes
+
+-   Groq usage may incur costs based on your Groq plan.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
+
+First you’ll need to install required libraries and enter your OpenAI
+API key.
+
+
+```python
+%pip install -qU pixeltable groq
+```
+
+
+```python
+import os
+import getpass
+if 'GROQ_API_KEY' not in os.environ:
+    os.environ['GROQ_API_KEY'] = getpass.getpass('Enter your Groq API key:')
+```
+
+Now let’s create a Pixeltable directory to hold the tables for our demo.
+
+
+```python
+import pixeltable as pxt
+
+# Remove the 'groq_demo' directory and its contents, if it exists
+pxt.drop_dir('groq_demo', force=True)
+pxt.create_dir('groq_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;groq_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30bb80b20&gt;
+</pre>
+
+## Chat Completions
+
+Create a Table: In Pixeltable, create a table with columns to represent
+your input data and the columns where you want to store the results from
+Groq.
+
+
+```python
+from pixeltable.functions import groq
+
+# Create a table in Pixeltable and add a computed column that calls OpenAI
+
+t = pxt.create_table('groq_demo.chat', {'input': pxt.String})
+
+messages = [{'role': 'user', 'content': t.input}]
+t.add_computed_column(output=groq.chat_completions(
+    messages=messages,
+    model='llama-3.1-8b-instant',
+    model_kwargs={
+        # Optional dict with parameters for the Groq API
+        'max_tokens': 300,
+        'top_p': 0.9,
+        'temperature': 0.7
+    }
+))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`chat\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Parse the response into a new column
+t.add_computed_column(response=t.output.choices[0].message.content)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Start a conversation
+t.insert([{'input': 'How many islands are in the Aleutian island chain?'}])
+t.select(t.input, t.response).head()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;76.95&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+### Learn More
+
+To learn more about advanced techniques like RAG operations in
+Pixeltable, check out the [RAG Operations in
+Pixeltable](/howto/use-cases/rag-operations)
+tutorial.
+
+If you have any questions, don’t hesitate to reach out.

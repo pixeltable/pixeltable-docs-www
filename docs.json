@@ -17,86 +17,101 @@
             "group": "Welcome to Pixeltable",
             "pages": [
               "overview/pixeltable",
-              "overview/installation",
-              "overview/configuration",
               "overview/quick-start",
-              "overview/deployment",
+              "overview/ten-minute-tour",
               "overview/building-pixeltable-with-llms"
             ]
           },
           {
-            "group": "Concepts",
+            "group": "Platform",
             "pages": [
-              "datastore/tables-and-operations",
-              "datastore/views",
-              "datastore/iterators",
-              "datastore/bringing-data",
-              "datastore/filtering-and-selecting",
-              "datastore/computed-columns",
-              "datastore/vector-database",
-              "datastore/custom-functions",
-              "datastore/sampling"
+              "platform/tables",
+              "platform/views",
+              {
+                "group": "Core Components",
+                "pages": [
+                  "platform/computed-columns",
+                  "platform/iterators",
+                  "platform/embedding-indexes",
+                  "platform/udfs-in-pixeltable"
+                ]
+              },
+              {
+                "group": "Working with Data",
+                "pages": [
+                  "platform/filtering-and-selecting",
+                  "platform/bringing-data",
+                  "platform/external-files",
+                  "platform/sampling",
+                  "platform/data-sharing",
+                  "platform/time-zones"
+                ]
+              },
+              "platform/deployment",
+              "platform/configuration"
             ]
           },
           {
-            "group": "Notebooks",
+            "group": "How-To",
             "pages": [
               {
-                "group": "Getting Started",
+                "group": "LLMs & Model Providers",
                 "pages": [
-                  "notebooks/pixeltable-basics"
+                  "howto/providers/working-with-anthropic",
+                  "howto/providers/working-with-bedrock",
+                  "howto/providers/working-with-deepseek",
+                  "howto/providers/working-with-fal",
+                  "howto/providers/working-with-fireworks",
+                  "howto/providers/working-with-gemini",
+                  "howto/providers/working-with-groq",
+                  "howto/providers/working-with-hugging-face",
+                  "howto/providers/working-with-llama-cpp",
+                  "howto/providers/working-with-mistralai",
+                  "howto/providers/working-with-ollama",
+                  "howto/providers/working-with-openai",
+                  "howto/providers/working-with-openrouter",
+                  "howto/providers/working-with-replicate",
+                  "howto/providers/working-with-reve",
+                  "howto/providers/working-with-together",
+                  "howto/providers/working-with-voyageai"
                 ]
               },
-              {
-                "group": "Fundamentals",
-                "pages": [
-                  "notebooks/fundamentals/tables-and-data-operations",
-                  "notebooks/fundamentals/computed-columns",
-                  "notebooks/fundamentals/queries-and-expressions"
-                ]
-              },
-              {
-                "group": "Feature Guides",
-                "pages": [
-                  "notebooks/feature-guides/data-sharing",
-                  "notebooks/feature-guides/embedding-indexes",
-                  "notebooks/feature-guides/time-zones",
-                  "notebooks/feature-guides/udfs-in-pixeltable",
-                  "notebooks/feature-guides/working-with-external-files"
-                ]
-              },
-              {
-                "group": "Integrations",
-                "pages": [
-                  "notebooks/integrations/working-with-anthropic",
-                  "notebooks/integrations/working-with-bedrock",
-                  "notebooks/integrations/working-with-deepseek",
-                  "notebooks/integrations/working-with-fiftyone",
-                  "notebooks/integrations/working-with-fireworks",
-                  "notebooks/integrations/working-with-gemini",
-                  "notebooks/integrations/working-with-groq",
-                  "notebooks/integrations/working-with-hugging-face",
-                  "notebooks/integrations/working-with-llama-cpp",
-                  "notebooks/integrations/working-with-mistralai",
-                  "notebooks/integrations/working-with-ollama",
-                  "notebooks/integrations/working-with-openai",
-                  "notebooks/integrations/working-with-openrouter",
-                  "notebooks/integrations/working-with-replicate",
-                  "notebooks/integrations/working-with-reve",
-                  "notebooks/integrations/working-with-together",
-                  "notebooks/integrations/working-with-voyageai",
-                  "notebooks/integrations/using-label-studio-with-pixeltable"
-                ]
-              },
+              "howto/using-label-studio-with-pixeltable",
+              "howto/working-with-fiftyone",
               {
                 "group": "Use Cases",
                 "pages": [
-                  "notebooks/use-cases/audio-transcriptions",
-                  "notebooks/use-cases/object-detection-in-videos",
-                  "notebooks/use-cases/rag-demo",
-                  "notebooks/use-cases/rag-operations"
+                  "howto/use-cases/audio-transcriptions",
+                  "howto/use-cases/object-detection-in-videos",
+                  "howto/use-cases/rag-demo",
+                  "howto/use-cases/rag-operations"
+                ]
+              },
+              {
+                "group": "Cookbooks",
+                "pages": [
+                  {
+                    "group": "Images",
+                    "pages": [
+                      "howto/cookbooks/images/img-add-watermarks",
+                      "howto/cookbooks/images/img-adjust-opacity",
+                      "howto/cookbooks/images/img-apply-filters",
+                      "howto/cookbooks/images/img-brightness-contrast",
+                      "howto/cookbooks/images/img-pil-transforms",
+                      "howto/cookbooks/images/img-rgb-to-grayscale"
+                    ]
+                  },
+                  "howto/cookbooks/dev-iterative-workflow"
                 ]
               }
+            ]
+          },
+          {
+            "group": "Pixeltable Fundamentals",
+            "pages": [
+              "tutorials/tables-and-data-operations",
+              "tutorials/computed-columns",
+              "tutorials/queries-and-expressions"
             ]
           }
         ]
@@ -189,8 +204,92 @@
             ]
           },
           {
-            "dropdown": "v0.5.3",
+            "dropdown": "v0.5.4",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.4/pixeltable",
+                      "sdk/v0.5.4/table",
+                      "sdk/v0.5.4/query",
+                      "sdk/v0.5.4/columnmetadata",
+                      "sdk/v0.5.4/dircontents",
+                      "sdk/v0.5.4/indexmetadata",
+                      "sdk/v0.5.4/tablemetadata",
+                      "sdk/v0.5.4/updatestatus",
+                      "sdk/v0.5.4/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.4/audio",
+                      "sdk/v0.5.4/date",
+                      "sdk/v0.5.4/image",
+                      "sdk/v0.5.4/json",
+                      "sdk/v0.5.4/math",
+                      "sdk/v0.5.4/string",
+                      "sdk/v0.5.4/timestamp",
+                      "sdk/v0.5.4/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.4/anthropic",
+                      "sdk/v0.5.4/bedrock",
+                      "sdk/v0.5.4/deepseek",
+                      "sdk/v0.5.4/fal",
+                      "sdk/v0.5.4/fireworks",
+                      "sdk/v0.5.4/gemini",
+                      "sdk/v0.5.4/groq",
+                      "sdk/v0.5.4/huggingface",
+                      "sdk/v0.5.4/llama_cpp",
+                      "sdk/v0.5.4/mistralai",
+                      "sdk/v0.5.4/ollama",
+                      "sdk/v0.5.4/openai",
+                      "sdk/v0.5.4/openrouter",
+                      "sdk/v0.5.4/replicate",
+                      "sdk/v0.5.4/reve",
+                      "sdk/v0.5.4/together",
+                      "sdk/v0.5.4/twelvelabs",
+                      "sdk/v0.5.4/vision",
+                      "sdk/v0.5.4/voyageai",
+                      "sdk/v0.5.4/whisper",
+                      "sdk/v0.5.4/whisperx",
+                      "sdk/v0.5.4/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Iterators",
+                    "pages": [
+                      "sdk/v0.5.4/iterators",
+                      "sdk/v0.5.4/audiosplitter",
+                      "sdk/v0.5.4/componentiterator",
+                      "sdk/v0.5.4/documentsplitter",
+                      "sdk/v0.5.4/frameiterator",
+                      "sdk/v0.5.4/stringsplitter",
+                      "sdk/v0.5.4/tileiterator",
+                      "sdk/v0.5.4/videosplitter"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.4/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.3",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
