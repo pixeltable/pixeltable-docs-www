@@ -1,0 +1,282 @@
+---
+title: "Add unique identifiers to your tables"
+sidebarTitle: "Add unique identifiers to your tables"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/workflow-uuid-identity.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/workflow-uuid-identity.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/workflow-uuid-identity.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Why UUIDs help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">API responses</td>
+<td style="vertical-align: middle;">Return stable IDs clients can reference</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Distributed systems</td>
+<td style="vertical-align: middle;">Generate IDs without coordination</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Data lineage</td>
+<td style="vertical-align: middle;">Track records across pipeline stages</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">226a2499-7e65-438a-be4a-b463d88c70b9</td>
+<td style="vertical-align: middle;">Laptop</td>
+<td style="vertical-align: middle;">999.99</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">5041c1f8-f707-47b0-9447-63c4fb2d0f02</td>
+<td style="vertical-align: middle;">Mouse</td>
+<td style="vertical-align: middle;">29.99</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">d5352069-812e-4b46-ba87-e943f04d5a0e</td>
+<td style="vertical-align: middle;">Keyboard</td>
+<td style="vertical-align: middle;">79.99</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">customer</th>
+<th data-quarto-table-cell-role="th">amount</th>
+<th data-quarto-table-cell-role="th">order_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Alice</td>
+<td style="vertical-align: middle;">150.</td>
+<td style="vertical-align: middle;">20676811-b552-4037-9f70-c94ab3af0275</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Bob</td>
+<td style="vertical-align: middle;">75.5</td>
+<td style="vertical-align: middle;">e70c7ced-cf01-44e8-a6bd-b5b07c996b21</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>uuid4()</code> in schema</td>
+<td style="vertical-align: middle;">Auto-generated UUID at table creation</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>add_computed_column(col=uuid4())</code></td>
+<td style="vertical-align: middle;">Add UUID column to existing table</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Generate UUIDs for automatic row identification.
+
+## Problem
+
+You need unique identifiers for rows in your data pipeline. Maybe you’re
+building an API that returns specific records, tracking processing
+status across systems, or joining data from multiple sources.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Create tables with auto-generated UUID
+primary keys - Add UUID columns to existing tables - Generate UUIDs with
+`uuid4()`
+
+You use `uuid4()` to generate UUIDs for each row. Define it in the
+schema with `{'column_name': uuid4()}` syntax, or add it to existing
+tables with `add_computed_column()`.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
+</pre>
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.uuid import uuid4
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('uuid_demo', force=True)
+pxt.create_dir('uuid_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/amithadke/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;uuid_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x139700910&gt;
+</pre>
+
+### Create a table with a UUID primary key
+
+Use `uuid4()` in your schema to create a column that auto-generates
+UUIDs:
+
+
+```python
+# Create table with auto-generated UUID primary key
+products = pxt.create_table(
+    'uuid_demo.products',
+    {
+        'id': uuid4(),  # Auto-generates UUID for each row
+        'name': pxt.String,
+        'price': pxt.Float
+    },
+    primary_key=['id']
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;products&#x27;.
+</pre>
+
+
+```python
+# Insert data - no need to provide 'id', it's auto-generated
+products.insert([
+    {'name': 'Laptop', 'price': 999.99},
+    {'name': 'Mouse', 'price': 29.99},
+    {'name': 'Keyboard', 'price': 79.99}
+])
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;274.32&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View the data - each row has a unique UUID
+products.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+### Add a UUID column to an existing table
+
+You can add a UUID column to a table that already exists using
+`add_computed_column()`:
+
+
+```python
+# Create a table without a UUID column
+orders = pxt.create_table(
+    'uuid_demo.orders',
+    {
+        'customer': pxt.String,
+        'amount': pxt.Float
+    }
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;orders&#x27;.
+</pre>
+
+
+```python
+# Insert some data
+orders.insert([
+    {'customer': 'Alice', 'amount': 150.00},
+    {'customer': 'Bob', 'amount': 75.50}
+])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;772.86&nbsp;rows/s\]
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# Add a UUID column to existing table
+orders.add_computed_column(order_id=uuid4())
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;updated,&nbsp;4&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View orders with their UUID column
+orders.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## Explanation
+
+**Two ways to add UUIDs:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+Both use `uuid4()` which generates UUIDv4 (random) identifiers: -
+128-bit values - Formatted as 32 hex digits with hyphens:
+`550e8400-e29b-41d4-a716-446655440000` - Virtually guaranteed unique
+(collision probability is negligible)
+
+## See also
+
+-   [Tables and
+    operations](/tutorials/tables-and-data-operations)
+-   [Computed
+    columns](/tutorials/computed-columns)
