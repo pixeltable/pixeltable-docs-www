@@ -123,7 +123,7 @@ pxt.create_dir('rag_demo')
 
 ```
 
-### Step 1: Create document store with embeddings
+### Step 1: create document store with embeddings
 
 
 ```python
@@ -151,7 +151,7 @@ chunks.add_embedding_index('embedding', metric='cosine')
 
 ```
 
-### Step 2: Load documents
+### Step 2: load documents
 
 
 ```python
@@ -183,7 +183,7 @@ chunks.insert(documents)
 
 ```
 
-### Step 3: Create the RAG query function
+### Step 3: create the RAG query function
 
 
 ```python
@@ -212,7 +212,7 @@ for i, chunk in enumerate(context_chunks, 1):
 
 ```
 
-### Step 4: Generate answers with context
+### Step 4: generate answers with context
 
 
 ```python

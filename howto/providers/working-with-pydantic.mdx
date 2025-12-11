@@ -258,7 +258,7 @@ Pixeltable tables.
 -   **Self-Documenting**: Models serve as schema documentation
 -   **Validation**: Built-in data validation via Pydantic
 
-### Important Notes
+### Important notes
 
 -   Pydantic model fields map to Pixeltable columns by name
 -   Computed columns are automatically skipped during insertion
@@ -285,7 +285,7 @@ Created&nbsp;directory&nbsp;&#x27;pydantic_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x309908850&gt;
 </pre>
 
-## Basic Usage: Scalar Types
+## Basic usage: scalar types
 
 Define a Pydantic model with fields that match your table columns.
 Pixeltable automatically maps Python types to Pixeltable types:
@@ -386,7 +386,7 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
-## Nested Models and JSON Columns
+## Nested models and JSON columns
 
 Nested Pydantic models automatically map to Pixeltable JSON columns.
 This is useful for storing structured metadata.
@@ -488,7 +488,7 @@ customers.select(
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
-## Media Files with Pydantic
+## Media files with Pydantic
 
 For media columns (Image, Video, Audio, Document), use `str` or `Path`
 fields in your Pydantic model to specify file paths or URLs.

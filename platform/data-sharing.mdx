@@ -205,12 +205,12 @@ Data sharing functionality requires Pixeltable version 0.4.24 or later.
 %pip install -qU pixeltable
 ```
 
-## Replicating Datasets
+## Replicating datasets
 
 You can replicate any public dataset from Pixeltable Cloud to your local
 environment without needing an account or API key.
 
-### Replicate a Public Dataset
+### Replicate a public dataset
 
 Let’s replicate a mini-version of the COCO-2017 dataset from Pixeltable
 Cloud. You can find this dataset at
@@ -251,7 +251,7 @@ You can check that the replica exists at the local path with
 pxt.list_tables()
 ```
 
-### Working with Replicas
+### Working with replicas
 
 Replicated datasets are read-only locally, but you can query, explore,
 and use them in powerful ways:
@@ -346,7 +346,7 @@ my_coco = pxt.create_table('my-coco-table', source=coco_copy)
 This copies the values in the source, but drops the computational
 definitions and cannot be updated if the source table changes.
 
-### Updating Replicas with Pull
+### Updating replicas with pull
 
 If the upstream table changes, you can update your local replica using
 `pull()`:
@@ -360,7 +360,7 @@ coco_copy.pull()
 This synchronizes your local replica with any updates made to the source
 dataset.
 
-## Publishing Datasets
+## Publishing datasets
 
 **Requirements:**
 
@@ -372,7 +372,7 @@ dataset.
 Publishing allows you to share your datasets with your team or make them
 publicly available.
 
-### Configure Your API Key
+### Configure your API key
 
 Pixeltable looks for your API key in the `PIXELTABLE_API_KEY`
 environment variable. Choose one of these methods:
@@ -412,7 +412,7 @@ api_key = 'your-api-key-here'
 See the [Configuration
 Guide](/platform/configuration) for details.
 
-### Create a Sample Dataset
+### Create a sample dataset
 
 Let’s create a table with images from this repository to publish. The
 `comment` parameter provides a description that will be visible on
@@ -444,7 +444,7 @@ t.insert([
 ])
 ```
 
-### Publish Your Dataset
+### Publish your dataset
 
 Publish your table to Pixeltable Cloud. When calling `publish()`:
 
@@ -479,7 +479,7 @@ pxt.publish(
 # )
 ```
 
-### Understanding Destination URIs
+### Understanding destination URIs
 
 The `destination_uri` in `publish()` uses the format:
 `pxt://org:database/path`
@@ -505,7 +505,7 @@ The `destination_uri` in `publish()` uses the format:
 -   You can create additional databases in your [Pixeltable
     dashboard](https://pixeltable.com/dashboard)
 
-### Updating Published Datasets with Push
+### Updating published datasets with push
 
 After you’ve published a dataset, you can update the cloud replica with
 local changes using `push()`:
@@ -540,7 +540,7 @@ table already exists in your Pixeltable database. The `replicate()`
 function is intended for pulling datasets published by others into your
 environment.
 
-### Access Control
+### Access control
 
 The `access` parameter in `publish()` controls who can replicate your
 dataset:
@@ -554,7 +554,7 @@ You can set access control either at the time of publish using the
 UI](https://pixeltable.com/dashboard). You can also manage team members
 and permissions in your dashboard.
 
-### Deleting Published Tables
+### Deleting published tables
 
 If you want to delete a published table, you have two options:
 
@@ -574,7 +574,7 @@ Navigate to your [Pixeltable Cloud
 dashboard](https://pixeltable.com/dashboard) and delete the table from
 the UI.
 
-## Get Help
+## Get help
 
 Have questions or need support? Join our community:
 

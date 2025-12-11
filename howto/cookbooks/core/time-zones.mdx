@@ -106,7 +106,7 @@ timestamp data.
 %pip install -qU pixeltable
 ```
 
-### The Default Time Zone
+### The default time zone
 
 Every Pixeltable deployment has a **default time zone**. The default
 time zone can be configured either by setting the `PIXELTABLE_TIME_ZONE`
@@ -137,7 +137,7 @@ Python `datetime` object may be either **naive** (no time zone) or
 interpret naive `datetime` objects as belonging to the configured
 default time zone.
 
-### Insertion and Retrieval
+### Insertion and retrieval
 
 When a `datetime` is inserted into the database, it will be converted to
 UTC and stored as an absolute timestamp. If the `datetime` has an
@@ -207,7 +207,7 @@ t.select(t.dt, dt_new_york=t.dt.astimezone('America/New_York'), note=t.note).col
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
-### Timestamp Methods and Properties
+### Timestamp methods and properties
 
 The Pixeltable API exposes all the standard `datetime` methods and
 properties from the Python library. Because retrieval uses the default

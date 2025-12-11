@@ -454,7 +454,7 @@ Welcome to Pixeltable! In this tutorial, we’ll survey how to create
 tables, populate them with data, and enhance them with built-in and
 user-defined transformations and AI operations.
 
-## Install Python Packages
+## Install Python packages
 
 First run the following command to install Pixeltable and related
 libraries needed for this tutorial.
@@ -464,7 +464,7 @@ libraries needed for this tutorial.
 %pip install -qU torch transformers openai pixeltable
 ```
 
-## Creating a Table
+## Creating a table
 
 Let’s begin by creating a `demo` directory (if it doesn’t already exist)
 and a table that can hold image data, `demo.first`. The table will
@@ -543,7 +543,7 @@ t.show()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
-## Adding Computed Columns
+## Adding computed columns
 
 Great! Now we have a table containing some data. Let’s add an object
 detection model to our workflow. Specifically, we’re going to use the
@@ -669,7 +669,7 @@ t.select(t.input_image, t.detections_text).show()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
 
-## Pixeltable Is Persistent
+## Pixeltable is persistent
 
 An important feature of Pixeltable is that *everything is persistent*.
 Unlike in-memory Python libraries such as Pandas, Pixeltable is a
@@ -777,7 +777,7 @@ t.select(t.rot_image, t.rot_vision).show()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[10] }} />
 
-## UDFs: Enhancing Pixeltable’s Capabilities
+## UDFs: Enhancing Pixeltable’s capabilities
 
 Another important principle of Pixeltable is that, although Pixeltable
 has a built-in library of useful operations and adapters, it will never

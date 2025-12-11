@@ -531,7 +531,7 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-### Iterate: Check image properties for a few images first
+### Iterate: check image properties for a few images first
 
 Use `.select()` to define the transformation, then `.collect()` to
 execute and return results. If you want to collect only the first few
@@ -550,7 +550,7 @@ t.select(t.image, t.image.height, t.image.width, t.image.mode).collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
-### Add: Check image properties for all images in your table
+### Add: check image properties for all images in your table
 
 
 ```python
@@ -575,7 +575,7 @@ t.collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
-### Iterate: Resize a few images first
+### Iterate: resize a few images first
 
 Use `.select()` to define the transformation, then `.collect()` to
 execute and return results. If you want to collect only the first few
@@ -595,7 +595,7 @@ t.select(t.image, t.image.resize((224, 224))).head(1)
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
-### Add: Resize all images in your table
+### Add: resize all images in your table
 
 Once you’re satisfied with the results, use `.add_computed_column()`
 with the same expression. This processes all rows and stores the results
@@ -620,7 +620,7 @@ t.collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
-### Iterate: Rotate a few images first
+### Iterate: rotate a few images first
 
 Use `.select()` to define the transformation, then `.collect()` to
 execute and return results. If you want to collect only the first few
@@ -638,7 +638,7 @@ PIL:
 t.select(t.image, t.image.rotate(90)).head(1)
 ```
 
-### Add: Rotate all images in your table
+### Add: rotate all images in your table
 
 Once you’re satisfied with the results, use `.add_computed_column()`
 with the same expression. This processes all rows and stores the results
@@ -663,7 +663,7 @@ t.collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 
-### Iterate: Flip a few images first
+### Iterate: flip a few images first
 
 Use `.select()` to define the transformation, then `.collect()` to
 execute and return results. If you want to collect only the first few
@@ -692,7 +692,7 @@ t.select(
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
 
-### Add: Flip all images in your table
+### Add: flip all images in your table
 
 Once you’re satisfied with the results, use `.add_computed_column()`
 with the same expression. This processes all rows and stores the results
@@ -721,7 +721,7 @@ t.select(t.image, t.flip_v, t.flip_h).collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
 
-### Iterate: Crop a few images first
+### Iterate: crop a few images first
 
 Use `.select()` to define the transformation, then `.collect()` to
 execute and return results. If you want to collect only the first few
@@ -751,7 +751,7 @@ t.select(
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
 
-### Add: Crop all images in your table
+### Add: crop all images in your table
 
 Once you’re satisfied with the results, use `.add_computed_column()`
 with the same expression. This processes all rows and stores the results

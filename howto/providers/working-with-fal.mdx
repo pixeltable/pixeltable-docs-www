@@ -231,7 +231,7 @@ inference models via the fal.ai API.
 
 -   A fal.ai account with an API key (https://fal.ai/dashboard/keys)
 
-### Important Notes
+### Important notes
 
 -   fal.ai usage may incur costs based on your fal.ai plan.
 -   Be mindful of sensitive data and consider security measures when
@@ -271,7 +271,7 @@ Created&nbsp;directory&nbsp;&#x27;fal_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x308076450&gt;
 </pre>
 
-## Text-to-Image Generation with FLUX Schnell
+## Text-to-image generation with FLUX Schnell
 
 Let’s start by using fal.ai’s FLUX Schnell model, which is optimized for
 fast image generation. We’ll create a table to store prompts and
@@ -344,7 +344,7 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
-## Advanced Image Generation with Fast SDXL
+## Advanced image generation with Fast SDXL
 
 fal.ai also offers Fast SDXL, which provides more control over image
 generation parameters. Let’s create a new table to explore these
@@ -417,7 +417,7 @@ sdxl_t.select(sdxl_t.prompt, sdxl_t.image).head()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
-## Generating Multiple Images per Prompt
+## Generating multiple images per prompt
 
 You can also generate multiple variations of the same prompt in a single
 request:
@@ -624,7 +624,7 @@ batch_t.select(batch_t.category, batch_t.description, batch_t.image).show()
 5.  **Caching**: Pixeltable automatically caches results, so re-running
     the same prompt won’t incur additional costs.
 
-### Learn More
+### Learn more
 
 -   fal.ai Documentation: https://fal.ai/docs
 -   Pixeltable Documentation: https://docs.pixeltable.com

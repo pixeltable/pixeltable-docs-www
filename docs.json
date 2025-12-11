@@ -267,7 +267,7 @@
             ]
           },
           {
-            "dropdown": "v0.4.19.dev152.5e1114f3",
+            "dropdown": "v0.5.5.dev60.2b741b26",
             "icon": "rocket",
             "groups": [
               {
@@ -276,74 +276,74 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.4.19.dev152.5e1114f3/pixeltable",
-                      "sdk/v0.4.19.dev152.5e1114f3/table",
-                      "sdk/v0.4.19.dev152.5e1114f3/query",
-                      "sdk/v0.4.19.dev152.5e1114f3/columnmetadata",
-                      "sdk/v0.4.19.dev152.5e1114f3/dircontents",
-                      "sdk/v0.4.19.dev152.5e1114f3/indexmetadata",
-                      "sdk/v0.4.19.dev152.5e1114f3/tablemetadata",
-                      "sdk/v0.4.19.dev152.5e1114f3/updatestatus",
-                      "sdk/v0.4.19.dev152.5e1114f3/versionmetadata"
+                      "sdk/v0.5.5.dev60.2b741b26/pixeltable",
+                      "sdk/v0.5.5.dev60.2b741b26/table",
+                      "sdk/v0.5.5.dev60.2b741b26/query",
+                      "sdk/v0.5.5.dev60.2b741b26/columnmetadata",
+                      "sdk/v0.5.5.dev60.2b741b26/dircontents",
+                      "sdk/v0.5.5.dev60.2b741b26/indexmetadata",
+                      "sdk/v0.5.5.dev60.2b741b26/tablemetadata",
+                      "sdk/v0.5.5.dev60.2b741b26/updatestatus",
+                      "sdk/v0.5.5.dev60.2b741b26/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.4.19.dev152.5e1114f3/audio",
-                      "sdk/v0.4.19.dev152.5e1114f3/date",
-                      "sdk/v0.4.19.dev152.5e1114f3/image",
-                      "sdk/v0.4.19.dev152.5e1114f3/json",
-                      "sdk/v0.4.19.dev152.5e1114f3/math",
-                      "sdk/v0.4.19.dev152.5e1114f3/string",
-                      "sdk/v0.4.19.dev152.5e1114f3/timestamp",
-                      "sdk/v0.4.19.dev152.5e1114f3/video"
+                      "sdk/v0.5.5.dev60.2b741b26/audio",
+                      "sdk/v0.5.5.dev60.2b741b26/date",
+                      "sdk/v0.5.5.dev60.2b741b26/image",
+                      "sdk/v0.5.5.dev60.2b741b26/json",
+                      "sdk/v0.5.5.dev60.2b741b26/math",
+                      "sdk/v0.5.5.dev60.2b741b26/string",
+                      "sdk/v0.5.5.dev60.2b741b26/timestamp",
+                      "sdk/v0.5.5.dev60.2b741b26/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.4.19.dev152.5e1114f3/anthropic",
-                      "sdk/v0.4.19.dev152.5e1114f3/bedrock",
-                      "sdk/v0.4.19.dev152.5e1114f3/deepseek",
-                      "sdk/v0.4.19.dev152.5e1114f3/fal",
-                      "sdk/v0.4.19.dev152.5e1114f3/fireworks",
-                      "sdk/v0.4.19.dev152.5e1114f3/gemini",
-                      "sdk/v0.4.19.dev152.5e1114f3/groq",
-                      "sdk/v0.4.19.dev152.5e1114f3/huggingface",
-                      "sdk/v0.4.19.dev152.5e1114f3/llama_cpp",
-                      "sdk/v0.4.19.dev152.5e1114f3/mistralai",
-                      "sdk/v0.4.19.dev152.5e1114f3/ollama",
-                      "sdk/v0.4.19.dev152.5e1114f3/openai",
-                      "sdk/v0.4.19.dev152.5e1114f3/openrouter",
-                      "sdk/v0.4.19.dev152.5e1114f3/replicate",
-                      "sdk/v0.4.19.dev152.5e1114f3/reve",
-                      "sdk/v0.4.19.dev152.5e1114f3/together",
-                      "sdk/v0.4.19.dev152.5e1114f3/twelvelabs",
-                      "sdk/v0.4.19.dev152.5e1114f3/vision",
-                      "sdk/v0.4.19.dev152.5e1114f3/voyageai",
-                      "sdk/v0.4.19.dev152.5e1114f3/whisper",
-                      "sdk/v0.4.19.dev152.5e1114f3/whisperx",
-                      "sdk/v0.4.19.dev152.5e1114f3/yolox"
+                      "sdk/v0.5.5.dev60.2b741b26/anthropic",
+                      "sdk/v0.5.5.dev60.2b741b26/bedrock",
+                      "sdk/v0.5.5.dev60.2b741b26/deepseek",
+                      "sdk/v0.5.5.dev60.2b741b26/fal",
+                      "sdk/v0.5.5.dev60.2b741b26/fireworks",
+                      "sdk/v0.5.5.dev60.2b741b26/gemini",
+                      "sdk/v0.5.5.dev60.2b741b26/groq",
+                      "sdk/v0.5.5.dev60.2b741b26/huggingface",
+                      "sdk/v0.5.5.dev60.2b741b26/llama_cpp",
+                      "sdk/v0.5.5.dev60.2b741b26/mistralai",
+                      "sdk/v0.5.5.dev60.2b741b26/ollama",
+                      "sdk/v0.5.5.dev60.2b741b26/openai",
+                      "sdk/v0.5.5.dev60.2b741b26/openrouter",
+                      "sdk/v0.5.5.dev60.2b741b26/replicate",
+                      "sdk/v0.5.5.dev60.2b741b26/reve",
+                      "sdk/v0.5.5.dev60.2b741b26/together",
+                      "sdk/v0.5.5.dev60.2b741b26/twelvelabs",
+                      "sdk/v0.5.5.dev60.2b741b26/vision",
+                      "sdk/v0.5.5.dev60.2b741b26/voyageai",
+                      "sdk/v0.5.5.dev60.2b741b26/whisper",
+                      "sdk/v0.5.5.dev60.2b741b26/whisperx",
+                      "sdk/v0.5.5.dev60.2b741b26/yolox"
                     ]
                   },
                   {
                     "group": "Iterators",
                     "pages": [
-                      "sdk/v0.4.19.dev152.5e1114f3/iterators",
-                      "sdk/v0.4.19.dev152.5e1114f3/audiosplitter",
-                      "sdk/v0.4.19.dev152.5e1114f3/componentiterator",
-                      "sdk/v0.4.19.dev152.5e1114f3/documentsplitter",
-                      "sdk/v0.4.19.dev152.5e1114f3/frameiterator",
-                      "sdk/v0.4.19.dev152.5e1114f3/stringsplitter",
-                      "sdk/v0.4.19.dev152.5e1114f3/tileiterator",
-                      "sdk/v0.4.19.dev152.5e1114f3/videosplitter"
+                      "sdk/v0.5.5.dev60.2b741b26/iterators",
+                      "sdk/v0.5.5.dev60.2b741b26/audiosplitter",
+                      "sdk/v0.5.5.dev60.2b741b26/componentiterator",
+                      "sdk/v0.5.5.dev60.2b741b26/documentsplitter",
+                      "sdk/v0.5.5.dev60.2b741b26/frameiterator",
+                      "sdk/v0.5.5.dev60.2b741b26/stringsplitter",
+                      "sdk/v0.5.5.dev60.2b741b26/tileiterator",
+                      "sdk/v0.5.5.dev60.2b741b26/videosplitter"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.4.19.dev152.5e1114f3/io"
+                      "sdk/v0.5.5.dev60.2b741b26/io"
                     ]
                   }
                 ]
@@ -477,6 +477,158 @@
     {
       "source": "/platform/deployment",
       "destination": "/howto/deployment/overview"
+    },
+    {
+      "source": "/overview/installation",
+      "destination": "/overview/quick-start"
+    },
+    {
+      "source": "/overview/configuration",
+      "destination": "/platform/configuration"
+    },
+    {
+      "source": "/datastore/tables-and-operations",
+      "destination": "/tutorials/tables-and-data-operations"
+    },
+    {
+      "source": "/datastore/computed-columns",
+      "destination": "/tutorials/computed-columns"
+    },
+    {
+      "source": "/datastore/embedding-index",
+      "destination": "/platform/embedding-indexes"
+    },
+    {
+      "source": "/datastore/views",
+      "destination": "/platform/views"
+    },
+    {
+      "source": "/datastore/custom-functions",
+      "destination": "/platform/udfs-in-pixeltable"
+    },
+    {
+      "source": "/datastore/filtering-and-selecting",
+      "destination": "/tutorials/queries-and-expressions"
+    },
+    {
+      "source": "/datastore/iterators",
+      "destination": "/platform/iterators"
+    },
+    {
+      "source": "/datastore/vector-database",
+      "destination": "/platform/embedding-indexes"
+    },
+    {
+      "source": "/datastore/bringing-data",
+      "destination": "/howto/cookbooks/data/data-import-csv"
+    },
+    {
+      "source": "/examples/chat/tools",
+      "destination": "/howto/cookbooks/agents/llm-tool-calling"
+    },
+    {
+      "source": "/examples/chat/rag",
+      "destination": "/howto/cookbooks/agents/pattern-rag-pipeline"
+    },
+    {
+      "source": "/examples/chat/multimodal",
+      "destination": "/howto/use-cases/rag-demo"
+    },
+    {
+      "source": "/examples/chat/memory",
+      "destination": "/howto/cookbooks/agents/pattern-agent-memory"
+    },
+    {
+      "source": "/examples/use-cases",
+      "destination": "/howto/use-cases/rag-demo"
+    },
+    {
+      "source": "/examples/vision/yolox",
+      "destination": "/howto/cookbooks/images/img-detect-objects"
+    },
+    {
+      "source": "/examples/vision/label-studio",
+      "destination": "/howto/using-label-studio-with-pixeltable"
+    },
+    {
+      "source": "/examples/vision/object-detection",
+      "destination": "/howto/use-cases/object-detection-in-videos"
+    },
+    {
+      "source": "/examples/vision/image-similarity",
+      "destination": "/howto/cookbooks/search/search-similar-images"
+    },
+    {
+      "source": "/examples/vision/voxel51",
+      "destination": "/howto/working-with-fiftyone"
+    },
+    {
+      "source": "/examples/audio/transcription",
+      "destination": "/howto/cookbooks/audio/audio-transcribe"
+    },
+    {
+      "source": "/examples/search/audio",
+      "destination": "/howto/cookbooks/audio/audio-transcribe"
+    },
+    {
+      "source": "/examples/search/images",
+      "destination": "/howto/cookbooks/search/search-similar-images"
+    },
+    {
+      "source": "/examples/search/PDF",
+      "destination": "/howto/cookbooks/agents/pattern-rag-pipeline"
+    },
+    {
+      "source": "/examples/search/video",
+      "destination": "/howto/cookbooks/video/video-extract-frames"
+    },
+    {
+      "source": "/examples/search/website",
+      "destination": "/howto/cookbooks/agents/pattern-rag-pipeline"
+    },
+    {
+      "source": "/notebooks/use-cases/rag-demo",
+      "destination": "/howto/use-cases/rag-demo"
+    },
+    {
+      "source": "/notebooks/use-cases/object-detection-in-videos",
+      "destination": "/howto/use-cases/object-detection-in-videos"
+    },
+    {
+      "source": "/notebooks/use-cases/audio-transcriptions",
+      "destination": "/howto/use-cases/audio-transcriptions"
+    },
+    {
+      "source": "/notebooks/integrations/working-with-openai",
+      "destination": "/howto/providers/working-with-openai"
+    },
+    {
+      "source": "/notebooks/integrations/working-with-anthropic",
+      "destination": "/howto/providers/working-with-anthropic"
+    },
+    {
+      "source": "/notebooks/integrations/working-with-together",
+      "destination": "/howto/providers/working-with-together"
+    },
+    {
+      "source": "/notebooks/feature-guides/udfs-in-pixeltable",
+      "destination": "/platform/udfs-in-pixeltable"
+    },
+    {
+      "source": "/notebooks/feature-guides/embedding-indexes",
+      "destination": "/platform/embedding-indexes"
+    },
+    {
+      "source": "/notebooks/feature-guides/working-with-external-files",
+      "destination": "/platform/external-files"
+    },
+    {
+      "source": "/notebooks/fundamentals/tables-and-data-operations",
+      "destination": "/tutorials/tables-and-data-operations"
+    },
+    {
+      "source": "/howto/cookbooks/dev-iterative-workflow",
+      "destination": "/howto/cookbooks/core/dev-iterative-workflow"
     }
   ]
 }

@@ -191,7 +191,7 @@ his operas,</td>
 This tutorial demonstrates how to use Pixeltable’s built-in `llama.cpp`
 integration to run local LLMs efficiently.
 
-### Important Notes
+### Important notes
 
 -   Models are automatically downloaded from Hugging Face and cached
     locally
@@ -199,7 +199,7 @@ integration to run local LLMs efficiently.
     tradeoffs
 -   Consider memory usage when choosing models and quantizations
 
-## Set Up Environment
+## Set up environment
 
 First, let’s install Pixeltable with llama.cpp support:
 
@@ -208,7 +208,7 @@ First, let’s install Pixeltable with llama.cpp support:
 %pip install -qU pixeltable llama-cpp-python huggingface-hub
 ```
 
-## Create a Table for Chat Completions
+## Create a table for chat completions
 
 Now let’s create a table that will contain our inputs and responses.
 
@@ -274,7 +274,7 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
 </pre>
 
-## Test Chat Completion
+## Test chat completion
 
 Let’s try a simple query:
 
@@ -303,7 +303,7 @@ t.select(t.input, t.output).collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
-## Comparing Models
+## Comparing models
 
 Local model frameworks like `llama.cpp` make it easy to compare the
 output of different models. Let’s try comparing the output from `Qwen`
