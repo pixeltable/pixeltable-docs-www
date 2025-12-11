@@ -109,7 +109,7 @@ t = pxt.create_table('anthropic_demo.chat', {'input': pxt.String})
 msgs = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=anthropic.messages(
     messages=msgs,
-    model='claude-3-haiku-20240307',
+    model='claude-haiku-4-5-20250514',
     max_tokens=300,
     model_kwargs={
         # Optional dict with parameters for the Anthropic API

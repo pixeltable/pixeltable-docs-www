@@ -1,0 +1,238 @@
+---
+title: "Import data from Excel files"
+sidebarTitle: "Import data from Excel files"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-excel.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-excel.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-excel.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Rows</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Sales report.xlsx</td>
+<td style="vertical-align: middle;">10K</td>
+<td style="vertical-align: middle;">Analyze with AI</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Inventory.xlsx</td>
+<td style="vertical-align: middle;">5K</td>
+<td style="vertical-align: middle;">Enrich with descriptions</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Survey results.xlsx</td>
+<td style="vertical-align: middle;">1K</td>
+<td style="vertical-align: middle;">Sentiment analysis</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 47%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr>
+<th>Method</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">With source_format hint</td>
+<td style="vertical-align: middle;"><code>pxt.create_table('t', source=path, source_format='excel')</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Auto-detect from .xlsx</td>
+<td style="vertical-align: middle;"><code>pxt.create_table('t', source='data.xlsx')</code></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>sheet_name</code></td>
+<td style="vertical-align: middle;">Select specific sheet</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>skiprows</code></td>
+<td style="vertical-align: middle;">Skip header rows</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>usecols</code></td>
+<td style="vertical-align: middle;">Select specific columns</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>dtype</code></td>
+<td style="vertical-align: middle;">Force column types</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Load data from Excel spreadsheets (.xlsx) into Pixeltable tables.
+
+## Problem
+
+You have data in Excel format that needs to be loaded for AI
+processing—reports, inventory lists, or business data exported from
+other systems.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Import Excel files directly into tables -
+Handle multiple sheets - Override column types when needed
+
+You use `pxt.create_table()` with an Excel file path as the `source`
+parameter. Pixeltable infers column types automatically.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openpyxl pandas
+
+```
+
+
+```python
+import pixeltable as pxt
+import pandas as pd
+import tempfile
+from pathlib import Path
+
+```
+
+### Create sample Excel file
+
+
+```python
+# Create sample Excel file for demo
+sample_data = pd.DataFrame({
+    'order_id': [1001, 1002, 1003, 1004, 1005],
+    'customer': ['Alice', 'Bob', 'Carol', 'Dave', 'Eve'],
+    'product': ['Widget A', 'Gadget B', 'Widget A', 'Tool C', 'Gadget B'],
+    'quantity': [2, 1, 5, 3, 2],
+    'price': [29.99, 149.99, 29.99, 79.99, 149.99],
+    'date': ['2024-01-15', '2024-01-16', '2024-01-16', '2024-01-17', '2024-01-18']
+})
+
+# Save to temp Excel file
+temp_dir = tempfile.mkdtemp()
+excel_path = Path(temp_dir) / 'orders.xlsx'
+sample_data.to_excel(excel_path, index=False)
+
+print(f'Created: {excel_path}')
+sample_data
+
+```
+
+### Import Excel file
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('excel_demo', force=True)
+pxt.create_dir('excel_demo')
+
+```
+
+
+```python
+# Import Excel file directly
+orders = pxt.create_table(
+    'excel_demo.orders',
+    source=str(excel_path),
+    source_format='excel'  # Hint for Excel format
+)
+
+```
+
+
+```python
+# View imported data
+orders.collect()
+
+```
+
+### Add computed columns
+
+
+```python
+# Add computed column for order total
+orders.add_computed_column(
+    total=orders.quantity * orders.price
+)
+
+```
+
+
+```python
+# View with computed total
+orders.select(
+    orders.order_id, 
+    orders.customer, 
+    orders.product, 
+    orders.quantity, 
+    orders.price, 
+    orders.total
+).collect()
+
+```
+
+## Explanation
+
+**Import methods:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Excel-specific options:**
+
+Pass Pandas `read_excel` arguments via `extra_args`:
+
+
+```python
+pxt.create_table(
+    'table_name',
+    source='data.xlsx',
+    source_format='excel',
+    extra_args={'sheet_name': 'Sheet2', 'skiprows': 1}
+)
+```
+
+**Common extra_args:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## See also
+
+-   [Import CSV
+    files](/howto/cookbooks/data/data-import-csv) -
+    CSV and tabular data
+-   [Import Parquet
+    files](/howto/cookbooks/data/data-import-parquet) -
+    Columnar data

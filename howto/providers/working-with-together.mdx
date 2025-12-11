@@ -192,7 +192,7 @@ messages = [{'role': 'user', 'content': chat_t.input}]
 
 chat_t.add_computed_column(output=together.chat_completions(
     messages=messages,
-    model='meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo',
+    model='meta-llama/Llama-3.3-70B-Instruct-Turbo',
     model_kwargs={
         # Optional dict with parameters for the Together API
         'max_tokens': 300,

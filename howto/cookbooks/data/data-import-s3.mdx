@@ -1,0 +1,254 @@
+---
+title: "Load media from S3 and cloud storage"
+sidebarTitle: "Load media from S3 and cloud storage"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-s3.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-s3.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-s3.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Files</th>
+<th>Challenge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">s3://my-bucket/images/</td>
+<td style="vertical-align: middle;">100K images</td>
+<td style="vertical-align: middle;">Too large to download</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">https://cdn.example.com/</td>
+<td style="vertical-align: middle;">10K videos</td>
+<td style="vertical-align: middle;">Need lazy loading</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">gs://my-bucket/audio/</td>
+<td style="vertical-align: middle;">50K audio</td>
+<td style="vertical-align: middle;">Process incrementally</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Scheme</th>
+<th>Example</th>
+<th>Credentials</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>http://</code></td>
+<td style="vertical-align: middle;"><code>http://example.com/image.jpg</code></td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>https://</code></td>
+<td style="vertical-align: middle;"><code>https://cdn.example.com/video.mp4</code></td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>s3://</code></td>
+<td style="vertical-align: middle;"><code>s3://bucket/path/file.jpg</code></td>
+<td style="vertical-align: middle;">AWS credentials*</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>gs://</code></td>
+<td style="vertical-align: middle;"><code>gs://bucket/path/file.mp4</code></td>
+<td style="vertical-align: middle;">GCP credentials*</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>file://</code></td>
+<td style="vertical-align: middle;"><code>file:///path/to/file.jpg</code></td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">(local path)</td>
+<td style="vertical-align: middle;"><code>/path/to/file.jpg</code></td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Import images, videos, and audio files from S3, GCS, HTTP URLs, or local
+paths into Pixeltable tables.
+
+## Problem
+
+You have media files stored in cloud storage (S3, GCS) or accessible via
+HTTP URLs. You need to process these files with AI models without
+downloading them all upfront.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Reference media files by URL (S3, HTTP,
+local paths) - Automatic caching of remote files on access - Process
+files lazily without bulk downloads
+
+You insert media URLs as references. Pixeltable stores the URLs and
+automatically downloads/caches files when you access them through
+queries or computed columns.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable boto3
+
+```
+
+
+```python
+import pixeltable as pxt
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('cloud_demo', force=True)
+pxt.create_dir('cloud_demo')
+
+```
+
+### Load images from HTTP URLs
+
+Reference images by URL—Pixeltable downloads them on demand:
+
+
+```python
+# Create a table with image column
+images = pxt.create_table('cloud_demo.images', {'image': pxt.Image})
+
+```
+
+
+```python
+# Insert images by URL (HTTP)
+image_urls = [
+    'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg',
+    'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg',
+    'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000106.jpg',
+]
+
+images.insert([{'image': url} for url in image_urls])
+
+```
+
+
+```python
+# View images - files are downloaded and cached on access
+images.collect()
+
+```
+
+### Load videos from S3
+
+Reference videos in S3 buckets (using public Multimedia Commons bucket):
+
+
+```python
+# Create a table with video column
+videos = pxt.create_table('cloud_demo.videos', {'video': pxt.Video})
+
+```
+
+
+```python
+# Insert videos by S3 URL (public bucket, no credentials needed)
+s3_prefix = 's3://multimedia-commons/'
+video_paths = [
+    'data/videos/mp4/ffe/ffb/ffeffbef41bbc269810b2a1a888de.mp4',
+    'data/videos/mp4/ffe/feb/ffefebb41485539f964760e6115fbc44.mp4',
+]
+
+videos.insert([{'video': s3_prefix + path} for path in video_paths])
+
+```
+
+
+```python
+# View videos - downloaded and cached on access
+videos.collect()
+
+```
+
+### Add computed columns on remote media
+
+Process remote media with computed columns—files are fetched
+automatically:
+
+
+```python
+# Add computed columns for image properties
+images.add_computed_column(width=images.image.width)
+images.add_computed_column(height=images.image.height)
+
+```
+
+
+```python
+# View with computed properties
+images.select(images.image, images.width, images.height).collect()
+
+```
+
+### Supported URL formats
+
+Pixeltable supports multiple URL schemes for media files:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+\*Configure AWS/GCP credentials via environment variables or config
+files.
+
+## Explanation
+
+**How caching works:**
+
+1.  URLs are stored as references in the table
+2.  Files are downloaded on first access (query or computed column)
+3.  Downloaded files are cached in `~/.pixeltable/file_cache/`
+4.  Cache uses LRU eviction when space is needed
+
+**Benefits of URL-based storage:**
+
+-   **Lazy loading** - Only download files when needed
+-   **Deduplication** - Same URL is cached once
+-   **Incremental processing** - Add files without bulk downloads
+-   **Cloud-native** - Works directly with object storage
+
+**For private S3 buckets:**
+
+Configure AWS credentials using standard methods: - Environment
+variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`) - AWS
+credentials file (`~/.aws/credentials`) - IAM roles (when running on
+EC2/ECS)
+
+## See also
+
+-   [Extract frames from
+    videos](/howto/cookbooks/video/video-extract-frames) -
+    Process video files
+-   [Analyze images in
+    batch](/howto/cookbooks/images/vision-batch-analysis) -
+    AI vision on images
+-   [Configure API
+    keys](/howto/cookbooks/core/workflow-api-keys) -
+    Set up credentials

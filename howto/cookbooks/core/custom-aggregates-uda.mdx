@@ -1,0 +1,479 @@
+---
+title: "Create custom aggregate functions (UDAs)"
+sidebarTitle: "Create custom aggregate functions (UDAs)"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/custom-aggregates-uda.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/custom-aggregates-uda.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/custom-aggregates-uda.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">product</th>
+<th data-quarto-table-cell-role="th">amount</th>
+<th data-quarto-table-cell-role="th">quantity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">North</td>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">100.</td>
+<td style="vertical-align: middle;">5</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">North</td>
+<td style="vertical-align: middle;">Gadget</td>
+<td style="vertical-align: middle;">250.</td>
+<td style="vertical-align: middle;">2</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">North</td>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">150.</td>
+<td style="vertical-align: middle;">8</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">South</td>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">200.</td>
+<td style="vertical-align: middle;">10</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">South</td>
+<td style="vertical-align: middle;">Gadget</td>
+<td style="vertical-align: middle;">175.</td>
+<td style="vertical-align: middle;">3</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">East</td>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">125.</td>
+<td style="vertical-align: middle;">6</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">variance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">2430.556</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">amount_variance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">East</td>
+<td style="vertical-align: middle;">0.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">North</td>
+<td style="vertical-align: middle;">3888.889</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">South</td>
+<td style="vertical-align: middle;">156.25</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">products</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">East</td>
+<td style="vertical-align: middle;">Widget</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">North</td>
+<td style="vertical-align: middle;">Widget, Gadget, Widget</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">South</td>
+<td style="vertical-align: middle;">Widget, Gadget</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">amounts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">East</td>
+<td style="vertical-align: middle;">[125.]</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">North</td>
+<td style="vertical-align: middle;">[100., 250., 150.]</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">South</td>
+<td style="vertical-align: middle;">[200., 175.]</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">avg_price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">East</td>
+<td style="vertical-align: middle;">125.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">North</td>
+<td style="vertical-align: middle;">146.667</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">South</td>
+<td style="vertical-align: middle;">194.231</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">region</th>
+<th data-quarto-table-cell-role="th">top_product</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">East</td>
+<td style="vertical-align: middle;">Widget</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">North</td>
+<td style="vertical-align: middle;">Widget</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">South</td>
+<td style="vertical-align: middle;">Widget</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Build reusable aggregation logic for group-by queries and analytics.
+
+## Problem
+
+You need aggregations beyond the built-in `sum`, `count`, `mean`, `min`,
+`max` — such as collecting values into a list, concatenating strings, or
+computing custom statistics.
+
+## Solution
+
+**What’s in this recipe:** - Define a UDA (User-Defined Aggregate) with
+the `@pxt.uda` decorator - Use UDAs in `group_by` queries - Create UDAs
+with multiple inputs
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+
+```
+
+
+```python
+import pixeltable as pxt
+
+pxt.drop_dir('uda_demo', force=True)
+pxt.create_dir('uda_demo')
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;uda_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x16bfa64d0&gt;
+</pre>
+
+### Create sample data
+
+
+```python
+sales = pxt.create_table(
+    'uda_demo.sales',
+    {'region': pxt.String, 'product': pxt.String, 'amount': pxt.Float, 'quantity': pxt.Int}
+)
+
+sales.insert([
+    {'region': 'North', 'product': 'Widget', 'amount': 100.0, 'quantity': 5},
+    {'region': 'North', 'product': 'Gadget', 'amount': 250.0, 'quantity': 2},
+    {'region': 'North', 'product': 'Widget', 'amount': 150.0, 'quantity': 8},
+    {'region': 'South', 'product': 'Widget', 'amount': 200.0, 'quantity': 10},
+    {'region': 'South', 'product': 'Gadget', 'amount': 175.0, 'quantity': 3},
+    {'region': 'East', 'product': 'Widget', 'amount': 125.0, 'quantity': 6},
+])
+
+sales.collect()
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;sales&#x27;.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`sales\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;415.71&nbsp;rows/s\]
+Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+### Variance UDA (not built-in)
+
+
+```python
+# A UDA is a class that inherits from pxt.Aggregator
+# It must implement: __init__, update, and value
+
+@pxt.uda
+class variance(pxt.Aggregator):
+    """Compute population variance using Welford's online algorithm."""
+    
+    def __init__(self):
+        self.count = 0
+        self.mean = 0.0
+        self.m2 = 0.0  # Sum of squared differences from mean
+    
+    def update(self, val: float) -> None:
+        if val is not None:
+            self.count += 1
+            delta = val - self.mean
+            self.mean += delta / self.count
+            delta2 = val - self.mean
+            self.m2 += delta * delta2
+    
+    def value(self) -> float:
+        if self.count < 1:
+            return 0.0
+        return self.m2 / self.count  # Population variance
+
+```
+
+
+```python
+# Use like any built-in aggregate
+sales.select(variance(sales.amount)).collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+
+```python
+# Use in group_by queries
+sales.group_by(sales.region).select(
+    sales.region,
+    amount_variance=variance(sales.amount)
+).collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+### String concatenation UDA
+
+
+```python
+@pxt.uda
+class string_agg(pxt.Aggregator):
+    """Concatenate strings with a comma separator."""
+    
+    def __init__(self):
+        self.values = []
+    
+    def update(self, val: str) -> None:
+        if val is not None:
+            self.values.append(val)
+    
+    def value(self) -> str:
+        return ', '.join(self.values)
+
+```
+
+
+```python
+# List all products sold in each region
+sales.group_by(sales.region).select(
+    sales.region,
+    products=string_agg(sales.product)
+).collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+### Collect values into a list
+
+
+```python
+@pxt.uda
+class collect_list(pxt.Aggregator):
+    """Collect all values into a list."""
+    
+    def __init__(self):
+        self.items = []
+    
+    def update(self, val: float) -> None:
+        if val is not None:
+            self.items.append(val)
+    
+    def value(self) -> list[float]:
+        return self.items
+
+```
+
+
+```python
+# Get all amounts per region as a list
+sales.group_by(sales.region).select(
+    sales.region,
+    amounts=collect_list(sales.amount)
+).collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+### Weighted average UDA
+
+
+```python
+@pxt.uda
+class weighted_avg(pxt.Aggregator):
+    """Compute weighted average: sum(value * weight) / sum(weight)."""
+    
+    def __init__(self):
+        self.weighted_sum = 0.0
+        self.weight_sum = 0.0
+    
+    def update(self, value: float, weight: float) -> None:
+        if value is not None and weight is not None:
+            self.weighted_sum += value * weight
+            self.weight_sum += weight
+    
+    def value(self) -> float:
+        if self.weight_sum == 0:
+            return 0.0
+        return self.weighted_sum / self.weight_sum
+
+```
+
+
+```python
+# Compute quantity-weighted average price per region
+sales.group_by(sales.region).select(
+    sales.region,
+    avg_price=weighted_avg(sales.amount, sales.quantity)
+).collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+### Mode UDA (most frequent value)
+
+
+```python
+from collections import Counter
+
+@pxt.uda
+class mode(pxt.Aggregator):
+    """Find the most frequent value in a group."""
+    
+    def __init__(self):
+        self.counts = Counter()
+    
+    def update(self, val: str) -> None:
+        if val is not None:
+            self.counts[val] += 1
+    
+    def value(self) -> str:
+        if not self.counts:
+            return None
+        return self.counts.most_common(1)[0][0]
+
+```
+
+
+```python
+# Find most common product per region
+sales.group_by(sales.region).select(
+    sales.region,
+    top_product=mode(sales.product)
+).collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+
+## Explanation
+
+**UDA structure:**
+
+
+```python
+@pxt.uda
+class my_aggregate(pxt.Aggregator):
+    def __init__(self):  # Initialize state
+        self.state = initial_value
+    
+    def update(self, val: InputType) -> None:  # Called for each row
+        # Update internal state with val
+    
+    def value(self) -> OutputType:  # Called at the end
+        return self.state
+```
+
+**Key points:** - Always handle `None` values in `update()` - Multiple
+parameters in `update()` enable multi-column aggregations (like
+`weighted_avg`) - Return type annotation on `value()` determines output
+column type
+
+## See also
+
+-   [UDFs in Pixeltable](../../../platform/udfs-in-pixeltable) -
+    Complete guide to custom functions
+-   [Join
+    tables](/howto/cookbooks/core/query-join-tables) -
+    Combine data before aggregating

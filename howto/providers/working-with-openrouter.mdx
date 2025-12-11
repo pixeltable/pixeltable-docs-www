@@ -169,7 +169,7 @@ messages = [{'role': 'user', 'content': t.input}]
 
 t.add_computed_column(output=openrouter.chat_completions(
     messages=messages,
-    model='anthropic/claude-3.5-sonnet',
+    model='anthropic/claude-sonnet-4',
     model_kwargs={
         # Optional dict with parameters compatible with the model
         'max_tokens': 300,
@@ -229,7 +229,7 @@ messages = [{'role': 'user', 'content': compare_t.prompt}]
 compare_t.add_computed_column(
     claude=openrouter.chat_completions(
         messages=messages,
-        model='anthropic/claude-3.5-sonnet',
+        model='anthropic/claude-sonnet-4',
         model_kwargs={'max_tokens': 150}
     ).choices[0].message.content
 )
@@ -245,7 +245,7 @@ compare_t.add_computed_column(
 compare_t.add_computed_column(
     llama=openrouter.chat_completions(
         messages=messages,
-        model='meta-llama/llama-3.1-8b-instruct',
+        model='meta-llama/llama-3.3-70b-instruct',
         model_kwargs={'max_tokens': 150}
     ).choices[0].message.content
 )
@@ -288,7 +288,7 @@ messages = [{'role': 'user', 'content': routing_t.input}]
 routing_t.add_computed_column(
     output=openrouter.chat_completions(
         messages=messages,
-        model='anthropic/claude-3.5-sonnet',
+        model='anthropic/claude-sonnet-4',
         model_kwargs={'max_tokens': 300},
         # Specify provider preferences
         provider={

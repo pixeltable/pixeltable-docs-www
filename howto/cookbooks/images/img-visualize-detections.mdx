@@ -1,0 +1,218 @@
+---
+title: "Visualize object detections"
+sidebarTitle: "Visualize object detections"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-visualize-detections.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-visualize-detections.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-visualize-detections.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Model evaluation</td>
+<td style="vertical-align: middle;">See what the model detected</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Debugging</td>
+<td style="vertical-align: middle;">Verify detection accuracy</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Reporting</td>
+<td style="vertical-align: middle;">Create annotated images for review</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Size</th>
+<th>Speed</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>yolox_nano</code></td>
+<td style="vertical-align: middle;">0.9M</td>
+<td style="vertical-align: middle;">Fastest</td>
+<td style="vertical-align: middle;">Lower</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>yolox_tiny</code></td>
+<td style="vertical-align: middle;">5.1M</td>
+<td style="vertical-align: middle;">Fast</td>
+<td style="vertical-align: middle;">Good</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>yolox_s</code></td>
+<td style="vertical-align: middle;">9.0M</td>
+<td style="vertical-align: middle;">Medium</td>
+<td style="vertical-align: middle;">Better</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>yolox_m</code></td>
+<td style="vertical-align: middle;">25.3M</td>
+<td style="vertical-align: middle;">Slower</td>
+<td style="vertical-align: middle;">High</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>yolox_l</code></td>
+<td style="vertical-align: middle;">54.2M</td>
+<td style="vertical-align: middle;">Slow</td>
+<td style="vertical-align: middle;">Higher</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Draw bounding boxes on images to visualize object detection results.
+
+## Problem
+
+You’ve run object detection on images but need to visualize the
+results—see where objects were detected and verify the model’s accuracy.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Run object detection with YOLOX - Draw
+bounding boxes on images - Color-code by object class
+
+You create a pipeline that detects objects and then draws the results on
+the original image.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable torch torchvision
+
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.yolox import yolox
+from pixeltable.functions.vision import draw_bounding_boxes
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('viz_demo', force=True)
+pxt.create_dir('viz_demo')
+
+```
+
+### Create detection and visualization pipeline
+
+
+```python
+# Create table for images
+images = pxt.create_table(
+    'viz_demo.images',
+    {'image': pxt.Image}
+)
+
+```
+
+
+```python
+# Step 1: Run object detection
+images.add_computed_column(
+    detections=yolox(images.image, model_id='yolox_m', threshold=0.5)
+)
+
+```
+
+
+```python
+# Step 2: Draw bounding boxes on the image
+images.add_computed_column(
+    annotated=draw_bounding_boxes(
+        images.image,
+        images.detections.bboxes,
+        images.detections.labels,
+        images.detections.scores
+    )
+)
+
+```
+
+### Detect and visualize
+
+
+```python
+# Insert sample images
+base_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
+
+image_urls = [
+    f'{base_url}/000000000036.jpg',  # cats
+    f'{base_url}/000000000139.jpg',  # elephants
+]
+
+images.insert([{'image': url} for url in image_urls])
+
+```
+
+
+```python
+# View original vs annotated images side by side
+images.select(images.image, images.annotated).collect()
+
+```
+
+
+```python
+# View detection details
+for row in images.select(images.detections).collect():
+    print("Detected objects:")
+    for label, score in zip(row['detections']['labels'], row['detections']['scores']):
+        print(f"  - {label}: {score:.2%}")
+
+```
+
+## Explanation
+
+**Pipeline flow:**
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Image&nbsp;→&nbsp;YOLOX&nbsp;detection&nbsp;→&nbsp;Bounding&nbsp;boxes&nbsp;+&nbsp;labels&nbsp;→&nbsp;draw_bounding_boxes&nbsp;→&nbsp;Annotated&nbsp;image
+</pre>
+
+**Detection output format:**
+
+The `yolox` function returns a dict with: - `bboxes` - List of \[x1, y1,
+x2, y2\] coordinates - `labels` - List of class names (e.g., “cat”,
+“dog”) - `scores` - List of confidence scores (0-1)
+
+**YOLOX model options:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## See also
+
+-   [Detect objects in
+    images](/howto/cookbooks/images/img-detect-objects) -
+    Object detection basics
+-   [Extract video
+    frames](/howto/cookbooks/video/video-extract-frames) -
+    Detect objects in video

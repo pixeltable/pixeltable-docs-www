@@ -1,0 +1,390 @@
+---
+title: "Extract structured data from images"
+sidebarTitle: "Extract structured data from images"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/vision-structured-output.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/vision-structured-output.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/vision-structured-output.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Image</th>
+<th>Fields to extract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">receipt.jpg</td>
+<td style="vertical-align: middle;">vendor, total, date, items</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">business_card.jpg</td>
+<td style="vertical-align: middle;">name, email, phone, company</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">invoice.pdf</td>
+<td style="vertical-align: middle;">invoice_number, amount, due_date</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Use Case</th>
+<th>Fields to extract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Receipts</td>
+<td style="vertical-align: middle;">vendor, total, date, items, tax</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Business cards</td>
+<td style="vertical-align: middle;">name, title, company, email, phone</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Product photos</td>
+<td style="vertical-align: middle;">brand, model, condition, defects</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Documents</td>
+<td style="vertical-align: middle;">title, date, author, summary</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Use AI vision to extract JSON data from receipts, forms, documents, and
+other images.
+
+## Problem
+
+You have images containing structured information (receipts, forms, ID
+cards) and need to extract specific fields as JSON for downstream
+processing.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Extract structured JSON from images using
+GPT-4o - Use `openai.vision()` which handles images directly - Access
+individual fields from the extracted data
+
+You use Pixeltable’s `openai.vision()` function which automatically
+handles image encoding. Request JSON output via `response_format` in
+`model_kwargs`.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
+</pre>
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import openai
+
+```
+
+### Load images
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('extraction_demo', force=True)
+pxt.create_dir('extraction_demo')
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;extraction_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x168d6bad0&gt;
+</pre>
+
+
+```python
+t = pxt.create_table('extraction_demo.images', {'image': pxt.Image})
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;images&#x27;.
+</pre>
+
+
+```python
+# Insert sample images
+t.insert([
+    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'},
+    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'},
+])
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Error:&nbsp;Not&nbsp;a&nbsp;valid&nbsp;image:&nbsp;/Users/pjlb/.pixeltable/file_cache/8fd441aba65942ab89674c1e5e4eda12_0_a8b594abb60e6eda0156bbfa8479de2771ada2268fb17f999c18904326e9a762.jpg
+\[31m---------------------------------------------------------------------------\[39m
+\[31mError\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Traceback&nbsp;(most&nbsp;recent&nbsp;call&nbsp;last)
+\[36mCell\[39m\[36m&nbsp;\[39m\[32mIn\[5\]\[39m\[32m,&nbsp;line&nbsp;2\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1\[39m&nbsp;\[38;5;66;03m#&nbsp;Insert&nbsp;sample&nbsp;images\[39;00m
+\[32m----&gt;&nbsp;\[39m\[32m2\[39m&nbsp;\[43mt\[49m\[43m.\[49m\[43minsert\[49m\[43m(\[49m\[43m\[\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m\{\[49m\[33;43m&#x27;\[39;49m\[33;43mimage\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mhttps://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg\[39;49m\[33;43m&#x27;\[39;49m\[43m\}\[49m\[43m,\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m\{\[49m\[33;43m&#x27;\[39;49m\[33;43mimage\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mhttps://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg\[39;49m\[33;43m&#x27;\[39;49m\[43m\}\[49m\[43m,\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5\[39m&nbsp;\[43m\]\[49m\[43m)\[49m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/insertable_table.py:174\[39m,&nbsp;in&nbsp;\[36mInsertableTable.insert\[39m\[34m(self,&nbsp;source,&nbsp;source_format,&nbsp;schema_overrides,&nbsp;on_error,&nbsp;print_stats,&nbsp;**kwargs)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;171\[39m&nbsp;data_source.add_table_info(table)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;172\[39m&nbsp;data_source.prepare_for_insert_into_table()
+\[32m--&gt;&nbsp;\[39m\[32m174\[39m&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;\[43mtable\[49m\[43m.\[49m\[43minsert_table_data_source\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;175\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mdata_source\[49m\[43m=\[49m\[43mdata_source\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mfail_on_exception\[49m\[43m=\[49m\[43mfail_on_exception\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mprint_stats\[49m\[43m=\[49m\[43mprint_stats\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;176\[39m&nbsp;\[43m\[49m\[43m)\[49m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/insertable_table.py:194\[39m,&nbsp;in&nbsp;\[36mInsertableTable.insert_table_data_source\[39m\[34m(self,&nbsp;data_source,&nbsp;fail_on_exception,&nbsp;print_stats)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;192\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;=&nbsp;pxt.UpdateStatus()
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;193\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mfor\[39;00m&nbsp;row_batch&nbsp;\[38;5;129;01min\[39;00m&nbsp;data_source.valid_row_batch():
+\[32m--&gt;&nbsp;\[39m\[32m194\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;+=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_tbl_version\[49m\[43m.\[49m\[43mget\[49m\[43m(\[49m\[43m)\[49m\[43m.\[49m\[43minsert\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;195\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mrows\[49m\[43m=\[49m\[43mrow_batch\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mquery\[49m\[43m=\[49m\[38;5;28;43;01mNone\[39;49;00m\[43m,\[49m\[43m&nbsp;\[49m\[43mprint_stats\[49m\[43m=\[49m\[43mprint_stats\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mfail_on_exception\[49m\[43m=\[49m\[43mfail_on_exception\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;196\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;198\[39m&nbsp;Env.get().console_logger.info(status.insert_msg)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;200\[39m&nbsp;FileCache.get().emit_eviction_warnings()
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/table_version.py:1036\[39m,&nbsp;in&nbsp;\[36mTableVersion.insert\[39m\[34m(self,&nbsp;rows,&nbsp;query,&nbsp;print_stats,&nbsp;fail_on_exception)\[39m
+\[32m&nbsp;&nbsp;&nbsp;1033\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28mself\[39m.next_row_id&nbsp;+=&nbsp;\[32m1\[39m
+\[32m&nbsp;&nbsp;&nbsp;1034\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01myield\[39;00m&nbsp;rowid
+\[32m-&gt;&nbsp;\[39m\[32m1036\[39m&nbsp;result&nbsp;=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_insert\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;1037\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mplan\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mtime\[49m\[43m.\[49m\[43mtime\[49m\[43m(\[49m\[43m)\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mprint_stats\[49m\[43m=\[49m\[43mprint_stats\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mrowids\[49m\[43m=\[49m\[43mrowids\[49m\[43m(\[49m\[43m)\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mabort_on_exc\[49m\[43m=\[49m\[43mfail_on_exception\[49m
+\[32m&nbsp;&nbsp;&nbsp;1038\[39m&nbsp;\[43m\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;1039\[39m&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;result
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/table_version.py:1053\[39m,&nbsp;in&nbsp;\[36mTableVersion._insert\[39m\[34m(self,&nbsp;exec_plan,&nbsp;timestamp,&nbsp;rowids,&nbsp;print_stats,&nbsp;abort_on_exc)\[39m
+\[32m&nbsp;&nbsp;&nbsp;1051\[39m&nbsp;\[38;5;66;03m#&nbsp;we&#x27;re&nbsp;creating&nbsp;a&nbsp;new&nbsp;version\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;1052\[39m&nbsp;\[38;5;28mself\[39m.bump_version(timestamp,&nbsp;bump_schema_version=\[38;5;28;01mFalse\[39;00m)
+\[32m-&gt;&nbsp;\[39m\[32m1053\[39m&nbsp;cols_with_excs,&nbsp;row_counts&nbsp;=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43mstore_tbl\[49m\[43m.\[49m\[43minsert_rows\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;1054\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mexec_plan\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mv_min\[49m\[43m=\[49m\[38;5;28;43mself\[39;49m\[43m.\[49m\[43mversion\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mrowids\[49m\[43m=\[49m\[43mrowids\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mabort_on_exc\[49m\[43m=\[49m\[43mabort_on_exc\[49m
+\[32m&nbsp;&nbsp;&nbsp;1055\[39m&nbsp;\[43m\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;1056\[39m&nbsp;result&nbsp;=&nbsp;UpdateStatus(
+\[32m&nbsp;&nbsp;&nbsp;1057\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cols_with_excs=\[\[33mf\[39m\[33m&#x27;\[39m\[38;5;132;01m\{\[39;00m\[38;5;28mself\[39m.name\[38;5;132;01m\}\[39;00m\[33m.\[39m\[38;5;132;01m\{\[39;00m\[38;5;28mself\[39m.cols_by_id\[cid\].name\[38;5;132;01m\}\[39;00m\[33m&#x27;\[39m&nbsp;\[38;5;28;01mfor\[39;00m&nbsp;cid&nbsp;\[38;5;129;01min\[39;00m&nbsp;cols_with_excs\],
+\[32m&nbsp;&nbsp;&nbsp;1058\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row_count_stats=row_counts,
+\[32m&nbsp;&nbsp;&nbsp;1059\[39m&nbsp;)
+\[32m&nbsp;&nbsp;&nbsp;1061\[39m&nbsp;\[38;5;66;03m#&nbsp;update&nbsp;views\[39;00m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/store.py:430\[39m,&nbsp;in&nbsp;\[36mStoreBase.insert_rows\[39m\[34m(self,&nbsp;exec_plan,&nbsp;v_min,&nbsp;show_progress,&nbsp;rowids,&nbsp;abort_on_exc)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;428\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;abort_on_exc&nbsp;\[38;5;129;01mand\[39;00m&nbsp;row.has_exc():
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;429\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exc&nbsp;=&nbsp;row.get_first_exc()
+\[32m--&gt;&nbsp;\[39m\[32m430\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;exc
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;432\[39m&nbsp;rowid&nbsp;=&nbsp;(\[38;5;28mnext\[39m(rowids),)&nbsp;\[38;5;28;01mif\[39;00m&nbsp;rowids&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m&nbsp;\[38;5;28;01melse\[39;00m&nbsp;row.pk\[:-\[32m1\[39m\]
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;433\[39m&nbsp;pk&nbsp;=&nbsp;(*rowid,&nbsp;v_min)
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exprs/column_ref.py:266\[39m,&nbsp;in&nbsp;\[36mColumnRef.eval\[39m\[34m(self,&nbsp;data_row,&nbsp;row_builder)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;263\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mreturn\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;265\[39m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[32m--&gt;&nbsp;\[39m\[32m266\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43mcol\[49m\[43m.\[49m\[43mcol_type\[49m\[43m.\[49m\[43mvalidate_media\[49m\[43m(\[49m\[43mdata_row\[49m\[43m.\[49m\[43mfile_paths\[49m\[43m\[\[49m\[43munvalidated_slot_idx\[49m\[43m\]\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;267\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;access&nbsp;the&nbsp;value&nbsp;only&nbsp;after&nbsp;successful&nbsp;validation\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;268\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val&nbsp;=&nbsp;data_row\[unvalidated_slot_idx\]
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/type_system.py:1181\[39m,&nbsp;in&nbsp;\[36mImageType.validate_media\[39m\[34m(self,&nbsp;val)\[39m
+\[32m&nbsp;&nbsp;&nbsp;1179\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_&nbsp;=&nbsp;PIL.Image.open(val)
+\[32m&nbsp;&nbsp;&nbsp;1180\[39m&nbsp;\[38;5;28;01mexcept\[39;00m&nbsp;PIL.UnidentifiedImageError:
+\[32m-&gt;&nbsp;\[39m\[32m1181\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;excs.Error(\[33mf\[39m\[33m&#x27;\[39m\[33mNot&nbsp;a&nbsp;valid&nbsp;image:&nbsp;\[39m\[38;5;132;01m\{\[39;00mval\[38;5;132;01m\}\[39;00m\[33m&#x27;\[39m)&nbsp;\[38;5;28;01mfrom\[39;00m\[38;5;250m&nbsp;\[39m\[38;5;28;01mNone\[39;00m
+
+\[31mError\[39m:&nbsp;Not&nbsp;a&nbsp;valid&nbsp;image:&nbsp;/Users/pjlb/.pixeltable/file_cache/8fd441aba65942ab89674c1e5e4eda12_0_a8b594abb60e6eda0156bbfa8479de2771ada2268fb17f999c18904326e9a762.jpg
+</pre>
+
+
+```python
+
+
+```
+
+### Extract structured data
+
+Use `openai.vision()` to analyze images and get JSON output:
+
+
+```python
+# Add extraction column using openai.vision (handles images directly)
+PROMPT = '''Analyze this image and extract the following as JSON:
+- description: A brief description of the image
+- objects: List of objects visible in the image
+- dominant_colors: List of dominant colors
+- scene_type: Type of scene (indoor, outdoor, etc.)'''
+
+t.add_computed_column(
+    data=openai.vision(
+        prompt=PROMPT,
+        image=t.image,
+        model='gpt-4o-mini',
+        model_kwargs={'response_format': {'type': 'json_object'}}
+    )
+)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+KeyboardInterrupt:&nbsp;
+\[31m---------------------------------------------------------------------------\[39m
+\[31mKeyboardInterrupt\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Traceback&nbsp;(most&nbsp;recent&nbsp;call&nbsp;last)
+\[36mCell\[39m\[36m&nbsp;\[39m\[32mIn\[6\]\[39m\[32m,&nbsp;line&nbsp;8\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1\[39m&nbsp;\[38;5;66;03m#&nbsp;Add&nbsp;extraction&nbsp;column&nbsp;using&nbsp;chat_completions&nbsp;with&nbsp;vision\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2\[39m&nbsp;PROMPT&nbsp;=&nbsp;\[33m&#x27;&#x27;&#x27;\[39m\[33mAnalyze&nbsp;this&nbsp;image&nbsp;and&nbsp;extract&nbsp;the&nbsp;following&nbsp;as&nbsp;JSON:\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3\[39m&nbsp;\[33m-&nbsp;description:&nbsp;A&nbsp;brief&nbsp;description&nbsp;of&nbsp;the&nbsp;image\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4\[39m&nbsp;\[33m-&nbsp;objects:&nbsp;List&nbsp;of&nbsp;objects&nbsp;visible&nbsp;in&nbsp;the&nbsp;image\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5\[39m&nbsp;\[33m-&nbsp;dominant_colors:&nbsp;List&nbsp;of&nbsp;dominant&nbsp;colors\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6\[39m&nbsp;\[33m-&nbsp;scene_type:&nbsp;Type&nbsp;of&nbsp;scene&nbsp;(indoor,&nbsp;outdoor,&nbsp;etc.)\[39m\[33m&#x27;&#x27;&#x27;\[39m
+\[32m----&gt;&nbsp;\[39m\[32m8\[39m&nbsp;\[43mt\[49m\[43m.\[49m\[43madd_computed_column\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mresponse\[49m\[43m=\[49m\[43mopenai\[49m\[43m.\[49m\[43mchat_completions\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mmessages\[49m\[43m=\[49m\[43m\[\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m\{\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mrole\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43muser\[39;49m\[33;43m&#x27;\[39;49m\[43m,\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mcontent\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[43m\[\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m\{\[49m\[33;43m&#x27;\[39;49m\[33;43mtype\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mtext\[39;49m\[33;43m&#x27;\[39;49m\[43m,\[49m\[43m&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mtext\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[43mPROMPT\[49m\[43m\}\[49m\[43m,\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m\{\[49m\[33;43m&#x27;\[39;49m\[33;43mtype\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mimage_url\[39;49m\[33;43m&#x27;\[39;49m\[43m,\[49m\[43m&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mimage_url\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[43m\{\[49m\[33;43m&#x27;\[39;49m\[33;43murl\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[43mt\[49m\[43m.\[49m\[43mimage_url\[49m\[43m\}\[49m\[43m\}\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m\]\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;17\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m\}\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m\]\[49m\[43m,\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;19\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mmodel\[49m\[43m=\[49m\[33;43m&#x27;\[39;49m\[33;43mgpt-4o-mini\[39;49m\[33;43m&#x27;\[39;49m\[43m,\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mmodel_kwargs\[49m\[43m=\[49m\[43m\{\[49m\[33;43m&#x27;\[39;49m\[33;43mresponse_format\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[43m\{\[49m\[33;43m&#x27;\[39;49m\[33;43mtype\[39;49m\[33;43m&#x27;\[39;49m\[43m:\[49m\[43m&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mjson_object\[39;49m\[33;43m&#x27;\[39;49m\[43m\}\[49m\[43m\}\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;21\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;22\[39m&nbsp;\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;24\[39m&nbsp;\[38;5;66;03m#&nbsp;Extract&nbsp;the&nbsp;content&nbsp;from&nbsp;the&nbsp;response\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;25\[39m&nbsp;t.add_computed_column(data=t.response.choices\[\[32m0\[39m\].message.content)
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/table.py:715\[39m,&nbsp;in&nbsp;\[36mTable.add_computed_column\[39m\[34m(self,&nbsp;stored,&nbsp;destination,&nbsp;print_stats,&nbsp;on_error,&nbsp;if_exists,&nbsp;**kwargs)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;713\[39m&nbsp;\[38;5;28mself\[39m._verify_column(new_col)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;714\[39m&nbsp;\[38;5;28;01massert\[39;00m&nbsp;\[38;5;28mself\[39m._tbl_version&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m
+\[32m--&gt;&nbsp;\[39m\[32m715\[39m&nbsp;result&nbsp;+=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_tbl_version\[49m\[43m.\[49m\[43mget\[49m\[43m(\[49m\[43m)\[49m\[43m.\[49m\[43madd_columns\[49m\[43m(\[49m\[43m\[\[49m\[43mnew_col\[49m\[43m\]\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mprint_stats\[49m\[43m=\[49m\[43mprint_stats\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mon_error\[49m\[43m=\[49m\[43mon_error\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;716\[39m&nbsp;FileCache.get().emit_eviction_warnings()
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;717\[39m&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;result
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/table_version.py:815\[39m,&nbsp;in&nbsp;\[36mTableVersion.add_columns\[39m\[34m(self,&nbsp;cols,&nbsp;print_stats,&nbsp;on_error)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;813\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all_cols.append(undo_col)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;814\[39m&nbsp;\[38;5;66;03m#&nbsp;Add&nbsp;all&nbsp;columns\[39;00m
+\[32m--&gt;&nbsp;\[39m\[32m815\[39m&nbsp;status&nbsp;=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_add_columns\[49m\[43m(\[49m\[43mall_cols\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mprint_stats\[49m\[43m=\[49m\[43mprint_stats\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mon_error\[49m\[43m=\[49m\[43mon_error\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;816\[39m&nbsp;\[38;5;66;03m#&nbsp;Create&nbsp;indices&nbsp;and&nbsp;their&nbsp;md&nbsp;records\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;817\[39m&nbsp;\[38;5;28;01mfor\[39;00m&nbsp;col,&nbsp;(idx,&nbsp;val_col,&nbsp;undo_col)&nbsp;\[38;5;129;01min\[39;00m&nbsp;index_cols.items():
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/table_version.py:881\[39m,&nbsp;in&nbsp;\[36mTableVersion._add_columns\[39m\[34m(self,&nbsp;cols,&nbsp;print_stats,&nbsp;on_error)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;879\[39m&nbsp;plan.open()
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;880\[39m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[32m--&gt;&nbsp;\[39m\[32m881\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;excs_per_col&nbsp;=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43mstore_tbl\[49m\[43m.\[49m\[43mload_column\[49m\[43m(\[49m\[43mcol\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mplan\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mon_error\[49m\[43m&nbsp;\[49m\[43m==\[49m\[43m&nbsp;\[49m\[33;43m&#x27;\[39;49m\[33;43mabort\[39;49m\[33;43m&#x27;\[39;49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;882\[39m&nbsp;\[38;5;28;01mexcept\[39;00m&nbsp;sql_exc.DBAPIError&nbsp;\[38;5;28;01mas\[39;00m&nbsp;exc:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;883\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Catalog.get().convert_sql_exc(exc,&nbsp;\[38;5;28mself\[39m.id,&nbsp;\[38;5;28mself\[39m.handle,&nbsp;convert_db_excs=\[38;5;28;01mTrue\[39;00m)
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/store.py:354\[39m,&nbsp;in&nbsp;\[36mStoreBase.load_column\[39m\[34m(self,&nbsp;col,&nbsp;exec_plan,&nbsp;abort_on_exc)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;351\[39m&nbsp;table_rows:&nbsp;\[38;5;28mlist\[39m\[\[38;5;28mtuple\[39m\[Any\]\]&nbsp;=&nbsp;\[\]
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;353\[39m&nbsp;\[38;5;66;03m#&nbsp;insert&nbsp;rows&nbsp;from&nbsp;exec_plan&nbsp;into&nbsp;temp&nbsp;table\[39;00m
+\[32m--&gt;&nbsp;\[39m\[32m354\[39m&nbsp;\[43m\[49m\[38;5;28;43;01mfor\[39;49;00m\[43m&nbsp;\[49m\[43mrow_batch\[49m\[43m&nbsp;\[49m\[38;5;129;43;01min\[39;49;00m\[43m&nbsp;\[49m\[43mexec_plan\[49m\[43m:\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;355\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mnum_rows\[49m\[43m&nbsp;\[49m\[43m+\[49m\[43m=\[49m\[43m&nbsp;\[49m\[38;5;28;43mlen\[39;49m\[43m(\[49m\[43mrow_batch\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;356\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mbatch_table_rows\[49m\[43m:\[49m\[43m&nbsp;\[49m\[38;5;28;43mlist\[39;49m\[43m\[\[49m\[38;5;28;43mtuple\[39;49m\[43m\[\[49m\[43mAny\[49m\[43m\]\[49m\[43m\]\[49m\[43m&nbsp;\[49m\[43m=\[49m\[43m&nbsp;\[49m\[43m\[\[49m\[43m\]\[49m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exec/exec_node.py:58\[39m,&nbsp;in&nbsp;\[36mExecNode.__iter__\[39m\[34m(self)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;56\[39m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;57\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mwhile\[39;00m&nbsp;\[38;5;28;01mTrue\[39;00m:
+\[32m---&gt;&nbsp;\[39m\[32m58\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;batch:&nbsp;DataRowBatch&nbsp;=&nbsp;\[43mloop\[49m\[43m.\[49m\[43mrun_until_complete\[49m\[43m(\[49m\[38;5;28;43maiter\[39;49m\[43m.\[49m\[34;43m__anext__\[39;49m\[43m(\[49m\[43m)\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;59\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01myield\[39;00m&nbsp;batch
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60\[39m&nbsp;\[38;5;28;01mexcept\[39;00m&nbsp;\[38;5;167;01mStopAsyncIteration\[39;00m:
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/nest_asyncio.py:92\[39m,&nbsp;in&nbsp;\[36m_patch_loop.&lt;locals&gt;.run_until_complete\[39m\[34m(self,&nbsp;future)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;90\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f._log_destroy_pending&nbsp;=&nbsp;\[38;5;28;01mFalse\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;91\[39m&nbsp;\[38;5;28;01mwhile\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;f.done():
+\[32m---&gt;&nbsp;\[39m\[32m92\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_run_once\[49m\[43m(\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;93\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28mself\[39m._stopping:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;94\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mbreak\[39;00m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/nest_asyncio.py:115\[39m,&nbsp;in&nbsp;\[36m_patch_loop.&lt;locals&gt;._run_once\[39m\[34m(self)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;108\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;heappop(scheduled)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;110\[39m&nbsp;timeout&nbsp;=&nbsp;(
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;111\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[32m0\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;ready&nbsp;\[38;5;129;01mor\[39;00m&nbsp;\[38;5;28mself\[39m._stopping
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;112\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01melse\[39;00m&nbsp;\[38;5;28mmin\[39m(\[38;5;28mmax\[39m(
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;113\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scheduled\[\[32m0\[39m\]._when&nbsp;-&nbsp;\[38;5;28mself\[39m.time(),&nbsp;\[32m0\[39m),&nbsp;\[32m86400\[39m)&nbsp;\[38;5;28;01mif\[39;00m&nbsp;scheduled
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;114\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01melse\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m)
+\[32m--&gt;&nbsp;\[39m\[32m115\[39m&nbsp;event_list&nbsp;=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_selector\[49m\[43m.\[49m\[43mselect\[49m\[43m(\[49m\[43mtimeout\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;116\[39m&nbsp;\[38;5;28mself\[39m._process_events(event_list)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;118\[39m&nbsp;end_time&nbsp;=&nbsp;\[38;5;28mself\[39m.time()&nbsp;+&nbsp;\[38;5;28mself\[39m._clock_resolution
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/selectors.py:566\[39m,&nbsp;in&nbsp;\[36mKqueueSelector.select\[39m\[34m(self,&nbsp;timeout)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;564\[39m&nbsp;ready&nbsp;=&nbsp;\[\]
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;565\[39m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[32m--&gt;&nbsp;\[39m\[32m566\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kev_list&nbsp;=&nbsp;\[38;5;28mself\[39m._selector.control(\[38;5;28;01mNone\[39;00m,&nbsp;max_ev,&nbsp;timeout)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;567\[39m&nbsp;\[38;5;28;01mexcept\[39;00m&nbsp;\[38;5;167;01mInterruptedError\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;568\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;ready
+
+\[31mKeyboardInterrupt\[39m:&nbsp;
+</pre>
+
+
+```python
+# View extracted data
+t.select(t.image, t.data).collect()
+
+```
+
+
+```python
+# You can also parse the JSON into individual columns if needed
+import json
+
+@pxt.udf
+def parse_description(data: str) -> str:
+    return json.loads(data).get('description', '')
+
+t.select(t.image, description=parse_description(t.data)).collect()
+
+```
+
+## Explanation
+
+**Why use `openai.vision()`:**
+
+-   Handles PIL Images directly (no manual base64 encoding or URL
+    storage)
+-   Simpler API than constructing chat messages manually
+-   Returns the content string directly
+
+**Getting JSON output:**
+
+Pass `model_kwargs={'response_format': {'type': 'json_object'}}` to get
+structured JSON.
+
+**Other extraction use cases:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## See also
+
+-   [Analyze images in
+    batch](/howto/cookbooks/images/vision-batch-analysis)
+-   [Configure API
+    keys](/howto/cookbooks/core/workflow-api-keys)

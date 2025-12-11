@@ -1,0 +1,305 @@
+---
+title: "Split documents into chunks for RAG"
+sidebarTitle: "Split documents into chunks for RAG"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/doc-chunk-for-rag.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/doc-chunk-for-rag.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/text/doc-chunk-for-rag.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Document</th>
+<th>Size</th>
+<th>Chunks needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">annual_report.pdf</td>
+<td style="vertical-align: middle;">50 pages</td>
+<td style="vertical-align: middle;">~100 chunks</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">user_manual.pdf</td>
+<td style="vertical-align: middle;">20 pages</td>
+<td style="vertical-align: middle;">~40 chunks</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">research_paper.pdf</td>
+<td style="vertical-align: middle;">10 pages</td>
+<td style="vertical-align: middle;">~20 chunks</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">MARKET DIGEST</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">- 1 -</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">FRIDAY, JUNE 21, 2024</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">JUNE 20, DJIA: 39,134.76 UP 299.90</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Independent Equity Research Since 1934 ARGUS</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">MARKET REVIEW:</td>
+<td style="vertical-align: middle;">0.558</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Good Morning. This is the Market Digest for Friday, June 21, 2024,
+with analysis of the financial markets and comments on Accenture
+plc.</td>
+<td style="vertical-align: middle;">0.482</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">MARKET DIGEST</td>
+<td style="vertical-align: middle;">0.479</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Separator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>paragraph</code></td>
+<td style="vertical-align: middle;">Split on paragraph breaks</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>sentence</code></td>
+<td style="vertical-align: middle;">Split on sentence boundaries</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>heading</code></td>
+<td style="vertical-align: middle;">Split on document headings</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>page</code></td>
+<td style="vertical-align: middle;">Split on page breaks</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>token_limit</code></td>
+<td style="vertical-align: middle;">Split at token count only</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Break PDFs and documents into searchable chunks for retrieval-augmented
+generation (RAG) pipelines.
+
+## Problem
+
+You have PDF documents or text files that you want to use for
+retrieval-augmented generation (RAG). Before you can search them, you
+need to:
+
+1.  Split documents into smaller chunks
+2.  Generate embeddings for each chunk
+3.  Store everything in a searchable index
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Split PDFs into paragraphs or sentences -
+Control chunk size with token limits - Add embeddings for semantic
+search
+
+You create a view with a DocumentSplitter iterator that automatically
+breaks documents into chunks. Then you add an embedding index for
+semantic search.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable sentence-transformers
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
+</pre>
+
+
+```python
+import pixeltable as pxt
+from pixeltable.iterators import DocumentSplitter
+from pixeltable.functions.huggingface import sentence_transformer
+
+```
+
+### Load documents
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('rag_demo', force=True)
+pxt.create_dir('rag_demo')
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;rag_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x16e388350&gt;
+</pre>
+
+
+```python
+# Create table for documents
+docs = pxt.create_table('rag_demo.documents', {'document': pxt.Document})
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;documents&#x27;.
+</pre>
+
+
+```python
+# Insert a sample PDF
+docs.insert([
+    {'document': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Argus-Market-Digest-June-2024.pdf'}
+])
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;297.36&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+### Split into chunks
+
+Create a view that splits each document into paragraphs with a token
+limit:
+
+
+```python
+# Create a view that splits documents into chunks
+chunks = pxt.create_view(
+    'rag_demo.chunks',
+    docs,
+    iterator=DocumentSplitter.create(
+        document=docs.document,
+        separators='paragraph,token_limit',  # Split by paragraph with token limit
+        limit=300  # Max 300 tokens per chunk
+    )
+)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;49&nbsp;rows&nbsp;\[00:00,&nbsp;16398.38&nbsp;rows/s\]
+</pre>
+
+
+```python
+# View the chunks
+chunks.select(chunks.text).head(5)
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+### Add semantic search
+
+Create an embedding index on the chunks for similarity search:
+
+
+```python
+# Add embedding index for semantic search
+chunks.add_embedding_index(
+    column='text',
+    string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2')
+)
+
+```
+
+### Search your documents
+
+Use similarity search to find relevant chunks:
+
+
+```python
+# Search for relevant chunks
+query = "market trends"
+sim = chunks.text.similarity(query)
+
+results = (
+    chunks
+    .order_by(sim, asc=False)
+    .select(chunks.text, score=sim)
+    .limit(3)
+)
+results.collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## Explanation
+
+**Separator options:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+You can combine separators: `separators='paragraph,token_limit'`
+
+**Chunk sizing:**
+
+-   `limit`: Maximum tokens per chunk (default: 500)
+-   `overlap`: Tokens to overlap between chunks (default: 0)
+
+**New documents are processed automatically:**
+
+When you insert new documents, chunks and embeddings are generated
+without extra code.
+
+## See also
+
+-   [Iterators
+    documentation](/platform/iterators)
+-   [RAG demo
+    notebook](/howto/use-cases/rag-demo)

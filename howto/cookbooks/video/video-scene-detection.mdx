@@ -1,0 +1,264 @@
+---
+title: "Detect scene changes in videos"
+sidebarTitle: "Detect scene changes in videos"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-scene-detection.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-scene-detection.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/video/video-scene-detection.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Video editing</td>
+<td style="vertical-align: middle;">Find cut points automatically</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Content analysis</td>
+<td style="vertical-align: middle;">Segment videos into scenes</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Thumbnail generation</td>
+<td style="vertical-align: middle;">Extract one frame per scene</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Clip extraction</td>
+<td style="vertical-align: middle;">Split videos at scene boundaries</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Ad detection</td>
+<td style="vertical-align: middle;">Find commercial breaks</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 30%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr>
+<th>Method</th>
+<th>Best for</th>
+<th>Key parameter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>scene_detect_content()</code></td>
+<td style="vertical-align: middle;">Hard cuts</td>
+<td style="vertical-align: middle;"><code>threshold</code> (27 default)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>scene_detect_threshold()</code></td>
+<td style="vertical-align: middle;">Fades</td>
+<td style="vertical-align: middle;"><code>threshold</code> (12 default)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>scene_detect_adaptive()</code></td>
+<td style="vertical-align: middle;">Mixed content</td>
+<td style="vertical-align: middle;"><code>adaptive_threshold</code> (3 default)</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Adjustment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">More scenes</td>
+<td style="vertical-align: middle;">Lower threshold values</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Fewer scenes</td>
+<td style="vertical-align: middle;">Higher threshold values</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Faster processing</td>
+<td style="vertical-align: middle;">Set <code>fps=1.0</code> or <code>fps=2.0</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Ignore quick cuts</td>
+<td style="vertical-align: middle;">Increase <code>min_scene_len</code></td>
+</tr>
+</tbody>
+</table>
+`];
+
+Automatically find scene cuts, transitions, and fades in video files.
+
+## Problem
+
+You have video files and need to identify scene boundaries for:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Detect hard cuts with
+`scene_detect_content()` - Find fade transitions with
+`scene_detect_threshold()` - Use adaptive detection with
+`scene_detect_adaptive()`
+
+Three built-in detection methods handle different transition types using
+PySceneDetect.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable scenedetect
+
+```
+
+
+```python
+import pixeltable as pxt
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('scene_demo', force=True)
+pxt.create_dir('scene_demo')
+
+```
+
+### Load sample videos
+
+
+```python
+# Create a video table
+videos = pxt.create_table(
+    'scene_demo.videos',
+    {'video': pxt.Video, 'title': pxt.String}
+)
+
+# Insert sample videos from S3
+videos.insert([
+    {
+        'video': 's3://multimedia-commons/data/videos/mp4/ffe/ffb/ffeffbef41bbc269810b2a1a888de.mp4',
+        'title': 'Sample video 1'
+    }
+])
+print(f"Loaded {videos.count()} video(s)")
+
+
+```
+
+### Detect scenes with content-based detection
+
+
+```python
+# Detect scenes using content-based detection (best for hard cuts)
+videos.add_computed_column(
+    scenes_content=videos.video.scene_detect_content(
+        threshold=27.0,      # Lower = more sensitive
+        min_scene_len=15     # Minimum frames between cuts
+    )
+)
+
+# View detected scenes
+result = videos.select(videos.title, videos.scenes_content).collect()
+for row in result:
+    print(f"\n{row['title']}:")
+    for i, scene in enumerate(row['scenes_content']):
+        print(f"  Scene {i+1}: {scene['start_time']:.2f}s - duration {scene['duration']:.2f}s")
+
+```
+
+### Detect fade transitions
+
+
+```python
+# Detect fade-to-black/white transitions
+videos.add_computed_column(
+    scenes_fade=videos.video.scene_detect_threshold(
+        threshold=12.0,      # Brightness threshold for fades
+        min_scene_len=15
+    )
+)
+
+# View fade-detected scenes
+result = videos.select(videos.title, videos.scenes_fade).collect()
+for row in result:
+    print(f"\n{row['title']} (fade detection):")
+    for i, scene in enumerate(row['scenes_fade']):
+        print(f"  Scene {i+1}: {scene['start_time']:.2f}s - duration {scene['duration']:.2f}s")
+
+```
+
+### Adaptive detection for complex videos
+
+
+```python
+# Adaptive detection adjusts to video content dynamically
+videos.add_computed_column(
+    scenes_adaptive=videos.video.scene_detect_adaptive(
+        adaptive_threshold=3.0,  # Lower = more scenes detected
+        min_scene_len=15,
+        fps=2.0                  # Analyze at 2 FPS for speed
+    )
+)
+
+# View adaptively-detected scenes
+result = videos.select(videos.title, videos.scenes_adaptive).collect()
+for row in result:
+    print(f"\n{row['title']} (adaptive detection):")
+    for i, scene in enumerate(row['scenes_adaptive']):
+        print(f"  Scene {i+1}: {scene['start_time']:.2f}s - duration {scene['duration']:.2f}s")
+
+```
+
+## Explanation
+
+**Detection methods:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Output format:**
+
+Each method returns a list of scene dictionaries:
+
+
+```python
+{
+    'start_time': 5.2,    # Scene start in seconds
+    'start_pts': 156,     # Presentation timestamp
+    'duration': 3.8       # Scene duration in seconds
+}
+```
+
+**Tuning tips:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## See also
+
+-   [Extract frames from
+    videos](/howto/cookbooks/video/video-extract-frames) -
+    Get frames at scene boundaries
+-   [Generate
+    thumbnails](/howto/cookbooks/video/video-generate-thumbnails) -
+    Create preview images

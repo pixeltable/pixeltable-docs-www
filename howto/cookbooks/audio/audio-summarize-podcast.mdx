@@ -1,0 +1,249 @@
+---
+title: "Summarize podcasts and audio"
+sidebarTitle: "Summarize podcasts and audio"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Content</th>
+<th>Duration</th>
+<th>Need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Podcast episodes</td>
+<td style="vertical-align: middle;">60 min</td>
+<td style="vertical-align: middle;">Episode summary + key points</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Meeting recordings</td>
+<td style="vertical-align: middle;">30 min</td>
+<td style="vertical-align: middle;">Action items + decisions</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Interviews</td>
+<td style="vertical-align: middle;">45 min</td>
+<td style="vertical-align: middle;">Main topics + quotes</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Size</th>
+<th>Speed</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>tiny.en</code></td>
+<td style="vertical-align: middle;">39M</td>
+<td style="vertical-align: middle;">Fastest</td>
+<td style="vertical-align: middle;">Good for clear speech</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>base.en</code></td>
+<td style="vertical-align: middle;">74M</td>
+<td style="vertical-align: middle;">Fast</td>
+<td style="vertical-align: middle;">Balanced</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>small.en</code></td>
+<td style="vertical-align: middle;">244M</td>
+<td style="vertical-align: middle;">Medium</td>
+<td style="vertical-align: middle;">Better accuracy</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>medium.en</code></td>
+<td style="vertical-align: middle;">769M</td>
+<td style="vertical-align: middle;">Slow</td>
+<td style="vertical-align: middle;">High accuracy</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Transcribe audio files and generate summaries automatically using
+Whisper and LLMs.
+
+## Problem
+
+You have podcast episodes, meeting recordings, or interviews that need
+both transcription and summarization. Doing this manually is
+time-consuming and doesn’t scale.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Transcribe audio with Whisper (runs
+locally) - Generate summaries with an LLM - Chain transcription →
+summarization automatically
+
+You create a pipeline where audio is transcribed first, then the
+transcript is summarized. Both steps run automatically when you insert
+new audio files.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai-whisper openai
+
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import whisper, openai
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('podcast_demo', force=True)
+pxt.create_dir('podcast_demo')
+
+```
+
+### Create the pipeline
+
+Create a table with audio input, then add computed columns for
+transcription and summarization:
+
+
+```python
+# Create table for audio files
+podcasts = pxt.create_table(
+    'podcast_demo.episodes',
+    {'title': pxt.String, 'audio': pxt.Audio}
+)
+
+```
+
+
+```python
+# Step 1: Transcribe with local Whisper (uses GPU if available)
+podcasts.add_computed_column(
+    transcription=whisper.transcribe(podcasts.audio, model='base.en')
+)
+
+```
+
+
+```python
+# Extract the text from transcription result
+podcasts.add_computed_column(
+    transcript_text=podcasts.transcription.text
+)
+
+```
+
+
+```python
+# Step 2: Summarize the transcript with OpenAI
+summary_prompt = '''Summarize this transcript in 2-3 sentences, then list 3 key points.
+
+Transcript:
+''' + podcasts.transcript_text
+
+podcasts.add_computed_column(
+    summary_response=openai.chat_completions(
+        messages=[{'role': 'user', 'content': summary_prompt}],
+        model='gpt-4o-mini'
+    )
+)
+
+```
+
+
+```python
+# Extract summary text from response
+podcasts.add_computed_column(
+    summary=podcasts.summary_response.choices[0].message.content
+)
+
+```
+
+### Process audio files
+
+Insert audio files and watch the pipeline run automatically:
+
+
+```python
+# Insert sample audio (using a short sample for demo)
+audio_url = 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/audio/jfk_rice_moon_speech_excerpt.mp3'
+
+podcasts.insert([{
+    'title': 'JFK Moon Speech Excerpt',
+    'audio': audio_url
+}])
+
+```
+
+
+```python
+# View transcript
+podcasts.select(podcasts.title, podcasts.transcript_text).collect()
+
+```
+
+
+```python
+# View summary
+podcasts.select(podcasts.title, podcasts.summary).collect()
+
+```
+
+## Explanation
+
+**Pipeline architecture:**
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Audio&nbsp;→&nbsp;Whisper&nbsp;transcription&nbsp;→&nbsp;Transcript&nbsp;text&nbsp;→&nbsp;LLM&nbsp;summarization&nbsp;→&nbsp;Summary
+</pre>
+
+Each step is a computed column that depends on the previous one. When
+you insert a new audio file, all steps run automatically in sequence.
+
+**Whisper model options:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+For production with varied audio quality, use `small.en` or larger.
+
+## See also
+
+-   [Transcribe
+    audio](/howto/cookbooks/audio/audio-transcribe) -
+    Basic audio transcription
+-   [Summarize
+    text](/howto/cookbooks/text/text-summarize) -
+    Text summarization patterns

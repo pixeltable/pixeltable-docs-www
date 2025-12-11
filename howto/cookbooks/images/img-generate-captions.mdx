@@ -1,0 +1,240 @@
+---
+title: "Generate captions for images"
+sidebarTitle: "Generate captions for images"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-generate-captions.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-generate-captions.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-generate-captions.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Images</th>
+<th>Need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">E-commerce catalog</td>
+<td style="vertical-align: middle;">10K products</td>
+<td style="vertical-align: middle;">SEO-friendly descriptions</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Photo library</td>
+<td style="vertical-align: middle;">50K photos</td>
+<td style="vertical-align: middle;">Searchable metadata</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Social media</td>
+<td style="vertical-align: middle;">1K posts</td>
+<td style="vertical-align: middle;">Alt text for accessibility</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Prompt style</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">General</td>
+<td style="vertical-align: middle;">“Write a concise caption”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Accessibility</td>
+<td style="vertical-align: middle;">“Write alt text under 125 characters”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">SEO</td>
+<td style="vertical-align: middle;">“Describe for search engines with keywords”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Social media</td>
+<td style="vertical-align: middle;">“Write an engaging caption with hashtags”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">E-commerce</td>
+<td style="vertical-align: middle;">“Describe this product for a catalog”</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Automatically create descriptive captions for images using AI vision
+models.
+
+## Problem
+
+You have a collection of images that need captions—for accessibility,
+SEO, content management, or searchability. Writing captions manually
+doesn’t scale.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Generate captions using OpenAI’s vision
+models - Customize caption style (short, detailed, SEO-focused) -
+Process images in batch automatically
+
+You add a computed column that sends each image to a vision model with a
+captioning prompt. New images are captioned automatically on insert.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.openai import vision
+
+```
+
+### Load images
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('caption_demo', force=True)
+pxt.create_dir('caption_demo')
+
+```
+
+
+```python
+# Create table for images
+images = pxt.create_table('caption_demo.images', {'image': pxt.Image})
+
+```
+
+
+```python
+# Insert sample images
+image_urls = [
+    'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg',
+    'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg',
+    'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000106.jpg',
+]
+
+images.insert([{'image': url} for url in image_urls])
+
+```
+
+
+```python
+# View images
+images.collect()
+
+```
+
+### Generate captions
+
+Add a computed column that generates captions using the vision model:
+
+
+```python
+# Add caption using OpenAI vision
+images.add_computed_column(
+    caption=vision(
+        images.image,
+        prompt='Write a concise, descriptive caption for this image in one sentence.',
+        model='gpt-4o-mini'
+    )
+)
+
+```
+
+
+```python
+# View images with captions
+images.select(images.image, images.caption).collect()
+
+```
+
+### Different caption styles
+
+You can generate multiple caption styles for different uses:
+
+
+```python
+# Add alt text for accessibility (brief)
+images.add_computed_column(
+    alt_text=vision(
+        images.image,
+        prompt='Write a brief alt text for this image (under 125 characters) for screen readers.',
+        model='gpt-4o-mini'
+    )
+)
+
+```
+
+
+```python
+# Add detailed description
+images.add_computed_column(
+    description=vision(
+        images.image,
+        prompt='Describe this image in detail, including objects, colors, setting, and mood.',
+        model='gpt-4o-mini'
+    )
+)
+
+```
+
+
+```python
+# View all caption types
+images.select(images.image, images.caption, images.alt_text).collect()
+
+```
+
+## Explanation
+
+**Caption prompt patterns:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Model selection:**
+
+-   `gpt-4o-mini`: Fast and affordable, good for most captioning tasks
+-   `gpt-4o`: Higher quality for complex images or detailed descriptions
+
+## See also
+
+-   [Analyze images in
+    batch](/howto/cookbooks/images/vision-batch-analysis) -
+    Run custom prompts on images
+-   [Extract structured data from
+    images](/howto/cookbooks/images/vision-structured-output) -
+    Get JSON from images
+-   [Find similar
+    images](/howto/cookbooks/search/search-similar-images) -
+    Visual similarity search

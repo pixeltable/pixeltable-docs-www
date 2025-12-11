@@ -1,0 +1,356 @@
+---
+title: "Find similar images with CLIP"
+sidebarTitle: "Find similar images with CLIP"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/search/search-similar-images.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/search/search-similar-images.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/search/search-similar-images.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Query</th>
+<th>Expected matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">sunset photo</td>
+<td style="vertical-align: middle;">Other sunset/beach images</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">product image</td>
+<td style="vertical-align: middle;">Similar products</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">user upload</td>
+<td style="vertical-align: middle;">Matching content in library</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>image_embed</code></td>
+<td style="vertical-align: middle;">Model for embedding images</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>string_embed</code></td>
+<td style="vertical-align: middle;">Model for embedding text queries</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Build visual similarity search to find images that look alike using
+OpenAI’s CLIP model.
+
+## Problem
+
+You have a collection of images and need to find visually similar
+ones—for duplicate detection, content recommendations, or visual search.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Create image embeddings with CLIP - Search
+by image similarity - Search by text description (cross-modal)
+
+You add an embedding index using CLIP, which understands both images and
+text. This enables finding similar images or searching images by text
+description.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable sentence-transformers torch
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
+</pre>
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.huggingface import clip
+
+```
+
+### Load images
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('image_search_demo', force=True)
+pxt.create_dir('image_search_demo')
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;image_search_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x3b811eb10&gt;
+</pre>
+
+
+```python
+images = pxt.create_table('image_search_demo.images', {'image': pxt.Image})
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;images&#x27;.
+</pre>
+
+
+```python
+# Insert sample images
+images.insert([
+    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'},
+    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'},
+    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000106.jpg'},
+    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000139.jpg'},
+])
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`images\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;1687.00&nbsp;rows/s\]
+Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+4&nbsp;rows&nbsp;inserted,&nbsp;8&nbsp;values&nbsp;computed.
+</pre>
+
+### Create CLIP embedding index
+
+Add an embedding index using CLIP for cross-modal search:
+
+
+```python
+# Add CLIP embedding index (supports both image and text queries)
+images.add_embedding_index(
+    'image',
+    embedding=clip.using(model_id='openai/clip-vit-base-patch32')
+)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+ValueError:&nbsp;Due&nbsp;to&nbsp;a&nbsp;serious&nbsp;vulnerability&nbsp;issue&nbsp;in&nbsp;\`torch.load\`,&nbsp;even&nbsp;with&nbsp;\`weights_only=True\`,&nbsp;we&nbsp;now&nbsp;require&nbsp;users&nbsp;to&nbsp;upgrade&nbsp;torch&nbsp;to&nbsp;at&nbsp;least&nbsp;v2.6&nbsp;in&nbsp;order&nbsp;to&nbsp;use&nbsp;the&nbsp;function.&nbsp;This&nbsp;version&nbsp;restriction&nbsp;does&nbsp;not&nbsp;apply&nbsp;when&nbsp;loading&nbsp;files&nbsp;with&nbsp;safetensors.
+See&nbsp;the&nbsp;vulnerability&nbsp;report&nbsp;here&nbsp;https://nvd.nist.gov/vuln/detail/CVE-2025-32434
+\[0;31m---------------------------------------------------------------------------\[0m
+\[0;31mValueError\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Traceback&nbsp;(most&nbsp;recent&nbsp;call&nbsp;last)
+Cell&nbsp;\[0;32mIn\[39\],&nbsp;line&nbsp;4\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1\[0m&nbsp;\[38;5;66;03m#&nbsp;Add&nbsp;CLIP&nbsp;embedding&nbsp;index&nbsp;(supports&nbsp;both&nbsp;image&nbsp;and&nbsp;text&nbsp;queries)\[39;00m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2\[0m&nbsp;images\[38;5;241m.\[39madd_embedding_index(
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;124m&#x27;\[39m\[38;5;124mimage\[39m\[38;5;124m&#x27;\[39m,
+\[0;32m----&gt;&nbsp;4\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;embedding\[38;5;241m=\[39m\[43mclip\[49m\[38;5;241;43m.\[39;49m\[43musing\[49m\[43m(\[49m\[43mmodel_id\[49m\[38;5;241;43m=\[39;49m\[38;5;124;43m&#x27;\[39;49m\[38;5;124;43mopenai/clip-vit-base-patch32\[39;49m\[38;5;124;43m&#x27;\[39;49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5\[0m&nbsp;)
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/pixeltable/func/function.py:341\[0m,&nbsp;in&nbsp;\[0;36mFunction.using\[0;34m(self,&nbsp;**kwargs)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;339\[0m&nbsp;\[38;5;28;01mfor\[39;00m&nbsp;i&nbsp;\[38;5;129;01min\[39;00m&nbsp;\[38;5;28mrange\[39m(\[38;5;28mlen\[39m(\[38;5;28mself\[39m\[38;5;241m.\[39msignatures)):
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;340\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mtry\[39;00m:
+\[0;32m--&gt;&nbsp;341\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;template&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;28;43mself\[39;49m\[38;5;241;43m.\[39;49m\[43m_resolved_fns\[49m\[43m\[\[49m\[43mi\[49m\[43m\]\[49m\[38;5;241;43m.\[39;49m\[43m_bind_and_create_template\[49m\[43m(\[49m\[43mkwargs\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;342\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;templates\[38;5;241m.\[39mappend(template)
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;343\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mexcept\[39;00m&nbsp;(\[38;5;167;01mTypeError\[39;00m,&nbsp;excs\[38;5;241m.\[39mError):
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/pixeltable/func/function.py:393\[0m,&nbsp;in&nbsp;\[0;36mFunction._bind_and_create_template\[0;34m(self,&nbsp;kwargs)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;390\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;template_kwargs\[name\]&nbsp;\[38;5;241m=\[39m&nbsp;var
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;391\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;args_ok&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;28;01mFalse\[39;00m
+\[0;32m--&gt;&nbsp;393\[0m&nbsp;return_type&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;28;43mself\[39;49m\[38;5;241;43m.\[39;49m\[43mcall_return_type\[49m\[43m(\[49m\[43mbindings\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;394\[0m&nbsp;call&nbsp;\[38;5;241m=\[39m&nbsp;exprs\[38;5;241m.\[39mFunctionCall(\[38;5;28mself\[39m,&nbsp;template_args,&nbsp;template_kwargs,&nbsp;return_type)
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;396\[0m&nbsp;\[38;5;66;03m#&nbsp;Construct&nbsp;the&nbsp;(n-k)-ary&nbsp;signature&nbsp;of&nbsp;the&nbsp;new&nbsp;function.&nbsp;We&nbsp;use&nbsp;\`call.col_type\`&nbsp;for&nbsp;this,&nbsp;rather&nbsp;than\[39;00m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;397\[0m&nbsp;\[38;5;66;03m#&nbsp;\`self.signature.return_type\`,&nbsp;because&nbsp;the&nbsp;return&nbsp;type&nbsp;of&nbsp;the&nbsp;new&nbsp;function&nbsp;may&nbsp;be&nbsp;specialized&nbsp;via&nbsp;a\[39;00m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;398\[0m&nbsp;\[38;5;66;03m#&nbsp;conditional&nbsp;return&nbsp;type.\[39;00m
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/pixeltable/func/function.py:237\[0m,&nbsp;in&nbsp;\[0;36mFunction.call_return_type\[0;34m(self,&nbsp;bound_args)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;233\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_type&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;28mself\[39m\[38;5;241m.\[39msignature\[38;5;241m.\[39mreturn_type
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;234\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01melse\[39;00m:
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;235\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;A&nbsp;conditional&nbsp;return&nbsp;type&nbsp;is&nbsp;specified&nbsp;and&nbsp;all&nbsp;its&nbsp;arguments&nbsp;are&nbsp;constants;&nbsp;use&nbsp;the&nbsp;specific\[39;00m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;236\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;call&nbsp;return&nbsp;type\[39;00m
+\[0;32m--&gt;&nbsp;237\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return_type&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;28;43mself\[39;49m\[38;5;241;43m.\[39;49m\[43m_conditional_return_type\[49m\[43m(\[49m\[38;5;241;43m*\[39;49m\[38;5;241;43m*\[39;49m\[43mcrt_kwargs\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;239\[0m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;return_type\[38;5;241m.\[39mnullable:
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;240\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;return_type
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/pixeltable/functions/huggingface.py:208\[0m,&nbsp;in&nbsp;\[0;36m_\[0;34m(model_id)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;204\[0m&nbsp;\[38;5;129m@clip\[39m\[38;5;241m.\[39mconditional_return_type
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;205\[0m&nbsp;\[38;5;28;01mdef\[39;00m&nbsp;\[38;5;21m_\[39m(model_id:&nbsp;\[38;5;28mstr\[39m)&nbsp;\[38;5;241m-\[39m\[38;5;241m&gt;\[39m&nbsp;ts\[38;5;241m.\[39mArrayType:
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;206\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mfrom\[39;00m&nbsp;\[38;5;21;01mtransformers\[39;00m&nbsp;\[38;5;28;01mimport\[39;00m&nbsp;CLIPModel
+\[0;32m--&gt;&nbsp;208\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model&nbsp;\[38;5;241m=\[39m&nbsp;\[43m_lookup_model\[49m\[43m(\[49m\[43mmodel_id\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mCLIPModel\[49m\[38;5;241;43m.\[39;49m\[43mfrom_pretrained\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;209\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;ts\[38;5;241m.\[39mArrayType((model\[38;5;241m.\[39mconfig\[38;5;241m.\[39mprojection_dim,),&nbsp;dtype\[38;5;241m=\[39mts\[38;5;241m.\[39mFloatType(),&nbsp;nullable\[38;5;241m=\[39m\[38;5;28;01mFalse\[39;00m)
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/pixeltable/functions/huggingface.py:1497\[0m,&nbsp;in&nbsp;\[0;36m_lookup_model\[0;34m(model_id,&nbsp;create,&nbsp;device,&nbsp;pass_device_to_create)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;1495\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model&nbsp;\[38;5;241m=\[39m&nbsp;create(model_id,&nbsp;device\[38;5;241m=\[39mdevice)
+\[1;32m&nbsp;&nbsp;&nbsp;1496\[0m&nbsp;\[38;5;28;01melse\[39;00m:
+\[0;32m-&gt;&nbsp;1497\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model&nbsp;\[38;5;241m=\[39m&nbsp;\[43mcreate\[49m\[43m(\[49m\[43mmodel_id\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;1498\[0m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28misinstance\[39m(model,&nbsp;nn\[38;5;241m.\[39mModule):
+\[1;32m&nbsp;&nbsp;&nbsp;1499\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;pass_device_to_create&nbsp;\[38;5;129;01mand\[39;00m&nbsp;device&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py:277\[0m,&nbsp;in&nbsp;\[0;36mrestore_default_dtype.&lt;locals&gt;._wrapper\[0;34m(*args,&nbsp;**kwargs)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;275\[0m&nbsp;old_dtype&nbsp;\[38;5;241m=\[39m&nbsp;torch\[38;5;241m.\[39mget_default_dtype()
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;276\[0m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[0;32m--&gt;&nbsp;277\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;\[43mfunc\[49m\[43m(\[49m\[38;5;241;43m*\[39;49m\[43margs\[49m\[43m,\[49m\[43m&nbsp;\[49m\[38;5;241;43m*\[39;49m\[38;5;241;43m*\[39;49m\[43mkwargs\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;278\[0m&nbsp;\[38;5;28;01mfinally\[39;00m:
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;279\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;torch\[38;5;241m.\[39mset_default_dtype(old_dtype)
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py:5051\[0m,&nbsp;in&nbsp;\[0;36mPreTrainedModel.from_pretrained\[0;34m(cls,&nbsp;pretrained_model_name_or_path,&nbsp;config,&nbsp;cache_dir,&nbsp;ignore_mismatched_sizes,&nbsp;force_download,&nbsp;local_files_only,&nbsp;token,&nbsp;revision,&nbsp;use_safetensors,&nbsp;weights_only,&nbsp;*model_args,&nbsp;**kwargs)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;5041\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;dtype_orig&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+\[1;32m&nbsp;&nbsp;&nbsp;5042\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;torch\[38;5;241m.\[39mset_default_dtype(dtype_orig)
+\[1;32m&nbsp;&nbsp;&nbsp;5044\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(
+\[1;32m&nbsp;&nbsp;&nbsp;5045\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model,
+\[1;32m&nbsp;&nbsp;&nbsp;5046\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;missing_keys,
+\[1;32m&nbsp;&nbsp;&nbsp;5047\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;unexpected_keys,
+\[1;32m&nbsp;&nbsp;&nbsp;5048\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mismatched_keys,
+\[1;32m&nbsp;&nbsp;&nbsp;5049\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;offload_index,
+\[1;32m&nbsp;&nbsp;&nbsp;5050\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;error_msgs,
+\[0;32m-&gt;&nbsp;5051\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;28;43mcls\[39;49m\[38;5;241;43m.\[39;49m\[43m_load_pretrained_model\[49m\[43m(\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5052\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mmodel\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5053\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mstate_dict\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5054\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mcheckpoint_files\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5055\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mpretrained_model_name_or_path\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5056\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mignore_mismatched_sizes\[49m\[38;5;241;43m=\[39;49m\[43mignore_mismatched_sizes\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5057\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43msharded_metadata\[49m\[38;5;241;43m=\[39;49m\[43msharded_metadata\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5058\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mdevice_map\[49m\[38;5;241;43m=\[39;49m\[43mdevice_map\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5059\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mdisk_offload_folder\[49m\[38;5;241;43m=\[39;49m\[43moffload_folder\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5060\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mdtype\[49m\[38;5;241;43m=\[39;49m\[43mdtype\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5061\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mhf_quantizer\[49m\[38;5;241;43m=\[39;49m\[43mhf_quantizer\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5062\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mkeep_in_fp32_regex\[49m\[38;5;241;43m=\[39;49m\[43mkeep_in_fp32_regex\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5063\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mdevice_mesh\[49m\[38;5;241;43m=\[39;49m\[43mdevice_mesh\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5064\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mkey_mapping\[49m\[38;5;241;43m=\[39;49m\[43mkey_mapping\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5065\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mweights_only\[49m\[38;5;241;43m=\[39;49m\[43mweights_only\[49m\[43m,\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5066\[0m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;5067\[0m&nbsp;\[38;5;66;03m#&nbsp;make&nbsp;sure&nbsp;token&nbsp;embedding&nbsp;weights&nbsp;are&nbsp;still&nbsp;tied&nbsp;if&nbsp;needed\[39;00m
+\[1;32m&nbsp;&nbsp;&nbsp;5068\[0m&nbsp;model\[38;5;241m.\[39mtie_weights()
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py:5319\[0m,&nbsp;in&nbsp;\[0;36mPreTrainedModel._load_pretrained_model\[0;34m(cls,&nbsp;model,&nbsp;state_dict,&nbsp;checkpoint_files,&nbsp;pretrained_model_name_or_path,&nbsp;ignore_mismatched_sizes,&nbsp;sharded_metadata,&nbsp;device_map,&nbsp;disk_offload_folder,&nbsp;dtype,&nbsp;hf_quantizer,&nbsp;keep_in_fp32_regex,&nbsp;device_mesh,&nbsp;key_mapping,&nbsp;weights_only)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;5316\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;original_checkpoint_keys&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;28mlist\[39m(state_dict\[38;5;241m.\[39mkeys())
+\[1;32m&nbsp;&nbsp;&nbsp;5317\[0m&nbsp;\[38;5;28;01melse\[39;00m:
+\[1;32m&nbsp;&nbsp;&nbsp;5318\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;original_checkpoint_keys&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;28mlist\[39m(
+\[0;32m-&gt;&nbsp;5319\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[43mload_state_dict\[49m\[43m(\[49m\[43mcheckpoint_files\[49m\[43m\[\[49m\[38;5;241;43m0\[39;49m\[43m\]\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mmap_location\[49m\[38;5;241;43m=\[39;49m\[38;5;124;43m&quot;\[39;49m\[38;5;124;43mmeta\[39;49m\[38;5;124;43m&quot;\[39;49m\[43m,\[49m\[43m&nbsp;\[49m\[43mweights_only\[49m\[38;5;241;43m=\[39;49m\[43mweights_only\[49m\[43m)\[49m\[38;5;241m.\[39mkeys()
+\[1;32m&nbsp;&nbsp;&nbsp;5320\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+\[1;32m&nbsp;&nbsp;&nbsp;5322\[0m&nbsp;\[38;5;66;03m#&nbsp;Check&nbsp;if&nbsp;we&nbsp;are&nbsp;in&nbsp;a&nbsp;special&nbsp;state,&nbsp;i.e.&nbsp;loading&nbsp;from&nbsp;a&nbsp;state&nbsp;dict&nbsp;coming&nbsp;from&nbsp;a&nbsp;different&nbsp;architecture\[39;00m
+\[1;32m&nbsp;&nbsp;&nbsp;5323\[0m&nbsp;prefix&nbsp;\[38;5;241m=\[39m&nbsp;model\[38;5;241m.\[39mbase_model_prefix
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/transformers/modeling_utils.py:508\[0m,&nbsp;in&nbsp;\[0;36mload_state_dict\[0;34m(checkpoint_file,&nbsp;is_quantized,&nbsp;map_location,&nbsp;weights_only)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;506\[0m&nbsp;\[38;5;66;03m#&nbsp;Fallback&nbsp;to&nbsp;torch.load&nbsp;(if&nbsp;weights_only&nbsp;was&nbsp;explicitly&nbsp;False,&nbsp;do&nbsp;not&nbsp;check&nbsp;safety&nbsp;as&nbsp;this&nbsp;is&nbsp;known&nbsp;to&nbsp;be&nbsp;unsafe)\[39;00m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;507\[0m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;weights_only:
+\[0;32m--&gt;&nbsp;508\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[43mcheck_torch_load_is_safe\[49m\[43m(\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;509\[0m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;510\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;map_location&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/transformers/utils/import_utils.py:1647\[0m,&nbsp;in&nbsp;\[0;36mcheck_torch_load_is_safe\[0;34m()\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;1645\[0m&nbsp;\[38;5;28;01mdef\[39;00m&nbsp;\[38;5;21mcheck_torch_load_is_safe\[39m()&nbsp;\[38;5;241m-\[39m\[38;5;241m&gt;\[39m&nbsp;\[38;5;28;01mNone\[39;00m:
+\[1;32m&nbsp;&nbsp;&nbsp;1646\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;is_torch_greater_or_equal(\[38;5;124m&quot;\[39m\[38;5;124m2.6\[39m\[38;5;124m&quot;\[39m):
+\[0;32m-&gt;&nbsp;1647\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;\[38;5;167;01mValueError\[39;00m(
+\[1;32m&nbsp;&nbsp;&nbsp;1648\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;124m&quot;\[39m\[38;5;124mDue&nbsp;to&nbsp;a&nbsp;serious&nbsp;vulnerability&nbsp;issue&nbsp;in&nbsp;\`torch.load\`,&nbsp;even&nbsp;with&nbsp;\`weights_only=True\`,&nbsp;we&nbsp;now&nbsp;require&nbsp;users&nbsp;\[39m\[38;5;124m&quot;\[39m
+\[1;32m&nbsp;&nbsp;&nbsp;1649\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;124m&quot;\[39m\[38;5;124mto&nbsp;upgrade&nbsp;torch&nbsp;to&nbsp;at&nbsp;least&nbsp;v2.6&nbsp;in&nbsp;order&nbsp;to&nbsp;use&nbsp;the&nbsp;function.&nbsp;This&nbsp;version&nbsp;restriction&nbsp;does&nbsp;not&nbsp;apply&nbsp;\[39m\[38;5;124m&quot;\[39m
+\[1;32m&nbsp;&nbsp;&nbsp;1650\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;124m&quot;\[39m\[38;5;124mwhen&nbsp;loading&nbsp;files&nbsp;with&nbsp;safetensors.\[39m\[38;5;124m&quot;\[39m
+\[1;32m&nbsp;&nbsp;&nbsp;1651\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;124m&quot;\[39m\[38;5;130;01m\n\[39;00m\[38;5;124mSee&nbsp;the&nbsp;vulnerability&nbsp;report&nbsp;here&nbsp;https://nvd.nist.gov/vuln/detail/CVE-2025-32434\[39m\[38;5;124m&quot;\[39m
+\[1;32m&nbsp;&nbsp;&nbsp;1652\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+
+\[0;31mValueError\[0m:&nbsp;Due&nbsp;to&nbsp;a&nbsp;serious&nbsp;vulnerability&nbsp;issue&nbsp;in&nbsp;\`torch.load\`,&nbsp;even&nbsp;with&nbsp;\`weights_only=True\`,&nbsp;we&nbsp;now&nbsp;require&nbsp;users&nbsp;to&nbsp;upgrade&nbsp;torch&nbsp;to&nbsp;at&nbsp;least&nbsp;v2.6&nbsp;in&nbsp;order&nbsp;to&nbsp;use&nbsp;the&nbsp;function.&nbsp;This&nbsp;version&nbsp;restriction&nbsp;does&nbsp;not&nbsp;apply&nbsp;when&nbsp;loading&nbsp;files&nbsp;with&nbsp;safetensors.
+See&nbsp;the&nbsp;vulnerability&nbsp;report&nbsp;here&nbsp;https://nvd.nist.gov/vuln/detail/CVE-2025-32434
+</pre>
+
+### Search by text description
+
+Find images matching a text query:
+
+
+```python
+# Search by text description
+query = "people eating food"
+sim = images.image.similarity(query)
+
+results = (
+    images
+    .order_by(sim, asc=False)
+    .select(images.image, score=sim)
+    .limit(2)
+)
+results.collect()
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Error:&nbsp;No&nbsp;embedding&nbsp;index&nbsp;found&nbsp;for&nbsp;column&nbsp;&#x27;image&#x27;
+\[0;31m---------------------------------------------------------------------------\[0m
+\[0;31mError\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Traceback&nbsp;(most&nbsp;recent&nbsp;call&nbsp;last)
+Cell&nbsp;\[0;32mIn\[21\],&nbsp;line&nbsp;3\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1\[0m&nbsp;\[38;5;66;03m#&nbsp;Search&nbsp;by&nbsp;text&nbsp;description\[39;00m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2\[0m&nbsp;query&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;124m&quot;\[39m\[38;5;124mpeople&nbsp;eating&nbsp;food\[39m\[38;5;124m&quot;\[39m
+\[0;32m----&gt;&nbsp;3\[0m&nbsp;sim&nbsp;\[38;5;241m=\[39m&nbsp;\[43mimages\[49m\[38;5;241;43m.\[39;49m\[43mimage\[49m\[38;5;241;43m.\[39;49m\[43msimilarity\[49m\[43m(\[49m\[43mquery\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5\[0m&nbsp;results&nbsp;\[38;5;241m=\[39m&nbsp;(
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;images
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;241m.\[39morder_by(sim,&nbsp;asc\[38;5;241m=\[39m\[38;5;28;01mFalse\[39;00m)
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;241m.\[39mselect(images\[38;5;241m.\[39mimage,&nbsp;score\[38;5;241m=\[39msim)
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;241m.\[39mlimit(\[38;5;241m2\[39m)
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10\[0m&nbsp;)
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11\[0m&nbsp;results\[38;5;241m.\[39mcollect()
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/pixeltable/exprs/column_ref.py:166\[0m,&nbsp;in&nbsp;\[0;36mColumnRef.similarity\[0;34m(self,&nbsp;item,&nbsp;idx)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;163\[0m&nbsp;\[38;5;28;01mdef\[39;00m&nbsp;\[38;5;21msimilarity\[39m(\[38;5;28mself\[39m,&nbsp;item:&nbsp;Any,&nbsp;\[38;5;241m*\[39m,&nbsp;idx:&nbsp;\[38;5;28mstr\[39m&nbsp;\[38;5;241m|\[39m&nbsp;\[38;5;28;01mNone\[39;00m&nbsp;\[38;5;241m=\[39m&nbsp;\[38;5;28;01mNone\[39;00m)&nbsp;\[38;5;241m-\[39m\[38;5;241m&gt;\[39m&nbsp;Expr:
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;164\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mfrom\[39;00m&nbsp;\[38;5;21;01m.\[39;00m\[38;5;21;01msimilarity_expr\[39;00m&nbsp;\[38;5;28;01mimport\[39;00m&nbsp;SimilarityExpr
+\[0;32m--&gt;&nbsp;166\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;\[43mSimilarityExpr\[49m\[43m(\[49m\[38;5;28;43mself\[39;49m\[43m,\[49m\[43m&nbsp;\[49m\[43mitem\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43midx_name\[49m\[38;5;241;43m=\[39;49m\[43midx\[49m\[43m)\[49m
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/pixeltable/exprs/similarity_expr.py:40\[0m,&nbsp;in&nbsp;\[0;36mSimilarityExpr.__init__\[0;34m(self,&nbsp;col_ref,&nbsp;item,&nbsp;idx_name)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;37\[0m&nbsp;\[38;5;28mself\[39m\[38;5;241m.\[39mcomponents&nbsp;\[38;5;241m=\[39m&nbsp;\[col_ref,&nbsp;item_expr\]
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;39\[0m&nbsp;\[38;5;66;03m#&nbsp;determine&nbsp;index&nbsp;to&nbsp;use\[39;00m
+\[0;32m---&gt;&nbsp;40\[0m&nbsp;idx_info&nbsp;\[38;5;241m=\[39m&nbsp;\[43mcol_ref\[49m\[38;5;241;43m.\[39;49m\[43mtbl\[49m\[38;5;241;43m.\[39;49m\[43mget\[49m\[43m(\[49m\[43m)\[49m\[38;5;241;43m.\[39;49m\[43mget_idx\[49m\[43m(\[49m\[43mcol_ref\[49m\[38;5;241;43m.\[39;49m\[43mcol\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43midx_name\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mEmbeddingIndex\[49m\[43m)\[49m
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;41\[0m&nbsp;\[38;5;28mself\[39m\[38;5;241m.\[39midx_id&nbsp;\[38;5;241m=\[39m&nbsp;idx_info\[38;5;241m.\[39mid
+\[1;32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;42\[0m&nbsp;\[38;5;28mself\[39m\[38;5;241m.\[39midx_name&nbsp;\[38;5;241m=\[39m&nbsp;idx_info\[38;5;241m.\[39mname
+
+File&nbsp;\[0;32m/Users/pierre/pixeltable/.venv/lib/python3.12/site-packages/pixeltable/catalog/table_version.py:1696\[0m,&nbsp;in&nbsp;\[0;36mTableVersion.get_idx\[0;34m(self,&nbsp;col,&nbsp;idx_name,&nbsp;idx_cls)\[0m
+\[1;32m&nbsp;&nbsp;&nbsp;1694\[0m&nbsp;candidates&nbsp;\[38;5;241m=\[39m&nbsp;\[info&nbsp;\[38;5;28;01mfor\[39;00m&nbsp;info&nbsp;\[38;5;129;01min\[39;00m&nbsp;\[38;5;28mself\[39m\[38;5;241m.\[39midxs_by_col\[col\[38;5;241m.\[39mqid\]&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28misinstance\[39m(info\[38;5;241m.\[39midx,&nbsp;idx_cls)\]
+\[1;32m&nbsp;&nbsp;&nbsp;1695\[0m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28mlen\[39m(candidates)&nbsp;\[38;5;241m==\[39m&nbsp;\[38;5;241m0\[39m:
+\[0;32m-&gt;&nbsp;1696\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;excs\[38;5;241m.\[39mError(\[38;5;124mf\[39m\[38;5;124m&#x27;\[39m\[38;5;124mNo&nbsp;\[39m\[38;5;132;01m\{\[39;00midx_cls\[38;5;241m.\[39mdisplay_name()\[38;5;132;01m\}\[39;00m\[38;5;124m&nbsp;index&nbsp;found&nbsp;for&nbsp;column&nbsp;\[39m\[38;5;132;01m\{\[39;00mcol\[38;5;241m.\[39mname\[38;5;132;01m!r\}\[39;00m\[38;5;124m&#x27;\[39m)
+\[1;32m&nbsp;&nbsp;&nbsp;1697\[0m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28mlen\[39m(candidates)&nbsp;\[38;5;241m&gt;\[39m&nbsp;\[38;5;241m1\[39m&nbsp;\[38;5;129;01mand\[39;00m&nbsp;idx_name&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+\[1;32m&nbsp;&nbsp;&nbsp;1698\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;excs\[38;5;241m.\[39mError(
+\[1;32m&nbsp;&nbsp;&nbsp;1699\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;124mf\[39m\[38;5;124m&#x27;\[39m\[38;5;124mColumn&nbsp;\[39m\[38;5;132;01m\{\[39;00mcol\[38;5;241m.\[39mname\[38;5;132;01m!r\}\[39;00m\[38;5;124m&nbsp;has&nbsp;multiple&nbsp;\[39m\[38;5;132;01m\{\[39;00midx_cls\[38;5;241m.\[39mdisplay_name()\[38;5;132;01m\}\[39;00m\[38;5;124m&nbsp;indices;&nbsp;specify&nbsp;\`idx_name\`&nbsp;instead\[39m\[38;5;124m&#x27;\[39m
+\[1;32m&nbsp;&nbsp;&nbsp;1700\[0m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+
+\[0;31mError\[0m:&nbsp;No&nbsp;embedding&nbsp;index&nbsp;found&nbsp;for&nbsp;column&nbsp;&#x27;image&#x27;
+</pre>
+
+## Explanation
+
+**Why CLIP:**
+
+CLIP (Contrastive Language-Image Pre-training) understands both images
+and text in the same embedding space. This enables: - Image-to-image
+search (find similar photos) - Text-to-image search (find photos
+matching a description)
+
+**Index parameters:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Both must use the same model** for cross-modal search to work.
+
+**New images are indexed automatically:**
+
+When you insert new images, embeddings are generated without extra code.
+
+## See also
+
+-   [Semantic text
+    search](/howto/cookbooks/search/search-semantic-text)
+-   [Vector database
+    documentation](/platform/embedding-indexes)

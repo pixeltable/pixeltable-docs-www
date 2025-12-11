@@ -1,0 +1,245 @@
+---
+title: "Import data from Hugging Face datasets"
+sidebarTitle: "Import data from Hugging Face datasets"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-huggingface.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-huggingface.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-huggingface.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Size</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">imdb</td>
+<td style="vertical-align: middle;">50K reviews</td>
+<td style="vertical-align: middle;">Sentiment analysis</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">squad</td>
+<td style="vertical-align: middle;">100K Q&amp;A</td>
+<td style="vertical-align: middle;">RAG evaluation</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">coco</td>
+<td style="vertical-align: middle;">330K images</td>
+<td style="vertical-align: middle;">Vision model training</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Hugging Face Type</th>
+<th>Pixeltable Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>Value('string')</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Value('int64')</code></td>
+<td style="vertical-align: middle;"><code>pxt.Int</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Value('float32')</code></td>
+<td style="vertical-align: middle;"><code>pxt.Float</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>ClassLabel</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Image</code></td>
+<td style="vertical-align: middle;"><code>pxt.Image</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Sequence</code></td>
+<td style="vertical-align: middle;"><code>pxt.Array</code> or <code>pxt.Json</code></td>
+</tr>
+</tbody>
+</table>
+`];
+
+Load datasets from Hugging Face Hub into Pixeltable tables for
+processing with AI models.
+
+## Problem
+
+You want to use a dataset from Hugging Face Hub—for fine-tuning,
+evaluation, or analysis. You need to load it into a format where you can
+add computed columns, embeddings, or AI transformations.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Import Hugging Face datasets directly into
+tables - Handle datasets with multiple splits (train/test/validation) -
+Work with image datasets
+
+You use `pxt.create_table()` with a Hugging Face dataset as the `source`
+parameter. Pixeltable automatically maps HF types to Pixeltable column
+types.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable datasets
+
+```
+
+
+```python
+import pixeltable as pxt
+from datasets import load_dataset
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('hf_demo', force=True)
+pxt.create_dir('hf_demo')
+
+```
+
+### Import a single split
+
+Load a specific split from a dataset:
+
+
+```python
+# Load a small subset for demo (first 100 rows of rotten_tomatoes)
+hf_dataset = load_dataset('rotten_tomatoes', split='train[:100]')
+
+```
+
+
+```python
+# Import into Pixeltable
+reviews = pxt.create_table(
+    'hf_demo.reviews',
+    source=hf_dataset
+)
+
+```
+
+
+```python
+# View imported data
+reviews.head(5)
+
+```
+
+### Import multiple splits
+
+Load a DatasetDict with multiple splits and track which split each row
+came from:
+
+
+```python
+# Load dataset with multiple splits (small subset for demo)
+hf_dataset_dict = load_dataset(
+    'rotten_tomatoes',
+    split={'train': 'train[:50]', 'test': 'test[:50]'}
+)
+
+```
+
+
+```python
+# Import with split tracking column
+reviews_split = pxt.create_table(
+    'hf_demo.reviews_with_splits',
+    source=hf_dataset_dict,
+    column_name_for_split='split'  # Track which split each row came from
+)
+
+```
+
+
+```python
+# View data with split information
+reviews_split.head(5)
+
+```
+
+
+```python
+# Filter by split
+reviews_split.where(reviews_split.split == 'test').head(3)
+
+```
+
+### Add AI-powered computed columns
+
+Enrich the dataset with AI models:
+
+
+```python
+# Add a computed column for text length
+reviews.add_computed_column(text_length=reviews.text.apply(len))
+
+```
+
+
+```python
+# View with computed column
+reviews.select(reviews.text, reviews.label, reviews.text_length).head(5)
+
+```
+
+### Type mapping
+
+Pixeltable automatically maps Hugging Face types to Pixeltable types:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+Use `schema_overrides` to customize type mapping when needed.
+
+## Explanation
+
+**Why import Hugging Face datasets into Pixeltable:**
+
+1.  **Add computed columns** - Enrich data with embeddings, AI analysis,
+    or transformations
+2.  **Incremental processing** - Add new rows without reprocessing
+    existing data
+3.  **Persistent storage** - Keep processed results across sessions
+4.  **Query capabilities** - Filter, aggregate, and join with other
+    tables
+
+**Working with large datasets:**
+
+For very large datasets, consider loading in batches or using streaming
+mode in the `datasets` library before importing.
+
+## See also
+
+-   [Import CSV
+    files](/howto/cookbooks/data/data-import-csv) -
+    For CSV and Excel imports
+-   [Semantic text
+    search](/howto/cookbooks/search/search-semantic-text) -
+    Add embeddings to text data
+-   [Hugging Face integration
+    notebook](/howto/providers/working-with-hugging-face) -
+    Full integration guide

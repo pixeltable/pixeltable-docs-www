@@ -1,0 +1,262 @@
+---
+title: "Import data from JSON files"
+sidebarTitle: "Import data from JSON files"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-json.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-json.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-json.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Records</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">api_response.json</td>
+<td style="vertical-align: middle;">1,000</td>
+<td style="vertical-align: middle;">Analyze API data</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">user_events.json</td>
+<td style="vertical-align: middle;">50,000</td>
+<td style="vertical-align: middle;">Process event logs</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">products.json</td>
+<td style="vertical-align: middle;">500</td>
+<td style="vertical-align: middle;">Enrich with AI descriptions</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">JSON file path</td>
+<td style="vertical-align: middle;"><code>source='/path/to/data.json'</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">JSON URL</td>
+<td style="vertical-align: middle;"><code>source='https://api.example.com/data'</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">List of dicts</td>
+<td style="vertical-align: middle;"><code>source=[{'a': 1}, {'a': 2}]</code></td>
+</tr>
+</tbody>
+</table>
+`];
+
+Load structured data from JSON files into Pixeltable tables for
+processing and analysis.
+
+## Problem
+
+You have data in JSON format—from APIs, exports, or application logs.
+You need to load this data for processing with AI models or combining
+with other data sources.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Import JSON files directly into tables -
+Import from URLs (APIs, remote files) - Handle nested JSON structures
+
+You use `pxt.create_table()` with a `source` parameter to create a table
+from a JSON file or URL. The JSON must be an array of objects, where
+each object becomes a row.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+
+```
+
+
+```python
+import pixeltable as pxt
+import json
+import tempfile
+from pathlib import Path
+
+```
+
+### Create sample JSON file
+
+First, create a sample JSON file to demonstrate the import process:
+
+
+```python
+# Create sample JSON data (array of objects)
+sample_data = [
+    {'id': 1, 'title': 'Introduction to ML', 'author': 'Alice', 'tags': ['ml', 'intro'], 'rating': 4.5},
+    {'id': 2, 'title': 'Deep Learning Basics', 'author': 'Bob', 'tags': ['dl', 'neural'], 'rating': 4.8},
+    {'id': 3, 'title': 'NLP Fundamentals', 'author': 'Carol', 'tags': ['nlp', 'text'], 'rating': 4.2},
+    {'id': 4, 'title': 'Computer Vision', 'author': 'Dave', 'tags': ['cv', 'images'], 'rating': 4.6},
+    {'id': 5, 'title': 'Reinforcement Learning', 'author': 'Eve', 'tags': ['rl', 'agents'], 'rating': 4.3}
+]
+
+# Save to temporary JSON file
+temp_dir = tempfile.mkdtemp()
+json_path = Path(temp_dir) / 'articles.json'
+
+with open(json_path, 'w') as f:
+    json.dump(sample_data, f, indent=2)
+
+print(f'Created: {json_path}')
+print(json.dumps(sample_data[:2], indent=2))
+
+```
+
+### Import JSON file
+
+Use `create_table` with `source` to create a table directly from a JSON
+file:
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('json_demo', force=True)
+pxt.create_dir('json_demo')
+
+```
+
+
+```python
+# Import JSON file into a new table
+articles = pxt.create_table(
+    'json_demo.articles',
+    source=str(json_path)
+)
+
+```
+
+
+```python
+# View imported data
+articles.collect()
+
+```
+
+### Import from URL
+
+You can import JSON directly from a URL—useful for APIs and remote data:
+
+
+```python
+# Import from a public JSON URL
+# Using JSONPlaceholder API as an example
+posts = pxt.create_table(
+    'json_demo.posts',
+    source='https://jsonplaceholder.typicode.com/posts'
+)
+
+```
+
+
+```python
+# View first few rows
+posts.head(5)
+
+```
+
+### Import from Python dictionaries
+
+Use `create_table` with a list of dictionaries as `source`—useful when
+you have data in memory:
+
+
+```python
+# Import from a list of dictionaries
+events = [
+    {'event': 'page_view', 'user_id': 101, 'timestamp': '2024-01-15T10:30:00'},
+    {'event': 'click', 'user_id': 101, 'timestamp': '2024-01-15T10:31:00'},
+    {'event': 'purchase', 'user_id': 102, 'timestamp': '2024-01-15T10:32:00'},
+]
+
+event_table = pxt.create_table('json_demo.events', source=events)
+
+```
+
+
+```python
+# View imported events
+event_table.collect()
+
+```
+
+### Add computed columns
+
+Once imported, you can enrich the data with computed columns:
+
+
+```python
+# Add a computed column combining title and author
+articles.add_computed_column(
+    summary=articles.title + ' by ' + articles.author
+)
+
+```
+
+
+```python
+# View with computed column
+articles.select(articles.title, articles.author, articles.summary).collect()
+
+```
+
+## Explanation
+
+**JSON format requirements:**
+
+The JSON file must contain an array of objects at the top level:
+
+
+```json
+[
+  {"col1": "value1", "col2": 123},
+  {"col1": "value2", "col2": 456}
+]
+```
+
+**Source types supported:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Nested JSON handling:**
+
+Nested objects and arrays are stored as JSON columns. You can access
+nested fields using Pixeltable’s JSON path syntax in computed columns.
+
+## See also
+
+-   [Import CSV
+    files](/howto/cookbooks/data/data-import-csv) -
+    For CSV and Excel imports
+-   [Import Parquet
+    files](/howto/cookbooks/data/data-import-parquet) -
+    For Parquet data
+-   [Extract fields from
+    JSON](/howto/cookbooks/core/workflow-json-extraction) -
+    Parse LLM response fields

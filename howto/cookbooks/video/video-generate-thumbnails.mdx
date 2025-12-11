@@ -1,0 +1,256 @@
+---
+title: "Generate thumbnails from videos"
+sidebarTitle: "Generate thumbnails from videos"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-generate-thumbnails.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-generate-thumbnails.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/video/video-generate-thumbnails.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Videos</th>
+<th>Need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Video platform</td>
+<td style="vertical-align: middle;">10K videos</td>
+<td style="vertical-align: middle;">Preview thumbnails</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Media library</td>
+<td style="vertical-align: middle;">5K clips</td>
+<td style="vertical-align: middle;">Gallery previews</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Content management</td>
+<td style="vertical-align: middle;">1K uploads</td>
+<td style="vertical-align: middle;">Automated thumbnails</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>extract_frame(timestamp)</code></td>
+<td style="vertical-align: middle;">Single thumbnail at specific time</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>FrameIterator(fps=N)</code></td>
+<td style="vertical-align: middle;">Multiple frames at regular intervals</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>FrameIterator(num_frames=N)</code></td>
+<td style="vertical-align: middle;">Fixed number of evenly-spaced frames</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">120x90</td>
+<td style="vertical-align: middle;">Small previews, lists</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">320x180</td>
+<td style="vertical-align: middle;">Medium thumbnails, cards</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">640x360</td>
+<td style="vertical-align: middle;">Large previews, hover states</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1280x720</td>
+<td style="vertical-align: middle;">HD thumbnails, hero images</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Automatically create preview thumbnails from video files at specific
+timestamps or intervals.
+
+## Problem
+
+You have video files that need preview thumbnails for galleries, search
+results, or video players. Manually extracting frames doesn’t scale.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Extract thumbnail at a specific timestamp -
+Generate multiple thumbnails per video - Resize thumbnails to standard
+dimensions
+
+You add computed columns that extract frames from videos. Thumbnails are
+generated automatically when you insert new videos.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import video as video_fn
+
+```
+
+### Load videos
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('thumbnail_demo', force=True)
+pxt.create_dir('thumbnail_demo')
+
+```
+
+
+```python
+# Create table for videos
+videos = pxt.create_table('thumbnail_demo.videos', {'video': pxt.Video})
+
+```
+
+
+```python
+# Insert sample videos from public S3 bucket
+s3_prefix = 's3://multimedia-commons/'
+video_paths = [
+    'data/videos/mp4/ffe/ffb/ffeffbef41bbc269810b2a1a888de.mp4',
+    'data/videos/mp4/ffe/feb/ffefebb41485539f964760e6115fbc44.mp4',
+]
+
+videos.insert([{'video': s3_prefix + path} for path in video_paths])
+
+```
+
+
+```python
+# View videos
+videos.collect()
+
+```
+
+### Extract thumbnail at timestamp
+
+Extract a single frame at a specific time (e.g., 1 second into the
+video):
+
+
+```python
+# Extract frame at 1 second as thumbnail
+videos.add_computed_column(
+    thumbnail=video_fn.extract_frame(videos.video, timestamp_sec=1.0)
+)
+
+```
+
+
+```python
+# View thumbnails
+videos.select(videos.video, videos.thumbnail).collect()
+
+```
+
+### Resize thumbnails
+
+Create standard-sized thumbnails for consistent display:
+
+
+```python
+# Resize thumbnail to 320x180 (16:9 aspect ratio)
+videos.add_computed_column(
+    thumbnail_small=videos.thumbnail.resize((320, 180))
+)
+
+```
+
+
+```python
+# View resized thumbnails with dimensions
+videos.select(
+    videos.thumbnail_small,
+    videos.thumbnail_small.width,
+    videos.thumbnail_small.height
+).collect()
+
+```
+
+### Multiple thumbnails with FrameIterator
+
+For preview strips or timeline thumbnails, use FrameIterator to extract
+multiple frames:
+
+
+```python
+from pixeltable.iterators import FrameIterator
+
+# Create a view with frames extracted at 0.5 fps (one frame every 2 seconds)
+frames = pxt.create_view(
+    'thumbnail_demo.frames',
+    videos,
+    iterator=FrameIterator.create(video=videos.video, fps=0.5)
+)
+
+```
+
+
+```python
+# View extracted frames (multiple per video)
+frames.select(frames.frame, frames.pos).head(10)
+
+```
+
+## Explanation
+
+**Thumbnail extraction methods:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Common thumbnail sizes:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## See also
+
+-   [Extract frames from
+    videos](/howto/cookbooks/video/video-extract-frames) -
+    Detailed frame extraction guide
+-   [Load media from
+    S3](/howto/cookbooks/data/data-import-s3) -
+    Import videos from cloud storage
+-   [Transform images with
+    PIL](/howto/cookbooks/images/img-pil-transforms) -
+    Resize and crop images

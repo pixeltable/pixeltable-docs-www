@@ -1,0 +1,259 @@
+---
+title: "Sample data for training and testing"
+sidebarTitle: "Sample data for training and testing"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-sampling.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-sampling.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-sampling.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Quick experiment</td>
+<td style="vertical-align: middle;">Random sample of N rows</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Balanced classes</td>
+<td style="vertical-align: middle;">Stratified by label</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Reproducible</td>
+<td style="vertical-align: middle;">Fixed seed</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameter</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Fixed count</td>
+<td style="vertical-align: middle;"><code>n=100</code></td>
+<td style="vertical-align: middle;">Exactly 100 rows</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Percentage</td>
+<td style="vertical-align: middle;"><code>fraction=0.1</code></td>
+<td style="vertical-align: middle;">10% of rows</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Per-class</td>
+<td style="vertical-align: middle;"><code>n_per_stratum=10</code></td>
+<td style="vertical-align: middle;">10 from each class</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Proportional</td>
+<td style="vertical-align: middle;"><code>fraction=0.1, stratify_by=col</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Equal allocation</td>
+<td style="vertical-align: middle;"><code>n_per_stratum=10, stratify_by=col</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Reproducible</td>
+<td style="vertical-align: middle;">Add <code>seed=42</code></td>
+</tr>
+</tbody>
+</table>
+`];
+
+Create training, validation, and test splits with random or stratified
+sampling.
+
+## Problem
+
+You have a large dataset and need to create subsets for ML
+training—random samples for quick experiments, stratified samples for
+balanced classes, or reproducible splits for benchmarking.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Random sampling with `sample(n=...)` -
+Percentage-based sampling with `sample(fraction=...)` - Stratified
+sampling with `stratify_by=`
+
+You use `query.sample()` to create random subsets, with optional
+stratification for balanced class distribution.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+
+```
+
+
+```python
+import pixeltable as pxt
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('sampling_demo', force=True)
+pxt.create_dir('sampling_demo')
+
+```
+
+### Create sample dataset
+
+
+```python
+# Create a dataset with labels
+data = pxt.create_table(
+    'sampling_demo.data',
+    {'text': pxt.String, 'label': pxt.String, 'score': pxt.Float}
+)
+
+# Insert sample data with imbalanced classes
+samples = [
+    {'text': 'Great product!', 'label': 'positive', 'score': 0.9},
+    {'text': 'Love it', 'label': 'positive', 'score': 0.85},
+    {'text': 'Amazing quality', 'label': 'positive', 'score': 0.95},
+    {'text': 'Best purchase ever', 'label': 'positive', 'score': 0.88},
+    {'text': 'Highly recommend', 'label': 'positive', 'score': 0.92},
+    {'text': 'Fantastic!', 'label': 'positive', 'score': 0.91},
+    {'text': 'Terrible', 'label': 'negative', 'score': 0.1},
+    {'text': 'Waste of money', 'label': 'negative', 'score': 0.15},
+    {'text': 'It is okay', 'label': 'neutral', 'score': 0.5},
+    {'text': 'Average product', 'label': 'neutral', 'score': 0.55},
+]
+data.insert(samples)
+print(f"Total rows: {data.count()}")
+
+
+```
+
+### Random sampling
+
+
+```python
+# Sample exactly N rows
+sample_5 = data.sample(n=5, seed=42).collect()
+print(f"Sampled {len(sample_5)} rows")
+for row in sample_5:
+    print(f"  {row['label']}: {row['text']}")
+
+```
+
+
+```python
+# Sample a percentage of rows
+sample_50pct = data.sample(fraction=0.5, seed=42).collect()
+print(f"\n50% sample: {len(sample_50pct)} rows")
+
+```
+
+### Stratified sampling
+
+
+```python
+# Stratified sampling: 50% from each class
+stratified = data.sample(fraction=0.5, stratify_by=data.label, seed=42).collect()
+
+print("Stratified sample (50% from each class):")
+label_counts = {}
+for row in stratified:
+    label_counts[row['label']] = label_counts.get(row['label'], 0) + 1
+for label, count in sorted(label_counts.items()):
+    print(f"  {label}: {count}")
+
+```
+
+
+```python
+# Equal allocation: N rows from each class
+equal_alloc = data.sample(n_per_stratum=1, stratify_by=data.label, seed=42).collect()
+
+print("\nEqual allocation (1 per class):")
+for row in equal_alloc:
+    print(f"  {row['label']}: {row['text']}")
+
+```
+
+### Sampling from filtered data
+
+
+```python
+# Sample from filtered query (high-confidence predictions only)
+high_conf_sample = data.where(data.score > 0.8).sample(n=3, seed=42).collect()
+
+print("Sample from high-confidence rows:")
+for row in high_conf_sample:
+    print(f"  {row['text']} (score: {row['score']})")
+
+```
+
+### Persist samples as tables
+
+
+```python
+# Create a persistent table from a sample for dev/test
+train_sample = data.sample(fraction=0.8, seed=42)
+test_sample = data.sample(fraction=0.2, seed=43)
+
+# Persist as new tables
+train_table = pxt.create_table('sampling_demo.train', source=train_sample)
+test_table = pxt.create_table('sampling_demo.test', source=test_sample)
+
+print(f"Train: {train_table.count()} rows, Test: {test_table.count()} rows")
+
+```
+
+## Explanation
+
+**Sampling methods:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Stratification options:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**Tips:** - Always set `seed` for reproducible experiments - Use
+stratified sampling for imbalanced datasets - Combine with `.where()` to
+sample from subsets
+
+## See also
+
+-   [Export for ML
+    training](/howto/cookbooks/data/data-export-pytorch) -
+    PyTorch DataLoader export
+-   [Import Hugging Face
+    datasets](/howto/cookbooks/data/data-import-huggingface) -
+    Load pre-split datasets

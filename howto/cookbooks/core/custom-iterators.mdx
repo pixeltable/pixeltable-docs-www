@@ -1,0 +1,476 @@
+---
+title: "Create custom iterators for data splitting"
+sidebarTitle: "Create custom iterators for data splitting"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/custom-iterators.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/custom-iterators.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/custom-iterators.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">AI is transforming industries. Machine learning models are getting
+better. The future looks bright!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">New frameworks released today. Developers are excited? Performance
+improvements are significant.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">pos</th>
+<th data-quarto-table-cell-role="th">sentence_idx</th>
+<th data-quarto-table-cell-role="th">sentence</th>
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">AI is transforming industries</td>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">AI is transforming industries. Machine learning models are getting
+better. The future looks bright!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Machine learning models are getting better</td>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">AI is transforming industries. Machine learning models are getting
+better. The future looks bright!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">The future looks bright</td>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">AI is transforming industries. Machine learning models are getting
+better. The future looks bright!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">New frameworks released today</td>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">New frameworks released today. Developers are excited? Performance
+improvements are significant.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Developers are excited</td>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">New frameworks released today. Developers are excited? Performance
+improvements are significant.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">Performance improvements are significant</td>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">New frameworks released today. Developers are excited? Performance
+improvements are significant.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">sentence_idx</th>
+<th data-quarto-table-cell-role="th">sentence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">AI is transforming industries</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Machine learning models are getting better</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">The future looks bright</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">New frameworks released today</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Developers are excited</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">Performance improvements are significant</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">window_idx</th>
+<th data-quarto-table-cell-role="th">window_text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">AI is transforming industries.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">transforming industries. Machine learning</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">Machine learning models are</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">models are getting better.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">getting better. The future</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">AI News</td>
+<td style="vertical-align: middle;">5</td>
+<td style="vertical-align: middle;">The future looks bright!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">New frameworks released today.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">released today. Developers are</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">Developers are excited? Performance</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tech Update</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">excited? Performance improvements are</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Build your own iterators to split documents, media, or any data into
+rows.
+
+## Problem
+
+You need to split data in a way that the built-in iterators
+(`DocumentSplitter`, `FrameIterator`, `AudioSplitter`) don’t support —
+like splitting by custom delimiters, extracting specific patterns, or
+processing proprietary formats.
+
+## Solution
+
+**What’s in this recipe:** - Create a custom iterator by subclassing
+`ComponentIterator` - Define input/output schemas with type
+annotations - Use the iterator with `pxt.create_view()`
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.iterators import ComponentIterator
+import pixeltable.type_system as ts
+from typing import Any
+
+pxt.drop_dir('iterator_demo', force=True)
+pxt.create_dir('iterator_demo')
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;iterator_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x13f643450&gt;
+</pre>
+
+### Example: Sentence splitter iterator
+
+This iterator splits text into sentences by splitting on `.`, `!`, `?`.
+
+
+```python
+import re
+
+class SentenceSplitter(ComponentIterator):
+    """Split text into sentences."""
+    
+    def __init__(self, text: str):
+        # Split on sentence-ending punctuation
+        self.sentences = [s.strip() for s in re.split(r'[.!?]+', text) if s.strip()]
+        self.pos = 0
+    
+    @classmethod
+    def input_schema(cls) -> dict[str, ts.ColumnType]:
+        # Define the input parameters and their Pixeltable types
+        return {
+            'text': ts.StringType(nullable=False)
+        }
+    
+    @classmethod
+    def output_schema(cls, *args: Any, **kwargs: Any) -> tuple[dict[str, ts.ColumnType], list[str]]:
+        # Define output columns and which ones are "unstored" (computed on-the-fly)
+        return {
+            'sentence_idx': ts.IntType(),
+            'sentence': ts.StringType(),
+        }, []  # No unstored columns
+    
+    def __next__(self) -> dict[str, Any]:
+        if self.pos >= len(self.sentences):
+            raise StopIteration
+        result = {
+            'sentence_idx': self.pos,
+            'sentence': self.sentences[self.pos],
+        }
+        self.pos += 1
+        return result
+    
+    def close(self) -> None:
+        pass  # No resources to release
+    
+    def set_pos(self, pos: int) -> None:
+        self.pos = pos  # Support resumable iteration
+
+```
+
+### Create sample data
+
+
+```python
+articles = pxt.create_table(
+    'iterator_demo.articles',
+    {'title': pxt.String, 'content': pxt.String}
+)
+
+articles.insert([
+    {
+        'title': 'AI News',
+        'content': 'AI is transforming industries. Machine learning models are getting better. The future looks bright!'
+    },
+    {
+        'title': 'Tech Update', 
+        'content': 'New frameworks released today. Developers are excited? Performance improvements are significant.'
+    },
+])
+
+articles.collect()
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;articles&#x27;.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;122.43&nbsp;rows/s\]
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+### Use the iterator with create_view
+
+
+```python
+# Create a view that expands each article into sentences
+sentences_view = pxt.create_view(
+    'iterator_demo.sentences',
+    articles,
+    iterator=SentenceSplitter.create(text=articles.content)
+)
+
+sentences_view.collect()
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`sentences\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;3968.75&nbsp;rows/s\]
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+
+```python
+# The view inherits columns from the base table plus iterator outputs
+sentences_view.select(
+    sentences_view.title,
+    sentences_view.sentence_idx,
+    sentences_view.sentence
+).collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+### Example: Sliding window iterator with parameters
+
+
+```python
+class SlidingWindowSplitter(ComponentIterator):
+    """Split text into overlapping windows of words."""
+    
+    def __init__(self, text: str, window_size: int = 5, step: int = 2):
+        words = text.split()
+        self.windows = []
+        for i in range(0, len(words) - window_size + 1, step):
+            self.windows.append(' '.join(words[i:i + window_size]))
+        self.pos = 0
+    
+    @classmethod
+    def input_schema(cls) -> dict[str, ts.ColumnType]:
+        return {
+            'text': ts.StringType(nullable=False),
+            'window_size': ts.IntType(),  # Optional parameter
+            'step': ts.IntType(),          # Optional parameter
+        }
+    
+    @classmethod
+    def output_schema(cls, *args: Any, **kwargs: Any) -> tuple[dict[str, ts.ColumnType], list[str]]:
+        return {
+            'window_idx': ts.IntType(),
+            'window_text': ts.StringType(),
+        }, []
+    
+    def __next__(self) -> dict[str, Any]:
+        if self.pos >= len(self.windows):
+            raise StopIteration
+        result = {'window_idx': self.pos, 'window_text': self.windows[self.pos]}
+        self.pos += 1
+        return result
+    
+    def close(self) -> None:
+        pass
+    
+    def set_pos(self, pos: int) -> None:
+        self.pos = pos
+
+```
+
+
+```python
+# Use with custom parameters
+windows_view = pxt.create_view(
+    'iterator_demo.windows',
+    articles,
+    iterator=SlidingWindowSplitter.create(
+        text=articles.content,
+        window_size=4,
+        step=2
+    )
+)
+
+windows_view.select(
+    windows_view.title,
+    windows_view.window_idx,
+    windows_view.window_text
+).collect()
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`windows\`:&nbsp;10&nbsp;rows&nbsp;\[00:00,&nbsp;5827.85&nbsp;rows/s\]
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+## Explanation
+
+**Iterator structure:**
+
+
+```python
+class MyIterator(ComponentIterator):
+    def __init__(self, input_col, param=default):
+        # Initialize state, prepare data to iterate
+        
+    @classmethod
+    def input_schema(cls) -> dict[str, ts.ColumnType]:
+        # Map parameter names to Pixeltable types
+        return {'input_col': ts.StringType(nullable=False), 'param': ts.IntType()}
+    
+    @classmethod  
+    def output_schema(cls, *args, **kwargs) -> tuple[dict, list]:
+        # Return (output columns dict, list of unstored column names)
+        return {'col1': ts.IntType(), 'col2': ts.StringType()}, []
+    
+    def __next__(self) -> dict:
+        # Return next row as dict, or raise StopIteration
+        
+    def close(self) -> None:
+        # Release resources (file handles, etc.)
+        
+    def set_pos(self, pos: int) -> None:
+        # Support resumable iteration
+```
+
+**Key points:** - Use `ts.StringType()`, `ts.IntType()`,
+`ts.FloatType()`, `ts.ImageType()`, etc. for schemas - Add
+`nullable=False` for required inputs - Unstored columns (second return
+value of `output_schema`) are not persisted - Call with
+`Iterator.create(param=table.column)` in `create_view()`
+
+## See also
+
+-   [Split documents for
+    RAG](/howto/cookbooks/text/doc-chunk-for-rag) -
+    Built-in DocumentSplitter
+-   [Extract frames from
+    videos](/howto/cookbooks/video/video-extract-frames) -
+    Built-in FrameIterator

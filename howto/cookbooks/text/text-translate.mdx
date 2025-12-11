@@ -1,0 +1,236 @@
+---
+title: "Translate text between languages"
+sidebarTitle: "Translate text between languages"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-translate.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-translate.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/text/text-translate.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Content type</th>
+<th>Volume</th>
+<th>Target</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Product descriptions</td>
+<td style="vertical-align: middle;">10,000 items</td>
+<td style="vertical-align: middle;">5 languages</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Support articles</td>
+<td style="vertical-align: middle;">500 docs</td>
+<td style="vertical-align: middle;">3 languages</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">User reviews</td>
+<td style="vertical-align: middle;">Ongoing</td>
+<td style="vertical-align: middle;">Spanish, French</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>Benefit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Use <code>gpt-4o-mini</code></td>
+<td style="vertical-align: middle;">Lower cost per translation</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Cache results</td>
+<td style="vertical-align: middle;">No re-translation on queries</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Batch inserts</td>
+<td style="vertical-align: middle;">Efficient processing</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Automatically translate content into multiple languages using LLMs.
+
+## Problem
+
+You have content that needs to be available in multiple
+languages—product descriptions, documentation, user-generated content.
+Manual translation is slow and expensive.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Translate text using OpenAI models - Create
+multiple language columns from one source - Handle batch translation
+efficiently
+
+You add computed columns for each target language. Translations are
+generated automatically when you insert new content and cached for
+future queries.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.openai import chat_completions
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('translate_demo', force=True)
+pxt.create_dir('translate_demo')
+
+```
+
+### Create translation pipeline
+
+
+```python
+# Create table for content
+content = pxt.create_table(
+    'translate_demo.content',
+    {'title': pxt.String, 'text_en': pxt.String}
+)
+
+```
+
+
+```python
+# Add Spanish translation column
+spanish_prompt = 'Translate the following text to Spanish. Return only the translation, no explanations:\n\n' + content.text_en
+
+content.add_computed_column(
+    response_es=chat_completions(
+        messages=[{'role': 'user', 'content': spanish_prompt}],
+        model='gpt-4o-mini'
+    )
+)
+content.add_computed_column(text_es=content.response_es.choices[0].message.content)
+
+```
+
+
+```python
+# Add French translation column
+french_prompt = 'Translate the following text to French. Return only the translation, no explanations:\n\n' + content.text_en
+
+content.add_computed_column(
+    response_fr=chat_completions(
+        messages=[{'role': 'user', 'content': french_prompt}],
+        model='gpt-4o-mini'
+    )
+)
+content.add_computed_column(text_fr=content.response_fr.choices[0].message.content)
+
+```
+
+### Translate content
+
+
+```python
+# Insert sample content
+sample_content = [
+    {
+        'title': 'Welcome Message',
+        'text_en': 'Welcome to our platform! We are excited to have you here.'
+    },
+    {
+        'title': 'Product Description',
+        'text_en': 'This lightweight laptop features a 14-inch display and all-day battery life.'
+    },
+    {
+        'title': 'Support Article',
+        'text_en': 'To reset your password, click the forgot password link on the login page.'
+    },
+]
+
+content.insert(sample_content)
+
+```
+
+
+```python
+# View all translations
+content.select(content.title, content.text_en, content.text_es, content.text_fr).collect()
+
+```
+
+
+```python
+# Pretty print one example
+row = content.where(content.title == 'Welcome Message').collect()[0]
+print(f"English:  {row['text_en']}")
+print(f"Spanish:  {row['text_es']}")
+print(f"French:   {row['text_fr']}")
+
+```
+
+## Explanation
+
+**How it works:**
+
+Each target language is a computed column with a translation prompt.
+When you insert new content: 1. The English text is processed 2.
+Translation prompts are generated for each language 3. All translations
+run in parallel 4. Results are cached—no re-translation needed
+
+**Adding more languages:**
+
+
+```python
+# Add German translation
+german_prompt = 'Translate to German:\n\n' + content.text_en
+content.add_computed_column(
+    response_de=chat_completions(messages=[{'role': 'user', 'content': german_prompt}], model='gpt-4o-mini')
+)
+content.add_computed_column(text_de=content.response_de.choices[0].message.content)
+```
+
+**Cost optimization:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## See also
+
+-   [Summarize
+    text](/howto/cookbooks/text/text-summarize) -
+    Text summarization with LLMs
+-   [Extract structured
+    data](/howto/cookbooks/images/vision-structured-output) -
+    Get JSON from LLM responses

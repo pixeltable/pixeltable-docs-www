@@ -1,0 +1,235 @@
+---
+title: "Export data for ML training"
+sidebarTitle: "Export data for ML training"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-export-pytorch.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-export-pytorch.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-export-pytorch.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Data type</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Images + labels</td>
+<td style="vertical-align: middle;">Image classification</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Text + embeddings</td>
+<td style="vertical-align: middle;">Fine-tuning embeddings</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Audio + transcripts</td>
+<td style="vertical-align: middle;">Speech model training</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Output</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>to_pytorch_dataset()</code></td>
+<td style="vertical-align: middle;">PyTorch IterableDataset</td>
+<td style="vertical-align: middle;">Direct training</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>export_parquet()</code></td>
+<td style="vertical-align: middle;">Parquet files</td>
+<td style="vertical-align: middle;">External tools, sharing</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>export_lancedb()</code></td>
+<td style="vertical-align: middle;">LanceDB</td>
+<td style="vertical-align: middle;">Vector search apps</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>to_coco_dataset()</code></td>
+<td style="vertical-align: middle;">COCO JSON</td>
+<td style="vertical-align: middle;">Object detection</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Shape</th>
+<th>Values</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>'pt'</code></td>
+<td style="vertical-align: middle;">CxHxW</td>
+<td style="vertical-align: middle;">[0, 1] float32</td>
+<td style="vertical-align: middle;">PyTorch models</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>'np'</code></td>
+<td style="vertical-align: middle;">HxWxC</td>
+<td style="vertical-align: middle;">[0, 255] uint8</td>
+<td style="vertical-align: middle;">NumPy processing</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Convert Pixeltable data to PyTorch DataLoader format for model training.
+
+## Problem
+
+You have prepared training data—images with labels, text with
+embeddings, or multimodal data—and need to export it for PyTorch model
+training.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Convert query results to PyTorch Dataset -
+Use with DataLoader for batch training - Export to Parquet for external
+tools
+
+You use `query.to_pytorch_dataset()` to create an iterable dataset
+compatible with PyTorch DataLoader.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable torch torchvision
+
+```
+
+
+```python
+import pixeltable as pxt
+import torch
+from torch.utils.data import DataLoader
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('pytorch_demo', force=True)
+pxt.create_dir('pytorch_demo')
+
+```
+
+### Create sample training data
+
+
+```python
+# Create table with images and labels
+training_data = pxt.create_table(
+    'pytorch_demo.training_data',
+    {'image': pxt.Image, 'label': pxt.Int}
+)
+
+```
+
+
+```python
+# Insert sample images with labels
+base_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
+samples = [
+    {'image': f'{base_url}/000000000036.jpg', 'label': 0},  # cat
+    {'image': f'{base_url}/000000000090.jpg', 'label': 1},  # other
+    {'image': f'{base_url}/000000000139.jpg', 'label': 1},  # other
+]
+training_data.insert(samples)
+print(f"Inserted {len(samples)} training samples")
+
+```
+
+### Export to PyTorch Dataset
+
+
+```python
+# Convert to PyTorch dataset
+# 'pt' format returns images as CxHxW tensors with values in [0,1]
+pytorch_dataset = training_data.select(
+    training_data.image, 
+    training_data.label
+).to_pytorch_dataset(image_format='pt')
+
+print(f"Dataset type: {type(pytorch_dataset)}")
+
+```
+
+
+```python
+# Use with PyTorch DataLoader
+dataloader = DataLoader(pytorch_dataset, batch_size=2)
+
+# Iterate through batches
+for batch in dataloader:
+    print(f"Image batch shape: {batch['image'].shape}")
+    print(f"Label batch: {batch['label']}")
+    break  # Just show first batch
+
+```
+
+### Export to Parquet for external tools
+
+
+```python
+import tempfile
+from pathlib import Path
+
+# Export to Parquet for use with other ML tools
+export_path = Path(tempfile.mkdtemp()) / 'training_data'
+
+pxt.io.export_parquet(
+    training_data.select(training_data.label),  # Non-image columns
+    parquet_path=export_path
+)
+print(f"Exported to: {export_path}")
+
+
+```
+
+## Explanation
+
+**Export methods:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Image format options:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**DataLoader tips:** - Data is cached to disk for efficient repeated
+loading - Use `num_workers > 0` for parallel data loading -
+Filter/transform data before export to reduce size
+
+## See also
+
+-   [Sample data for
+    training](/howto/cookbooks/data/data-sampling) -
+    Stratified sampling
+-   [Import Parquet
+    files](/howto/cookbooks/data/data-import-parquet) -
+    Parquet import/export

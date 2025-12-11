@@ -98,7 +98,7 @@ t = pxt.create_table('fireworks_demo.chat', {'input': pxt.String})
 messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=chat_completions(
     messages=messages,
-    model='accounts/fireworks/models/mixtral-8x22b-instruct',
+    model='accounts/fireworks/models/llama-v3p3-70b-instruct',
     model_kwargs={
         # Optional dict with parameters for the Fireworks API
         'max_tokens': 300,

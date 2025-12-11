@@ -1,0 +1,268 @@
+---
+title: "Extract named entities from text"
+sidebarTitle: "Extract named entities from text"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-extract-entities.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-extract-entities.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/text/text-extract-entities.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Extract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">News articles</td>
+<td style="vertical-align: middle;">People, organizations, locations mentioned</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Customer feedback</td>
+<td style="vertical-align: middle;">Product names, feature requests</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Legal documents</td>
+<td style="vertical-align: middle;">Parties, dates, monetary amounts</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Entity Type</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">People</td>
+<td style="vertical-align: middle;">Names, titles</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Organizations</td>
+<td style="vertical-align: middle;">Companies, institutions</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Locations</td>
+<td style="vertical-align: middle;">Cities, countries, addresses</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Dates</td>
+<td style="vertical-align: middle;">Specific dates, time periods</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Money</td>
+<td style="vertical-align: middle;">Amounts, currencies</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Products</td>
+<td style="vertical-align: middle;">Brand names, model numbers</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Identify and extract people, organizations, locations, dates, and other
+entities from text using LLMs.
+
+## Problem
+
+You have unstructured text containing important information—names,
+companies, dates, locations—that you need to extract and structure for
+analysis, search, or integration with other systems.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Extract entities as structured JSON - Use
+OpenAI’s structured output for reliable parsing - Access extracted
+entities as queryable columns
+
+You use structured output to get entities in a consistent JSON format.
+The entities are stored as JSON columns that you can query and filter.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.openai import chat_completions
+import json
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('entities_demo', force=True)
+pxt.create_dir('entities_demo')
+
+```
+
+### Define entity extraction schema
+
+
+```python
+# Define the JSON schema for entity extraction
+entity_schema = {
+    "type": "json_schema",
+    "json_schema": {
+        "name": "entities",
+        "strict": True,
+        "schema": {
+            "type": "object",
+            "properties": {
+                "people": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Names of people mentioned"
+                },
+                "organizations": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Names of companies, institutions, or groups"
+                },
+                "locations": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Geographic locations (cities, countries, addresses)"
+                },
+                "dates": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Dates or time references"
+                }
+            },
+            "required": ["people", "organizations", "locations", "dates"],
+            "additionalProperties": False
+        }
+    }
+}
+
+```
+
+### Create extraction pipeline
+
+
+```python
+# Create table for articles
+articles = pxt.create_table(
+    'entities_demo.articles',
+    {'title': pxt.String, 'content': pxt.String}
+)
+
+```
+
+
+```python
+# Add entity extraction column
+extraction_prompt = 'Extract all named entities from the following text:\n\n' + articles.content
+
+articles.add_computed_column(
+    extraction_response=chat_completions(
+        messages=[{'role': 'user', 'content': extraction_prompt}],
+        model='gpt-4o-mini',
+        response_format=entity_schema
+    )
+)
+
+```
+
+
+```python
+# Extract the entities JSON
+articles.add_computed_column(
+    entities=articles.extraction_response.choices[0].message.content
+)
+
+```
+
+### Extract entities from text
+
+
+```python
+# Insert sample articles
+sample_articles = [
+    {
+        'title': 'Tech Acquisition',
+        'content': 'Microsoft announced today that CEO Satya Nadella will lead the acquisition of a Seattle-based startup. The deal, expected to close in March 2024, is valued at $500 million.'
+    },
+    {
+        'title': 'Sports Update',
+        'content': 'LeBron James led the Los Angeles Lakers to victory against the Boston Celtics on Tuesday night at Staples Center. Coach Darvin Ham praised the teams performance.'
+    },
+    {
+        'title': 'Research Breakthrough',
+        'content': 'Dr. Sarah Chen at Stanford University published groundbreaking research on renewable energy. The study, funded by the National Science Foundation, was conducted in Palo Alto, California.'
+    },
+]
+
+articles.insert(sample_articles)
+
+```
+
+
+```python
+# View extracted entities
+for row in articles.select(articles.title, articles.entities).collect():
+    print(f"\n{row['title']}:")
+    entities = json.loads(row['entities'])
+    for entity_type, values in entities.items():
+        if values:
+            print(f"  {entity_type}: {', '.join(values)}")
+
+```
+
+## Explanation
+
+**Structured output ensures reliable extraction:**
+
+By using OpenAI’s structured output (`response_format`), the model
+always returns valid JSON matching the schema. No post-processing or
+error handling needed.
+
+**Common entity types:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Customizing the schema:**
+
+Modify the `entity_schema` to extract domain-specific entities—product
+SKUs, legal terms, medical conditions, etc.
+
+## See also
+
+-   [Extract structured data from
+    images](/howto/cookbooks/images/vision-structured-output) -
+    JSON extraction from images
+-   [Extract fields from
+    JSON](/howto/cookbooks/core/workflow-json-extraction) -
+    Parse LLM response fields

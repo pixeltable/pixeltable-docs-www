@@ -1,0 +1,793 @@
+---
+title: "Working with Pydantic in Pixeltable"
+sidebarTitle: "Pydantic"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Python Type</th>
+<th>Pixeltable Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>str</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>int</code></td>
+<td style="vertical-align: middle;"><code>pxt.Int</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>float</code></td>
+<td style="vertical-align: middle;"><code>pxt.Float</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>bool</code></td>
+<td style="vertical-align: middle;"><code>pxt.Bool</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>datetime.datetime</code></td>
+<td style="vertical-align: middle;"><code>pxt.Timestamp</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Literal[...]</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code> or <code>pxt.Int</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Enum</code></td>
+<td style="vertical-align: middle;">Based on enum value type</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">in_stock</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">rating</th>
+<th data-quarto-table-cell-role="th">created_at</th>
+<th data-quarto-table-cell-role="th">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Wireless Headphones</td>
+<td style="vertical-align: middle;">79.99</td>
+<td style="vertical-align: middle;">True</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">excellent</td>
+<td style="vertical-align: middle;">2025-12-05 21:06:11.058897-08:00</td>
+<td style="vertical-align: middle;">High-quality wireless headphones with noise cancellation</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Python Cookbook</td>
+<td style="vertical-align: middle;">49.99</td>
+<td style="vertical-align: middle;">True</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">good</td>
+<td style="vertical-align: middle;">2025-12-05 21:06:11.058897-08:00</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Running Shoes</td>
+<td style="vertical-align: middle;">129.99</td>
+<td style="vertical-align: middle;">False</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">average</td>
+<td style="vertical-align: middle;">2025-12-05 21:06:11.058897-08:00</td>
+<td style="vertical-align: middle;">Lightweight running shoes</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">customer_id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">contact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">C001</td>
+<td style="vertical-align: middle;">Alice Johnson</td>
+<td style="vertical-align: middle;">{"email": "alice@example.com", "phone": "+1-555-0101", "address":
+{"city": "San Francisco", "street": "123 Main St", "country": "USA",
+"zip_code": "94102"}}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">C002</td>
+<td style="vertical-align: middle;">Bob Smith</td>
+<td style="vertical-align: middle;">{"email": "bob@example.com", "phone": null, "address": {"city": "New
+York", "street": "456 Oak Ave", "country": "USA", "zip_code":
+"10001"}}</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">email</th>
+<th data-quarto-table-cell-role="th">city</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Alice Johnson</td>
+<td style="vertical-align: middle;">alice@example.com</td>
+<td style="vertical-align: middle;">San Francisco</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Bob Smith</td>
+<td style="vertical-align: middle;">bob@example.com</td>
+<td style="vertical-align: middle;">New York</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">word_count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Getting Started with Pixeltable</td>
+<td style="vertical-align: middle;">16</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Type Safety in Python</td>
+<td style="vertical-align: middle;">13</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 46%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>Pydantic Field Type</th>
+<th>Pixeltable Column Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>str</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code></td>
+<td style="vertical-align: middle;">Basic string</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>int</code></td>
+<td style="vertical-align: middle;"><code>pxt.Int</code></td>
+<td style="vertical-align: middle;">64-bit integer</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>float</code></td>
+<td style="vertical-align: middle;"><code>pxt.Float</code></td>
+<td style="vertical-align: middle;">64-bit float</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>bool</code></td>
+<td style="vertical-align: middle;"><code>pxt.Bool</code></td>
+<td style="vertical-align: middle;">Boolean</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>datetime.datetime</code></td>
+<td style="vertical-align: middle;"><code>pxt.Timestamp</code></td>
+<td style="vertical-align: middle;">With timezone support</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Literal['a', 'b']</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code></td>
+<td style="vertical-align: middle;">String literals</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Literal[1, 2, 3]</code></td>
+<td style="vertical-align: middle;"><code>pxt.Int</code></td>
+<td style="vertical-align: middle;">Integer literals</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Enum</code></td>
+<td style="vertical-align: middle;"><code>pxt.Int</code> or <code>pxt.String</code></td>
+<td style="vertical-align: middle;">Based on enum values</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>T \| None</code></td>
+<td style="vertical-align: middle;">Nullable column</td>
+<td style="vertical-align: middle;">Optional fields</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Nested <code>BaseModel</code></td>
+<td style="vertical-align: middle;"><code>pxt.Json</code></td>
+<td style="vertical-align: middle;">Must be JSON-serializable</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>list[T]</code></td>
+<td style="vertical-align: middle;"><code>pxt.Json</code></td>
+<td style="vertical-align: middle;">Lists stored as JSON</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>dict[str, T]</code></td>
+<td style="vertical-align: middle;"><code>pxt.Json</code></td>
+<td style="vertical-align: middle;">Dicts stored as JSON</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>str</code> (for media)</td>
+<td style="vertical-align: middle;"><code>pxt.Image</code>, <code>pxt.Video</code>, etc.</td>
+<td style="vertical-align: middle;">File paths or URLs</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Pydantic integration enables type-safe data insertion using
+Pydantic models. Instead of inserting raw dictionaries, you can define
+structured models with validation and insert them directly into
+Pixeltable tables.
+
+### Benefits
+
+-   **Type Safety**: Pydantic validates data before insertion
+-   **IDE Support**: Autocomplete and type hints for your data
+-   **Self-Documenting**: Models serve as schema documentation
+-   **Validation**: Built-in data validation via Pydantic
+
+### Important Notes
+
+-   Pydantic model fields map to Pixeltable columns by name
+-   Computed columns are automatically skipped during insertion
+-   Nested Pydantic models map to JSON columns
+
+
+```python
+%pip install -qU pixeltable pydantic
+
+```
+
+
+```python
+import pixeltable as pxt
+
+pxt.drop_dir('pydantic_demo', force=True)
+pxt.create_dir('pydantic_demo')
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;pydantic_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x309908850&gt;
+</pre>
+
+## Basic Usage: Scalar Types
+
+Define a Pydantic model with fields that match your table columns.
+Pixeltable automatically maps Python types to Pixeltable types:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+
+```python
+import datetime
+from typing import Literal
+from enum import Enum
+import pydantic
+
+# Define an enum for product categories
+class Category(Enum):
+    ELECTRONICS = 1
+    CLOTHING = 2
+    BOOKS = 3
+
+# Define a Pydantic model
+class Product(pydantic.BaseModel):
+    name: str
+    price: float
+    in_stock: bool
+    category: Category
+    rating: Literal['poor', 'average', 'good', 'excellent']
+    created_at: datetime.datetime
+    description: str | None = None  # Optional field
+
+```
+
+
+```python
+# Create a table with matching schema
+products = pxt.create_table(
+    'pydantic_demo.products',
+    {
+        'name': pxt.Required[pxt.String],
+        'price': pxt.Required[pxt.Float],
+        'in_stock': pxt.Required[pxt.Bool],
+        'category': pxt.Required[pxt.Int],  # Enum values are integers
+        'rating': pxt.Required[pxt.String],  # Literal values
+        'created_at': pxt.Required[pxt.Timestamp],
+        'description': pxt.String,  # Nullable
+    }
+)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;products&#x27;.
+</pre>
+
+
+```python
+# Create Pydantic model instances
+now = datetime.datetime.now()
+
+product_data = [
+    Product(
+        name='Wireless Headphones',
+        price=79.99,
+        in_stock=True,
+        category=Category.ELECTRONICS,
+        rating='excellent',
+        created_at=now,
+        description='High-quality wireless headphones with noise cancellation'
+    ),
+    Product(
+        name='Python Cookbook',
+        price=49.99,
+        in_stock=True,
+        category=Category.BOOKS,
+        rating='good',
+        created_at=now,
+    ),
+    Product(
+        name='Running Shoes',
+        price=129.99,
+        in_stock=False,
+        category=Category.CLOTHING,
+        rating='average',
+        created_at=now,
+        description='Lightweight running shoes'
+    ),
+]
+
+# Insert Pydantic models directly
+products.insert(product_data)
+products.collect()
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;188.84&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Nested Models and JSON Columns
+
+Nested Pydantic models automatically map to Pixeltable JSON columns.
+This is useful for storing structured metadata.
+
+
+```python
+# Define nested models
+class Address(pydantic.BaseModel):
+    street: str
+    city: str
+    country: str
+    zip_code: str
+
+class ContactInfo(pydantic.BaseModel):
+    email: str
+    phone: str | None = None
+    address: Address
+
+class Customer(pydantic.BaseModel):
+    customer_id: str
+    name: str
+    contact: ContactInfo  # Nested model → JSON column
+
+```
+
+
+```python
+# Create table with JSON column for nested data
+customers = pxt.create_table(
+    'pydantic_demo.customers',
+    {
+        'customer_id': pxt.Required[pxt.String],
+        'name': pxt.Required[pxt.String],
+        'contact': pxt.Required[pxt.Json],  # Nested model stored as JSON
+    }
+)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;customers&#x27;.
+</pre>
+
+
+```python
+# Insert nested data
+customer_data = [
+    Customer(
+        customer_id='C001',
+        name='Alice Johnson',
+        contact=ContactInfo(
+            email='alice@example.com',
+            phone='+1-555-0101',
+            address=Address(
+                street='123 Main St',
+                city='San Francisco',
+                country='USA',
+                zip_code='94102'
+            )
+        )
+    ),
+    Customer(
+        customer_id='C002',
+        name='Bob Smith',
+        contact=ContactInfo(
+            email='bob@example.com',
+            address=Address(
+                street='456 Oak Ave',
+                city='New York',
+                country='USA',
+                zip_code='10001'
+            )
+        )
+    ),
+]
+
+customers.insert(customer_data)
+customers.collect()
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;899.58&nbsp;rows/s\]
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+
+```python
+# Query nested JSON fields using Pixeltable's JSON path syntax
+customers.select(
+    customers.name,
+    email=customers.contact.email,
+    city=customers.contact.address.city
+).collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+## Media Files with Pydantic
+
+For media columns (Image, Video, Audio, Document), use `str` or `Path`
+fields in your Pydantic model to specify file paths or URLs.
+
+
+```python
+from pathlib import Path
+
+class ImageRecord(pydantic.BaseModel):
+    title: str
+    image_url: str  # URLs or file paths as strings
+    tags: list[str]
+
+# Create table with Image column
+images = pxt.create_table(
+    'pydantic_demo.images',
+    {
+        'title': pxt.Required[pxt.String],
+        'image_url': pxt.Required[pxt.Image],  # Media column
+        'tags': pxt.Required[pxt.Json],
+    }
+)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;images&#x27;.
+</pre>
+
+
+```python
+# Insert image records with URLs
+image_data = [
+    ImageRecord(
+        title='Mountain Landscape',
+        image_url='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg',
+        tags=['art', 'van gogh', 'painting']
+    ),
+]
+
+images.insert(image_data)
+images.select(images.title, images.image_url, images.tags).collect()
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Error:&nbsp;Failed&nbsp;to&nbsp;download&nbsp;https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg:&nbsp;HTTP&nbsp;Error&nbsp;403:&nbsp;Forbidden
+\[31m---------------------------------------------------------------------------\[39m
+\[31mError\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Traceback&nbsp;(most&nbsp;recent&nbsp;call&nbsp;last)
+\[36mCell\[39m\[36m&nbsp;\[39m\[32mIn\[11\]\[39m\[32m,&nbsp;line&nbsp;10\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1\[39m&nbsp;\[38;5;66;03m#&nbsp;Insert&nbsp;image&nbsp;records&nbsp;with&nbsp;URLs\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2\[39m&nbsp;image_data&nbsp;=&nbsp;\[
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ImageRecord(
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title=\[33m&#x27;\[39m\[33mMountain&nbsp;Landscape\[39m\[33m&#x27;\[39m,
+\[32m&nbsp;&nbsp;&nbsp;(...)\[39m\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;),
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8\[39m&nbsp;\]
+\[32m---&gt;&nbsp;\[39m\[32m10\[39m&nbsp;\[43mimages\[49m\[43m.\[49m\[43minsert\[49m\[43m(\[49m\[43mimage_data\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11\[39m&nbsp;images.select(images.title,&nbsp;images.image_url,&nbsp;images.tags).collect()
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/insertable_table.py:150\[39m,&nbsp;in&nbsp;\[36mInsertableTable.insert\[39m\[34m(self,&nbsp;source,&nbsp;source_format,&nbsp;schema_overrides,&nbsp;on_error,&nbsp;print_stats,&nbsp;**kwargs)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;148\[39m&nbsp;\[38;5;66;03m#&nbsp;TODO:&nbsp;unify&nbsp;with&nbsp;TableDataConduit\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;149\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;source&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m&nbsp;\[38;5;129;01mand\[39;00m&nbsp;\[38;5;28misinstance\[39m(source,&nbsp;Sequence)&nbsp;\[38;5;129;01mand\[39;00m&nbsp;\[38;5;28misinstance\[39m(source\[\[32m0\[39m\],&nbsp;pydantic.BaseModel):
+\[32m--&gt;&nbsp;\[39m\[32m150\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status&nbsp;=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_insert_pydantic\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;151\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mcast\[49m\[43m(\[49m\[43mSequence\[49m\[43m\[\[49m\[43mpydantic\[49m\[43m.\[49m\[43mBaseModel\[49m\[43m\]\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43msource\[49m\[43m)\[49m\[43m,\[49m\[43m&nbsp;&nbsp;\[49m\[38;5;66;43;03m#&nbsp;needed&nbsp;for&nbsp;mypy\[39;49;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;152\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mprint_stats\[49m\[43m=\[49m\[43mprint_stats\[49m\[43m,\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;153\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mfail_on_exception\[49m\[43m=\[49m\[43mfail_on_exception\[49m\[43m,\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;154\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;155\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Env.get().console_logger.info(status.insert_msg)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;156\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FileCache.get().emit_eviction_warnings()
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/insertable_table.py:228\[39m,&nbsp;in&nbsp;\[36mInsertableTable._insert_pydantic\[39m\[34m(self,&nbsp;rows,&nbsp;print_stats,&nbsp;fail_on_exception)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;225\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;pxt_row.get(col_name)&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;226\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;excs.Error(\[33mf\[39m\[33m&#x27;\[39m\[33mMissing&nbsp;required&nbsp;column&nbsp;\[39m\[38;5;132;01m\{\[39;00mcol_name\[38;5;132;01m!r\}\[39;00m\[33m&nbsp;in&nbsp;row&nbsp;\[39m\[38;5;132;01m\{\[39;00mi\[38;5;132;01m\}\[39;00m\[33m&#x27;\[39m)
+\[32m--&gt;&nbsp;\[39m\[32m228\[39m&nbsp;status&nbsp;=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_tbl_version\[49m\[43m.\[49m\[43mget\[49m\[43m(\[49m\[43m)\[49m\[43m.\[49m\[43minsert\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;229\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mrows\[49m\[43m=\[49m\[43mpxt_rows\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mquery\[49m\[43m=\[49m\[38;5;28;43;01mNone\[39;49;00m\[43m,\[49m\[43m&nbsp;\[49m\[43mprint_stats\[49m\[43m=\[49m\[43mprint_stats\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mfail_on_exception\[49m\[43m=\[49m\[43mfail_on_exception\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;230\[39m&nbsp;\[43m\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;231\[39m&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;status
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/table_version.py:1036\[39m,&nbsp;in&nbsp;\[36mTableVersion.insert\[39m\[34m(self,&nbsp;rows,&nbsp;query,&nbsp;print_stats,&nbsp;fail_on_exception)\[39m
+\[32m&nbsp;&nbsp;&nbsp;1033\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28mself\[39m.next_row_id&nbsp;+=&nbsp;\[32m1\[39m
+\[32m&nbsp;&nbsp;&nbsp;1034\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01myield\[39;00m&nbsp;rowid
+\[32m-&gt;&nbsp;\[39m\[32m1036\[39m&nbsp;result&nbsp;=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_insert\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;1037\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mplan\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mtime\[49m\[43m.\[49m\[43mtime\[49m\[43m(\[49m\[43m)\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mprint_stats\[49m\[43m=\[49m\[43mprint_stats\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mrowids\[49m\[43m=\[49m\[43mrowids\[49m\[43m(\[49m\[43m)\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mabort_on_exc\[49m\[43m=\[49m\[43mfail_on_exception\[49m
+\[32m&nbsp;&nbsp;&nbsp;1038\[39m&nbsp;\[43m\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;1039\[39m&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;result
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/table_version.py:1053\[39m,&nbsp;in&nbsp;\[36mTableVersion._insert\[39m\[34m(self,&nbsp;exec_plan,&nbsp;timestamp,&nbsp;rowids,&nbsp;print_stats,&nbsp;abort_on_exc)\[39m
+\[32m&nbsp;&nbsp;&nbsp;1051\[39m&nbsp;\[38;5;66;03m#&nbsp;we&#x27;re&nbsp;creating&nbsp;a&nbsp;new&nbsp;version\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;1052\[39m&nbsp;\[38;5;28mself\[39m.bump_version(timestamp,&nbsp;bump_schema_version=\[38;5;28;01mFalse\[39;00m)
+\[32m-&gt;&nbsp;\[39m\[32m1053\[39m&nbsp;cols_with_excs,&nbsp;row_counts&nbsp;=&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43mstore_tbl\[49m\[43m.\[49m\[43minsert_rows\[49m\[43m(\[49m
+\[32m&nbsp;&nbsp;&nbsp;1054\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mexec_plan\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mv_min\[49m\[43m=\[49m\[38;5;28;43mself\[39;49m\[43m.\[49m\[43mversion\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mrowids\[49m\[43m=\[49m\[43mrowids\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mabort_on_exc\[49m\[43m=\[49m\[43mabort_on_exc\[49m
+\[32m&nbsp;&nbsp;&nbsp;1055\[39m&nbsp;\[43m\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;1056\[39m&nbsp;result&nbsp;=&nbsp;UpdateStatus(
+\[32m&nbsp;&nbsp;&nbsp;1057\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cols_with_excs=\[\[33mf\[39m\[33m&#x27;\[39m\[38;5;132;01m\{\[39;00m\[38;5;28mself\[39m.name\[38;5;132;01m\}\[39;00m\[33m.\[39m\[38;5;132;01m\{\[39;00m\[38;5;28mself\[39m.cols_by_id\[cid\].name\[38;5;132;01m\}\[39;00m\[33m&#x27;\[39m&nbsp;\[38;5;28;01mfor\[39;00m&nbsp;cid&nbsp;\[38;5;129;01min\[39;00m&nbsp;cols_with_excs\],
+\[32m&nbsp;&nbsp;&nbsp;1058\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;row_count_stats=row_counts,
+\[32m&nbsp;&nbsp;&nbsp;1059\[39m&nbsp;)
+\[32m&nbsp;&nbsp;&nbsp;1061\[39m&nbsp;\[38;5;66;03m#&nbsp;update&nbsp;views\[39;00m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/store.py:421\[39m,&nbsp;in&nbsp;\[36mStoreBase.insert_rows\[39m\[34m(self,&nbsp;exec_plan,&nbsp;v_min,&nbsp;show_progress,&nbsp;rowids,&nbsp;abort_on_exc)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;418\[39m&nbsp;table_rows:&nbsp;\[38;5;28mlist\[39m\[\[38;5;28mtuple\[39m\[Any\]\]&nbsp;=&nbsp;\[\]
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;419\[39m&nbsp;exec_plan.open()
+\[32m--&gt;&nbsp;\[39m\[32m421\[39m&nbsp;\[43m\[49m\[38;5;28;43;01mfor\[39;49;00m\[43m&nbsp;\[49m\[43mrow_batch\[49m\[43m&nbsp;\[49m\[38;5;129;43;01min\[39;49;00m\[43m&nbsp;\[49m\[43mexec_plan\[49m\[43m:\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;422\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mnum_rows\[49m\[43m&nbsp;\[49m\[43m+\[49m\[43m=\[49m\[43m&nbsp;\[49m\[38;5;28;43mlen\[39;49m\[43m(\[49m\[43mrow_batch\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;423\[39m&nbsp;\[43m&nbsp;&nbsp;&nbsp;&nbsp;\[49m\[43mbatch_table_rows\[49m\[43m:\[49m\[43m&nbsp;\[49m\[38;5;28;43mlist\[39;49m\[43m\[\[49m\[38;5;28;43mtuple\[39;49m\[43m\[\[49m\[43mAny\[49m\[43m\]\[49m\[43m\]\[49m\[43m&nbsp;\[49m\[43m=\[49m\[43m&nbsp;\[49m\[43m\[\[49m\[43m\]\[49m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exec/exec_node.py:58\[39m,&nbsp;in&nbsp;\[36mExecNode.__iter__\[39m\[34m(self)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;56\[39m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;57\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mwhile\[39;00m&nbsp;\[38;5;28;01mTrue\[39;00m:
+\[32m---&gt;&nbsp;\[39m\[32m58\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;batch:&nbsp;DataRowBatch&nbsp;=&nbsp;\[43mloop\[49m\[43m.\[49m\[43mrun_until_complete\[49m\[43m(\[49m\[38;5;28;43maiter\[39;49m\[43m.\[49m\[34;43m__anext__\[39;49m\[43m(\[49m\[43m)\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;59\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01myield\[39;00m&nbsp;batch
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60\[39m&nbsp;\[38;5;28;01mexcept\[39;00m&nbsp;\[38;5;167;01mStopAsyncIteration\[39;00m:
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/nest_asyncio.py:98\[39m,&nbsp;in&nbsp;\[36m_patch_loop.&lt;locals&gt;.run_until_complete\[39m\[34m(self,&nbsp;future)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;95\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;f.done():
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;96\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;\[38;5;167;01mRuntimeError\[39;00m(
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;97\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[33m&#x27;\[39m\[33mEvent&nbsp;loop&nbsp;stopped&nbsp;before&nbsp;Future&nbsp;completed.\[39m\[33m&#x27;\[39m)
+\[32m---&gt;&nbsp;\[39m\[32m98\[39m&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;\[43mf\[49m\[43m.\[49m\[43mresult\[49m\[43m(\[49m\[43m)\[49m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/asyncio/futures.py:203\[39m,&nbsp;in&nbsp;\[36mFuture.result\[39m\[34m(self)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;201\[39m&nbsp;\[38;5;28mself\[39m.__log_traceback&nbsp;=&nbsp;\[38;5;28;01mFalse\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;202\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28mself\[39m._exception&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+\[32m--&gt;&nbsp;\[39m\[32m203\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;\[38;5;28mself\[39m._exception.with_traceback(\[38;5;28mself\[39m._exception_tb)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;204\[39m&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;\[38;5;28mself\[39m._result
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/asyncio/tasks.py:277\[39m,&nbsp;in&nbsp;\[36mTask.__step\[39m\[34m(***failed&nbsp;resolving&nbsp;arguments***)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;273\[39m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;274\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;exc&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;275\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;We&nbsp;use&nbsp;the&nbsp;\`send\`&nbsp;method&nbsp;directly,&nbsp;because&nbsp;coroutines\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;276\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;don&#x27;t&nbsp;have&nbsp;\`__iter__\`&nbsp;and&nbsp;\`__next__\`&nbsp;methods.\[39;00m
+\[32m--&gt;&nbsp;\[39m\[32m277\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;coro.send(\[38;5;28;01mNone\[39;00m)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;278\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01melse\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;279\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;coro.throw(exc)
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exec/object_store_save_node.py:119\[39m,&nbsp;in&nbsp;\[36mObjectStoreSaveNode.__aiter__\[39m\[34m(self)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;116\[39m&nbsp;\[38;5;28;01mwhile\[39;00m&nbsp;\[38;5;28;01mTrue\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;117\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;Create&nbsp;work&nbsp;to&nbsp;fill&nbsp;the&nbsp;queue&nbsp;to&nbsp;the&nbsp;high&nbsp;water&nbsp;mark&nbsp;...&nbsp;?without&nbsp;overrunning&nbsp;the&nbsp;in-flight&nbsp;row&nbsp;limit.\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;118\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mwhile\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28mself\[39m.input_finished&nbsp;\[38;5;129;01mand\[39;00m&nbsp;\[38;5;28mself\[39m.queued_work&nbsp;&lt;&nbsp;\[38;5;28mself\[39m.QUEUE_DEPTH_HIGH_WATER:
+\[32m--&gt;&nbsp;\[39m\[32m119\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input_batch&nbsp;=&nbsp;\[38;5;28;01mawait\[39;00m&nbsp;\[38;5;28mself\[39m.get_input_batch(input_iter)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;120\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;input_batch&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;121\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28mself\[39m.__process_input_batch(input_batch,&nbsp;executor)
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exec/object_store_save_node.py:105\[39m,&nbsp;in&nbsp;\[36mObjectStoreSaveNode.get_input_batch\[39m\[34m(self,&nbsp;input_iter)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;103\[39m&nbsp;\[38;5;250m\[39m\[33;03m&quot;&quot;&quot;Get&nbsp;the&nbsp;next&nbsp;batch&nbsp;of&nbsp;input&nbsp;rows,&nbsp;or&nbsp;None&nbsp;if&nbsp;there&nbsp;are&nbsp;no&nbsp;more&nbsp;rows&quot;&quot;&quot;\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;104\[39m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[32m--&gt;&nbsp;\[39m\[32m105\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;input_batch&nbsp;=&nbsp;\[38;5;28;01mawait\[39;00m&nbsp;anext(input_iter)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;106\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;input_batch&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;107\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28mself\[39m.input_finished&nbsp;=&nbsp;\[38;5;28;01mTrue\[39;00m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exec/cell_materialization_node.py:72\[39m,&nbsp;in&nbsp;\[36mCellMaterializationNode.__aiter__\[39m\[34m(self)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;71\[39m&nbsp;\[38;5;28;01masync\[39;00m&nbsp;\[38;5;28;01mdef\[39;00m\[38;5;250m&nbsp;\[39m\[34m__aiter__\[39m(\[38;5;28mself\[39m)&nbsp;-&gt;&nbsp;AsyncIterator\[DataRowBatch\]:
+\[32m---&gt;&nbsp;\[39m\[32m72\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01masync\[39;00m&nbsp;\[38;5;28;01mfor\[39;00m&nbsp;batch&nbsp;\[38;5;129;01min\[39;00m&nbsp;\[38;5;28mself\[39m.input:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;73\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mfor\[39;00m&nbsp;row&nbsp;\[38;5;129;01min\[39;00m&nbsp;batch:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;74\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mfor\[39;00m&nbsp;col,&nbsp;slot_idx&nbsp;\[38;5;129;01min\[39;00m&nbsp;\[38;5;28mself\[39m.output_col_info.items():
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exec/expr_eval/expr_eval_node.py:289\[39m,&nbsp;in&nbsp;\[36mExprEvalNode.__aiter__\[39m\[34m(self)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;287\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;\[38;5;28mself\[39m.error&nbsp;\[38;5;28;01mfrom\[39;00m\[38;5;250m&nbsp;\[39m\[34;01mself\[39;00m\[34;01m.\[39;00m\[34;01merror\[39;00m\[34;01m.\[39;00m\[34;01mexc\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;288\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01melse\[39;00m:
+\[32m--&gt;&nbsp;\[39m\[32m289\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;\[38;5;28mself\[39m.error
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;290\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;completed_aw&nbsp;\[38;5;129;01min\[39;00m&nbsp;done:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;291\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28mself\[39m._log_state(\[33m&#x27;\[39m\[33mcompleted_aw&nbsp;done\[39m\[33m&#x27;\[39m)
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exec/expr_eval/expr_eval_node.py:118\[39m,&nbsp;in&nbsp;\[36mExprEvalNode._fetch_input_batch\[39m\[34m(self)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;116\[39m&nbsp;\[38;5;28;01massert\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28mself\[39m.input_complete
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;117\[39m&nbsp;\[38;5;28;01mtry\[39;00m:
+\[32m--&gt;&nbsp;\[39m\[32m118\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;batch&nbsp;=&nbsp;\[38;5;28;01mawait\[39;00m&nbsp;anext(\[38;5;28mself\[39m.input_iter)
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;119\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01massert\[39;00m&nbsp;\[38;5;28mself\[39m.next_input_batch&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;120\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28mself\[39m.current_input_batch&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exec/cache_prefetch_node.py:105\[39m,&nbsp;in&nbsp;\[36mCachePrefetchNode.__aiter__\[39m\[34m(self)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;103\[39m&nbsp;\[38;5;28;01mwhile\[39;00m&nbsp;\[38;5;28mself\[39m.queued_work&nbsp;&gt;&nbsp;\[38;5;28mself\[39m.QUEUE_DEPTH_LOW_WATER&nbsp;\[38;5;129;01mor\[39;00m&nbsp;(\[38;5;28mself\[39m.input_finished&nbsp;\[38;5;129;01mand\[39;00m&nbsp;\[38;5;28mself\[39m.queued_work&nbsp;&gt;&nbsp;\[32m0\[39m):
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;104\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;done,&nbsp;_&nbsp;=&nbsp;futures.wait(\[38;5;28mself\[39m.in_flight_requests,&nbsp;return_when=futures.FIRST_COMPLETED)
+\[32m--&gt;&nbsp;\[39m\[32m105\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m__process_completions\[49m\[43m(\[49m\[43mdone\[49m\[43m,\[49m\[43m&nbsp;\[49m\[43mignore_errors\[49m\[43m=\[49m\[38;5;28;43mself\[39;49m\[43m.\[49m\[43mctx\[49m\[43m.\[49m\[43mignore_errors\[49m\[43m)\[49m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;107\[39m&nbsp;\[38;5;66;03m#&nbsp;Emit&nbsp;results&nbsp;to&nbsp;meet&nbsp;batch&nbsp;size&nbsp;requirements&nbsp;or&nbsp;empty&nbsp;the&nbsp;in-flight&nbsp;row&nbsp;queue\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;108\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28mself\[39m.__has_ready_batch()&nbsp;\[38;5;129;01mor\[39;00m&nbsp;(
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;109\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28mlen\[39m(\[38;5;28mself\[39m.ready_rows)&nbsp;&gt;&nbsp;\[32m0\[39m&nbsp;\[38;5;129;01mand\[39;00m&nbsp;\[38;5;28mself\[39m.input_finished&nbsp;\[38;5;129;01mand\[39;00m&nbsp;\[38;5;28mself\[39m.queued_work&nbsp;==&nbsp;\[32m0\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;110\[39m&nbsp;):
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;111\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;create&nbsp;DataRowBatch&nbsp;from&nbsp;the&nbsp;first&nbsp;BATCH_SIZE&nbsp;ready&nbsp;rows\[39;00m
+
+\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/exec/cache_prefetch_node.py:146\[39m,&nbsp;in&nbsp;\[36mCachePrefetchNode.__process_completions\[39m\[34m(self,&nbsp;done,&nbsp;ignore_errors)\[39m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;144\[39m&nbsp;tmp_path,&nbsp;exc&nbsp;=&nbsp;f.result()
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;145\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;exc&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m&nbsp;\[38;5;129;01mand\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;ignore_errors:
+\[32m--&gt;&nbsp;\[39m\[32m146\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;exc
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;147\[39m&nbsp;local_path:&nbsp;Path&nbsp;|&nbsp;\[38;5;28;01mNone\[39;00m&nbsp;=&nbsp;\[38;5;28;01mNone\[39;00m
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;148\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;tmp_path&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;129;01mnot\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
+\[32m&nbsp;&nbsp;&nbsp;&nbsp;149\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;register&nbsp;the&nbsp;file&nbsp;with&nbsp;the&nbsp;cache&nbsp;for&nbsp;the&nbsp;first&nbsp;column&nbsp;in&nbsp;which&nbsp;it&#x27;s&nbsp;missing\[39;00m
+
+\[31mError\[39m:&nbsp;Failed&nbsp;to&nbsp;download&nbsp;https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg:&nbsp;HTTP&nbsp;Error&nbsp;403:&nbsp;Forbidden
+</pre>
+
+## Working with Computed Columns
+
+Pydantic models work seamlessly with computed columns. Simply omit
+computed column fields from your model - Pixeltable will skip them
+during insertion.
+
+
+```python
+# Model only includes input columns
+class Article(pydantic.BaseModel):
+    title: str
+    content: str
+
+# Create table with computed column
+articles = pxt.create_table(
+    'pydantic_demo.articles',
+    {
+        'title': pxt.Required[pxt.String],
+        'content': pxt.Required[pxt.String],
+    }
+)
+
+# Add a computed column
+articles.add_computed_column(
+    word_count=articles.content.apply(lambda x: len(x.split()), col_type=pxt.Int)
+)
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;articles&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Insert data - computed columns are automatically calculated
+article_data = [
+    Article(
+        title='Getting Started with Pixeltable',
+        content='Pixeltable is a powerful tool for building AI applications. It provides automatic versioning and incremental computation.'
+    ),
+    Article(
+        title='Type Safety in Python',
+        content='Using Pydantic with Pixeltable provides type safety and validation for your data pipelines.'
+    ),
+]
+
+articles.insert(article_data)
+articles.select(articles.title, articles.word_count).collect()
+
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;653.83&nbsp;rows/s\]
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+## Optional Fields and Defaults
+
+Pydantic’s optional fields with defaults work naturally with
+Pixeltable’s nullable columns.
+
+
+```python
+class Task(pydantic.BaseModel):
+    title: str
+    priority: int = 1  # Default value
+    due_date: datetime.datetime | None = None  # Optional
+    notes: str | None = None  # Optional
+
+tasks = pxt.create_table(
+    'pydantic_demo.tasks',
+    {
+        'title': pxt.Required[pxt.String],
+        'priority': pxt.Required[pxt.Int],
+        'due_date': pxt.Timestamp,  # Nullable
+        'notes': pxt.String,  # Nullable
+    }
+)
+
+# Insert with and without optional fields
+tasks.insert([
+    Task(title='Complete project', priority=3, due_date=datetime.datetime(2025, 12, 31)),
+    Task(title='Review code'),  # Uses default priority=1, None for optionals
+    Task(title='Write docs', notes='Include examples'),
+])
+
+tasks.collect()
+
+```
+
+## Type Mapping Reference
+
+Here’s the complete mapping between Pydantic/Python types and Pixeltable
+types:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+## Learn More
+
+For more information about working with Pydantic in Pixeltable:
+
+-   [Pixeltable Documentation](https://docs.pixeltable.com)
+-   [Pydantic Documentation](https://docs.pydantic.dev)
+-   [Type Safety Blog
+    Post](https://www.pixeltable.com/blog/pydantic-integration-type-safety)
+
+If you have any questions, don’t hesitate to reach out on
+[Discord](https://discord.gg/QPyqFYx2UN).

@@ -1,0 +1,233 @@
+---
+title: "Generate videos with AI"
+sidebarTitle: "Generate videos with AI"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-generate-ai.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-generate-ai.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/video/video-generate-ai.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Input</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Social content</td>
+<td style="vertical-align: middle;">Text prompt</td>
+<td style="vertical-align: middle;">Short video clips</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Product demos</td>
+<td style="vertical-align: middle;">Product image</td>
+<td style="vertical-align: middle;">Animated product video</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Creative apps</td>
+<td style="vertical-align: middle;">User prompts</td>
+<td style="vertical-align: middle;">Generated video content</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Marketing</td>
+<td style="vertical-align: middle;">Static images</td>
+<td style="vertical-align: middle;">Animated banners</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Input</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Text-to-video</td>
+<td style="vertical-align: middle;">Text prompt</td>
+<td style="vertical-align: middle;">Create videos from descriptions</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Image-to-video</td>
+<td style="vertical-align: middle;">Image</td>
+<td style="vertical-align: middle;">Animate static images</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>veo-2.0-generate-001</code></td>
+<td style="vertical-align: middle;">Latest Veo model for high-quality video</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Create videos from text prompts or animate images using Google’s Veo
+model.
+
+## Problem
+
+You need to generate video content programmatically—for social media,
+product demos, or creative applications.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Generate videos from text prompts - Animate
+existing images into videos - Store prompts and generated videos
+together
+
+Use Google’s Veo model to generate videos. Videos are
+cached—regeneration only happens if the prompt changes.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable google-genai
+
+```
+
+
+```python
+import os
+import getpass
+
+if 'GEMINI_API_KEY' not in os.environ:
+    os.environ['GEMINI_API_KEY'] = getpass.getpass('Google AI Studio API Key: ')
+
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import gemini
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('video_gen_demo', force=True)
+pxt.create_dir('video_gen_demo')
+
+```
+
+### Generate videos from text prompts
+
+
+```python
+# Create a table for text-to-video generation
+videos = pxt.create_table(
+    'video_gen_demo.text_to_video',
+    {'prompt': pxt.String}
+)
+
+# Add computed column that generates videos
+videos.add_computed_column(
+    video=gemini.generate_videos(
+        videos.prompt,
+        model='veo-2.0-generate-001'
+    )
+)
+
+```
+
+
+```python
+# Generate a video from a text prompt
+videos.insert([
+    {'prompt': 'A serene mountain lake at sunrise with mist rising from the water'}
+])
+
+# View the result
+videos.select(videos.prompt, videos.video).collect()
+
+```
+
+### Animate images into videos
+
+
+```python
+# Create a table for image-to-video generation
+animated = pxt.create_table(
+    'video_gen_demo.image_to_video',
+    {'image': pxt.Image, 'description': pxt.String}
+)
+
+# Add computed column that animates images
+animated.add_computed_column(
+    video=gemini.generate_videos(
+        image=animated.image,
+        model='veo-2.0-generate-001'
+    )
+)
+
+```
+
+
+```python
+# Animate an image
+base_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
+
+animated.insert([
+    {
+        'image': f'{base_url}/000000000030.jpg',
+        'description': 'Beach scene'
+    }
+])
+
+# View the animated result
+animated.select(animated.image, animated.video).collect()
+
+```
+
+## Explanation
+
+**Generation modes:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Veo model options:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**Tips:** - Prompts work best when descriptive and specific - Generated
+videos are cached - same prompt returns cached result - Image-to-video
+preserves the composition of the input image - New rows automatically
+generate videos on insert
+
+**Requirements:** - Google AI Studio API key (set `GEMINI_API_KEY`) -
+`pip install google-genai`
+
+## See also
+
+-   [Extract frames from
+    videos](/howto/cookbooks/video/video-extract-frames) -
+    Pull frames from generated videos
+-   [Add text
+    overlays](/howto/cookbooks/video/video-add-text-overlay) -
+    Add captions to videos
