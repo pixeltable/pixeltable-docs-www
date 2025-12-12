@@ -1,0 +1,61 @@
+---
+title: "whisper"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/whisper.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.whisper
+
+
+Pixeltable UDFs
+that wraps the OpenAI Whisper library.
+
+This UDF will cause Pixeltable to invoke the relevant model locally. In order to use it, you must
+first `pip install openai-whisper`.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; transcribe()
+
+```python Signature
+transcribe(
+    audio: pxt.Audio,
+    *,
+    model: pxt.String,
+    temperature: pxt.Json | None = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
+    compression_ratio_threshold: pxt.Float | None = 2.4,
+    logprob_threshold: pxt.Float | None = -1.0,
+    no_speech_threshold: pxt.Float | None = 0.6,
+    condition_on_previous_text: pxt.Bool = True,
+    initial_prompt: pxt.String | None = None,
+    word_timestamps: pxt.Bool = False,
+    prepend_punctuations: pxt.String = '"\'“¿([{-',
+    append_punctuations: pxt.String = '"\'.。,，!！?？:：”)]}、',
+    decode_options: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Transcribe an audio file using Whisper.
+
+This UDF runs a transcription model _locally_ using the Whisper library,
+equivalent to the Whisper `transcribe` function, as described in the
+[Whisper library documentation](https://github.com/openai/whisper).
+
+__Requirements:__
+
+- `pip install openai-whisper`
+
+**Parameters:**
+
+- **`audio`** (`pxt.Audio`): The audio file to transcribe.
+- **`model`** (`pxt.String`): The name of the model to use for transcription.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the transcription and various other metadata.
+
+**Examples:**
+
+Add a computed column that applies the model `base.en` to an existing Pixeltable column `tbl.audio` of the table `tbl`:
+```python
+tbl.add_computed_column(result=transcribe(tbl.audio, model='base.en'))
+```
+
