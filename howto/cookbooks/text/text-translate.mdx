@@ -41,6 +41,45 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">text_en</th>
+<th data-quarto-table-cell-role="th">text_es</th>
+<th data-quarto-table-cell-role="th">text_fr</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Welcome Message</td>
+<td style="vertical-align: middle;">Welcome to our platform! We are excited to have you here.</td>
+<td style="vertical-align: middle;">¡Bienvenido a nuestra plataforma! Estamos emocionados de tenerte
+aquí.</td>
+<td style="vertical-align: middle;">Bienvenue sur notre plateforme ! Nous sommes ravis de vous avoir
+ici.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Product Description</td>
+<td style="vertical-align: middle;">This lightweight laptop features a 14-inch display and all-day
+battery life.</td>
+<td style="vertical-align: middle;">Este portátil liviano cuenta con una pantalla de 14 pulgadas y una
+batería de larga duración.</td>
+<td style="vertical-align: middle;">Cet ordinateur portable léger dispose d'un écran de 14 pouces et
+d'une autonomie de batterie toute la journée.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Support Article</td>
+<td style="vertical-align: middle;">To reset your password, click the forgot password link on the login
+page.</td>
+<td style="vertical-align: middle;">Para restablecer tu contraseña, haz clic en el enlace de olvidé mi
+contraseña en la página de inicio de sesión.</td>
+<td style="vertical-align: middle;">Pour réinitialiser votre mot de passe, cliquez sur le lien "mot de
+passe oublié" sur la page de connexion.</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -77,9 +116,11 @@ Manual translation is slow and expensive.
 
 ## Solution
 
-**What’s in this recipe:** - Translate text using OpenAI models - Create
-multiple language columns from one source - Handle batch translation
-efficiently
+**What’s in this recipe:**
+
+-   Translate text using OpenAI models
+-   Create multiple language columns from one source
+-   Handle batch translation efficiently
 
 You add computed columns for each target language. Translations are
 generated automatically when you insert new content and cached for
@@ -90,7 +131,6 @@ future queries.
 
 ```python
 %pip install -qU pixeltable openai
-
 ```
 
 
@@ -100,14 +140,12 @@ import getpass
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import chat_completions
-
 ```
 
 
@@ -115,8 +153,13 @@ from pixeltable.functions.openai import chat_completions
 # Create a fresh directory
 pxt.drop_dir('translate_demo', force=True)
 pxt.create_dir('translate_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;translate_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x31f62aa90&gt;
+</pre>
 
 ### Create translation pipeline
 
@@ -127,8 +170,11 @@ content = pxt.create_table(
     'translate_demo.content',
     {'title': pxt.String, 'text_en': pxt.String}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;content&#x27;.
+</pre>
 
 
 ```python
@@ -142,8 +188,13 @@ content.add_computed_column(
     )
 )
 content.add_computed_column(text_es=content.response_es.choices[0].message.content)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -157,8 +208,13 @@ content.add_computed_column(
     )
 )
 content.add_computed_column(text_fr=content.response_fr.choices[0].message.content)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 ### Translate content
 
@@ -181,24 +237,26 @@ sample_content = [
 ]
 
 content.insert(sample_content)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`content\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;198.43&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;18&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
 # View all translations
 content.select(content.title, content.text_en, content.text_es, content.text_fr).collect()
-
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 
 ```python
 # Pretty print one example
 row = content.where(content.title == 'Welcome Message').collect()[0]
-print(f"English:  {row['text_en']}")
-print(f"Spanish:  {row['text_es']}")
-print(f"French:   {row['text_fr']}")
-
 ```
 
 ## Explanation
@@ -224,7 +282,7 @@ content.add_computed_column(text_de=content.response_de.choices[0].message.conte
 
 **Cost optimization:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 ## See also
 

@@ -37,6 +37,42 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">user_message</th>
+<th data-quarto-table-cell-role="th">relevant_memories</th>
+<th data-quarto-table-cell-role="th">assistant_reply</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">How much can I spend on cloud resources?</td>
+<td style="vertical-align: middle;">[]</td>
+<td style="vertical-align: middle;">To help you determine how much you can spend on cloud resources, it
+would be useful to know your budget and any specific resources you plan
+to use. If you have a figure in mind or any constraints, please share
+that, and we can look at options that fit within your financial
+plan!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">When do I need to finish this?</td>
+<td style="vertical-align: middle;">[]</td>
+<td style="vertical-align: middle;">Could you please provide the specific deadline you're working
+towards? That way, I can help you plan your tasks more effectively!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What programming language should I use for this project?</td>
+<td style="vertical-align: middle;">[]</td>
+<td style="vertical-align: middle;">To give the best recommendation, could you share more details about
+your project? Specifically, what are the goals of the project, any
+specific platforms you want to target, and your previous experience with
+programming languages? This will help me suggest the most suitable
+language for your needs!</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -78,9 +114,11 @@ conversations.
 
 ## Solution
 
-**What’s in this recipe:** - Store memories with embeddings for semantic
-search - Retrieve relevant memories based on conversation context - Use
-`@pxt.query` for retrieval functions
+**What’s in this recipe:**
+
+-   Store memories with embeddings for semantic search
+-   Retrieve relevant memories based on conversation context
+-   Use `@pxt.query` for retrieval functions
 
 This pattern is inspired by
 [Pixelbot](https://github.com/pixeltable/pixelbot) and
@@ -91,19 +129,7 @@ This pattern is inspired by
 
 ```python
 %pip install -qU pixeltable openai
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-&nbsp;&nbsp;&nbsp;&nbsp;WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
@@ -113,14 +139,12 @@ from datetime import datetime
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import embeddings, chat_completions
-
 ```
 
 
@@ -128,86 +152,11 @@ from pixeltable.functions.openai import embeddings, chat_completions
 # Create a fresh directory
 pxt.drop_dir('agent_demo', force=True)
 pxt.create_dir('agent_demo')
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
-Error:&nbsp;This&nbsp;Pixeltable&nbsp;database&nbsp;was&nbsp;created&nbsp;with&nbsp;a&nbsp;newer&nbsp;Pixeltable&nbsp;version&nbsp;than&nbsp;the&nbsp;one&nbsp;currently&nbsp;installed&nbsp;(0.5.3).
-Please&nbsp;update&nbsp;to&nbsp;the&nbsp;latest&nbsp;Pixeltable&nbsp;version&nbsp;by&nbsp;running:&nbsp;pip&nbsp;install&nbsp;--upgrade&nbsp;pixeltable
-\[31m---------------------------------------------------------------------------\[39m
-\[31mError\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Traceback&nbsp;(most&nbsp;recent&nbsp;call&nbsp;last)
-\[36mCell\[39m\[36m&nbsp;\[39m\[32mIn\[4\]\[39m\[32m,&nbsp;line&nbsp;2\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1\[39m&nbsp;\[38;5;66;03m#&nbsp;Create&nbsp;a&nbsp;fresh&nbsp;directory\[39;00m
-\[32m----&gt;&nbsp;\[39m\[32m2\[39m&nbsp;\[43mpxt\[49m\[43m.\[49m\[43mdrop_dir\[49m\[43m(\[49m\[33;43m&#x27;\[39;49m\[33;43magent_demo\[39;49m\[33;43m&#x27;\[39;49m\[43m,\[49m\[43m&nbsp;\[49m\[43mforce\[49m\[43m=\[49m\[38;5;28;43;01mTrue\[39;49;00m\[43m)\[49m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3\[39m&nbsp;pxt.create_dir(\[33m&#x27;\[39m\[33magent_demo\[39m\[33m&#x27;\[39m)
-
-\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/globals.py:799\[39m,&nbsp;in&nbsp;\[36mdrop_dir\[39m\[34m(path,&nbsp;force,&nbsp;if_not_exists)\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;797\[39m&nbsp;path_obj&nbsp;=&nbsp;catalog.Path.parse(path)&nbsp;&nbsp;\[38;5;66;03m#&nbsp;validate&nbsp;format\[39;00m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;798\[39m&nbsp;if_not_exists_&nbsp;=&nbsp;catalog.IfNotExistsParam.validated(if_not_exists,&nbsp;\[33m&#x27;\[39m\[33mif_not_exists\[39m\[33m&#x27;\[39m)
-\[32m--&gt;&nbsp;\[39m\[32m799\[39m&nbsp;\[43mCatalog\[49m\[43m.\[49m\[43mget\[49m\[43m(\[49m\[43m)\[49m.drop_dir(path_obj,&nbsp;if_not_exists=if_not_exists_,&nbsp;force=force)
-
-\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/catalog.py:203\[39m,&nbsp;in&nbsp;\[36mCatalog.get\[39m\[34m(cls)\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;200\[39m&nbsp;\[38;5;129m@classmethod\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;201\[39m&nbsp;\[38;5;28;01mdef\[39;00m\[38;5;250m&nbsp;\[39m\[34mget\[39m(\[38;5;28mcls\[39m)&nbsp;-&gt;&nbsp;Catalog:
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;202\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28mcls\[39m._instance&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
-\[32m--&gt;&nbsp;\[39m\[32m203\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28mcls\[39m._instance&nbsp;=&nbsp;\[38;5;28;43mcls\[39;49m\[43m(\[49m\[43m)\[49m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;204\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;\[38;5;28mcls\[39m._instance
-
-\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/catalog.py:226\[39m,&nbsp;in&nbsp;\[36mCatalog.__init__\[39m\[34m(self)\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;224\[39m&nbsp;\[38;5;28mself\[39m._column_dependencies&nbsp;=&nbsp;\{\}
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;225\[39m&nbsp;\[38;5;28mself\[39m._column_dependents&nbsp;=&nbsp;\[38;5;28;01mNone\[39;00m
-\[32m--&gt;&nbsp;\[39m\[32m226\[39m&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_init_store\[49m\[43m(\[49m\[43m)\[49m
-
-\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/catalog.py:2360\[39m,&nbsp;in&nbsp;\[36mCatalog._init_store\[39m\[34m(self)\[39m
-\[32m&nbsp;&nbsp;&nbsp;2358\[39m&nbsp;\[38;5;28;01mdef\[39;00m\[38;5;250m&nbsp;\[39m\[34m_init_store\[39m(\[38;5;28mself\[39m)&nbsp;-&gt;&nbsp;\[38;5;28;01mNone\[39;00m:
-\[32m&nbsp;&nbsp;&nbsp;2359\[39m&nbsp;\[38;5;250m&nbsp;&nbsp;&nbsp;&nbsp;\[39m\[33;03m&quot;&quot;&quot;One-time&nbsp;initialization&nbsp;of&nbsp;the&nbsp;stored&nbsp;catalog.&nbsp;Idempotent.&quot;&quot;&quot;\[39;00m
-\[32m-&gt;&nbsp;\[39m\[32m2360\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;43mself\[39;49m\[43m.\[49m\[43mcreate_user\[49m\[43m(\[49m\[38;5;28;43;01mNone\[39;49;00m\[43m)\[49m
-\[32m&nbsp;&nbsp;&nbsp;2361\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_logger.info(\[33m&#x27;\[39m\[33mInitialized&nbsp;catalog.\[39m\[33m&#x27;\[39m)
-
-\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/catalog/catalog.py:2367\[39m,&nbsp;in&nbsp;\[36mCatalog.create_user\[39m\[34m(self,&nbsp;user)\[39m
-\[32m&nbsp;&nbsp;&nbsp;2363\[39m&nbsp;\[38;5;28;01mdef\[39;00m\[38;5;250m&nbsp;\[39m\[34mcreate_user\[39m(\[38;5;28mself\[39m,&nbsp;user:&nbsp;\[38;5;28mstr\[39m&nbsp;|&nbsp;\[38;5;28;01mNone\[39;00m)&nbsp;-&gt;&nbsp;\[38;5;28;01mNone\[39;00m:
-\[32m&nbsp;&nbsp;&nbsp;2364\[39m&nbsp;\[38;5;250m&nbsp;&nbsp;&nbsp;&nbsp;\[39m\[33;03m&quot;&quot;&quot;\[39;00m
-\[32m&nbsp;&nbsp;&nbsp;2365\[39m&nbsp;\[33;03m&nbsp;&nbsp;&nbsp;&nbsp;Creates&nbsp;a&nbsp;catalog&nbsp;record&nbsp;(root&nbsp;directory)&nbsp;for&nbsp;the&nbsp;specified&nbsp;user,&nbsp;if&nbsp;one&nbsp;does&nbsp;not&nbsp;already&nbsp;exist.\[39;00m
-\[32m&nbsp;&nbsp;&nbsp;2366\[39m&nbsp;\[33;03m&nbsp;&nbsp;&nbsp;&nbsp;&quot;&quot;&quot;\[39;00m
-\[32m-&gt;&nbsp;\[39m\[32m2367\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mwith\[39;00m&nbsp;\[43mEnv\[49m\[43m.\[49m\[43mget\[49m\[43m(\[49m\[43m)\[49m.begin_xact():
-\[32m&nbsp;&nbsp;&nbsp;2368\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;session&nbsp;=&nbsp;Env.get().session
-\[32m&nbsp;&nbsp;&nbsp;2369\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;See&nbsp;if&nbsp;there&nbsp;are&nbsp;any&nbsp;directories&nbsp;in&nbsp;the&nbsp;catalog&nbsp;matching&nbsp;the&nbsp;specified&nbsp;user.\[39;00m
-
-\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/env.py:109\[39m,&nbsp;in&nbsp;\[36mEnv.get\[39m\[34m(cls)\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;106\[39m&nbsp;\[38;5;129m@classmethod\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;107\[39m&nbsp;\[38;5;28;01mdef\[39;00m\[38;5;250m&nbsp;\[39m\[34mget\[39m(\[38;5;28mcls\[39m)&nbsp;-&gt;&nbsp;Env:
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;108\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mif\[39;00m&nbsp;\[38;5;28mcls\[39m._instance&nbsp;\[38;5;129;01mis\[39;00m&nbsp;\[38;5;28;01mNone\[39;00m:
-\[32m--&gt;&nbsp;\[39m\[32m109\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;43mcls\[39;49m\[43m.\[49m\[43m_init_env\[49m\[43m(\[49m\[43m)\[49m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;110\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mreturn\[39;00m&nbsp;\[38;5;28mcls\[39m._instance
-
-\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/env.py:122\[39m,&nbsp;in&nbsp;\[36mEnv._init_env\[39m\[34m(cls,&nbsp;reinit_db)\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;120\[39m&nbsp;\[38;5;28;01mtry\[39;00m:
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;121\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;env._set_up(reinit_db=reinit_db)
-\[32m--&gt;&nbsp;\[39m\[32m122\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[43menv\[49m\[43m.\[49m\[43m_upgrade_metadata\[49m\[43m(\[49m\[43m)\[49m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;123\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28mcls\[39m._instance&nbsp;=&nbsp;env
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;124\[39m&nbsp;\[38;5;28;01mfinally\[39;00m:
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;125\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;Reset&nbsp;the&nbsp;initializing&nbsp;flag,&nbsp;even&nbsp;if&nbsp;setup&nbsp;fails.\[39;00m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;126\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;66;03m#&nbsp;This&nbsp;prevents&nbsp;the&nbsp;environment&nbsp;from&nbsp;being&nbsp;left&nbsp;in&nbsp;a&nbsp;broken&nbsp;state.\[39;00m
-
-\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/env.py:657\[39m,&nbsp;in&nbsp;\[36mEnv._upgrade_metadata\[39m\[34m(self)\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;654\[39m&nbsp;\[38;5;28;01mdef\[39;00m\[38;5;250m&nbsp;\[39m\[34m_upgrade_metadata\[39m(\[38;5;28mself\[39m)&nbsp;-&gt;&nbsp;\[38;5;28;01mNone\[39;00m:
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;655\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mfrom\[39;00m\[38;5;250m&nbsp;\[39m\[34;01mpixeltable\[39;00m\[38;5;250m&nbsp;\[39m\[38;5;28;01mimport\[39;00m&nbsp;metadata
-\[32m--&gt;&nbsp;\[39m\[32m657\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[43mmetadata\[49m\[43m.\[49m\[43mupgrade_md\[49m\[43m(\[49m\[38;5;28;43mself\[39;49m\[43m.\[49m\[43m_sa_engine\[49m\[43m)\[49m
-
-\[36mFile&nbsp;\[39m\[32m/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages/pixeltable/metadata/__init__.py:64\[39m,&nbsp;in&nbsp;\[36mupgrade_md\[39m\[34m(engine)\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;62\[39m&nbsp;_logger.info(\[33mf\[39m\[33m&#x27;\[39m\[33mCurrent&nbsp;database&nbsp;version:&nbsp;\[39m\[38;5;132;01m\{\[39;00mmd_version\[38;5;132;01m\}\[39;00m\[33m,&nbsp;installed&nbsp;version:&nbsp;\[39m\[38;5;132;01m\{\[39;00mVERSION\[38;5;132;01m\}\[39;00m\[33m&#x27;\[39m)
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;63\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;md_version&nbsp;&gt;&nbsp;VERSION:
-\[32m---&gt;&nbsp;\[39m\[32m64\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mraise\[39;00m&nbsp;excs.Error(
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;65\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[33m&#x27;\[39m\[33mThis&nbsp;Pixeltable&nbsp;database&nbsp;was&nbsp;created&nbsp;with&nbsp;a&nbsp;newer&nbsp;Pixeltable&nbsp;version&nbsp;\[39m\[33m&#x27;\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;66\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[33mf\[39m\[33m&#x27;\[39m\[33mthan&nbsp;the&nbsp;one&nbsp;currently&nbsp;installed&nbsp;(\[39m\[38;5;132;01m\{\[39;00mpxt.__version__\[38;5;132;01m\}\[39;00m\[33m).\[39m\[38;5;130;01m\n\[39;00m\[33m&#x27;\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;67\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[33m&#x27;\[39m\[33mPlease&nbsp;update&nbsp;to&nbsp;the&nbsp;latest&nbsp;Pixeltable&nbsp;version&nbsp;by&nbsp;running:&nbsp;pip&nbsp;install&nbsp;--upgrade&nbsp;pixeltable\[39m\[33m&#x27;\[39m
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;68\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;69\[39m&nbsp;\[38;5;28;01mif\[39;00m&nbsp;md_version&nbsp;==&nbsp;VERSION:
-\[32m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;70\[39m&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\[38;5;28;01mreturn\[39;00m
-
-\[31mError\[39m:&nbsp;This&nbsp;Pixeltable&nbsp;database&nbsp;was&nbsp;created&nbsp;with&nbsp;a&nbsp;newer&nbsp;Pixeltable&nbsp;version&nbsp;than&nbsp;the&nbsp;one&nbsp;currently&nbsp;installed&nbsp;(0.5.3).
-Please&nbsp;update&nbsp;to&nbsp;the&nbsp;latest&nbsp;Pixeltable&nbsp;version&nbsp;by&nbsp;running:&nbsp;pip&nbsp;install&nbsp;--upgrade&nbsp;pixeltable
+Created&nbsp;directory&nbsp;&#x27;agent_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x32a0c6390&gt;
 </pre>
 
 ### Create memory bank
@@ -223,19 +172,19 @@ memories = pxt.create_table(
         'created_at': pxt.Timestamp,     # When the memory was stored
     }
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;memories&#x27;.
+</pre>
 
 
 ```python
-# Add embedding for semantic search
-memories.add_computed_column(
-    embedding=embeddings(memories.content, model='text-embedding-3-small')
+# Add embedding index for semantic search on content
+memories.add_embedding_index(
+    column="content",
+    string_embed=embeddings.using(model="text-embedding-3-small")
 )
-
-# Create index for fast retrieval
-memories.add_embedding_index('embedding', metric='cosine')
-
 ```
 
 ### Define retrieval function
@@ -244,17 +193,18 @@ memories.add_embedding_index('embedding', metric='cosine')
 ```python
 # Define a query function to retrieve relevant memories
 @pxt.query
-def recall_memories(context: str, top_k: int = 3) -> list[dict]:
+def recall_memories(context: str, top_k: int = 3):
     """Retrieve memories relevant to the current context."""
-    results = memories.order_by(
-        memories.embedding.similarity(context),
-        asc=False
-    ).limit(top_k).select(
-        memories.content, 
-        memories.category
-    ).collect()
-    return [{'content': r['content'], 'category': r['category']} for r in results]
-
+    sim = memories.content.similarity(context)
+    return (
+        memories.where(sim > 0.5)
+        .order_by(sim, asc=False)
+        .limit(top_k)
+        .select(
+            content=memories.content,
+            category=memories.category
+        )
+    )
 ```
 
 ### Store some memories
@@ -271,9 +221,13 @@ initial_memories = [
 ]
 
 memories.insert(initial_memories)
-print(f"Stored {len(initial_memories)} memories")
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`memories\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&nbsp;590.53&nbsp;rows/s\]
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+5&nbsp;rows&nbsp;inserted,&nbsp;15&nbsp;values&nbsp;computed.
+</pre>
 
 ### Create conversation table with memory retrieval
 
@@ -284,8 +238,11 @@ conversations = pxt.create_table(
     'agent_demo.conversations',
     {'user_message': pxt.String}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;conversations&#x27;.
+</pre>
 
 
 ```python
@@ -293,8 +250,12 @@ conversations = pxt.create_table(
 conversations.add_computed_column(
     relevant_memories=recall_memories(conversations.user_message, top_k=3)
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -314,8 +275,12 @@ Assistant:"""
 conversations.add_computed_column(
     prompt=build_memory_prompt(conversations.user_message, conversations.relevant_memories)
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -329,8 +294,13 @@ conversations.add_computed_column(
 conversations.add_computed_column(
     assistant_reply=conversations.response.choices[0].message.content
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 ### Chat with memory-aware agent
 
@@ -344,22 +314,25 @@ test_messages = [
 ]
 
 conversations.insert(test_messages)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`conversations\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1047.88&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;18&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
-# View responses with retrieved memories
-for row in conversations.select(
-    conversations.user_message, 
+# View conversations with memory
+conversations.select(
+    conversations.user_message,
     conversations.relevant_memories,
     conversations.assistant_reply
-).collect():
-    print(f"User: {row['user_message']}")
-    print(f"Memories used: {[m['content'][:40] + '...' for m in row['relevant_memories']]}")
-    print(f"Assistant: {row['assistant_reply']}\n")
-
+).collect()
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ## Explanation
 
@@ -373,7 +346,7 @@ User&nbsp;Message&nbsp;→&nbsp;Retrieve&nbsp;Memories&nbsp;→&nbsp;Build&nbsp;
 
 **Key components:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 **Adding new memories:**
 

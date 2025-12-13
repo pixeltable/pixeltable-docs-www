@@ -235,9 +235,9 @@ pxt.create_dir('image_demo')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/alison-pxt/.pixeltable/pgdata
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;image_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x143ea0770&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x15bb85a50&gt;
 </pre>
 
 
@@ -259,7 +259,7 @@ t.insert([
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`filters\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;912.14&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`filters\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`filters\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;538.79&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
@@ -353,12 +353,16 @@ regions, and Edge Enhance strengthens edges while preserving the full
 image. You can apply multiple filters to the same image to create
 different versions for analysis or visual effects.
 
-**To customize the UDFs:** - **Blur intensity**: Use
-`ImageFilter.BoxBlur(radius)` or `ImageFilter.GaussianBlur(radius)` for
-adjustable blur strength - **Edge detection**: Combine with grayscale
-conversion for clearer edge maps - **Filter stacking**: Apply multiple
-filters in sequence for complex effects - **Custom kernels**: Use
-`ImageFilter.Kernel()` to define your own convolution filters
+**To customize the UDFs:**
+
+-   **Blur intensity**: Use `ImageFilter.BoxBlur(radius)` or
+    `ImageFilter.GaussianBlur(radius)` for adjustable blur strength
+-   **Edge detection**: Combine with grayscale conversion for clearer
+    edge maps
+-   **Filter stacking**: Apply multiple filters in sequence for complex
+    effects
+-   **Custom kernels**: Use `ImageFilter.Kernel()` to define your own
+    convolution filters
 
 **The Pixeltable workflow:**
 

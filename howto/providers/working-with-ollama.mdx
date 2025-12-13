@@ -12,37 +12,6 @@ above links.</Tip>
 
 
 
-export const quartoRawHtml =
-[`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">input</th>
-<th data-quarto-table-cell-role="th">response</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">What are the most popular services for LLM inference?</td>
-<td style="vertical-align: middle;">LLM (Large Language Model) inference is a complex process that
-involves generating human-like text using artificial intelligence
-models. The most popular services and technologies used in this field
-include: 1. **Hugging Face**: Hugging Face, an open-source platform,
-provides several APIs and libraries for building LLMs. Some of the most
-commonly used ones are: • transformers (for natural language processing)
-• torchtext (for text generation) • t5 (for T5 models) • pytorc ......
-based on user input. These services are popular because they provide
-flexibility, speed, and ease of use for developers who want to work with
-large language models. The choice of service depends on the specific
-requirements of your project, including the type of data you're working
-with, the level of customization you need, and whether you prefer a more
-lightweight or more powerful solution. If you have any questions about
-these services or if you need help choosing one, feel free to ask!</td>
-</tr>
-</tbody>
-</table>
-`];
-
 Ollama is a popular platform for local serving of LLMs. In this
 tutorial, we’ll show how to integrate Ollama models into a Pixeltable
 workflow.
@@ -104,10 +73,6 @@ ollama.pull('qwen2.5:0.5b')
 ollama.generate('qwen2.5:0.5b', 'What is the capital of Missouri?')['response']
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-&quot;The&nbsp;capital&nbsp;city&nbsp;of&nbsp;Missouri&nbsp;is&nbsp;Jefferson&nbsp;City.&nbsp;It&#x27;s&nbsp;located&nbsp;in&nbsp;the&nbsp;central&nbsp;part&nbsp;of&nbsp;the&nbsp;state&nbsp;and&nbsp;serves&nbsp;as&nbsp;the&nbsp;administrative&nbsp;center&nbsp;for&nbsp;the&nbsp;Midwestern&nbsp;U.S.&nbsp;territory&nbsp;of&nbsp;Missouri.&nbsp;The&nbsp;state&nbsp;is&nbsp;known&nbsp;for&nbsp;its&nbsp;rich&nbsp;history,&nbsp;particularly&nbsp;regarding&nbsp;the&nbsp;Missouri&nbsp;River,&nbsp;which&nbsp;runs&nbsp;through&nbsp;its&nbsp;central&nbsp;parts&nbsp;and&nbsp;provides&nbsp;access&nbsp;to&nbsp;major&nbsp;cities&nbsp;along&nbsp;the&nbsp;border&nbsp;with&nbsp;Illinois.&quot;
-</pre>
-
 ## Install Pixeltable
 
 Now, let’s install Pixeltable and create a table for the demo.
@@ -140,14 +105,6 @@ t.add_computed_column(output=chat(
 t.add_computed_column(response=t.output.message.content)
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;\`ollama_demo\`.
-Created&nbsp;table&nbsp;\`chat\`.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
 We can insert our input prompts into the table now. As always,
 Pixeltable automatically updates the computed columns by calling the
 relevant Ollama endpoint.
@@ -158,15 +115,6 @@ relevant Ollama endpoint.
 t.insert(input='What are the most popular services for LLM inference?')
 t.select(t.input, t.response).show()
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.18&nbsp;cells/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;75.39&nbsp;rows/s\]
-Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.17&nbsp;cells/s\]
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn More
 

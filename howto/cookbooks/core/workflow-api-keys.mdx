@@ -137,9 +137,11 @@ hardcode credentials in your notebooks or scripts.
 
 ## Solution
 
-**What’s in this recipe:** - Set API keys using environment variables -
-Store keys in a config file for all projects - Use `getpass` for
-one-time session keys
+**What’s in this recipe:**
+
+-   Set API keys using environment variables
+-   Store keys in a config file for all projects
+-   Use `getpass` for one-time session keys
 
 You configure API keys using one of three methods, depending on your
 needs. Pixeltable automatically discovers credentials from environment
@@ -152,19 +154,13 @@ variables or config files—no code changes needed.
 
 ```python
 %pip install -qU pixeltable
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
 import pixeltable as pxt
 import os
 from pathlib import Path
-
 ```
 
 ### Option 1: environment variables
@@ -190,13 +186,7 @@ You can also set it in Python (useful for testing):
 # os.environ['OPENAI_API_KEY'] = 'sk-...'
 
 # Check if a key is set
-print(f"OPENAI_API_KEY set: {'OPENAI_API_KEY' in os.environ}")
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-OPENAI_API_KEY&nbsp;set:&nbsp;False
-</pre>
 
 ### Option 2: config file
 
@@ -225,16 +215,7 @@ You can check if the config file exists:
 # Check config file location
 config_dir = Path.home() / '.pixeltable'
 config_file = config_dir / 'config.toml'
-
-print(f"Config file location: {config_file}")
-print(f"Config file exists: {config_file.exists()}")
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Config&nbsp;file&nbsp;location:&nbsp;/Users/pjlb/.pixeltable/config.toml
-Config&nbsp;file&nbsp;exists:&nbsp;True
-</pre>
 
 ### Option 3: getpass (interactive)
 
@@ -249,7 +230,6 @@ import getpass
 # Uncomment to use interactively:
 # if 'OPENAI_API_KEY' not in os.environ:
 #     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
 
 ### Verify your configuration
@@ -260,21 +240,9 @@ Test that Pixeltable can access your credentials by checking the config:
 ```python
 # Check which API keys are available
 services = ['OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GOOGLE_API_KEY', 'MISTRAL_API_KEY']
-
-print("API keys found in environment:")
 for svc in services:
     status = "✓" if svc in os.environ else "✗"
-    print(f"  {status} {svc}")
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-API&nbsp;keys&nbsp;found&nbsp;in&nbsp;environment:
-&nbsp;&nbsp;✗&nbsp;OPENAI_API_KEY
-&nbsp;&nbsp;✗&nbsp;ANTHROPIC_API_KEY
-&nbsp;&nbsp;✗&nbsp;GOOGLE_API_KEY
-&nbsp;&nbsp;✗&nbsp;MISTRAL_API_KEY
-</pre>
 
 ## Explanation
 

@@ -37,6 +37,30 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">query</th>
+<th data-quarto-table-cell-role="th">tool_results</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What's the weather in Tokyo?</td>
+<td style="vertical-align: middle;">{"get_weather": ["Rainy, 65\u00b0F"], "get_stock_price": null}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What's the stock price of Apple?</td>
+<td style="vertical-align: middle;">{"get_weather": null, "get_stock_price": ["\$178.50"]}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What's the weather in Paris and the price of Microsoft stock?</td>
+<td style="vertical-align: middle;">{"get_weather": ["Partly cloudy, 68\u00b0F"], "get_stock_price":
+["\$378.90"]}</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -108,9 +132,11 @@ queries—for agents, chatbots, or automated workflows.
 
 ## Solution
 
-**What’s in this recipe:** - Define tools as Python functions - Let LLMs
-decide which tool to call - Automatically execute tool calls with
-`invoke_tools`
+**What’s in this recipe:**
+
+-   Define tools as Python functions
+-   Let LLMs decide which tool to call
+-   Automatically execute tool calls with `invoke_tools`
 
 You define tools with JSON schemas, pass them to the LLM, and use
 `invoke_tools` to execute the function calls.
@@ -120,7 +146,6 @@ You define tools with JSON schemas, pass them to the LLM, and use
 
 ```python
 %pip install -qU pixeltable openai
-
 ```
 
 
@@ -130,14 +155,12 @@ import getpass
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions import openai
-
 ```
 
 
@@ -145,8 +168,13 @@ from pixeltable.functions import openai
 # Create a fresh directory
 pxt.drop_dir('tools_demo', force=True)
 pxt.create_dir('tools_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;tools_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17de70850&gt;
+</pre>
 
 ### Define tools as UDFs
 
@@ -176,14 +204,12 @@ def get_stock_price(symbol: str) -> str:
         'AMZN': '$185.30',
     }
     return prices.get(symbol.upper(), f'Price not available for {symbol}')
-
 ```
 
 
 ```python
 # Create a Tools object with our functions
 tools = pxt.tools(get_weather, get_stock_price)
-
 ```
 
 ### Create tool-calling pipeline
@@ -195,8 +221,11 @@ queries = pxt.create_table(
     'tools_demo.queries',
     {'query': pxt.String}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;queries&#x27;.
+</pre>
 
 
 ```python
@@ -208,8 +237,12 @@ queries.add_computed_column(
         tools=tools  # Pass tools to the LLM
     )
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -217,8 +250,12 @@ queries.add_computed_column(
 queries.add_computed_column(
     tool_results=openai.invoke_tools(tools, queries.response)
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 ### Run tool-enabled queries
 
@@ -232,17 +269,21 @@ sample_queries = [
 ]
 
 queries.insert(sample_queries)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`queries\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;330.87&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;9&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
 # View results
-for row in queries.select(queries.query, queries.tool_results).collect():
-    print(f"Query: {row['query']}")
-    print(f"Tool Results: {row['tool_results']}\n")
-
+queries.select(queries.query, queries.tool_results).collect()
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ## Explanation
 
@@ -254,11 +295,11 @@ Query&nbsp;→&nbsp;LLM&nbsp;decides&nbsp;tool&nbsp;→&nbsp;invoke_tools&nbsp;e
 
 **Key components:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 **Supported providers:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 ## See also
 

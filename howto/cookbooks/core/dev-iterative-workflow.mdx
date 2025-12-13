@@ -263,10 +263,13 @@ model inference.
 
 ## Solution
 
-**What’s in this recipe:** - Test transformations on sample rows before
-applying to your full dataset - Save expressions as variables to
-guarantee consistent logic - Apply the iterate-then-add workflow with
-built-in functions, expressions, and custom UDFs
+**What’s in this recipe:**
+
+-   Test transformations on sample rows before applying to your full
+    dataset
+-   Save expressions as variables to guarantee consistent logic
+-   Apply the iterate-then-add workflow with built-in functions,
+    expressions, and custom UDFs
 
 You test transformation logic on sample rows before processing your
 entire dataset using the iterate-then-add workflow. This lets you
@@ -308,8 +311,9 @@ pxt.create_dir('demo_project')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;demo_project&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x157b96250&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x303999f50&gt;
 </pre>
 
 
@@ -334,7 +338,7 @@ t.insert([
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`lyrics\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;2755.78&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`lyrics\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;867.67&nbsp;rows/s\]
 Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 6&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
@@ -427,14 +431,18 @@ t.collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
 
-This pattern works with any expression: - Built-in functions:
-`resize_expr = t.image.resize((224, 224))` - UDFs:
-`watermark_expr = add_watermark(t.image, '© 2024')` - Chained
-operations: `processed_expr = t.image.resize((224, 224)).rotate(90)`
+This pattern works with any expression:
 
-Benefits: - Write the expression once, use it twice - No
-copy-paste—reuse the same logic - Easy to iterate: change in one place,
-test again
+-   Built-in functions: `resize_expr = t.image.resize((224, 224))`
+-   UDFs: `watermark_expr = add_watermark(t.image, '© 2024')`
+-   Chained operations:
+    `processed_expr = t.image.resize((224, 224)).rotate(90)`
+
+Benefits:
+
+-   Write the expression once, use it twice
+-   No copy-paste—reuse the same logic
+-   Easy to iterate: change in one place, test again
 
 ### Example 3: custom UDF
 

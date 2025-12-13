@@ -214,16 +214,17 @@ processing proprietary formats.
 
 ## Solution
 
-**What’s in this recipe:** - Create a custom iterator by subclassing
-`ComponentIterator` - Define input/output schemas with type
-annotations - Use the iterator with `pxt.create_view()`
+**What’s in this recipe:**
+
+-   Create a custom iterator by subclassing `ComponentIterator`
+-   Define input/output schemas with type annotations
+-   Use the iterator with `pxt.create_view()`
 
 ### Setup
 
 
 ```python
 %pip install -qU pixeltable
-
 ```
 
 
@@ -235,13 +236,12 @@ from typing import Any
 
 pxt.drop_dir('iterator_demo', force=True)
 pxt.create_dir('iterator_demo')
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;iterator_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x13f643450&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17f219990&gt;
 </pre>
 
 ### Example: sentence splitter iterator
@@ -254,19 +254,19 @@ import re
 
 class SentenceSplitter(ComponentIterator):
     """Split text into sentences."""
-    
+
     def __init__(self, text: str):
         # Split on sentence-ending punctuation
         self.sentences = [s.strip() for s in re.split(r'[.!?]+', text) if s.strip()]
         self.pos = 0
-    
+
     @classmethod
     def input_schema(cls) -> dict[str, ts.ColumnType]:
         # Define the input parameters and their Pixeltable types
         return {
             'text': ts.StringType(nullable=False)
         }
-    
+
     @classmethod
     def output_schema(cls, *args: Any, **kwargs: Any) -> tuple[dict[str, ts.ColumnType], list[str]]:
         # Define output columns and which ones are "unstored" (computed on-the-fly)
@@ -274,7 +274,7 @@ class SentenceSplitter(ComponentIterator):
             'sentence_idx': ts.IntType(),
             'sentence': ts.StringType(),
         }, []  # No unstored columns
-    
+
     def __next__(self) -> dict[str, Any]:
         if self.pos >= len(self.sentences):
             raise StopIteration
@@ -284,13 +284,12 @@ class SentenceSplitter(ComponentIterator):
         }
         self.pos += 1
         return result
-    
+
     def close(self) -> None:
         pass  # No resources to release
-    
+
     def set_pos(self, pos: int) -> None:
         self.pos = pos  # Support resumable iteration
-
 ```
 
 ### Create sample data
@@ -308,18 +307,17 @@ articles.insert([
         'content': 'AI is transforming industries. Machine learning models are getting better. The future looks bright!'
     },
     {
-        'title': 'Tech Update', 
+        'title': 'Tech Update',
         'content': 'New frameworks released today. Developers are excited? Performance improvements are significant.'
     },
 ])
 
 articles.collect()
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;articles&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;122.43&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;250.91&nbsp;rows/s\]
 Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -337,11 +335,10 @@ sentences_view = pxt.create_view(
 )
 
 sentences_view.collect()
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`sentences\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;3968.75&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`sentences\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;4370.58&nbsp;rows/s\]
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
@@ -354,7 +351,6 @@ sentences_view.select(
     sentences_view.sentence_idx,
     sentences_view.sentence
 ).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
@@ -365,14 +361,14 @@ sentences_view.select(
 ```python
 class SlidingWindowSplitter(ComponentIterator):
     """Split text into overlapping windows of words."""
-    
+
     def __init__(self, text: str, window_size: int = 5, step: int = 2):
         words = text.split()
         self.windows = []
         for i in range(0, len(words) - window_size + 1, step):
             self.windows.append(' '.join(words[i:i + window_size]))
         self.pos = 0
-    
+
     @classmethod
     def input_schema(cls) -> dict[str, ts.ColumnType]:
         return {
@@ -380,27 +376,26 @@ class SlidingWindowSplitter(ComponentIterator):
             'window_size': ts.IntType(),  # Optional parameter
             'step': ts.IntType(),          # Optional parameter
         }
-    
+
     @classmethod
     def output_schema(cls, *args: Any, **kwargs: Any) -> tuple[dict[str, ts.ColumnType], list[str]]:
         return {
             'window_idx': ts.IntType(),
             'window_text': ts.StringType(),
         }, []
-    
+
     def __next__(self) -> dict[str, Any]:
         if self.pos >= len(self.windows):
             raise StopIteration
         result = {'window_idx': self.pos, 'window_text': self.windows[self.pos]}
         self.pos += 1
         return result
-    
+
     def close(self) -> None:
         pass
-    
+
     def set_pos(self, pos: int) -> None:
         self.pos = pos
-
 ```
 
 
@@ -421,11 +416,10 @@ windows_view.select(
     windows_view.window_idx,
     windows_view.window_text
 ).collect()
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`windows\`:&nbsp;10&nbsp;rows&nbsp;\[00:00,&nbsp;5827.85&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`windows\`:&nbsp;10&nbsp;rows&nbsp;\[00:00,&nbsp;7230.31&nbsp;rows/s\]
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
@@ -460,11 +454,14 @@ class MyIterator(ComponentIterator):
         # Support resumable iteration
 ```
 
-**Key points:** - Use `ts.StringType()`, `ts.IntType()`,
-`ts.FloatType()`, `ts.ImageType()`, etc. for schemas - Add
-`nullable=False` for required inputs - Unstored columns (second return
-value of `output_schema`) are not persisted - Call with
-`Iterator.create(param=table.column)` in `create_view()`
+**Key points:**
+
+-   Use `ts.StringType()`, `ts.IntType()`, `ts.FloatType()`,
+    `ts.ImageType()`, etc. for schemas
+-   Add `nullable=False` for required inputs
+-   Unstored columns (second return value of `output_schema`) are not
+    persisted
+-   Call with `Iterator.create(param=table.column)` in `create_view()`
 
 ## See also
 

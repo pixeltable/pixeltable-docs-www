@@ -41,6 +41,46 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">content</th>
+<th data-quarto-table-cell-role="th">audio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Welcome to AI</td>
+<td style="vertical-align: middle;">Artificial intelligence is transforming how we work and live. From
+smart assistants to autonomous vehicles, AI is becoming part of our
+daily lives.</td>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+<audio controls>
+<source src="http://127.0.0.1:52941/Users/pjlb/.pixeltable/media/b448d43a91a64b1581bdb993cbf3b514/f5/f50b/b448d43a91a64b1581bdb993cbf3b514_6_2_f50bc2ab8d874fa1b2ae6e611fa5ae96.mp3" type="audio/mpeg">
+</source>
+</audio>
+</div></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Getting Started</td>
+<td style="vertical-align: middle;">To begin your journey with machine learning, start by understanding
+the basics of data preparation and model training.</td>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+<audio controls>
+<source src="http://127.0.0.1:52941/Users/pjlb/.pixeltable/media/b448d43a91a64b1581bdb993cbf3b514/b2/b2fa/b448d43a91a64b1581bdb993cbf3b514_6_2_b2fa0917c3604279aafe8c1af4f971e2.mp3" type="audio/mpeg">
+</source>
+</audio>
+</div></td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -114,8 +154,11 @@ content repurposing, or voice applications.
 
 ## Solution
 
-**What’s in this recipe:** - Generate speech with OpenAI TTS - Choose
-from multiple voice options - Store text and audio together
+**What’s in this recipe:**
+
+-   Generate speech with OpenAI TTS
+-   Choose from multiple voice options
+-   Store text and audio together
 
 You add a computed column that converts text to audio. The audio is
 cached and only regenerated when the source text changes.
@@ -125,7 +168,6 @@ cached and only regenerated when the source text changes.
 
 ```python
 %pip install -qU pixeltable openai
-
 ```
 
 
@@ -135,14 +177,12 @@ import getpass
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import speech
-
 ```
 
 
@@ -150,8 +190,13 @@ from pixeltable.functions.openai import speech
 # Create a fresh directory
 pxt.drop_dir('tts_demo', force=True)
 pxt.create_dir('tts_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;tts_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17f0d5bd0&gt;
+</pre>
 
 ### Create text-to-speech pipeline
 
@@ -162,8 +207,11 @@ articles = pxt.create_table(
     'tts_demo.articles',
     {'title': pxt.String, 'content': pxt.String}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;articles&#x27;.
+</pre>
 
 
 ```python
@@ -175,8 +223,12 @@ articles.add_computed_column(
         voice='alloy'
     )
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 ### Generate audio
 
@@ -195,29 +247,37 @@ sample_articles = [
 ]
 
 articles.insert(sample_articles)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;423.90&nbsp;rows/s\]
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
 # View articles with generated audio
 articles.select(articles.title, articles.content, articles.audio).collect()
-
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ## Explanation
 
 **OpenAI TTS models:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 **Voice options:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
-**Tips:** - Use `tts-1` for drafts and real-time applications - Use
-`tts-1-hd` for final production audio - Audio is cached—no regeneration
-on queries
+**Tips:**
+
+-   Use `tts-1` for drafts and real-time applications
+-   Use `tts-1-hd` for final production audio
+-   Audio is cached—no regeneration on queries
 
 ## See also
 

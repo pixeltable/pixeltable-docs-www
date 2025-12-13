@@ -139,8 +139,11 @@ source text:
 
 ## Solution
 
-**What’s in this recipe:** - Create a text table with embeddings -
-Search by semantic similarity - Combine with metadata filters
+**What’s in this recipe:**
+
+-   Create a text table with embeddings
+-   Search by semantic similarity
+-   Combine with metadata filters
 
 You add an embedding index to your text column. Pixeltable automatically
 generates embeddings for each row and enables similarity search.
@@ -150,18 +153,12 @@ generates embeddings for each row and enables similarity search.
 
 ```python
 %pip install -qU pixeltable sentence-transformers
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions.huggingface import sentence_transformer
-
 ```
 
 ### Create knowledge base
@@ -171,13 +168,12 @@ from pixeltable.functions.huggingface import sentence_transformer
 # Create a fresh directory
 pxt.drop_dir('search_demo', force=True)
 pxt.create_dir('search_demo')
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;search_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x344053e30&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x14208ca10&gt;
 </pre>
 
 
@@ -188,7 +184,6 @@ kb = pxt.create_table('search_demo.articles', {
     'content': pxt.String,
     'category': pxt.String
 })
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -199,24 +194,23 @@ Created&nbsp;table&nbsp;&#x27;articles&#x27;.
 ```python
 # Insert sample content
 kb.insert([
-    {'title': 'Debugging best practices', 
+    {'title': 'Debugging best practices',
      'content': 'Use logging, breakpoints, and unit tests to identify and fix issues in your code.',
      'category': 'engineering'},
-    {'title': 'Machine learning model optimization', 
+    {'title': 'Machine learning model optimization',
      'content': 'Improve training efficiency with batch normalization, learning rate schedules, and early stopping.',
      'category': 'ml'},
-    {'title': 'Production infrastructure setup', 
+    {'title': 'Production infrastructure setup',
      'content': 'Deploy applications using containers, load balancers, and automated scaling.',
      'category': 'devops'},
-    {'title': 'API design principles', 
+    {'title': 'API design principles',
      'content': 'Create RESTful endpoints with proper versioning, authentication, and error handling.',
      'category': 'engineering'},
 ])
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;356.61&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;577.69&nbsp;rows/s\]
 Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 4&nbsp;rows&nbsp;inserted,&nbsp;12&nbsp;values&nbsp;computed.
 </pre>
@@ -232,7 +226,6 @@ kb.add_embedding_index(
     column='content',
     string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2')
 )
-
 ```
 
 ### Search by meaning
@@ -252,7 +245,6 @@ results = (
     .limit(2)
 )
 results.collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
@@ -275,7 +267,6 @@ results = (
     .limit(2)
 )
 results.collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />

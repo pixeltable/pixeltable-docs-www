@@ -46,6 +46,99 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">sku</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">LAPTOP-001</td>
+<td style="vertical-align: middle;">MacBook Pro 14"</td>
+<td style="vertical-align: middle;">1999.</td>
+<td style="vertical-align: middle;">electronics</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">LAPTOP-002</td>
+<td style="vertical-align: middle;">ThinkPad X1</td>
+<td style="vertical-align: middle;">1499.</td>
+<td style="vertical-align: middle;">electronics</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">PHONE-001</td>
+<td style="vertical-align: middle;">iPhone 15 Pro</td>
+<td style="vertical-align: middle;">999.</td>
+<td style="vertical-align: middle;">electronics</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">CHAIR-001</td>
+<td style="vertical-align: middle;">Ergonomic Office Chair</td>
+<td style="vertical-align: middle;">449.</td>
+<td style="vertical-align: middle;">furniture</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">DESK-001</td>
+<td style="vertical-align: middle;">Standing Desk</td>
+<td style="vertical-align: middle;">699.</td>
+<td style="vertical-align: middle;">furniture</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">get_by_category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">[{"sku": "LAPTOP-001", "name": "MacBook Pro 14\"", "price": 1999.,
+"category": "electronics"}, {"sku": "LAPTOP-002", "name": "ThinkPad X1",
+"price": 1499., "category": "electronics"}, {"sku": "PHONE-001", "name":
+"iPhone 15 Pro", "price": 999., "category": "electronics"}]</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">order_id</th>
+<th data-quarto-table-cell-role="th">product_sku</th>
+<th data-quarto-table-cell-role="th">quantity</th>
+<th data-quarto-table-cell-role="th">product_info</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">ORD-001</td>
+<td style="vertical-align: middle;">LAPTOP-001</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">[{"sku": "LAPTOP-001", "name": "MacBook Pro 14\"", "price": 1999.,
+"category": "electronics"}]</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">ORD-002</td>
+<td style="vertical-align: middle;">PHONE-001</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">[{"sku": "PHONE-001", "name": "iPhone 15 Pro", "price": 999.,
+"category": "electronics"}]</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">ORD-003</td>
+<td style="vertical-align: middle;">CHAIR-001</td>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">[{"sku": "CHAIR-001", "name": "Ergonomic Office Chair", "price":
+449., "category": "furniture"}]</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -117,9 +210,11 @@ data—and need to look up rows by key values. Common scenarios:
 
 ## Solution
 
-**What’s in this recipe:** - Create lookup functions from tables with
-`retrieval_udf` - Query by single or multiple keys - Use lookups in
-computed columns for data enrichment
+**What’s in this recipe:**
+
+-   Create lookup functions from tables with `retrieval_udf`
+-   Query by single or multiple keys
+-   Use lookups in computed columns for data enrichment
 
 Use `pxt.retrieval_udf(table)` to automatically create a function that
 queries the table by its columns.
@@ -129,13 +224,11 @@ queries the table by its columns.
 
 ```python
 %pip install -qU pixeltable
-
 ```
 
 
 ```python
 import pixeltable as pxt
-
 ```
 
 
@@ -143,8 +236,13 @@ import pixeltable as pxt
 # Create a fresh directory
 pxt.drop_dir('lookup_demo', force=True)
 pxt.create_dir('lookup_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;lookup_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x143224e50&gt;
+</pre>
 
 ### Create a product catalog table
 
@@ -165,8 +263,15 @@ products.insert([
 ])
 
 products.collect()
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;products&#x27;.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&nbsp;502.31&nbsp;rows/s\]
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ### Create a lookup function with retrieval_udf
 
@@ -181,18 +286,12 @@ get_product = pxt.retrieval_udf(
     limit=1  # Return at most 1 result
 )
 # Check the function signature
-print(f"Function: {get_product.name}")
-print(f"Description: {get_product.comment()}")
-
-
 ```
 
 
 ```python
 # Look up a product by SKU
 result = products.select(get_product(sku='LAPTOP-001')).limit(1).collect()
-print("Lookup result:", result[0]['get_product'])
-
 ```
 
 ### Look up by category (multiple results)
@@ -202,19 +301,17 @@ print("Lookup result:", result[0]['get_product'])
 # Create a category lookup (returns multiple products)
 get_by_category = pxt.retrieval_udf(
     products,
-    name='get_by_category',
-    description='Get all products in a category',
-    parameters=['category'],
+    name="get_by_category",
+    description="Get all products in a category",
+    parameters=["category"],
     limit=10  # Return up to 10 products
 )
 
 # Find all electronics
-result = products.select(get_by_category(category='electronics')).limit(1).collect()
-print("Electronics products:")
-for product in result[0]['get_by_category']:
-    print(f"  {product['sku']}: {product['name']} - ${product['price']}")
-
+products.select(get_by_category(category="electronics")).limit(1).collect()
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 ### Use lookups for data enrichment
 
@@ -231,8 +328,14 @@ orders.insert([
     {'order_id': 'ORD-002', 'product_sku': 'PHONE-001', 'quantity': 1},
     {'order_id': 'ORD-003', 'product_sku': 'CHAIR-001', 'quantity': 4},
 ])
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;orders&#x27;.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1186.28&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
@@ -246,22 +349,29 @@ orders.select(
     orders.quantity,
     orders.product_info
 ).collect()
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 ## Explanation
 
 **`retrieval_udf` parameters:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 
 **Use cases:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
 
-**Tips:** - Use `limit=1` for unique key lookups - Specify only needed
-columns in `parameters` for cleaner APIs - Add descriptions for LLM tool
-integration
+**Tips:**
+
+-   Use `limit=1` for unique key lookups
+-   Specify only needed columns in `parameters` for cleaner APIs
+-   Add descriptions for LLM tool integration
 
 ## See also
 

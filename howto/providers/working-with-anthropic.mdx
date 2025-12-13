@@ -24,21 +24,21 @@ export const quartoRawHtml =
 <tbody>
 <tr>
 <td style="vertical-align: middle;">What was the outcome of the 1904 US Presidential election?</td>
-<td style="vertical-align: middle;">The outcome of the 1904 US presidential election was: - The
-Republican candidate, Theodore Roosevelt, won the election. Roosevelt
-had become president in 1901 after the assassination of President
-William McKinley, and this was his first election as the Republican
-nominee. - Roosevelt defeated the Democratic candidate, Alton B. Parker,
-by a wide margin, winning 56.4% of the popular vote and 336 electoral
-votes compared to Parker's 37.6% of the popular vote and 140 electoral
-votes. - Roosev ...... cies and his aggressive foreign policy, known as
-"Big Stick" diplomacy. - The election was also notable for the fact that
-it was the first time a sitting president (Roosevelt) was elected in his
-own right after originally assuming the presidency due to the death of
-his predecessor. So in summary, Theodore Roosevelt won a decisive
-victory over Alton B. Parker, cementing his status as a powerful and
-popular president during the Progressive Era of American politics in the
-early 20th century.</td>
+<td style="vertical-align: middle;"># 1904 US Presidential Election **Winner: Theodore Roosevelt
+(Republican)** ## Key Results: - **Roosevelt**: 336 electoral votes,
+56.4% of popular vote (~7.6 million votes) - **Alton B. Parker**
+(Democrat): 140 electoral votes, 37.6% of popular vote (~5.1 million
+votes) - **Eugene V. Debs** (Socialist): 402,283 popular votes (3.3%) ##
+Significance: - Roosevelt won decisively and in his own right (he had
+assumed the presidency in 1901 after McKinley's assassination) - His
+victory gave him a strong mandate to pursue his progressive policies -
+He remained in office through 1909, becoming one of the most influential
+presidents of the early 20th century - Parker's poor showing reflected
+the Democrats' weakness during this period and the popularity of
+Roosevelt's "Square Deal" domestic policies and assertive foreign policy
+The election is often remembered as a landslide victory that validated
+Roosevelt's presidency and the Progressive movement's growing influence
+in American politics.</td>
 </tr>
 </tbody>
 </table>
@@ -87,9 +87,8 @@ pxt.create_dir('anthropic_demo')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;\`anthropic_demo\`.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x33944b3a0&gt;
+Created&nbsp;directory&nbsp;&#x27;anthropic_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x3149b2b10&gt;
 </pre>
 
 ## Messages
@@ -109,21 +108,20 @@ t = pxt.create_table('anthropic_demo.chat', {'input': pxt.String})
 msgs = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=anthropic.messages(
     messages=msgs,
-    model='claude-haiku-4-5-20250514',
+    model='claude-haiku-4-5-20251001',
     max_tokens=300,
     model_kwargs={
         # Optional dict with parameters for the Anthropic API
         'system': 'Respond to the prompt with detailed historical information.',
-        'top_k': 40,
-        'top_p': 0.9,
         'temperature': 0.7
     }
 ))
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;\`chat\`.
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
 </pre>
 
 
@@ -134,6 +132,7 @@ t.add_computed_column(response=t.output.content[0].text)
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
 </pre>
 
 
@@ -144,9 +143,7 @@ t.select(t.input, t.response).show()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:01&lt;00:00,&nbsp;&nbsp;1.54&nbsp;cells/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;149.28&nbsp;rows/s\]
-Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:01&lt;00:00,&nbsp;&nbsp;1.53&nbsp;cells/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;203.87&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 

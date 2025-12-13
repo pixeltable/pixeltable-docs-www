@@ -37,6 +37,35 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">entities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tech Acquisition</td>
+<td style="vertical-align: middle;">{"people":["Satya
+Nadella"],"organizations":["Microsoft"],"locations":["Seattle"],"dates":["March
+2024"]}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Research Breakthrough</td>
+<td style="vertical-align: middle;">{"people":["Dr. Sarah Chen"],"organizations":["Stanford
+University","National Science Foundation"],"locations":["Palo
+Alto","California"],"dates":[]}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Sports Update</td>
+<td style="vertical-align: middle;">{"people":["LeBron James","Darvin Ham"],"organizations":["Los
+Angeles Lakers","Boston Celtics","Staples
+Center"],"locations":[],"dates":["Tuesday night"]}</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -86,9 +115,11 @@ analysis, search, or integration with other systems.
 
 ## Solution
 
-**What’s in this recipe:** - Extract entities as structured JSON - Use
-OpenAI’s structured output for reliable parsing - Access extracted
-entities as queryable columns
+**What’s in this recipe:**
+
+-   Extract entities as structured JSON
+-   Use OpenAI’s structured output for reliable parsing
+-   Access extracted entities as queryable columns
 
 You use structured output to get entities in a consistent JSON format.
 The entities are stored as JSON columns that you can query and filter.
@@ -98,8 +129,17 @@ The entities are stored as JSON columns that you can query and filter.
 
 ```python
 %pip install -qU pixeltable openai
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
+</pre>
 
 
 ```python
@@ -108,7 +148,6 @@ import getpass
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
 
 
@@ -116,7 +155,6 @@ if 'OPENAI_API_KEY' not in os.environ:
 import pixeltable as pxt
 from pixeltable.functions.openai import chat_completions
 import json
-
 ```
 
 
@@ -124,8 +162,12 @@ import json
 # Create a fresh directory
 pxt.drop_dir('entities_demo', force=True)
 pxt.create_dir('entities_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;entities_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x306118050&gt;
+</pre>
 
 ### Define entity extraction schema
 
@@ -166,7 +208,6 @@ entity_schema = {
         }
     }
 }
-
 ```
 
 ### Create extraction pipeline
@@ -178,8 +219,11 @@ articles = pxt.create_table(
     'entities_demo.articles',
     {'title': pxt.String, 'content': pxt.String}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;articles&#x27;.
+</pre>
 
 
 ```python
@@ -190,11 +234,15 @@ articles.add_computed_column(
     extraction_response=chat_completions(
         messages=[{'role': 'user', 'content': extraction_prompt}],
         model='gpt-4o-mini',
-        response_format=entity_schema
+        model_kwargs={'response_format': entity_schema}
     )
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -202,8 +250,12 @@ articles.add_computed_column(
 articles.add_computed_column(
     entities=articles.extraction_response.choices[0].message.content
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 ### Extract entities from text
 
@@ -226,20 +278,21 @@ sample_articles = [
 ]
 
 articles.insert(sample_articles)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;404.21&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;12&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
 # View extracted entities
-for row in articles.select(articles.title, articles.entities).collect():
-    print(f"\n{row['title']}:")
-    entities = json.loads(row['entities'])
-    for entity_type, values in entities.items():
-        if values:
-            print(f"  {entity_type}: {', '.join(values)}")
-
+articles.select(articles.title, articles.entities).collect()
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ## Explanation
 
@@ -251,7 +304,7 @@ error handling needed.
 
 **Common entity types:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 **Customizing the schema:**
 

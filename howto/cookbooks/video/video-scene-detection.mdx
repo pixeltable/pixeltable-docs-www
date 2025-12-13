@@ -45,6 +45,51 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">scenes_content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Sample video 1</td>
+<td style="vertical-align: middle;">[{"duration": 25.692, "start_pts": 0, "start_time": 0.}]</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">scenes_fade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Sample video 1</td>
+<td style="vertical-align: middle;">[{"duration": 25.692, "start_pts": 0, "start_time": 0.}]</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">scenes_adaptive</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Sample video 1</td>
+<td style="vertical-align: middle;">[{"duration": 25.526, "start_pts": 0, "start_time": 0.}]</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <colgroup>
 <col style="width: 24%" />
@@ -115,10 +160,11 @@ You have video files and need to identify scene boundaries for:
 
 ## Solution
 
-**What’s in this recipe:** - Detect hard cuts with
-`scene_detect_content()` - Find fade transitions with
-`scene_detect_threshold()` - Use adaptive detection with
-`scene_detect_adaptive()`
+**What’s in this recipe:**
+
+-   Detect hard cuts with `scene_detect_content()`
+-   Find fade transitions with `scene_detect_threshold()`
+-   Use adaptive detection with `scene_detect_adaptive()`
 
 Three built-in detection methods handle different transition types using
 PySceneDetect.
@@ -128,13 +174,11 @@ PySceneDetect.
 
 ```python
 %pip install -qU pixeltable scenedetect
-
 ```
 
 
 ```python
 import pixeltable as pxt
-
 ```
 
 
@@ -142,8 +186,13 @@ import pixeltable as pxt
 # Create a fresh directory
 pxt.drop_dir('scene_demo', force=True)
 pxt.create_dir('scene_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;scene_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x13f816bd0&gt;
+</pre>
 
 ### Load sample videos
 
@@ -162,10 +211,14 @@ videos.insert([
         'title': 'Sample video 1'
     }
 ])
-print(f"Loaded {videos.count()} video(s)")
-
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;videos&#x27;.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`videos\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;200.53&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;3&nbsp;values&nbsp;computed.
+</pre>
 
 ### Detect scenes with content-based detection
 
@@ -180,13 +233,14 @@ videos.add_computed_column(
 )
 
 # View detected scenes
-result = videos.select(videos.title, videos.scenes_content).collect()
-for row in result:
-    print(f"\n{row['title']}:")
-    for i, scene in enumerate(row['scenes_content']):
-        print(f"  Scene {i+1}: {scene['start_time']:.2f}s - duration {scene['duration']:.2f}s")
-
+videos.select(videos.title, videos.scenes_content).collect()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ### Detect fade transitions
 
@@ -201,13 +255,14 @@ videos.add_computed_column(
 )
 
 # View fade-detected scenes
-result = videos.select(videos.title, videos.scenes_fade).collect()
-for row in result:
-    print(f"\n{row['title']} (fade detection):")
-    for i, scene in enumerate(row['scenes_fade']):
-        print(f"  Scene {i+1}: {scene['start_time']:.2f}s - duration {scene['duration']:.2f}s")
-
+videos.select(videos.title, videos.scenes_fade).collect()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 ### Adaptive detection for complex videos
 
@@ -223,19 +278,20 @@ videos.add_computed_column(
 )
 
 # View adaptively-detected scenes
-result = videos.select(videos.title, videos.scenes_adaptive).collect()
-for row in result:
-    print(f"\n{row['title']} (adaptive detection):")
-    for i, scene in enumerate(row['scenes_adaptive']):
-        print(f"  Scene {i+1}: {scene['start_time']:.2f}s - duration {scene['duration']:.2f}s")
-
+videos.select(videos.title, videos.scenes_adaptive).collect()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 ## Explanation
 
 **Detection methods:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 
 **Output format:**
 
@@ -252,7 +308,7 @@ Each method returns a list of scene dictionaries:
 
 **Tuning tips:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
 
 ## See also
 

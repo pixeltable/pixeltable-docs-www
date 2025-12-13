@@ -79,10 +79,9 @@ export const quartoRawHtml =
 <td style="vertical-align: middle;">0.558</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;">Good Morning. This is the Market Digest for Friday, June 21, 2024,
-with analysis of the financial markets and comments on Accenture
-plc.</td>
-<td style="vertical-align: middle;">0.482</td>
+<td style="vertical-align: middle;">This is the Market Digest for Friday, June 21, 2024, with analysis
+of the financial markets and comments on Accenture plc.</td>
+<td style="vertical-align: middle;">0.489</td>
 </tr>
 <tr>
 <td style="vertical-align: middle;">MARKET DIGEST</td>
@@ -99,10 +98,6 @@ plc.</td>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="vertical-align: middle;"><code>paragraph</code></td>
-<td style="vertical-align: middle;">Split on paragraph breaks</td>
-</tr>
 <tr>
 <td style="vertical-align: middle;"><code>sentence</code></td>
 <td style="vertical-align: middle;">Split on sentence boundaries</td>
@@ -140,11 +135,13 @@ need to:
 
 ## Solution
 
-**What’s in this recipe:** - Split PDFs into paragraphs or sentences -
-Control chunk size with token limits - Add embeddings for semantic
-search
+**What’s in this recipe:**
 
-You create a view with a DocumentSplitter iterator that automatically
+-   Split PDFs into sentences with token limits
+-   Control chunk size with token limits
+-   Add embeddings for semantic search
+
+You create a view with a `document_splitter` iterator that automatically
 breaks documents into chunks. Then you add an embedding index for
 semantic search.
 
@@ -152,20 +149,14 @@ semantic search.
 
 
 ```python
-%pip install -qU pixeltable sentence-transformers
-
+%pip install -qU pixeltable sentence-transformers spacy
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
 import pixeltable as pxt
-from pixeltable.iterators import DocumentSplitter
+from pixeltable.functions.document import document_splitter
 from pixeltable.functions.huggingface import sentence_transformer
-
 ```
 
 ### Load documents
@@ -175,20 +166,17 @@ from pixeltable.functions.huggingface import sentence_transformer
 # Create a fresh directory
 pxt.drop_dir('rag_demo', force=True)
 pxt.create_dir('rag_demo')
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;rag_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x16e388350&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x3d8e31710&gt;
 </pre>
 
 
 ```python
 # Create table for documents
 docs = pxt.create_table('rag_demo.documents', {'document': pxt.Document})
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -201,18 +189,17 @@ Created&nbsp;table&nbsp;&#x27;documents&#x27;.
 docs.insert([
     {'document': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Argus-Market-Digest-June-2024.pdf'}
 ])
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;297.36&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;775.86&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
 </pre>
 
 ### Split into chunks
 
-Create a view that splits each document into paragraphs with a token
+Create a view that splits each document into sentences with a token
 limit:
 
 
@@ -221,24 +208,22 @@ limit:
 chunks = pxt.create_view(
     'rag_demo.chunks',
     docs,
-    iterator=DocumentSplitter.create(
-        document=docs.document,
-        separators='paragraph,token_limit',  # Split by paragraph with token limit
+    iterator=document_splitter(
+        docs.document,
+        separators='sentence,token_limit',  # Split by sentence with token limit
         limit=300  # Max 300 tokens per chunk
     )
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;49&nbsp;rows&nbsp;\[00:00,&nbsp;16398.38&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;217&nbsp;rows&nbsp;\[00:00,&nbsp;42111.88&nbsp;rows/s\]
 </pre>
 
 
 ```python
 # View the chunks
 chunks.select(chunks.text).head(5)
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
@@ -254,7 +239,6 @@ chunks.add_embedding_index(
     column='text',
     string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2')
 )
-
 ```
 
 ### Search your documents
@@ -274,7 +258,6 @@ results = (
     .limit(3)
 )
 results.collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
@@ -285,7 +268,7 @@ results.collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
-You can combine separators: `separators='paragraph,token_limit'`
+You can combine separators: `separators='sentence,token_limit'`
 
 **Chunk sizing:**
 

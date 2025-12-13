@@ -169,8 +169,11 @@ models, add computed columns to, or combine with other data sources.
 
 ## Solution
 
-**What’s in this recipe:** - Import CSV files directly into tables -
-Import from Pandas DataFrames - Handle different data types
+**What’s in this recipe:**
+
+-   Import CSV files directly into tables
+-   Import from Pandas DataFrames
+-   Handle different data types
 
 You use `pxt.create_table()` with a `source` parameter to create a table
 from a CSV file, or insert DataFrame rows into an existing table.
@@ -180,27 +183,12 @@ from a CSV file, or insert DataFrame rows into an existing table.
 
 ```python
 %pip install -qU pixeltable pandas
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-ERROR:&nbsp;pip&#x27;s&nbsp;dependency&nbsp;resolver&nbsp;does&nbsp;not&nbsp;currently&nbsp;take&nbsp;into&nbsp;account&nbsp;all&nbsp;the&nbsp;packages&nbsp;that&nbsp;are&nbsp;installed.&nbsp;This&nbsp;behaviour&nbsp;is&nbsp;the&nbsp;source&nbsp;of&nbsp;the&nbsp;following&nbsp;dependency&nbsp;conflicts.
-whisperx&nbsp;3.7.4&nbsp;requires&nbsp;pandas&lt;2.3.0,&gt;=2.2.3,&nbsp;but&nbsp;you&nbsp;have&nbsp;pandas&nbsp;2.3.3&nbsp;which&nbsp;is&nbsp;incompatible.
-whisperx&nbsp;3.7.4&nbsp;requires&nbsp;torch~=2.8.0,&nbsp;but&nbsp;you&nbsp;have&nbsp;torch&nbsp;2.9.1&nbsp;which&nbsp;is&nbsp;incompatible.
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
 import pixeltable as pxt
 import pandas as pd
-
 ```
 
 
@@ -208,13 +196,12 @@ import pandas as pd
 # Create a fresh directory
 pxt.drop_dir('import_demo', force=True)
 pxt.create_dir('import_demo')
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;import_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30d30b550&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x141eca110&gt;
 </pre>
 
 ### Import CSV directly
@@ -230,12 +217,13 @@ population = pxt.create_table(
     'import_demo.population',
     source=csv_url
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;population&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`population\`:&nbsp;234&nbsp;rows&nbsp;\[00:00,&nbsp;15126.02&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`population\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`population\`:&nbsp;234&nbsp;rows&nbsp;\[00:00,&nbsp;9032.63&nbsp;rows/s\]
 Inserted&nbsp;234&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -243,7 +231,6 @@ Inserted&nbsp;234&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # View the imported data
 population.head(5)
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
@@ -268,12 +255,13 @@ users = pxt.create_table('import_demo.users', {
     'city': pxt.String
 })
 users.insert(df)
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;users&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`users\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1806.07&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`users\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`users\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;923.31&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
@@ -282,7 +270,6 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # View the data
 users.collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
@@ -300,8 +287,10 @@ override types using `schema_overrides`.
 
 **Large files:**
 
-For very large CSV files, consider: - Using `create_table(source=...)`
-which streams data - Importing in batches if memory is limited
+For very large CSV files, consider:
+
+-   Using `create_table(source=...)` which streams data
+-   Importing in batches if memory is limited
 
 ## See also
 

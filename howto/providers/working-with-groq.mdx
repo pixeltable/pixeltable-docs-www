@@ -12,35 +12,6 @@ above links.</Tip>
 
 
 
-export const quartoRawHtml =
-[`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">input</th>
-<th data-quarto-table-cell-role="th">response</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">How many islands are in the Aleutian island chain?</td>
-<td style="vertical-align: middle;">The Aleutian Island chain is a part of Alaska, United States, and it
-stretches for approximately 1,200 miles (1,950 km) westward from the
-Alaska Peninsula toward Japan. The chain consists of more than 300
-islands, with the largest island being Unimak Island. According to the
-Alaska Geographic Society, there are 314 islands in the Aleutian Island
-chain, although the exact number can vary depending on how the islands
-are defined and counted. Some sources may group certain islands together
-or recognize smaller islands that others do not. The Aleutian Islands
-are a remote and rugged chain, with many of the islands being
-uninhabited. The islands are volcanic in origin, and they are home to a
-diverse range of wildlife, including sea otters, puffins, and brown
-bears.</td>
-</tr>
-</tbody>
-</table>
-`];
-
 Pixeltable’s Groq integration enables you to access Groq models via the
 Groq API.
 
@@ -82,12 +53,6 @@ pxt.drop_dir('groq_demo', force=True)
 pxt.create_dir('groq_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;&#x27;groq_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30bb80b20&gt;
-</pre>
-
 ## Chat Completions
 
 Create a Table: In Pixeltable, create a table with columns to represent
@@ -115,22 +80,11 @@ t.add_computed_column(output=groq.chat_completions(
 ))
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;\`chat\`.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
-</pre>
-
 
 ```python
 # Parse the response into a new column
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
-</pre>
 
 
 ```python
@@ -138,13 +92,6 @@ UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updat
 t.insert([{'input': 'How many islands are in the Aleutian island chain?'}])
 t.select(t.input, t.response).head()
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;76.95&nbsp;rows/s\]
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn more
 

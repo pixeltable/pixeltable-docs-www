@@ -37,6 +37,45 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">audio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Sample Video</td>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+<audio controls>
+<source src="http://127.0.0.1:52039/Users/pjlb/.pixeltable/media/0441741fa9664272ba20c3ce27346376/71/71a9/0441741fa9664272ba20c3ce27346376_6_2_71a917911b114445917b6301fb1d9091.mp3" type="audio/mpeg">
+</source>
+</audio>
+</div></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">transcript</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Sample Video</td>
+<td style="vertical-align: middle;">vaporized one .</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -75,9 +114,11 @@ pipeline.
 
 ## Solution
 
-**What’s in this recipe:** - Extract audio from video as a computed
-column - Choose audio format (mp3, wav, flac) - Chain with transcription
-for automatic video-to-text
+**What’s in this recipe:**
+
+-   Extract audio from video as a computed column
+-   Choose audio format (mp3, wav, flac)
+-   Chain with transcription for automatic video-to-text
 
 You use the `extract_audio` function to create an audio column from
 video. This integrates seamlessly with transcription and other audio
@@ -88,14 +129,12 @@ processing.
 
 ```python
 %pip install -qU pixeltable
-
 ```
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions.video import extract_audio
-
 ```
 
 
@@ -103,8 +142,13 @@ from pixeltable.functions.video import extract_audio
 # Create a fresh directory
 pxt.drop_dir('audio_extract_demo', force=True)
 pxt.create_dir('audio_extract_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;audio_extract_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1061fc510&gt;
+</pre>
 
 ### Extract audio from video
 
@@ -115,8 +159,11 @@ videos = pxt.create_table(
     'audio_extract_demo.videos',
     {'title': pxt.String, 'video': pxt.Video}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;videos&#x27;.
+</pre>
 
 
 ```python
@@ -124,27 +171,37 @@ videos = pxt.create_table(
 videos.add_computed_column(
     audio=extract_audio(videos.video, format='mp3')
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
-# Insert a sample video
-video_url = 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/videos/stockholm-walk.mp4'
+# Insert a sample video (from multimedia-commons with audio)
+video_url = 's3://multimedia-commons/data/videos/mp4/ffe/ffb/ffeffbef41bbc269810b2a1a888de.mp4'
 
 videos.insert([{
-    'title': 'Stockholm Walk',
+    'title': 'Sample Video',
     'video': video_url
 }])
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`videos\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;207.52&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;4&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
 # View results
 videos.select(videos.title, videos.audio).collect()
-
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ### Chain with transcription
 
@@ -154,7 +211,6 @@ Add transcription as a follow-up computed column:
 ```python
 # Install whisper for transcription
 %pip install -qU openai-whisper
-
 ```
 
 
@@ -165,8 +221,12 @@ from pixeltable.functions import whisper
 videos.add_computed_column(
     transcription=whisper.transcribe(videos.audio, model='base.en')
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;updated,&nbsp;1&nbsp;value&nbsp;computed.
+</pre>
 
 
 ```python
@@ -174,21 +234,26 @@ videos.add_computed_column(
 videos.add_computed_column(
     transcript=videos.transcription.text
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;updated,&nbsp;1&nbsp;value&nbsp;computed.
+</pre>
 
 
 ```python
 # View the full pipeline results
 videos.select(videos.title, videos.transcript).collect()
-
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 ## Explanation
 
 **Audio format options:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 **Pipeline flow:**
 

@@ -12,30 +12,6 @@ above links.</Tip>
 
 
 
-export const quartoRawHtml =
-[`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">input</th>
-<th data-quarto-table-cell-role="th">response</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">What three species of fish have the highest mercury content?</td>
-<td style="vertical-align: middle;">The three species of fish that typically have the highest mercury
-content are: 1. King Mackerel 2. Shark 3. Swordfish These fish are often
-at the top of the food chain and consume other fish that have
-accumulated mercury in their bodies. As a result, they tend to have
-higher mercury levels. It's recommended to limit consumption of these
-fish, especially for pregnant women, nursing mothers, young children,
-and people who eat fish frequently.</td>
-</tr>
-</tbody>
-</table>
-`];
-
 Pixeltable’s Mistral AI integration enables you to access Mistral’s LLM
 and other models via the Mistral AI API.
 
@@ -78,12 +54,6 @@ pxt.drop_dir('mistralai_demo', force=True)
 pxt.create_dir('mistralai_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;\`mistralai_demo\`.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x3381254c0&gt;
-</pre>
-
 ## Messages
 
 Create a Table: In Pixeltable, create a table with columns to represent
@@ -101,7 +71,7 @@ t = pxt.create_table('mistralai_demo.chat', {'input': pxt.String})
 messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=chat_completions(
     messages=messages,
-    model='mistral-nemo-latest',
+    model='mistral-small-latest',
     model_kwargs={
         # Optional dict with parameters for the Mistral API
         'max_tokens': 300,
@@ -111,20 +81,11 @@ t.add_computed_column(output=chat_completions(
 ))
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;\`chat\`.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
 
 ```python
 # Parse the response into a new column
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
 
 
 ```python
@@ -132,15 +93,6 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 t.insert([{'input': 'What three species of fish have the highest mercury content?'}])
 t.select(t.input, t.response).show()
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.26&nbsp;cells/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;134.12&nbsp;rows/s\]
-Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.26&nbsp;cells/s\]
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn more
 

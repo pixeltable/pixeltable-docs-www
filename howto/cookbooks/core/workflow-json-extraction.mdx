@@ -30,9 +30,9 @@ export const quartoRawHtml =
 </tr>
 <tr>
 <td style="vertical-align: middle;">Write a haiku about coding</td>
-<td style="vertical-align: middle;">Lines of logic flow, Silent keys echo the thought, Creation in
-code.</td>
-<td style="vertical-align: middle;">30</td>
+<td style="vertical-align: middle;">Fingers dance on keys, Logic flows like whispered winds, Worlds born
+line by line.</td>
+<td style="vertical-align: middle;">34</td>
 </tr>
 </tbody>
 </table>
@@ -85,9 +85,11 @@ processing.
 
 ## Solution
 
-**What’s in this recipe:** - Extract text content from chat
-completions - Access nested JSON fields - Create separate columns for
-different fields
+**What’s in this recipe:**
+
+-   Extract text content from chat completions
+-   Access nested JSON fields
+-   Create separate columns for different fields
 
 You use JSON path notation to extract specific fields from API responses
 and store them in computed columns.
@@ -103,18 +105,12 @@ import getpass
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions import openai
-
 ```
 
 ### Create prompts table
@@ -124,18 +120,17 @@ from pixeltable.functions import openai
 # Create a fresh directory
 pxt.drop_dir('json_demo', force=True)
 pxt.create_dir('json_demo')
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;json_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17cdcf920&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x313d7a150&gt;
 </pre>
 
 
 ```python
 t = pxt.create_table('json_demo.prompts', {'prompt': pxt.String})
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -148,11 +143,10 @@ t.insert([
     {'prompt': 'What is the capital of France?'},
     {'prompt': 'Write a haiku about coding'},
 ])
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`prompts\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;636.71&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`prompts\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;325.83&nbsp;rows/s\]
 Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 2&nbsp;rows&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
 </pre>
@@ -168,7 +162,6 @@ t.add_computed_column(
         model='gpt-4o-mini'
     )
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -191,7 +184,6 @@ t.add_computed_column(
 t.add_computed_column(
     tokens=t.response.usage.total_tokens
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -204,7 +196,6 @@ Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # View clean results
 t.select(t.prompt, t.text, t.tokens).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />

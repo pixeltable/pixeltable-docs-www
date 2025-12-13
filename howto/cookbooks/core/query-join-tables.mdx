@@ -382,10 +382,12 @@ metadata.
 
 ## Solution
 
-**What’s in this recipe:** - Inner join to match rows from both tables -
-Left join to keep all rows from the first table - Cross join for
-Cartesian product (all combinations) - Join with filtering, aggregation,
-and saving results
+**What’s in this recipe:**
+
+-   Inner join to match rows from both tables
+-   Left join to keep all rows from the first table
+-   Cross join for Cartesian product (all combinations)
+-   Join with filtering, aggregation, and saving results
 
 Use `table1.join(table2, on=..., how=...)` to combine tables based on
 matching columns.
@@ -395,14 +397,12 @@ matching columns.
 
 ```python
 %pip install -qU pixeltable
-
 ```
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions import sum as pxt_sum, count as pxt_count
-
 ```
 
 
@@ -410,13 +410,12 @@ from pixeltable.functions import sum as pxt_sum, count as pxt_count
 # Create a fresh directory
 pxt.drop_dir('join_demo', force=True)
 pxt.create_dir('join_demo')
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;join_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x3132865d0&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1494a4a90&gt;
 </pre>
 
 ### Create sample tables
@@ -436,12 +435,11 @@ customers.insert([
 ])
 
 customers.collect()
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;customers&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;270.48&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;378.55&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -463,12 +461,11 @@ orders.insert([
 ])
 
 orders.collect()
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;orders&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;2076.90&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;1261.07&nbsp;rows/s\]
 Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -488,7 +485,6 @@ customers.join(
     orders.product,
     orders.amount
 ).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
@@ -508,7 +504,6 @@ customers.join(
     orders.product,
     orders.amount
 ).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
@@ -530,7 +525,6 @@ customers.join(
     orders.product,
     orders.amount
 ).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
@@ -549,7 +543,6 @@ customers.join(
     total_spent=pxt_sum(orders.amount),
     order_count=pxt_count(orders.order_id)
 ).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
@@ -573,12 +566,11 @@ customers.join(products, how='cross').select(
     products.product,
     products.price
 ).collect()
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;products&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;1012.14&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;815.30&nbsp;rows/s\]
 Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -601,7 +593,6 @@ customer_orders_df = customers.join(
 ).collect().to_pandas()
 
 customer_orders_df
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[8] }} />
@@ -619,12 +610,11 @@ orders_report = pxt.create_table(
 )
 
 orders_report.collect()
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;orders_report&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders_report\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1017.62&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`orders_report\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`orders_report\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;529.36&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -670,10 +660,13 @@ df = query.select(name=t.col, ...).collect().to_pandas()
 new_table = pxt.create_table('path', source=df)
 ```
 
-**Tips:** - Use explicit predicates (`t1.col == t2.col`) for clarity -
-Chain `.where()` after join to filter results - Chain `.group_by()` for
-aggregations - Use `'left'` join when the first table is your “main”
-table - Use named columns in `.select(name=col)` for clean column names
+**Tips:**
+
+-   Use explicit predicates (`t1.col == t2.col`) for clarity
+-   Chain `.where()` after join to filter results
+-   Chain `.group_by()` for aggregations
+-   Use `'left'` join when the first table is your “main” table
+-   Use named columns in `.select(name=col)` for clean column names
 
 ## See also
 

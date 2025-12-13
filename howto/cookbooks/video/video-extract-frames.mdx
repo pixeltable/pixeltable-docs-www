@@ -158,11 +158,13 @@ You have video files and need to extract frames for:
 
 ## Solution
 
-**What’s in this recipe:** - Extract frames at a fixed rate (FPS) -
-Extract a specific number of frames - Extract only keyframes for
-efficiency
+**What’s in this recipe:**
 
-You create a view with a FrameIterator that automatically extracts
+-   Extract frames at a fixed rate (FPS)
+-   Extract a specific number of frames
+-   Extract only keyframes for efficiency
+
+You create a view with a `frame_iterator` that automatically extracts
 frames from each video. New videos are processed without extra code.
 
 ### Setup
@@ -170,18 +172,12 @@ frames from each video. New videos are processed without extra code.
 
 ```python
 %pip install -qU pixeltable
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
 import pixeltable as pxt
-from pixeltable.iterators import FrameIterator
-
+from pixeltable.functions.video import frame_iterator
 ```
 
 ### Load videos
@@ -191,20 +187,18 @@ from pixeltable.iterators import FrameIterator
 # Create a fresh directory
 pxt.drop_dir('video_demo', force=True)
 pxt.create_dir('video_demo')
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;video_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x31c02daf0&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1695d2650&gt;
 </pre>
 
 
 ```python
 # Create table for videos
 videos = pxt.create_table('video_demo.videos', {'video': pxt.Video})
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -217,11 +211,10 @@ Created&nbsp;table&nbsp;&#x27;videos&#x27;.
 videos.insert([
     {'video': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/bangkok.mp4'}
 ])
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`videos\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;412.91&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`videos\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;212.90&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
 </pre>
@@ -236,29 +229,22 @@ Create a view that extracts 1 frame per second:
 frames = pxt.create_view(
     'video_demo.frames',
     videos,
-    iterator=FrameIterator.create(
-        video=videos.video,
+    iterator=frame_iterator(
+        videos.video,
         fps=1.0  # 1 frame per second
     )
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`frames\`:&nbsp;19&nbsp;rows&nbsp;\[00:00,&nbsp;3963.38&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`frames\`:&nbsp;19&nbsp;rows&nbsp;\[00:00,&nbsp;8687.65&nbsp;rows/s\]
 </pre>
 
 
 ```python
 # View extracted frames
-print(f"Extracted {frames.count()} frames")
 frames.select(frames.frame, frames.pos).head(3)
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Extracted&nbsp;19&nbsp;frames
-</pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
@@ -272,20 +258,16 @@ For faster processing, extract only keyframes (I-frames):
 keyframes = pxt.create_view(
     'video_demo.keyframes',
     videos,
-    iterator=FrameIterator.create(
-        video=videos.video,
+    iterator=frame_iterator(
+        videos.video,
         keyframes_only=True
     )
 )
-
-print(f"Extracted {keyframes.count()} keyframes")
 keyframes.select(keyframes.frame).head(3)
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`keyframes\`:&nbsp;7&nbsp;rows&nbsp;\[00:00,&nbsp;2748.30&nbsp;rows/s\]
-Extracted&nbsp;7&nbsp;keyframes
+Inserting&nbsp;rows&nbsp;into&nbsp;\`keyframes\`:&nbsp;7&nbsp;rows&nbsp;\[00:00,&nbsp;3277.53&nbsp;rows/s\]
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
@@ -306,8 +288,11 @@ Only one of `fps`, `num_frames`, or `keyframes_only` can be specified.
 
 **Frame metadata:**
 
-Each frame includes: - `frame`: The extracted image - `pos`: Frame
-position in the video - `pts`: Presentation timestamp
+Each frame includes:
+
+-   `frame`: The extracted image
+-   `pos`: Frame position in the video
+-   `pts`: Presentation timestamp
 
 ## See also
 

@@ -41,6 +41,64 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">transcript_text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Pixeltable Tour</td>
+<td style="vertical-align: middle;">This conversation is powered by Google Illuminate. Check out
+illuminate.google.com for more. Welcome to this discussion on Pixel
+Table, a powerful tool for managing and manipulating data, especially
+image data, within a database framework. We'll be exploring how it
+simplifies, working with machine learning tasks, particularly object
+detection. What's the core concept behind Pixel Table that makes it so
+unique? Pixel Table's core strength lies in its combination of a
+database system with the ...... What kind of users would benefit most
+from using Pixel Table? Data scientists, machine learning engineers, and
+anyone working with large data sets and complex ML pipelines would find
+Pixel Table extremely beneficial. Its ability to manage data,
+transformations, and model applications in a unified and persistent
+environment makes it a powerful tool for streamlining workflows. This
+has been a very informative discussion on Pixel Table. Thank you for
+explaining its capabilities and advantages.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Pixeltable Tour</td>
+<td style="vertical-align: middle;">The conversation discusses Pixel Table, a tool designed for managing
+and manipulating image data within a database system, especially useful
+for machine learning tasks like object detection. It highlights Pixel
+Table's unique feature of computed columns that streamline data
+transformations and model applications, making workflows more efficient
+by automating tasks like data updates and API calls. The tool’s
+integration with ML models and the ability to define user-defined
+functions (UDFs) pr ...... lity with computed columns, allowing
+automatic data transformations and model executions to streamline
+workflows. 2. It enables easy integration of various machine learning
+models, such as DETR and OpenAI's GPT-4-0, managing processes like image
+analysis and result storage efficiently. 3. While providing significant
+advantages in scalability and workflow management, Pixel Table requires
+some technical expertise for database setup and may face performance
+limitations based on data complexity.</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -92,9 +150,11 @@ time-consuming and doesn’t scale.
 
 ## Solution
 
-**What’s in this recipe:** - Transcribe audio with Whisper (runs
-locally) - Generate summaries with an LLM - Chain transcription →
-summarization automatically
+**What’s in this recipe:**
+
+-   Transcribe audio with Whisper (runs locally)
+-   Generate summaries with an LLM
+-   Chain transcription → summarization automatically
 
 You create a pipeline where audio is transcribed first, then the
 transcript is summarized. Both steps run automatically when you insert
@@ -105,7 +165,6 @@ new audio files.
 
 ```python
 %pip install -qU pixeltable openai-whisper openai
-
 ```
 
 
@@ -115,14 +174,12 @@ import getpass
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions import whisper, openai
-
 ```
 
 
@@ -130,8 +187,12 @@ from pixeltable.functions import whisper, openai
 # Create a fresh directory
 pxt.drop_dir('podcast_demo', force=True)
 pxt.create_dir('podcast_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;podcast_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30c117650&gt;
+</pre>
 
 ### Create the pipeline
 
@@ -145,8 +206,11 @@ podcasts = pxt.create_table(
     'podcast_demo.episodes',
     {'title': pxt.String, 'audio': pxt.Audio}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;episodes&#x27;.
+</pre>
 
 
 ```python
@@ -154,17 +218,25 @@ podcasts = pxt.create_table(
 podcasts.add_computed_column(
     transcription=whisper.transcribe(podcasts.audio, model='base.en')
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
-# Extract the text from transcription result
+# Extract the text from transcription result (cast to String for concatenation)
 podcasts.add_computed_column(
-    transcript_text=podcasts.transcription.text
+    transcript_text=podcasts.transcription.text.astype(pxt.String)
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -180,8 +252,12 @@ podcasts.add_computed_column(
         model='gpt-4o-mini'
     )
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -189,8 +265,12 @@ podcasts.add_computed_column(
 podcasts.add_computed_column(
     summary=podcasts.summary_response.choices[0].message.content
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 ### Process audio files
 
@@ -198,29 +278,36 @@ Insert audio files and watch the pipeline run automatically:
 
 
 ```python
-# Insert sample audio (using a short sample for demo)
-audio_url = 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/audio/jfk_rice_moon_speech_excerpt.mp3'
+# Insert sample audio
+audio_url = 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/10-minute%20tour%20of%20Pixeltable.mp3'
 
 podcasts.insert([{
-    'title': 'JFK Moon Speech Excerpt',
+    'title': 'Pixeltable Tour',
     'audio': audio_url
 }])
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`episodes\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;185.18&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;8&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
 # View transcript
 podcasts.select(podcasts.title, podcasts.transcript_text).collect()
-
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 
 ```python
 # View summary
 podcasts.select(podcasts.title, podcasts.summary).collect()
-
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 ## Explanation
 
@@ -235,7 +322,7 @@ you insert a new audio file, all steps run automatically in sequence.
 
 **Whisper model options:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 For production with varied audio quality, use `small.en` or larger.
 

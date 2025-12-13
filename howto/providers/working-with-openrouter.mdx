@@ -12,99 +12,6 @@ above links.</Tip>
 
 
 
-export const quartoRawHtml =
-[`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">input</th>
-<th data-quarto-table-cell-role="th">response</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">How many species of felids have been classified?</td>
-<td style="vertical-align: middle;">There are currently 40 recognized species of felids (members of the
-family Felidae), which includes all wild cats as well as domestic cats.
-These range from small cats like the rusty-spotted cat to large cats
-like tigers and lions. This classification can occasionally be updated
-as new research provides better understanding of cat taxonomy.</td>
-</tr>
-<tr>
-<td style="vertical-align: middle;">Can you make me a coffee?</td>
-<td style="vertical-align: middle;">I cannot make you a coffee as I am an AI language model - I don't
-have physical form or ability to interact with the physical world. I
-can, however, give you instructions on how to make different types of
-coffee, recommend coffee recipes, or provide information about coffee in
-general. Would you like any of those instead?</td>
-</tr>
-</tbody>
-</table>
-`,`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">prompt</th>
-<th data-quarto-table-cell-role="th">claude</th>
-<th data-quarto-table-cell-role="th">gpt4</th>
-<th data-quarto-table-cell-role="th">llama</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">Explain quantum entanglement in one sentence.</td>
-<td style="vertical-align: middle;">Quantum entanglement is a phenomenon where two or more particles
-become so deeply connected that the quantum state of each particle
-cannot be described independently, even when separated by large
-distances.</td>
-<td style="vertical-align: middle;">Quantum entanglement is a phenomenon in which two or more particles
-become interconnected in such a way that the state of one particle
-instantaneously influences the state of the other, regardless of the
-distance separating them.</td>
-<td style="vertical-align: middle;">Quantum entanglement is a phenomenon in which two or more particles
-become interconnected in such a way that their properties, such as spin
-or polarization, are correlated, regardless of the distance between
-them.</td>
-</tr>
-</tbody>
-</table>
-`,`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">input</th>
-<th data-quarto-table-cell-role="th">response</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">What are the primary colors?</td>
-<td style="vertical-align: middle;">The primary colors are: 1. Red 2. Blue 3. Yellow These are called
-primary colors because they cannot be created by mixing other colors
-together, and they can be combined to create all other colors. For
-example: - Red + Blue = Purple - Blue + Yellow = Green - Red + Yellow =
-Orange</td>
-</tr>
-</tbody>
-</table>
-`,`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">response</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">The main AI developments mentioned are: 1. Machine learning
-algorithms that detect patterns in data. 2. Deep learning, specifically
-in computer vision and natural language processing. 3. Advancements in
-reinforcement learning. 4. Developments in generative models.</td>
-</tr>
-</tbody>
-</table>
-`];
-
 Pixeltable’s OpenRouter integration enables you to access multiple LLM
 providers through a unified API via OpenRouter.
 
@@ -147,11 +54,6 @@ pxt.drop_dir('openrouter_demo', force=True)
 pxt.create_dir('openrouter_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;&#x27;openrouter_demo&#x27;.
-</pre>
-
 ## Chat completions
 
 Create a Table: In Pixeltable, create a table with columns to represent
@@ -178,22 +80,11 @@ t.add_computed_column(output=openrouter.chat_completions(
 ))
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;&#x27;chat&#x27;.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-No&nbsp;rows&nbsp;affected.
-</pre>
-
 
 ```python
 # Parse the response into a new column
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-No&nbsp;rows&nbsp;affected.
-</pre>
 
 
 ```python
@@ -204,13 +95,6 @@ t.insert([
 ])
 t.select(t.input, t.response).head()
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;166.89&nbsp;rows/s\]
-Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ## Using different models
 
@@ -249,16 +133,7 @@ compare_t.add_computed_column(
         model_kwargs={'max_tokens': 150}
     ).choices[0].message.content
 )
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;&#x27;compare_models&#x27;.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-No&nbsp;rows&nbsp;affected.
-</pre>
 
 
 ```python
@@ -266,13 +141,6 @@ No&nbsp;rows&nbsp;affected.
 compare_t.insert([{'prompt': 'Explain quantum entanglement in one sentence.'}])
 compare_t.select(compare_t.prompt, compare_t.claude, compare_t.gpt4, compare_t.llama).head()
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`compare_models\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;131.36&nbsp;rows/s\]
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ## Advanced features: provider routing
 
@@ -301,25 +169,11 @@ routing_t.add_computed_column(
 routing_t.add_computed_column(response=routing_t.output.choices[0].message.content)
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;&#x27;routing&#x27;.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-No&nbsp;rows&nbsp;affected.
-</pre>
-
 
 ```python
 routing_t.insert([{'input': 'What are the primary colors?'}])
 routing_t.select(routing_t.input, routing_t.response).head()
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`routing\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;142.11&nbsp;rows/s\]
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 ## Advanced Features: Context Window Optimization
 
@@ -345,20 +199,13 @@ transform_t.add_computed_column(
 transform_t.add_computed_column(response=transform_t.output.choices[0].message.content)
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;&#x27;transforms&#x27;.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-No&nbsp;rows&nbsp;affected.
-</pre>
-
 
 ```python
 # Example with longer context
 long_text = """
-Artificial intelligence has transformed many industries. Machine learning algorithms 
-can now detect patterns in data that humans might miss. Deep learning has revolutionized 
-computer vision and natural language processing. The future of AI looks promising with 
+Artificial intelligence has transformed many industries. Machine learning algorithms
+can now detect patterns in data that humans might miss. Deep learning has revolutionized
+computer vision and natural language processing. The future of AI looks promising with
 developments in areas like reinforcement learning and generative models.
 
 Question: What are the main AI developments mentioned?
@@ -366,15 +213,7 @@ Question: What are the main AI developments mentioned?
 
 transform_t.insert([{'long_context': long_text}])
 transform_t.select(transform_t.response).head()
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`transforms\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;123.46&nbsp;rows/s\]
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 ### Learn more
 

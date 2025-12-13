@@ -41,6 +41,32 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">question</th>
+<th data-quarto-table-cell-role="th">answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">When am I billed?</td>
+<td style="vertical-align: middle;">You are billed on the first of each month.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What are the API rate limits?</td>
+<td style="vertical-align: middle;">The API rate limits are 1000 requests per minute for standard plans
+and 10000 requests per minute for enterprise plans.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">How do I reset my password?</td>
+<td style="vertical-align: middle;">To reset your password, go to the login page and click "Forgot
+Password". Enter your email address, and you will receive a reset link
+within 5 minutes. The link expires after 24 hours.</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -82,9 +108,11 @@ include it in the prompt.
 
 ## Solution
 
-**What’s in this recipe:** - Embed and index documents for retrieval -
-Create a query function that retrieves context - Generate answers
-grounded in your documents
+**What’s in this recipe:**
+
+-   Embed and index documents for retrieval
+-   Create a query function that retrieves context
+-   Generate answers grounded in your documents
 
 You build a pipeline that: (1) embeds documents, (2) finds relevant
 chunks for a query, and (3) generates an answer using those chunks as
@@ -95,7 +123,6 @@ context.
 
 ```python
 %pip install -qU pixeltable openai
-
 ```
 
 
@@ -105,14 +132,12 @@ import getpass
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import embeddings, chat_completions
-
 ```
 
 
@@ -120,8 +145,13 @@ from pixeltable.functions.openai import embeddings, chat_completions
 # Create a fresh directory
 pxt.drop_dir('rag_demo', force=True)
 pxt.create_dir('rag_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;rag_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17c878c10&gt;
+</pre>
 
 ### Step 1: create document store with embeddings
 
@@ -132,23 +162,19 @@ chunks = pxt.create_table(
     'rag_demo.chunks',
     {'doc_id': pxt.String, 'chunk_text': pxt.String}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chunks&#x27;.
+</pre>
 
 
 ```python
-# Add embedding column
-chunks.add_computed_column(
-    embedding=embeddings(chunks.chunk_text, model='text-embedding-3-small')
+# Add embedding index for semantic search
+chunks.add_embedding_index(
+    column="chunk_text",
+    string_embed=embeddings.using(model="text-embedding-3-small")
 )
-
-```
-
-
-```python
-# Create embedding index for fast retrieval
-chunks.add_embedding_index('embedding', metric='cosine')
-
 ```
 
 ### Step 2: load documents
@@ -180,37 +206,45 @@ documents = [
 ]
 
 chunks.insert(documents)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&nbsp;345.31&nbsp;rows/s\]
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+5&nbsp;rows&nbsp;inserted,&nbsp;15&nbsp;values&nbsp;computed.
+</pre>
 
 ### Step 3: create the RAG query function
 
 
 ```python
-# Define a query function that retrieves context and generates answer
+# Define a query function that retrieves context
 @pxt.query
-def retrieve_context(query: str, top_k: int = 3) -> list[dict]:
+def retrieve_context(query: str, top_k: int = 3):
     """Retrieve the most relevant chunks for a query."""
-    results = chunks.order_by(
-        chunks.embedding.similarity(query),
-        asc=False
-    ).limit(top_k).select(chunks.doc_id, chunks.chunk_text).collect()
-    return [{'doc_id': r['doc_id'], 'text': r['chunk_text']} for r in results]
-
+    sim = chunks.chunk_text.similarity(query)
+    return (
+        chunks.where(sim > 0.5)
+        .order_by(sim, asc=False)
+        .limit(top_k)
+        .select(
+            doc_id=chunks.doc_id,
+            text=chunks.chunk_text
+        )
+    )
 ```
 
 
 ```python
-# Test retrieval
-query = "How do I reset my password?"
+# View retrieved context for a query
+query = "What are the key features?"
 context_chunks = retrieve_context(query)
-
-print(f"Query: {query}\n")
-print("Retrieved context:")
-for i, chunk in enumerate(context_chunks, 1):
-    print(f"  {i}. [{chunk['doc_id']}] {chunk['text'][:80]}...")
-
+context_chunks
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+retrieve_context(&#x27;What&nbsp;are&nbsp;the&nbsp;key&nbsp;features?&#x27;)
+</pre>
 
 ### Step 4: generate answers with context
 
@@ -221,15 +255,22 @@ qa = pxt.create_table(
     'rag_demo.qa',
     {'question': pxt.String}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;qa&#x27;.
+</pre>
 
 
 ```python
 # Add retrieval step
 qa.add_computed_column(context=retrieve_context(qa.question, top_k=3))
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -247,8 +288,12 @@ Question: {question}
 Answer:"""
 
 qa.add_computed_column(prompt=build_rag_prompt(qa.question, qa.context))
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -260,8 +305,13 @@ qa.add_computed_column(
     )
 )
 qa.add_computed_column(answer=qa.response.choices[0].message.content)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 ### Ask questions
 
@@ -275,17 +325,21 @@ questions = [
 ]
 
 qa.insert(questions)
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`qa\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;872.12&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;18&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
 # View answers
-for row in qa.select(qa.question, qa.answer).collect():
-    print(f"Q: {row['question']}")
-    print(f"A: {row['answer']}\n")
-
+qa.select(qa.question, qa.answer).collect()
 ```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ## Explanation
 
@@ -297,7 +351,7 @@ Question&nbsp;→&nbsp;Embed&nbsp;→&nbsp;Retrieve&nbsp;similar&nbsp;chunks&nbs
 
 **Key components:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 **Scaling tips:**
 

@@ -42,69 +42,68 @@ electronic advancements.</td>
 </tr>
 </tbody>
 </table>
-`,`<style type="text/css">
-#T_04f86 th {
-  text-align: left;
-}
-#T_04f86_row0_col0, #T_04f86_row0_col1, #T_04f86_row0_col2, #T_04f86_row1_col0, #T_04f86_row1_col1, #T_04f86_row1_col2 {
-  white-space: pre-wrap;
-  text-align: left;
-}
-</style>
 `,`
-<table id="T_04f86" data-quarto-postprocess="true">
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
-<tr>
-<th id="T_04f86_level0_col0" class="col_heading level0 col0"
-data-quarto-table-cell-role="th">Name</th>
-<th id="T_04f86_level0_col1" class="col_heading level0 col1"
-data-quarto-table-cell-role="th">Type</th>
-<th id="T_04f86_level0_col2" class="col_heading level0 col2"
-data-quarto-table-cell-role="th">Expression</th>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">score</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td id="T_04f86_row0_col0" class="data row0 col0">text</td>
-<td id="T_04f86_row0_col1" class="data row0 col1">String</td>
-<td id="T_04f86_row0_col2" class="data row0 col2">text</td>
+<td style="vertical-align: middle;">The Mediterranean diet emphasizes fish, olive oil, and vegetables,
+believed to reduce chronic diseases.</td>
+<td style="vertical-align: middle;">0.863</td>
 </tr>
 <tr>
-<td id="T_04f86_row1_col0" class="data row1 col0">score</td>
-<td id="T_04f86_row1_col1" class="data row1 col1">Required[Float]</td>
-<td id="T_04f86_row1_col2" class="data row1 col2">text.similarity('What
-are the health benefits of Mediterranean food?')</td>
+<td style="vertical-align: middle;">Photosynthesis in plants converts light energy into glucose and
+produces essential oxygen.</td>
+<td style="vertical-align: middle;">0.649</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Shakespeare's works, like 'Hamlet' and 'A Midsummer Night's Dream,'
+endure in literature.</td>
+<td style="vertical-align: middle;">0.621</td>
 </tr>
 </tbody>
 </table>
 `,`
-<style type="text/css">
-#T_244e0 th {
-  text-align: left;
-}
-#T_244e0_row0_col0, #T_244e0_row1_col0, #T_244e0_row2_col0 {
-  white-space: pre-wrap;
-  text-align: left;
-}
-</style>
-`,`
-<table id="T_244e0" data-quarto-postprocess="true">
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">query</th>
+<th data-quarto-table-cell-role="th">top_document</th>
+<th data-quarto-table-cell-role="th">top_score</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td id="T_244e0_level0_row0" class="row_heading level0 row0"
-data-quarto-table-cell-role="th">From</td>
-<td id="T_244e0_row0_col0" class="data row0 col0">search</td>
+<td style="vertical-align: middle;">When is Apple's conference call scheduled?</td>
+<td style="vertical-align: middle;">Apple's conference call to discuss fourth fiscal quarter results is
+scheduled for Thursday, November 2, 2023.</td>
+<td style="vertical-align: middle;">0.93</td>
 </tr>
-<tr>
-<td id="T_244e0_level0_row1" class="row_heading level0 row1"
-data-quarto-table-cell-role="th">Order By</td>
-<td id="T_244e0_row1_col0" class="data row1 col0">text.similarity('What
-are the health benefits of Mediterranean food?') desc</td>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">query</th>
+<th data-quarto-table-cell-role="th">top_results</th>
 </tr>
+</thead>
+<tbody>
 <tr>
-<td id="T_244e0_level0_row2" class="row_heading level0 row2"
-data-quarto-table-cell-role="th">Limit</td>
-<td id="T_244e0_row2_col0" class="data row2 col0">3</td>
+<td style="vertical-align: middle;">When is Apple's conference call scheduled?</td>
+<td style="vertical-align: middle;">[{"index": 4, "document": "Apple's conference call to discuss fourth
+fiscal quarter results is scheduled for Thursday, November 2, 2023.",
+"relevance_score": 0.93}, {"index": 2, "document": "20th-century
+innovations, from radios to smartphones, centered on electronic
+advancements.", "relevance_score": 0.283}, {"index": 0, "document": "The
+Mediterranean diet emphasizes fish, olive oil, and vegetables, believed
+to reduce chronic diseases.", "relevance_score": 0.264}]</td>
 </tr>
 </tbody>
 </table>
@@ -182,9 +181,8 @@ pxt.create_dir('voyageai_demo')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;voyageai_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x10bf32bd0&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x106daf2d0&gt;
 </pre>
 
 ## Text embeddings
@@ -231,7 +229,7 @@ docs_t.insert({'text': doc} for doc in documents)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;939.37&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;2561.67&nbsp;rows/s\]
 Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 6&nbsp;rows&nbsp;inserted,&nbsp;12&nbsp;values&nbsp;computed.
 </pre>
@@ -257,7 +255,6 @@ search_t = pxt.create_table('voyageai_demo.search', {'text': pxt.String})
 # Add embedding index for similarity search
 embed_fn = voyageai.embeddings.using(model='voyage-3.5', input_type='document')
 search_t.add_embedding_index('text', string_embed=embed_fn)
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -268,11 +265,10 @@ Created&nbsp;table&nbsp;&#x27;search&#x27;.
 ```python
 # Insert documents
 search_t.insert({'text': doc} for doc in documents)
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`search\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`search\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;911.18&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`search\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;973.68&nbsp;rows/s\]
 Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 6&nbsp;rows&nbsp;inserted,&nbsp;12&nbsp;values&nbsp;computed.
 </pre>
@@ -281,17 +277,10 @@ Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # Perform similarity search
 sim = search_t.text.similarity("What are the health benefits of Mediterranean food?")
-search_t.order_by(sim, asc=False).limit(3).select(search_t.text, score=sim)
-
+search_t.order_by(sim, asc=False).limit(3).select(search_t.text, score=sim).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 
 ## Reranking
 
@@ -315,7 +304,6 @@ rerank_t.add_computed_column(
         top_k=3
     )
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -331,40 +319,45 @@ rerank_t.insert([{
     'query': "When is Apple's conference call scheduled?",
     'documents': documents
 }])
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`rerank\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`rerank\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;601.33&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`rerank\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;343.65&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
 </pre>
 
 
 ```python
-# View reranking results
-results = rerank_t.select(rerank_t.query, rerank_t.reranked).collect()
-reranked_results = results[0]['reranked']['results']
-
-print("Top 3 most relevant documents:\n")
-for i, result in enumerate(reranked_results, 1):
-    print(f"{i}. (Score: {result['relevance_score']:.3f})")
-    print(f"   {result['document']}\n")
-
+# Add computed column to extract top results using JSON path
+rerank_t.add_computed_column(top_results=rerank_t.reranked['results'])
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Top&nbsp;3&nbsp;most&nbsp;relevant&nbsp;documents:
-
-1.&nbsp;(Score:&nbsp;0.930)
-&nbsp;&nbsp;&nbsp;Apple&#x27;s&nbsp;conference&nbsp;call&nbsp;to&nbsp;discuss&nbsp;fourth&nbsp;fiscal&nbsp;quarter&nbsp;results&nbsp;is&nbsp;scheduled&nbsp;for&nbsp;Thursday,&nbsp;November&nbsp;2,&nbsp;2023.
-
-2.&nbsp;(Score:&nbsp;0.283)
-&nbsp;&nbsp;&nbsp;20th-century&nbsp;innovations,&nbsp;from&nbsp;radios&nbsp;to&nbsp;smartphones,&nbsp;centered&nbsp;on&nbsp;electronic&nbsp;advancements.
-
-3.&nbsp;(Score:&nbsp;0.264)
-&nbsp;&nbsp;&nbsp;The&nbsp;Mediterranean&nbsp;diet&nbsp;emphasizes&nbsp;fish,&nbsp;olive&nbsp;oil,&nbsp;and&nbsp;vegetables,&nbsp;believed&nbsp;to&nbsp;reduce&nbsp;chronic&nbsp;diseases.
+Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;updated,&nbsp;1&nbsp;value&nbsp;computed.
 </pre>
+
+
+```python
+# Extract the top result's document and score
+rerank_t.select(
+    rerank_t.query,
+    top_document=rerank_t.top_results[0]['document'],
+    top_score=rerank_t.top_results[0]['relevance_score']
+).collect()
+
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+
+```python
+# View reranking results
+rerank_t.select(rerank_t.query, rerank_t.top_results).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 ## Multimodal Embeddings
 
@@ -385,7 +378,6 @@ mm_t.add_computed_column(
 mm_t.add_computed_column(
     text_embedding=voyageai.multimodal_embed(mm_t.caption, input_type='document')
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -402,11 +394,10 @@ mm_t.insert([{
     'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000139.jpg',
     'caption': 'A person standing next to an elephant'
 }])
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`multimodal\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`multimodal\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;524.88&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`multimodal\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;520.00&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 1&nbsp;row&nbsp;inserted,&nbsp;5&nbsp;values&nbsp;computed.
 </pre>
@@ -415,10 +406,9 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # View the multimodal embeddings
 mm_t.select(mm_t.image, mm_t.caption, mm_t.image_embedding, mm_t.text_embedding).head()
-
 ```
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 
 ### Learn more
 

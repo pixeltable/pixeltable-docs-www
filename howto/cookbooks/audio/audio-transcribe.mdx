@@ -172,11 +172,13 @@ manageable chunks.
 
 ## Solution
 
-**What’s in this recipe:** - Transcribe audio files locally with Whisper
-(no API key) - Automatically chunk long files - Extract and transcribe
-audio from videos
+**What’s in this recipe:**
 
-You create a view with AudioSplitter to break long files into chunks,
+-   Transcribe audio files locally with Whisper (no API key)
+-   Automatically chunk long files
+-   Extract and transcribe audio from videos
+
+You create a view with `audio_splitter` to break long files into chunks,
 then add a computed column for transcription. Whisper runs locally on
 your machine—no API calls needed.
 
@@ -185,19 +187,13 @@ your machine—no API calls needed.
 
 ```python
 %pip install -qU pixeltable openai-whisper
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
 import pixeltable as pxt
-from pixeltable.iterators import AudioSplitter
 from pixeltable.functions import whisper
-
+from pixeltable.functions.audio import audio_splitter
 ```
 
 ### Load audio files
@@ -207,19 +203,18 @@ from pixeltable.functions import whisper
 # Create a fresh directory
 pxt.drop_dir('audio_demo', force=True)
 pxt.create_dir('audio_demo')
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;audio_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x37e827f20&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x16218a9d0&gt;
 </pre>
 
 
 ```python
 # Create table for audio files
 audio = pxt.create_table('audio_demo.files', {'audio': pxt.Audio})
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -232,11 +227,10 @@ Created&nbsp;table&nbsp;&#x27;files&#x27;.
 audio.insert([
     {'audio': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/audio-transcription-demo/Lex-Fridman-Podcast-430-Excerpt-0.mp4'}
 ])
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`files\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;548.78&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`files\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;285.54&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
 </pre>
@@ -251,30 +245,24 @@ Create a view that splits audio into 30-second chunks with overlap:
 chunks = pxt.create_view(
     'audio_demo.chunks',
     audio,
-    iterator=AudioSplitter.create(
-        audio=audio.audio,
+    iterator=audio_splitter(
+        audio.audio,
         chunk_duration_sec=30.0,  # 30-second chunks
         overlap_sec=2.0,          # 2-second overlap for context
         min_chunk_duration_sec=5.0  # Drop chunks shorter than 5 seconds
     )
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;909.04&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;1257.10&nbsp;rows/s\]
 </pre>
 
 
 ```python
 # View the chunks
 chunks.select(chunks.start_time_sec, chunks.end_time_sec).collect()
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;2&nbsp;chunks
-</pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
@@ -291,7 +279,6 @@ chunks.add_computed_column(
         model='base.en'  # Options: tiny.en, base.en, small.en, medium.en, large
     )
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -303,7 +290,6 @@ Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # Extract just the text
 chunks.add_computed_column(text=chunks.transcription.text)
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -315,7 +301,6 @@ Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # View transcriptions with timestamps
 chunks.select(chunks.start_time_sec, chunks.end_time_sec, chunks.text).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
@@ -329,7 +314,7 @@ chunks.select(chunks.start_time_sec, chunks.end_time_sec, chunks.text).collect()
 Models ending in `.en` are English-only and faster. Remove `.en` for
 multilingual support.
 
-**AudioSplitter parameters:**
+**audio_splitter parameters:**
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 

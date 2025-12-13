@@ -47,17 +47,17 @@ export const quartoRawHtml =
 </thead>
 <tbody>
 <tr>
-<td style="vertical-align: middle;">226a2499-7e65-438a-be4a-b463d88c70b9</td>
+<td style="vertical-align: middle;">0beebcb6-1a63-4c8c-a802-346b01f7ec6d</td>
 <td style="vertical-align: middle;">Laptop</td>
 <td style="vertical-align: middle;">999.99</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;">5041c1f8-f707-47b0-9447-63c4fb2d0f02</td>
+<td style="vertical-align: middle;">a6fd0a8b-0156-492f-baa8-a4d1017de831</td>
 <td style="vertical-align: middle;">Mouse</td>
 <td style="vertical-align: middle;">29.99</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;">d5352069-812e-4b46-ba87-e943f04d5a0e</td>
+<td style="vertical-align: middle;">0f2a8c94-0bcd-442e-af22-50213edb08c1</td>
 <td style="vertical-align: middle;">Keyboard</td>
 <td style="vertical-align: middle;">79.99</td>
 </tr>
@@ -76,12 +76,12 @@ export const quartoRawHtml =
 <tr>
 <td style="vertical-align: middle;">Alice</td>
 <td style="vertical-align: middle;">150.</td>
-<td style="vertical-align: middle;">20676811-b552-4037-9f70-c94ab3af0275</td>
+<td style="vertical-align: middle;">b68ab3ab-5e4b-402e-8b9e-5fbd17830851</td>
 </tr>
 <tr>
 <td style="vertical-align: middle;">Bob</td>
 <td style="vertical-align: middle;">75.5</td>
-<td style="vertical-align: middle;">e70c7ced-cf01-44e8-a6bd-b5b07c996b21</td>
+<td style="vertical-align: middle;">8edd6548-3ad5-4d0a-b23b-c03c6f791d90</td>
 </tr>
 </tbody>
 </table>
@@ -122,9 +122,11 @@ status across systems, or joining data from multiple sources.
 
 ## Solution
 
-**What’s in this recipe:** - Create tables with auto-generated UUID
-primary keys - Add UUID columns to existing tables - Generate UUIDs with
-`uuid4()`
+**What’s in this recipe:**
+
+-   Create tables with auto-generated UUID primary keys
+-   Add UUID columns to existing tables
+-   Generate UUIDs with `uuid4()`
 
 You use `uuid4()` to generate UUIDs for each row. Define it in the
 schema with `{'column_name': uuid4()}` syntax, or add it to existing
@@ -136,10 +138,6 @@ tables with `add_computed_column()`.
 ```python
 %pip install -qU pixeltable
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
@@ -155,9 +153,9 @@ pxt.create_dir('uuid_demo')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/amithadke/.pixeltable/pgdata
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;uuid_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x139700910&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x104e3c810&gt;
 </pre>
 
 ### Create a table with a UUID primary key
@@ -191,11 +189,10 @@ products.insert([
     {'name': 'Mouse', 'price': 29.99},
     {'name': 'Keyboard', 'price': 79.99}
 ])
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;274.32&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;338.71&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
@@ -239,7 +236,7 @@ orders.insert([
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;772.86&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;1070.66&nbsp;rows/s\]
 Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 2&nbsp;rows&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
 </pre>
@@ -269,10 +266,12 @@ orders.collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
-Both use `uuid4()` which generates UUIDv4 (random) identifiers: -
-128-bit values - Formatted as 32 hex digits with hyphens:
-`550e8400-e29b-41d4-a716-446655440000` - Virtually guaranteed unique
-(collision probability is negligible)
+Both use `uuid4()` which generates UUIDv4 (random) identifiers:
+
+-   128-bit values
+-   Formatted as 32 hex digits with hyphens:
+    `550e8400-e29b-41d4-a716-446655440000`
+-   Virtually guaranteed unique (collision probability is negligible)
 
 ## See also
 

@@ -304,9 +304,9 @@ pxt.create_dir('image_demo')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/alison-pxt/.pixeltable/pgdata
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;image_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x160add810&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1441f2500&gt;
 </pre>
 
 
@@ -328,7 +328,7 @@ t.insert([
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`enhancements\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1045.70&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`enhancements\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`enhancements\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;601.16&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
@@ -432,13 +432,16 @@ contrast, desaturated), and values above 1.0 increase it (brighter, more
 contrast, saturated). You can apply different factors to the same image
 to create multiple variations for comparison or different use cases.
 
-**To customize the UDFs:** - **Brightness factors**: Use 0.5 for darker
-images, 1.5 for brighter, or adjust to match your lighting needs -
-**Contrast factors**: Use 0.5 for lower contrast, 2.0 for higher
-contrast, or fine-tune for image clarity - **Saturation factors**: Use
-0.3 for desaturated/muted colors, 2.0 for vibrant colors, or 0.0 for
-complete grayscale - **Combine adjustments**: Apply multiple
-enhancements to create complex transformations
+**To customize the UDFs:**
+
+-   **Brightness factors**: Use 0.5 for darker images, 1.5 for brighter,
+    or adjust to match your lighting needs
+-   **Contrast factors**: Use 0.5 for lower contrast, 2.0 for higher
+    contrast, or fine-tune for image clarity
+-   **Saturation factors**: Use 0.3 for desaturated/muted colors, 2.0
+    for vibrant colors, or 0.0 for complete grayscale
+-   **Combine adjustments**: Apply multiple enhancements to create
+    complex transformations
 
 **The Pixeltable workflow:**
 

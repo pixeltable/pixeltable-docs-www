@@ -46,6 +46,30 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Climate Report</td>
+<td style="vertical-align: middle;">Last year was the hottest on record, with global temperatures rising
+by 1.2 degrees Celsius above pre-industrial levels due to ongoing
+greenhouse gas emissions and a strong El Nino pattern, prompting calls
+for urgent action to reduce carbon emissions.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tech Merger</td>
+<td style="vertical-align: middle;">Two major semiconductor companies are merging in a \$50 billion deal
+that will give them a 30% share of the global chip market, pending
+regulatory review in several countries over the next 18 months.</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <colgroup>
 <col style="width: 47%" />
@@ -88,10 +112,12 @@ to maintain.
 
 ## Solution
 
-**What’s in this recipe:** - Create an “agent” table with computed
-columns - Convert the table to a callable UDF with
-`pxt.udf(table, return_value=...)` - Use the table UDF in other tables’
-computed columns
+**What’s in this recipe:**
+
+-   Create an “agent” table with computed columns
+-   Convert the table to a callable UDF with
+    `pxt.udf(table, return_value=...)`
+-   Use the table UDF in other tables’ computed columns
 
 You wrap an entire table pipeline as a function. When you call this
 function from another table, it inserts a row into the agent table, runs
@@ -102,19 +128,7 @@ all computed columns, and returns the specified output column.
 
 ```python
 %pip install -qU pixeltable openai
-
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-&nbsp;&nbsp;&nbsp;&nbsp;WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
 
 
 ```python
@@ -123,14 +137,12 @@ import getpass
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-
 ```
 
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import chat_completions
-
 ```
 
 
@@ -138,8 +150,13 @@ from pixeltable.functions.openai import chat_completions
 # Create a fresh directory
 pxt.drop_dir('table_udf_demo', force=True)
 pxt.create_dir('table_udf_demo')
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;table_udf_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17fd6e9d0&gt;
+</pre>
 
 ### Create an agent table with computed columns
 
@@ -153,8 +170,11 @@ summarizer = pxt.create_table(
     'table_udf_demo.summarizer',
     {'text': pxt.String}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;summarizer&#x27;.
+</pre>
 
 
 ```python
@@ -168,8 +188,12 @@ summarizer.add_computed_column(
         model='gpt-4o-mini'
     )
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -177,8 +201,12 @@ summarizer.add_computed_column(
 summarizer.add_computed_column(
     summary=summarizer.response.choices[0].message.content
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 ### Convert the table to a UDF
 
@@ -192,7 +220,6 @@ summarize = pxt.udf(
     summarizer,
     return_value=summarizer.summary
 )
-
 ```
 
 ### Use the table UDF in another table
@@ -206,8 +233,11 @@ articles = pxt.create_table(
     'table_udf_demo.articles',
     {'title': pxt.String, 'content': pxt.String}
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;articles&#x27;.
+</pre>
 
 
 ```python
@@ -215,8 +245,12 @@ articles = pxt.create_table(
 articles.add_computed_column(
     summary=summarize(text=articles.content)
 )
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -231,88 +265,43 @@ articles.insert([
         'content': 'Two major semiconductor companies announced a merger valued at $50 billion. The combined entity will control 30% of the global chip market. Regulators in multiple countries will review the deal over the next 18 months.'
     },
 ])
-
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;196.58&nbsp;rows/s\]
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
 
 
 ```python
 # View results
 articles.select(articles.title, articles.summary).collect()
-
 ```
 
-### Chain multiple table UDFs
-
-You can compose table UDFs by using one’s output as another’s input:
-
-
-```python
-# Create a translator agent table
-translator = pxt.create_table(
-    'table_udf_demo.translator',
-    {'text': pxt.String}
-)
-
-translator.add_computed_column(
-    response=chat_completions(
-        messages=[{
-            'role': 'user',
-            'content': 'Translate to Spanish:\n\n' + translator.text
-        }],
-        model='gpt-4o-mini'
-    )
-)
-
-translator.add_computed_column(
-    translation=translator.response.choices[0].message.content
-)
-
-```
-
-
-```python
-# Convert to UDF
-translate = pxt.udf(
-    translator,
-    return_value=translator.translation
-)
-
-```
-
-
-```python
-# Chain: summarize first, then translate the summary
-articles.add_computed_column(
-    summary_es=translate(text=articles.summary)
-)
-
-```
-
-
-```python
-# View the chain results
-articles.select(articles.title, articles.summary, articles.summary_es).collect()
-
-```
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ## Explanation
 
 **How table UDFs work:**
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Consumer&nbsp;table&nbsp;row&nbsp;→&nbsp;Table&nbsp;UDF&nbsp;called&nbsp;→&nbsp;Agent&nbsp;table&nbsp;inserts&nbsp;row&nbsp;→&nbsp;
+Consumer&nbsp;table&nbsp;row&nbsp;→&nbsp;Table&nbsp;UDF&nbsp;called&nbsp;→&nbsp;Agent&nbsp;table&nbsp;inserts&nbsp;row&nbsp;→
 Computed&nbsp;columns&nbsp;run&nbsp;→&nbsp;Return&nbsp;value&nbsp;extracted&nbsp;→&nbsp;Consumer&nbsp;gets&nbsp;result
 </pre>
 
 **When to use table UDFs vs `@pxt.query`:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
-**Key benefits:** - **Encapsulation**: Hide complex pipeline details
-behind a simple function call - **Reusability**: Use the same agent from
-multiple consumer tables - **Persistence**: All intermediate results are
-stored in the agent table for debugging - **Composition**: Chain agents
-together for multi-stage workflows
+**Key benefits:**
+
+-   **Encapsulation**: Hide complex pipeline details behind a simple
+    function call
+-   **Reusability**: Use the same agent from multiple consumer tables
+-   **Persistence**: All intermediate results are stored in the agent
+    table for debugging
+-   **Composition**: Chain agents together for multi-stage workflows
 
 ## See also
 
