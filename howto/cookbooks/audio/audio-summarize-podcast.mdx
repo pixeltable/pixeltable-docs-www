@@ -1,0 +1,336 @@
+---
+title: "Summarize podcasts and audio"
+sidebarTitle: "Summarize podcasts and audio"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Content</th>
+<th>Duration</th>
+<th>Need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Podcast episodes</td>
+<td style="vertical-align: middle;">60 min</td>
+<td style="vertical-align: middle;">Episode summary + key points</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Meeting recordings</td>
+<td style="vertical-align: middle;">30 min</td>
+<td style="vertical-align: middle;">Action items + decisions</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Interviews</td>
+<td style="vertical-align: middle;">45 min</td>
+<td style="vertical-align: middle;">Main topics + quotes</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">transcript_text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Pixeltable Tour</td>
+<td style="vertical-align: middle;">This conversation is powered by Google Illuminate. Check out
+illuminate.google.com for more. Welcome to this discussion on Pixel
+Table, a powerful tool for managing and manipulating data, especially
+image data, within a database framework. We'll be exploring how it
+simplifies, working with machine learning tasks, particularly object
+detection. What's the core concept behind Pixel Table that makes it so
+unique? Pixel Table's core strength lies in its combination of a
+database system with the ...... What kind of users would benefit most
+from using Pixel Table? Data scientists, machine learning engineers, and
+anyone working with large data sets and complex ML pipelines would find
+Pixel Table extremely beneficial. Its ability to manage data,
+transformations, and model applications in a unified and persistent
+environment makes it a powerful tool for streamlining workflows. This
+has been a very informative discussion on Pixel Table. Thank you for
+explaining its capabilities and advantages.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Pixeltable Tour</td>
+<td style="vertical-align: middle;">The conversation discusses Pixel Table, a tool designed for managing
+and manipulating image data within a database system, especially useful
+for machine learning tasks like object detection. It highlights Pixel
+Table's unique feature of computed columns that streamline data
+transformations and model applications, making workflows more efficient
+by automating tasks like data updates and API calls. The tool’s
+integration with ML models and the ability to define user-defined
+functions (UDFs) pr ...... lity with computed columns, allowing
+automatic data transformations and model executions to streamline
+workflows. 2. It enables easy integration of various machine learning
+models, such as DETR and OpenAI's GPT-4-0, managing processes like image
+analysis and result storage efficiently. 3. While providing significant
+advantages in scalability and workflow management, Pixel Table requires
+some technical expertise for database setup and may face performance
+limitations based on data complexity.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Size</th>
+<th>Speed</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>tiny.en</code></td>
+<td style="vertical-align: middle;">39M</td>
+<td style="vertical-align: middle;">Fastest</td>
+<td style="vertical-align: middle;">Good for clear speech</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>base.en</code></td>
+<td style="vertical-align: middle;">74M</td>
+<td style="vertical-align: middle;">Fast</td>
+<td style="vertical-align: middle;">Balanced</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>small.en</code></td>
+<td style="vertical-align: middle;">244M</td>
+<td style="vertical-align: middle;">Medium</td>
+<td style="vertical-align: middle;">Better accuracy</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>medium.en</code></td>
+<td style="vertical-align: middle;">769M</td>
+<td style="vertical-align: middle;">Slow</td>
+<td style="vertical-align: middle;">High accuracy</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Transcribe audio files and generate summaries automatically using
+Whisper and LLMs.
+
+## Problem
+
+You have podcast episodes, meeting recordings, or interviews that need
+both transcription and summarization. Doing this manually is
+time-consuming and doesn’t scale.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Transcribe audio with Whisper (runs locally)
+-   Generate summaries with an LLM
+-   Chain transcription → summarization automatically
+
+You create a pipeline where audio is transcribed first, then the
+transcript is summarized. Both steps run automatically when you insert
+new audio files.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai-whisper openai
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import whisper, openai
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('podcast_demo', force=True)
+pxt.create_dir('podcast_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;podcast_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30c117650&gt;
+</pre>
+
+### Create the pipeline
+
+Create a table with audio input, then add computed columns for
+transcription and summarization:
+
+
+```python
+# Create table for audio files
+podcasts = pxt.create_table(
+    'podcast_demo.episodes',
+    {'title': pxt.String, 'audio': pxt.Audio}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;episodes&#x27;.
+</pre>
+
+
+```python
+# Step 1: Transcribe with local Whisper (uses GPU if available)
+podcasts.add_computed_column(
+    transcription=whisper.transcribe(podcasts.audio, model='base.en')
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Extract the text from transcription result (cast to String for concatenation)
+podcasts.add_computed_column(
+    transcript_text=podcasts.transcription.text.astype(pxt.String)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Step 2: Summarize the transcript with OpenAI
+summary_prompt = '''Summarize this transcript in 2-3 sentences, then list 3 key points.
+
+Transcript:
+''' + podcasts.transcript_text
+
+podcasts.add_computed_column(
+    summary_response=openai.chat_completions(
+        messages=[{'role': 'user', 'content': summary_prompt}],
+        model='gpt-4o-mini'
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Extract summary text from response
+podcasts.add_computed_column(
+    summary=podcasts.summary_response.choices[0].message.content
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+### Process audio files
+
+Insert audio files and watch the pipeline run automatically:
+
+
+```python
+# Insert sample audio
+audio_url = 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/10-minute%20tour%20of%20Pixeltable.mp3'
+
+podcasts.insert([{
+    'title': 'Pixeltable Tour',
+    'audio': audio_url
+}])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`episodes\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;185.18&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;8&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View transcript
+podcasts.select(podcasts.title, podcasts.transcript_text).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+
+```python
+# View summary
+podcasts.select(podcasts.title, podcasts.summary).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## Explanation
+
+**Pipeline architecture:**
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Audio&nbsp;→&nbsp;Whisper&nbsp;transcription&nbsp;→&nbsp;Transcript&nbsp;text&nbsp;→&nbsp;LLM&nbsp;summarization&nbsp;→&nbsp;Summary
+</pre>
+
+Each step is a computed column that depends on the previous one. When
+you insert a new audio file, all steps run automatically in sequence.
+
+**Whisper model options:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+For production with varied audio quality, use `small.en` or larger.
+
+## See also
+
+-   [Transcribe
+    audio](/howto/cookbooks/audio/audio-transcribe) -
+    Basic audio transcription
+-   [Summarize
+    text](/howto/cookbooks/text/text-summarize) -
+    Text summarization patterns

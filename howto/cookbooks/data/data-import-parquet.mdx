@@ -1,0 +1,545 @@
+---
+title: "Import data from Parquet files"
+sidebarTitle: "Import data from Parquet files"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-parquet.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-parquet.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-parquet.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Size</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">embeddings.parquet</td>
+<td style="vertical-align: middle;">1M vectors</td>
+<td style="vertical-align: middle;">Add to similarity search</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">transactions.parquet</td>
+<td style="vertical-align: middle;">10M rows</td>
+<td style="vertical-align: middle;">Analyze with computed columns</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">features.parquet</td>
+<td style="vertical-align: middle;">500K rows</td>
+<td style="vertical-align: middle;">Combine with media data</td>
+</tr>
+</tbody>
+</table>
+`,`<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">product_id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">in_stock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Widget A</td>
+<td style="vertical-align: middle;">29.99</td>
+<td style="vertical-align: middle;">widgets</td>
+<td style="vertical-align: middle;">True</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">Widget B</td>
+<td style="vertical-align: middle;">39.99</td>
+<td style="vertical-align: middle;">widgets</td>
+<td style="vertical-align: middle;">False</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">Gadget X</td>
+<td style="vertical-align: middle;">149.99</td>
+<td style="vertical-align: middle;">gadgets</td>
+<td style="vertical-align: middle;">True</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">Gadget Y</td>
+<td style="vertical-align: middle;">199.99</td>
+<td style="vertical-align: middle;">gadgets</td>
+<td style="vertical-align: middle;">True</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">5</td>
+<td style="vertical-align: middle;">Tool Z</td>
+<td style="vertical-align: middle;">79.99</td>
+<td style="vertical-align: middle;">tools</td>
+<td style="vertical-align: middle;">False</td>
+</tr>
+</tbody>
+</table>
+`,`
+</div>`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">product_id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">in_stock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Widget A</td>
+<td style="vertical-align: middle;">29.99</td>
+<td style="vertical-align: middle;">widgets</td>
+<td style="vertical-align: middle;">True</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">Widget B</td>
+<td style="vertical-align: middle;">39.99</td>
+<td style="vertical-align: middle;">widgets</td>
+<td style="vertical-align: middle;">False</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">Gadget X</td>
+<td style="vertical-align: middle;">149.99</td>
+<td style="vertical-align: middle;">gadgets</td>
+<td style="vertical-align: middle;">True</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">Gadget Y</td>
+<td style="vertical-align: middle;">199.99</td>
+<td style="vertical-align: middle;">gadgets</td>
+<td style="vertical-align: middle;">True</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">5</td>
+<td style="vertical-align: middle;">Tool Z</td>
+<td style="vertical-align: middle;">79.99</td>
+<td style="vertical-align: middle;">tools</td>
+<td style="vertical-align: middle;">False</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">sale_price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Widget A</td>
+<td style="vertical-align: middle;">29.99</td>
+<td style="vertical-align: middle;">26.991</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Widget B</td>
+<td style="vertical-align: middle;">39.99</td>
+<td style="vertical-align: middle;">35.991</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Gadget X</td>
+<td style="vertical-align: middle;">149.99</td>
+<td style="vertical-align: middle;">134.991</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Gadget Y</td>
+<td style="vertical-align: middle;">199.99</td>
+<td style="vertical-align: middle;">179.991</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Tool Z</td>
+<td style="vertical-align: middle;">79.99</td>
+<td style="vertical-align: middle;">71.991</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">product_id</th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">in_stock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Widget A</td>
+<td style="vertical-align: middle;">29.99</td>
+<td style="vertical-align: middle;">widgets</td>
+<td style="vertical-align: middle;">True</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">Widget B</td>
+<td style="vertical-align: middle;">39.99</td>
+<td style="vertical-align: middle;">widgets</td>
+<td style="vertical-align: middle;">False</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">Gadget X</td>
+<td style="vertical-align: middle;">149.99</td>
+<td style="vertical-align: middle;">gadgets</td>
+<td style="vertical-align: middle;">True</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">Gadget Y</td>
+<td style="vertical-align: middle;">199.99</td>
+<td style="vertical-align: middle;">gadgets</td>
+<td style="vertical-align: middle;">True</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">5</td>
+<td style="vertical-align: middle;">Tool Z</td>
+<td style="vertical-align: middle;">79.99</td>
+<td style="vertical-align: middle;">tools</td>
+<td style="vertical-align: middle;">False</td>
+</tr>
+</tbody>
+</table>
+`,`<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">sale_price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">Widget A</td>
+<td style="vertical-align: middle;">29.990000</td>
+<td style="vertical-align: middle;">26.990999</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Widget B</td>
+<td style="vertical-align: middle;">39.990002</td>
+<td style="vertical-align: middle;">35.991001</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">Gadget X</td>
+<td style="vertical-align: middle;">149.990005</td>
+<td style="vertical-align: middle;">134.990997</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">Gadget Y</td>
+<td style="vertical-align: middle;">199.990005</td>
+<td style="vertical-align: middle;">179.990997</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">Tool Z</td>
+<td style="vertical-align: middle;">79.989998</td>
+<td style="vertical-align: middle;">71.990997</td>
+</tr>
+</tbody>
+</table>
+`,`
+</div>`,`
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Data lake / analytics data</td>
+<td style="vertical-align: middle;">Use <code>create_table(source=path)</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">ML feature stores</td>
+<td style="vertical-align: middle;">Use <code>create_table</code> with <code>primary_key</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Small datasets</td>
+<td style="vertical-align: middle;">Consider CSV for simplicity</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Streaming data</td>
+<td style="vertical-align: middle;">Use direct <code>insert()</code> instead</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Load columnar data from Parquet files into Pixeltable tables for
+processing and analysis.
+
+## Problem
+
+You have data stored in Parquet format—a common format for analytics,
+data lakes, and ML pipelines. You need to load this data for processing
+with AI models or combining with other data sources.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Import Parquet files directly into tables
+-   Export tables to Parquet for external tools
+-   Handle schema type overrides
+
+You use `pxt.create_table()` with a `source` parameter to create a table
+from a Parquet file. Pixeltable infers column types from the Parquet
+schema automatically.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable pyarrow pandas
+```
+
+
+```python
+import pixeltable as pxt
+import pandas as pd
+import tempfile
+from pathlib import Path
+```
+
+### Create sample Parquet file
+
+First, create a sample Parquet file to demonstrate the import process:
+
+
+```python
+# Create sample data
+sample_data = pd.DataFrame({
+    'product_id': [1, 2, 3, 4, 5],
+    'name': ['Widget A', 'Widget B', 'Gadget X', 'Gadget Y', 'Tool Z'],
+    'price': [29.99, 39.99, 149.99, 199.99, 79.99],
+    'category': ['widgets', 'widgets', 'gadgets', 'gadgets', 'tools'],
+    'in_stock': [True, False, True, True, False]
+})
+
+# Save to temporary Parquet file
+temp_dir = tempfile.mkdtemp()
+parquet_path = Path(temp_dir) / 'products.parquet'
+sample_data.to_parquet(parquet_path, index=False)
+sample_data
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+### Import Parquet file
+
+Use `create_table` with the `source` parameter to create a table
+directly from the Parquet file:
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('parquet_demo', force=True)
+pxt.create_dir('parquet_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;parquet_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17f0ca920&gt;
+</pre>
+
+
+```python
+# Import Parquet file into a new table
+products = pxt.create_table(
+    'parquet_demo.products',
+    source=str(parquet_path)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;products&#x27;.
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&nbsp;653.18&nbsp;rows/s\]
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+
+```python
+# View imported data
+products.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+### Add computed columns
+
+Once imported, you can add computed columns like any other Pixeltable
+table:
+
+
+```python
+# Add a computed column for discounted price
+products.add_computed_column(sale_price=products.price * 0.9)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;5&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+5&nbsp;rows&nbsp;updated,&nbsp;10&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View with computed column
+products.select(products.name, products.price, products.sale_price).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+### Import with primary key
+
+Specify a primary key when you need upsert behavior or unique
+constraints:
+
+
+```python
+# Import with a primary key
+products_pk = pxt.create_table(
+    'parquet_demo.products_with_pk',
+    source=str(parquet_path),
+    primary_key='product_id'
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;products_with_pk&#x27;.
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products_with_pk\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products_with_pk\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&nbsp;1548.97&nbsp;rows/s\]
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+
+```python
+# View the table
+products_pk.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+
+### Export table to Parquet
+
+Export your processed data back to Parquet for use with other toolee
+
+
+```python
+# Export to Parquet (note: image columns require inline_images=True)
+export_path = Path(temp_dir) / 'exported_products'
+
+pxt.io.export_parquet(
+    products.select(products.name, products.price, products.sale_price),
+    parquet_path=export_path
+)
+```
+
+
+```python
+# Verify export by reading back
+import pyarrow.parquet as pq
+
+exported_table = pq.read_table(export_path)
+exported_table.to_pandas()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[8] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[9] }} />
+
+## Explanation
+
+**When to use Parquet import:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[10] }} />
+
+**Key features:**
+
+-   Automatic schema inference from Parquet metadata
+-   Support for partitioned datasets (directory of files)
+-   Export with `pxt.io.export_parquet` for interoperability
+-   Primary key support for upsert workflows
+
+## See also
+
+-   [Import CSV
+    files](/howto/cookbooks/data/data-import-csv) -
+    For CSV and Excel imports
+-   [Import JSON
+    files](/howto/cookbooks/data/data-import-json) -
+    For JSON data

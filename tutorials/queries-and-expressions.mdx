@@ -979,38 +979,49 @@ class="data row5 col2">image.getchannel(1)</td>
 </table>
 `];
 
-## Section 3: Queries and Expressions
+Expressions are the basic building blocks of Pixeltable. This guide
+explores how to use queries and expressions, including:
 
-Welcome to Section 3 of the **Pixeltable Fundamentals** tutorial,
-**Queries and Expressions**.
+-   Different types of Pixeltable expressions
+-   Column references and arithmetic operations
+-   Function calls and media operations
+-   The Pixeltable type system
 
-In the previous section of this tutorial, [Computed
-Columns](/tutorials/computed-columns), we saw
-how to issue queries over Pixeltable tables, such as:
+## Prerequisites
+
+This guide assumes you’re familiar with: - Creating and managing
+tables - Basic table operations and queries - Computed columns
+
+If you’re new to these concepts, start with: - [Tables and Data
+Operations](/tutorials/tables-and-data-operations) -
+[Computed
+Columns](/tutorials/computed-columns)
+
+## Understanding Expressions
+
+You can use Pixeltable expressions in queries:
 
 
 ```python
 pop_t.select(yoy_change=(pop_t.pop_2023 - pop_t.pop_2022)).collect()
 ```
 
-We also saw how to define **computed columns** that become part of the
-table and are updated automatically when new rows are inserted:
+Or as computed columns that update automatically:
 
 
 ```python
 pop_t.add_column(yoy_change=(pop_t.pop_2023 - pop_t.pop_2022))
 ```
 
-Both these examples use the **Pixeltable expression**
-`pop_t.pop_2023 - pop_t.pop_2022`. We’ve seen a number of other
-expressions as well, such as the chain of image operations
+Both examples use the expression `pop_t.pop_2023 - pop_t.pop_2022`. You
+can also chain operations:
 
 
 ```python
 t.source.convert('RGBA').rotate(10)
 ```
 
-and the model invocation
+Or invoke models:
 
 
 ```python
@@ -1021,20 +1032,12 @@ detr_for_object_detection(
 )
 ```
 
-Expressions are the basic building blocks of Pixeltable workloads. An
-expression can be included in a `select()` statement, which will cause
-it to be evaluated dynamically, or in an `add_column()` statement, which
-will add it to the table schema as a computed column. In this section,
-we’ll dive deeper into the different kinds of Pixeltable expressions and
-their uses. We’ll:
+You can include an expression in a `select()` statement to evaluate it
+dynamically, or in an `add_column()` statement to add it to the table
+schema as a computed column.
 
--   Understand the relationship between Pixeltable expressions and query
-    execution
--   Survey the different types of expressions
--   Learn more about the Pixeltable type system
-
-To get started, let’s import the necessary libraries for this tutorial
-and set up a demo directory.
+To get started, let’s import the necessary libraries and set up a demo
+directory.
 
 
 ```python
@@ -1054,9 +1057,9 @@ Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg
 Created&nbsp;directory&nbsp;&#x27;demo&#x27;.
 </pre>
 
-In this tutorial we’re going to work with a subset of the MNIST dataset,
-a classic reference database of hand-drawn digits. A copy of the MNIST
-dataset is hosted on the Hugging Face datasets repository, so we can use
+In this guide we’ll work with a subset of the MNIST dataset, a classic
+reference database of hand-drawn digits. A copy of the MNIST dataset is
+hosted on the Hugging Face datasets repository, so we can use
 `create_table()` with the `source` parameter to load it into a
 Pixeltable table.
 
@@ -1276,9 +1279,8 @@ t.select(t.image, custom_dict).head(5)
 
 ### UDF Calls
 
-UDF calls are another common type of expression. We’ve seen them
-throughout the tutorial; in fact, we used one a moment ago when we added
-a model invocation to our workload:
+UDF calls are another common type of expression. For example, we used
+one earlier when we added a model invocation to our workload:
 
 
 ```python
@@ -1291,13 +1293,11 @@ vit_for_image_classification(
 This calls the `vit_for_image_classification` UDF in the
 `pxt.functions.huggingface` module. Note that
 `vit_for_image_classification` is a Pixeltable UDF, not an ordinary
-Python function. (UDFs were first discussed in the [Tables and Data
-Operations](/tutorials/tables-and-data-operations)
-section of this tutorial.) You can think of a Pixeltable UDF as a
-function that operates on columns of data, iteratively applying an
-underlying operation to each row in the column (or columns). In this
-case, `vit_for_image_classification` operates on `t.image`, running the
-model against every image in the column.
+Python function. You can think of a Pixeltable UDF as a function that
+operates on columns of data, iteratively applying an underlying
+operation to each row in the column (or columns). In this case,
+`vit_for_image_classification` operates on `t.image`, running the model
+against every image in the column.
 
 Notice that in addition to the column `t.image`, this call to
 `vit_for_image_classification` also takes a constant argument specifying

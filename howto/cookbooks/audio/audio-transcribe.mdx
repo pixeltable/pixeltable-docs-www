@@ -1,0 +1,330 @@
+---
+title: "Transcribe audio files with Whisper"
+sidebarTitle: "Transcribe audio files with Whisper"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-transcribe.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-transcribe.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-transcribe.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Duration</th>
+<th>Challenge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">podcast.mp3</td>
+<td style="vertical-align: middle;">60 min</td>
+<td style="vertical-align: middle;">Too long to process at once</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">interview.mp4</td>
+<td style="vertical-align: middle;">30 min</td>
+<td style="vertical-align: middle;">Need to extract audio first</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">meeting.wav</td>
+<td style="vertical-align: middle;">2 hours</td>
+<td style="vertical-align: middle;">Must chunk for memory efficiency</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">start_time_sec</th>
+<th data-quarto-table-cell-role="th">end_time_sec</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0.</td>
+<td style="vertical-align: middle;">30.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">28.003</td>
+<td style="vertical-align: middle;">58.003</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">start_time_sec</th>
+<th data-quarto-table-cell-role="th">end_time_sec</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0.</td>
+<td style="vertical-align: middle;">30.</td>
+<td style="vertical-align: middle;">of experiencing self versus remembering self. I was hoping you can
+give a simple answer of how we should live life. Based on the fact that
+our memories could be a source of happiness or could be the primary
+source of happiness, that an event when experienced bears its fruits the
+most when it's remembered over and over and over and over.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">28.003</td>
+<td style="vertical-align: middle;">58.003</td>
+<td style="vertical-align: middle;">over and over and over and over and maybe there is some wisdom in
+the fact that we can control to some degree how we remember how we
+evolve our memory of it such that it can maximize the long-term
+happiness of that repeated experience. Okay, well first I'll say I wish
+I could take you on the road with me. That was such a great description.
+Can I be your opening ax? Oh my God, no, I'm going to open for you dude.
+Otherwise it's like, you know, everybody leaves.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Speed</th>
+<th>Quality</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>tiny.en</code></td>
+<td style="vertical-align: middle;">Fastest</td>
+<td style="vertical-align: middle;">Basic</td>
+<td style="vertical-align: middle;">Quick tests</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>base.en</code></td>
+<td style="vertical-align: middle;">Fast</td>
+<td style="vertical-align: middle;">Good</td>
+<td style="vertical-align: middle;">General use</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>small.en</code></td>
+<td style="vertical-align: middle;">Medium</td>
+<td style="vertical-align: middle;">Better</td>
+<td style="vertical-align: middle;">Higher accuracy</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>medium.en</code></td>
+<td style="vertical-align: middle;">Slow</td>
+<td style="vertical-align: middle;">Great</td>
+<td style="vertical-align: middle;">Professional quality</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>large</code></td>
+<td style="vertical-align: middle;">Slowest</td>
+<td style="vertical-align: middle;">Best</td>
+<td style="vertical-align: middle;">Maximum accuracy</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>chunk_duration_sec</code></td>
+<td style="vertical-align: middle;">Duration of each chunk in seconds</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>overlap_sec</code></td>
+<td style="vertical-align: middle;">Overlap between chunks (helps with word boundaries)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>min_chunk_duration_sec</code></td>
+<td style="vertical-align: middle;">Drop the last chunk if shorter than this</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Convert speech to text locally using OpenAI’s open-source Whisper
+model—no API key needed.
+
+## Problem
+
+You have audio or video files that need transcription. Long files are
+memory-intensive to process at once, so you need to split them into
+manageable chunks.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Transcribe audio files locally with Whisper (no API key)
+-   Automatically chunk long files
+-   Extract and transcribe audio from videos
+
+You create a view with AudioSplitter to break long files into chunks,
+then add a computed column for transcription. Whisper runs locally on
+your machine—no API calls needed.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai-whisper
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.iterators import AudioSplitter
+from pixeltable.functions import whisper
+```
+
+### Load audio files
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('audio_demo', force=True)
+pxt.create_dir('audio_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;audio_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x16218a9d0&gt;
+</pre>
+
+
+```python
+# Create table for audio files
+audio = pxt.create_table('audio_demo.files', {'audio': pxt.Audio})
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;files&#x27;.
+</pre>
+
+
+```python
+# Insert a sample audio file (video files also work - audio is extracted automatically)
+audio.insert([
+    {'audio': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/audio-transcription-demo/Lex-Fridman-Podcast-430-Excerpt-0.mp4'}
+])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`files\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;285.54&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+### Split into chunks
+
+Create a view that splits audio into 30-second chunks with overlap:
+
+
+```python
+# Split audio into chunks for transcription
+chunks = pxt.create_view(
+    'audio_demo.chunks',
+    audio,
+    iterator=AudioSplitter.create(
+        audio=audio.audio,
+        chunk_duration_sec=30.0,  # 30-second chunks
+        overlap_sec=2.0,          # 2-second overlap for context
+        min_chunk_duration_sec=5.0  # Drop chunks shorter than 5 seconds
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;1257.10&nbsp;rows/s\]
+</pre>
+
+
+```python
+# View the chunks
+chunks.select(chunks.start_time_sec, chunks.end_time_sec).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+### Transcribe with Whisper
+
+Add a computed column that transcribes each chunk:
+
+
+```python
+# Add transcription column (runs locally - no API key needed)
+chunks.add_computed_column(
+    transcription=whisper.transcribe(
+        audio=chunks.audio_chunk,
+        model='base.en'  # Options: tiny.en, base.en, small.en, medium.en, large
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;updated,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# Extract just the text
+chunks.add_computed_column(text=chunks.transcription.text)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;updated,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View transcriptions with timestamps
+chunks.select(chunks.start_time_sec, chunks.end_time_sec, chunks.text).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## Explanation
+
+**Whisper models:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+Models ending in `.en` are English-only and faster. Remove `.en` for
+multilingual support.
+
+**AudioSplitter parameters:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+**Video files work too:**
+
+When you insert a video file, Pixeltable automatically extracts the
+audio track.
+
+## See also
+
+-   [Iterators
+    documentation](/platform/iterators)
+-   [Whisper library](https://github.com/openai/whisper)

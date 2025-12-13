@@ -1,0 +1,482 @@
+---
+title: "Summarize text with LLMs"
+sidebarTitle: "Summarize text with LLMs"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-summarize.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-summarize.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/text/text-summarize.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Content</th>
+<th>Length</th>
+<th>Need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">News articles</td>
+<td style="vertical-align: middle;">2,000 words</td>
+<td style="vertical-align: middle;">One-paragraph summary</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Meeting transcripts</td>
+<td style="vertical-align: middle;">10,000 words</td>
+<td style="vertical-align: middle;">Key points and action items</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Research papers</td>
+<td style="vertical-align: middle;">8,000 words</td>
+<td style="vertical-align: middle;">Abstract-style summary</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">The Rise of Electric Vehicles</td>
+<td style="vertical-align: middle;">Electric vehicles (EVs) have seen unprecedented growth in recent
+years, transforming the automotive industry. Sales increased by 60%
+globally in 2023, with China leading the market followed by Europe and
+North America. Major automakers like Tesla, BYD, and traditional
+manufacturers have invested billions in EV technology. Battery costs
+have dropped significantly, making EVs more affordable for consumers.
+Government incentives and stricter emissions regulations continue to
+drive adoption. Charging infrastructure is expanding rapidly, with new
+fast-charging networks being deployed across major highways. Despite
+challenges like range anxiety and charging times, consumer acceptance is
+growing steadily.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Advances in Renewable Energy</td>
+<td style="vertical-align: middle;">Solar and wind power capacity reached record levels in 2023,
+accounting for over 30% of global electricity generation. The cost of
+solar panels has fallen by 90% over the past decade, making renewable
+energy competitive with fossil fuels. Offshore wind farms are being
+built at scale, with turbines now reaching heights of over 250 meters.
+Energy storage solutions, particularly lithium-ion batteries, are
+addressing intermittency challenges. Countries like Denmark and Scotland
+have achieved periods of 100% renewable electricity. Corporate power
+purchase agreements are accelerating the transition, with tech giants
+committing to carbon-neutral operations.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">The Rise of Electric Vehicles</td>
+<td style="vertical-align: middle;">Electric vehicles (EVs) have experienced remarkable growth, with
+global sales increasing by 60% in 2023, primarily driven by China,
+Europe, and North America. Major automakers, including Tesla and BYD,
+have invested heavily in EV technology, while decreasing battery costs
+and government incentives are making EVs more accessible to consumers.
+The expansion of charging infrastructure, despite lingering issues like
+range anxiety, is contributing to steadily growing consumer acceptance
+of EVs.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Advances in Renewable Energy</td>
+<td style="vertical-align: middle;">In 2023, solar and wind power reached record levels, contributing
+over 30% to global electricity generation, driven by a 90% drop in solar
+panel costs and the development of large offshore wind farms.
+Innovations in energy storage, particularly lithium-ion batteries, are
+helping to manage intermittency, while countries like Denmark and
+Scotland have achieved 100% renewable electricity milestones.
+Additionally, corporate power purchase agreements from major tech
+companies are facilitating faster transitions to carbon-neutral
+operations.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">key_points</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">The Rise of Electric Vehicles</td>
+<td style="vertical-align: middle;">- **Significant Sales Growth**: Electric vehicle sales increased by
+60% globally in 2023, with China, Europe, and North America leading the
+market. - **Investment and Affordability**: Major automakers, including
+Tesla and traditional manufacturers, have invested billions in EV
+technology, while battery costs have significantly dropped, making EVs
+more affordable. - **Expanding Infrastructure and Support**: The
+expansion of charging infrastructure and government incentives, along
+with stricter emissions regulations, are driving consumer acceptance
+despite challenges like range anxiety.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Advances in Renewable Energy</td>
+<td style="vertical-align: middle;">- Solar and wind power accounted for over 30% of global electricity
+generation in 2023, reaching record capacity levels. - The cost of solar
+panels has decreased by 90% in the past decade, making renewable energy
+financially competitive with fossil fuels. - Significant developments in
+offshore wind farms and energy storage solutions, like lithium-ion
+batteries, are helping to overcome intermittency challenges, while
+corporate power purchase agreements drive the transition towards
+carbon-neutral operations.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">summary</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">The Rise of Electric Vehicles</td>
+<td style="vertical-align: middle;">Electric vehicles (EVs) have experienced remarkable growth, with
+global sales increasing by 60% in 2023, primarily driven by China,
+Europe, and North America. Major automakers, including Tesla and BYD,
+have invested heavily in EV technology, while decreasing battery costs
+and government incentives are making EVs more accessible to consumers.
+The expansion of charging infrastructure, despite lingering issues like
+range anxiety, is contributing to steadily growing consumer acceptance
+of EVs.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Advances in Renewable Energy</td>
+<td style="vertical-align: middle;">In 2023, solar and wind power reached record levels, contributing
+over 30% to global electricity generation, driven by a 90% drop in solar
+panel costs and the development of large offshore wind farms.
+Innovations in energy storage, particularly lithium-ion batteries, are
+helping to manage intermittency, while countries like Denmark and
+Scotland have achieved 100% renewable electricity milestones.
+Additionally, corporate power purchase agreements from major tech
+companies are facilitating faster transitions to carbon-neutral
+operations.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">AI in Healthcare</td>
+<td style="vertical-align: middle;">Artificial intelligence is transforming healthcare by enhancing
+diagnostics and treatment planning, with machine learning models
+achieving accuracy in disease detection that rivals or surpasses human
+specialists. Additionally, AI is expediting drug discovery and utilizing
+natural language processing to derive insights from clinical notes and
+research literature.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Style</th>
+<th>Prompt pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Brief</td>
+<td style="vertical-align: middle;">“Summarize in 1-2 sentences”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Bullet points</td>
+<td style="vertical-align: middle;">“List N key points as bullets”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Executive</td>
+<td style="vertical-align: middle;">“Write an executive summary for business leaders”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Technical</td>
+<td style="vertical-align: middle;">“Summarize the technical details”</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Generate concise summaries of long text, articles, or documents using
+large language models.
+
+## Problem
+
+You have long text content—articles, transcripts, documents—that needs
+to be summarized. Processing each piece manually is time-consuming and
+inconsistent.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Summarize text using OpenAI GPT models
+-   Customize summary style with prompts
+-   Process multiple documents automatically
+
+You add a computed column that calls an LLM to generate summaries. When
+you insert new text, summaries are generated automatically.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/miniconda3/envs/pixeltable/lib/python3.11/site-packages)
+Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
+</pre>
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import openai
+```
+
+### Load sample text
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('summarize_demo', force=True)
+pxt.create_dir('summarize_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;summarize_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30d758b10&gt;
+</pre>
+
+
+```python
+# Create table for articles
+articles = pxt.create_table('summarize_demo.articles', {
+    'title': pxt.String,
+    'content': pxt.String
+})
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;articles&#x27;.
+</pre>
+
+
+```python
+# Sample articles to summarize
+sample_articles = [
+    {
+        'title': 'The Rise of Electric Vehicles',
+        'content': '''Electric vehicles (EVs) have seen unprecedented growth in recent years,
+        transforming the automotive industry. Sales increased by 60% globally in 2023,
+        with China leading the market followed by Europe and North America. Major automakers
+        like Tesla, BYD, and traditional manufacturers have invested billions in EV technology.
+        Battery costs have dropped significantly, making EVs more affordable for consumers.
+        Government incentives and stricter emissions regulations continue to drive adoption.
+        Charging infrastructure is expanding rapidly, with new fast-charging networks being
+        deployed across major highways. Despite challenges like range anxiety and charging
+        times, consumer acceptance is growing steadily.'''
+    },
+    {
+        'title': 'Advances in Renewable Energy',
+        'content': '''Solar and wind power capacity reached record levels in 2023, accounting
+        for over 30% of global electricity generation. The cost of solar panels has fallen
+        by 90% over the past decade, making renewable energy competitive with fossil fuels.
+        Offshore wind farms are being built at scale, with turbines now reaching heights
+        of over 250 meters. Energy storage solutions, particularly lithium-ion batteries,
+        are addressing intermittency challenges. Countries like Denmark and Scotland have
+        achieved periods of 100% renewable electricity. Corporate power purchase agreements
+        are accelerating the transition, with tech giants committing to carbon-neutral operations.'''
+    }
+]
+
+articles.insert(sample_articles)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;316.21&nbsp;rows/s\]
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;inserted,&nbsp;4&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View articles
+articles.select(articles.title, articles.content).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+### Generate summaries
+
+Add a computed column that generates summaries using GPT:
+
+
+```python
+# Create prompt template for summarization
+prompt = 'Summarize the following article in 2-3 sentences:\n\n' + articles.content
+
+# Add computed column for LLM response
+articles.add_computed_column(
+    response=openai.chat_completions(
+        messages=[{'role': 'user', 'content': prompt}],
+        model='gpt-4o-mini'
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;updated,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# Extract the summary text from the response
+articles.add_computed_column(
+    summary=articles.response.choices[0].message.content
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;updated,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View titles and summaries
+articles.select(articles.title, articles.summary).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+### Custom summary styles
+
+You can customize the summary format by changing the prompt:
+
+
+```python
+# Add bullet-point summary
+bullet_prompt = 'List the 3 key points from this article as bullet points:\n\n' + articles.content
+
+articles.add_computed_column(
+    bullet_response=openai.chat_completions(
+        messages=[{'role': 'user', 'content': bullet_prompt}],
+        model='gpt-4o-mini'
+    )
+)
+
+articles.add_computed_column(
+    key_points=articles.bullet_response.choices[0].message.content
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;updated,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View bullet-point summaries
+articles.select(articles.title, articles.key_points).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+### Automatic processing
+
+New articles are automatically summarized when inserted:
+
+
+```python
+# Insert a new article - summaries are generated automatically
+articles.insert([{
+    'title': 'AI in Healthcare',
+    'content': '''Artificial intelligence is revolutionizing healthcare diagnostics
+    and treatment planning. Machine learning models can now detect diseases from
+    medical images with accuracy matching or exceeding human specialists. AI-powered
+    drug discovery is accelerating the development of new treatments. Natural language
+    processing is being used to extract insights from clinical notes and research papers.'''
+}])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;411.57&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View all summaries including the new article
+articles.select(articles.title, articles.summary).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+## Explanation
+
+**Prompt engineering for summaries:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+**Cost optimization:**
+
+-   Use `gpt-4o-mini` for most summarization tasks (fast and affordable)
+-   Use `gpt-4o` for complex documents requiring deeper understanding
+-   Summaries are cached—you only pay once per article and stuand toofor
+    trL para
+
+## See also
+
+-   [Split documents for
+    RAG](/howto/cookbooks/text/doc-chunk-for-rag) -
+    Process long documents
+-   [Extract fields from
+    JSON](/howto/cookbooks/core/workflow-json-extraction) -
+    Parse structured LLM output
+-   [Configure API
+    keys](/howto/cookbooks/core/workflow-api-keys) -
+    Set up OpenAI credentials

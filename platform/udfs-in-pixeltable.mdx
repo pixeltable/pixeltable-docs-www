@@ -491,7 +491,7 @@ that it uses. The most familiar types that you’ll use in UDFs are:
 In addition to these standard Python types, Pixeltable also recognizes
 various kinds of arrays, audio and video media, and documents.
 
-## Local and Module UDFs
+## Local and module UDFs
 
 The `longest_word` UDF that we defined above is a *local* UDF: it was
 defined directly in our notebook, rather than in a module that we
@@ -651,7 +651,7 @@ won’t have much performance impact on our toy example, but for GPU-bound
 computations such as text or image embeddings, it can make a substantial
 difference.
 
-## UDAs (Aggregate UDFs)
+## UDAs (aggregate UDFs)
 
 Ordinary UDFs are always one-to-one on rows: each row of input generates
 one UDF output value. Functions that aggregate data, conversely, are

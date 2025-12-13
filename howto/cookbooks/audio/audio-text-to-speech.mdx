@@ -1,0 +1,289 @@
+---
+title: "Convert text to speech"
+sidebarTitle: "Convert text to speech"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-text-to-speech.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-text-to-speech.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-text-to-speech.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Input</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Accessibility</td>
+<td style="vertical-align: middle;">Blog posts</td>
+<td style="vertical-align: middle;">Audio articles</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Learning</td>
+<td style="vertical-align: middle;">Documentation</td>
+<td style="vertical-align: middle;">Audio guides</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Content</td>
+<td style="vertical-align: middle;">Newsletters</td>
+<td style="vertical-align: middle;">Podcast episodes</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">content</th>
+<th data-quarto-table-cell-role="th">audio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Welcome to AI</td>
+<td style="vertical-align: middle;">Artificial intelligence is transforming how we work and live. From
+smart assistants to autonomous vehicles, AI is becoming part of our
+daily lives.</td>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+<audio controls>
+<source src="http://127.0.0.1:52941/Users/pjlb/.pixeltable/media/b448d43a91a64b1581bdb993cbf3b514/f5/f50b/b448d43a91a64b1581bdb993cbf3b514_6_2_f50bc2ab8d874fa1b2ae6e611fa5ae96.mp3" type="audio/mpeg">
+</source>
+</audio>
+</div></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Getting Started</td>
+<td style="vertical-align: middle;">To begin your journey with machine learning, start by understanding
+the basics of data preparation and model training.</td>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+<audio controls>
+<source src="http://127.0.0.1:52941/Users/pjlb/.pixeltable/media/b448d43a91a64b1581bdb993cbf3b514/b2/b2fa/b448d43a91a64b1581bdb993cbf3b514_6_2_b2fa0917c3604279aafe8c1af4f971e2.mp3" type="audio/mpeg">
+</source>
+</audio>
+</div></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Speed</th>
+<th>Quality</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>tts-1</code></td>
+<td style="vertical-align: middle;">Fast</td>
+<td style="vertical-align: middle;">Good</td>
+<td style="vertical-align: middle;">Real-time, drafts</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>tts-1-hd</code></td>
+<td style="vertical-align: middle;">Slower</td>
+<td style="vertical-align: middle;">Higher</td>
+<td style="vertical-align: middle;">Production audio</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Voice</th>
+<th>Style</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>alloy</code></td>
+<td style="vertical-align: middle;">Neutral, balanced</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>echo</code></td>
+<td style="vertical-align: middle;">Warm, conversational</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>fable</code></td>
+<td style="vertical-align: middle;">Expressive, storytelling</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>onyx</code></td>
+<td style="vertical-align: middle;">Deep, authoritative</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>nova</code></td>
+<td style="vertical-align: middle;">Friendly, upbeat</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>shimmer</code></td>
+<td style="vertical-align: middle;">Clear, professional</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Generate natural-sounding audio from text using OpenAI’s text-to-speech
+models.
+
+## Problem
+
+You need to convert text content into spoken audio—for accessibility,
+content repurposing, or voice applications.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Generate speech with OpenAI TTS
+-   Choose from multiple voice options
+-   Store text and audio together
+
+You add a computed column that converts text to audio. The audio is
+cached and only regenerated when the source text changes.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.openai import speech
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('tts_demo', force=True)
+pxt.create_dir('tts_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;tts_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17f0d5bd0&gt;
+</pre>
+
+### Create text-to-speech pipeline
+
+
+```python
+# Create table for articles
+articles = pxt.create_table(
+    'tts_demo.articles',
+    {'title': pxt.String, 'content': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;articles&#x27;.
+</pre>
+
+
+```python
+# Add audio generation column
+articles.add_computed_column(
+    audio=speech(
+        articles.content,
+        model='tts-1',
+        voice='alloy'
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+### Generate audio
+
+
+```python
+# Insert sample articles
+sample_articles = [
+    {
+        'title': 'Welcome to AI',
+        'content': 'Artificial intelligence is transforming how we work and live. From smart assistants to autonomous vehicles, AI is becoming part of our daily lives.'
+    },
+    {
+        'title': 'Getting Started',
+        'content': 'To begin your journey with machine learning, start by understanding the basics of data preparation and model training.'
+    },
+]
+
+articles.insert(sample_articles)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;423.90&nbsp;rows/s\]
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+2&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View articles with generated audio
+articles.select(articles.title, articles.content, articles.audio).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Explanation
+
+**OpenAI TTS models:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**Voice options:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+**Tips:**
+
+-   Use `tts-1` for drafts and real-time applications
+-   Use `tts-1-hd` for final production audio
+-   Audio is cached—no regeneration on queries
+
+## See also
+
+-   [Transcribe
+    audio](/howto/cookbooks/audio/audio-transcribe) -
+    Convert audio to text
+-   [Summarize
+    podcasts](/howto/cookbooks/audio/audio-summarize-podcast) -
+    Transcribe and summarize audio

@@ -1,0 +1,270 @@
+---
+title: "Configure API keys for AI services"
+sidebarTitle: "Configure API keys for AI services"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-api-keys.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-api-keys.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/workflow-api-keys.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<colgroup>
+<col style="width: 18%" />
+<col style="width: 43%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr>
+<th>Service</th>
+<th>Environment Variable</th>
+<th>Where to get it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">OpenAI</td>
+<td style="vertical-align: middle;"><code>OPENAI_API_KEY</code></td>
+<td style="vertical-align: middle;"><a
+href="https://platform.openai.com/api-keys">platform.openai.com</a></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Anthropic</td>
+<td style="vertical-align: middle;"><code>ANTHROPIC_API_KEY</code></td>
+<td style="vertical-align: middle;"><a
+href="https://console.anthropic.com/">console.anthropic.com</a></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Google</td>
+<td style="vertical-align: middle;"><code>GOOGLE_API_KEY</code></td>
+<td style="vertical-align: middle;"><a
+href="https://aistudio.google.com/apikey">aistudio.google.com</a></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 41%" />
+<col style="width: 32%" />
+</colgroup>
+<thead>
+<tr>
+<th>Method</th>
+<th>Persistence</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><strong>Environment variable</strong></td>
+<td style="vertical-align: middle;">Session/shell</td>
+<td style="vertical-align: middle;">CI/CD, containers, production</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Config file</strong></td>
+<td style="vertical-align: middle;">Permanent</td>
+<td style="vertical-align: middle;">Local development, all projects</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Getpass</strong></td>
+<td style="vertical-align: middle;">Session only</td>
+<td style="vertical-align: middle;">Shared notebooks, demos</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Env Variable</th>
+<th>Config Section</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">OpenAI</td>
+<td style="vertical-align: middle;"><code>OPENAI_API_KEY</code></td>
+<td style="vertical-align: middle;"><code>[openai]</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Anthropic</td>
+<td style="vertical-align: middle;"><code>ANTHROPIC_API_KEY</code></td>
+<td style="vertical-align: middle;"><code>[anthropic]</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Google</td>
+<td style="vertical-align: middle;"><code>GOOGLE_API_KEY</code></td>
+<td style="vertical-align: middle;"><code>[google]</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Mistral</td>
+<td style="vertical-align: middle;"><code>MISTRAL_API_KEY</code></td>
+<td style="vertical-align: middle;"><code>[mistral]</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Together</td>
+<td style="vertical-align: middle;"><code>TOGETHER_API_KEY</code></td>
+<td style="vertical-align: middle;"><code>[together]</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Fireworks</td>
+<td style="vertical-align: middle;"><code>FIREWORKS_API_KEY</code></td>
+<td style="vertical-align: middle;"><code>[fireworks]</code></td>
+</tr>
+</tbody>
+</table>
+`];
+
+Set up API credentials for OpenAI, Anthropic, and other AI providers so
+Pixeltable can access them.
+
+## Problem
+
+You need to call AI services (OpenAI, Anthropic, Gemini, etc.) from your
+data pipeline. These services require API keys, but you don’t want to
+hardcode credentials in your notebooks or scripts.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Set API keys using environment variables
+-   Store keys in a config file for all projects
+-   Use `getpass` for one-time session keys
+
+You configure API keys using one of three methods, depending on your
+needs. Pixeltable automatically discovers credentials from environment
+variables or config files—no code changes needed.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+```
+
+
+```python
+import pixeltable as pxt
+import os
+from pathlib import Path
+```
+
+### Option 1: environment variables
+
+**Use when:** CI/CD pipelines, Docker containers, production deployments
+
+Set the environment variable in your shell before running Python:
+
+
+```bash
+# In your terminal (temporary, current session only)
+export OPENAI_API_KEY="sk-..."
+
+# Or add to ~/.bashrc or ~/.zshrc (permanent)
+echo 'export OPENAI_API_KEY="sk-..."' >> ~/.zshrc
+```
+
+You can also set it in Python (useful for testing):
+
+
+```python
+# Set in Python (current process only)
+# os.environ['OPENAI_API_KEY'] = 'sk-...'
+
+# Check if a key is set
+```
+
+### Option 2: config file
+
+**Use when:** Local development, want credentials available to all
+Pixeltable projects
+
+Create `~/.pixeltable/config.toml`:
+
+
+```toml
+# ~/.pixeltable/config.toml
+[openai]
+api_key = "sk-..."
+
+[anthropic]
+api_key = "sk-ant-..."
+
+[google]
+api_key = "AIza..."
+```
+
+You can check if the config file exists:
+
+
+```python
+# Check config file location
+config_dir = Path.home() / '.pixeltable'
+config_file = config_dir / 'config.toml'
+```
+
+### Option 3: getpass (interactive)
+
+**Use when:** Shared notebooks, demos, one-time sessions
+
+Prompt for the key at runtime—it won’t be saved anywhere:
+
+
+```python
+import getpass
+
+# Uncomment to use interactively:
+# if 'OPENAI_API_KEY' not in os.environ:
+#     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+### Verify your configuration
+
+Test that Pixeltable can access your credentials by checking the config:
+
+
+```python
+# Check which API keys are available
+services = ['OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GOOGLE_API_KEY', 'MISTRAL_API_KEY']
+for svc in services:
+    status = "✓" if svc in os.environ else "✗"
+```
+
+## Explanation
+
+**Discovery order:**
+
+Pixeltable checks for API keys in this order: 1. Environment variable
+(e.g., `OPENAI_API_KEY`) 2. Config file (`~/.pixeltable/config.toml`) 3.
+Raises an error if not found
+
+**Supported services:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**Config file is global:** All Pixeltable projects on your machine share
+the same config file.
+
+**Getpass is per-session:** The key only exists in memory for the
+current Python session.
+
+## See also
+
+-   [Pixeltable configuration
+    reference](/platform/configuration)
+-   [Working with
+    OpenAI](/howto/providers/working-with-openai)

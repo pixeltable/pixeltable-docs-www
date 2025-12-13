@@ -1,0 +1,479 @@
+---
+title: "Working with Pydantic in Pixeltable"
+sidebarTitle: "Pydantic"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Python Type</th>
+<th>Pixeltable Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>str</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>int</code></td>
+<td style="vertical-align: middle;"><code>pxt.Int</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>float</code></td>
+<td style="vertical-align: middle;"><code>pxt.Float</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>bool</code></td>
+<td style="vertical-align: middle;"><code>pxt.Bool</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>datetime.datetime</code></td>
+<td style="vertical-align: middle;"><code>pxt.Timestamp</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Literal[...]</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code> or <code>pxt.Int</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Enum</code></td>
+<td style="vertical-align: middle;">Based on enum value type</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 46%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr>
+<th>Pydantic Field Type</th>
+<th>Pixeltable Column Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>str</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code></td>
+<td style="vertical-align: middle;">Basic string</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>int</code></td>
+<td style="vertical-align: middle;"><code>pxt.Int</code></td>
+<td style="vertical-align: middle;">64-bit integer</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>float</code></td>
+<td style="vertical-align: middle;"><code>pxt.Float</code></td>
+<td style="vertical-align: middle;">64-bit float</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>bool</code></td>
+<td style="vertical-align: middle;"><code>pxt.Bool</code></td>
+<td style="vertical-align: middle;">Boolean</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>datetime.datetime</code></td>
+<td style="vertical-align: middle;"><code>pxt.Timestamp</code></td>
+<td style="vertical-align: middle;">With timezone support</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Literal['a', 'b']</code></td>
+<td style="vertical-align: middle;"><code>pxt.String</code></td>
+<td style="vertical-align: middle;">String literals</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Literal[1, 2, 3]</code></td>
+<td style="vertical-align: middle;"><code>pxt.Int</code></td>
+<td style="vertical-align: middle;">Integer literals</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>Enum</code></td>
+<td style="vertical-align: middle;"><code>pxt.Int</code> or <code>pxt.String</code></td>
+<td style="vertical-align: middle;">Based on enum values</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>T \| None</code></td>
+<td style="vertical-align: middle;">Nullable column</td>
+<td style="vertical-align: middle;">Optional fields</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Nested <code>BaseModel</code></td>
+<td style="vertical-align: middle;"><code>pxt.Json</code></td>
+<td style="vertical-align: middle;">Must be JSON-serializable</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>list[T]</code></td>
+<td style="vertical-align: middle;"><code>pxt.Json</code></td>
+<td style="vertical-align: middle;">Lists stored as JSON</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>dict[str, T]</code></td>
+<td style="vertical-align: middle;"><code>pxt.Json</code></td>
+<td style="vertical-align: middle;">Dicts stored as JSON</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>str</code> (for media)</td>
+<td style="vertical-align: middle;"><code>pxt.Image</code>, <code>pxt.Video</code>, etc.</td>
+<td style="vertical-align: middle;">File paths or URLs</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Pydantic integration enables type-safe data insertion using
+Pydantic models. Instead of inserting raw dictionaries, you can define
+structured models with validation and insert them directly into
+Pixeltable tables.
+
+### Benefits
+
+-   **Type Safety**: Pydantic validates data before insertion
+-   **IDE Support**: Autocomplete and type hints for your data
+-   **Self-Documenting**: Models serve as schema documentation
+-   **Validation**: Built-in data validation via Pydantic
+
+### Important notes
+
+-   Pydantic model fields map to Pixeltable columns by name
+-   Computed columns are automatically skipped during insertion
+-   Nested Pydantic models map to JSON columns
+
+
+```python
+%pip install -qU pixeltable pydantic
+```
+
+
+```python
+import pixeltable as pxt
+
+pxt.drop_dir('pydantic_demo', force=True)
+pxt.create_dir('pydantic_demo')
+```
+
+## Basic usage: scalar types
+
+Define a Pydantic model with fields that match your table columns.
+Pixeltable automatically maps Python types to Pixeltable types:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+
+```python
+import datetime
+from typing import Literal
+from enum import Enum
+import pydantic
+
+# Define an enum for product categories
+class Category(Enum):
+    ELECTRONICS = 1
+    CLOTHING = 2
+    BOOKS = 3
+
+# Define a Pydantic model
+class Product(pydantic.BaseModel):
+    name: str
+    price: float
+    in_stock: bool
+    category: Category
+    rating: Literal['poor', 'average', 'good', 'excellent']
+    created_at: datetime.datetime
+    description: str | None = None  # Optional field
+```
+
+
+```python
+# Create a table with matching schema
+products = pxt.create_table(
+    'pydantic_demo.products',
+    {
+        'name': pxt.Required[pxt.String],
+        'price': pxt.Required[pxt.Float],
+        'in_stock': pxt.Required[pxt.Bool],
+        'category': pxt.Required[pxt.Int],  # Enum values are integers
+        'rating': pxt.Required[pxt.String],  # Literal values
+        'created_at': pxt.Required[pxt.Timestamp],
+        'description': pxt.String,  # Nullable
+    }
+)
+```
+
+
+```python
+# Create Pydantic model instances
+now = datetime.datetime.now()
+
+product_data = [
+    Product(
+        name='Wireless Headphones',
+        price=79.99,
+        in_stock=True,
+        category=Category.ELECTRONICS,
+        rating='excellent',
+        created_at=now,
+        description='High-quality wireless headphones with noise cancellation'
+    ),
+    Product(
+        name='Python Cookbook',
+        price=49.99,
+        in_stock=True,
+        category=Category.BOOKS,
+        rating='good',
+        created_at=now,
+    ),
+    Product(
+        name='Running Shoes',
+        price=129.99,
+        in_stock=False,
+        category=Category.CLOTHING,
+        rating='average',
+        created_at=now,
+        description='Lightweight running shoes'
+    ),
+]
+
+# Insert Pydantic models directly
+products.insert(product_data)
+products.collect()
+```
+
+## Nested models and JSON columns
+
+Nested Pydantic models automatically map to Pixeltable JSON columns.
+This is useful for storing structured metadata.
+
+
+```python
+# Define nested models
+class Address(pydantic.BaseModel):
+    street: str
+    city: str
+    country: str
+    zip_code: str
+
+class ContactInfo(pydantic.BaseModel):
+    email: str
+    phone: str | None = None
+    address: Address
+
+class Customer(pydantic.BaseModel):
+    customer_id: str
+    name: str
+    contact: ContactInfo  # Nested model → JSON column
+```
+
+
+```python
+# Create table with JSON column for nested data
+customers = pxt.create_table(
+    'pydantic_demo.customers',
+    {
+        'customer_id': pxt.Required[pxt.String],
+        'name': pxt.Required[pxt.String],
+        'contact': pxt.Required[pxt.Json],  # Nested model stored as JSON
+    }
+)
+```
+
+
+```python
+# Insert nested data
+customer_data = [
+    Customer(
+        customer_id='C001',
+        name='Alice Johnson',
+        contact=ContactInfo(
+            email='alice@example.com',
+            phone='+1-555-0101',
+            address=Address(
+                street='123 Main St',
+                city='San Francisco',
+                country='USA',
+                zip_code='94102'
+            )
+        )
+    ),
+    Customer(
+        customer_id='C002',
+        name='Bob Smith',
+        contact=ContactInfo(
+            email='bob@example.com',
+            address=Address(
+                street='456 Oak Ave',
+                city='New York',
+                country='USA',
+                zip_code='10001'
+            )
+        )
+    ),
+]
+
+customers.insert(customer_data)
+customers.collect()
+```
+
+
+```python
+# Query nested JSON fields using Pixeltable's JSON path syntax
+customers.select(
+    customers.name,
+    email=customers.contact.email,
+    city=customers.contact.address.city
+).collect()
+```
+
+## Media files with Pydantic
+
+For media columns (Image, Video, Audio, Document), use `str` or `Path`
+fields in your Pydantic model to specify file paths or URLs.
+
+
+```python
+from pathlib import Path
+
+class ImageRecord(pydantic.BaseModel):
+    title: str
+    image_url: str  # URLs or file paths as strings
+    tags: list[str]
+
+# Create table with Image column
+images = pxt.create_table(
+    'pydantic_demo.images',
+    {
+        'title': pxt.Required[pxt.String],
+        'image_url': pxt.Required[pxt.Image],  # Media column
+        'tags': pxt.Required[pxt.Json],
+    }
+)
+```
+
+
+```python
+# Insert image records with URLs
+base_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
+image_data = [
+    ImageRecord(
+        title='Sample Image',
+        image_url=f'{base_url}/000000000036.jpg',
+        tags=['sample', 'test', 'image']
+    ),
+]
+
+images.insert(image_data)
+images.select(images.title, images.image_url, images.tags).collect()
+```
+
+## Working with Computed Columns
+
+Pydantic models work seamlessly with computed columns. Simply omit
+computed column fields from your model - Pixeltable will skip them
+during insertion.
+
+
+```python
+# Model only includes input columns
+class Article(pydantic.BaseModel):
+    title: str
+    content: str
+
+# Create table with computed column
+articles = pxt.create_table(
+    'pydantic_demo.articles',
+    {
+        'title': pxt.Required[pxt.String],
+        'content': pxt.Required[pxt.String],
+    }
+)
+
+# Add a computed column
+articles.add_computed_column(
+    word_count=articles.content.apply(lambda x: len(x.split()), col_type=pxt.Int)
+)
+```
+
+
+```python
+# Insert data - computed columns are automatically calculated
+article_data = [
+    Article(
+        title='Getting Started with Pixeltable',
+        content='Pixeltable is a powerful tool for building AI applications. It provides automatic versioning and incremental computation.'
+    ),
+    Article(
+        title='Type Safety in Python',
+        content='Using Pydantic with Pixeltable provides type safety and validation for your data pipelines.'
+    ),
+]
+
+articles.insert(article_data)
+articles.select(articles.title, articles.word_count).collect()
+```
+
+## Optional Fields and Defaults
+
+Pydantic’s optional fields with defaults work naturally with
+Pixeltable’s nullable columns.
+
+
+```python
+class Task(pydantic.BaseModel):
+    title: str
+    priority: int = 1  # Default value
+    due_date: datetime.datetime | None = None  # Optional
+    notes: str | None = None  # Optional
+
+tasks = pxt.create_table(
+    'pydantic_demo.tasks',
+    {
+        'title': pxt.Required[pxt.String],
+        'priority': pxt.Required[pxt.Int],
+        'due_date': pxt.Timestamp,  # Nullable
+        'notes': pxt.String,  # Nullable
+    }
+)
+
+# Insert with and without optional fields
+tasks.insert([
+    Task(title='Complete project', priority=3, due_date=datetime.datetime(2025, 12, 31)),
+    Task(title='Review code'),  # Uses default priority=1, None for optionals
+    Task(title='Write docs', notes='Include examples'),
+])
+
+tasks.collect()
+```
+
+## Type Mapping Reference
+
+Here’s the complete mapping between Pydantic/Python types and Pixeltable
+types:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Learn More
+
+For more information about working with Pydantic in Pixeltable:
+
+-   [Pixeltable Documentation](https://docs.pixeltable.com)
+-   [Pydantic Documentation](https://docs.pydantic.dev)
+-   [Type Safety Blog
+    Post](https://www.pixeltable.com/blog/pydantic-integration-type-safety)
+
+If you have any questions, don’t hesitate to reach out on
+[Discord](https://discord.com/invite/QPyqFYx2UN).

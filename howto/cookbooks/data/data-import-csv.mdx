@@ -1,0 +1,300 @@
+---
+title: "Import data from CSV files"
+sidebarTitle: "Import data from CSV files"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-csv.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-csv.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-csv.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Records</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">customers.csv</td>
+<td style="vertical-align: middle;">10,000</td>
+<td style="vertical-align: middle;">Add AI-generated summaries</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">products.xlsx</td>
+<td style="vertical-align: middle;">500</td>
+<td style="vertical-align: middle;">Generate embeddings for search</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">logs.csv</td>
+<td style="vertical-align: middle;">1M</td>
+<td style="vertical-align: middle;">Filter and aggregate</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">cca3</th>
+<th data-quarto-table-cell-role="th">country</th>
+<th data-quarto-table-cell-role="th">continent</th>
+<th data-quarto-table-cell-role="th">pop_2023</th>
+<th data-quarto-table-cell-role="th">pop_2022</th>
+<th data-quarto-table-cell-role="th">pop_2000</th>
+<th data-quarto-table-cell-role="th">area__km__</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">IND</td>
+<td style="vertical-align: middle;">India</td>
+<td style="vertical-align: middle;">Asia</td>
+<td style="vertical-align: middle;">1428627663</td>
+<td style="vertical-align: middle;">1417173173</td>
+<td style="vertical-align: middle;">1059633675</td>
+<td style="vertical-align: middle;">3287590.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">CHN</td>
+<td style="vertical-align: middle;">China</td>
+<td style="vertical-align: middle;">Asia</td>
+<td style="vertical-align: middle;">1425671352</td>
+<td style="vertical-align: middle;">1425887337</td>
+<td style="vertical-align: middle;">1264099069</td>
+<td style="vertical-align: middle;">9706961.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">USA</td>
+<td style="vertical-align: middle;">United States</td>
+<td style="vertical-align: middle;">North America</td>
+<td style="vertical-align: middle;">339996563</td>
+<td style="vertical-align: middle;">338289857</td>
+<td style="vertical-align: middle;">282398554</td>
+<td style="vertical-align: middle;">9372610.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">IDN</td>
+<td style="vertical-align: middle;">Indonesia</td>
+<td style="vertical-align: middle;">Asia</td>
+<td style="vertical-align: middle;">277534122</td>
+<td style="vertical-align: middle;">275501339</td>
+<td style="vertical-align: middle;">214072421</td>
+<td style="vertical-align: middle;">1904569.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">PAK</td>
+<td style="vertical-align: middle;">Pakistan</td>
+<td style="vertical-align: middle;">Asia</td>
+<td style="vertical-align: middle;">240485658</td>
+<td style="vertical-align: middle;">235824862</td>
+<td style="vertical-align: middle;">154369924</td>
+<td style="vertical-align: middle;">881912.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">age</th>
+<th data-quarto-table-cell-role="th">city</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Alice</td>
+<td style="vertical-align: middle;">25</td>
+<td style="vertical-align: middle;">NYC</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Bob</td>
+<td style="vertical-align: middle;">30</td>
+<td style="vertical-align: middle;">LA</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Charlie</td>
+<td style="vertical-align: middle;">35</td>
+<td style="vertical-align: middle;">Chicago</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">CSV file path</td>
+<td style="vertical-align: middle;"><code>source='/path/to/data.csv'</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">CSV URL</td>
+<td style="vertical-align: middle;"><code>source='https://example.com/data.csv'</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Excel file</td>
+<td style="vertical-align: middle;"><code>source='/path/to/data.xlsx'</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Pandas DataFrame</td>
+<td style="vertical-align: middle;"><code>source=df</code></td>
+</tr>
+</tbody>
+</table>
+`];
+
+Load data from CSV and Excel files into Pixeltable tables for processing
+and analysis.
+
+## Problem
+
+You have data in CSV or Excel files that you want to process with AI
+models, add computed columns to, or combine with other data sources.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Import CSV files directly into tables
+-   Import from Pandas DataFrames
+-   Handle different data types
+
+You use `pxt.create_table()` with a `source` parameter to create a table
+from a CSV file, or insert DataFrame rows into an existing table.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable pandas
+```
+
+
+```python
+import pixeltable as pxt
+import pandas as pd
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('import_demo', force=True)
+pxt.create_dir('import_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;import_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x141eca110&gt;
+</pre>
+
+### Import CSV directly
+
+Use `create_table` with `source` to create a table from a CSV file:
+
+
+```python
+# Import CSV from URL
+csv_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/world-population-data.csv'
+
+population = pxt.create_table(
+    'import_demo.population',
+    source=csv_url
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;population&#x27;.
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`population\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`population\`:&nbsp;234&nbsp;rows&nbsp;\[00:00,&nbsp;9032.63&nbsp;rows/s\]
+Inserted&nbsp;234&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+
+```python
+# View the imported data
+population.head(5)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+### Import from Pandas DataFrame
+
+You can also create a DataFrame first and insert it:
+
+
+```python
+# Create a DataFrame
+df = pd.DataFrame({
+    'name': ['Alice', 'Bob', 'Charlie'],
+    'age': [25, 30, 35],
+    'city': ['NYC', 'LA', 'Chicago']
+})
+
+# Create table and insert DataFrame
+users = pxt.create_table('import_demo.users', {
+    'name': pxt.String,
+    'age': pxt.Int,
+    'city': pxt.String
+})
+users.insert(df)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;users&#x27;.
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`users\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`users\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;923.31&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View the data
+users.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## Explanation
+
+**Source types supported:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+**Type inference:**
+
+Pixeltable automatically infers column types from CSV data. You can
+override types using `schema_overrides`.
+
+**Large files:**
+
+For very large CSV files, consider:
+
+-   Using `create_table(source=...)` which streams data
+-   Importing in batches if memory is limited
+
+## See also
+
+-   [Tables
+    documentation](/tutorials/tables-and-data-operations)
+-   [Bringing data
+    guide](/howto/cookbooks/data/data-import-csv)
