@@ -1517,10 +1517,7 @@ data-quarto-table-cell-role="th">Computed With</th>
 </table>
 `];
 
-## Section 1: Tables and Data Operations
-
-Welcome to Section 1 of the Pixeltable Fundamentals tutorial, **Tables
-and Data Operations**. In this section, we’ll learn how to:
+This guide shows you how to:
 
 -   Create and manage tables: Understand Pixeltable’s table structure,
     create and modify tables, and work with table schemas
@@ -1808,20 +1805,18 @@ and</li> <li>The <b>media types</b>
 <code>Document</code>.</li>
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[19] }} />
 
-We’ll see examples of each of these types later in the tutorial.
+We’ll see examples of each of these types later in this guide.
 
 </Note>
 
 Besides the column names and types, there’s a third element to the
-schema, `Computed With`. We’ll explain what this means in the next
-section of the tutorial, [Computed
-Columns](/tutorials/computed-columns).
+schema, `Computed With`. To learn more about this, see the [Computed
+Columns](/tutorials/computed-columns) guide.
 
 All of the methods we’ve discussed so far, such as `insert()` and
 `get_table()`, are documented in the [Pixeltable
 SDK](/sdk/latest/) Documentation. The
-following pages are particularly relevant to this section of the
-tutorial:
+following pages are particularly relevant:
 
 -   [pixeltable](/sdk/latest/pixeltable)
     package reference
@@ -2025,10 +2020,10 @@ eq_t.select(min=pxt.functions.min(eq_t.id), max=pxt.functions.max(eq_t.id)).coll
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[31] }} />
 
-We’ll discuss the various Pixeltable functions and expressions more
-thoroughly in the next tutorial section, [Computed
-Columns](/tutorials/computed-columns), and
-they’re exhaustively documented in the [Pixeltable SDK
+To learn more about Pixeltable functions and expressions, see the
+[Computed
+Columns](/tutorials/computed-columns) guide.
+They’re also exhaustively documented in the [Pixeltable SDK
 Documentation](/sdk/latest).
 
 ### Extracting Data from Tables into Python/Pandas
@@ -2356,13 +2351,11 @@ be undone!
 
 ### Multimodal Data
 
-In addition to the structured data we’ve been exploring so far in this
-tutorial, Pixeltable has native support for **media types**: images,
-video, audio, and unstructured documents such as pdfs. Media support is
-one of Pixeltable’s core capabilities, and we’ll have much more to say
-about it the upcoming Unstructured Data section of this tutorial. For
-now, we’ll just give one example to show how media data lives
-side-by-side with structured data in Pixeltable.
+In addition to the structured data we’ve been exploring so far,
+Pixeltable has native support for **media types**: images, video, audio,
+and unstructured documents such as pdfs. Media support is one of
+Pixeltable’s core capabilities. Here’s an example showing how media data
+lives side-by-side with structured data in Pixeltable.
 
 
 ```python
@@ -2483,6 +2476,9 @@ pxt.drop_table('fundamentals.earthquakes')
 pxt.drop_dir('fundamentals', force=True)
 ```
 
-That’s the end of this section of the Fundamentals tutorial! Continue on
-to the next section: - [Computed
-Columns](/tutorials/computed-columns)
+## Next Steps
+
+Learn more about working with Pixeltable: - [Computed
+Columns](/tutorials/computed-columns) -
+[Queries and
+Expressions](/tutorials/queries-and-expressions)

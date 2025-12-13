@@ -1,0 +1,152 @@
+---
+title: "Working with Deepseek in Pixeltable"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-deepseek.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-deepseek.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/notebooks/integrations/working-with-deepseek.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What was the outcome of the 1904 US Presidential election?</td>
+<td style="vertical-align: middle;">The **1904 U.S. Presidential election** resulted in a decisive
+victory for the incumbent **Republican** President **Theodore
+Roosevelt**, who had assumed office in 1901 after the assassination of
+William McKinley. ### **Key Results:** - **Theodore Roosevelt
+(Republican)** won **56.4%** of the popular vote and **336 electoral
+votes** (70.6% of the total). - **Alton B. Parker (Democrat)** received
+**37.6%** of the popular vote and **140 electoral votes**. - **Eugene V.
+Debs (Socialist)** and **Silas C. Swallow (Prohibition)** also ran but
+received minimal support. ### **Significance:** - Roosevelt's landslide
+victory solidified his leadership and progressive policies, including
+trust-busting and conservation efforts. - This was the first election in
+which a sitting president who had inherited the office (rather than
+being elected to it) won a full term in his own right. Roosevelt carried
+**32 of the 45 states**, demonstrating broad national support.</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Deepseek integration enables you to access Deepseek’s LLM
+via the Deepseek API.
+
+### Prerequisites
+
+-   A Deepseek account with an API key (https://api-docs.deepseek.com/)
+
+### Important Notes
+
+-   Deepseek usage may incur costs based on your Deepseek plan.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
+
+First you’ll need to install the required libraries and enter a Deepseek
+API key. Deepseek uses the OpenAI SDK as its Python API, so we need to
+install it in addition to Pixeltable.
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import os
+import getpass
+
+if 'DEEPSEEK_API_KEY' not in os.environ:
+    os.environ['DEEPSEEK_API_KEY'] = getpass.getpass('Deepseek API Key:')
+```
+
+Now let’s create a Pixeltable directory to hold the tables for our demo.
+
+
+```python
+import pixeltable as pxt
+
+# Remove the 'deepseek_demo' directory and its contents, if it exists
+pxt.drop_dir('deepseek_demo', force=True)
+pxt.create_dir('deepseek_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;deepseek_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x16bcf2140&gt;
+</pre>
+
+## Messages
+
+Create a Table: In Pixeltable, create a table with columns to represent
+your input data and the columns where you want to store the results from
+Deepseek.
+
+
+```python
+from pixeltable.functions import deepseek
+
+# Create a table in Pixeltable and add a computed column that calls Deepseek
+
+t = pxt.create_table('deepseek_demo.chat', {'input': pxt.String})
+
+msgs = [{'role': 'user', 'content': t.input}]
+t.add_computed_column(output=deepseek.chat_completions(
+    messages=msgs,
+    model='deepseek-chat',
+))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;\`chat\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Parse the response into a new column
+t.add_computed_column(response=t.output.choices[0].message.content)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
+</pre>
+
+
+```python
+# Start a conversation
+t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'}])
+t.select(t.input, t.response).show()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;105.11&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+### Learn More
+
+To learn more about advanced techniques like RAG operations in
+Pixeltable, check out the [RAG Operations in
+Pixeltable](/notebooks/use-cases/rag-operations)
+tutorial.
+
+If you have any questions, don’t hesitate to reach out.

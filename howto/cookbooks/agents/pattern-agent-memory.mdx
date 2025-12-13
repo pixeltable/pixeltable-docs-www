@@ -1,0 +1,371 @@
+---
+title: "Build an agent with memory"
+sidebarTitle: "Build an agent with memory"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/pattern-agent-memory.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/pattern-agent-memory.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/agents/pattern-agent-memory.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Memory type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">User preferences</td>
+<td style="vertical-align: middle;">“I prefer Python over JavaScript”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Key facts</td>
+<td style="vertical-align: middle;">“The project deadline is March 15”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Conversation context</td>
+<td style="vertical-align: middle;">“We discussed the budget yesterday”</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">user_message</th>
+<th data-quarto-table-cell-role="th">relevant_memories</th>
+<th data-quarto-table-cell-role="th">assistant_reply</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">How much can I spend on cloud resources?</td>
+<td style="vertical-align: middle;">[]</td>
+<td style="vertical-align: middle;">To help you determine how much you can spend on cloud resources, it
+would be useful to know your budget and any specific resources you plan
+to use. If you have a figure in mind or any constraints, please share
+that, and we can look at options that fit within your financial
+plan!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">When do I need to finish this?</td>
+<td style="vertical-align: middle;">[]</td>
+<td style="vertical-align: middle;">Could you please provide the specific deadline you're working
+towards? That way, I can help you plan your tasks more effectively!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What programming language should I use for this project?</td>
+<td style="vertical-align: middle;">[]</td>
+<td style="vertical-align: middle;">To give the best recommendation, could you share more details about
+your project? Specifically, what are the goals of the project, any
+specific platforms you want to target, and your previous experience with
+programming languages? This will help me suggest the most suitable
+language for your needs!</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Memory table</td>
+<td style="vertical-align: middle;">Store facts, preferences, context</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Embedding index</td>
+<td style="vertical-align: middle;">Enable semantic memory search</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>@pxt.query</code></td>
+<td style="vertical-align: middle;">Retrieval function for memories</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Prompt builder</td>
+<td style="vertical-align: middle;">Inject memories into LLM context</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Create an AI agent that remembers important information across
+conversations.
+
+## Problem
+
+You want to build an AI agent that can store and recall important
+information—user preferences, key facts, or context from previous
+conversations.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Store memories with embeddings for semantic search
+-   Retrieve relevant memories based on conversation context
+-   Use `@pxt.query` for retrieval functions
+
+This pattern is inspired by
+[Pixelbot](https://github.com/pixeltable/pixelbot) and
+[Pixelmemory](https://github.com/pixeltable/pixelmemory).
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import os
+import getpass
+from datetime import datetime
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.openai import embeddings, chat_completions
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('agent_demo', force=True)
+pxt.create_dir('agent_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;agent_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x32a0c6390&gt;
+</pre>
+
+### Create memory bank
+
+
+```python
+# Create memory bank table
+memories = pxt.create_table(
+    'agent_demo.memories',
+    {
+        'content': pxt.String,           # The memory content
+        'category': pxt.String,          # Optional category (preference, fact, etc.)
+        'created_at': pxt.Timestamp,     # When the memory was stored
+    }
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;memories&#x27;.
+</pre>
+
+
+```python
+# Add embedding index for semantic search on content
+memories.add_embedding_index(
+    column="content",
+    string_embed=embeddings.using(model="text-embedding-3-small")
+)
+```
+
+### Define retrieval function
+
+
+```python
+# Define a query function to retrieve relevant memories
+@pxt.query
+def recall_memories(context: str, top_k: int = 3):
+    """Retrieve memories relevant to the current context."""
+    sim = memories.content.similarity(context)
+    return (
+        memories.where(sim > 0.5)
+        .order_by(sim, asc=False)
+        .limit(top_k)
+        .select(
+            content=memories.content,
+            category=memories.category
+        )
+    )
+```
+
+### Store some memories
+
+
+```python
+# Store some initial memories
+initial_memories = [
+    {'content': 'User prefers Python for data analysis', 'category': 'preference', 'created_at': datetime.now()},
+    {'content': 'The project deadline is March 15, 2024', 'category': 'fact', 'created_at': datetime.now()},
+    {'content': 'User works at a startup in San Francisco', 'category': 'fact', 'created_at': datetime.now()},
+    {'content': 'Budget for the ML project is $50,000', 'category': 'fact', 'created_at': datetime.now()},
+    {'content': 'User prefers concise explanations over detailed ones', 'category': 'preference', 'created_at': datetime.now()},
+]
+
+memories.insert(initial_memories)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`memories\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&nbsp;590.53&nbsp;rows/s\]
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+5&nbsp;rows&nbsp;inserted,&nbsp;15&nbsp;values&nbsp;computed.
+</pre>
+
+### Create conversation table with memory retrieval
+
+
+```python
+# Create conversation table
+conversations = pxt.create_table(
+    'agent_demo.conversations',
+    {'user_message': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;conversations&#x27;.
+</pre>
+
+
+```python
+# Add memory retrieval step
+conversations.add_computed_column(
+    relevant_memories=recall_memories(conversations.user_message, top_k=3)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Build prompt with memories
+@pxt.udf
+def build_memory_prompt(user_message: str, relevant_memories: list[dict]) -> str:
+    memory_text = '\n'.join([f"- {m['content']}" for m in relevant_memories])
+    return f"""You are a helpful assistant with access to the following memories about the user:
+
+{memory_text}
+
+Use these memories to personalize your response when relevant.
+
+User: {user_message}
+Assistant:"""
+
+conversations.add_computed_column(
+    prompt=build_memory_prompt(conversations.user_message, conversations.relevant_memories)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Generate response with memory context
+conversations.add_computed_column(
+    response=chat_completions(
+        messages=[{'role': 'user', 'content': conversations.prompt}],
+        model='gpt-4o-mini'
+    )
+)
+conversations.add_computed_column(
+    assistant_reply=conversations.response.choices[0].message.content
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+### Chat with memory-aware agent
+
+
+```python
+# Test the memory-aware agent
+test_messages = [
+    {'user_message': 'What programming language should I use for this project?'},
+    {'user_message': 'When do I need to finish this?'},
+    {'user_message': 'How much can I spend on cloud resources?'},
+]
+
+conversations.insert(test_messages)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`conversations\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;1047.88&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;18&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View conversations with memory
+conversations.select(
+    conversations.user_message,
+    conversations.relevant_memories,
+    conversations.assistant_reply
+).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Explanation
+
+**Memory-aware agent architecture:**
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+User&nbsp;Message&nbsp;→&nbsp;Retrieve&nbsp;Memories&nbsp;→&nbsp;Build&nbsp;Prompt&nbsp;→&nbsp;LLM&nbsp;Response
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Memory&nbsp;Bank&nbsp;(with&nbsp;embeddings)
+</pre>
+
+**Key components:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**Adding new memories:**
+
+
+```python
+memories.insert([{
+    'content': 'New information to remember',
+    'category': 'fact',
+    'created_at': datetime.now()
+}])
+```
+
+## See also
+
+-   [Build a RAG
+    pipeline](/howto/cookbooks/agents/pattern-rag-pipeline) -
+    Document retrieval
+-   [Use tool
+    calling](/howto/cookbooks/agents/llm-tool-calling) -
+    Function calling with LLMs
+-   [Pixelbot](https://github.com/pixeltable/pixelbot) - Full agent
+    implementation

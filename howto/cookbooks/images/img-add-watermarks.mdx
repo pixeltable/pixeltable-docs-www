@@ -118,7 +118,7 @@ satisfied, use `.add_computed_column()` to apply watermarks to all
 images in your table.
 
 For more on this workflow, see [Get fast feedback on
-transformations](/howto/cookbooks/dev-iterative-workflow).
+transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ### Setup
 
@@ -143,9 +143,9 @@ pxt.create_dir('image_demo')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/alison-pxt/.pixeltable/pgdata
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;image_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x135490e90&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30e27cc40&gt;
 </pre>
 
 
@@ -167,12 +167,12 @@ t.insert([
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`watermarks\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;891.46&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`watermarks\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`watermarks\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;532.86&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-### Iterate: Add watermarks to a few images first
+### Iterate: add watermarks to a few images first
 
 
 ```python
@@ -200,7 +200,7 @@ t.select(t.image, add_watermark(t.image, '© 2024')).head(1)
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
-### Add: Add watermarks to all images in your table
+### Add: add watermarks to all images in your table
 
 
 ```python
@@ -234,11 +234,14 @@ fully opaque), composites the overlay onto the original image using
 `Image.alpha_composite()`, and converts back to RGB since most image
 formats don’t support transparency.
 
-**To customize the UDF:** - Position: Change the `(x, y)` coordinates in
-the `position` variable - Color: Modify the `(R, G, B, Alpha)` fill
-value (0-255 for each) - Size: Adjust the font size parameter in
-`ImageFont.load_default(size=40)` - Font: Use
-`ImageFont.truetype('path/to/font.ttf', size)` for custom fonts
+**To customize the UDF:**
+
+-   Position: Change the `(x, y)` coordinates in the `position` variable
+-   Color: Modify the `(R, G, B, Alpha)` fill value (0-255 for each)
+-   Size: Adjust the font size parameter in
+    `ImageFont.load_default(size=40)`
+-   Font: Use `ImageFont.truetype('path/to/font.ttf', size)` for custom
+    fonts
 
 **The Pixeltable workflow:**
 
@@ -256,13 +259,14 @@ use `.add_computed_column()` with the same expression to persist results
 permanently.
 
 For more on this workflow, see [Get fast feedback on
-transformations](/howto/cookbooks/dev-iterative-workflow).
+transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
 -   [Test transformations with fast feedback
-    loops](/howto/cookbooks/dev-iterative-workflow)
--   [Transform images with PIL operations](./img-pil-transforms.ipynb)
+    loops](/howto/cookbooks/core/dev-iterative-workflow)
+-   [Transform images with PIL
+    operations](/howto/cookbooks/images/img-pil-transforms)
 -   *Pillow techniques from [Real Python: Image Processing With the
     Python Pillow
     Library](https://realpython.com/image-processing-with-the-python-pillow-library/)*

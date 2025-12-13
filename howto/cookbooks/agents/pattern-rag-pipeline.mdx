@@ -1,0 +1,372 @@
+---
+title: "Build a RAG pipeline"
+sidebarTitle: "Build a RAG pipeline"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/pattern-rag-pipeline.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/pattern-rag-pipeline.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/agents/pattern-rag-pipeline.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Documents</th>
+<th>Questions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Customer support</td>
+<td style="vertical-align: middle;">Help articles</td>
+<td style="vertical-align: middle;">“How do I reset my password?”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Internal wiki</td>
+<td style="vertical-align: middle;">Company docs</td>
+<td style="vertical-align: middle;">“What’s our vacation policy?”</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Research</td>
+<td style="vertical-align: middle;">Papers</td>
+<td style="vertical-align: middle;">“What did the study find about X?”</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">question</th>
+<th data-quarto-table-cell-role="th">answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">When am I billed?</td>
+<td style="vertical-align: middle;">You are billed on the first of each month.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What are the API rate limits?</td>
+<td style="vertical-align: middle;">The API rate limits are 1000 requests per minute for standard plans
+and 10000 requests per minute for enterprise plans.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">How do I reset my password?</td>
+<td style="vertical-align: middle;">To reset your password, go to the login page and click "Forgot
+Password". Enter your email address, and you will receive a reset link
+within 5 minutes. The link expires after 24 hours.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Embedding index</td>
+<td style="vertical-align: middle;">Fast similarity search</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>@pxt.query</code></td>
+<td style="vertical-align: middle;">Retrieve context from the database</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>@pxt.udf</code></td>
+<td style="vertical-align: middle;">Build the augmented prompt</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Computed columns</td>
+<td style="vertical-align: middle;">Chain the pipeline together</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Create a retrieval-augmented generation system that answers questions
+using your documents as context.
+
+## Problem
+
+You want an LLM to answer questions using your specific documents—not
+just its training data. You need to retrieve relevant context and
+include it in the prompt.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Embed and index documents for retrieval
+-   Create a query function that retrieves context
+-   Generate answers grounded in your documents
+
+You build a pipeline that: (1) embeds documents, (2) finds relevant
+chunks for a query, and (3) generates an answer using those chunks as
+context.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.openai import embeddings, chat_completions
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('rag_demo', force=True)
+pxt.create_dir('rag_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;rag_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17c878c10&gt;
+</pre>
+
+### Step 1: create document store with embeddings
+
+
+```python
+# Create table for document chunks
+chunks = pxt.create_table(
+    'rag_demo.chunks',
+    {'doc_id': pxt.String, 'chunk_text': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chunks&#x27;.
+</pre>
+
+
+```python
+# Add embedding index for semantic search
+chunks.add_embedding_index(
+    column="chunk_text",
+    string_embed=embeddings.using(model="text-embedding-3-small")
+)
+```
+
+### Step 2: load documents
+
+
+```python
+# Sample knowledge base (in production, load from files/database)
+documents = [
+    {
+        'doc_id': 'password-reset',
+        'chunk_text': 'To reset your password, go to the login page and click "Forgot Password". Enter your email address and you will receive a reset link within 5 minutes. The link expires after 24 hours.'
+    },
+    {
+        'doc_id': 'password-reset',
+        'chunk_text': 'Password requirements: minimum 8 characters, at least one uppercase letter, one number, and one special character. Passwords expire every 90 days for security.'
+    },
+    {
+        'doc_id': 'account-settings',
+        'chunk_text': 'To update your profile, navigate to Settings > Account. You can change your display name, email address, and notification preferences. Changes take effect immediately.'
+    },
+    {
+        'doc_id': 'billing',
+        'chunk_text': 'Billing occurs on the first of each month. You can view invoices under Settings > Billing. To change your payment method, click "Update Payment" and enter your new card details.'
+    },
+    {
+        'doc_id': 'api-access',
+        'chunk_text': 'API keys can be generated in Settings > Developer. Each key has configurable permissions. Rate limits are 1000 requests per minute for standard plans, 10000 for enterprise.'
+    },
+]
+
+chunks.insert(documents)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&nbsp;345.31&nbsp;rows/s\]
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+5&nbsp;rows&nbsp;inserted,&nbsp;15&nbsp;values&nbsp;computed.
+</pre>
+
+### Step 3: create the RAG query function
+
+
+```python
+# Define a query function that retrieves context
+@pxt.query
+def retrieve_context(query: str, top_k: int = 3):
+    """Retrieve the most relevant chunks for a query."""
+    sim = chunks.chunk_text.similarity(query)
+    return (
+        chunks.where(sim > 0.5)
+        .order_by(sim, asc=False)
+        .limit(top_k)
+        .select(
+            doc_id=chunks.doc_id,
+            text=chunks.chunk_text
+        )
+    )
+```
+
+
+```python
+# View retrieved context for a query
+query = "What are the key features?"
+context_chunks = retrieve_context(query)
+context_chunks
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+retrieve_context(&#x27;What&nbsp;are&nbsp;the&nbsp;key&nbsp;features?&#x27;)
+</pre>
+
+### Step 4: generate answers with context
+
+
+```python
+# Create a table for questions/answers
+qa = pxt.create_table(
+    'rag_demo.qa',
+    {'question': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;qa&#x27;.
+</pre>
+
+
+```python
+# Add retrieval step
+qa.add_computed_column(context=retrieve_context(qa.question, top_k=3))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Build the RAG prompt
+@pxt.udf
+def build_rag_prompt(question: str, context: list[dict]) -> str:
+    context_text = '\n\n'.join([f"[{c['doc_id']}]: {c['text']}" for c in context])
+    return f"""Answer the question based only on the provided context. If the context doesn't contain the answer, say "I don't have information about that."
+
+Context:
+{context_text}
+
+Question: {question}
+
+Answer:"""
+
+qa.add_computed_column(prompt=build_rag_prompt(qa.question, qa.context))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Generate answer
+qa.add_computed_column(
+    response=chat_completions(
+        messages=[{'role': 'user', 'content': qa.prompt}],
+        model='gpt-4o-mini'
+    )
+)
+qa.add_computed_column(answer=qa.response.choices[0].message.content)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+### Ask questions
+
+
+```python
+# Insert questions
+questions = [
+    {'question': 'How do I reset my password?'},
+    {'question': 'What are the API rate limits?'},
+    {'question': 'When am I billed?'},
+]
+
+qa.insert(questions)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`qa\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;872.12&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;18&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View answers
+qa.select(qa.question, qa.answer).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Explanation
+
+**RAG pipeline flow:**
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Question&nbsp;→&nbsp;Embed&nbsp;→&nbsp;Retrieve&nbsp;similar&nbsp;chunks&nbsp;→&nbsp;Build&nbsp;prompt&nbsp;with&nbsp;context&nbsp;→&nbsp;Generate&nbsp;answer
+</pre>
+
+**Key components:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**Scaling tips:**
+
+-   Use `doc-chunk-for-rag` recipe to split long documents
+-   Adjust `top_k` to balance context size vs. relevance
+-   Consider metadata filtering for large knowledge bases
+
+## See also
+
+-   [Chunk documents for
+    RAG](/howto/cookbooks/text/doc-chunk-for-rag) -
+    Split documents into chunks
+-   [Create text
+    embeddings](/howto/cookbooks/search/embed-text-openai) -
+    Embedding fundamentals
+-   [Semantic text
+    search](/howto/cookbooks/search/search-semantic-text) -
+    Search patterns

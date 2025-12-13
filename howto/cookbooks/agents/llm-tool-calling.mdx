@@ -1,0 +1,311 @@
+---
+title: "Use tool calling with LLMs"
+sidebarTitle: "Use tool calling with LLMs"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/llm-tool-calling.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/llm-tool-calling.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/agents/llm-tool-calling.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Tools needed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Data assistant</td>
+<td style="vertical-align: middle;"><code>get_data</code>, <code>run_query</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Customer support</td>
+<td style="vertical-align: middle;"><code>lookup_order</code>, <code>check_status</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Research agent</td>
+<td style="vertical-align: middle;"><code>search_web</code>, <code>fetch_article</code></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">query</th>
+<th data-quarto-table-cell-role="th">tool_results</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What's the weather in Tokyo?</td>
+<td style="vertical-align: middle;">{"get_weather": ["Rainy, 65\u00b0F"], "get_stock_price": null}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What's the stock price of Apple?</td>
+<td style="vertical-align: middle;">{"get_weather": null, "get_stock_price": ["\$178.50"]}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What's the weather in Paris and the price of Microsoft stock?</td>
+<td style="vertical-align: middle;">{"get_weather": ["Partly cloudy, 68\u00b0F"], "get_stock_price":
+["\$378.90"]}</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>@pxt.udf</code></td>
+<td style="vertical-align: middle;">Define tool functions</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.tools()</code></td>
+<td style="vertical-align: middle;">Bundle functions into Tools object</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>tools=</code> parameter</td>
+<td style="vertical-align: middle;">Pass tools to LLM</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>invoke_tools()</code></td>
+<td style="vertical-align: middle;">Execute tool calls from LLM response</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">OpenAI</td>
+<td style="vertical-align: middle;"><code>openai.invoke_tools()</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Anthropic</td>
+<td style="vertical-align: middle;"><code>anthropic.invoke_tools()</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Groq</td>
+<td style="vertical-align: middle;"><code>groq.invoke_tools()</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Gemini</td>
+<td style="vertical-align: middle;"><code>gemini.invoke_tools()</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Bedrock</td>
+<td style="vertical-align: middle;"><code>bedrock.invoke_tools()</code></td>
+</tr>
+</tbody>
+</table>
+`];
+
+Enable LLMs to call functions and tools, then execute the results
+automatically.
+
+## Problem
+
+You want an LLM to decide which functions to call based on user
+queries—for agents, chatbots, or automated workflows.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Define tools as Python functions
+-   Let LLMs decide which tool to call
+-   Automatically execute tool calls with `invoke_tools`
+
+You define tools with JSON schemas, pass them to the LLM, and use
+`invoke_tools` to execute the function calls.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import openai
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('tools_demo', force=True)
+pxt.create_dir('tools_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;tools_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17de70850&gt;
+</pre>
+
+### Define tools as UDFs
+
+
+```python
+# Define tool functions as Pixeltable UDFs
+@pxt.udf
+def get_weather(city: str) -> str:
+    """Get the current weather for a city."""
+    # In production, call a real weather API
+    weather_data = {
+        'new york': 'Sunny, 72°F',
+        'london': 'Cloudy, 58°F',
+        'tokyo': 'Rainy, 65°F',
+        'paris': 'Partly cloudy, 68°F',
+    }
+    return weather_data.get(city.lower(), f'Weather data not available for {city}')
+
+@pxt.udf
+def get_stock_price(symbol: str) -> str:
+    """Get the current stock price for a symbol."""
+    # In production, call a real stock API
+    prices = {
+        'AAPL': '$178.50',
+        'GOOGL': '$141.25',
+        'MSFT': '$378.90',
+        'AMZN': '$185.30',
+    }
+    return prices.get(symbol.upper(), f'Price not available for {symbol}')
+```
+
+
+```python
+# Create a Tools object with our functions
+tools = pxt.tools(get_weather, get_stock_price)
+```
+
+### Create tool-calling pipeline
+
+
+```python
+# Create table for queries
+queries = pxt.create_table(
+    'tools_demo.queries',
+    {'query': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;queries&#x27;.
+</pre>
+
+
+```python
+# Add LLM call with tools
+queries.add_computed_column(
+    response=openai.chat_completions(
+        messages=[{'role': 'user', 'content': queries.query}],
+        model='gpt-4o-mini',
+        tools=tools  # Pass tools to the LLM
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Automatically execute tool calls and get results
+queries.add_computed_column(
+    tool_results=openai.invoke_tools(tools, queries.response)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+### Run tool-enabled queries
+
+
+```python
+# Insert queries that require tool calls
+sample_queries = [
+    {'query': "What's the weather in Tokyo?"},
+    {'query': "What's the stock price of Apple?"},
+    {'query': "What's the weather in Paris and the price of Microsoft stock?"},
+]
+
+queries.insert(sample_queries)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`queries\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;330.87&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;9&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View results
+queries.select(queries.query, queries.tool_results).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Explanation
+
+**Tool calling flow:**
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Query&nbsp;→&nbsp;LLM&nbsp;decides&nbsp;tool&nbsp;→&nbsp;invoke_tools&nbsp;executes&nbsp;→&nbsp;Results
+</pre>
+
+**Key components:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**Supported providers:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+## See also
+
+-   [Build a RAG
+    pipeline](/howto/cookbooks/agents/pattern-rag-pipeline) -
+    Retrieval-augmented generation
+-   [Run local
+    LLMs](/howto/providers/working-with-ollama) -
+    Local model inference

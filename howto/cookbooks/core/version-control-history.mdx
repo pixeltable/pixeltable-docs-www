@@ -1,0 +1,757 @@
+---
+title: "Track changes and revert to previous versions"
+sidebarTitle: "Track changes and revert to previous versions"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/version-control-history.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/version-control-history.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/version-control-history.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">version</th>
+<th data-quarto-table-cell-role="th">created_at</th>
+<th data-quarto-table-cell-role="th">user</th>
+<th data-quarto-table-cell-role="th">change_type</th>
+<th data-quarto-table-cell-role="th">inserts</th>
+<th data-quarto-table-cell-role="th">updates</th>
+<th data-quarto-table-cell-role="th">deletes</th>
+<th data-quarto-table-cell-role="th">errors</th>
+<th data-quarto-table-cell-role="th">computed</th>
+<th data-quarto-table-cell-role="th">schema_change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.941257+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">data</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.916661+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">data</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.868057+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">schema</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">6</td>
+<td style="vertical-align: middle;">Added: price_with_tax</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.825297+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">data</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">6</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.044126+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">schema</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">Initial Version</td>
+</tr>
+</tbody>
+</table>
+`,`
+</div>`,`<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">version</th>
+<th data-quarto-table-cell-role="th">created_at</th>
+<th data-quarto-table-cell-role="th">user</th>
+<th data-quarto-table-cell-role="th">change_type</th>
+<th data-quarto-table-cell-role="th">inserts</th>
+<th data-quarto-table-cell-role="th">updates</th>
+<th data-quarto-table-cell-role="th">deletes</th>
+<th data-quarto-table-cell-role="th">errors</th>
+<th data-quarto-table-cell-role="th">computed</th>
+<th data-quarto-table-cell-role="th">schema_change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.941257+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">data</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.916661+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">data</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.868057+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">schema</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">6</td>
+<td style="vertical-align: middle;">Added: price_with_tax</td>
+</tr>
+</tbody>
+</table>
+`,`
+</div>`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Gadget</td>
+<td style="vertical-align: middle;">24.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Gizmo</td>
+<td style="vertical-align: middle;">14.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">9.99</td>
+<td style="vertical-align: middle;">Tools</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">price_with_tax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Gadget</td>
+<td style="vertical-align: middle;">24.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+<td style="vertical-align: middle;">26.989</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Gizmo</td>
+<td style="vertical-align: middle;">14.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+<td style="vertical-align: middle;">16.189</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">9.99</td>
+<td style="vertical-align: middle;">Tools</td>
+<td style="vertical-align: middle;">10.789</td>
+</tr>
+</tbody>
+</table>
+`,`<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">version</th>
+<th data-quarto-table-cell-role="th">created_at</th>
+<th data-quarto-table-cell-role="th">user</th>
+<th data-quarto-table-cell-role="th">change_type</th>
+<th data-quarto-table-cell-role="th">inserts</th>
+<th data-quarto-table-cell-role="th">updates</th>
+<th data-quarto-table-cell-role="th">deletes</th>
+<th data-quarto-table-cell-role="th">errors</th>
+<th data-quarto-table-cell-role="th">computed</th>
+<th data-quarto-table-cell-role="th">schema_change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.916661+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">data</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.868057+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">schema</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">6</td>
+<td style="vertical-align: middle;">Added: price_with_tax</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.825297+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">data</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">6</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">2025-12-12 02:37:20.044126+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">schema</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">Initial Version</td>
+</tr>
+</tbody>
+</table>
+`,`
+</div>`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">9.99</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">price_with_tax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Gadget</td>
+<td style="vertical-align: middle;">24.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+<td style="vertical-align: middle;">26.989</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Gizmo</td>
+<td style="vertical-align: middle;">14.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+<td style="vertical-align: middle;">16.189</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">9.99</td>
+<td style="vertical-align: middle;">Tools</td>
+<td style="vertical-align: middle;">10.789</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">price_with_tax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Gizmo</td>
+<td style="vertical-align: middle;">14.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+<td style="vertical-align: middle;">16.189</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">9.99</td>
+<td style="vertical-align: middle;">Tools</td>
+<td style="vertical-align: middle;">10.789</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Doohickey</td>
+<td style="vertical-align: middle;">99.99</td>
+<td style="vertical-align: middle;">Premium</td>
+<td style="vertical-align: middle;">107.989</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Gadget</td>
+<td style="vertical-align: middle;">29.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+<td style="vertical-align: middle;">32.389</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">category</th>
+<th data-quarto-table-cell-role="th">price_with_tax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Gizmo</td>
+<td style="vertical-align: middle;">14.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+<td style="vertical-align: middle;">16.189</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Widget</td>
+<td style="vertical-align: middle;">9.99</td>
+<td style="vertical-align: middle;">Tools</td>
+<td style="vertical-align: middle;">10.789</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Gadget</td>
+<td style="vertical-align: middle;">24.99</td>
+<td style="vertical-align: middle;">Electronics</td>
+<td style="vertical-align: middle;">26.989</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Undo mistakes, audit changes, and create point-in-time snapshots of your
+data.
+
+## Problem
+
+You need to track what changed in your data pipeline, undo accidental
+modifications, or preserve a specific state for reproducibility.
+
+## Solution
+
+**What’s in this recipe:**
+
+-   View version history with `history()` and `get_versions()`
+-   Access specific versions with `pxt.get_table('table:N')`
+-   Undo changes with `revert()`
+-   Create point-in-time snapshots with `pxt.create_snapshot()`
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+```
+
+
+```python
+import pixeltable as pxt
+
+pxt.drop_dir('version_demo', force=True)
+pxt.create_dir('version_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;version_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x13ce91c00&gt;
+</pre>
+
+### Create a table and make some changes
+
+Every data or schema change creates a new version.
+
+
+```python
+# Create table (version 0)
+products = pxt.create_table(
+    'version_demo.products',
+    {'name': pxt.String, 'price': pxt.Float, 'category': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;products&#x27;.
+</pre>
+
+
+```python
+# Insert data (version 1)
+products.insert([
+    {'name': 'Widget', 'price': 9.99, 'category': 'Tools'},
+    {'name': 'Gadget', 'price': 24.99, 'category': 'Electronics'},
+    {'name': 'Gizmo', 'price': 14.99, 'category': 'Electronics'},
+])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;432.95&nbsp;rows/s\]
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# Add a computed column (version 2 - schema change)
+products.add_computed_column(price_with_tax=products.price * 1.08)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+3&nbsp;rows&nbsp;updated,&nbsp;6&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# Update some data (version 3)
+products.update({'price': 19.99}, where=products.name == 'Widget')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;297.47&nbsp;rows/s\]
+1&nbsp;row&nbsp;updated,&nbsp;3&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# Insert more data (version 4)
+products.insert([
+    {'name': 'Thingamajig', 'price': 49.99, 'category': 'Tools'},
+])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;661.46&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;3&nbsp;values&nbsp;computed.
+</pre>
+
+### View version history
+
+Use `history()` for a human-readable summary of all changes.
+
+
+```python
+# View full history (most recent first)
+products.history()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+
+```python
+# View only the last 3 versions
+products.history(n=3)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+### Programmatic access to version metadata
+
+Use `get_versions()` to access version data programmatically.
+
+
+```python
+# Get version metadata as a list of dictionaries
+versions = products.get_versions()
+
+# Access specific version info
+latest = versions[0]
+latest['version'], latest['change_type'], latest['inserts']
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+(4,&nbsp;&#x27;data&#x27;,&nbsp;1)
+</pre>
+
+### Access a specific version
+
+Use `pxt.get_table('table_name:version')` to get a read-only handle to a
+specific version:
+
+
+```python
+# Get the table at version 1 (after initial insert, before computed column)
+products_v1 = pxt.get_table('version_demo.products:1')
+
+# This is a read-only view of the data at that point in time
+products_v1.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+
+
+```python
+# Compare data at version 2 (after computed column added) vs version 1
+# Note: version 1 doesn't have the price_with_tax column yet
+products_v2 = pxt.get_table('version_demo.products:2')
+products_v2.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
+
+### Revert to previous version
+
+Use `revert()` to undo the most recent change. This is irreversible.
+
+
+```python
+# Current state: 4 products
+products.count()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+4
+</pre>
+
+
+```python
+# Revert the last insert (removes Thingamajig)
+products.revert()
+products.count()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+3
+</pre>
+
+
+```python
+# History now shows version 4 was reverted
+products.history()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[8] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[9] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[10] }} />
+
+
+```python
+# Can revert multiple times (back to before the update)
+products.revert()
+
+# Check the Widget price is back to original
+products.where(products.name == 'Widget').select(products.name, products.price).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[11] }} />
+
+### Create point-in-time snapshots
+
+Snapshots freeze a table’s state for reproducibility. Unlike `revert()`,
+snapshots preserve the data indefinitely.
+
+
+```python
+# Create a snapshot of the current state
+snapshot_v1 = pxt.create_snapshot('version_demo.products_v1', products)
+
+snapshot_v1.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[12] }} />
+
+
+```python
+# Now make changes to the original table
+products.insert([
+    {'name': 'Doohickey', 'price': 99.99, 'category': 'Premium'},
+])
+products.update({'price': 29.99}, where=products.name == 'Gadget')
+
+products.collect()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;535.67&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;558.05&nbsp;rows/s\]
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[13] }} />
+
+
+```python
+# Snapshot remains unchanged - still shows original data
+snapshot_v1.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[14] }} />
+
+## Explanation
+
+**What creates a new version:**
+
+-   `insert()` - adding rows
+-   `update()` - modifying rows
+-   `delete()` - removing rows
+-   `add_column()` / `add_computed_column()` - schema changes
+-   `drop_column()` - schema changes
+-   `rename_column()` - schema changes
+
+**Version history methods:**
+
+-   `history()` - Human-readable DataFrame showing all changes
+-   `get_versions()` - List of dictionaries for programmatic access
+
+**Accessing specific versions:**
+
+-   `pxt.get_table('table_name:N')` - Get read-only handle to version N
+-   Useful for comparing data across versions, auditing changes, or
+    recovering specific values
+-   Version handles are read-only—you cannot modify historical versions
+
+**Reverting:**
+
+-   `revert()` undoes the most recent version
+-   Can call multiple times to go back further
+-   Cannot revert past version 0
+-   Cannot revert if a snapshot references that version
+
+**Snapshots vs revert:**
+
+-   Snapshots are persistent, named, point-in-time copies
+-   `revert()` permanently removes the latest version
+-   Use snapshots when you need to preserve state for reproducibility
+-   Use `revert()` to undo mistakes
+
+## See also
+
+-   [Data sharing](../../../platform/data-sharing) - Share tables
+    between environments
+-   [Iterative
+    development](/howto/cookbooks/core/dev-iterative-workflow) -
+    Fast feedback during development

@@ -132,7 +132,7 @@ satisfied, use `.add_computed_column()` to apply the opacity adjustment
 to all images in your table.
 
 For more on this workflow, see [Get fast feedback on
-transformations](/howto/cookbooks/dev-iterative-workflow).
+transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ### Setup
 
@@ -157,9 +157,9 @@ pxt.create_dir('image_demo')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/alison-pxt/.pixeltable/pgdata
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;image_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x132cc55b0&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x302d6af80&gt;
 </pre>
 
 
@@ -181,25 +181,28 @@ t.insert([
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`opacity\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;782.71&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`opacity\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`opacity\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;545.05&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-### Iterate: Adjust opacity for a few images first
+### Iterate: adjust opacity for a few images first
 
 You define a custom function using the `@pxt.udf` decorator to make it
 available in Pixeltable. Inside the function, you use standard PIL
 (Pillow) operations to manipulate images. Pixeltable handles applying
 your function to every row in your table.
 
-**How it works:** - All image manipulation (`.convert()`, `.split()`,
-`.point()`, `.putalpha()`) comes from the PIL/Pillow library - These are
-standard Python image operations—see [Pillow
-docs](https://pillow.readthedocs.io/) for reference - The `@pxt.udf`
-decorator lets Pixeltable apply your function to table rows - The
-opacity parameter (0.0 = fully transparent, 1.0 = fully opaque) controls
-the alpha scaling
+**How it works:**
+
+-   All image manipulation (`.convert()`, `.split()`, `.point()`,
+    `.putalpha()`) comes from the PIL/Pillow library
+-   These are standard Python image operations—see [Pillow
+    docs](https://pillow.readthedocs.io/) for reference
+-   The `@pxt.udf` decorator lets Pixeltable apply your function to
+    table rows
+-   The opacity parameter (0.0 = fully transparent, 1.0 = fully opaque)
+    controls the alpha scaling
 
 
 ```python
@@ -226,7 +229,7 @@ t.select(
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
-### Add: Adjust opacity for all images in your table
+### Add: adjust opacity for all images in your table
 
 
 ```python
@@ -259,11 +262,14 @@ values by the desired opacity factor using
 `.putalpha()`. This preserves the original image while adjusting only
 the transparency level.
 
-**To customize the UDF:** - **Opacity levels**: Use 0.25 for very faint
-backgrounds, 0.5 for standard transparency, 0.75 for subtle effects -
-**Selective transparency**: Modify the lambda function in `.point()` to
-apply different transparency to different pixel values - **Preserve
-regions**: Add conditional logic to keep certain areas fully opaque
+**To customize the UDF:**
+
+-   **Opacity levels**: Use 0.25 for very faint backgrounds, 0.5 for
+    standard transparency, 0.75 for subtle effects
+-   **Selective transparency**: Modify the lambda function in `.point()`
+    to apply different transparency to different pixel values
+-   **Preserve regions**: Add conditional logic to keep certain areas
+    fully opaque
 
 **The Pixeltable workflow:**
 
@@ -281,11 +287,13 @@ use `.add_computed_column()` with the same expression to persist results
 permanently.
 
 For more on this workflow, see [Get fast feedback on
-transformations](/howto/cookbooks/dev-iterative-workflow).
+transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
 -   [Test transformations with fast feedback
-    loops](/howto/cookbooks/dev-iterative-workflow)
--   [Add watermarks to images](./img-add-watermarks.ipynb)
--   [Transform images with PIL operations](./img-pil-transforms.ipynb)
+    loops](/howto/cookbooks/core/dev-iterative-workflow)
+-   [Add watermarks to
+    images](/howto/cookbooks/images/img-add-watermarks)
+-   [Transform images with PIL
+    operations](/howto/cookbooks/images/img-pil-transforms)

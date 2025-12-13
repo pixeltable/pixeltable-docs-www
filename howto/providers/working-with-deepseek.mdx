@@ -12,37 +12,6 @@ above links.</Tip>
 
 
 
-export const quartoRawHtml =
-[`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">input</th>
-<th data-quarto-table-cell-role="th">response</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">What was the outcome of the 1904 US Presidential election?</td>
-<td style="vertical-align: middle;">The **1904 U.S. Presidential election** resulted in a decisive
-victory for the incumbent **Republican** President **Theodore
-Roosevelt**, who had assumed office in 1901 after the assassination of
-William McKinley. ### **Key Results:** - **Theodore Roosevelt
-(Republican)** won **56.4%** of the popular vote and **336 electoral
-votes** (70.6% of the total). - **Alton B. Parker (Democrat)** received
-**37.6%** of the popular vote and **140 electoral votes**. - **Eugene V.
-Debs (Socialist)** and **Silas C. Swallow (Prohibition)** also ran but
-received minimal support. ### **Significance:** - Roosevelt's landslide
-victory solidified his leadership and progressive policies, including
-trust-busting and conservation efforts. - This was the first election in
-which a sitting president who had inherited the office (rather than
-being elected to it) won a full term in his own right. Roosevelt carried
-**32 of the 45 states**, demonstrating broad national support.</td>
-</tr>
-</tbody>
-</table>
-`];
-
 Pixeltable’s Deepseek integration enables you to access Deepseek’s LLM
 via the Deepseek API.
 
@@ -50,7 +19,7 @@ via the Deepseek API.
 
 -   A Deepseek account with an API key (https://api-docs.deepseek.com/)
 
-### Important Notes
+### Important notes
 
 -   Deepseek usage may incur costs based on your Deepseek plan.
 -   Be mindful of sensitive data and consider security measures when
@@ -85,12 +54,6 @@ pxt.drop_dir('deepseek_demo', force=True)
 pxt.create_dir('deepseek_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;&#x27;deepseek_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x16bcf2140&gt;
-</pre>
-
 ## Messages
 
 Create a Table: In Pixeltable, create a table with columns to represent
@@ -112,22 +75,11 @@ t.add_computed_column(output=deepseek.chat_completions(
 ))
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;\`chat\`.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
-</pre>
-
 
 ```python
 # Parse the response into a new column
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
-</pre>
 
 
 ```python
@@ -136,14 +88,7 @@ t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'
 t.select(t.input, t.response).show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;105.11&nbsp;rows/s\]
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
-
-### Learn More
+### Learn more
 
 To learn more about advanced techniques like RAG operations in
 Pixeltable, check out the [RAG Operations in

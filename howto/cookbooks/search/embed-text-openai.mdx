@@ -1,0 +1,292 @@
+---
+title: "Create text embeddings with OpenAI"
+sidebarTitle: "Create text embeddings with OpenAI"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/search/embed-text-openai.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/search/embed-text-openai.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/search/embed-text-openai.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Input</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Document search</td>
+<td style="vertical-align: middle;">Articles</td>
+<td style="vertical-align: middle;">Find related articles</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Product matching</td>
+<td style="vertical-align: middle;">Descriptions</td>
+<td style="vertical-align: middle;">Find similar products</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">FAQ retrieval</td>
+<td style="vertical-align: middle;">Questions</td>
+<td style="vertical-align: middle;">Match to answers</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">content</th>
+<th data-quarto-table-cell-role="th">sim</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Machine Learning</td>
+<td style="vertical-align: middle;">Machine learning is a subset of AI that enables systems to learn
+from data.</td>
+<td style="vertical-align: middle;">0.415</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Data Science</td>
+<td style="vertical-align: middle;">Data science combines statistics, programming, and domain expertise
+to extract insights from data.</td>
+<td style="vertical-align: middle;">0.256</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Web Development</td>
+<td style="vertical-align: middle;">Web development involves building websites and web applications
+using HTML, CSS, and JavaScript.</td>
+<td style="vertical-align: middle;">0.205</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Dimensions</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>text-embedding-3-small</code></td>
+<td style="vertical-align: middle;">1536</td>
+<td style="vertical-align: middle;">Cost-effective, good quality</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>text-embedding-3-large</code></td>
+<td style="vertical-align: middle;">3072</td>
+<td style="vertical-align: middle;">Higher accuracy</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>text-embedding-ada-002</code></td>
+<td style="vertical-align: middle;">1536</td>
+<td style="vertical-align: middle;">Legacy model</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>cosine</code></td>
+<td style="vertical-align: middle;">Text similarity (default)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>ip</code></td>
+<td style="vertical-align: middle;">Inner product</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>l2</code></td>
+<td style="vertical-align: middle;">Euclidean distance</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Generate vector embeddings for text data to enable semantic search and
+similarity matching.
+
+## Problem
+
+You need to convert text into vector embeddings for:
+
+-   Semantic search (find similar documents)
+-   RAG pipelines (retrieve relevant context)
+-   Clustering and classification
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Generate embeddings with OpenAI’s models
+-   Store embeddings as computed columns
+-   Use embeddings for similarity queries
+
+You add an embedding column that automatically generates vectors for new
+rows. The embeddings are cached and only recomputed when the source text
+changes.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import os
+import getpass
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.openai import embeddings
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('embed_demo', force=True)
+pxt.create_dir('embed_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;embed_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x14ee4fcd0&gt;
+</pre>
+
+### Create table with embedding column
+
+
+```python
+# Create table for documents
+docs = pxt.create_table(
+    'embed_demo.documents',
+    {'title': pxt.String, 'content': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;documents&#x27;.
+</pre>
+
+
+```python
+# Add embedding column using OpenAI's text-embedding-3-small
+docs.add_computed_column(
+    embedding=embeddings(docs.content, model='text-embedding-3-small')
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+### Insert documents
+
+
+```python
+# Insert sample documents
+sample_docs = [
+    {'title': 'Python Basics', 'content': 'Python is a high-level programming language known for its clear syntax and readability.'},
+    {'title': 'Machine Learning', 'content': 'Machine learning is a subset of AI that enables systems to learn from data.'},
+    {'title': 'Web Development', 'content': 'Web development involves building websites and web applications using HTML, CSS, and JavaScript.'},
+    {'title': 'Data Science', 'content': 'Data science combines statistics, programming, and domain expertise to extract insights from data.'},
+    {'title': 'Cloud Computing', 'content': 'Cloud computing provides on-demand computing resources over the internet.'},
+]
+
+docs.insert(sample_docs)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&nbsp;553.22&nbsp;rows/s\]
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+5&nbsp;rows&nbsp;inserted,&nbsp;15&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View documents with embeddings (showing first 5 dimensions)
+result = docs.select(docs.title, docs.embedding).collect()
+```
+
+### Query by similarity
+
+Find documents similar to a query by creating an embedding index:
+
+
+```python
+# Add embedding index for semantic search
+docs.add_embedding_index(
+    column="content",
+    string_embed=embeddings.using(model="text-embedding-3-small")
+)
+```
+
+
+```python
+# Search for similar documents
+sim = docs.content.similarity("artificial intelligence applications")
+results = (
+    docs.where(sim > 0.2)
+    .order_by(sim, asc=False)
+    .limit(3)
+    .select(docs.title, docs.content, sim=sim)
+)
+results.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Explanation
+
+**OpenAI embedding models:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**Similarity metrics:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+**Key benefits of computed embedding columns:**
+
+-   Embeddings are generated automatically on insert
+-   Results are cached—no re-computation on subsequent queries
+-   Index enables fast similarity search at scale
+
+## See also
+
+-   [Semantic text
+    search](/howto/cookbooks/search/search-semantic-text) -
+    Full semantic search patterns
+-   [Chunk documents for
+    RAG](/howto/cookbooks/text/doc-chunk-for-rag) -
+    Prepare documents for retrieval

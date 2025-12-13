@@ -12,28 +12,6 @@ above links.</Tip>
 
 
 
-export const quartoRawHtml =
-[`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">input</th>
-<th data-quarto-table-cell-role="th">response</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">Can you tell me who was President of the US in 1961?</td>
-<td style="vertical-align: middle;">Yes, the President of the United States in 1961 was John F. Kennedy.
-He served as the 35th U.S. President from January 20, 1961, until his
-assassination on November 22, 1963. Kennedy was a Democrat from
-Massachusetts and is known for his role in the Cuban Missile Crisis and
-his establishment of the Peace Corps.</td>
-</tr>
-</tbody>
-</table>
-`];
-
 Pixeltable’s Fireworks integration enables you to access LLMs hosted on
 the Fireworks platform.
 
@@ -41,7 +19,7 @@ the Fireworks platform.
 
 -   A Fireworks account with an API key (https://fireworks.ai/api-keys)
 
-### Important Notes
+### Important notes
 
 -   Fireworks usage may incur costs based on your Fireworks plan.
 -   Be mindful of sensitive data and consider security measures when
@@ -75,12 +53,6 @@ pxt.drop_dir('fireworks_demo', force=True)
 pxt.create_dir('fireworks_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;&#x27;fireworks_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x301799de0&gt;
-</pre>
-
 ## Completions
 
 Create a Table: In Pixeltable, create a table with columns to represent
@@ -98,7 +70,7 @@ t = pxt.create_table('fireworks_demo.chat', {'input': pxt.String})
 messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=chat_completions(
     messages=messages,
-    model='accounts/fireworks/models/mixtral-8x22b-instruct',
+    model='accounts/fireworks/models/llama-v3p3-70b-instruct',
     model_kwargs={
         # Optional dict with parameters for the Fireworks API
         'max_tokens': 300,
@@ -109,22 +81,11 @@ t.add_computed_column(output=chat_completions(
 ))
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;\`chat\`.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
-</pre>
-
 
 ```python
 # Parse the bot_response into a new column
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-UpdateStatus(num_rows=0,&nbsp;num_computed_values=0,&nbsp;num_excs=0,&nbsp;updated_cols=\[\],&nbsp;cols_with_excs=\[\])
-</pre>
 
 
 ```python
@@ -133,14 +94,7 @@ t.insert([{'input': 'Can you tell me who was President of the US in 1961?'}])
 t.select(t.input, t.response).show()
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;85.10&nbsp;rows/s\]
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-</pre>
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
-
-### Learn More
+### Learn more
 
 To learn more about advanced techniques like RAG operations in
 Pixeltable, check out the [RAG Operations in

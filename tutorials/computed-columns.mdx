@@ -1109,25 +1109,24 @@ width="240" />
 </table>
 `];
 
-## Section 2: Computed Columns
-
-Welcome to Section 2 of the **Pixeltable Fundamentals** tutorial,
-**Computed Columns**.
-
-In the previous section, [Tables and Data
-Operations](/tutorials/tables-and-data-operations),
-we learned how to create tables, populate them with data, and query and
-manipulate their contents. In this section, we’ll introduce one of
-Pixeltable’s most essential and powerful concepts: computed columns.
-We’ll learn how to:
+This guide introduces one of Pixeltable’s most essential and powerful
+concepts: computed columns. You’ll learn how to:
 
 -   Add computed columns to a table
 -   Use computed columns for complex operations such as image processing
     and model inference
 
-Next, let’s ensure the Pixeltable library is installed in your
-environment, along with the Huggingface `transformers` library, which
-we’ll need for this tutorial section.
+## Prerequisites
+
+This guide assumes you’re familiar with: - Creating and managing
+tables - Inserting and querying data - Basic table operations
+
+If you’re new to Pixeltable, start with the [Tables and Data
+Operations](/tutorials/tables-and-data-operations)
+guide.
+
+First, let’s ensure the Pixeltable library is installed in your
+environment, along with the Huggingface `transformers` library.
 
 
 ```python
@@ -1185,11 +1184,9 @@ pop_t
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 
 Now let’s suppose we want to add a new column for the year-over-year
-population change from 2022 to 2023. In the previous tutorial section,
-[Tables and Data
-Operations](/tutorials/tables-and-data-operations),
-we saw how one might `select()` such a quantity into a Pixeltable
-`Query`, giving it the name `yoy_change` (year-over-year change):
+population change from 2022 to 2023. You can `select()` such a quantity
+into a Pixeltable `Query`, giving it the name `yoy_change`
+(year-over-year change):
 
 
 ```python
@@ -1370,13 +1367,12 @@ remains the same, but your UDF business logic changes.
 
 ### A More Complex Example: Image Processing
 
-In the **Tables and Data Operations** tutorial, we saw how media data
-such as images can be inserted into Pixeltable tables, alongside more
-traditional structured data. Let’s explore another example that uses
-computed columns for image processing operations.
+Pixeltable supports media data such as images alongside traditional
+structured data. Let’s explore an example that uses computed columns for
+image processing operations.
 
 In this example, we’ll create the table directly by providing a schema,
-rather than importing it from a CSV like before.
+rather than importing it from a CSV.
 
 
 ```python
@@ -1418,7 +1414,7 @@ meaning “User-Defined Function”. Technically speaking, the
 <code>get_metadata()</code> function isn’t user-defined, it’s built in
 to the Pixeltable library. But we’ll consistently refer to Pixeltable
 functions as “UDFs” in order to clearly distinguish them from ordinary
-Python functions. Later in this tutorial, we’ll see how to turn (almost)
+Python functions. Later in this guide, we’ll see how to turn (almost)
 any Python function into a Pixeltable UDF. 
 </Note>
 
@@ -1644,8 +1640,9 @@ calling them out:
     calculation in our first example:
     `100 * pop_t.yoy_change / pop_t.pop_2022`.
 
-In the next tutorial section, we’ll learn more about the various types
-of Pixeltable expressions and how to use them:
+## Next Steps
 
--   [Queries and
-    Expressions](/tutorials/queries-and-expressions)
+Learn more about working with Pixeltable: - [Queries and
+Expressions](/tutorials/queries-and-expressions) -
+[Tables and Data
+Operations](/tutorials/tables-and-data-operations)
