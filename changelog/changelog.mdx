@@ -21,6 +21,26 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.5.6
+
+**Released:** December 15, 2025  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.6](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.6)
+
+#### What's Changed
+* [PXT-892] Support variable framerate in FrameIterator by [@aaron-siegel](https://github.com/aaron-siegel) in [#961](https://github.com/pixeltable/pixeltable/pull/961)
+* [PXT-875] Define GRAFANA_INSTANCE_ID for the perf job by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#989](https://github.com/pixeltable/pixeltable/pull/989)
+* [PXT-399] Remove pymupdf as a dependency by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#981](https://github.com/pixeltable/pixeltable/pull/981)
+* Docs Cleanup + Cookbooks + Versioning/Lineage + Production for Workshop by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#964](https://github.com/pixeltable/pixeltable/pull/964)
+* Iterators Refactor Part 1 by [@aaron-siegel](https://github.com/aaron-siegel) in [#992](https://github.com/pixeltable/pixeltable/pull/992)
+* Update documentation for iterators and aggregate functions by [@aaron-siegel](https://github.com/aaron-siegel) in [#995](https://github.com/pixeltable/pixeltable/pull/995)
+* PXT-910 Add presigned_url udf by [@amithadke](https://github.com/amithadke) in [#991](https://github.com/pixeltable/pixeltable/pull/991)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.5...v0.5.6
+
+---
+
 ### v0.5.5
 
 **Released:** December 11, 2025  
@@ -1140,35 +1160,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 * [@amithadke](https://github.com/amithadke) made their first contribution in [#430](https://github.com/pixeltable/pixeltable/pull/430)
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.0...v0.3.1
-
----
-
-### v0.3.0
-
-**Released:** January 17, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.3.0](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.0)
-
-#### Important
-This release contains a few breaking API changes. The most significant change is that the deprecated syntax for adding columns has been removed. This will now generate an error:
-```python
-t['my_col'] = ...
-```
-Instead, do the following:
-```python
-t.add_computed_column(my_col=...)
-```
-Please refer to the Pixeltable documentation (https://pixeltable.readme.io/) for additional details.
-
-#### What's Changed
-* PXT-179 Add a if_exists parameter to add_* APIs by [@anushas](https://github.com/anushas) in [#422](https://github.com/pixeltable/pixeltable/pull/422)
-* Add a section on UDAs to the UDF feature guide by [@aaron-siegel](https://github.com/aaron-siegel) in [#437](https://github.com/pixeltable/pixeltable/pull/437)
-* Various API changes for version 0.3.0 by [@aaron-siegel](https://github.com/aaron-siegel) in [#426](https://github.com/pixeltable/pixeltable/pull/426)
-* Terminology: use 'aggregate' in place of 'aggregator' in UDF docs by [@aaron-siegel](https://github.com/aaron-siegel) in [#438](https://github.com/pixeltable/pixeltable/pull/438)
-* Support tool choice in OpenAI and Anthropic by [@aaron-siegel](https://github.com/aaron-siegel) in [#436](https://github.com/pixeltable/pixeltable/pull/436)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.2.30...v0.3.0
 
 ---
 

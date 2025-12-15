@@ -52,18 +52,18 @@ videos_table = pxt.create_table(
 In order to interact with the frames, we take advantage of Pixeltable’s
 component view concept: we create a “view” of our video table that
 contains one row for each frame of each video in the table. Pixeltable
-provides the built-in `FrameIterator` class for this.
+provides the built-in `frame_iterator` for this.
 
 
 ```python
-from pixeltable.iterators import FrameIterator
+from pixeltable.functions.video import frame_iterator
 
 frames_view = pxt.create_view(
     'detection_demo.frames',
     videos_table,
     # `fps` determines the frame rate; a value of `0`
     # indicates the native frame rate of the video.
-    iterator=FrameIterator.create(video=videos_table.video, fps=0)
+    iterator=frame_iterator(videos_table.video, fps=0)
 )
 ```
 
@@ -76,7 +76,7 @@ The new view is automatically configured with six columns: - `pos` - a
 system column that is part of every component view - `video` - the
 column inherited from our base table (all base table columns are visible
 in any of its views) - `frame_idx`, `pos_msec`, `pos_frame`, `frame` -
-these four columns are created by the `FrameIterator` class.
+these four columns are created by the `frame_iterator`.
 
 Let’s have a look at the new view:
 

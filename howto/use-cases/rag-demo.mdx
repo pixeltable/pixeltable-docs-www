@@ -43,7 +43,6 @@ our environment.
 
 
 ```python
-import numpy as np
 import pixeltable as pxt
 
 # Ensure a clean slate for the demo
@@ -123,10 +122,10 @@ documents_t.show()
 
 In RAG applications, we often decompose documents into smaller units, or
 chunks, rather than treating each document as a single entity. In this
-example, we’ll use Pixeltable’s built-in `DocumentSplitter`, but in
+example, we’ll use Pixeltable’s built-in `document_splitter`, but in
 general the chunking methodology is highly customizable.
-`DocumentSplitter` has a variety of options for controlling the chunking
-behavior, and it’s also possible to replace it entirely with a
+`document_splitter` has a variety of options for controlling the
+chunking behavior, and it’s also possible to replace it entirely with a
 user-defined iterator (or an adapter for a third-party document
 splitter).
 
@@ -134,17 +133,17 @@ In Pixeltable, operations such as chunking can be automated by creating
 **views** of the base `documents` table. A view is a virtual derived
 table: rather than adding data directly to the view, we define it via a
 computation over the base table. In this example, the view is defined by
-iteration over the chunks of a `DocumentSplitter`.
+iteration over the chunks of a `document_splitter`.
 
 
 ```python
-from pixeltable.iterators import DocumentSplitter
+from pixeltable.functions.document import document_splitter
 
 chunks_t = pxt.create_view(
     'rag_demo.chunks',
     documents_t,
-    iterator=DocumentSplitter.create(
-        document=documents_t.document,
+    iterator=document_splitter(
+        documents_t.document,
         separators='token_limit',
         limit=300
     )
@@ -158,7 +157,7 @@ Our `chunks` view now has 3 columns:
 chunks_t
 ```
 
--   `text` is the chunk text produced by the `DocumentSplitter`
+-   `text` is the chunk text produced by the `document_splitter`
 -   `pos` is a system-generated integer column, starting at 0, that
     provides a sequence number for each row
 -   `document`, which is simply the `document` column from the base

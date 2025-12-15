@@ -242,6 +242,10 @@ width="240" />
 </table>
 `,`
 <table>
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 55%" />
+</colgroup>
 <thead>
 <tr>
 <th>Method</th>
@@ -254,11 +258,11 @@ width="240" />
 <td style="vertical-align: middle;">Single thumbnail at specific time</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;"><code>FrameIterator(fps=N)</code></td>
+<td style="vertical-align: middle;"><code>frame_iterator(fps=t)</code></td>
 <td style="vertical-align: middle;">Multiple frames at regular intervals</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;"><code>FrameIterator(num_frames=N)</code></td>
+<td style="vertical-align: middle;"><code>frame_iterator(num_frames=n)</code></td>
 <td style="vertical-align: middle;">Fixed number of evenly-spaced frames</td>
 </tr>
 </tbody>
@@ -323,7 +327,7 @@ generated automatically when you insert new videos.
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions import video as video_fn
+import pixeltable.functions as pxtf
 ```
 
 ### Load videos
@@ -386,7 +390,7 @@ video):
 ```python
 # Extract frame at 1 second as thumbnail
 videos.add_computed_column(
-    thumbnail=video_fn.extract_frame(videos.video, timestamp=1.0)
+    thumbnail=pxtf.video.extract_frame(videos.video, timestamp=1.0)
 )
 ```
 
@@ -432,20 +436,18 @@ videos.select(
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
-### Multiple thumbnails with FrameIterator
+### Multiple thumbnails with `frame_iterator`
 
-For preview strips or timeline thumbnails, use FrameIterator to extract
-multiple frames:
+For preview strips or timeline thumbnails, use `frame_iterator` to
+extract multiple frames:
 
 
 ```python
-from pixeltable.iterators import FrameIterator
-
 # Create a view with frames extracted at 0.5 fps (one frame every 2 seconds)
 frames = pxt.create_view(
     'thumbnail_demo.frames',
     videos,
-    iterator=FrameIterator.create(video=videos.video, fps=0.5)
+    iterator=pxtf.video.frame_iterator(videos.video, fps=0.5)
 )
 ```
 

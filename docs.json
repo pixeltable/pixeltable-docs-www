@@ -89,7 +89,6 @@
                       "howto/cookbooks/core/query-join-tables",
                       "howto/cookbooks/core/version-control-history",
                       "howto/cookbooks/core/custom-aggregates-uda",
-                      "howto/cookbooks/core/custom-iterators",
                       "howto/cookbooks/core/time-zones"
                     ]
                   },
@@ -136,7 +135,6 @@
                       "howto/cookbooks/audio/audio-transcribe",
                       "howto/use-cases/audio-transcriptions",
                       "howto/cookbooks/audio/audio-summarize-podcast",
-                      "howto/cookbooks/audio/audio-speaker-diarization",
                       "howto/cookbooks/audio/audio-text-to-speech",
                       "howto/cookbooks/audio/audio-extract-from-video"
                     ]
@@ -206,8 +204,10 @@
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
+                      "sdk/latest/functions",
                       "sdk/latest/audio",
                       "sdk/latest/date",
+                      "sdk/latest/document",
                       "sdk/latest/image",
                       "sdk/latest/json",
                       "sdk/latest/math",
@@ -244,19 +244,6 @@
                     ]
                   },
                   {
-                    "group": "Iterators",
-                    "pages": [
-                      "sdk/latest/iterators",
-                      "sdk/latest/audiosplitter",
-                      "sdk/latest/componentiterator",
-                      "sdk/latest/documentsplitter",
-                      "sdk/latest/frameiterator",
-                      "sdk/latest/stringsplitter",
-                      "sdk/latest/tileiterator",
-                      "sdk/latest/videosplitter"
-                    ]
-                  },
-                  {
                     "group": "Import/Export",
                     "pages": [
                       "sdk/latest/io"
@@ -267,8 +254,81 @@
             ]
           },
           {
-            "dropdown": "v0.5.5",
+            "dropdown": "v0.5.6",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.6/pixeltable",
+                      "sdk/v0.5.6/table",
+                      "sdk/v0.5.6/query",
+                      "sdk/v0.5.6/columnmetadata",
+                      "sdk/v0.5.6/dircontents",
+                      "sdk/v0.5.6/indexmetadata",
+                      "sdk/v0.5.6/tablemetadata",
+                      "sdk/v0.5.6/updatestatus",
+                      "sdk/v0.5.6/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.6/functions",
+                      "sdk/v0.5.6/audio",
+                      "sdk/v0.5.6/date",
+                      "sdk/v0.5.6/document",
+                      "sdk/v0.5.6/image",
+                      "sdk/v0.5.6/json",
+                      "sdk/v0.5.6/math",
+                      "sdk/v0.5.6/string",
+                      "sdk/v0.5.6/timestamp",
+                      "sdk/v0.5.6/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.6/anthropic",
+                      "sdk/v0.5.6/bedrock",
+                      "sdk/v0.5.6/deepseek",
+                      "sdk/v0.5.6/fal",
+                      "sdk/v0.5.6/fireworks",
+                      "sdk/v0.5.6/gemini",
+                      "sdk/v0.5.6/groq",
+                      "sdk/v0.5.6/huggingface",
+                      "sdk/v0.5.6/llama_cpp",
+                      "sdk/v0.5.6/mistralai",
+                      "sdk/v0.5.6/ollama",
+                      "sdk/v0.5.6/openai",
+                      "sdk/v0.5.6/openrouter",
+                      "sdk/v0.5.6/replicate",
+                      "sdk/v0.5.6/reve",
+                      "sdk/v0.5.6/together",
+                      "sdk/v0.5.6/twelvelabs",
+                      "sdk/v0.5.6/vision",
+                      "sdk/v0.5.6/voyageai",
+                      "sdk/v0.5.6/whisper",
+                      "sdk/v0.5.6/whisperx",
+                      "sdk/v0.5.6/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.6/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.5",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",

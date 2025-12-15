@@ -164,7 +164,7 @@ You have video files and need to extract frames for:
 -   Extract a specific number of frames
 -   Extract only keyframes for efficiency
 
-You create a view with a FrameIterator that automatically extracts
+You create a view with a `frame_iterator` that automatically extracts
 frames from each video. New videos are processed without extra code.
 
 ### Setup
@@ -177,7 +177,7 @@ frames from each video. New videos are processed without extra code.
 
 ```python
 import pixeltable as pxt
-from pixeltable.iterators import FrameIterator
+from pixeltable.functions.video import frame_iterator
 ```
 
 ### Load videos
@@ -229,8 +229,8 @@ Create a view that extracts 1 frame per second:
 frames = pxt.create_view(
     'video_demo.frames',
     videos,
-    iterator=FrameIterator.create(
-        video=videos.video,
+    iterator=frame_iterator(
+        videos.video,
         fps=1.0  # 1 frame per second
     )
 )
@@ -258,8 +258,8 @@ For faster processing, extract only keyframes (I-frames):
 keyframes = pxt.create_view(
     'video_demo.keyframes',
     videos,
-    iterator=FrameIterator.create(
-        video=videos.video,
+    iterator=frame_iterator(
+        videos.video,
         keyframes_only=True
     )
 )
