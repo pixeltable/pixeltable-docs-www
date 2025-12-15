@@ -40,7 +40,6 @@ Now we create a Pixeltable table to hold our videos.
 
 
 ```python
-import numpy as np
 import pixeltable as pxt
 
 pxt.drop_dir('transcription_demo', force=True)  # Ensure a clean slate for the demo
@@ -138,23 +137,23 @@ video_table.select(
 
 In order to index the transcriptions, we’ll first need to split them
 into sentences. We can do this using Pixeltable’s built-in
-`StringSplitter` iterator.
+`string_splitter` iterator.
 
 
 ```python
-from pixeltable.iterators.string import StringSplitter
+from pixeltable.functions.string import string_splitter
 
 sentences_view = pxt.create_view(
     'transcription_demo.sentences_view',
     video_table,
-    iterator=StringSplitter.create(
-        text=video_table.transcription.text,
+    iterator=string_splitter(
+        video_table.transcription.text,
         separators='sentence'
     )
 )
 ```
 
-The `StringSplitter` creates a new view, with the audio transcriptions
+The `string_splitter` creates a new view, with the audio transcriptions
 broken into individual, one-sentence chunks.
 
 

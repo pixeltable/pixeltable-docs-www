@@ -178,7 +178,7 @@ manageable chunks.
 -   Automatically chunk long files
 -   Extract and transcribe audio from videos
 
-You create a view with AudioSplitter to break long files into chunks,
+You create a view with `audio_splitter` to break long files into chunks,
 then add a computed column for transcription. Whisper runs locally on
 your machine—no API calls needed.
 
@@ -192,8 +192,8 @@ your machine—no API calls needed.
 
 ```python
 import pixeltable as pxt
-from pixeltable.iterators import AudioSplitter
 from pixeltable.functions import whisper
+from pixeltable.functions.audio import audio_splitter
 ```
 
 ### Load audio files
@@ -245,8 +245,8 @@ Create a view that splits audio into 30-second chunks with overlap:
 chunks = pxt.create_view(
     'audio_demo.chunks',
     audio,
-    iterator=AudioSplitter.create(
-        audio=audio.audio,
+    iterator=audio_splitter(
+        audio.audio,
         chunk_duration_sec=30.0,  # 30-second chunks
         overlap_sec=2.0,          # 2-second overlap for context
         min_chunk_duration_sec=5.0  # Drop chunks shorter than 5 seconds
@@ -314,7 +314,7 @@ chunks.select(chunks.start_time_sec, chunks.end_time_sec, chunks.text).collect()
 Models ending in `.en` are English-only and faster. Remove `.en` for
 multilingual support.
 
-**AudioSplitter parameters:**
+**audio_splitter parameters:**
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 

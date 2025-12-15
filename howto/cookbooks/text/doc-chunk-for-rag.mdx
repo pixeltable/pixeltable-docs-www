@@ -141,7 +141,7 @@ need to:
 -   Control chunk size with token limits
 -   Add embeddings for semantic search
 
-You create a view with a DocumentSplitter iterator that automatically
+You create a view with a `document_splitter` iterator that automatically
 breaks documents into chunks. Then you add an embedding index for
 semantic search.
 
@@ -155,7 +155,7 @@ semantic search.
 
 ```python
 import pixeltable as pxt
-from pixeltable.iterators import DocumentSplitter
+from pixeltable.functions.document import document_splitter
 from pixeltable.functions.huggingface import sentence_transformer
 ```
 
@@ -208,8 +208,8 @@ limit:
 chunks = pxt.create_view(
     'rag_demo.chunks',
     docs,
-    iterator=DocumentSplitter.create(
-        document=docs.document,
+    iterator=document_splitter(
+        docs.document,
         separators='sentence,token_limit',  # Split by sentence with token limit
         limit=300  # Max 300 tokens per chunk
     )

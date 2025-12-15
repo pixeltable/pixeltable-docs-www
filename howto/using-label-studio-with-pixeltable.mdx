@@ -251,25 +251,25 @@ v.select(v.video, v.annotations, v.video_category, v.video_metadata).head()
 Frame extraction is another common operation in labeling workflows. In
 this example, we’ll extract frames from our videos into a view, then use
 an object detection model to generate preannotations for each frame. The
-following code uses a Pixeltable `FrameIterator` to automatically
+following code uses a Pixeltable `frame_iterator` to automatically
 extract frames into a new view, which we’ll call `frames_2024_04_22`.
 
 
 ```python
 from datetime import datetime
-from pixeltable.iterators import FrameIterator
+from pixeltable.functions.video import frame_iterator
 
 today = datetime(2024, 4, 22)
 videos_table = pxt.get_table('ls_demo.videos')
 
-# Create the view, using a `FrameIterator` to extract frames with a sample rate
+# Create the view, using a `frame_iterator` to extract frames with a sample rate
 # of `fps=0.25`, or 1 frame per 4 seconds of video. Setting `fps=0` would use the
 # native framerate of the video, extracting every frame.
 
 frames = pxt.create_view(
     'ls_demo.frames_2024_04_22',
     videos_table.where(videos_table.date == today),
-    iterator=FrameIterator.create(video=videos_table.video, fps=0.25)
+    iterator=frame_iterator(videos_table.video, fps=0.25)
 )
 ```
 
@@ -292,7 +292,7 @@ frames.add_computed_column(detections=detr_for_object_detection(
     frames.frame,
     model_id='facebook/detr-resnet-50',
     threshold=0.95
-)
+))
 frames.select(frames.frame, frames.detections).head(3)
 ```
 

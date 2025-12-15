@@ -930,7 +930,7 @@ Pixeltable view is a virtual table, which is dynamically derived from a
 source table by applying a transformation and/or selecting a subset of
 data. In this case, our view represents a one-to-many transformation
 from source documents into individual sentences. This is achieved using
-Pixeltable’s built-in `DocumentSplitter` class.
+Pixeltable’s built-in `document_splitter` class.
 
 Note that the `docs` table is currently empty, so creating this view
 doesn’t actually *do* anything yet: it simply defines an operation that
@@ -938,13 +938,13 @@ we want Pixeltable to execute when it sees new data.
 
 
 ```python
-from pixeltable.iterators.document import DocumentSplitter
+from pixeltable.functions.document import document_splitter
 
 sentences = pxt.create_view(
     'rag_ops_demo.sentences',  # Name of the view
     docs,  # Table from which the view is derived
-    iterator=DocumentSplitter.create(
-        document=docs.source_doc,
+    iterator=document_splitter(
+        docs.source_doc,
         separators='sentence',  # Chunk docs into sentences
         metadata='title,heading,sourceline'
     )
@@ -994,7 +994,7 @@ Inserted&nbsp;218&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 We can see that two things happened. First, a single row was inserted
 into `docs`, containing the URL representing our source PDF. Then, the
 view `sentences` was incrementally updated by applying the
-`DocumentSplitter` according to the definition of the view. This
+`document_splitter` according to the definition of the view. This
 illustrates an important principle in Pixeltable: by default, anytime
 Pixeltable sees new data, the update is incrementally propagated to any
 downstream views or computed columns.
@@ -1033,8 +1033,8 @@ already in `docs`.
 ```python
 chunks = pxt.create_view(
     'rag_ops_demo.chunks', docs,
-    iterator=DocumentSplitter.create(
-        document=docs.source_doc,
+    iterator=document_splitter(
+        docs.source_doc,
         separators='sentence,token_limit',
         limit=2048,
         overlap=0,
@@ -1051,8 +1051,8 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;217&nbsp;rows&nbsp;\[00:00,&
 ```python
 short_chunks = pxt.create_view(
     'rag_ops_demo.short_chunks', docs,
-    iterator=DocumentSplitter.create(
-        document=docs.source_doc,
+    iterator=document_splitter(
+        docs.source_doc,
         separators='sentence,token_limit',
         limit=72,
         overlap=0,
@@ -1069,8 +1069,8 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`short_chunks\`:&nbsp;219&nbsp;rows&nbsp;\[0
 ```python
 short_char_chunks = pxt.create_view(
     'rag_ops_demo.short_char_chunks', docs,
-    iterator=DocumentSplitter.create(
-        document=docs.source_doc,
+    iterator=document_splitter(
+        docs.source_doc,
         separators='sentence,char_limit',
         limit=72,
         overlap=0,
@@ -1132,7 +1132,7 @@ Inserted&nbsp;3399&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 This is a good time to mention another important guiding principle of
 Pixeltable. The preceding examples all used the built-in
-`DocumentSplitter` class with various configurations. That’s probably
+`document_splitter` class with various configurations. That’s probably
 fine as a first cut or to prototype an application quickly, and it might
 be sufficient for some applications. But other applications might want
 to do more sophisticated kinds of chunking, implementing their own
