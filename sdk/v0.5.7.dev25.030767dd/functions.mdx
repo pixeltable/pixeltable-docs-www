@@ -63,35 +63,39 @@ count(val: pxt.Timestamp | None) -> pxt.Int
 
 # Signature 6:
 @pxt.uda
-count(val: pxt.Date | None) -> pxt.Int
+count(val: pxt.Json | None) -> pxt.Int
 
 # Signature 7:
 @pxt.uda
-count(val: pxt.UUID | None) -> pxt.Int
+count(val: pxt.Array | None) -> pxt.Int
 
 # Signature 8:
 @pxt.uda
-count(val: pxt.Json | None) -> pxt.Int
+count(val: pxt.Image | None) -> pxt.Int
 
 # Signature 9:
 @pxt.uda
-count(val: pxt.Array | None) -> pxt.Int
+count(val: pxt.Video | None) -> pxt.Int
 
 # Signature 10:
 @pxt.uda
-count(val: pxt.Image | None) -> pxt.Int
+count(val: pxt.Audio | None) -> pxt.Int
 
 # Signature 11:
 @pxt.uda
-count(val: pxt.Video | None) -> pxt.Int
+count(val: pxt.Document | None) -> pxt.Int
 
 # Signature 12:
 @pxt.uda
-count(val: pxt.Audio | None) -> pxt.Int
+count(val: pxt.Date | None) -> pxt.Int
 
 # Signature 13:
 @pxt.uda
-count(val: pxt.Document | None) -> pxt.Int
+count(val: pxt.UUID | None) -> pxt.Int
+
+# Signature 14:
+@pxt.uda
+count(val: pxt.Binary | None) -> pxt.Int
 ```
 
 Aggregate function that counts the number of non-null values in a column or grouping.

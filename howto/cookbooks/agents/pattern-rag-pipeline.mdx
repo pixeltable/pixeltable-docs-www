@@ -222,7 +222,7 @@ Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 @pxt.query
 def retrieve_context(query: str, top_k: int = 3):
     """Retrieve the most relevant chunks for a query."""
-    sim = chunks.chunk_text.similarity(query)
+    sim = chunks.chunk_text.similarity(string=query)
     return (
         chunks.where(sim > 0.5)
         .order_by(sim, asc=False)

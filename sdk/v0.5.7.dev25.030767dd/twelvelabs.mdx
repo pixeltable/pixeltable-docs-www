@@ -18,23 +18,23 @@ the [Working with TwelveLabs](https://docs.pixeltable.com/notebooks/integrations
 # Signature 1:
 @pxt.udf
 embed(
-    model_name: pxt.String,
     text: pxt.String,
-    image: pxt.Image | None
+    image: pxt.Image | None,
+    model_name: pxt.String
 ) -> pxt.Array[float32] | None
 
 # Signature 2:
 @pxt.udf
 embed(
-    model_name: pxt.String,
-    image: pxt.Image
+    image: pxt.Image,
+    model_name: pxt.String
 ) -> pxt.Array[float32] | None
 
 # Signature 3:
 @pxt.udf
 embed(
-    model_name: pxt.String,
     audio: pxt.Audio,
+    model_name: pxt.String,
     start_sec: pxt.Float | None,
     end_sec: pxt.Float | None,
     embedding_option: pxt.Json | None
@@ -43,8 +43,8 @@ embed(
 # Signature 4:
 @pxt.udf
 embed(
-    model_name: pxt.String,
     video: pxt.Video,
+    model_name: pxt.String,
     start_sec: pxt.Float | None,
     end_sec: pxt.Float | None,
     embedding_option: pxt.Json | None

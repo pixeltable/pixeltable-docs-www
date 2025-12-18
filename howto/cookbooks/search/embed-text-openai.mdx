@@ -254,7 +254,7 @@ docs.add_embedding_index(
 
 ```python
 # Search for similar documents
-sim = docs.content.similarity("artificial intelligence applications")
+sim = docs.content.similarity(string="artificial intelligence applications")
 results = (
     docs.where(sim > 0.2)
     .order_by(sim, asc=False)

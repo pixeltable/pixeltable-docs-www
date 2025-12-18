@@ -283,7 +283,7 @@ sample_img
 
 ```python
 # Perform image-based similarity search
-sim = coco_copy.image.similarity(sample_img)
+sim = coco_copy.image.similarity(string=sample_img)
 results = (
     coco_copy
     .order_by(sim, asc=False)
@@ -302,7 +302,7 @@ you can also search using text queries:
 
 ```python
 # Perform text-based similarity search
-sim = coco_copy.image.similarity('surfing')
+sim = coco_copy.image.similarity(string='surfing')
 results = (
     coco_copy
     .order_by(sim, asc=False)

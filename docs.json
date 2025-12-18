@@ -2,8 +2,9 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Pixeltable Documentation",
+  "description": "The only open source Python library providing declarative data infrastructure for building multimodal AI applications, enabling incremental storage, transformation, indexing, retrieval, and orchestration of data.",
   "colors": {
-    "primary": "#1E5AA8",
+    "primary": "#022A59",
     "light": "#F1AE03",
     "dark": "#020704"
   },
@@ -70,6 +71,7 @@
                   "howto/providers/working-with-openrouter",
                   "howto/providers/working-with-replicate",
                   "howto/providers/working-with-reve",
+                  "howto/providers/working-with-tigris",
                   "howto/providers/working-with-together",
                   "howto/providers/working-with-voyageai",
                   "howto/using-label-studio-with-pixeltable",
@@ -89,7 +91,7 @@
                       "howto/cookbooks/core/query-join-tables",
                       "howto/cookbooks/core/version-control-history",
                       "howto/cookbooks/core/custom-aggregates-uda",
-                      "howto/cookbooks/core/custom-iterators",
+                      "howto/cookbooks/core/data-split-rows",
                       "howto/cookbooks/core/time-zones"
                     ]
                   },
@@ -136,7 +138,6 @@
                       "howto/cookbooks/audio/audio-transcribe",
                       "howto/use-cases/audio-transcriptions",
                       "howto/cookbooks/audio/audio-summarize-podcast",
-                      "howto/cookbooks/audio/audio-speaker-diarization",
                       "howto/cookbooks/audio/audio-text-to-speech",
                       "howto/cookbooks/audio/audio-extract-from-video"
                     ]
@@ -213,6 +214,7 @@
                       "sdk/latest/image",
                       "sdk/latest/json",
                       "sdk/latest/math",
+                      "sdk/latest/net",
                       "sdk/latest/string",
                       "sdk/latest/timestamp",
                       "sdk/latest/video"
@@ -238,6 +240,7 @@
                       "sdk/latest/reve",
                       "sdk/latest/together",
                       "sdk/latest/twelvelabs",
+                      "sdk/latest/uuid",
                       "sdk/latest/vision",
                       "sdk/latest/voyageai",
                       "sdk/latest/whisper",
@@ -256,7 +259,7 @@
             ]
           },
           {
-            "dropdown": "v0.5.6.dev12.8e7ff5d4",
+            "dropdown": "v0.5.7.dev25.030767dd",
             "icon": "rocket",
             "groups": [
               {
@@ -265,63 +268,65 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.5.6.dev12.8e7ff5d4/pixeltable",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/table",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/query",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/columnmetadata",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/dircontents",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/indexmetadata",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/tablemetadata",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/updatestatus",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/versionmetadata"
+                      "sdk/v0.5.7.dev25.030767dd/pixeltable",
+                      "sdk/v0.5.7.dev25.030767dd/table",
+                      "sdk/v0.5.7.dev25.030767dd/query",
+                      "sdk/v0.5.7.dev25.030767dd/columnmetadata",
+                      "sdk/v0.5.7.dev25.030767dd/dircontents",
+                      "sdk/v0.5.7.dev25.030767dd/indexmetadata",
+                      "sdk/v0.5.7.dev25.030767dd/tablemetadata",
+                      "sdk/v0.5.7.dev25.030767dd/updatestatus",
+                      "sdk/v0.5.7.dev25.030767dd/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.5.6.dev12.8e7ff5d4/functions",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/audio",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/date",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/document",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/image",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/json",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/math",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/string",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/timestamp",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/video"
+                      "sdk/v0.5.7.dev25.030767dd/functions",
+                      "sdk/v0.5.7.dev25.030767dd/audio",
+                      "sdk/v0.5.7.dev25.030767dd/date",
+                      "sdk/v0.5.7.dev25.030767dd/document",
+                      "sdk/v0.5.7.dev25.030767dd/image",
+                      "sdk/v0.5.7.dev25.030767dd/json",
+                      "sdk/v0.5.7.dev25.030767dd/math",
+                      "sdk/v0.5.7.dev25.030767dd/net",
+                      "sdk/v0.5.7.dev25.030767dd/string",
+                      "sdk/v0.5.7.dev25.030767dd/timestamp",
+                      "sdk/v0.5.7.dev25.030767dd/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.5.6.dev12.8e7ff5d4/anthropic",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/bedrock",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/deepseek",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/fal",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/fireworks",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/gemini",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/groq",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/huggingface",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/llama_cpp",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/mistralai",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/ollama",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/openai",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/openrouter",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/replicate",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/reve",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/together",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/twelvelabs",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/vision",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/voyageai",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/whisper",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/whisperx",
-                      "sdk/v0.5.6.dev12.8e7ff5d4/yolox"
+                      "sdk/v0.5.7.dev25.030767dd/anthropic",
+                      "sdk/v0.5.7.dev25.030767dd/bedrock",
+                      "sdk/v0.5.7.dev25.030767dd/deepseek",
+                      "sdk/v0.5.7.dev25.030767dd/fal",
+                      "sdk/v0.5.7.dev25.030767dd/fireworks",
+                      "sdk/v0.5.7.dev25.030767dd/gemini",
+                      "sdk/v0.5.7.dev25.030767dd/groq",
+                      "sdk/v0.5.7.dev25.030767dd/huggingface",
+                      "sdk/v0.5.7.dev25.030767dd/llama_cpp",
+                      "sdk/v0.5.7.dev25.030767dd/mistralai",
+                      "sdk/v0.5.7.dev25.030767dd/ollama",
+                      "sdk/v0.5.7.dev25.030767dd/openai",
+                      "sdk/v0.5.7.dev25.030767dd/openrouter",
+                      "sdk/v0.5.7.dev25.030767dd/replicate",
+                      "sdk/v0.5.7.dev25.030767dd/reve",
+                      "sdk/v0.5.7.dev25.030767dd/together",
+                      "sdk/v0.5.7.dev25.030767dd/twelvelabs",
+                      "sdk/v0.5.7.dev25.030767dd/uuid",
+                      "sdk/v0.5.7.dev25.030767dd/vision",
+                      "sdk/v0.5.7.dev25.030767dd/voyageai",
+                      "sdk/v0.5.7.dev25.030767dd/whisper",
+                      "sdk/v0.5.7.dev25.030767dd/whisperx",
+                      "sdk/v0.5.7.dev25.030767dd/yolox"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.5.6.dev12.8e7ff5d4/io"
+                      "sdk/v0.5.7.dev25.030767dd/io"
                     ]
                   }
                 ]
@@ -385,9 +390,19 @@
   },
   "background": {
     "color": {
-      "light": "#FAF6F0",
+      "light": "#fafaf9",
       "dark": "#020704"
     }
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
+  "metadata": {
+    "timestamp": true
   },
   "navbar": {
     "links": [
@@ -421,10 +436,28 @@
   },
   "fonts": {
     "heading": {
-      "family": "Inter"
+      "family": "DM Sans",
+      "weight": 600
     },
     "body": {
-      "family": "Inter"
+      "family": "Inter",
+      "weight": 400
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "cursor"
+    ]
+  },
+  "errors": {
+    "404": {
+      "redirect": false,
+      "title": "Page Not Found",
+      "description": "The page you're looking for doesn't exist. Check the URL or [return to the docs home](/overview/pixeltable)."
     }
   },
   "redirects": [
