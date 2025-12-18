@@ -2,8 +2,9 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Pixeltable Documentation",
+  "description": "The only open source Python library providing declarative data infrastructure for building multimodal AI applications, enabling incremental storage, transformation, indexing, retrieval, and orchestration of data.",
   "colors": {
-    "primary": "#1E5AA8",
+    "primary": "#022A59",
     "light": "#F1AE03",
     "dark": "#020704"
   },
@@ -70,6 +71,7 @@
                   "howto/providers/working-with-openrouter",
                   "howto/providers/working-with-replicate",
                   "howto/providers/working-with-reve",
+                  "howto/providers/working-with-tigris",
                   "howto/providers/working-with-together",
                   "howto/providers/working-with-voyageai",
                   "howto/using-label-studio-with-pixeltable",
@@ -89,6 +91,7 @@
                       "howto/cookbooks/core/query-join-tables",
                       "howto/cookbooks/core/version-control-history",
                       "howto/cookbooks/core/custom-aggregates-uda",
+                      "howto/cookbooks/core/data-split-rows",
                       "howto/cookbooks/core/time-zones"
                     ]
                   },
@@ -211,6 +214,7 @@
                       "sdk/latest/image",
                       "sdk/latest/json",
                       "sdk/latest/math",
+                      "sdk/latest/net",
                       "sdk/latest/string",
                       "sdk/latest/timestamp",
                       "sdk/latest/video"
@@ -236,6 +240,7 @@
                       "sdk/latest/reve",
                       "sdk/latest/together",
                       "sdk/latest/twelvelabs",
+                      "sdk/latest/uuid",
                       "sdk/latest/vision",
                       "sdk/latest/voyageai",
                       "sdk/latest/whisper",
@@ -254,8 +259,83 @@
             ]
           },
           {
-            "dropdown": "v0.5.6",
+            "dropdown": "v0.5.7",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.7/pixeltable",
+                      "sdk/v0.5.7/table",
+                      "sdk/v0.5.7/query",
+                      "sdk/v0.5.7/columnmetadata",
+                      "sdk/v0.5.7/dircontents",
+                      "sdk/v0.5.7/indexmetadata",
+                      "sdk/v0.5.7/tablemetadata",
+                      "sdk/v0.5.7/updatestatus",
+                      "sdk/v0.5.7/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.7/functions",
+                      "sdk/v0.5.7/audio",
+                      "sdk/v0.5.7/date",
+                      "sdk/v0.5.7/document",
+                      "sdk/v0.5.7/image",
+                      "sdk/v0.5.7/json",
+                      "sdk/v0.5.7/math",
+                      "sdk/v0.5.7/net",
+                      "sdk/v0.5.7/string",
+                      "sdk/v0.5.7/timestamp",
+                      "sdk/v0.5.7/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.7/anthropic",
+                      "sdk/v0.5.7/bedrock",
+                      "sdk/v0.5.7/deepseek",
+                      "sdk/v0.5.7/fal",
+                      "sdk/v0.5.7/fireworks",
+                      "sdk/v0.5.7/gemini",
+                      "sdk/v0.5.7/groq",
+                      "sdk/v0.5.7/huggingface",
+                      "sdk/v0.5.7/llama_cpp",
+                      "sdk/v0.5.7/mistralai",
+                      "sdk/v0.5.7/ollama",
+                      "sdk/v0.5.7/openai",
+                      "sdk/v0.5.7/openrouter",
+                      "sdk/v0.5.7/replicate",
+                      "sdk/v0.5.7/reve",
+                      "sdk/v0.5.7/together",
+                      "sdk/v0.5.7/twelvelabs",
+                      "sdk/v0.5.7/uuid",
+                      "sdk/v0.5.7/vision",
+                      "sdk/v0.5.7/voyageai",
+                      "sdk/v0.5.7/whisper",
+                      "sdk/v0.5.7/whisperx",
+                      "sdk/v0.5.7/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.7/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.6",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -1121,9 +1201,19 @@
   },
   "background": {
     "color": {
-      "light": "#FAF6F0",
+      "light": "#fafaf9",
       "dark": "#020704"
     }
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
+  "appearance": {
+    "default": "system",
+    "strict": false
+  },
+  "metadata": {
+    "timestamp": true
   },
   "navbar": {
     "links": [
@@ -1157,10 +1247,28 @@
   },
   "fonts": {
     "heading": {
-      "family": "Inter"
+      "family": "DM Sans",
+      "weight": 600
     },
     "body": {
-      "family": "Inter"
+      "family": "Inter",
+      "weight": 400
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "cursor"
+    ]
+  },
+  "errors": {
+    "404": {
+      "redirect": false,
+      "title": "Page Not Found",
+      "description": "The page you're looking for doesn't exist. Check the URL or [return to the docs home](/overview/pixeltable)."
     }
   },
   "redirects": [

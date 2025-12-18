@@ -195,7 +195,7 @@ memories.add_embedding_index(
 @pxt.query
 def recall_memories(context: str, top_k: int = 3):
     """Retrieve memories relevant to the current context."""
-    sim = memories.content.similarity(context)
+    sim = memories.content.similarity(string=context)
     return (
         memories.where(sim > 0.5)
         .order_by(sim, asc=False)

@@ -276,7 +276,7 @@ Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # Perform similarity search
-sim = search_t.text.similarity("What are the health benefits of Mediterranean food?")
+sim = search_t.text.similarity(string="What are the health benefits of Mediterranean food?")
 search_t.order_by(sim, asc=False).limit(3).select(search_t.text, score=sim).collect()
 ```
 

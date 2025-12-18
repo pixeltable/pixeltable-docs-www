@@ -236,7 +236,7 @@ Find content semantically similar to your query:
 ```python
 # Search by meaning
 query = "how to fix bugs"
-sim = kb.content.similarity(query)
+sim = kb.content.similarity(string=query)
 
 results = (
     kb
@@ -257,7 +257,7 @@ Combine semantic search with metadata filters:
 ```python
 # Search within a specific category
 query = "best practices"
-sim = kb.content.similarity(query)
+sim = kb.content.similarity(string=query)
 
 results = (
     kb

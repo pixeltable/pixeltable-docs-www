@@ -621,7 +621,7 @@ images.add_embedding_index(
 )
 
 # Search images using text
-sim = images.Image.similarity('anime character with red clothes')
+sim = images.Image.similarity(string='anime character with red clothes')
 images.order_by(sim, asc=False).limit(3).select(images.Image, images.Name, sim=sim).collect()
 
 ```
@@ -643,7 +643,7 @@ sample_reviews.add_embedding_index('text', string_embed=sentence_transformer.usi
 
 # Semantic search
 query = "great acting and cinematography"
-sim = sample_reviews.text.similarity(query)
+sim = sample_reviews.text.similarity(string=query)
 sample_reviews.order_by(sim, asc=False).limit(3).select(sample_reviews.text, sim=sim).collect()
 ```
 
