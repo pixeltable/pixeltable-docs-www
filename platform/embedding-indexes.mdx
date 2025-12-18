@@ -390,7 +390,7 @@ descending similarity (`order_by(..., asc=False)`):
 
 
 ```python
-sim = imgs.img.similarity(sample_img)
+sim = imgs.img.similarity(image=sample_img)
 res = (
     imgs.order_by(sim, asc=False)  # Order by descending similarity
     .limit(2)  # Limit number of results to 2
@@ -457,7 +457,7 @@ result:
 
 
 ```python
-sim = imgs.img.similarity(sample_img)
+sim = imgs.img.similarity(image=sample_img)
 res = (
     imgs.order_by(sim, asc=False)
     .limit(2)
@@ -475,7 +475,7 @@ Because CLIP models are multimodal, we can also do lookups by text.
 
 
 ```python
-sim = imgs.img.similarity('train')  # String lookup
+sim = imgs.img.similarity(string='train')  # String lookup
 res = (
     imgs.order_by(sim, asc=False)
     .limit(2)
