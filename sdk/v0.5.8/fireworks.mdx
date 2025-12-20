@@ -1,0 +1,62 @@
+---
+title: "fireworks"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/fireworks.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.fireworks
+
+
+Pixeltable UDFs
+that wrap various endpoints from the Fireworks AI API. In order to use them, you must
+first `pip install fireworks-ai` and configure your Fireworks AI credentials, as described in
+the [Working with Fireworks](https://docs.pixeltable.com/notebooks/integrations/working-with-fireworks) tutorial.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat_completions()
+
+```python Signature
+@pxt.udf
+chat_completions(
+    messages: pxt.Json,
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Creates a model response for the given chat conversation.
+
+Equivalent to the Fireworks AI `chat/completions` API endpoint.
+For additional details, see: [https://docs.fireworks.ai/api-reference/post-chatcompletions](https://docs.fireworks.ai/api-reference/post-chatcompletions)
+
+Request throttling:
+Applies the rate limit set in the config (section `fireworks`, key `rate_limit`). If no rate
+limit is configured, uses a default of 600 RPM.
+
+__Requirements:__
+
+- `pip install fireworks-ai`
+
+**Parameters:**
+
+- **`messages`** (`pxt.Json`): A list of messages comprising the conversation so far.
+- **`model`** (`pxt.String`): The name of the model to use.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Fireworks `chat_completions` API. For details on the available
+    parameters, see: [https://docs.fireworks.ai/api-reference/post-chatcompletions](https://docs.fireworks.ai/api-reference/post-chatcompletions)
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the response and other metadata.
+
+**Examples:**
+
+Add a computed column that applies the model `accounts/fireworks/models/mixtral-8x22b-instruct` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+```python
+messages = [{'role': 'user', 'content': tbl.prompt}]
+tbl.add_computed_column(
+    response=chat_completions(
+        messages, model='accounts/fireworks/models/mixtral-8x22b-instruct'
+    )
+)
+```
+
