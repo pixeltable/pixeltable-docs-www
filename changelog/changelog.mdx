@@ -21,6 +21,32 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.5.9
+
+**Released:** December 30, 2025  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.9](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.9)
+
+#### What's Changed
+* Bedrock invoke_model() udf by [@mkornacker](https://github.com/mkornacker) in [#1018](https://github.com/pixeltable/pixeltable/pull/1018)
+* [PXT-765] Support for Office Formats as part of Document Type through MarkdownIT by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#960](https://github.com/pixeltable/pixeltable/pull/960)
+* HF DetrForSegmentation by [@mkornacker](https://github.com/mkornacker) in [#1020](https://github.com/pixeltable/pixeltable/pull/1020)
+* Image2Image: Updated HF.py to use AutoPipelineForImage2Image and Cookbook by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1025](https://github.com/pixeltable/pixeltable/pull/1025)
+* Fixed broken tutorial links. by [@joerg84](https://github.com/joerg84) in [#1026](https://github.com/pixeltable/pixeltable/pull/1026)
+* Allow `similarity(image=...)` to accept a filename or URL instead of a PIL image object by [@aaron-siegel](https://github.com/aaron-siegel) in [#1023](https://github.com/pixeltable/pixeltable/pull/1023)
+* docs(cookbook): add MCP tool calling section to LLM tool calling guide by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1021](https://github.com/pixeltable/pixeltable/pull/1021)
+* PXT-928: Export Json columns to parquet as pa.struct by [@mkornacker](https://github.com/mkornacker) in [#1017](https://github.com/pixeltable/pixeltable/pull/1017)
+* removing psutil by [@mkornacker](https://github.com/mkornacker) in [#1031](https://github.com/pixeltable/pixeltable/pull/1031)
+* Use head() instead of collect() in test_add_column_to_view by [@aaron-siegel](https://github.com/aaron-siegel) in [#1022](https://github.com/pixeltable/pixeltable/pull/1022)
+* disable progress reporting in Jupyter if ipywidgets is not installed by [@mkornacker](https://github.com/mkornacker) in [#1032](https://github.com/pixeltable/pixeltable/pull/1032)
+
+#### New Contributors
+* [@joerg84](https://github.com/joerg84) made their first contribution in [#1026](https://github.com/pixeltable/pixeltable/pull/1026)
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.8...v0.5.9
+
+---
+
 ### v0.5.8
 
 **Released:** December 20, 2025  
@@ -1132,30 +1158,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.3...v0.3.4
-
----
-
-### v0.3.3
-
-**Released:** February 15, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.3.3](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.3)
-
-#### What's Changed
-* Apply formatting by [@aaron-siegel](https://github.com/aaron-siegel) in [#463](https://github.com/pixeltable/pixeltable/pull/463)
-* Converting more udfs to async by [@mkornacker](https://github.com/mkornacker) in [#455](https://github.com/pixeltable/pixeltable/pull/455)
-* fix for notebook test failure by [@mkornacker](https://github.com/mkornacker) in [#464](https://github.com/pixeltable/pixeltable/pull/464)
-* Fix add_computed_column() syntax in pxtf.huggingface docs by [@aaron-siegel](https://github.com/aaron-siegel) in [#465](https://github.com/pixeltable/pixeltable/pull/465)
-* Add export_parquet to docs by [@aaron-siegel](https://github.com/aaron-siegel) in [#467](https://github.com/pixeltable/pixeltable/pull/467)
-* PXT-405 AudioSplitter support by [@amithadke](https://github.com/amithadke) in [#451](https://github.com/pixeltable/pixeltable/pull/451)
-* Update README.md by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#474](https://github.com/pixeltable/pixeltable/pull/474)
-* Replace deprecated add_computed_column() syntax in docs by [@aaron-siegel](https://github.com/aaron-siegel) in [#468](https://github.com/pixeltable/pixeltable/pull/468)
-* PXT-0455: Enable computed columns of all types to be unstored. by [@WildCard932](https://github.com/WildCard932) in [#470](https://github.com/pixeltable/pixeltable/pull/470)
-* [SHOW] PXT-0416: Enable variable parameter in query limit() clause by [@WildCard932](https://github.com/WildCard932) in [#454](https://github.com/pixeltable/pixeltable/pull/454)
-* Tables as UDFs by [@aaron-siegel](https://github.com/aaron-siegel) in [#475](https://github.com/pixeltable/pixeltable/pull/475)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.2...v0.3.3
 
 ---
 

@@ -1,6 +1,6 @@
 ---
-title: "Use tool calling with LLMs"
-sidebarTitle: "Use tool calling with LLMs"
+title: "Use tool calling and MCP servers with LLMs"
+sidebarTitle: "Use tool calling and MCP servers with LLMs"
 icon: "notebook"
 ---
 <a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/llm-tool-calling.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/llm-tool-calling.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/agents/llm-tool-calling.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
@@ -64,6 +64,175 @@ export const quartoRawHtml =
 <table>
 <thead>
 <tr>
+<th>Benefit</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><strong>Standardized interface</strong></td>
+<td style="vertical-align: middle;">Connect to any MCP-compliant server</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>External services</strong></td>
+<td style="vertical-align: middle;">Integrate APIs, databases, and custom logic</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Reusable tools</strong></td>
+<td style="vertical-align: middle;">Share tools across different applications</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Dynamic discovery</strong></td>
+<td style="vertical-align: middle;">Automatically discover available tools</td>
+</tr>
+</tbody>
+</table>
+`,`<style type="text/css">
+#T_e6641_row0_col0 {
+  white-space: pre-wrap;
+  text-align: left;
+  font-weight: bold;
+}
+</style>
+`,`
+<table id="T_e6641" data-quarto-postprocess="true">
+<tbody>
+<tr>
+<td id="T_e6641_row0_col0" class="data row0 col0">table
+'tools_demo.mcp_queries'</td>
+</tr>
+</tbody>
+</table>
+`,`
+<style type="text/css">
+#T_b19c4 th {
+  text-align: left;
+}
+#T_b19c4_row0_col0, #T_b19c4_row0_col1, #T_b19c4_row0_col2, #T_b19c4_row1_col0, #T_b19c4_row1_col1, #T_b19c4_row1_col2, #T_b19c4_row2_col0, #T_b19c4_row2_col1, #T_b19c4_row2_col2 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+</style>
+`,`
+<table id="T_b19c4" data-quarto-postprocess="true">
+<thead>
+<tr>
+<th id="T_b19c4_level0_col0" class="col_heading level0 col0"
+data-quarto-table-cell-role="th">Column Name</th>
+<th id="T_b19c4_level0_col1" class="col_heading level0 col1"
+data-quarto-table-cell-role="th">Type</th>
+<th id="T_b19c4_level0_col2" class="col_heading level0 col2"
+data-quarto-table-cell-role="th">Computed With</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="T_b19c4_row0_col0" class="data row0 col0">query</td>
+<td id="T_b19c4_row0_col1" class="data row0 col1">String</td>
+<td id="T_b19c4_row0_col2" class="data row0 col2"></td>
+</tr>
+<tr>
+<td id="T_b19c4_row1_col0" class="data row1 col0">response</td>
+<td id="T_b19c4_row1_col1" class="data row1 col1">Required[Json]</td>
+<td id="T_b19c4_row1_col2"
+class="data row1 col2">chat_completions(messages=[{'role': 'user',
+'content': query}], model='gpt-4o-mini', tools=[{'name':
+'SearchPixeltableDocumentation', 'description': 'Search across the
+Pixeltable Documentation knowledge base to find relevant information,
+code examples, API references, and guides. Use this tool when you need
+to answer questions about Pixeltable Documentation, find specific
+documentation, understand how features work, or locate implementation
+details. The search returns contextual content with titles and direct
+links to the documentation pages.', 'parameters': {'type': 'object',
+'properties': {'query': {'type': 'string'}}}, 'required': ['query'],
+'additionalProperties': False}])</td>
+</tr>
+<tr>
+<td id="T_b19c4_row2_col0" class="data row2 col0">tool_results</td>
+<td id="T_b19c4_row2_col1" class="data row2 col1">Required[Json]</td>
+<td id="T_b19c4_row2_col2"
+class="data row2 col2">{'SearchPixeltableDocumentation':
+map(_openai_response_to_pxt_tool_calls(response).SearchPixeltableDocumentation[*],
+lambda R:
+SearchPixeltableDocumentation(query=_extract_str_tool_arg(ObjectRef(JsonMapperDispatch(),
+5263294452192566501, 88144469474745989).args,
+param_name='query')))}</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">query</th>
+<th data-quarto-table-cell-role="th">tool_results</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What is Pixeltable?</td>
+<td style="vertical-align: middle;">{"SearchPixeltableDocumentation": ["Title:
+pixeltable.DataFrame\nLink:
+https://docs.pixeltable.com/sdk/v0.4.22/dataframe\nContent:
+pixeltable.DataFrame\nRepresents a query for retrievin ...... fault: 10
+): Number of rows to select. Default is 10. Returns: DataFrameResultSet
+: A DataFrameResultSet with the first n rows of the
+DataFrame.\n\n"]}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">How to use OpenAI in Pixeltable?</td>
+<td style="vertical-align: middle;">{"SearchPixeltableDocumentation": ["Title: Working with OpenAI in
+Pixeltable\nLink:
+https://docs.pixeltable.com/howto/providers/working-with-openai\nContent:
+Working with OpenAI in Pix ...... s pxt\n\n# Remove the 'openai_demo'
+directory and its contents, if it exists\npxt.drop_dir('openai_demo',
+force=True)\npxt.create_dir('openai_demo')\n\n"]}</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">search_result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Title: pixeltable.DataFrame Link:
+https://docs.pixeltable.com/sdk/v0.4.22/dataframe Content:
+pixeltable.DataFrame Represents a query for retrieving and transforming
+data from Pixeltable tables. View source on GitHub Represents a query
+for retrieving and transforming data from Pixeltable tables. View source
+on GitHub method head() Return the first n rows of the DataFrame, in
+insertion order of the underlying Table. head() is not supported for
+joins. Parameters: n ( int , default: 10 ): Number of rows to select.
+Default is 10. Returns: DataFrameResultSet : A DataFrameResultSet with
+the first n rows of the DataFrame.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Title: Working with OpenAI in Pixeltable Link:
+https://docs.pixeltable.com/howto/providers/working-with-openai Content:
+Working with OpenAI in Pixeltable This documentation page is also
+available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter
+installation, by clicking one of the above links. Pixeltable’s OpenAI
+integration enables you to access OpenAI models via the OpenAI API. This
+documentation page is also a ...... API. Important notes OpenAI usage
+may incur costs based on your OpenAI plan. Be mindful of sensitive data
+and consider security measures when integrating with external services.
+First you’ll need to install required libraries and enter your OpenAI
+API key. Now let’s create a Pixeltable directory to hold the tables for
+our demo. import pixeltable as pxt # Remove the 'openai_demo' directory
+and its contents, if it exists pxt.drop_dir('openai_demo', force=True)
+pxt.create_dir('openai_demo')</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
 <th>Component</th>
 <th>Purpose</th>
 </tr>
@@ -84,6 +253,10 @@ export const quartoRawHtml =
 <tr>
 <td style="vertical-align: middle;"><code>invoke_tools()</code></td>
 <td style="vertical-align: middle;">Execute tool calls from LLM response</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.mcp_udfs()</code></td>
+<td style="vertical-align: middle;">Load tools from an MCP server</td>
 </tr>
 </tbody>
 </table>
@@ -137,6 +310,7 @@ queries—for agents, chatbots, or automated workflows.
 -   Define tools as Python functions
 -   Let LLMs decide which tool to call
 -   Automatically execute tool calls with `invoke_tools`
+-   Use MCP servers to load external tools
 
 You define tools with JSON schemas, pass them to the LLM, and use
 `invoke_tools` to execute the function calls.
@@ -173,7 +347,7 @@ pxt.create_dir('tools_demo')
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;tools_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17de70850&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30c46a550&gt;
 </pre>
 
 ### Define tools as UDFs
@@ -240,7 +414,7 @@ queries.add_computed_column(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
 No&nbsp;rows&nbsp;affected.
 </pre>
 
@@ -253,7 +427,7 @@ queries.add_computed_column(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
 No&nbsp;rows&nbsp;affected.
 </pre>
 
@@ -272,9 +446,8 @@ queries.insert(sample_queries)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`queries\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;330.87&nbsp;rows/s\]
-Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
-3&nbsp;rows&nbsp;inserted,&nbsp;9&nbsp;values&nbsp;computed.
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;4.16&nbsp;s&nbsp;(0.72&nbsp;rows/s)
+3&nbsp;rows&nbsp;inserted.
 </pre>
 
 
@@ -284,6 +457,136 @@ queries.select(queries.query, queries.tool_results).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Using MCP Servers as Tools
+
+The [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) is
+an open protocol that standardizes how applications provide context to
+LLMs. Pixeltable can connect to MCP servers and use their exposed tools
+as UDFs.
+
+### Why MCP?
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+### Create an MCP Server
+
+First, create an MCP server with tools you want to expose. Save this as
+`mcp_server.py`:
+
+
+```python
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP('PixeltableDemo', stateless_http=True)
+
+@mcp.tool()
+def calculate_discount(price: float, discount_percent: float) -> float:
+    """Calculate the discounted price."""
+    return price * (1 - discount_percent / 100)
+
+@mcp.tool()
+def check_inventory(product_id: str) -> str:
+    """Check inventory status for a product."""
+    # In production, query your inventory database
+    inventory = {
+        'SKU001': 'In stock (42 units)',
+        'SKU002': 'Low stock (3 units)',
+        'SKU003': 'Out of stock',
+    }
+    return inventory.get(product_id, f'Unknown product: {product_id}')
+
+if __name__ == '__main__':
+    mcp.run(transport='streamable-http')
+```
+
+Run the server: `python mcp_server.py` (it will listen on
+`http://localhost:8000/mcp`)
+
+### Connect to MCP Server and Use Tools
+
+
+```python
+# Connect to the MCP server using pxt.mcp_udfs()
+# This creates a Pixeltable UDF for each tool exposed by the server
+# See: https://docs.pixeltable.com/platform/custom-functions#5-mcp-udfs
+mcp_tools = pxt.mcp_udfs('https://docs.pixeltable.com/mcp')
+
+# View available tools - each is now a callable Pixeltable function
+for tool in mcp_tools:
+    print(f"- {tool.name}: {tool.comment()}")
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+-&nbsp;SearchPixeltableDocumentation:&nbsp;Search&nbsp;across&nbsp;the&nbsp;Pixeltable&nbsp;Documentation&nbsp;knowledge&nbsp;base&nbsp;to&nbsp;find&nbsp;relevant&nbsp;information,&nbsp;code&nbsp;examples,&nbsp;API&nbsp;references,&nbsp;and&nbsp;guides.&nbsp;Use&nbsp;this&nbsp;tool&nbsp;when&nbsp;you&nbsp;need&nbsp;to&nbsp;answer&nbsp;questions&nbsp;about&nbsp;Pixeltable&nbsp;Documentation,&nbsp;find&nbsp;specific&nbsp;documentation,&nbsp;understand&nbsp;how&nbsp;features&nbsp;work,&nbsp;or&nbsp;locate&nbsp;implementation&nbsp;details.&nbsp;The&nbsp;search&nbsp;returns&nbsp;contextual&nbsp;content&nbsp;with&nbsp;titles&nbsp;and&nbsp;direct&nbsp;links&nbsp;to&nbsp;the&nbsp;documentation&nbsp;pages.
+</pre>
+
+
+```python
+# Bundle MCP tools for LLM use
+mcp_toolset = pxt.tools(*mcp_tools)
+
+# Create a table with MCP tool-calling pipeline
+mcp_queries = pxt.create_table(
+    'tools_demo.mcp_queries',
+    {'query': pxt.String}
+)
+
+# Add LLM call with MCP tools
+mcp_queries.add_computed_column(
+    response=openai.chat_completions(
+        messages=[{'role': 'user', 'content': mcp_queries.query}],
+        model='gpt-4o-mini',
+        tools=mcp_toolset
+    )
+)
+
+# Execute MCP tool calls
+mcp_queries.add_computed_column(
+    tool_results=openai.invoke_tools(mcp_toolset, mcp_queries.response)
+)
+
+# View the schema - note that mcp_toolset is stored as persistent metadata
+# Every subsequent insert will use these same tools automatically
+mcp_queries.describe()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;mcp_queries&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+
+
+```python
+# Test with e-commerce queries
+mcp_queries.insert([
+    {'query': "What is Pixeltable?"},
+    {'query': "How to use OpenAI in Pixeltable?"},
+])
+
+mcp_queries.select(mcp_queries.query, mcp_queries.tool_results).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
+
+
+```python
+# Extract the search result with a named column
+mcp_queries.select(
+    search_result=mcp_queries.tool_results['SearchPixeltableDocumentation'][0]
+).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[8] }} />
 
 ## Explanation
 
@@ -295,11 +598,21 @@ Query&nbsp;→&nbsp;LLM&nbsp;decides&nbsp;tool&nbsp;→&nbsp;invoke_tools&nbsp;e
 
 **Key components:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[9] }} />
+
+**MCP integration:**
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+MCP&nbsp;Server&nbsp;→&nbsp;pxt.mcp_udfs()&nbsp;→&nbsp;pxt.tools()&nbsp;→&nbsp;LLM&nbsp;tool&nbsp;calling
+</pre>
+
+MCP servers expose tools via a standardized protocol. Pixeltable’s
+`mcp_udfs()` connects to any MCP server and returns the tools as
+callable UDFs that can be bundled with `pxt.tools()` for LLM use.
 
 **Supported providers:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[10] }} />
 
 ## See also
 
@@ -309,3 +622,9 @@ Query&nbsp;→&nbsp;LLM&nbsp;decides&nbsp;tool&nbsp;→&nbsp;invoke_tools&nbsp;e
 -   [Run local
     LLMs](/howto/providers/working-with-ollama) -
     Local model inference
+-   [Multimodal MCP
+    Servers](/libraries/mcp) - Pixeltable’s
+    MCP server collection
+-   [Custom
+    Functions](/platform/custom-functions) -
+    More about UDFs and MCP integration
