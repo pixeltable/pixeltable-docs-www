@@ -69,6 +69,7 @@
                   "howto/providers/working-with-ollama",
                   "howto/providers/working-with-openai",
                   "howto/providers/working-with-openrouter",
+                  "howto/providers/working-with-pydantic",
                   "howto/providers/working-with-replicate",
                   "howto/providers/working-with-reve",
                   "howto/providers/working-with-tigris",
@@ -113,7 +114,8 @@
                       "howto/cookbooks/text/text-summarize",
                       "howto/cookbooks/text/text-translate",
                       "howto/cookbooks/text/text-extract-entities",
-                      "howto/cookbooks/text/doc-chunk-for-rag"
+                      "howto/cookbooks/text/doc-chunk-for-rag",
+                      "howto/cookbooks/text/doc-extract-text-from-office-files"
                     ]
                   },
                   {
@@ -122,6 +124,7 @@
                       "howto/cookbooks/images/img-detect-objects",
                       "howto/cookbooks/images/img-visualize-detections",
                       "howto/cookbooks/images/img-generate-captions",
+                      "howto/cookbooks/images/img-image-to-image",
                       "howto/cookbooks/images/vision-batch-analysis",
                       "howto/cookbooks/images/vision-structured-output",
                       "howto/cookbooks/images/img-add-watermarks",
@@ -259,8 +262,83 @@
             ]
           },
           {
-            "dropdown": "v0.5.8",
+            "dropdown": "v0.5.9",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.9/pixeltable",
+                      "sdk/v0.5.9/table",
+                      "sdk/v0.5.9/query",
+                      "sdk/v0.5.9/columnmetadata",
+                      "sdk/v0.5.9/dircontents",
+                      "sdk/v0.5.9/indexmetadata",
+                      "sdk/v0.5.9/tablemetadata",
+                      "sdk/v0.5.9/updatestatus",
+                      "sdk/v0.5.9/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.9/functions",
+                      "sdk/v0.5.9/audio",
+                      "sdk/v0.5.9/date",
+                      "sdk/v0.5.9/document",
+                      "sdk/v0.5.9/image",
+                      "sdk/v0.5.9/json",
+                      "sdk/v0.5.9/math",
+                      "sdk/v0.5.9/net",
+                      "sdk/v0.5.9/string",
+                      "sdk/v0.5.9/timestamp",
+                      "sdk/v0.5.9/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.9/anthropic",
+                      "sdk/v0.5.9/bedrock",
+                      "sdk/v0.5.9/deepseek",
+                      "sdk/v0.5.9/fal",
+                      "sdk/v0.5.9/fireworks",
+                      "sdk/v0.5.9/gemini",
+                      "sdk/v0.5.9/groq",
+                      "sdk/v0.5.9/huggingface",
+                      "sdk/v0.5.9/llama_cpp",
+                      "sdk/v0.5.9/mistralai",
+                      "sdk/v0.5.9/ollama",
+                      "sdk/v0.5.9/openai",
+                      "sdk/v0.5.9/openrouter",
+                      "sdk/v0.5.9/replicate",
+                      "sdk/v0.5.9/reve",
+                      "sdk/v0.5.9/together",
+                      "sdk/v0.5.9/twelvelabs",
+                      "sdk/v0.5.9/uuid",
+                      "sdk/v0.5.9/vision",
+                      "sdk/v0.5.9/voyageai",
+                      "sdk/v0.5.9/whisper",
+                      "sdk/v0.5.9/whisperx",
+                      "sdk/v0.5.9/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.9/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.8",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -1227,8 +1305,7 @@
           {
             "group": "Cloud",
             "pages": [
-              "cloud/get-started",
-              "cloud/faq"
+              "cloud/get-started"
             ]
           }
         ]

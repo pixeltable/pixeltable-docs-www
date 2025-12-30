@@ -1,0 +1,1069 @@
+---
+title: "video"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/video.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.video
+
+
+Pixeltable UDFs for `VideoType`.
+
+
+## <span style={{ 'color': 'gray' }}>iterator</span>&nbsp; frame_iterator()
+
+```python Signature
+frame_iterator(
+    video: Any,
+    *,
+    fps: float | None = None,
+    num_frames: int | None = None,
+    keyframes_only: bool = False,
+    all_frame_attrs: bool = False
+) 
+```
+
+Iterator over frames of a video. At most one of `fps`, `num_frames` or `keyframes_only` may be specified. If `fps`
+is specified, then frames will be extracted at the specified rate (frames per second). If `num_frames` is specified,
+then the exact number of frames will be extracted. If neither is specified, then all frames will be extracted. The
+first frame of the video will always be extracted, and the remaining frames will be spaced as evenly as possible.
+
+**Parameters:**
+
+- **`fps`** (`float | None`): Number of frames to extract per second of video. This may be a fractional value, such as 0.5.
+    If omitted or set to 0.0, or if greater than the native framerate of the video,
+    then the framerate of the video will be used (all frames will be extracted).
+- **`num_frames`** (`int | None`): Exact number of frames to extract. The frames will be spaced as evenly as possible. If
+    `num_frames` is greater than the number of frames in the video, all frames will be extracted.
+- **`keyframes_only`** (`bool`, default: `False`): If True, only extract keyframes.
+- **`all_frame_attrs`** (`bool`, default: `False`): If True, outputs a `pxt.Json` column `frame_attrs` with the following `pyav`-provided attributes
+    (for more information, see `pyav`'s documentation on
+    [VideoFrame](https://pyav.org/docs/develop/api/video.html#module-av.video.frame) and
+    [Frame](https://pyav.org/docs/develop/api/frame.html)):
+
+    * `index` (`int`)
+    * `pts` (`int | None`)
+    * `dts` (`int | None`)
+    * `time` (`float | None`)
+    * `is_corrupt` (`bool`)
+    * `key_frame` (`bool`)
+    * `pict_type` (`int`)
+    * `interlaced_frame` (`bool`)
+
+    If False, only outputs frame attributes `frame_idx`, `pos_msec`, and `pos_frame` as separate columns.
+
+**Examples:**
+
+All these examples assume an existing table `tbl` with a column `video` of type `pxt.Video`. Create a view that extracts all frames from all videos:
+```python
+pxt.create_view('all_frames', tbl, iterator=frame_iterator(tbl.video))
+```
+
+Create a view that extracts only keyframes from all videos:
+```python
+pxt.create_view(
+    'keyframes',
+    tbl,
+    iterator=frame_iterator(tbl.video, keyframes_only=True),
+)
+```
+
+Create a view that extracts frames from all videos at a rate of 1 frame per second:
+```python
+pxt.create_view(
+    'one_fps_frames', tbl, iterator=frame_iterator(tbl.video, fps=1.0)
+)
+```
+
+Create a view that extracts exactly 10 frames from each video:
+```python
+pxt.create_view(
+    'ten_frames', tbl, iterator=frame_iterator(tbl.video, num_frames=10)
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>iterator</span>&nbsp; video_splitter()
+
+```python Signature
+video_splitter(
+    video: Any,
+    *,
+    duration: float | None = None,
+    overlap: float | None = None,
+    min_segment_duration: float | None = None,
+    segment_times: list[float] | None = None,
+    mode: Literal['fast', 'accurate'] = 'accurate',
+    video_encoder: str | None = None,
+    video_encoder_args: dict[str, typing.Any] | None = None
+) 
+```
+
+Iterator over segments of a video file, which is split into segments. The segments are specified either via a
+fixed duration or a list of split points.
+
+**Parameters:**
+
+- **`duration`** (`float | None`): Video segment duration in seconds
+- **`overlap`** (`float | None`): Overlap between consecutive segments in seconds. Only available for `mode='fast'`.
+- **`min_segment_duration`** (`float | None`): Drop the last segment if it is smaller than min_segment_duration.
+- **`segment_times`** (`list[float] | None`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
+    segment durations. If all segment times are less than the duration of the video, produces exactly
+    `len(segment_times) + 1` segments. An argument of `[]` will produce a single segment containing the
+    entire video.
+- **`mode`** (`typing.Literal['fast', 'accurate']`, default: `'accurate'`): Segmentation mode:
+    - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations)
+    - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower)
+- **`video_encoder`** (`str | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+    Only available for `mode='accurate'`.
+- **`video_encoder_args`** (`dict[str, typing.Any] | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
+
+**Examples:**
+
+All these examples assume an existing table `tbl` with a column `video` of type `pxt.Video`. Create a view that splits each video into 10-second segments:
+```python
+pxt.create_view(
+    'ten_second_segments',
+    tbl,
+    iterator=video_splitter(tbl.video, duration=10.0),
+)
+```
+
+Create a view that splits each video into segments at specified fixed times:
+```python
+split_times = [5.0, 15.0, 30.0]
+pxt.create_view(
+    'custom_segments',
+    tbl,
+    iterator=video_splitter(tbl.video, segment_times=split_times),
+)
+```
+
+Create a view that splits each video into segments at times specified by a column `split_times` of type `pxt.Json`, containing a list of timestamps in seconds:
+```python
+pxt.create_view(
+    'custom_segments',
+    tbl,
+    iterator=video_splitter(tbl.video, segment_times=tbl.split_times),
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>uda</span>&nbsp; make_video()
+
+```python Signature
+@pxt.uda
+make_video(frame: pxt.Image, fps: pxt.Int) -> pxt.Video
+```
+
+Aggregate function that creates a video from a sequence of images, using the default video encoder and
+yuv420p pixel format.
+
+**Parameters:**
+
+- **`fps`** (`pxt.Int`): Frames per second for the output video.
+
+**Returns:**
+
+- `pxt.Video`: The video obtained by combining the input frames at the specified `fps`.
+
+**Examples:**
+
+Combine the images in the `img` column of the table `tbl` into a video:
+```python
+tbl.select(make_video(tbl.img, fps=30)).collect()
+```
+
+Combine a sequence of rotated images into a video:
+```python
+tbl.select(make_video(tbl.img.rotate(45), fps=30)).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; clip()
+
+```python Signature
+@pxt.udf
+clip(
+    video: pxt.Video,
+    *,
+    start_time: pxt.Float,
+    end_time: pxt.Float | None = None,
+    duration: pxt.Float | None = None,
+    mode: pxt.String = 'accurate',
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
+) -> pxt.Video | None
+```
+
+Extract a clip from a video, specified by `start_time` and either `end_time` or `duration` (in seconds).
+
+If `start_time` is beyond the end of the video, returns None. Can only specify one of `end_time` and `duration`.
+If both `end_time` and `duration` are None, the clip goes to the end of the video.
+
+__Requirements:__
+
+- `ffmpeg` needs to be installed and in PATH
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): Input video file
+- **`start_time`** (`pxt.Float`): Start time in seconds
+- **`end_time`** (`pxt.Float | None`): End time in seconds
+- **`duration`** (`pxt.Float | None`): Duration of the clip in seconds
+- **`mode`** (`pxt.String`): - `'fast'`: avoids re-encoding but starts the clip at the nearest keyframes and as a result, the clip
+        duration will be slightly longer than requested
+    - `'accurate'`: extracts a frame-accurate clip, but requires re-encoding
+- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+    Only available for `mode='accurate'`.
+- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
+
+**Returns:**
+
+- `pxt.Video | None`: New video containing only the specified time range or None if start_time is beyond the end of the video.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; concat_videos()
+
+```python Signature
+@pxt.udf
+concat_videos(videos: pxt.Json) -> pxt.Video
+```
+
+Merge multiple videos into a single video.
+
+__Requirements:__
+
+- `ffmpeg` needs to be installed and in PATH
+
+**Parameters:**
+
+- **`videos`** (`pxt.Json`): List of videos to merge.
+
+**Returns:**
+
+- `pxt.Video`: A new video containing the merged videos.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; extract_audio()
+
+```python Signature
+@pxt.udf
+extract_audio(
+    video_path: pxt.Video,
+    stream_idx: pxt.Int = 0,
+    format: pxt.String = 'wav',
+    codec: pxt.String | None = None
+) -> pxt.Audio
+```
+
+Extract an audio stream from a video.
+
+
+**Parameters:**
+
+- **`stream_idx`** (`pxt.Int`): Index of the audio stream to extract.
+- **`format`** (`pxt.String`): The target audio format. (`'wav'`, `'mp3'`, `'flac'`).
+- **`codec`** (`pxt.String | None`): The codec to use for the audio stream. If not provided, a default codec will be used.
+
+**Returns:**
+
+- `pxt.Audio`: The extracted audio.
+
+**Examples:**
+
+Add a computed column to a table `tbl` that extracts audio from an existing column `video_col`:
+```python
+tbl.add_computed_column(
+    extracted_audio=tbl.video_col.extract_audio(format='flac')
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; extract_frame()
+
+```python Signature
+@pxt.udf
+extract_frame(
+    video: pxt.Video,
+    *,
+    timestamp: pxt.Float
+) -> pxt.Image | None
+```
+
+Extract a single frame from a video at a specific timestamp.
+
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): The video from which to extract the frame.
+- **`timestamp`** (`pxt.Float`): Extract frame at this timestamp (in seconds).
+
+**Returns:**
+
+- `pxt.Image | None`: The extracted frame as a PIL Image, or None if the timestamp is beyond the video duration.
+
+**Examples:**
+
+Extract the first frame from each video in the `video` column of the table `tbl`:
+```python
+tbl.select(tbl.video.extract_frame(0.0)).collect()
+```
+
+Extract a frame close to the end of each video in the `video` column of the table `tbl`:
+```python
+tbl.select(
+    tbl.video.extract_frame(
+        tbl.video.get_metadata().streams[0].duration_seconds - 0.1
+    )
+).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get_duration()
+
+```python Signature
+@pxt.udf
+get_duration(video: pxt.Video) -> pxt.Float | None
+```
+
+Get video duration in seconds.
+
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): The video for which to get the duration.
+
+**Returns:**
+
+- `pxt.Float | None`: The duration in seconds, or None if the duration cannot be determined.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get_metadata()
+
+```python Signature
+@pxt.udf
+get_metadata(video: pxt.Video) -> pxt.Json
+```
+
+Gets various metadata associated with a video file and returns it as a dictionary.
+
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): The video for which to get metadata.
+
+**Returns:**
+
+- `pxt.Json`: A `dict` such as the following:
+  ```json
+  {
+      'bit_exact': False,
+      'bit_rate': 967260,
+      'size': 2234371,
+      'metadata': {
+          'encoder': 'Lavf60.16.100',
+          'major_brand': 'isom',
+          'minor_version': '512',
+          'compatible_brands': 'isomiso2avc1mp41',
+      },
+      'streams': [
+          {
+              'type': 'video',
+              'width': 640,
+              'height': 360,
+              'frames': 462,
+              'time_base': 1.0 / 12800,
+              'duration': 236544,
+              'duration_seconds': 236544.0 / 12800,
+              'average_rate': 25.0,
+              'base_rate': 25.0,
+              'guessed_rate': 25.0,
+              'metadata': {
+                  'language': 'und',
+                  'handler_name': 'L-SMASH Video Handler',
+                  'vendor_id': '[0][0][0][0]',
+                  'encoder': 'Lavc60.31.102 libx264',
+              },
+              'codec_context': {'name': 'h264', 'codec_tag': 'avc1', 'profile': 'High', 'pix_fmt': 'yuv420p'},
+          }
+      ],
+  }
+  ```
+
+**Examples:**
+
+Extract metadata for files in the `video_col` column of the table `tbl`:
+```python
+tbl.select(tbl.video_col.get_metadata()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; overlay_text()
+
+```python Signature
+@pxt.udf
+overlay_text(
+    video: pxt.Video,
+    text: pxt.String,
+    *,
+    font: pxt.String | None = None,
+    font_size: pxt.Int = 24,
+    color: pxt.String = 'white',
+    opacity: pxt.Float = 1.0,
+    horizontal_align: pxt.String = 'center',
+    horizontal_margin: pxt.Int = 0,
+    vertical_align: pxt.String = 'center',
+    vertical_margin: pxt.Int = 0,
+    box: pxt.Bool = False,
+    box_color: pxt.String = 'black',
+    box_opacity: pxt.Float = 1.0,
+    box_border: pxt.Json | None = None
+) -> pxt.Video
+```
+
+Overlay text on a video with customizable positioning and styling.
+
+__Requirements:__
+
+- `ffmpeg` needs to be installed and in PATH
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): Input video to overlay text on.
+- **`text`** (`pxt.String`): The text string to overlay on the video.
+- **`font`** (`pxt.String | None`): Font family or path to font file. If None, uses the system default.
+- **`font_size`** (`pxt.Int`): Size of the text in points.
+- **`color`** (`pxt.String`): Text color (e.g., `'white'`, `'red'`, `'#FF0000'`).
+- **`opacity`** (`pxt.Float`): Text opacity from 0.0 (transparent) to 1.0 (opaque).
+- **`horizontal_align`** (`pxt.String`): Horizontal text alignment (`'left'`, `'center'`, `'right'`).
+- **`horizontal_margin`** (`pxt.Int`): Horizontal margin in pixels from the alignment edge.
+- **`vertical_align`** (`pxt.String`): Vertical text alignment (`'top'`, `'center'`, `'bottom'`).
+- **`vertical_margin`** (`pxt.Int`): Vertical margin in pixels from the alignment edge.
+- **`box`** (`pxt.Bool`): Whether to draw a background box behind the text.
+- **`box_color`** (`pxt.String`): Background box color as a string.
+- **`box_opacity`** (`pxt.Float`): Background box opacity from 0.0 to 1.0.
+- **`box_border`** (`pxt.Json | None`): Padding around text in the box in pixels.
+    - `[10]`: 10 pixels on all sides
+    - `[10, 20]`: 10 pixels on top/bottom, 20 on left/right
+    - `[10, 20, 30]`: 10 pixels on top, 20 on left/right, 30 on bottom
+    - `[10, 20, 30, 40]`: 10 pixels on top, 20 on right, 30 on bottom, 40 on left
+
+**Returns:**
+
+- `pxt.Video`: A new video with the text overlay applied.
+
+**Examples:**
+
+Add a simple text overlay to videos in a table:
+```python
+tbl.select(tbl.video.overlay_text('Sample Text')).collect()
+```
+
+Add a YouTube-style caption:
+```python
+tbl.select(
+    tbl.video.overlay_text(
+        'Caption text',
+        font_size=32,
+        color='white',
+        opacity=1.0,
+        box=True,
+        box_color='black',
+        box_opacity=0.8,
+        box_border=[6, 14],
+        horizontal_margin=10,
+        vertical_align='bottom',
+        vertical_margin=70,
+    )
+).collect()
+```
+
+Add text with a semi-transparent background box:
+```python
+tbl.select(
+    tbl.video.overlay_text(
+        'Important Message',
+        font_size=32,
+        color='yellow',
+        box=True,
+        box_color='black',
+        box_opacity=0.6,
+        box_border=[20, 10],
+    )
+).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_adaptive()
+
+```python Signature
+@pxt.udf
+scene_detect_adaptive(
+    video: pxt.Video,
+    *,
+    fps: pxt.Float | None = None,
+    adaptive_threshold: pxt.Float = 3.0,
+    min_scene_len: pxt.Int = 15,
+    window_width: pxt.Int = 2,
+    min_content_val: pxt.Float = 15.0,
+    delta_hue: pxt.Float = 1.0,
+    delta_sat: pxt.Float = 1.0,
+    delta_lum: pxt.Float = 1.0,
+    delta_edges: pxt.Float = 0.0,
+    luma_only: pxt.Bool = False,
+    kernel_size: pxt.Int | None = None
+) -> pxt.Json
+```
+
+Detect scene cuts in a video using PySceneDetect's
+[AdaptiveDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.adaptive_detector.AdaptiveDetector).
+
+__Requirements:__
+
+- `pip install scenedetect`
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): The video to analyze for scene cuts.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+    Lower values process faster but may miss exact scene cuts.
+- **`adaptive_threshold`** (`pxt.Float`): Threshold that the score ratio must exceed to trigger a new scene cut.
+    Lower values will detect more scenes (more sensitive), higher values will detect fewer scenes.
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+    list.
+- **`window_width`** (`pxt.Int`): Size of window (number of frames) before and after each frame to average together in order to
+    detect deviations from the mean. Must be at least 1.
+- **`min_content_val`** (`pxt.Float`): Minimum threshold (float) that the content_val must exceed in order to register as a new scene.
+    This is calculated the same way that `scene_detect_content()` calculates frame
+    score based on weights/luma_only/kernel_size.
+- **`delta_hue`** (`pxt.Float`): Weight for hue component changes. Higher values make hue changes more important.
+- **`delta_sat`** (`pxt.Float`): Weight for saturation component changes. Higher values make saturation changes more important.
+- **`delta_lum`** (`pxt.Float`): Weight for luminance component changes. Higher values make brightness changes more important.
+- **`delta_edges`** (`pxt.Float`): Weight for edge detection changes. Higher values make edge changes more important.
+    Edge detection can help detect cuts in scenes with similar colors but different content.
+- **`luma_only`** (`pxt.Bool`): If True, only analyzes changes in the luminance (brightness) channel of the video,
+    ignoring color information. This can be faster and may work better for grayscale content.
+- **`kernel_size`** (`pxt.Int | None`): Size of kernel to use for post edge detection filtering. If None, automatically set based on video
+    resolution.
+
+**Returns:**
+
+- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Examples:**
+
+Detect scene cuts with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_adaptive()).collect()
+```
+
+Detect more scenes by lowering the threshold:
+```python
+tbl.select(
+    tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
+).collect()
+```
+
+Use luminance-only detection with a longer minimum scene length:
+```python
+tbl.select(
+    tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)
+).collect()
+```
+
+Add scene cuts as a computed column:
+```python
+tbl.add_computed_column(
+    scene_cuts=tbl.video.scene_detect_adaptive(adaptive_threshold=2.0)
+)
+```
+
+Analyze at a lower frame rate for faster processing:
+```python
+tbl.select(tbl.video.scene_detect_adaptive(fps=2.0)).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_content()
+
+```python Signature
+@pxt.udf
+scene_detect_content(
+    video: pxt.Video,
+    *,
+    fps: pxt.Float | None = None,
+    threshold: pxt.Float = 27.0,
+    min_scene_len: pxt.Int = 15,
+    delta_hue: pxt.Float = 1.0,
+    delta_sat: pxt.Float = 1.0,
+    delta_lum: pxt.Float = 1.0,
+    delta_edges: pxt.Float = 0.0,
+    luma_only: pxt.Bool = False,
+    kernel_size: pxt.Int | None = None,
+    filter_mode: pxt.String = 'merge'
+) -> pxt.Json
+```
+
+Detect scene cuts in a video using PySceneDetect's
+[ContentDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.content_detector.ContentDetector).
+
+__Requirements:__
+
+- `pip install scenedetect`
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): The video to analyze for scene cuts.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
+    Lower values process faster but may miss exact scene cuts.
+- **`threshold`** (`pxt.Float`): Threshold that the weighted sum of component changes must exceed to trigger a scene cut.
+    Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+    list.
+- **`delta_hue`** (`pxt.Float`): Weight for hue component changes. Higher values make hue changes more important.
+- **`delta_sat`** (`pxt.Float`): Weight for saturation component changes. Higher values make saturation changes more important.
+- **`delta_lum`** (`pxt.Float`): Weight for luminance component changes. Higher values make brightness changes more important.
+- **`delta_edges`** (`pxt.Float`): Weight for edge detection changes. Higher values make edge changes more important.
+    Edge detection can help detect cuts in scenes with similar colors but different content.
+- **`luma_only`** (`pxt.Bool`): If True, only analyzes changes in the luminance (brightness) channel,
+    ignoring color information. This can be faster and may work better for grayscale content.
+- **`kernel_size`** (`pxt.Int | None`): Size of kernel for expanding detected edges. Must be odd integer greater than or equal to 3. If
+    None, automatically set using video resolution.
+- **`filter_mode`** (`pxt.String`): How to handle fast cuts/flashes. 'merge' combines quick cuts, 'suppress' filters them out.
+
+**Returns:**
+
+- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Examples:**
+
+Detect scene cuts with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_content()).collect()
+```
+
+Detect more scenes by lowering the threshold:
+```python
+tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
+```
+
+Use luminance-only detection:
+```python
+tbl.select(tbl.video.scene_detect_content(luma_only=True)).collect()
+```
+
+Emphasize edge detection for scenes with similar colors:
+```python
+tbl.select(
+    tbl.video.scene_detect_content(
+        delta_edges=1.0, delta_hue=0.5, delta_sat=0.5
+    )
+).collect()
+```
+
+Add scene cuts as a computed column:
+```python
+tbl.add_computed_column(
+    scene_cuts=tbl.video.scene_detect_content(threshold=20.0)
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_hash()
+
+```python Signature
+@pxt.udf
+scene_detect_hash(
+    video: pxt.Video,
+    *,
+    fps: pxt.Float | None = None,
+    threshold: pxt.Float = 0.395,
+    size: pxt.Int = 16,
+    lowpass: pxt.Int = 2,
+    min_scene_len: pxt.Int = 15
+) -> pxt.Json
+```
+
+Detect scene cuts in a video using PySceneDetect's
+[HashDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.hash_detector.HashDetector).
+
+HashDetector uses perceptual hashing for very fast scene detection. It computes a hash of each
+frame at reduced resolution and compares hash distances.
+
+__Requirements:__
+
+- `pip install scenedetect`
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): The video to analyze for scene cuts.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
+    Lower values process faster but may miss exact scene cuts.
+- **`threshold`** (`pxt.Float`): Value from 0.0 and 1.0 representing the relative hamming distance between the perceptual hashes of
+    adjacent frames. A distance of 0 means the image is the same, and 1 means no correlation. Smaller threshold
+    values thus require more correlation, making the detector more sensitive. The Hamming distance is divided
+    by size x size before comparing to threshold for normalization.
+    Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+- **`size`** (`pxt.Int`): Size of square of low frequency data to use for the DCT. Larger values are more precise but slower.
+    Common values are 8, 16, or 32.
+- **`lowpass`** (`pxt.Int`): How much high frequency information to filter from the DCT. A value of 2 means keep lower 1/2 of the
+    frequency data, 4 means only keep 1/4, etc. Larger values make the
+    detector less sensitive to high-frequency details and noise.
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+    list.
+
+**Returns:**
+
+- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Examples:**
+
+Detect scene cuts with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_hash()).collect()
+```
+
+Detect more scenes by lowering the threshold:
+```python
+tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
+```
+
+Use larger hash size for more precision:
+```python
+tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
+```
+
+Use for fast processing with lower frame rate:
+```python
+tbl.select(tbl.video.scene_detect_hash(fps=1.0, threshold=0.4)).collect()
+```
+
+Add scene cuts as a computed column:
+```python
+tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_hash())
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_histogram()
+
+```python Signature
+@pxt.udf
+scene_detect_histogram(
+    video: pxt.Video,
+    *,
+    fps: pxt.Float | None = None,
+    threshold: pxt.Float = 0.05,
+    bins: pxt.Int = 256,
+    min_scene_len: pxt.Int = 15
+) -> pxt.Json
+```
+
+Detect scene cuts in a video using PySceneDetect's
+[HistogramDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.histogram_detector.HistogramDetector).
+
+HistogramDetector compares frame histograms on the Y (luminance) channel after YUV conversion.
+It detects scenes based on relative histogram differences and is more robust to gradual lighting
+changes than content-based detection.
+
+__Requirements:__
+
+- `pip install scenedetect`
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): The video to analyze for scene cuts.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+    Lower values process faster but may miss exact scene cuts.
+- **`threshold`** (`pxt.Float`): Maximum relative difference between 0.0 and 1.0 that the histograms can differ. Histograms are
+    calculated on the Y channel after converting the frame to YUV, and normalized based on the number of bins.
+    Higher differences imply greater change in content, so larger threshold values are less sensitive to cuts.
+    Lower values detect more scenes (more sensitive), higher values detect fewer scenes.
+- **`bins`** (`pxt.Int`): Number of bins to use for histogram calculation (typically 16-256). More bins provide
+    finer granularity but may be more sensitive to noise.
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+    list.
+
+**Returns:**
+
+- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Examples:**
+
+Detect scene cuts with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_histogram()).collect()
+```
+
+Detect more scenes by lowering the threshold:
+```python
+tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
+```
+
+Use fewer bins for faster processing:
+```python
+tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
+```
+
+Use with a longer minimum scene length:
+```python
+tbl.select(tbl.video.scene_detect_histogram(min_scene_len=30)).collect()
+```
+
+Add scene cuts as a computed column:
+```python
+tbl.add_computed_column(
+    scene_cuts=tbl.video.scene_detect_histogram(threshold=0.04)
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; scene_detect_threshold()
+
+```python Signature
+@pxt.udf
+scene_detect_threshold(
+    video: pxt.Video,
+    *,
+    fps: pxt.Float | None = None,
+    threshold: pxt.Float = 12.0,
+    min_scene_len: pxt.Int = 15,
+    fade_bias: pxt.Float = 0.0,
+    add_final_scene: pxt.Bool = False,
+    method: pxt.String = 'floor'
+) -> pxt.Json
+```
+
+Detect fade-in and fade-out transitions in a video using PySceneDetect's
+[ThresholdDetector](https://www.scenedetect.com/docs/latest/api/detectors.html#scenedetect.detectors.threshold_detector.ThresholdDetector).
+
+ThresholdDetector identifies scenes by detecting when pixel brightness falls below or rises above
+a threshold value, suitable for detecting fade-to-black, fade-to-white, and similar transitions.
+
+__Requirements:__
+
+- `pip install scenedetect`
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): The video to analyze for fade transitions.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+    Lower values process faster but may miss exact transition points.
+- **`threshold`** (`pxt.Float`): 8-bit intensity value that each pixel value (R, G, and B) must be less than or equal to in order
+    to trigger a fade in/out.
+- **`min_scene_len`** (`pxt.Int`): Once a cut is detected, this many frames must pass before a new one can be added to the scene
+    list.
+- **`fade_bias`** (`pxt.Float`): Float between -1.0 and +1.0 representing the percentage of timecode skew for the start of a scene
+    (-1.0 causing a cut at the fade-to-black, 0.0 in the middle, and +1.0 causing the cut to be right at the
+    position where the threshold is passed).
+- **`add_final_scene`** (`pxt.Bool`): Boolean indicating if the video ends on a fade-out to generate an additional scene at this
+    timecode.
+- **`method`** (`pxt.String`): How to treat threshold when detecting fade events
+    - 'ceiling': Fade out happens when frame brightness rises above threshold.
+    - 'floor': Fade out happens when frame brightness falls below threshold.
+
+**Returns:**
+
+- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+
+  - `start_time` (float): The start time of the scene in seconds.
+  - `start_pts` (int): The pts of the start of the scene.
+  - `duration` (float): The duration of the scene in seconds.
+
+  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+
+**Examples:**
+
+Detect fade-to-black transitions with default parameters:
+```python
+tbl.select(tbl.video.scene_detect_threshold()).collect()
+```
+
+Use a lower threshold to detect darker fades:
+```python
+tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
+```
+
+Detect both fade-to-black and fade-to-white using absolute method:
+```python
+tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
+```
+
+Add final scene boundary:
+```python
+tbl.select(
+    tbl.video.scene_detect_threshold(add_final_scene=True)
+).collect()
+```
+
+Add fade transitions as a computed column:
+```python
+tbl.add_computed_column(
+    fade_cuts=tbl.video.scene_detect_threshold(threshold=15.0)
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; segment_video()
+
+```python Signature
+@pxt.udf
+segment_video(
+    video: pxt.Video,
+    *,
+    duration: pxt.Float | None = None,
+    segment_times: pxt.Json | None = None,
+    mode: pxt.String = 'accurate',
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Split a video into segments.
+
+__Requirements:__
+
+- `ffmpeg` needs to be installed and in PATH
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): Input video file to segment
+- **`duration`** (`pxt.Float | None`): Duration of each segment (in seconds). For `mode='fast'`, this is approximate;
+    for `mode='accurate'`, segments will have exact durations. Cannot be specified together with
+    `segment_times`.
+- **`segment_times`** (`pxt.Json | None`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
+    segment durations. If all segment times are less than the duration of the video, produces exactly
+    `len(segment_times) + 1` segments. Cannot be empty or be specified together with `duration`.
+- **`mode`** (`pxt.String`): Segmentation mode:
+    - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations)
+    - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower)
+- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+    Only available for `mode='accurate'`.
+- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
+
+**Returns:**
+
+- `pxt.Json`: List of file paths for the generated video segments.
+
+**Examples:**
+
+Split a video at 1 minute intervals using fast mode:
+```python
+tbl.select
+    segment_paths=tbl.video.segment_video(
+        duration=60, mode='fast'
+    )
+).collect()
+```
+
+Split video into exact 10-second segments with default accurate mode, using the libx264 encoder with a CRF of 23 and slow preset (for smaller output files):
+```python
+tbl.select(
+    segment_paths=tbl.video.segment_video(
+        duration=10,
+        video_encoder='libx264',
+        video_encoder_args={'crf': 23, 'preset': 'slow'},
+    )
+).collect()
+```
+
+Split video into two parts at the midpoint:
+```python
+duration = tbl.video.get_duration()
+tbl.select(
+    segment_paths=tbl.video.segment_video(segment_times=[duration / 2])
+).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; with_audio()
+
+```python Signature
+@pxt.udf
+with_audio(
+    video: pxt.Video,
+    audio: pxt.Audio,
+    *,
+    video_start_time: pxt.Float = 0.0,
+    video_duration: pxt.Float | None = None,
+    audio_start_time: pxt.Float = 0.0,
+    audio_duration: pxt.Float | None = None
+) -> pxt.Video
+```
+
+Creates a new video that combines the video stream from `video` and the audio stream from `audio`.
+The `start_time` and `duration` parameters can be used to select a specific time range from each input.
+If the audio input (or selected time range) is longer than the video, the audio will be truncated.
+
+
+__Requirements:__
+
+- `ffmpeg` needs to be installed and in PATH
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): Input video.
+- **`audio`** (`pxt.Audio`): Input audio.
+- **`video_start_time`** (`pxt.Float`): Start time in the video input (in seconds).
+- **`video_duration`** (`pxt.Float | None`): Duration of video segment (in seconds). If None, uses the remainder of the video after
+    `video_start_time`. `video_duration` determines the duration of the output video.
+- **`audio_start_time`** (`pxt.Float`): Start time in the audio input (in seconds).
+- **`audio_duration`** (`pxt.Float | None`): Duration of audio segment (in seconds). If None, uses the remainder of the audio after
+    `audio_start_time`. If the audio is longer than the output video, it will be truncated.
+
+**Returns:**
+
+- `pxt.Video`: A new video file with the audio track added.
+
+**Examples:**
+
+Add background music to a video:
+```python
+tbl.select(tbl.video.with_audio(tbl.music_track)).collect()
+```
+
+Add audio starting 5 seconds into both files:
+```python
+tbl.select(
+    tbl.video.with_audio(
+        tbl.music_track, video_start_time=5.0, audio_start_time=5.0
+    )
+).collect()
+```
+
+Use a 10-second clip from the middle of both files:
+```python
+tbl.select(
+    tbl.video.with_audio(
+        tbl.music_track,
+        video_start_time=30.0,
+        video_duration=10.0,
+        audio_start_time=15.0,
+        audio_duration=10.0,
+    )
+).collect()
+```
+
