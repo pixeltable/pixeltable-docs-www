@@ -74,6 +74,7 @@
                   "howto/providers/working-with-reve",
                   "howto/providers/working-with-tigris",
                   "howto/providers/working-with-together",
+                  "howto/providers/working-with-twelvelabs",
                   "howto/providers/working-with-voyageai",
                   "howto/using-label-studio-with-pixeltable",
                   "howto/working-with-fiftyone"
@@ -262,8 +263,83 @@
             ]
           },
           {
-            "dropdown": "v0.5.9",
+            "dropdown": "v0.5.10",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.10/pixeltable",
+                      "sdk/v0.5.10/table",
+                      "sdk/v0.5.10/query",
+                      "sdk/v0.5.10/columnmetadata",
+                      "sdk/v0.5.10/dircontents",
+                      "sdk/v0.5.10/indexmetadata",
+                      "sdk/v0.5.10/tablemetadata",
+                      "sdk/v0.5.10/updatestatus",
+                      "sdk/v0.5.10/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.10/functions",
+                      "sdk/v0.5.10/audio",
+                      "sdk/v0.5.10/date",
+                      "sdk/v0.5.10/document",
+                      "sdk/v0.5.10/image",
+                      "sdk/v0.5.10/json",
+                      "sdk/v0.5.10/math",
+                      "sdk/v0.5.10/net",
+                      "sdk/v0.5.10/string",
+                      "sdk/v0.5.10/timestamp",
+                      "sdk/v0.5.10/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.10/anthropic",
+                      "sdk/v0.5.10/bedrock",
+                      "sdk/v0.5.10/deepseek",
+                      "sdk/v0.5.10/fal",
+                      "sdk/v0.5.10/fireworks",
+                      "sdk/v0.5.10/gemini",
+                      "sdk/v0.5.10/groq",
+                      "sdk/v0.5.10/huggingface",
+                      "sdk/v0.5.10/llama_cpp",
+                      "sdk/v0.5.10/mistralai",
+                      "sdk/v0.5.10/ollama",
+                      "sdk/v0.5.10/openai",
+                      "sdk/v0.5.10/openrouter",
+                      "sdk/v0.5.10/replicate",
+                      "sdk/v0.5.10/reve",
+                      "sdk/v0.5.10/together",
+                      "sdk/v0.5.10/twelvelabs",
+                      "sdk/v0.5.10/uuid",
+                      "sdk/v0.5.10/vision",
+                      "sdk/v0.5.10/voyageai",
+                      "sdk/v0.5.10/whisper",
+                      "sdk/v0.5.10/whisperx",
+                      "sdk/v0.5.10/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.10/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.9",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -1415,6 +1491,11 @@
       "claude",
       "cursor"
     ]
+  },
+  "integrations": {
+    "telemetry": {
+      "enabled": false
+    }
   },
   "errors": {
     "404": {
