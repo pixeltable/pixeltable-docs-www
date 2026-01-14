@@ -1,0 +1,663 @@
+---
+title: "Export data to SQL databases"
+sidebarTitle: "Export data to SQL databases"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-export-sql.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-export-sql.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-export-sql.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Destination</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Product catalog</td>
+<td style="vertical-align: middle;">PostgreSQL</td>
+<td style="vertical-align: middle;">Web application backend</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">ML predictions</td>
+<td style="vertical-align: middle;">SQLite</td>
+<td style="vertical-align: middle;">Local analytics</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Extracted entities</td>
+<td style="vertical-align: middle;">MySQL</td>
+<td style="vertical-align: middle;">Business intelligence</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">name</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">in_stock</th>
+<th data-quarto-table-cell-role="th">metadata</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Wireless Mouse</td>
+<td style="vertical-align: middle;">29.99</td>
+<td style="vertical-align: middle;">True</td>
+<td style="vertical-align: middle;">{"rating": 4.5, "category": "electronics"}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">USB-C Hub</td>
+<td style="vertical-align: middle;">49.99</td>
+<td style="vertical-align: middle;">False</td>
+<td style="vertical-align: middle;">{"rating": 4.2, "category": "electronics"}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Mechanical Keyboard</td>
+<td style="vertical-align: middle;">89.99</td>
+<td style="vertical-align: middle;">True</td>
+<td style="vertical-align: middle;">{"rating": 4.8, "category": "electronics"}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Monitor Stand</td>
+<td style="vertical-align: middle;">39.99</td>
+<td style="vertical-align: middle;">True</td>
+<td style="vertical-align: middle;">{"rating": 4., "category": "accessories"}</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Webcam</td>
+<td style="vertical-align: middle;">59.99</td>
+<td style="vertical-align: middle;">False</td>
+<td style="vertical-align: middle;">{"rating": 3.9, "category": "electronics"}</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>'error'</code></td>
+<td style="vertical-align: middle;">Raise an error (default)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>'replace'</code></td>
+<td style="vertical-align: middle;">Drop the existing table and create a new one</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>'insert'</code></td>
+<td style="vertical-align: middle;">Append new rows to the existing table</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr>
+<th>Database</th>
+<th>Connection string format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">SQLite</td>
+<td style="vertical-align: middle;"><code>sqlite:///path/to/db.sqlite</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">PostgreSQL</td>
+<td style="vertical-align: middle;"><code>postgresql+psycopg://user:pass@host:port/dbname</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">TigerData</td>
+<td style="vertical-align: middle;"><code>postgresql+psycopg://user:pass@host:port/dbname?sslmode=require</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">MySQL</td>
+<td style="vertical-align: middle;"><code>mysql://user:pass@host:port/dbname</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Snowflake</td>
+<td style="vertical-align: middle;"><code>snowflake://user:pass@account/database/schema?warehouse=WH</code></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Pixeltable type</th>
+<th>SQL type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.Int</code></td>
+<td style="vertical-align: middle;">INTEGER</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.Float</code></td>
+<td style="vertical-align: middle;">FLOAT</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.String</code></td>
+<td style="vertical-align: middle;">VARCHAR</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.Bool</code></td>
+<td style="vertical-align: middle;">BOOLEAN</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.Json</code></td>
+<td style="vertical-align: middle;">JSON (JSONB for PostgreSQL)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.Timestamp</code></td>
+<td style="vertical-align: middle;">TIMESTAMP</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.Date</code></td>
+<td style="vertical-align: middle;">DATE</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.UUID</code></td>
+<td style="vertical-align: middle;">UUID</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pxt.Binary</code></td>
+<td style="vertical-align: middle;">BLOB/BYTEA</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Send your Pixeltable data to PostgreSQL, SQLite, MySQL, TigerData, or
+Snowflake for use in external applications.
+
+**What’s in this recipe:**
+
+-   Export entire tables or filtered queries to any SQL database
+-   Select specific columns for export
+-   Handle existing tables with replace or append options
+-   Connect to cloud PostgreSQL services (e.g. TigerData)
+
+## Problem
+
+You have processed data in your pipeline—cleaned text, generated
+embeddings, extracted metadata—and need to send it to a SQL database for
+use by other applications or teams.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+You use `export_sql()` to export tables or queries to any SQL database
+via database connection strings. The function automatically maps
+Pixeltable types to appropriate SQL types for each database dialect.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable snowflake-sqlalchemy
+```
+
+
+```python
+import tempfile
+from pathlib import Path
+
+import pixeltable as pxt
+from pixeltable.io.sql import export_sql
+```
+
+### Create sample data
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('sql_export_demo', force=True)
+pxt.create_dir('sql_export_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;sql_export_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x146d66c10&gt;
+</pre>
+
+
+```python
+# Create a table with product data
+products = pxt.create_table(
+    'sql_export_demo.products',
+    {
+        'name': pxt.String,
+        'price': pxt.Float,
+        'in_stock': pxt.Bool,
+        'metadata': pxt.Json,
+    },
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;products&#x27;.
+</pre>
+
+
+```python
+# Insert sample products
+products.insert([
+    {'name': 'Wireless Mouse', 'price': 29.99, 'in_stock': True, 'metadata': {'category': 'electronics', 'rating': 4.5}},
+    {'name': 'USB-C Hub', 'price': 49.99, 'in_stock': False, 'metadata': {'category': 'electronics', 'rating': 4.2}},
+    {'name': 'Mechanical Keyboard', 'price': 89.99, 'in_stock': True, 'metadata': {'category': 'electronics', 'rating': 4.8}},
+    {'name': 'Monitor Stand', 'price': 39.99, 'in_stock': True, 'metadata': {'category': 'accessories', 'rating': 4.0}},
+    {'name': 'Webcam', 'price': 59.99, 'in_stock': False, 'metadata': {'category': 'electronics', 'rating': 3.9}},
+])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s&nbsp;(566.35&nbsp;rows/s)
+5&nbsp;rows&nbsp;inserted.
+</pre>
+
+
+```python
+# View the data
+products.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+### Export an entire table
+
+You pass a table and a SQLAlchemy connection string to export all rows
+and columns.
+
+
+```python
+# Create a SQLite database for this demo
+db_path = Path(tempfile.mkdtemp()) / 'products.db'
+connection_string = f'sqlite:///{db_path}'
+```
+
+
+```python
+# Export the full table
+export_sql(products, 'products', db_connect_str=connection_string)
+```
+
+
+```python
+# Verify the export with SQLAlchemy
+import sqlalchemy as sql
+
+engine = sql.create_engine(connection_string)
+with engine.connect() as conn:
+    result = conn.execute(sql.text('SELECT * FROM products')).fetchall()
+
+result
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+\[(&#x27;Wireless&nbsp;Mouse&#x27;,&nbsp;29.99,&nbsp;1,&nbsp;&#x27;\{&quot;rating&quot;:&nbsp;4.5,&nbsp;&quot;category&quot;:&nbsp;&quot;electronics&quot;\}&#x27;),
+&nbsp;(&#x27;USB-C&nbsp;Hub&#x27;,&nbsp;49.99,&nbsp;0,&nbsp;&#x27;\{&quot;rating&quot;:&nbsp;4.2,&nbsp;&quot;category&quot;:&nbsp;&quot;electronics&quot;\}&#x27;),
+&nbsp;(&#x27;Mechanical&nbsp;Keyboard&#x27;,&nbsp;89.99,&nbsp;1,&nbsp;&#x27;\{&quot;rating&quot;:&nbsp;4.8,&nbsp;&quot;category&quot;:&nbsp;&quot;electronics&quot;\}&#x27;),
+&nbsp;(&#x27;Monitor&nbsp;Stand&#x27;,&nbsp;39.99,&nbsp;1,&nbsp;&#x27;\{&quot;rating&quot;:&nbsp;4.0,&nbsp;&quot;category&quot;:&nbsp;&quot;accessories&quot;\}&#x27;),
+&nbsp;(&#x27;Webcam&#x27;,&nbsp;59.99,&nbsp;0,&nbsp;&#x27;\{&quot;rating&quot;:&nbsp;3.9,&nbsp;&quot;category&quot;:&nbsp;&quot;electronics&quot;\}&#x27;)\]
+</pre>
+
+### Export a filtered query
+
+You can export any query result—filter rows, select specific columns, or
+apply transformations before export.
+
+
+```python
+# Export only in-stock products
+export_sql(
+    products.where(products.in_stock == True),
+    'in_stock_products',
+    db_connect_str=connection_string,
+)
+```
+
+
+```python
+# Verify filtered export
+with engine.connect() as conn:
+    result = conn.execute(sql.text('SELECT name, price FROM in_stock_products')).fetchall()
+
+result
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+\[(&#x27;Wireless&nbsp;Mouse&#x27;,&nbsp;29.99),
+&nbsp;(&#x27;Mechanical&nbsp;Keyboard&#x27;,&nbsp;89.99),
+&nbsp;(&#x27;Monitor&nbsp;Stand&#x27;,&nbsp;39.99)\]
+</pre>
+
+### Export specific columns
+
+You select only the columns you need before exporting. You can also
+rename columns in the output.
+
+
+```python
+# Export only name and price columns
+export_sql(
+    products.select(products.name, products.price),
+    'price_list',
+    db_connect_str=connection_string,
+)
+```
+
+
+```python
+# Export with renamed columns
+export_sql(
+    products.select(product_name=products.name, unit_price=products.price),
+    'renamed_columns',
+    db_connect_str=connection_string,
+)
+```
+
+
+```python
+# Verify column selection
+inspector = sql.inspect(engine)
+columns = [col['name'] for col in inspector.get_columns('price_list')]
+columns
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+\[&#x27;name&#x27;,&nbsp;&#x27;price&#x27;\]
+</pre>
+
+### Handle existing tables
+
+You control what happens when the target table already exists using the
+`if_exists` parameter:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+
+```python
+# Append new data to existing table
+export_sql(
+    products.where(products.price > 50),
+    'products',
+    db_connect_str=connection_string,
+    if_exists='insert',
+)
+```
+
+
+```python
+# Check row count after insert
+with engine.connect() as conn:
+    result = conn.execute(sql.text('SELECT COUNT(*) FROM products')).fetchone()
+
+f'Total rows after insert: {result[0]}'
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+&#x27;Total&nbsp;rows&nbsp;after&nbsp;insert:&nbsp;7&#x27;
+</pre>
+
+
+```python
+# Replace with fresh data
+export_sql(
+    products.select(products.name, products.price),
+    'products',
+    db_connect_str=connection_string,
+    if_exists='replace',
+)
+```
+
+
+```python
+# Check that table was replaced
+inspector = sql.inspect(engine)
+columns = [col['name'] for col in inspector.get_columns('products')]
+
+with engine.connect() as conn:
+    row_count = conn.execute(sql.text('SELECT COUNT(*) FROM products')).fetchone()[0]
+
+f'Columns: {columns}, Row count: {row_count}'
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+&quot;Columns:&nbsp;\[&#x27;name&#x27;,&nbsp;&#x27;price&#x27;\],&nbsp;Row&nbsp;count:&nbsp;5&quot;
+</pre>
+
+### Export to cloud PostgreSQL (TigerData)
+
+You can export directly to cloud-hosted PostgreSQL databases like
+[TigerData](https://www.timescale.com/cloud) (Timescale Cloud). Get your
+credentials from the TigerData dashboard after creating a service.
+
+
+```python
+import getpass
+import os
+
+# Skip interactive sections in CI environments
+SKIP_CLOUD_TESTS = os.environ.get('CI') or os.environ.get('GITHUB_ACTIONS')
+
+if not SKIP_CLOUD_TESTS:
+    # Enter your TigerData credentials interactively
+    tigerdata_host = input('TigerData host (e.g., abc123.tsdb.cloud.timescale.com): ')
+    tigerdata_port = input('TigerData port (e.g., 38963): ')
+    tigerdata_user = input('TigerData username (e.g., tsdbadmin): ')
+    tigerdata_password = getpass.getpass('TigerData password: ')
+    tigerdata_dbname = input('TigerData database name (e.g., tsdb): ')
+
+    # Build the connection string (use postgresql+psycopg:// for SQLAlchemy compatibility)
+    tigerdata_connection = f'postgresql+psycopg://{tigerdata_user}:{tigerdata_password}@{tigerdata_host}:{tigerdata_port}/{tigerdata_dbname}?sslmode=require'
+else:
+    print('Skipping TigerData section (running in CI)')
+```
+
+
+```python
+if not SKIP_CLOUD_TESTS:
+    # Export to TigerData
+    export_sql(products, 'pixeltable_products', db_connect_str=tigerdata_connection, if_exists='replace')
+```
+
+
+```python
+if not SKIP_CLOUD_TESTS:
+    # Verify the export in TigerData
+    tigerdata_engine = sql.create_engine(tigerdata_connection)
+    with tigerdata_engine.connect() as conn:
+        result = conn.execute(sql.text('SELECT * FROM pixeltable_products')).fetchall()
+    result
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+\[(&#x27;Wireless&nbsp;Mouse&#x27;,&nbsp;29.99,&nbsp;True,&nbsp;\{&#x27;rating&#x27;:&nbsp;4.5,&nbsp;&#x27;category&#x27;:&nbsp;&#x27;electronics&#x27;\}),
+&nbsp;(&#x27;USB-C&nbsp;Hub&#x27;,&nbsp;49.99,&nbsp;False,&nbsp;\{&#x27;rating&#x27;:&nbsp;4.2,&nbsp;&#x27;category&#x27;:&nbsp;&#x27;electronics&#x27;\}),
+&nbsp;(&#x27;Mechanical&nbsp;Keyboard&#x27;,&nbsp;89.99,&nbsp;True,&nbsp;\{&#x27;rating&#x27;:&nbsp;4.8,&nbsp;&#x27;category&#x27;:&nbsp;&#x27;electronics&#x27;\}),
+&nbsp;(&#x27;Monitor&nbsp;Stand&#x27;,&nbsp;39.99,&nbsp;True,&nbsp;\{&#x27;rating&#x27;:&nbsp;4.0,&nbsp;&#x27;category&#x27;:&nbsp;&#x27;accessories&#x27;\}),
+&nbsp;(&#x27;Webcam&#x27;,&nbsp;59.99,&nbsp;False,&nbsp;\{&#x27;rating&#x27;:&nbsp;3.9,&nbsp;&#x27;category&#x27;:&nbsp;&#x27;electronics&#x27;\})\]
+</pre>
+
+### Export to Snowflake
+
+You can export directly to [Snowflake](https://www.snowflake.com/) data
+warehouses. Get your account identifier from the Snowflake web interface
+under **Admin → Accounts**.
+
+
+```python
+if not SKIP_CLOUD_TESTS:
+    # Enter your Snowflake credentials interactively
+    snowflake_account = input('Snowflake account identifier (e.g., WEZMMGC-AIB20064): ')
+    snowflake_user = input('Snowflake username: ')
+    snowflake_password = getpass.getpass('Snowflake password: ')
+    snowflake_warehouse = input('Snowflake warehouse (e.g., COMPUTE_WH): ')
+    snowflake_database = input('Snowflake database: ')
+    snowflake_schema = input('Snowflake schema (e.g., PUBLIC): ')
+
+    # Build the connection string
+    snowflake_connection = f'snowflake://{snowflake_user}:{snowflake_password}@{snowflake_account}/{snowflake_database}/{snowflake_schema}?warehouse={snowflake_warehouse}'
+else:
+    print('Skipping Snowflake section (running in CI)')
+```
+
+
+```python
+if not SKIP_CLOUD_TESTS:
+    # Export to Snowflake (without JSON column)
+    export_sql(
+        products.select(products.name, products.price, products.in_stock),
+        'PIXELTABLE_PRODUCTS',
+        db_connect_str=snowflake_connection,
+        if_exists='replace'
+    )
+```
+
+
+```python
+if not SKIP_CLOUD_TESTS:
+    # Verify the export in Snowflake
+    snowflake_engine = sql.create_engine(snowflake_connection)
+    with snowflake_engine.connect() as conn:
+        result = conn.execute(sql.text('SELECT * FROM PIXELTABLE_PRODUCTS')).fetchall()
+    result
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+\[(&#x27;Wireless&nbsp;Mouse&#x27;,&nbsp;29.99,&nbsp;True,&nbsp;None),
+&nbsp;(&#x27;USB-C&nbsp;Hub&#x27;,&nbsp;49.99,&nbsp;False,&nbsp;None),
+&nbsp;(&#x27;Mechanical&nbsp;Keyboard&#x27;,&nbsp;89.99,&nbsp;True,&nbsp;None),
+&nbsp;(&#x27;Monitor&nbsp;Stand&#x27;,&nbsp;39.99,&nbsp;True,&nbsp;None),
+&nbsp;(&#x27;Webcam&#x27;,&nbsp;59.99,&nbsp;False,&nbsp;None)\]
+</pre>
+
+### Exporting media data
+
+For tables containing media types (`pxt.Image`, `pxt.Video`,
+`pxt.Audio`), you have two options:
+
+1.  **Extract metadata before export** - Select only the columns you
+    need (paths, embeddings, extracted text, etc.) and export those to
+    SQL.
+
+2.  **Use Pixeltable destinations** - For syncing media files to cloud
+    storage, use Pixeltable’s built-in destination support with
+    providers like
+    [Tigris](/howto/providers/working-with-tigris).
+
+**Example: Export image metadata to SQL**
+
+
+```python
+# Create a table with images
+images = pxt.create_table(
+    'sql_export_demo.images',
+    {'image': pxt.Image, 'label': pxt.String}
+)
+
+# Add computed columns for metadata
+images.add_computed_column(width=images.image.width)
+images.add_computed_column(height=images.image.height)
+images.add_computed_column(mode=images.image.mode)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;images&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Insert sample images
+base_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
+images.insert([
+    {'image': f'{base_url}/000000000036.jpg', 'label': 'cat'},
+    {'image': f'{base_url}/000000000090.jpg', 'label': 'scene'},
+])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.03&nbsp;s&nbsp;(63.85&nbsp;rows/s)
+2&nbsp;rows&nbsp;inserted.
+</pre>
+
+
+```python
+# Export metadata (not the image itself) to SQL
+export_sql(
+    images.select(images.label, images.width, images.height, images.mode),
+    'image_metadata',
+    db_connect_str=connection_string,  # or tigerdata_connection for cloud
+)
+```
+
+
+```python
+# Verify the metadata export
+with engine.connect() as conn:
+    result = conn.execute(sql.text('SELECT * FROM image_metadata')).fetchall()
+
+result
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+\[(&#x27;cat&#x27;,&nbsp;481,&nbsp;640,&nbsp;&#x27;RGB&#x27;),&nbsp;(&#x27;scene&#x27;,&nbsp;640,&nbsp;429,&nbsp;&#x27;RGB&#x27;)\]
+</pre>
+
+## Explanation
+
+**Connection strings:**
+
+The function uses SQLAlchemy connection strings. Common formats:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+**Type mapping:**
+
+Pixeltable types map to SQL types automatically:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+**Unsupported types:**
+
+Media types like `pxt.Image`, `pxt.Video`, and `pxt.Audio` cannot be
+exported directly. Extract the data you need (paths, embeddings,
+metadata) before export.
+
+## See also
+
+-   [Working with
+    Tigris](/howto/providers/working-with-tigris) -
+    Sync media files to cloud storage
+-   [Cloud Storage
+    Integration](/integrations/cloud-storage) -
+    S3, GCS, and Azure Blob storage
+-   [Export to PyTorch](./data-export-pytorch) - Export for ML training

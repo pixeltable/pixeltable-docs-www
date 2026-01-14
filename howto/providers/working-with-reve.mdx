@@ -255,9 +255,11 @@ spunk_t.select(spunk_t.source_image, spunk_t.edited_subject).collect()
 ## Remix multiple references with Reve Remix
 
 `reve.remix()` blends multiple reference images. Inside the prompt
-string, you reference each image with a numbered placeholder: -
-`<img>0</img>` refers to `images[0]` - `<img>1</img>` refers to
-`images[1]` - etc.
+string, you reference each image with a numbered placeholder:
+
+-   `<img>0</img>` refers to `images[0]`
+-   `<img>1</img>` refers to `images[1]`
+-   etc.
 
 You can optionally specify `aspect_ratio` and `version` parameters (both
 default to latest/auto if not specified).
