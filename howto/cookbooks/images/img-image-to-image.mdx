@@ -309,10 +309,12 @@ t.collect()
 Use `.select()` to define the transformation, then `.head(n)` to preview
 results on a subset of images. Nothing is stored in your table.
 
-The `image_to_image` function requires: - `image`: The source image to
-transform - `prompt`: Text describing the desired output - `model_id`: A
-Hugging Face model ID that supports image-to-image (e.g.,
-`stable-diffusion-v1-5/stable-diffusion-v1-5`)
+The `image_to_image` function requires:
+
+-   `image`: The source image to transform
+-   `prompt`: Text describing the desired output
+-   `model_id`: A Hugging Face model ID that supports image-to-image
+    (e.g., `stable-diffusion-v1-5/stable-diffusion-v1-5`)
 
 
 ```python
@@ -333,9 +335,11 @@ t.select(
 ### Iterate: adjust transformation strength
 
 You control how much the model modifies the original image using
-`strength` (0.0-1.0): - **Lower values** (0.3-0.5): Subtle changes,
-preserves more of the original - **Higher values** (0.7-1.0): Dramatic
-changes, more creative freedom
+`strength` (0.0-1.0):
+
+-   **Lower values** (0.3-0.5): Subtle changes, preserves more of the
+    original
+-   **Higher values** (0.7-1.0): Dramatic changes, more creative freedom
 
 You pass additional parameters through `model_kwargs`.
 

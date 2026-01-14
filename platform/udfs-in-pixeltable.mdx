@@ -606,12 +606,14 @@ def longest_word(sentences: Batch[str], strip_punctuation: bool = False) -> Batc
     return results
 ```
 
-There are several changes: - The parameter `batch_size=16` has been
-added to the `@pxt.udf` decorator, specifying the batch size; - The
-`sentences` parameter has changed from `str` to `Batch[str]`; - The
-return type has also changed from `str` to `Batch[str]`; and - Instead
-of processing a single sentence, the UDF is processing a `Batch` of
-sentences and returning the result `Batch`.
+There are several changes:
+
+-   The parameter `batch_size=16` has been added to the `@pxt.udf`
+    decorator, specifying the batch size;
+-   The `sentences` parameter has changed from `str` to `Batch[str]`;
+-   The return type has also changed from `str` to `Batch[str]`; and
+-   Instead of processing a single sentence, the UDF is processing a
+    `Batch` of sentences and returning the result `Batch`.
 
 What exactly is a `Batch[str]`? Functionally, it’s simply a `list[str]`,
 and you can use it exactly like a `list[str]` in any Python code. The

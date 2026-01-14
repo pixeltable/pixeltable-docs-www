@@ -451,10 +451,13 @@ Publish your table to Pixeltable Cloud. When calling `publish()`:
 -   **`source`** (required): An existing local table - either a table
     path string (e.g., `'sample-images.photos'`) or table handle (e.g.,
     `t`)
+
     -   If you use a local table path string, it must match a table in
         your local database (you can verify with `pxt.list_tables()`)
+
 -   **`destination_uri`** (required): The cloud URI where you want to
     publish, in the format `pxt://orgname/dataset`
+
     -   Pixeltable automatically creates any directory structure in the
         cloud based on this URI
     -   Your local directory structure doesn’t need to match the cloud

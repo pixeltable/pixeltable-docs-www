@@ -264,9 +264,12 @@ row = content.where(content.title == 'Welcome Message').collect()[0]
 **How it works:**
 
 Each target language is a computed column with a translation prompt.
-When you insert new content: 1. The English text is processed 2.
-Translation prompts are generated for each language 3. All translations
-run in parallel 4. Results are cached—no re-translation needed
+When you insert new content:
+
+1.  The English text is processed
+2.  Translation prompts are generated for each language
+3.  All translations run in parallel
+4.  Results are cached—no re-translation needed
 
 **Adding more languages:**
 
