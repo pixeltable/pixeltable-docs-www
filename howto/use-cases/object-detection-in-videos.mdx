@@ -14,10 +14,13 @@ above links.</Tip>
 
 In this tutorial, we’ll demonstrate how to use Pixeltable to do
 frame-by-frame object detection, made simple through Pixeltable’s
-video-related functionality: \* automatic frame extraction \* running
-complex functions against frames (in this case, the YOLOX object
-detection models) \* reassembling frames back into videos We’ll be
-working with a single video file from Pixeltable’s test data repository.
+video-related functionality:
+
+-   automatic frame extraction
+-   running complex functions against frames (in this case, the YOLOX
+    object detection models)
+-   reassembling frames back into videos We’ll be working with a single
+    video file from Pixeltable’s test data repository.
 
 This tutorial assumes you’re at least somewhat familiar with Pixeltable;
 a good place to learn more is the [Pixeltable
@@ -72,11 +75,13 @@ actual data yet, because we haven’t yet added any videos to the table.
 However, the `frames` view is now configured to automatically track the
 `videos` table as new data shows up.
 
-The new view is automatically configured with six columns: - `pos` - a
-system column that is part of every component view - `video` - the
-column inherited from our base table (all base table columns are visible
-in any of its views) - `frame_idx`, `pos_msec`, `pos_frame`, `frame` -
-these four columns are created by the `frame_iterator`.
+The new view is automatically configured with six columns:
+
+-   `pos` - a system column that is part of every component view
+-   `video` - the column inherited from our base table (all base table
+    columns are visible in any of its views)
+-   `frame_idx`, `pos_msec`, `pos_frame`, `frame` - these four columns
+    are created by the `frame_iterator`.
 
 Let’s have a look at the new view:
 

@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Import data from CSV files" sidebarTitle: "Import data from CSV files" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-csv.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-csv.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-csv.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Import data from CSV files"
+sidebarTitle: "Import data from CSV files"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-csv.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-csv.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-csv.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table>
 <thead>
 <tr>
@@ -168,23 +171,26 @@ models, add computed columns to, or combine with other data sources.
 
 **What’s in this recipe:**
 
-- Import CSV files directly into tables
-- Import from Pandas DataFrames
-- Handle different data types
+-   Import CSV files directly into tables
+-   Import from Pandas DataFrames
+-   Handle different data types
 
 You use `pxt.create_table()` with a `source` parameter to create a table
 from a CSV file, or insert DataFrame rows into an existing table.
 
 ### Setup
 
+
 ```python
 %pip install -qU pixeltable pandas
 ```
+
 
 ```python
 import pixeltable as pxt
 import pandas as pd
 ```
+
 
 ```python
 # Create a fresh directory
@@ -201,6 +207,7 @@ Created&nbsp;directory&nbsp;&#x27;import_demo&#x27;.
 ### Import CSV directly
 
 Use `create_table` with `source` to create a table from a CSV file:
+
 
 ```python
 # Import CSV from URL
@@ -220,6 +227,7 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`population\`:&nbsp;234&nbsp;rows&nbsp;\[00:
 Inserted&nbsp;234&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
+
 ```python
 # View the imported data
 population.head(5)
@@ -230,6 +238,7 @@ population.head(5)
 ### Import from Pandas DataFrame
 
 You can also create a DataFrame first and insert it:
+
 
 ```python
 # Create a DataFrame
@@ -257,6 +266,7 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
+
 ```python
 # View the data
 users.collect()
@@ -279,12 +289,12 @@ override types using `schema_overrides`.
 
 For very large CSV files, consider:
 
-- Using `create_table(source=...)` which streams data
-- Importing in batches if memory is limited
+-   Using `create_table(source=...)` which streams data
+-   Importing in batches if memory is limited
 
 ## See also
 
-- [Tables
-  documentation](/tutorials/tables-and-data-operations)
-- [Bringing data
-  guide](/howto/cookbooks/data/data-import-csv)
+-   [Tables
+    documentation](/tutorials/tables-and-data-operations)
+-   [Bringing data
+    guide](/howto/cookbooks/data/data-import-csv)

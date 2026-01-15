@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Import data from JSON files" sidebarTitle: "Import data from JSON files" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-json.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-json.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-json.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Import data from JSON files"
+sidebarTitle: "Import data from JSON files"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-json.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-json.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-json.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table>
 <thead>
 <tr>
@@ -244,9 +247,9 @@ with other data sources.
 
 **What’s in this recipe:**
 
-- Import JSON files directly into tables
-- Import from URLs (APIs, remote files)
-- Handle nested JSON structures
+-   Import JSON files directly into tables
+-   Import from URLs (APIs, remote files)
+-   Handle nested JSON structures
 
 You use `pxt.create_table()` with a `source` parameter to create a table
 from a JSON file or URL. The JSON must be an array of objects, where
@@ -254,9 +257,11 @@ each object becomes a row.
 
 ### Setup
 
+
 ```python
 %pip install -qU pixeltable
 ```
+
 
 ```python
 import pixeltable as pxt
@@ -268,6 +273,7 @@ from pathlib import Path
 ### Create sample JSON file
 
 First, create a sample JSON file to demonstrate the import process:
+
 
 ```python
 # Create sample JSON data (array of objects)
@@ -292,6 +298,7 @@ with open(json_path, 'w') as f:
 Use `create_table` with `source` to create a table directly from a JSON
 file:
 
+
 ```python
 # Create a fresh directory
 pxt.drop_dir('json_demo', force=True)
@@ -303,6 +310,7 @@ Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg
 Created&nbsp;directory&nbsp;&#x27;json_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1556b2800&gt;
 </pre>
+
 
 ```python
 # Import JSON file into a new table
@@ -321,6 +329,7 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`articles\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&
 Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
+
 ```python
 # View imported data
 articles.collect()
@@ -331,6 +340,7 @@ articles.collect()
 ### Import from URL
 
 You can import JSON directly from a URL—useful for APIs and remote data:
+
 
 ```python
 # Import from a public JSON URL
@@ -350,6 +360,7 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`posts\`:&nbsp;100&nbsp;rows&nbsp;\[00:00,&n
 Inserted&nbsp;100&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
+
 ```python
 # View first few rows
 posts.head(5)
@@ -361,6 +372,7 @@ posts.head(5)
 
 Use `create_table` with a list of dictionaries as `source`—useful when
 you have data in memory:
+
 
 ```python
 # Import from a list of dictionaries
@@ -381,6 +393,7 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`events\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nb
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
+
 ```python
 # View imported events
 event_table.collect()
@@ -391,6 +404,7 @@ event_table.collect()
 ### Add computed columns
 
 Once imported, you can enrich the data with computed columns:
+
 
 ```python
 # Add a computed column combining title and author
@@ -404,6 +418,7 @@ Added&nbsp;5&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 5&nbsp;rows&nbsp;updated,&nbsp;10&nbsp;values&nbsp;computed.
 </pre>
 
+
 ```python
 # View with computed column
 articles.select(articles.title, articles.author, articles.summary).collect()
@@ -416,6 +431,7 @@ articles.select(articles.title, articles.author, articles.summary).collect()
 **JSON format requirements:**
 
 The JSON file must contain an array of objects at the top level:
+
 
 ```json
 [
@@ -435,12 +451,12 @@ nested fields using Pixeltable’s JSON path syntax in computed columns.
 
 ## See also
 
-- [Import CSV
-  files](/howto/cookbooks/data/data-import-csv) -
-  For CSV and Excel imports
-- [Import Parquet
-  files](/howto/cookbooks/data/data-import-parquet) -
-  For Parquet data
-- [Extract fields from
-  JSON](/howto/cookbooks/core/workflow-json-extraction) -
-  Parse LLM response fields
+-   [Import CSV
+    files](/howto/cookbooks/data/data-import-csv) -
+    For CSV and Excel imports
+-   [Import Parquet
+    files](/howto/cookbooks/data/data-import-parquet) -
+    For Parquet data
+-   [Extract fields from
+    JSON](/howto/cookbooks/core/workflow-json-extraction) -
+    Parse LLM response fields

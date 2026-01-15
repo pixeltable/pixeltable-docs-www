@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Convert text to speech" sidebarTitle: "Convert text to speech" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-text-to-speech.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-text-to-speech.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-text-to-speech.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Convert text to speech"
+sidebarTitle: "Convert text to speech"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-text-to-speech.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-text-to-speech.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-text-to-speech.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table>
 <thead>
 <tr>
@@ -153,18 +156,20 @@ content repurposing, or voice applications.
 
 **What’s in this recipe:**
 
-- Generate speech with OpenAI TTS
-- Choose from multiple voice options
-- Store text and audio together
+-   Generate speech with OpenAI TTS
+-   Choose from multiple voice options
+-   Store text and audio together
 
 You add a computed column that converts text to audio. The audio is
 cached and only regenerated when the source text changes.
 
 ### Setup
 
+
 ```python
 %pip install -qU pixeltable openai
 ```
+
 
 ```python
 import os
@@ -174,10 +179,12 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
 ```
 
+
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import speech
 ```
+
 
 ```python
 # Create a fresh directory
@@ -193,6 +200,7 @@ Created&nbsp;directory&nbsp;&#x27;tts_demo&#x27;.
 
 ### Create text-to-speech pipeline
 
+
 ```python
 # Create table for articles
 articles = pxt.create_table(
@@ -204,6 +212,7 @@ articles = pxt.create_table(
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;articles&#x27;.
 </pre>
+
 
 ```python
 # Add audio generation column
@@ -222,6 +231,7 @@ No&nbsp;rows&nbsp;affected.
 </pre>
 
 ### Generate audio
+
 
 ```python
 # Insert sample articles
@@ -245,6 +255,7 @@ Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 2&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
+
 ```python
 # View articles with generated audio
 articles.select(articles.title, articles.content, articles.audio).collect()
@@ -264,15 +275,15 @@ articles.select(articles.title, articles.content, articles.audio).collect()
 
 **Tips:**
 
-- Use `tts-1` for drafts and real-time applications
-- Use `tts-1-hd` for final production audio
-- Audio is cached—no regeneration on queries
+-   Use `tts-1` for drafts and real-time applications
+-   Use `tts-1-hd` for final production audio
+-   Audio is cached—no regeneration on queries
 
 ## See also
 
-- [Transcribe
-  audio](/howto/cookbooks/audio/audio-transcribe) -
-  Convert audio to text
-- [Summarize
-  podcasts](/howto/cookbooks/audio/audio-summarize-podcast) -
-  Transcribe and summarize audio
+-   [Transcribe
+    audio](/howto/cookbooks/audio/audio-transcribe) -
+    Convert audio to text
+-   [Summarize
+    podcasts](/howto/cookbooks/audio/audio-summarize-podcast) -
+    Transcribe and summarize audio

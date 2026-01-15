@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Extract fields from LLM JSON responses" sidebarTitle: "Extract fields from LLM JSON responses" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-json-extraction.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-json-extraction.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/workflow-json-extraction.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Extract fields from LLM JSON responses"
+sidebarTitle: "Extract fields from LLM JSON responses"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-json-extraction.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-json-extraction.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/workflow-json-extraction.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr style="text-align: right;">
@@ -67,6 +70,7 @@ LLM APIs return nested JSON responses with metadata you don’t need. You
 want to extract just the text content or specific fields for downstream
 processing.
 
+
 ```json
 {
   "id": "chatcmpl-123",
@@ -83,14 +87,15 @@ processing.
 
 **What’s in this recipe:**
 
-- Extract text content from chat completions
-- Access nested JSON fields
-- Create separate columns for different fields
+-   Extract text content from chat completions
+-   Access nested JSON fields
+-   Create separate columns for different fields
 
 You use JSON path notation to extract specific fields from API responses
 and store them in computed columns.
 
 ### Setup
+
 
 ```python
 %pip install -qU pixeltable openai
@@ -102,12 +107,14 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
 ```
 
+
 ```python
 import pixeltable as pxt
 from pixeltable.functions import openai
 ```
 
 ### Create prompts table
+
 
 ```python
 # Create a fresh directory
@@ -121,6 +128,7 @@ Created&nbsp;directory&nbsp;&#x27;json_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x313d7a150&gt;
 </pre>
 
+
 ```python
 t = pxt.create_table('json_demo.prompts', {'prompt': pxt.String})
 ```
@@ -128,6 +136,7 @@ t = pxt.create_table('json_demo.prompts', {'prompt': pxt.String})
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;prompts&#x27;.
 </pre>
+
 
 ```python
 t.insert([
@@ -143,6 +152,7 @@ Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
 ### Get LLM responses
+
 
 ```python
 # Add computed column for API response (returns full JSON)
@@ -163,6 +173,7 @@ Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 Use dot notation to access nested JSON fields:
 
+
 ```python
 # Extract just the text content
 t.add_computed_column(
@@ -181,6 +192,7 @@ Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 2&nbsp;rows&nbsp;updated,&nbsp;2&nbsp;values&nbsp;computed.
 </pre>
 
+
 ```python
 # View clean results
 t.select(t.prompt, t.text, t.tokens).collect()
@@ -196,9 +208,9 @@ t.select(t.prompt, t.text, t.tokens).collect()
 
 **Accessing JSON fields:**
 
-- Use dot notation for object properties: `response.usage`
-- Use brackets for array elements: `choices[0]`
-- Chain them: `response.choices[0].message.content`
+-   Use dot notation for object properties: `response.usage`
+-   Use brackets for array elements: `choices[0]`
+-   Chain them: `response.choices[0].message.content`
 
 **Extracted columns are computed:**
 
@@ -206,7 +218,7 @@ Changes to the source data automatically update all extracted fields.
 
 ## See also
 
-- [Configure API
-  keys](/howto/cookbooks/core/workflow-api-keys)
-- [Extract structured data from
-  images](/howto/cookbooks/images/vision-structured-output)
+-   [Configure API
+    keys](/howto/cookbooks/core/workflow-api-keys)
+-   [Extract structured data from
+    images](/howto/cookbooks/images/vision-structured-output)

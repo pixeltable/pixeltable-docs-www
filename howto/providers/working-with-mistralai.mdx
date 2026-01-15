@@ -1,33 +1,39 @@
-______________________________________________________________________
-
-## title: "Working with Mistral AI in Pixeltable" sidebarTitle: "Mistral AI" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-mistralai.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-mistralai.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-mistralai.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Working with Mistral AI in Pixeltable"
+sidebarTitle: "Mistral AI"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-mistralai.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-mistralai.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-mistralai.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
+
+
+
 
 Pixeltable’s Mistral AI integration enables you to access Mistral’s LLM
 and other models via the Mistral AI API.
 
 ### Prerequisites
 
-- A Mistral AI account with an API key
-  (https://console.mistral.ai/api-keys/)
+-   A Mistral AI account with an API key
+    (https://console.mistral.ai/api-keys/)
 
 ### Important notes
 
-- Mistral AI usage may incur costs based on your Mistral AI plan.
-- Be mindful of sensitive data and consider security measures when
-  integrating with external services.
+-   Mistral AI usage may incur costs based on your Mistral AI plan.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
 
 First you’ll need to install required libraries and enter a Mistral AI
 API key.
 
+
 ```python
 %pip install -qU pixeltable mistralai
 ```
+
 
 ```python
 import os
@@ -38,6 +44,7 @@ if 'MISTRAL_API_KEY' not in os.environ:
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
+
 
 ```python
 import pixeltable as pxt
@@ -52,6 +59,7 @@ pxt.create_dir('mistralai_demo')
 Create a Table: In Pixeltable, create a table with columns to represent
 your input data and the columns where you want to store the results from
 Mistral.
+
 
 ```python
 from pixeltable.functions.mistralai import chat_completions
@@ -73,10 +81,12 @@ t.add_computed_column(output=chat_completions(
 ))
 ```
 
+
 ```python
 # Parse the response into a new column
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
+
 
 ```python
 # Start a conversation

@@ -261,9 +261,11 @@ videos.select(videos.title, videos.transcript).collect()
 Video&nbsp;→&nbsp;extract_audio&nbsp;→&nbsp;Audio&nbsp;→&nbsp;whisper.transcribe&nbsp;→&nbsp;Transcript
 </pre>
 
-Each step is a computed column. When you insert a new video: 1. Audio is
-extracted automatically 2. Whisper transcribes the audio 3. All results
-are cached for future queries
+Each step is a computed column. When you insert a new video:
+
+1.  Audio is extracted automatically
+2.  Whisper transcribes the audio
+3.  All results are cached for future queries
 
 ## See also
 

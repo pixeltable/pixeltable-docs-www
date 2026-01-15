@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Extract named entities from text" sidebarTitle: "Extract named entities from text" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-extract-entities.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-extract-entities.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/text/text-extract-entities.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Extract named entities from text"
+sidebarTitle: "Extract named entities from text"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-extract-entities.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/text-extract-entities.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/text/text-extract-entities.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table>
 <thead>
 <tr>
@@ -114,14 +117,15 @@ analysis, search, or integration with other systems.
 
 **What’s in this recipe:**
 
-- Extract entities as structured JSON
-- Use OpenAI’s structured output for reliable parsing
-- Access extracted entities as queryable columns
+-   Extract entities as structured JSON
+-   Use OpenAI’s structured output for reliable parsing
+-   Access extracted entities as queryable columns
 
 You use structured output to get entities in a consistent JSON format.
 The entities are stored as JSON columns that you can query and filter.
 
 ### Setup
+
 
 ```python
 %pip install -qU pixeltable openai
@@ -137,6 +141,7 @@ WARNING:&nbsp;Ignoring&nbsp;invalid&nbsp;distribution&nbsp;~orch&nbsp;(/opt/mini
 Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
 </pre>
 
+
 ```python
 import os
 import getpass
@@ -145,11 +150,13 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
 ```
 
+
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import chat_completions
 import json
 ```
+
 
 ```python
 # Create a fresh directory
@@ -163,6 +170,7 @@ Created&nbsp;directory&nbsp;&#x27;entities_demo&#x27;.
 </pre>
 
 ### Define entity extraction schema
+
 
 ```python
 # Define the JSON schema for entity extraction
@@ -204,6 +212,7 @@ entity_schema = {
 
 ### Create extraction pipeline
 
+
 ```python
 # Create table for articles
 articles = pxt.create_table(
@@ -215,6 +224,7 @@ articles = pxt.create_table(
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;articles&#x27;.
 </pre>
+
 
 ```python
 # Add entity extraction column
@@ -234,6 +244,7 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 No&nbsp;rows&nbsp;affected.
 </pre>
 
+
 ```python
 # Extract the entities JSON
 articles.add_computed_column(
@@ -247,6 +258,7 @@ No&nbsp;rows&nbsp;affected.
 </pre>
 
 ### Extract entities from text
+
 
 ```python
 # Insert sample articles
@@ -274,6 +286,7 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;12&nbsp;values&nbsp;computed.
 </pre>
 
+
 ```python
 # View extracted entities
 articles.select(articles.title, articles.entities).collect()
@@ -300,9 +313,9 @@ SKUs, legal terms, medical conditions, etc.
 
 ## See also
 
-- [Extract structured data from
-  images](/howto/cookbooks/images/vision-structured-output) -
-  JSON extraction from images
-- [Extract fields from
-  JSON](/howto/cookbooks/core/workflow-json-extraction) -
-  Parse LLM response fields
+-   [Extract structured data from
+    images](/howto/cookbooks/images/vision-structured-output) -
+    JSON extraction from images
+-   [Extract fields from
+    JSON](/howto/cookbooks/core/workflow-json-extraction) -
+    Parse LLM response fields

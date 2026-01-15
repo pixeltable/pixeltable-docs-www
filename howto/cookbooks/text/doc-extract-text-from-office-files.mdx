@@ -209,9 +209,11 @@ contaminated index ‹#›</td>
 
 Transform office documents into searchable, analyzable text data.
 
-**What’s in this recipe:** - Extract text from PPTX, DOCX, and XLSX
-files - Split documents by headings, paragraphs, or custom limits -
-Preserve document structure and metadata for analysis
+**What’s in this recipe:**
+
+-   Extract text from PPTX, DOCX, and XLSX files
+-   Split documents by headings, paragraphs, or custom limits
+-   Preserve document structure and metadata for analysis
 
 ## Problem
 
@@ -238,7 +240,7 @@ chunk of the document with its metadata.
 
 
 ```python
-%pip install -qU pixeltable 'markitdown[pptx,docx,xlsx]' mistune
+%pip install -qU pixeltable 'markitdown[pptx,docx,xlsx]' mistune tiktoken
 ```
 
 
@@ -395,20 +397,28 @@ by_tokens.where(by_tokens.text.contains('Python')).select(by_tokens.doc, by_toke
 
 ## Explanation
 
-**Supported formats:** - PowerPoint: `.pptx`, `.ppt` - Word: `.docx`,
-`.doc` - Excel: `.xlsx`, `.xls`
+**Supported formats:**
 
-**Separator options:** - `heading` - Split by document headings
-(preserves structure) - `paragraph` - Split by paragraphs - `sentence` -
-Split by sentences - `token_limit` - Split by token count (requires
-`limit` parameter) - `char_limit` - Split by character count (requires
-`limit` parameter) - Multiple separators work together:
-`'heading,token_limit'` splits by heading first, then ensures no chunk
-exceeds token limit
+-   PowerPoint: `.pptx`, `.ppt`
+-   Word: `.docx`, `.doc`
+-   Excel: `.xlsx`, `.xls`
 
-**Metadata fields:** - `heading` - Hierarchical heading structure (e.g.,
-`{'h1': 'Introduction', 'h2': 'Overview'}`) - `title` - Document title -
-`sourceline` - Source line number (HTML and Markdown documents)
+**Separator options:**
+
+-   `heading` - Split by document headings (preserves structure)
+-   `paragraph` - Split by paragraphs
+-   `sentence` - Split by sentences
+-   `token_limit` - Split by token count (requires `limit` parameter)
+-   `char_limit` - Split by character count (requires `limit` parameter)
+-   Multiple separators work together: `'heading,token_limit'` splits by
+    heading first, then ensures no chunk exceeds token limit
+
+**Metadata fields:**
+
+-   `heading` - Hierarchical heading structure (e.g.,
+    `{'h1': 'Introduction', 'h2': 'Overview'}`)
+-   `title` - Document title
+-   `sourceline` - Source line number (HTML and Markdown documents)
 
 **Token overlap:** The `overlap` parameter ensures chunks share context
 at boundaries. This prevents sentences from being split mid-thought when

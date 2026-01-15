@@ -123,6 +123,7 @@
                     "group": "Images",
                     "pages": [
                       "howto/cookbooks/images/img-detect-objects",
+                      "howto/cookbooks/images/img-detection-vs-segmentation",
                       "howto/cookbooks/images/img-visualize-detections",
                       "howto/cookbooks/images/img-generate-captions",
                       "howto/cookbooks/images/img-image-to-image",
@@ -175,6 +176,7 @@
                       "howto/cookbooks/data/data-import-huggingface",
                       "howto/cookbooks/data/data-import-s3",
                       "howto/cookbooks/data/data-export-pytorch",
+                      "howto/cookbooks/data/data-export-sql",
                       "howto/cookbooks/data/data-sampling"
                     ]
                   }
@@ -242,7 +244,6 @@
                       "sdk/latest/openrouter",
                       "sdk/latest/replicate",
                       "sdk/latest/reve",
-                      "sdk/latest/runwayml",
                       "sdk/latest/together",
                       "sdk/latest/twelvelabs",
                       "sdk/latest/uuid",
@@ -264,7 +265,7 @@
             ]
           },
           {
-            "dropdown": "v0.5.10.dev19.df733141",
+            "dropdown": "v0.5.12.dev9.5aed14d2",
             "icon": "rocket",
             "groups": [
               {
@@ -273,66 +274,65 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.5.10.dev19.df733141/pixeltable",
-                      "sdk/v0.5.10.dev19.df733141/table",
-                      "sdk/v0.5.10.dev19.df733141/query",
-                      "sdk/v0.5.10.dev19.df733141/columnmetadata",
-                      "sdk/v0.5.10.dev19.df733141/dircontents",
-                      "sdk/v0.5.10.dev19.df733141/indexmetadata",
-                      "sdk/v0.5.10.dev19.df733141/tablemetadata",
-                      "sdk/v0.5.10.dev19.df733141/updatestatus",
-                      "sdk/v0.5.10.dev19.df733141/versionmetadata"
+                      "sdk/v0.5.12.dev9.5aed14d2/pixeltable",
+                      "sdk/v0.5.12.dev9.5aed14d2/table",
+                      "sdk/v0.5.12.dev9.5aed14d2/query",
+                      "sdk/v0.5.12.dev9.5aed14d2/columnmetadata",
+                      "sdk/v0.5.12.dev9.5aed14d2/dircontents",
+                      "sdk/v0.5.12.dev9.5aed14d2/indexmetadata",
+                      "sdk/v0.5.12.dev9.5aed14d2/tablemetadata",
+                      "sdk/v0.5.12.dev9.5aed14d2/updatestatus",
+                      "sdk/v0.5.12.dev9.5aed14d2/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.5.10.dev19.df733141/functions",
-                      "sdk/v0.5.10.dev19.df733141/audio",
-                      "sdk/v0.5.10.dev19.df733141/date",
-                      "sdk/v0.5.10.dev19.df733141/document",
-                      "sdk/v0.5.10.dev19.df733141/image",
-                      "sdk/v0.5.10.dev19.df733141/json",
-                      "sdk/v0.5.10.dev19.df733141/math",
-                      "sdk/v0.5.10.dev19.df733141/net",
-                      "sdk/v0.5.10.dev19.df733141/string",
-                      "sdk/v0.5.10.dev19.df733141/timestamp",
-                      "sdk/v0.5.10.dev19.df733141/video"
+                      "sdk/v0.5.12.dev9.5aed14d2/functions",
+                      "sdk/v0.5.12.dev9.5aed14d2/audio",
+                      "sdk/v0.5.12.dev9.5aed14d2/date",
+                      "sdk/v0.5.12.dev9.5aed14d2/document",
+                      "sdk/v0.5.12.dev9.5aed14d2/image",
+                      "sdk/v0.5.12.dev9.5aed14d2/json",
+                      "sdk/v0.5.12.dev9.5aed14d2/math",
+                      "sdk/v0.5.12.dev9.5aed14d2/net",
+                      "sdk/v0.5.12.dev9.5aed14d2/string",
+                      "sdk/v0.5.12.dev9.5aed14d2/timestamp",
+                      "sdk/v0.5.12.dev9.5aed14d2/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.5.10.dev19.df733141/anthropic",
-                      "sdk/v0.5.10.dev19.df733141/bedrock",
-                      "sdk/v0.5.10.dev19.df733141/deepseek",
-                      "sdk/v0.5.10.dev19.df733141/fal",
-                      "sdk/v0.5.10.dev19.df733141/fireworks",
-                      "sdk/v0.5.10.dev19.df733141/gemini",
-                      "sdk/v0.5.10.dev19.df733141/groq",
-                      "sdk/v0.5.10.dev19.df733141/huggingface",
-                      "sdk/v0.5.10.dev19.df733141/llama_cpp",
-                      "sdk/v0.5.10.dev19.df733141/mistralai",
-                      "sdk/v0.5.10.dev19.df733141/ollama",
-                      "sdk/v0.5.10.dev19.df733141/openai",
-                      "sdk/v0.5.10.dev19.df733141/openrouter",
-                      "sdk/v0.5.10.dev19.df733141/replicate",
-                      "sdk/v0.5.10.dev19.df733141/reve",
-                      "sdk/v0.5.10.dev19.df733141/runwayml",
-                      "sdk/v0.5.10.dev19.df733141/together",
-                      "sdk/v0.5.10.dev19.df733141/twelvelabs",
-                      "sdk/v0.5.10.dev19.df733141/uuid",
-                      "sdk/v0.5.10.dev19.df733141/vision",
-                      "sdk/v0.5.10.dev19.df733141/voyageai",
-                      "sdk/v0.5.10.dev19.df733141/whisper",
-                      "sdk/v0.5.10.dev19.df733141/whisperx",
-                      "sdk/v0.5.10.dev19.df733141/yolox"
+                      "sdk/v0.5.12.dev9.5aed14d2/anthropic",
+                      "sdk/v0.5.12.dev9.5aed14d2/bedrock",
+                      "sdk/v0.5.12.dev9.5aed14d2/deepseek",
+                      "sdk/v0.5.12.dev9.5aed14d2/fal",
+                      "sdk/v0.5.12.dev9.5aed14d2/fireworks",
+                      "sdk/v0.5.12.dev9.5aed14d2/gemini",
+                      "sdk/v0.5.12.dev9.5aed14d2/groq",
+                      "sdk/v0.5.12.dev9.5aed14d2/huggingface",
+                      "sdk/v0.5.12.dev9.5aed14d2/llama_cpp",
+                      "sdk/v0.5.12.dev9.5aed14d2/mistralai",
+                      "sdk/v0.5.12.dev9.5aed14d2/ollama",
+                      "sdk/v0.5.12.dev9.5aed14d2/openai",
+                      "sdk/v0.5.12.dev9.5aed14d2/openrouter",
+                      "sdk/v0.5.12.dev9.5aed14d2/replicate",
+                      "sdk/v0.5.12.dev9.5aed14d2/reve",
+                      "sdk/v0.5.12.dev9.5aed14d2/together",
+                      "sdk/v0.5.12.dev9.5aed14d2/twelvelabs",
+                      "sdk/v0.5.12.dev9.5aed14d2/uuid",
+                      "sdk/v0.5.12.dev9.5aed14d2/vision",
+                      "sdk/v0.5.12.dev9.5aed14d2/voyageai",
+                      "sdk/v0.5.12.dev9.5aed14d2/whisper",
+                      "sdk/v0.5.12.dev9.5aed14d2/whisperx",
+                      "sdk/v0.5.12.dev9.5aed14d2/yolox"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.5.10.dev19.df733141/io"
+                      "sdk/v0.5.12.dev9.5aed14d2/io"
                     ]
                   }
                 ]

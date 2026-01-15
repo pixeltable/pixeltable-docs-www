@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Join tables to combine data" sidebarTitle: "Join tables to combine data" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/query-join-tables.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/query-join-tables.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/query-join-tables.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Join tables to combine data"
+sidebarTitle: "Join tables to combine data"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/query-join-tables.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/query-join-tables.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/query-join-tables.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table>
 <thead>
 <tr>
@@ -381,24 +384,27 @@ metadata.
 
 **What’s in this recipe:**
 
-- Inner join to match rows from both tables
-- Left join to keep all rows from the first table
-- Cross join for Cartesian product (all combinations)
-- Join with filtering, aggregation, and saving results
+-   Inner join to match rows from both tables
+-   Left join to keep all rows from the first table
+-   Cross join for Cartesian product (all combinations)
+-   Join with filtering, aggregation, and saving results
 
 Use `table1.join(table2, on=..., how=...)` to combine tables based on
 matching columns.
 
 ### Setup
 
+
 ```python
 %pip install -qU pixeltable
 ```
+
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions import sum as pxt_sum, count as pxt_count
 ```
+
 
 ```python
 # Create a fresh directory
@@ -413,6 +419,7 @@ Created&nbsp;directory&nbsp;&#x27;join_demo&#x27;.
 </pre>
 
 ### Create sample tables
+
 
 ```python
 # Create a customers table
@@ -437,6 +444,7 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
 
 ```python
 # Create an orders table
@@ -465,6 +473,7 @@ Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ### Inner join (matching rows only)
 
+
 ```python
 # Inner join: only rows that match in both tables
 customers.join(
@@ -481,6 +490,7 @@ customers.join(
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 ### Left join (keep all from first table)
+
 
 ```python
 # Left join: all customers, with order data where available
@@ -499,6 +509,7 @@ customers.join(
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 
 ### Join with filtering
+
 
 ```python
 # Combine join with where clause to filter results
@@ -520,6 +531,7 @@ customers.join(
 
 ### Join with aggregation
 
+
 ```python
 # Join and aggregate: total spending per customer
 customers.join(
@@ -536,6 +548,7 @@ customers.join(
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
 
 ### Cross join (all combinations)
+
 
 ```python
 # Cross join: every customer paired with every product (no 'on' condition)
@@ -565,6 +578,7 @@ Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ### Save join results to a new table
 
+
 ```python
 # Build a join query and collect as DataFrame
 customer_orders_df = customers.join(
@@ -586,6 +600,7 @@ customer_orders_df
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[9] }} />
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[10] }} />
+
 
 ```python
 # Create a new table from the DataFrame
@@ -613,6 +628,7 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 **Join syntax:**
 
+
 ```python
 # Simple: join on column by name
 t1.join(t2, on=t1.id)
@@ -626,6 +642,7 @@ t1.join(t2, on=(t1.pk1 == t2.pk1) & (t1.pk2 == t2.pk2))
 
 **Aggregation functions:**
 
+
 ```python
 from pixeltable.functions import sum, count, mean, min, max
 
@@ -636,6 +653,7 @@ num_rows=count(t.id)
 
 **Saving join results:**
 
+
 ```python
 # Collect as DataFrame, then create table
 df = query.select(name=t.col, ...).collect().to_pandas()
@@ -644,17 +662,17 @@ new_table = pxt.create_table('path', source=df)
 
 **Tips:**
 
-- Use explicit predicates (`t1.col == t2.col`) for clarity
-- Chain `.where()` after join to filter results
-- Chain `.group_by()` for aggregations
-- Use `'left'` join when the first table is your “main” table
-- Use named columns in `.select(name=col)` for clean column names
+-   Use explicit predicates (`t1.col == t2.col`) for clarity
+-   Chain `.where()` after join to filter results
+-   Chain `.group_by()` for aggregations
+-   Use `'left'` join when the first table is your “main” table
+-   Use named columns in `.select(name=col)` for clean column names
 
 ## See also
 
-- [Look up structured
-  data](/howto/cookbooks/agents/pattern-data-lookup) -
-  Use retrieval UDFs for lookups
-- [Sample data for
-  training](/howto/cookbooks/data/data-sampling) -
-  Sample from joined results
+-   [Look up structured
+    data](/howto/cookbooks/agents/pattern-data-lookup) -
+    Use retrieval UDFs for lookups
+-   [Sample data for
+    training](/howto/cookbooks/data/data-sampling) -
+    Sample from joined results

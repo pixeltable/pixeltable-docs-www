@@ -157,6 +157,7 @@ add_embedding_index(
     string_embed: pxt.Function | None = None,
     image_embed: pxt.Function | None = None,
     metric: Literal['cosine', 'ip', 'l2'] = 'cosine',
+    precision: Literal['fp16', 'fp32'] = 'fp16',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
 ) -> None
 ```
@@ -183,6 +184,7 @@ Only `String` and `Image` columns are currently supported.
     specifying different embedding functions for different data types.
 - **`metric`** (`Literal['cosine', 'ip', 'l2']`, default: `'cosine'`): Distance metric to use for the index; one of `'cosine'`, `'ip'`, or `'l2'`.
     The default is `'cosine'`.
+- **`precision`** (`Literal['fp16', 'fp32']`, default: `'fp16'`): level of precision for the embeddings; one of `'fp16'` or `'fp32'`.
 - **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Directive for handling an existing index with the same name. Must be one of the following:
     - `'error'`: raise an error if an index with the same name already exists.
     - `'ignore'`: do nothing if an index with the same name already exists.

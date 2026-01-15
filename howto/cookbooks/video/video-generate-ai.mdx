@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Generate videos with AI" sidebarTitle: "Generate videos with AI" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-generate-ai.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-generate-ai.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/video/video-generate-ai.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Generate videos with AI"
+sidebarTitle: "Generate videos with AI"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-generate-ai.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-generate-ai.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/video/video-generate-ai.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table>
 <thead>
 <tr>
@@ -148,18 +151,20 @@ product demos, or creative applications.
 
 **What’s in this recipe:**
 
-- Generate videos from text prompts
-- Animate existing images into videos
-- Store prompts and generated videos together
+-   Generate videos from text prompts
+-   Animate existing images into videos
+-   Store prompts and generated videos together
 
 Use Google’s Veo model to generate videos. Videos are
 cached—regeneration only happens if the prompt changes.
 
 ### Setup
 
+
 ```python
 %pip install -qU pixeltable google-genai
 ```
+
 
 ```python
 import os
@@ -169,10 +174,12 @@ if 'GEMINI_API_KEY' not in os.environ:
     os.environ['GEMINI_API_KEY'] = getpass.getpass('Google AI Studio API Key: ')
 ```
 
+
 ```python
 import pixeltable as pxt
 from pixeltable.functions import gemini
 ```
+
 
 ```python
 # Create a fresh directory
@@ -187,6 +194,7 @@ Created&nbsp;directory&nbsp;&#x27;video_gen_demo&#x27;.
 </pre>
 
 ### Generate videos from text prompts
+
 
 ```python
 # Create a table for text-to-video generation
@@ -210,6 +218,7 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 No&nbsp;rows&nbsp;affected.
 </pre>
 
+
 ```python
 # Generate a video from a text prompt
 videos.insert([
@@ -228,6 +237,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ### Animate images into videos
+
 
 ```python
 # Create a table for image-to-video generation
@@ -250,6 +260,7 @@ Created&nbsp;table&nbsp;&#x27;image_to_video&#x27;.
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 No&nbsp;rows&nbsp;affected.
 </pre>
+
 
 ```python
 # Animate an image
@@ -285,21 +296,21 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 
 **Tips:**
 
-- Prompts work best when descriptive and specific
-- Generated videos are cached - same prompt returns cached result
-- Image-to-video preserves the composition of the input image
-- New rows automatically generate videos on insert
+-   Prompts work best when descriptive and specific
+-   Generated videos are cached - same prompt returns cached result
+-   Image-to-video preserves the composition of the input image
+-   New rows automatically generate videos on insert
 
 **Requirements:**
 
-- Google AI Studio API key (set `GEMINI_API_KEY`)
-- `pip install google-genai`
+-   Google AI Studio API key (set `GEMINI_API_KEY`)
+-   `pip install google-genai`
 
 ## See also
 
-- [Extract frames from
-  videos](/howto/cookbooks/video/video-extract-frames) -
-  Pull frames from generated videos
-- [Add text
-  overlays](/howto/cookbooks/video/video-add-text-overlay) -
-  Add captions to videos
+-   [Extract frames from
+    videos](/howto/cookbooks/video/video-extract-frames) -
+    Pull frames from generated videos
+-   [Add text
+    overlays](/howto/cookbooks/video/video-add-text-overlay) -
+    Add captions to videos

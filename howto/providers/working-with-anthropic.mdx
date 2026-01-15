@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Working with Anthropic in Pixeltable" sidebarTitle: "Anthropic" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-anthropic.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-anthropic.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-anthropic.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Working with Anthropic in Pixeltable"
+sidebarTitle: "Anthropic"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-anthropic.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-anthropic.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-anthropic.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr style="text-align: right;">
@@ -46,21 +49,23 @@ Claude LLM via the Anthropic API.
 
 ### Prerequisites
 
-- An Anthropic account with an API key
-  (https://docs.anthropic.com/en/api/getting-started)
+-   An Anthropic account with an API key
+    (https://docs.anthropic.com/en/api/getting-started)
 
 ### Important notes
 
-- Anthropic usage may incur costs based on your Anthropic plan.
-- Be mindful of sensitive data and consider security measures when
-  integrating with external services.
+-   Anthropic usage may incur costs based on your Anthropic plan.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
 
 First you’ll need to install required libraries and enter an Anthropic
 API key.
 
+
 ```python
 %pip install -qU pixeltable anthropic
 ```
+
 
 ```python
 import os
@@ -71,6 +76,7 @@ if 'ANTHROPIC_API_KEY' not in os.environ:
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
+
 
 ```python
 import pixeltable as pxt
@@ -90,6 +96,7 @@ Created&nbsp;directory&nbsp;&#x27;anthropic_demo&#x27;.
 Create a Table: In Pixeltable, create a table with columns to represent
 your input data and the columns where you want to store the results from
 Anthropic.
+
 
 ```python
 from pixeltable.functions import anthropic
@@ -117,6 +124,7 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 No&nbsp;rows&nbsp;affected.
 </pre>
 
+
 ```python
 # Parse the response into a new column
 t.add_computed_column(response=t.output.content[0].text)
@@ -126,6 +134,7 @@ t.add_computed_column(response=t.output.content[0].text)
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 No&nbsp;rows&nbsp;affected.
 </pre>
+
 
 ```python
 # Start a conversation

@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Add unique identifiers to your tables" sidebarTitle: "Add unique identifiers to your tables" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-uuid-identity.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-uuid-identity.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/workflow-uuid-identity.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Add unique identifiers to your tables"
+sidebarTitle: "Add unique identifiers to your tables"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-uuid-identity.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/workflow-uuid-identity.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/workflow-uuid-identity.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table>
 <thead>
 <tr>
@@ -121,9 +124,9 @@ status across systems, or joining data from multiple sources.
 
 **What’s in this recipe:**
 
-- Create tables with auto-generated UUID primary keys
-- Add UUID columns to existing tables
-- Generate UUIDs with `uuid4()`
+-   Create tables with auto-generated UUID primary keys
+-   Add UUID columns to existing tables
+-   Generate UUIDs with `uuid4()`
 
 You use `uuid4()` to generate UUIDs for each row. Define it in the
 schema with `{'column_name': uuid4()}` syntax, or add it to existing
@@ -131,14 +134,17 @@ tables with `add_computed_column()`.
 
 ### Setup
 
+
 ```python
 %pip install -qU pixeltable
 ```
+
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions.uuid import uuid4
 ```
+
 
 ```python
 # Create a fresh directory
@@ -157,6 +163,7 @@ Created&nbsp;directory&nbsp;&#x27;uuid_demo&#x27;.
 Use `uuid4()` in your schema to create a column that auto-generates
 UUIDs:
 
+
 ```python
 # Create table with auto-generated UUID primary key
 products = pxt.create_table(
@@ -174,6 +181,7 @@ products = pxt.create_table(
 Created&nbsp;table&nbsp;&#x27;products&#x27;.
 </pre>
 
+
 ```python
 # Insert data - no need to provide 'id', it's auto-generated
 products.insert([
@@ -189,6 +197,7 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
+
 ```python
 # View the data - each row has a unique UUID
 products.collect()
@@ -200,6 +209,7 @@ products.collect()
 
 You can add a UUID column to a table that already exists using
 `add_computed_column()`:
+
 
 ```python
 # Create a table without a UUID column
@@ -216,6 +226,7 @@ orders = pxt.create_table(
 Created&nbsp;table&nbsp;&#x27;orders&#x27;.
 </pre>
 
+
 ```python
 # Insert some data
 orders.insert([
@@ -230,6 +241,7 @@ Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 2&nbsp;rows&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
 </pre>
 
+
 ```python
 # Add a UUID column to existing table
 orders.add_computed_column(order_id=uuid4())
@@ -239,6 +251,7 @@ orders.add_computed_column(order_id=uuid4())
 Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 2&nbsp;rows&nbsp;updated,&nbsp;4&nbsp;values&nbsp;computed.
 </pre>
+
 
 ```python
 # View orders with their UUID column
@@ -255,14 +268,14 @@ orders.collect()
 
 Both use `uuid4()` which generates UUIDv4 (random) identifiers:
 
-- 128-bit values
-- Formatted as 32 hex digits with hyphens:
-  `550e8400-e29b-41d4-a716-446655440000`
-- Virtually guaranteed unique (collision probability is negligible)
+-   128-bit values
+-   Formatted as 32 hex digits with hyphens:
+    `550e8400-e29b-41d4-a716-446655440000`
+-   Virtually guaranteed unique (collision probability is negligible)
 
 ## See also
 
-- [Tables and
-  operations](/tutorials/tables-and-data-operations)
-- [Computed
-  columns](/tutorials/computed-columns)
+-   [Tables and
+    operations](/tutorials/tables-and-data-operations)
+-   [Computed
+    columns](/tutorials/computed-columns)

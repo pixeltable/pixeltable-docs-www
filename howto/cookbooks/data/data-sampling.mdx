@@ -1,16 +1,19 @@
-______________________________________________________________________
-
-## title: "Sample data for training and testing" sidebarTitle: "Sample data for training and testing" icon: "notebook"
-
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-sampling.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-sampling.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-sampling.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+---
+title: "Sample data for training and testing"
+sidebarTitle: "Sample data for training and testing"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-sampling.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-sampling.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-sampling.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-export const quartoRawHtml =
-\[\`
 
+
+
+export const quartoRawHtml =
+[`
 <table>
 <thead>
 <tr>
@@ -228,22 +231,25 @@ balanced classes, or reproducible splits for benchmarking.
 
 **What’s in this recipe:**
 
-- Random sampling with `sample(n=...)`
-- Percentage-based sampling with `sample(fraction=...)`
-- Stratified sampling with `stratify_by=`
+-   Random sampling with `sample(n=...)`
+-   Percentage-based sampling with `sample(fraction=...)`
+-   Stratified sampling with `stratify_by=`
 
 You use `query.sample()` to create random subsets, with optional
 stratification for balanced class distribution.
 
 ### Setup
 
+
 ```python
 %pip install -qU pixeltable
 ```
 
+
 ```python
 import pixeltable as pxt
 ```
+
 
 ```python
 # Create a fresh directory
@@ -258,6 +264,7 @@ Created&nbsp;directory&nbsp;&#x27;sampling_demo&#x27;.
 </pre>
 
 ### Create sample dataset
+
 
 ```python
 # Create a dataset with labels
@@ -293,12 +300,14 @@ Inserted&nbsp;10&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ### Random sampling
 
+
 ```python
 # Sample exactly N rows
 data.sample(n=5, seed=42).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
 
 ```python
 # Sample a percentage of rows
@@ -307,12 +316,14 @@ sample_50pct = data.sample(fraction=0.5, seed=42).collect()
 
 ### Stratified sampling
 
+
 ```python
 # Stratified sampling: 50% from each class
 data.sample(fraction=0.5, stratify_by=data.label, seed=42).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
 
 ```python
 # Equal allocation: N rows from each class
@@ -323,6 +334,7 @@ data.sample(n_per_stratum=1, stratify_by=data.label, seed=42).collect()
 
 ### Sampling from filtered data
 
+
 ```python
 # Sample from filtered query (high-confidence predictions only)
 data.where(data.score > 0.8).sample(n=3, seed=42).collect()
@@ -331,6 +343,7 @@ data.where(data.score > 0.8).sample(n=3, seed=42).collect()
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 
 ### Persist samples as tables
+
 
 ```python
 # Create a persistent table from a sample for dev/test
@@ -365,15 +378,15 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`test\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp
 
 **Tips:**
 
-- Always set `seed` for reproducible experiments
-- Use stratified sampling for imbalanced datasets
-- Combine with `.where()` to sample from subsets
+-   Always set `seed` for reproducible experiments
+-   Use stratified sampling for imbalanced datasets
+-   Combine with `.where()` to sample from subsets
 
 ## See also
 
-- [Export for ML
-  training](/howto/cookbooks/data/data-export-pytorch) -
-  PyTorch DataLoader export
-- [Import Hugging Face
-  datasets](/howto/cookbooks/data/data-import-huggingface) -
-  Load pre-split datasets
+-   [Export for ML
+    training](/howto/cookbooks/data/data-export-pytorch) -
+    PyTorch DataLoader export
+-   [Import Hugging Face
+    datasets](/howto/cookbooks/data/data-import-huggingface) -
+    Load pre-split datasets
