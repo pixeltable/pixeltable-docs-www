@@ -1,19 +1,16 @@
----
-title: "Generate captions for images"
-sidebarTitle: "Generate captions for images"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-generate-captions.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-generate-captions.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-generate-captions.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Generate captions for images" sidebarTitle: "Generate captions for images" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-generate-captions.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-generate-captions.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-generate-captions.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table>
 <thead>
 <tr>
@@ -216,20 +213,18 @@ doesn’t scale.
 
 **What’s in this recipe:**
 
--   Generate captions using OpenAI’s vision models
--   Customize caption style (short, detailed, SEO-focused)
--   Process images in batch automatically
+- Generate captions using OpenAI’s vision models
+- Customize caption style (short, detailed, SEO-focused)
+- Process images in batch automatically
 
 You add a computed column that sends each image to a vision model with a
 captioning prompt. New images are captioned automatically on insert.
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable openai
 ```
-
 
 ```python
 import os
@@ -239,14 +234,12 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
 ```
 
-
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import vision
 ```
 
 ### Load images
-
 
 ```python
 # Create a fresh directory
@@ -260,7 +253,6 @@ Created&nbsp;directory&nbsp;&#x27;caption_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x141561010&gt;
 </pre>
 
-
 ```python
 # Create table for images
 images = pxt.create_table('caption_demo.images', {'image': pxt.Image})
@@ -269,7 +261,6 @@ images = pxt.create_table('caption_demo.images', {'image': pxt.Image})
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;images&#x27;.
 </pre>
-
 
 ```python
 # Insert sample images
@@ -288,7 +279,6 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # View images
 images.collect()
@@ -299,7 +289,6 @@ images.collect()
 ### Generate captions
 
 Add a computed column that generates captions using the vision model:
-
 
 ```python
 # Add caption using OpenAI vision
@@ -317,7 +306,6 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;updated,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # View images with captions
 images.select(images.image, images.caption).collect()
@@ -328,7 +316,6 @@ images.select(images.image, images.caption).collect()
 ### Different caption styles
 
 You can generate multiple caption styles for different uses:
-
 
 ```python
 # Add alt text for accessibility (brief)
@@ -346,7 +333,6 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;updated,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # Add detailed description
 images.add_computed_column(
@@ -363,7 +349,6 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;updated,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # View all caption types
 images.select(images.image, images.caption, images.alt_text).collect()
@@ -379,17 +364,17 @@ images.select(images.image, images.caption, images.alt_text).collect()
 
 **Model selection:**
 
--   `gpt-4o-mini`: Fast and affordable, good for most captioning tasks
--   `gpt-4o`: Higher quality for complex images or detailed descriptions
+- `gpt-4o-mini`: Fast and affordable, good for most captioning tasks
+- `gpt-4o`: Higher quality for complex images or detailed descriptions
 
 ## See also
 
--   [Analyze images in
-    batch](/howto/cookbooks/images/vision-batch-analysis) -
-    Run custom prompts on images
--   [Extract structured data from
-    images](/howto/cookbooks/images/vision-structured-output) -
-    Get JSON from images
--   [Find similar
-    images](/howto/cookbooks/search/search-similar-images) -
-    Visual similarity search
+- [Analyze images in
+  batch](/howto/cookbooks/images/vision-batch-analysis) -
+  Run custom prompts on images
+- [Extract structured data from
+  images](/howto/cookbooks/images/vision-structured-output) -
+  Get JSON from images
+- [Find similar
+  images](/howto/cookbooks/search/search-similar-images) -
+  Visual similarity search

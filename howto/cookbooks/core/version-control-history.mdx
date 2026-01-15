@@ -1,19 +1,16 @@
----
-title: "Track changes and revert to previous versions"
-sidebarTitle: "Track changes and revert to previous versions"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/version-control-history.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/version-control-history.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/version-control-history.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Track changes and revert to previous versions" sidebarTitle: "Track changes and revert to previous versions" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/version-control-history.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/version-control-history.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/version-control-history.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`<div>
+\[\`<div>
+
 <style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -25,7 +22,9 @@ export const quartoRawHtml =
         text-align: right;
     }
 </style>
+
 `,`
+
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr style="text-align: right;">
@@ -454,18 +453,16 @@ modifications, or preserve a specific state for reproducibility.
 
 **What’s in this recipe:**
 
--   View version history with `history()` and `get_versions()`
--   Access specific versions with `pxt.get_table('table:N')`
--   Undo changes with `revert()`
--   Create point-in-time snapshots with `pxt.create_snapshot()`
+- View version history with `history()` and `get_versions()`
+- Access specific versions with `pxt.get_table('table:N')`
+- Undo changes with `revert()`
+- Create point-in-time snapshots with `pxt.create_snapshot()`
 
 ### Setup
-
 
 ```python
 %pip install -qU pixeltable
 ```
-
 
 ```python
 import pixeltable as pxt
@@ -484,7 +481,6 @@ Created&nbsp;directory&nbsp;&#x27;version_demo&#x27;.
 
 Every data or schema change creates a new version.
 
-
 ```python
 # Create table (version 0)
 products = pxt.create_table(
@@ -496,7 +492,6 @@ products = pxt.create_table(
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;products&#x27;.
 </pre>
-
 
 ```python
 # Insert data (version 1)
@@ -513,7 +508,6 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # Add a computed column (version 2 - schema change)
 products.add_computed_column(price_with_tax=products.price * 1.08)
@@ -524,7 +518,6 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;updated,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # Update some data (version 3)
 products.update({'price': 19.99}, where=products.name == 'Widget')
@@ -534,7 +527,6 @@ products.update({'price': 19.99}, where=products.name == 'Widget')
 Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;297.47&nbsp;rows/s\]
 1&nbsp;row&nbsp;updated,&nbsp;3&nbsp;values&nbsp;computed.
 </pre>
-
 
 ```python
 # Insert more data (version 4)
@@ -553,7 +545,6 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 
 Use `history()` for a human-readable summary of all changes.
 
-
 ```python
 # View full history (most recent first)
 products.history()
@@ -564,7 +555,6 @@ products.history()
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
-
 
 ```python
 # View only the last 3 versions
@@ -580,7 +570,6 @@ products.history(n=3)
 ### Programmatic access to version metadata
 
 Use `get_versions()` to access version data programmatically.
-
 
 ```python
 # Get version metadata as a list of dictionaries
@@ -600,7 +589,6 @@ latest['version'], latest['change_type'], latest['inserts']
 Use `pxt.get_table('table_name:version')` to get a read-only handle to a
 specific version:
 
-
 ```python
 # Get the table at version 1 (after initial insert, before computed column)
 products_v1 = pxt.get_table('version_demo.products:1')
@@ -610,7 +598,6 @@ products_v1.collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
-
 
 ```python
 # Compare data at version 2 (after computed column added) vs version 1
@@ -625,7 +612,6 @@ products_v2.collect()
 
 Use `revert()` to undo the most recent change. This is irreversible.
 
-
 ```python
 # Current state: 4 products
 products.count()
@@ -634,7 +620,6 @@ products.count()
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 4
 </pre>
-
 
 ```python
 # Revert the last insert (removes Thingamajig)
@@ -646,7 +631,6 @@ products.count()
 3
 </pre>
 
-
 ```python
 # History now shows version 4 was reverted
 products.history()
@@ -657,7 +641,6 @@ products.history()
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[9] }} />
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[10] }} />
-
 
 ```python
 # Can revert multiple times (back to before the update)
@@ -674,7 +657,6 @@ products.where(products.name == 'Widget').select(products.name, products.price).
 Snapshots freeze a table’s state for reproducibility. Unlike `revert()`,
 snapshots preserve the data indefinitely.
 
-
 ```python
 # Create a snapshot of the current state
 snapshot_v1 = pxt.create_snapshot('version_demo.products_v1', products)
@@ -683,7 +665,6 @@ snapshot_v1.collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[12] }} />
-
 
 ```python
 # Now make changes to the original table
@@ -703,7 +684,6 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[13] }} />
 
-
 ```python
 # Snapshot remains unchanged - still shows original data
 snapshot_v1.collect()
@@ -715,43 +695,43 @@ snapshot_v1.collect()
 
 **What creates a new version:**
 
--   `insert()` - adding rows
--   `update()` - modifying rows
--   `delete()` - removing rows
--   `add_column()` / `add_computed_column()` - schema changes
--   `drop_column()` - schema changes
--   `rename_column()` - schema changes
+- `insert()` - adding rows
+- `update()` - modifying rows
+- `delete()` - removing rows
+- `add_column()` / `add_computed_column()` - schema changes
+- `drop_column()` - schema changes
+- `rename_column()` - schema changes
 
 **Version history methods:**
 
--   `history()` - Human-readable DataFrame showing all changes
--   `get_versions()` - List of dictionaries for programmatic access
+- `history()` - Human-readable DataFrame showing all changes
+- `get_versions()` - List of dictionaries for programmatic access
 
 **Accessing specific versions:**
 
--   `pxt.get_table('table_name:N')` - Get read-only handle to version N
--   Useful for comparing data across versions, auditing changes, or
-    recovering specific values
--   Version handles are read-only—you cannot modify historical versions
+- `pxt.get_table('table_name:N')` - Get read-only handle to version N
+- Useful for comparing data across versions, auditing changes, or
+  recovering specific values
+- Version handles are read-only—you cannot modify historical versions
 
 **Reverting:**
 
--   `revert()` undoes the most recent version
--   Can call multiple times to go back further
--   Cannot revert past version 0
--   Cannot revert if a snapshot references that version
+- `revert()` undoes the most recent version
+- Can call multiple times to go back further
+- Cannot revert past version 0
+- Cannot revert if a snapshot references that version
 
 **Snapshots vs revert:**
 
--   Snapshots are persistent, named, point-in-time copies
--   `revert()` permanently removes the latest version
--   Use snapshots when you need to preserve state for reproducibility
--   Use `revert()` to undo mistakes
+- Snapshots are persistent, named, point-in-time copies
+- `revert()` permanently removes the latest version
+- Use snapshots when you need to preserve state for reproducibility
+- Use `revert()` to undo mistakes
 
 ## See also
 
--   [Data sharing](../../../platform/data-sharing) - Share tables
-    between environments
--   [Iterative
-    development](/howto/cookbooks/core/dev-iterative-workflow) -
-    Fast feedback during development
+- [Data sharing](../../../platform/data-sharing) - Share tables
+  between environments
+- [Iterative
+  development](/howto/cookbooks/core/dev-iterative-workflow) -
+  Fast feedback during development

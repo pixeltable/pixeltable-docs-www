@@ -1,19 +1,16 @@
----
-title: "Adjust image opacity"
-sidebarTitle: "Adjust image opacity"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-adjust-opacity.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-adjust-opacity.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-adjust-opacity.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Adjust image opacity" sidebarTitle: "Adjust image opacity" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-adjust-opacity.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-adjust-opacity.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-adjust-opacity.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <colgroup>
 <col style="width: 25%" />
@@ -116,9 +113,9 @@ overlays, or watermarks.
 
 **What’s in this recipe:**
 
--   Set image opacity (transparency level)
--   Test transformations before applying
--   Apply to multiple images automatically
+- Set image opacity (transparency level)
+- Test transformations before applying
+- Apply to multiple images automatically
 
 You adjust image transparency using a custom UDF that modifies alpha
 channels (relies on PIL/Pillow). This gives you precise control over
@@ -136,11 +133,9 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable
 ```
-
 
 ```python
 import pixeltable as pxt
@@ -148,7 +143,6 @@ from PIL import Image
 ```
 
 ### Load images
-
 
 ```python
 # Create a fresh directory (drop existing if present)
@@ -162,7 +156,6 @@ Created&nbsp;directory&nbsp;&#x27;image_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x302d6af80&gt;
 </pre>
 
-
 ```python
 t = pxt.create_table('image_demo.opacity', {'image': pxt.Image})
 ```
@@ -170,7 +163,6 @@ t = pxt.create_table('image_demo.opacity', {'image': pxt.Image})
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;opacity&#x27;.
 </pre>
-
 
 ```python
 t.insert([
@@ -195,15 +187,14 @@ your function to every row in your table.
 
 **How it works:**
 
--   All image manipulation (`.convert()`, `.split()`, `.point()`,
-    `.putalpha()`) comes from the PIL/Pillow library
--   These are standard Python image operations—see [Pillow
-    docs](https://pillow.readthedocs.io/) for reference
--   The `@pxt.udf` decorator lets Pixeltable apply your function to
-    table rows
--   The opacity parameter (0.0 = fully transparent, 1.0 = fully opaque)
-    controls the alpha scaling
-
+- All image manipulation (`.convert()`, `.split()`, `.point()`,
+  `.putalpha()`) comes from the PIL/Pillow library
+- These are standard Python image operations—see [Pillow
+  docs](https://pillow.readthedocs.io/) for reference
+- The `@pxt.udf` decorator lets Pixeltable apply your function to
+  table rows
+- The opacity parameter (0.0 = fully transparent, 1.0 = fully opaque)
+  controls the alpha scaling
 
 ```python
 @pxt.udf
@@ -215,7 +206,6 @@ def set_opacity(img: Image.Image, opacity: float) -> Image.Image:
     img.putalpha(alpha)
     return img
 ```
-
 
 ```python
 # Test 25%, 50%, and 75% opacity
@@ -231,7 +221,6 @@ t.select(
 
 ### Add: adjust opacity for all images in your table
 
-
 ```python
 # Create 50% opacity for backgrounds
 t.add_computed_column(semi_transparent=set_opacity(t.image, 0.5))
@@ -241,7 +230,6 @@ t.add_computed_column(semi_transparent=set_opacity(t.image, 0.5))
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;updated,&nbsp;3&nbsp;values&nbsp;computed.
 </pre>
-
 
 ```python
 # View original and semi-transparent side by side
@@ -264,12 +252,12 @@ the transparency level.
 
 **To customize the UDF:**
 
--   **Opacity levels**: Use 0.25 for very faint backgrounds, 0.5 for
-    standard transparency, 0.75 for subtle effects
--   **Selective transparency**: Modify the lambda function in `.point()`
-    to apply different transparency to different pixel values
--   **Preserve regions**: Add conditional logic to keep certain areas
-    fully opaque
+- **Opacity levels**: Use 0.25 for very faint backgrounds, 0.5 for
+  standard transparency, 0.75 for subtle effects
+- **Selective transparency**: Modify the lambda function in `.point()`
+  to apply different transparency to different pixel values
+- **Preserve regions**: Add conditional logic to keep certain areas
+  fully opaque
 
 **The Pixeltable workflow:**
 
@@ -291,9 +279,9 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
--   [Test transformations with fast feedback
-    loops](/howto/cookbooks/core/dev-iterative-workflow)
--   [Add watermarks to
-    images](/howto/cookbooks/images/img-add-watermarks)
--   [Transform images with PIL
-    operations](/howto/cookbooks/images/img-pil-transforms)
+- [Test transformations with fast feedback
+  loops](/howto/cookbooks/core/dev-iterative-workflow)
+- [Add watermarks to
+  images](/howto/cookbooks/images/img-add-watermarks)
+- [Transform images with PIL
+  operations](/howto/cookbooks/images/img-pil-transforms)

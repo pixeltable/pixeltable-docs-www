@@ -1,19 +1,16 @@
----
-title: "Import data from Parquet files"
-sidebarTitle: "Import data from Parquet files"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-parquet.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-parquet.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-parquet.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Import data from Parquet files" sidebarTitle: "Import data from Parquet files" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-parquet.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-import-parquet.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-import-parquet.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table>
 <thead>
 <tr>
@@ -343,9 +340,9 @@ with AI models or combining with other data sources.
 
 **What’s in this recipe:**
 
--   Import Parquet files directly into tables
--   Export tables to Parquet for external tools
--   Handle schema type overrides
+- Import Parquet files directly into tables
+- Export tables to Parquet for external tools
+- Handle schema type overrides
 
 You use `pxt.create_table()` with a `source` parameter to create a table
 from a Parquet file. Pixeltable infers column types from the Parquet
@@ -353,11 +350,9 @@ schema automatically.
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable pyarrow pandas
 ```
-
 
 ```python
 import pixeltable as pxt
@@ -369,7 +364,6 @@ from pathlib import Path
 ### Create sample Parquet file
 
 First, create a sample Parquet file to demonstrate the import process:
-
 
 ```python
 # Create sample data
@@ -399,7 +393,6 @@ sample_data
 Use `create_table` with the `source` parameter to create a table
 directly from the Parquet file:
 
-
 ```python
 # Create a fresh directory
 pxt.drop_dir('parquet_demo', force=True)
@@ -411,7 +404,6 @@ Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg
 Created&nbsp;directory&nbsp;&#x27;parquet_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x17f0ca920&gt;
 </pre>
-
 
 ```python
 # Import Parquet file into a new table
@@ -429,7 +421,6 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;5&nbsp;rows&nbsp;\[00:00,&
 Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-
 ```python
 # View imported data
 products.collect()
@@ -442,7 +433,6 @@ products.collect()
 Once imported, you can add computed columns like any other Pixeltable
 table:
 
-
 ```python
 # Add a computed column for discounted price
 products.add_computed_column(sale_price=products.price * 0.9)
@@ -452,7 +442,6 @@ products.add_computed_column(sale_price=products.price * 0.9)
 Added&nbsp;5&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 5&nbsp;rows&nbsp;updated,&nbsp;10&nbsp;values&nbsp;computed.
 </pre>
-
 
 ```python
 # View with computed column
@@ -465,7 +454,6 @@ products.select(products.name, products.price, products.sale_price).collect()
 
 Specify a primary key when you need upsert behavior or unique
 constraints:
-
 
 ```python
 # Import with a primary key
@@ -484,7 +472,6 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`products_with_pk\`:&nbsp;5&nbsp;rows&nbsp;\
 Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-
 ```python
 # View the table
 products_pk.collect()
@@ -496,7 +483,6 @@ products_pk.collect()
 
 Export your processed data back to Parquet for use with other toolee
 
-
 ```python
 # Export to Parquet (note: image columns require inline_images=True)
 export_path = Path(temp_dir) / 'exported_products'
@@ -506,7 +492,6 @@ pxt.io.export_parquet(
     parquet_path=export_path
 )
 ```
-
 
 ```python
 # Verify export by reading back
@@ -530,16 +515,16 @@ exported_table.to_pandas()
 
 **Key features:**
 
--   Automatic schema inference from Parquet metadata
--   Support for partitioned datasets (directory of files)
--   Export with `pxt.io.export_parquet` for interoperability
--   Primary key support for upsert workflows
+- Automatic schema inference from Parquet metadata
+- Support for partitioned datasets (directory of files)
+- Export with `pxt.io.export_parquet` for interoperability
+- Primary key support for upsert workflows
 
 ## See also
 
--   [Import CSV
-    files](/howto/cookbooks/data/data-import-csv) -
-    For CSV and Excel imports
--   [Import JSON
-    files](/howto/cookbooks/data/data-import-json) -
-    For JSON data
+- [Import CSV
+  files](/howto/cookbooks/data/data-import-csv) -
+  For CSV and Excel imports
+- [Import JSON
+  files](/howto/cookbooks/data/data-import-json) -
+  For JSON data

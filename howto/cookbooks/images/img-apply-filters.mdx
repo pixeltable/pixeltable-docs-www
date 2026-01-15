@@ -1,19 +1,16 @@
----
-title: "Apply image filters"
-sidebarTitle: "Apply image filters"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-apply-filters.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-apply-filters.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-apply-filters.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Apply image filters" sidebarTitle: "Apply image filters" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-apply-filters.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-apply-filters.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-apply-filters.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <colgroup>
 <col style="width: 33%" />
@@ -194,9 +191,9 @@ detection, and other enhancements.
 
 **What’s in this recipe:**
 
--   Apply common image filters
--   Test filters before applying
--   Process multiple images in batch
+- Apply common image filters
+- Test filters before applying
+- Process multiple images in batch
 
 You apply image filters (blur, sharpen, edge detection) to images in
 your table using custom UDFs that wrap Pillow’s `ImageFilter` module
@@ -214,11 +211,9 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable
 ```
-
 
 ```python
 import pixeltable as pxt
@@ -226,7 +221,6 @@ from PIL import ImageFilter
 ```
 
 ### Load images
-
 
 ```python
 # Create a fresh directory (drop existing if present)
@@ -240,7 +234,6 @@ Created&nbsp;directory&nbsp;&#x27;image_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x15bb85a50&gt;
 </pre>
 
-
 ```python
 t = pxt.create_table('image_demo.filters', {'image': pxt.Image})
 ```
@@ -248,7 +241,6 @@ t = pxt.create_table('image_demo.filters', {'image': pxt.Image})
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;filters&#x27;.
 </pre>
-
 
 ```python
 t.insert([
@@ -265,7 +257,6 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
 ### Iterate: apply filters to a few images first
-
 
 ```python
 @pxt.udf
@@ -289,7 +280,6 @@ def apply_edge_enhance(img: pxt.Image) -> pxt.Image:
     return img.filter(ImageFilter.EDGE_ENHANCE)
 ```
 
-
 ```python
 # Test blur and sharpen
 t.select(
@@ -302,7 +292,6 @@ t.select(
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Add: apply filters to all images in your table
-
 
 ```python
 # Add filter columns
@@ -324,14 +313,12 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 Compare original and filtered images.
 
-
 ```python
 # Compare blur and sharpen
 t.select(t.image, t.blurred, t.sharpened).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
-
 
 ```python
 # Compare edge detection filters
@@ -355,14 +342,14 @@ different versions for analysis or visual effects.
 
 **To customize the UDFs:**
 
--   **Blur intensity**: Use `ImageFilter.BoxBlur(radius)` or
-    `ImageFilter.GaussianBlur(radius)` for adjustable blur strength
--   **Edge detection**: Combine with grayscale conversion for clearer
-    edge maps
--   **Filter stacking**: Apply multiple filters in sequence for complex
-    effects
--   **Custom kernels**: Use `ImageFilter.Kernel()` to define your own
-    convolution filters
+- **Blur intensity**: Use `ImageFilter.BoxBlur(radius)` or
+  `ImageFilter.GaussianBlur(radius)` for adjustable blur strength
+- **Edge detection**: Combine with grayscale conversion for clearer
+  edge maps
+- **Filter stacking**: Apply multiple filters in sequence for complex
+  effects
+- **Custom kernels**: Use `ImageFilter.Kernel()` to define your own
+  convolution filters
 
 **The Pixeltable workflow:**
 
@@ -384,10 +371,10 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
--   [Test transformations with fast feedback
-    loops](/howto/cookbooks/core/dev-iterative-workflow)
--   [Adjust image brightness and
-    contrast](/howto/cookbooks/images/img-brightness-contrast)
--   *Pillow techniques from [Real Python: Image Processing With the
-    Python Pillow
-    Library](https://realpython.com/image-processing-with-the-python-pillow-library/)*
+- [Test transformations with fast feedback
+  loops](/howto/cookbooks/core/dev-iterative-workflow)
+- [Adjust image brightness and
+  contrast](/howto/cookbooks/images/img-brightness-contrast)
+- *Pillow techniques from [Real Python: Image Processing With the
+  Python Pillow
+  Library](https://realpython.com/image-processing-with-the-python-pillow-library/)*

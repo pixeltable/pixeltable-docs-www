@@ -1,19 +1,16 @@
----
-title: "Detect objects in images"
-sidebarTitle: "Detect objects in images"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-detect-objects.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-detect-objects.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-detect-objects.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Detect objects in images" sidebarTitle: "Detect objects in images" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-detect-objects.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-detect-objects.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-detect-objects.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table>
 <thead>
 <tr>
@@ -226,20 +223,18 @@ expensive.
 
 **What’s in this recipe:**
 
--   Detect objects using YOLOX models (runs locally, no API needed)
--   Get bounding boxes and class labels
--   Filter detections by confidence threshold
+- Detect objects using YOLOX models (runs locally, no API needed)
+- Get bounding boxes and class labels
+- Filter detections by confidence threshold
 
 You add a computed column that runs YOLOX on each image. Detection
 happens automatically when you insert new images.
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable pixeltable-yolox
 ```
-
 
 ```python
 import pixeltable as pxt
@@ -247,7 +242,6 @@ from pixeltable.functions.yolox import yolox
 ```
 
 ### Load images
-
 
 ```python
 # Create a fresh directory
@@ -261,7 +255,6 @@ Created&nbsp;directory&nbsp;&#x27;detection_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1413e9ed0&gt;
 </pre>
 
-
 ```python
 # Create table for images
 images = pxt.create_table('detection_demo.images', {'image': pxt.Image})
@@ -270,7 +263,6 @@ images = pxt.create_table('detection_demo.images', {'image': pxt.Image})
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;images&#x27;.
 </pre>
-
 
 ```python
 # Insert sample images (COCO dataset samples with common objects)
@@ -291,7 +283,6 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # View images
 images.collect()
@@ -302,7 +293,6 @@ images.collect()
 ### Run object detection
 
 Add a computed column that runs YOLOX on each image:
-
 
 ```python
 # Run YOLOX object detection
@@ -317,7 +307,6 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;updated,&nbsp;3&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # View detection results
 images.select(images.image, images.detections).collect()
@@ -328,7 +317,6 @@ images.select(images.image, images.detections).collect()
 ### Extract detection details
 
 Parse the detection output to get object counts and classes:
-
 
 ```python
 # Extract number of detections
@@ -345,7 +333,6 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;updated,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # Extract unique object classes
 @pxt.udf
@@ -360,7 +347,6 @@ images.add_computed_column(object_classes=get_classes(images.detections))
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;updated,&nbsp;3&nbsp;values&nbsp;computed.
 </pre>
-
 
 ```python
 # View summary
@@ -379,24 +365,24 @@ images.select(images.image, images.object_count, images.object_classes).collect(
 
 The `detections` dictionary contains:
 
--   `labels`: List of class names (e.g., “person”, “car”, “dog”)
--   `boxes`: Bounding box coordinates \[x1, y1, x2, y2\]
--   `scores`: Confidence scores (0-1)
+- `labels`: List of class names (e.g., “person”, “car”, “dog”)
+- `boxes`: Bounding box coordinates [x1, y1, x2, y2]
+- `scores`: Confidence scores (0-1)
 
 **Adjusting threshold:**
 
--   Higher threshold (0.7-0.9): Fewer detections, higher confidence
--   Lower threshold (0.3-0.5): More detections, may include false
-    positives
+- Higher threshold (0.7-0.9): Fewer detections, higher confidence
+- Lower threshold (0.3-0.5): More detections, may include false
+  positives
 
 ## See also
 
--   [Extract frames from
-    videos](/howto/cookbooks/video/video-extract-frames) -
-    Detect objects in video frames
--   [Analyze images in
-    batch](/howto/cookbooks/images/vision-batch-analysis) -
-    AI vision analysis
--   [Find similar
-    images](/howto/cookbooks/search/search-similar-images) -
-    Visual similarity search
+- [Extract frames from
+  videos](/howto/cookbooks/video/video-extract-frames) -
+  Detect objects in video frames
+- [Analyze images in
+  batch](/howto/cookbooks/images/vision-batch-analysis) -
+  AI vision analysis
+- [Find similar
+  images](/howto/cookbooks/search/search-similar-images) -
+  Visual similarity search

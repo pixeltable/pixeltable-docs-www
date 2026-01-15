@@ -204,7 +204,27 @@ Alternatively, the `img` column may be specified by name:
 tbl.add_embedding_index('img', embedding=embedding_fn)
 ```
 
-Add a second index to the `img` column, using the inner product as the distance metric, and with a specific name:
+Once the index is created, similarity lookups can be performed using the `similarity` pseudo-function:
+```python
+sim = tbl.img.similarity(
+    image='/path/to/my-image.jpg'
+)  # can also be a URL or a PIL image
+tbl.select(tbl.img, sim).order_by(sim, asc=False).limit(5)
+```
+
+If the embedding UDF is a multimodal embedding (supporting more than one data type), then lookups may be performed using any of its supported modalities. In our example, CLIP supports both text and images, so we can also search for images using a text description:
+```python
+sim = tbl.img.similarity(string='a picture of a train')
+tbl.select(tbl.img, sim).order_by(sim, asc=False).limit(5)
+```
+
+Audio and video lookups would look like this:
+```python
+sim = tbl.img.similarity(audio='/path/to/audio.flac')
+sim = tbl.img.similarity(video='/path/to/video.mp4')
+```
+
+Multiple indexes can be defined on each column. Add a second index to the `img` column, using the inner product as the distance metric, and with a specific name:
 ```python
 tbl.add_embedding_index(
     tbl.img, idx_name='ip_idx', embedding=embedding_fn, metric='ip'

@@ -1,19 +1,16 @@
----
-title: "Working with Pydantic in Pixeltable"
-sidebarTitle: "Pydantic"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Working with Pydantic in Pixeltable" sidebarTitle: "Pydantic" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-pydantic.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table>
 <thead>
 <tr>
@@ -143,22 +140,20 @@ Pixeltable tables.
 
 ### Benefits
 
--   **Type Safety**: Pydantic validates data before insertion
--   **IDE Support**: Autocomplete and type hints for your data
--   **Self-Documenting**: Models serve as schema documentation
--   **Validation**: Built-in data validation via Pydantic
+- **Type Safety**: Pydantic validates data before insertion
+- **IDE Support**: Autocomplete and type hints for your data
+- **Self-Documenting**: Models serve as schema documentation
+- **Validation**: Built-in data validation via Pydantic
 
 ### Important notes
 
--   Pydantic model fields map to Pixeltable columns by name
--   Computed columns are automatically skipped during insertion
--   Nested Pydantic models map to JSON columns
-
+- Pydantic model fields map to Pixeltable columns by name
+- Computed columns are automatically skipped during insertion
+- Nested Pydantic models map to JSON columns
 
 ```python
 %pip install -qU pixeltable pydantic
 ```
-
 
 ```python
 import pixeltable as pxt
@@ -173,7 +168,6 @@ Define a Pydantic model with fields that match your table columns.
 Pixeltable automatically maps Python types to Pixeltable types:
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
-
 
 ```python
 import datetime
@@ -198,7 +192,6 @@ class Product(pydantic.BaseModel):
     description: str | None = None  # Optional field
 ```
 
-
 ```python
 # Create a table with matching schema
 products = pxt.create_table(
@@ -214,7 +207,6 @@ products = pxt.create_table(
     }
 )
 ```
-
 
 ```python
 # Create Pydantic model instances
@@ -259,7 +251,6 @@ products.collect()
 Nested Pydantic models automatically map to Pixeltable JSON columns.
 This is useful for storing structured metadata.
 
-
 ```python
 # Define nested models
 class Address(pydantic.BaseModel):
@@ -279,7 +270,6 @@ class Customer(pydantic.BaseModel):
     contact: ContactInfo  # Nested model → JSON column
 ```
 
-
 ```python
 # Create table with JSON column for nested data
 customers = pxt.create_table(
@@ -291,7 +281,6 @@ customers = pxt.create_table(
     }
 )
 ```
-
 
 ```python
 # Insert nested data
@@ -329,7 +318,6 @@ customers.insert(customer_data)
 customers.collect()
 ```
 
-
 ```python
 # Query nested JSON fields using Pixeltable's JSON path syntax
 customers.select(
@@ -343,7 +331,6 @@ customers.select(
 
 For media columns (Image, Video, Audio, Document), use `str` or `Path`
 fields in your Pydantic model to specify file paths or URLs.
-
 
 ```python
 from pathlib import Path
@@ -363,7 +350,6 @@ images = pxt.create_table(
     }
 )
 ```
-
 
 ```python
 # Insert image records with URLs
@@ -386,7 +372,6 @@ Pydantic models work seamlessly with computed columns. Simply omit
 computed column fields from your model - Pixeltable will skip them
 during insertion.
 
-
 ```python
 # Model only includes input columns
 class Article(pydantic.BaseModel):
@@ -407,7 +392,6 @@ articles.add_computed_column(
     word_count=articles.content.apply(lambda x: len(x.split()), col_type=pxt.Int)
 )
 ```
-
 
 ```python
 # Insert data - computed columns are automatically calculated
@@ -430,7 +414,6 @@ articles.select(articles.title, articles.word_count).collect()
 
 Pydantic’s optional fields with defaults work naturally with
 Pixeltable’s nullable columns.
-
 
 ```python
 class Task(pydantic.BaseModel):
@@ -470,10 +453,10 @@ types:
 
 For more information about working with Pydantic in Pixeltable:
 
--   [Pixeltable Documentation](https://docs.pixeltable.com)
--   [Pydantic Documentation](https://docs.pydantic.dev)
--   [Type Safety Blog
-    Post](https://www.pixeltable.com/blog/pydantic-integration-type-safety)
+- [Pixeltable Documentation](https://docs.pixeltable.com)
+- [Pydantic Documentation](https://docs.pydantic.dev)
+- [Type Safety Blog
+  Post](https://www.pixeltable.com/blog/pydantic-integration-type-safety)
 
 If you have any questions, don’t hesitate to reach out on
 [Discord](https://discord.com/invite/QPyqFYx2UN).

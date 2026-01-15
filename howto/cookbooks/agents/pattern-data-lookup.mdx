@@ -1,19 +1,16 @@
----
-title: "Look up structured data with retrieval UDFs"
-sidebarTitle: "Look up structured data with retrieval UDFs"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/pattern-data-lookup.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/pattern-data-lookup.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/agents/pattern-data-lookup.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Look up structured data with retrieval UDFs" sidebarTitle: "Look up structured data with retrieval UDFs" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/pattern-data-lookup.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/pattern-data-lookup.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/agents/pattern-data-lookup.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table>
 <thead>
 <tr>
@@ -212,25 +209,22 @@ data—and need to look up rows by key values. Common scenarios:
 
 **What’s in this recipe:**
 
--   Create lookup functions from tables with `retrieval_udf`
--   Query by single or multiple keys
--   Use lookups in computed columns for data enrichment
+- Create lookup functions from tables with `retrieval_udf`
+- Query by single or multiple keys
+- Use lookups in computed columns for data enrichment
 
 Use `pxt.retrieval_udf(table)` to automatically create a function that
 queries the table by its columns.
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable
 ```
 
-
 ```python
 import pixeltable as pxt
 ```
-
 
 ```python
 # Create a fresh directory
@@ -245,7 +239,6 @@ Created&nbsp;directory&nbsp;&#x27;lookup_demo&#x27;.
 </pre>
 
 ### Create a product catalog table
-
 
 ```python
 # Create a product catalog
@@ -275,7 +268,6 @@ Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ### Create a lookup function with retrieval_udf
 
-
 ```python
 # Create a lookup function that searches by SKU
 get_product = pxt.retrieval_udf(
@@ -288,14 +280,12 @@ get_product = pxt.retrieval_udf(
 # Check the function signature
 ```
 
-
 ```python
 # Look up a product by SKU
 result = products.select(get_product(sku='LAPTOP-001')).limit(1).collect()
 ```
 
 ### Look up by category (multiple results)
-
 
 ```python
 # Create a category lookup (returns multiple products)
@@ -314,7 +304,6 @@ products.select(get_by_category(category="electronics")).limit(1).collect()
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 ### Use lookups for data enrichment
-
 
 ```python
 # Create an orders table
@@ -336,7 +325,6 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nb
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
-
 
 ```python
 # Add a computed column that enriches orders with product details
@@ -369,15 +357,15 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 **Tips:**
 
--   Use `limit=1` for unique key lookups
--   Specify only needed columns in `parameters` for cleaner APIs
--   Add descriptions for LLM tool integration
+- Use `limit=1` for unique key lookups
+- Specify only needed columns in `parameters` for cleaner APIs
+- Add descriptions for LLM tool integration
 
 ## See also
 
--   [Use tool calling with
-    LLMs](/howto/cookbooks/agents/llm-tool-calling) -
-    Use retrieval UDFs as LLM tools
--   [Build a RAG
-    pipeline](/howto/cookbooks/agents/pattern-rag-pipeline) -
-    Semantic search with `@pxt.query`
+- [Use tool calling with
+  LLMs](/howto/cookbooks/agents/llm-tool-calling) -
+  Use retrieval UDFs as LLM tools
+- [Build a RAG
+  pipeline](/howto/cookbooks/agents/pattern-rag-pipeline) -
+  Semantic search with `@pxt.query`

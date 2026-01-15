@@ -1,19 +1,16 @@
----
-title: "Export data for ML training"
-sidebarTitle: "Export data for ML training"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-export-pytorch.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-export-pytorch.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-export-pytorch.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Export data for ML training" sidebarTitle: "Export data for ML training" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-export-pytorch.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/data/data-export-pytorch.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/data/data-export-pytorch.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table>
 <thead>
 <tr>
@@ -109,27 +106,24 @@ training.
 
 **What’s in this recipe:**
 
--   Convert query results to PyTorch Dataset
--   Use with DataLoader for batch training
--   Export to Parquet for external tools
+- Convert query results to PyTorch Dataset
+- Use with DataLoader for batch training
+- Export to Parquet for external tools
 
 You use `query.to_pytorch_dataset()` to create an iterable dataset
 compatible with PyTorch DataLoader.
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable torch torchvision
 ```
-
 
 ```python
 import pixeltable as pxt
 import torch
 from torch.utils.data import DataLoader
 ```
-
 
 ```python
 # Create a fresh directory
@@ -145,7 +139,6 @@ Created&nbsp;directory&nbsp;&#x27;pytorch_demo&#x27;.
 
 ### Create sample training data
 
-
 ```python
 # Create table with images and labels
 training_data = pxt.create_table(
@@ -157,7 +150,6 @@ training_data = pxt.create_table(
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;training_data&#x27;.
 </pre>
-
 
 ```python
 # Insert sample images with labels
@@ -178,7 +170,6 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ### Export to PyTorch dataset
 
-
 ```python
 # Add a resize step to ensure all images have the same size
 training_data.add_computed_column(
@@ -197,7 +188,6 @@ pytorch_dataset = training_data.select(
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
-
 ```python
 # Use with PyTorch DataLoader
 dataloader = DataLoader(pytorch_dataset, batch_size=2)
@@ -212,7 +202,6 @@ torch.Size(\[2,&nbsp;3,&nbsp;224,&nbsp;224\])
 </pre>
 
 ### Export to Parquet for external tools
-
 
 ```python
 import tempfile
@@ -239,15 +228,15 @@ pxt.io.export_parquet(
 
 **DataLoader tips:**
 
--   Data is cached to disk for efficient repeated loading
--   Use `num_workers > 0` for parallel data loading
--   Filter/transform data before export to reduce size
+- Data is cached to disk for efficient repeated loading
+- Use `num_workers > 0` for parallel data loading
+- Filter/transform data before export to reduce size
 
 ## See also
 
--   [Sample data for
-    training](/howto/cookbooks/data/data-sampling) -
-    Stratified sampling
--   [Import Parquet
-    files](/howto/cookbooks/data/data-import-parquet) -
-    Parquet import/export
+- [Sample data for
+  training](/howto/cookbooks/data/data-sampling) -
+  Stratified sampling
+- [Import Parquet
+  files](/howto/cookbooks/data/data-import-parquet) -
+  Parquet import/export

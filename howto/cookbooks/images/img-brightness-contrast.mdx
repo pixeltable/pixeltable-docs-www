@@ -1,19 +1,16 @@
----
-title: "Adjust image brightness and contrast"
-sidebarTitle: "Adjust image brightness and contrast"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-brightness-contrast.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-brightness-contrast.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-brightness-contrast.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Adjust image brightness and contrast" sidebarTitle: "Adjust image brightness and contrast" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-brightness-contrast.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-brightness-contrast.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-brightness-contrast.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <colgroup>
 <col style="width: 33%" />
@@ -262,9 +259,9 @@ images—adjusting brightness, contrast, and color saturation.
 
 **What’s in this recipe:**
 
--   Adjust brightness, contrast, and saturation
--   Test adjustments before applying
--   Process multiple images in batch
+- Adjust brightness, contrast, and saturation
+- Test adjustments before applying
+- Process multiple images in batch
 
 You adjust brightness, contrast, and saturation for images in your table
 using custom UDFs that wrap Pillow’s `ImageEnhance` module (relies on
@@ -283,11 +280,9 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable
 ```
-
 
 ```python
 import pixeltable as pxt
@@ -295,7 +290,6 @@ from PIL import ImageEnhance
 ```
 
 ### Load images
-
 
 ```python
 # Create a fresh directory (drop existing if present)
@@ -309,7 +303,6 @@ Created&nbsp;directory&nbsp;&#x27;image_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1441f2500&gt;
 </pre>
 
-
 ```python
 t = pxt.create_table('image_demo.enhancements', {'image': pxt.Image})
 ```
@@ -317,7 +310,6 @@ t = pxt.create_table('image_demo.enhancements', {'image': pxt.Image})
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;enhancements&#x27;.
 </pre>
-
 
 ```python
 t.insert([
@@ -334,7 +326,6 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
 ### Iterate: adjust brightness and contrast for a few images first
-
 
 ```python
 @pxt.udf
@@ -353,7 +344,6 @@ def adjust_saturation(img: pxt.Image, factor: float) -> pxt.Image:
     return ImageEnhance.Color(img).enhance(factor)
 ```
 
-
 ```python
 # Test brightness adjustments
 t.select(
@@ -366,7 +356,6 @@ t.select(
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Add: adjust brightness and contrast for all images in your table
-
 
 ```python
 # Brightness adjustments (1.0 = original)
@@ -396,7 +385,6 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 Compare different enhancement levels side-by-side.
 
-
 ```python
 # Compare brightness levels
 t.select(t.image, t.darker, t.brighter).collect()
@@ -404,14 +392,12 @@ t.select(t.image, t.darker, t.brighter).collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
-
 ```python
 # Compare contrast levels
 t.select(t.image, t.low_contrast, t.high_contrast).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
-
 
 ```python
 # Compare saturation levels
@@ -434,14 +420,14 @@ to create multiple variations for comparison or different use cases.
 
 **To customize the UDFs:**
 
--   **Brightness factors**: Use 0.5 for darker images, 1.5 for brighter,
-    or adjust to match your lighting needs
--   **Contrast factors**: Use 0.5 for lower contrast, 2.0 for higher
-    contrast, or fine-tune for image clarity
--   **Saturation factors**: Use 0.3 for desaturated/muted colors, 2.0
-    for vibrant colors, or 0.0 for complete grayscale
--   **Combine adjustments**: Apply multiple enhancements to create
-    complex transformations
+- **Brightness factors**: Use 0.5 for darker images, 1.5 for brighter,
+  or adjust to match your lighting needs
+- **Contrast factors**: Use 0.5 for lower contrast, 2.0 for higher
+  contrast, or fine-tune for image clarity
+- **Saturation factors**: Use 0.3 for desaturated/muted colors, 2.0
+  for vibrant colors, or 0.0 for complete grayscale
+- **Combine adjustments**: Apply multiple enhancements to create
+  complex transformations
 
 **The Pixeltable workflow:**
 
@@ -463,10 +449,10 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
--   [Test transformations with fast feedback
-    loops](/howto/cookbooks/core/dev-iterative-workflow)
--   [Apply image
-    filters](/howto/cookbooks/images/img-apply-filters)
--   *Pillow techniques from [Real Python: Image Processing With the
-    Python Pillow
-    Library](https://realpython.com/image-processing-with-the-python-pillow-library/)*
+- [Test transformations with fast feedback
+  loops](/howto/cookbooks/core/dev-iterative-workflow)
+- [Apply image
+  filters](/howto/cookbooks/images/img-apply-filters)
+- *Pillow techniques from [Real Python: Image Processing With the
+  Python Pillow
+  Library](https://realpython.com/image-processing-with-the-python-pillow-library/)*

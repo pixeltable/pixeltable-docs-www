@@ -1,19 +1,16 @@
----
-title: "Summarize podcasts and audio"
-sidebarTitle: "Summarize podcasts and audio"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Summarize podcasts and audio" sidebarTitle: "Summarize podcasts and audio" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-summarize-podcast.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table>
 <thead>
 <tr>
@@ -152,9 +149,9 @@ time-consuming and doesn’t scale.
 
 **What’s in this recipe:**
 
--   Transcribe audio with Whisper (runs locally)
--   Generate summaries with an LLM
--   Chain transcription → summarization automatically
+- Transcribe audio with Whisper (runs locally)
+- Generate summaries with an LLM
+- Chain transcription → summarization automatically
 
 You create a pipeline where audio is transcribed first, then the
 transcript is summarized. Both steps run automatically when you insert
@@ -162,11 +159,9 @@ new audio files.
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable openai-whisper openai
 ```
-
 
 ```python
 import os
@@ -176,12 +171,10 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
 ```
 
-
 ```python
 import pixeltable as pxt
 from pixeltable.functions import whisper, openai
 ```
-
 
 ```python
 # Create a fresh directory
@@ -199,7 +192,6 @@ Created&nbsp;directory&nbsp;&#x27;podcast_demo&#x27;.
 Create a table with audio input, then add computed columns for
 transcription and summarization:
 
-
 ```python
 # Create table for audio files
 podcasts = pxt.create_table(
@@ -211,7 +203,6 @@ podcasts = pxt.create_table(
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;episodes&#x27;.
 </pre>
-
 
 ```python
 # Step 1: Transcribe with local Whisper (uses GPU if available)
@@ -225,7 +216,6 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 No&nbsp;rows&nbsp;affected.
 </pre>
 
-
 ```python
 # Extract the text from transcription result (cast to String for concatenation)
 podcasts.add_computed_column(
@@ -237,7 +227,6 @@ podcasts.add_computed_column(
 Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 No&nbsp;rows&nbsp;affected.
 </pre>
-
 
 ```python
 # Step 2: Summarize the transcript with OpenAI
@@ -259,7 +248,6 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 No&nbsp;rows&nbsp;affected.
 </pre>
 
-
 ```python
 # Extract summary text from response
 podcasts.add_computed_column(
@@ -275,7 +263,6 @@ No&nbsp;rows&nbsp;affected.
 ### Process audio files
 
 Insert audio files and watch the pipeline run automatically:
-
 
 ```python
 # Insert sample audio
@@ -293,14 +280,12 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 1&nbsp;row&nbsp;inserted,&nbsp;8&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # View transcript
 podcasts.select(podcasts.title, podcasts.transcript_text).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
-
 
 ```python
 # View summary
@@ -328,9 +313,9 @@ For production with varied audio quality, use `small.en` or larger.
 
 ## See also
 
--   [Transcribe
-    audio](/howto/cookbooks/audio/audio-transcribe) -
-    Basic audio transcription
--   [Summarize
-    text](/howto/cookbooks/text/text-summarize) -
-    Text summarization patterns
+- [Transcribe
+  audio](/howto/cookbooks/audio/audio-transcribe) -
+  Basic audio transcription
+- [Summarize
+  text](/howto/cookbooks/text/text-summarize) -
+  Text summarization patterns

@@ -1,0 +1,211 @@
+---
+title: "runwayml"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/runwayml.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.runwayml
+
+
+Pixeltable UDFs
+that wrap various endpoints from the RunwayML API. In order to use them, you must
+first `pip install runwayml` and configure your RunwayML credentials, as described in
+the [Working with RunwayML] guide.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; image_to_video()
+
+```python Signature
+@pxt.udf
+image_to_video(
+    prompt_image: pxt.Image,
+    model: pxt.String,
+    ratio: pxt.String,
+    *,
+    prompt_text: pxt.String | None = None,
+    duration: pxt.Int | None = None,
+    seed: pxt.Int | None = None,
+    audio: pxt.Bool | None = None,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Generate videos from images.
+
+For additional details, see: [https://docs.dev.runwayml.com/api#tag/Start-generating/paths/~1v1~1image_to_video/post](https://docs.dev.runwayml.com/api#tag/Start-generating/paths/~1v1~1image_to_video/post)
+
+__Requirements:__
+
+- `pip install runwayml`
+
+**Parameters:**
+
+- **`prompt_image`** (`pxt.Image`): Input image to use as the first frame.
+- **`model`** (`pxt.String`): The model to use.
+- **`ratio`** (`pxt.String`): Aspect ratio of the generated video.
+- **`prompt_text`** (`pxt.String | None`): Text description to guide generation.
+- **`duration`** (`pxt.Int | None`): Duration in seconds.
+- **`seed`** (`pxt.Int | None`): Seed for reproducibility.
+- **`audio`** (`pxt.Bool | None`): Whether to generate audio.
+- **`model_kwargs`** (`pxt.Json | None`): Additional API parameters.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the response and metadata.
+
+**Examples:**
+
+Add a computed column that generates videos from images:
+```python
+tbl.add_computed_column(
+    response=image_to_video(
+        tbl.image, prompt_text='Slow motion', duration=5
+    )
+)
+tbl.add_computed_column(video=tbl.response['output'].astype(pxt.Video))
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; text_to_image()
+
+```python Signature
+@pxt.udf
+text_to_image(
+    prompt_text: pxt.String,
+    reference_images: pxt.Json,
+    model: pxt.String,
+    ratio: pxt.String,
+    *,
+    seed: pxt.Int | None = None,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Generate images from text prompts and reference images.
+
+For additional details, see: [https://docs.dev.runwayml.com/api#tag/Start-generating/paths/~1v1~1text_to_image/post](https://docs.dev.runwayml.com/api#tag/Start-generating/paths/~1v1~1text_to_image/post)
+
+__Requirements:__
+
+- `pip install runwayml`
+
+**Parameters:**
+
+- **`prompt_text`** (`pxt.String`): Text description of the image to generate.
+- **`reference_images`** (`pxt.Json`): List of 1-3 reference images.
+- **`model`** (`pxt.String`): The model to use.
+- **`ratio`** (`pxt.String`): Aspect ratio of the generated image.
+- **`seed`** (`pxt.Int | None`): Seed for reproducibility.
+- **`model_kwargs`** (`pxt.Json | None`): Additional API parameters.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the response and metadata.
+
+**Examples:**
+
+Add a computed column that generates images from prompts:
+```python
+tbl.add_computed_column(
+    response=text_to_image(
+        tbl.prompt, [tbl.ref_image], model='gen4_image'
+    )
+)
+tbl.add_computed_column(image=tbl.response['output'][0].astype(pxt.Image))
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; text_to_video()
+
+```python Signature
+@pxt.udf
+text_to_video(
+    prompt_text: pxt.String,
+    model: pxt.String,
+    ratio: pxt.String,
+    *,
+    duration: pxt.Int | None = None,
+    audio: pxt.Bool | None = None,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Generate videos from text prompts.
+
+For additional details, see: [https://docs.dev.runwayml.com/api#tag/Start-generating/paths/~1v1~1text_to_video/post](https://docs.dev.runwayml.com/api#tag/Start-generating/paths/~1v1~1text_to_video/post)
+
+__Requirements:__
+
+- `pip install runwayml`
+
+**Parameters:**
+
+- **`prompt_text`** (`pxt.String`): Text description of the video to generate.
+- **`model`** (`pxt.String`): The model to use.
+- **`ratio`** (`pxt.String`): Aspect ratio of the generated video.
+- **`duration`** (`pxt.Int | None`): Duration in seconds.
+- **`audio`** (`pxt.Bool | None`): Whether to generate audio.
+- **`model_kwargs`** (`pxt.Json | None`): Additional API parameters.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the response and metadata.
+
+**Examples:**
+
+Add a computed column that generates videos from prompts:
+```python
+tbl.add_computed_column(
+    response=text_to_video(tbl.prompt, model='veo3.1', duration=4)
+)
+tbl.add_computed_column(video=tbl.response['output'].astype(pxt.Video))
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; video_to_video()
+
+```python Signature
+@pxt.udf
+video_to_video(
+    video_uri: pxt.String,
+    prompt_text: pxt.String,
+    model: pxt.String,
+    ratio: pxt.String,
+    *,
+    seed: pxt.Int | None = None,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Transform videos with text guidance.
+
+For additional details, see: [https://docs.dev.runwayml.com/api#tag/Start-generating/paths/~1v1~1video_to_video/post](https://docs.dev.runwayml.com/api#tag/Start-generating/paths/~1v1~1video_to_video/post)
+
+__Requirements:__
+
+- `pip install runwayml`
+
+**Parameters:**
+
+- **`video_uri`** (`pxt.String`): HTTPS URL to the input video.
+- **`prompt_text`** (`pxt.String`): Text description of the transformation.
+- **`model`** (`pxt.String`): The model to use.
+- **`ratio`** (`pxt.String`): Aspect ratio of the output video.
+- **`seed`** (`pxt.Int | None`): Seed for reproducibility.
+- **`model_kwargs`** (`pxt.Json | None`): Additional API parameters.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the response and metadata.
+
+**Examples:**
+
+Add a computed column that transforms videos:
+```python
+tbl.add_computed_column(
+    response=video_to_video(
+        tbl.video_url, 'Anime style', model='gen4_aleph'
+    )
+)
+tbl.add_computed_column(video=tbl.response['output'].astype(pxt.Video))
+```
+

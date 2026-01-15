@@ -1,19 +1,16 @@
----
-title: "Add text overlays to videos"
-sidebarTitle: "Add text overlays to videos"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-add-text-overlay.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-add-text-overlay.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/video/video-add-text-overlay.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Add text overlays to videos" sidebarTitle: "Add text overlays to videos" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-add-text-overlay.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-add-text-overlay.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/video/video-add-text-overlay.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table>
 <thead>
 <tr>
@@ -212,25 +209,22 @@ labels. Manual video editing doesn’t scale for batch processing.
 
 **What’s in this recipe:**
 
--   Add simple text overlays
--   Create styled captions with backgrounds
--   Position text with alignment options
+- Add simple text overlays
+- Create styled captions with backgrounds
+- Position text with alignment options
 
 Use `video.overlay_text()` to burn text into videos with full control
 over styling and position.
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable
 ```
 
-
 ```python
 import pixeltable as pxt
 ```
-
 
 ```python
 # Create a fresh directory
@@ -245,7 +239,6 @@ Created&nbsp;directory&nbsp;&#x27;overlay_demo&#x27;.
 </pre>
 
 ### Load sample videos
-
 
 ```python
 # Create a video table
@@ -272,7 +265,6 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 
 ### Add a simple text overlay
 
-
 ```python
 # Add a simple watermark in the corner
 videos.add_computed_column(
@@ -295,7 +287,6 @@ Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
 ### Add YouTube-style captions
-
 
 ```python
 # Add a caption with a semi-transparent background box
@@ -322,7 +313,6 @@ Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
 
 ### Add dynamic titles from table columns
 
-
 ```python
 # Add video title as an overlay (dynamic per video)
 videos.add_computed_column(
@@ -342,7 +332,6 @@ videos.add_computed_column(
 Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
 1&nbsp;row&nbsp;updated,&nbsp;1&nbsp;value&nbsp;computed.
 </pre>
-
 
 ```python
 # View all versions
@@ -373,13 +362,13 @@ videos.select(
 
 **Requirements:**
 
--   FFmpeg must be installed and in PATH
+- FFmpeg must be installed and in PATH
 
 ## See also
 
--   [Generate
-    thumbnails](/howto/cookbooks/video/video-generate-thumbnails) -
-    Create preview images
--   [Detect scene
-    changes](/howto/cookbooks/video/video-scene-detection) -
-    Find cuts and transitions
+- [Generate
+  thumbnails](/howto/cookbooks/video/video-generate-thumbnails) -
+  Create preview images
+- [Detect scene
+  changes](/howto/cookbooks/video/video-scene-detection) -
+  Find cuts and transitions

@@ -21,6 +21,7 @@ document_splitter(
     overlap: int | None = None,
     metadata: str = '',
     skip_tags: list[str] | None = None,
+    spacy_model: str = 'en_core_web_sm',
     tiktoken_encoding: str | None = 'cl100k_base',
     tiktoken_target_model: str | None = None,
     image_dpi: int = 300,
@@ -48,6 +49,8 @@ Chunked text will be cleaned with `ftfy.fix_text` to fix up common problems with
 - **`metadata`** (`str`, default: `''`): additional metadata fields to include in the output. Options are:
     `'title'`, `'heading'` (HTML and Markdown), `'sourceline'` (HTML), `'page'` (PDF), `'bounding_box'`
     (PDF). The input may be a comma-separated string, e.g., `'title,heading,sourceline'`.
+- **`spacy_model`** (`str`, default: `'en_core_web_sm'`): Name of the spaCy model to use for sentence segmentation. This parameter is ignored unless
+    the `'sentence'` separator is specified.
 - **`image_dpi`** (`int`, default: `300`): DPI to use when extracting images from PDFs. Defaults to 300.
 - **`image_format`** (`str`, default: `'png'`): format to use when extracting images from PDFs. Defaults to 'png'.
 

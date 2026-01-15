@@ -1,19 +1,16 @@
----
-title: "Extract structured data from images"
-sidebarTitle: "Extract structured data from images"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/vision-structured-output.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/vision-structured-output.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/vision-structured-output.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Extract structured data from images" sidebarTitle: "Extract structured data from images" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/vision-structured-output.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/vision-structured-output.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/vision-structured-output.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table>
 <thead>
 <tr>
@@ -151,16 +148,15 @@ processing.
 
 **What’s in this recipe:**
 
--   Extract structured JSON from images using GPT-4o
--   Use `openai.vision()` which handles images directly
--   Access individual fields from the extracted data
+- Extract structured JSON from images using GPT-4o
+- Use `openai.vision()` which handles images directly
+- Access individual fields from the extracted data
 
 You use Pixeltable’s `openai.vision()` function which automatically
 handles image encoding. Request JSON output via `response_format` in
 `model_kwargs`.
 
 ### Setup
-
 
 ```python
 %pip install -qU pixeltable openai
@@ -172,14 +168,12 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
 ```
 
-
 ```python
 import pixeltable as pxt
 from pixeltable.functions import openai
 ```
 
 ### Load images
-
 
 ```python
 # Create a fresh directory
@@ -193,7 +187,6 @@ Created&nbsp;directory&nbsp;&#x27;extraction_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x145771ed0&gt;
 </pre>
 
-
 ```python
 t = pxt.create_table('extraction_demo.images', {'image': pxt.Image})
 ```
@@ -201,7 +194,6 @@ t = pxt.create_table('extraction_demo.images', {'image': pxt.Image})
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;images&#x27;.
 </pre>
-
 
 ```python
 # Insert sample images
@@ -220,7 +212,6 @@ Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 ### Extract structured data
 
 Use `openai.vision()` to analyze images and get JSON output:
-
 
 ```python
 # Add extraction column using openai.vision (handles images directly)
@@ -245,14 +236,12 @@ Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 2&nbsp;rows&nbsp;updated,&nbsp;4&nbsp;values&nbsp;computed.
 </pre>
 
-
 ```python
 # View extracted data
 t.select(t.image, t.data).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
-
 
 ```python
 # You can also parse the JSON into individual columns if needed
@@ -271,10 +260,10 @@ t.select(t.image, description=parse_description(t.data)).collect()
 
 **Why use `openai.vision()`:**
 
--   Handles PIL Images directly (no manual base64 encoding or URL
-    storage)
--   Simpler API than constructing chat messages manually
--   Returns the content string directly
+- Handles PIL Images directly (no manual base64 encoding or URL
+  storage)
+- Simpler API than constructing chat messages manually
+- Returns the content string directly
 
 **Getting JSON output:**
 
@@ -287,7 +276,7 @@ structured JSON.
 
 ## See also
 
--   [Analyze images in
-    batch](/howto/cookbooks/images/vision-batch-analysis)
--   [Configure API
-    keys](/howto/cookbooks/core/workflow-api-keys)
+- [Analyze images in
+  batch](/howto/cookbooks/images/vision-batch-analysis)
+- [Configure API
+  keys](/howto/cookbooks/core/workflow-api-keys)

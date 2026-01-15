@@ -1,0 +1,422 @@
+---
+title: "Extract text from PowerPoint, Word, and Excel files"
+sidebarTitle: "Extract text from PowerPoint, Word, and Excel files"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/doc-extract-text-from-office-files.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/text/doc-extract-text-from-office-files.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/text/doc-extract-text-from-office-files.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">doc</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><div class="pxt_document" style="width:320px;">
+<a
+href="http://127.0.0.1:50538/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx">/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx</a>
+</div></td>
+<td style="vertical-align: middle;">November 6 2025 Open-Source Data Infrastructure for Multimodal AI
+Marcel Kornacker Notes: About me Co-founder &amp; CTO, Pixeltable UC
+Berkeley: PhD in Database Systems (advisor: Joe Hellerstein) Google
+(2003-2010): Tech lead for F1 database, worked on scalable data
+infrastructure Cloudera: Co-creator of Apache Parquet Created Apache
+Impala (first database to use LLVM for runtime code generation) ‹#›
+Notes: The problem with AI development today ‹#› Notes: "I want to make
+a searchable collection ...... tic Propagation
+================================================================================
+‹#› Notes: Your one stop shop for developing AI-based data products
+Complete - capture all the data you need, doesn't limit what you do with
+the data Store of record - don't need separate place [ ] - express any
+transformation or other application logic → Complete - real production
+is multi user → Complete - real AI use cases require captures all the
+data types → Complete - augment it ‹#› Notes:</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">heading</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">{}</td>
+<td style="vertical-align: middle;">November 6 2025</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">{"h1": "Open-Source Data Infrastructure for Multimodal AI"}</td>
+<td style="vertical-align: middle;">Open-Source Data Infrastructure for Multimodal AI Marcel
+Kornacker</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">{"h1": "Open-Source Data Infrastructure for Multimodal AI", "h3":
+"Notes:"}</td>
+<td style="vertical-align: middle;">Notes:</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">{"h1": "About me"}</td>
+<td style="vertical-align: middle;">About me Co-founder &amp; CTO, Pixeltable UC Berkeley: PhD in
+Database Systems (advisor: Joe Hellerstein) Google (2003-2010): Tech
+lead for F1 database, worked on scalable data infrastructure Cloudera:
+Co-creator of Apache Parquet Created Apache Impala (first database to
+use LLVM for runtime code generation) ‹#›</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">{"h1": "About me", "h3": "Notes:"}</td>
+<td style="vertical-align: middle;">Notes:</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">doc</th>
+<th data-quarto-table-cell-role="th">heading</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><div class="pxt_document" style="width:320px;">
+<a
+href="http://127.0.0.1:50538/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx">/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx</a>
+</div></td>
+<td style="vertical-align: middle;">{}</td>
+<td style="vertical-align: middle;">November 6 2025</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><div class="pxt_document" style="width:320px;">
+<a
+href="http://127.0.0.1:50538/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx">/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx</a>
+</div></td>
+<td style="vertical-align: middle;">{}</td>
+<td style="vertical-align: middle;">6 2025</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><div class="pxt_document" style="width:320px;">
+<a
+href="http://127.0.0.1:50538/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx">/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx</a>
+</div></td>
+<td style="vertical-align: middle;">{}</td>
+<td style="vertical-align: middle;">6 2025</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">doc</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><div class="pxt_document" style="width:320px;">
+<a
+href="http://127.0.0.1:50538/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx">/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx</a>
+</div></td>
+<td style="vertical-align: middle;">Storage 🗄️ Orchestration ⚙️ What you get: Videos in S3, embeddings
+in Pinecone, metadata in Postgres… Data loaded into memory, exported to
+file formats File formats that don't support media data Manual tracking
+of what lives where What you miss: Transactions: Models fail halfway →
+data stays inconsistent Concurrency: Multiple users → can't work on same
+data simultaneously Persistence: Work happens in memory → doesn't map to
+traditional database schemas OLTP capabilities: Built for batch → ca
+...... g tools together Cron jobs and Python scripts for every step
+Manually handling rate limits, retries, chasing API errors Wild goose
+chase when requirements change What you miss: Dependency tracking:
+Transforms happen in scripts → hard to trace what depends on what Low
+latency/high throughput: Hard to parallelize external API calls → poor
+performance Failure handling: Something fails somewhere → rerun
+Operational integrity: Inconsistent models for indexing and querying →
+contaminated index ‹#›</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><div class="pxt_document" style="width:320px;">
+<a
+href="http://127.0.0.1:50538/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx">/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx</a>
+</div></td>
+<td style="vertical-align: middle;">Storage 🗄️ Orchestration ⚙️ What you get: Videos in S3, embeddings
+in Pinecone, metadata in Postgres… Data loaded into memory, exported to
+file formats File formats that don't support media data Manual tracking
+of what lives where What you miss: Transactions: Models fail halfway →
+data stays inconsistent Concurrency: Multiple users → can't work on same
+data simultaneously Persistence: Work happens in memory → doesn't map to
+traditional database schemas OLTP capabilities: Built for batch → ca
+...... g tools together Cron jobs and Python scripts for every step
+Manually handling rate limits, retries, chasing API errors Wild goose
+chase when requirements change What you miss: Dependency tracking:
+Transforms happen in scripts → hard to trace what depends on what Low
+latency/high throughput: Hard to parallelize external API calls → poor
+performance Failure handling: Something fails somewhere → rerun
+Operational integrity: Inconsistent models for indexing and querying →
+contaminated index ‹#›</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><div class="pxt_document" style="width:320px;">
+<a
+href="http://127.0.0.1:50538/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx">/Users/pjlb/.pixeltable/file_cache/8140cdce326a47cd98fe484d6fb1fabe_0_a6ed56e20a649393988cdc8d8ccc90207e77d323369e6cd389edc9d755c92b95.pptx</a>
+</div></td>
+<td style="vertical-align: middle;">Storage 🗄️ Orchestration ⚙️ What you get: Videos in S3, embeddings
+in Pinecone, metadata in Postgres… Data loaded into memory, exported to
+file formats File formats that don't support media data Manual tracking
+of what lives where What you miss: Transactions: Models fail halfway →
+data stays inconsistent Concurrency: Multiple users → can't work on same
+data simultaneously Persistence: Work happens in memory → doesn't map to
+traditional database schemas OLTP capabilities: Built for batch → ca
+...... g tools together Cron jobs and Python scripts for every step
+Manually handling rate limits, retries, chasing API errors Wild goose
+chase when requirements change What you miss: Dependency tracking:
+Transforms happen in scripts → hard to trace what depends on what Low
+latency/high throughput: Hard to parallelize external API calls → poor
+performance Failure handling: Something fails somewhere → rerun
+Operational integrity: Inconsistent models for indexing and querying →
+contaminated index ‹#›</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Transform office documents into searchable, analyzable text data.
+
+**What’s in this recipe:** - Extract text from PPTX, DOCX, and XLSX
+files - Split documents by headings, paragraphs, or custom limits -
+Preserve document structure and metadata for analysis
+
+## Problem
+
+You have office documents—presentations, reports, spreadsheets—that
+contain valuable text data. You need to extract this text to analyze
+content, search across documents, or feed into AI models.
+
+Manual extraction means opening each file, copying text, and losing
+structural information like headings and page boundaries. You need an
+automated way to process hundreds or thousands of office files while
+preserving their organization.
+
+## Solution
+
+You extract text from office documents using Pixeltable’s document type
+with Microsoft’s MarkItDown library. This converts PowerPoint, Word, and
+Excel files to structured text automatically.
+
+You use `DocumentSplitter` to split documents by headings, paragraphs,
+or token limits. Each split creates a view where each row represents a
+chunk of the document with its metadata.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable 'markitdown[pptx,docx,xlsx]' mistune
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.iterators.document import DocumentSplitter
+```
+
+### Load office documents
+
+
+```python
+# Create a fresh directory (drop existing if present)
+pxt.drop_dir('office_docs', force=True)
+pxt.create_dir('office_docs')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;office_docs&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x146c24c10&gt;
+</pre>
+
+
+```python
+# Create table for office documents
+docs = pxt.create_table('office_docs.documents', {'doc': pxt.Document})
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;documents&#x27;.
+</pre>
+
+
+```python
+# Sample PowerPoint from Pixeltable repo
+# Replace with your own PPTX, DOCX, or XLSX files
+sample_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/calpy.pptx'
+
+docs.insert([{'doc': sample_url}])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;57.40&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+### Extract full document text
+
+You create a view with `DocumentSplitter` to extract text. Setting
+`separators=''` extracts the full document without splitting.
+
+
+```python
+# Create a view to extract full document text
+full_text = pxt.create_view(
+    'office_docs.full_text',
+    docs,
+    iterator=DocumentSplitter.create(
+        document=docs.doc,
+        separators='',  # No splitting - extract full document
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`full_text\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;196.50&nbsp;rows/s\]
+</pre>
+
+
+```python
+# Preview extracted text
+full_text.select(full_text.doc, full_text.text).head(1)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+### Split documents by headings
+
+You split documents by headings to preserve their logical structure.
+Each section under a heading becomes a separate chunk.
+
+
+```python
+# Create view that splits by headings
+by_heading = pxt.create_view(
+    'office_docs.by_heading',
+    docs,
+    iterator=DocumentSplitter.create(
+        document=docs.doc,
+        separators='heading',
+        metadata='heading',  # Preserve heading structure
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`by_heading\`:&nbsp;87&nbsp;rows&nbsp;\[00:00,&nbsp;10359.54&nbsp;rows/s\]
+</pre>
+
+
+```python
+# View chunks with their headings
+by_heading.select(by_heading.heading, by_heading.text).head(5)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+### Split by token limit for AI models
+
+You split documents by token count when feeding chunks to AI models. The
+`overlap` parameter ensures chunks share context at boundaries.
+
+
+```python
+# Create view with token-based splitting
+by_tokens = pxt.create_view(
+    'office_docs.by_tokens',
+    docs,
+    iterator=DocumentSplitter.create(
+        document=docs.doc,
+        separators='heading,token_limit',  # Split by heading first, then by tokens
+        limit=512,  # Maximum tokens per chunk
+        overlap=50,  # Overlap between chunks to preserve context
+        metadata='heading',
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`by_tokens\`:&nbsp;2369&nbsp;rows&nbsp;\[00:00,&nbsp;9212.05&nbsp;rows/s\]
+</pre>
+
+
+```python
+# Preview chunks with token limits
+by_tokens.select(by_tokens.doc, by_tokens.heading, by_tokens.text).head(3)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+### Search across documents
+
+You search across all document chunks using standard Pixeltable queries.
+
+
+```python
+# Find chunks containing specific keywords
+by_tokens.where(by_tokens.text.contains('Python')).select(by_tokens.doc, by_tokens.text).head(3)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+## Explanation
+
+**Supported formats:** - PowerPoint: `.pptx`, `.ppt` - Word: `.docx`,
+`.doc` - Excel: `.xlsx`, `.xls`
+
+**Separator options:** - `heading` - Split by document headings
+(preserves structure) - `paragraph` - Split by paragraphs - `sentence` -
+Split by sentences - `token_limit` - Split by token count (requires
+`limit` parameter) - `char_limit` - Split by character count (requires
+`limit` parameter) - Multiple separators work together:
+`'heading,token_limit'` splits by heading first, then ensures no chunk
+exceeds token limit
+
+**Metadata fields:** - `heading` - Hierarchical heading structure (e.g.,
+`{'h1': 'Introduction', 'h2': 'Overview'}`) - `title` - Document title -
+`sourceline` - Source line number (HTML and Markdown documents)
+
+**Token overlap:** The `overlap` parameter ensures chunks share context
+at boundaries. This prevents sentences from being split mid-thought when
+feeding chunks to AI models.
+
+## See also
+
+-   [Get fast feedback on
+    transformations](/howto/cookbooks/core/dev-iterative-workflow)
+-   [Pixeltable Document
+    API](/sdk/latest/document)

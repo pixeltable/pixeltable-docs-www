@@ -1,19 +1,16 @@
----
-title: "Add watermarks to images"
-sidebarTitle: "Add watermarks to images"
-icon: "notebook"
----
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-add-watermarks.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-add-watermarks.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-add-watermarks.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+______________________________________________________________________
+
+## title: "Add watermarks to images" sidebarTitle: "Add watermarks to images" icon: "notebook"
+
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-add-watermarks.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer">\<img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/images/img-add-watermarks.ipynb" id="openColab" target="_blank" rel="noopener noreferrer">\<img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>  <a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/images/img-add-watermarks.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer">\<img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
 above links.</Tip>
 
-
-
-
 export const quartoRawHtml =
-[`
+\[\`
+
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <colgroup>
 <col style="width: 50%" />
@@ -102,9 +99,9 @@ copyright, add branding, or mark drafts.
 
 **What’s in this recipe:**
 
--   Create simple text watermarks
--   Test transformations before applying
--   Apply to multiple images automatically
+- Create simple text watermarks
+- Test transformations before applying
+- Apply to multiple images automatically
 
 You add watermarks to images using a custom UDF that wraps Pillow’s
 `ImageDraw` (relies on PIL/Pillow). This gives you full control over
@@ -122,11 +119,9 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ### Setup
 
-
 ```python
 %pip install -qU pixeltable
 ```
-
 
 ```python
 import pixeltable as pxt
@@ -134,7 +129,6 @@ from PIL import Image, ImageDraw, ImageFont
 ```
 
 ### Load images
-
 
 ```python
 # Create a fresh directory (drop existing if present)
@@ -148,7 +142,6 @@ Created&nbsp;directory&nbsp;&#x27;image_demo&#x27;.
 &lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30e27cc40&gt;
 </pre>
 
-
 ```python
 t = pxt.create_table('image_demo.watermarks', {'image': pxt.Image})
 ```
@@ -156,7 +149,6 @@ t = pxt.create_table('image_demo.watermarks', {'image': pxt.Image})
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;watermarks&#x27;.
 </pre>
-
 
 ```python
 t.insert([
@@ -173,7 +165,6 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
 ### Iterate: add watermarks to a few images first
-
 
 ```python
 @pxt.udf
@@ -192,7 +183,6 @@ def add_watermark(img: Image.Image, text: str) -> Image.Image:
     return result.convert('RGB')
 ```
 
-
 ```python
 # Test on first image
 t.select(t.image, add_watermark(t.image, '© 2024')).head(1)
@@ -201,7 +191,6 @@ t.select(t.image, add_watermark(t.image, '© 2024')).head(1)
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Add: add watermarks to all images in your table
-
 
 ```python
 # Add watermark to all images
@@ -212,7 +201,6 @@ t.add_computed_column(watermarked=add_watermark(t.image, '© 2024'))
 Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;updated,&nbsp;3&nbsp;values&nbsp;computed.
 </pre>
-
 
 ```python
 # View all results
@@ -236,12 +224,12 @@ formats don’t support transparency.
 
 **To customize the UDF:**
 
--   Position: Change the `(x, y)` coordinates in the `position` variable
--   Color: Modify the `(R, G, B, Alpha)` fill value (0-255 for each)
--   Size: Adjust the font size parameter in
-    `ImageFont.load_default(size=40)`
--   Font: Use `ImageFont.truetype('path/to/font.ttf', size)` for custom
-    fonts
+- Position: Change the `(x, y)` coordinates in the `position` variable
+- Color: Modify the `(R, G, B, Alpha)` fill value (0-255 for each)
+- Size: Adjust the font size parameter in
+  `ImageFont.load_default(size=40)`
+- Font: Use `ImageFont.truetype('path/to/font.ttf', size)` for custom
+  fonts
 
 **The Pixeltable workflow:**
 
@@ -263,10 +251,10 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
--   [Test transformations with fast feedback
-    loops](/howto/cookbooks/core/dev-iterative-workflow)
--   [Transform images with PIL
-    operations](/howto/cookbooks/images/img-pil-transforms)
--   *Pillow techniques from [Real Python: Image Processing With the
-    Python Pillow
-    Library](https://realpython.com/image-processing-with-the-python-pillow-library/)*
+- [Test transformations with fast feedback
+  loops](/howto/cookbooks/core/dev-iterative-workflow)
+- [Transform images with PIL
+  operations](/howto/cookbooks/images/img-pil-transforms)
+- *Pillow techniques from [Real Python: Image Processing With the
+  Python Pillow
+  Library](https://realpython.com/image-processing-with-the-python-pillow-library/)*
