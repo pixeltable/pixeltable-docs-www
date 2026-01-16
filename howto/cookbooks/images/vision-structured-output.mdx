@@ -205,10 +205,16 @@ Created&nbsp;table&nbsp;&#x27;images&#x27;.
 
 ```python
 # Insert sample images
-t.insert([
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'},
-])
+t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -224,18 +230,18 @@ Use `openai.vision()` to analyze images and get JSON output:
 
 ```python
 # Add extraction column using openai.vision (handles images directly)
-PROMPT = '''Analyze this image and extract the following as JSON:
+PROMPT = """Analyze this image and extract the following as JSON:
 - description: A brief description of the image
 - objects: List of objects visible in the image
 - dominant_colors: List of dominant colors
-- scene_type: Type of scene (indoor, outdoor, etc.)'''
+- scene_type: Type of scene (indoor, outdoor, etc.)"""
 
 t.add_computed_column(
     data=openai.vision(
         prompt=PROMPT,
         image=t.image,
         model='gpt-4o-mini',
-        model_kwargs={'response_format': {'type': 'json_object'}}
+        model_kwargs={'response_format': {'type': 'json_object'}},
     )
 )
 ```
@@ -258,9 +264,11 @@ t.select(t.image, t.data).collect()
 # You can also parse the JSON into individual columns if needed
 import json
 
+
 @pxt.udf
 def parse_description(data: str) -> str:
     return json.loads(data).get('description', '')
+
 
 t.select(t.image, description=parse_description(t.data)).collect()
 ```

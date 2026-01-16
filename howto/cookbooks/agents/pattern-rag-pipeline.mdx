@@ -159,8 +159,7 @@ Created&nbsp;directory&nbsp;&#x27;rag_demo&#x27;.
 ```python
 # Create table for document chunks
 chunks = pxt.create_table(
-    'rag_demo.chunks',
-    {'doc_id': pxt.String, 'chunk_text': pxt.String}
+    'rag_demo.chunks', {'doc_id': pxt.String, 'chunk_text': pxt.String}
 )
 ```
 
@@ -172,8 +171,8 @@ Created&nbsp;table&nbsp;&#x27;chunks&#x27;.
 ```python
 # Add embedding index for semantic search
 chunks.add_embedding_index(
-    column="chunk_text",
-    string_embed=embeddings.using(model="text-embedding-3-small")
+    column='chunk_text',
+    string_embed=embeddings.using(model='text-embedding-3-small'),
 )
 ```
 
@@ -185,23 +184,23 @@ chunks.add_embedding_index(
 documents = [
     {
         'doc_id': 'password-reset',
-        'chunk_text': 'To reset your password, go to the login page and click "Forgot Password". Enter your email address and you will receive a reset link within 5 minutes. The link expires after 24 hours.'
+        'chunk_text': 'To reset your password, go to the login page and click "Forgot Password". Enter your email address and you will receive a reset link within 5 minutes. The link expires after 24 hours.',
     },
     {
         'doc_id': 'password-reset',
-        'chunk_text': 'Password requirements: minimum 8 characters, at least one uppercase letter, one number, and one special character. Passwords expire every 90 days for security.'
+        'chunk_text': 'Password requirements: minimum 8 characters, at least one uppercase letter, one number, and one special character. Passwords expire every 90 days for security.',
     },
     {
         'doc_id': 'account-settings',
-        'chunk_text': 'To update your profile, navigate to Settings > Account. You can change your display name, email address, and notification preferences. Changes take effect immediately.'
+        'chunk_text': 'To update your profile, navigate to Settings > Account. You can change your display name, email address, and notification preferences. Changes take effect immediately.',
     },
     {
         'doc_id': 'billing',
-        'chunk_text': 'Billing occurs on the first of each month. You can view invoices under Settings > Billing. To change your payment method, click "Update Payment" and enter your new card details.'
+        'chunk_text': 'Billing occurs on the first of each month. You can view invoices under Settings > Billing. To change your payment method, click "Update Payment" and enter your new card details.',
     },
     {
         'doc_id': 'api-access',
-        'chunk_text': 'API keys can be generated in Settings > Developer. Each key has configurable permissions. Rate limits are 1000 requests per minute for standard plans, 10000 for enterprise.'
+        'chunk_text': 'API keys can be generated in Settings > Developer. Each key has configurable permissions. Rate limits are 1000 requests per minute for standard plans, 10000 for enterprise.',
     },
 ]
 
@@ -227,17 +226,14 @@ def retrieve_context(query: str, top_k: int = 3):
         chunks.where(sim > 0.5)
         .order_by(sim, asc=False)
         .limit(top_k)
-        .select(
-            doc_id=chunks.doc_id,
-            text=chunks.chunk_text
-        )
+        .select(doc_id=chunks.doc_id, text=chunks.chunk_text)
     )
 ```
 
 
 ```python
 # View retrieved context for a query
-query = "What are the key features?"
+query = 'What are the key features?'
 context_chunks = retrieve_context(query)
 context_chunks
 ```
@@ -251,10 +247,7 @@ retrieve_context(&#x27;What&nbsp;are&nbsp;the&nbsp;key&nbsp;features?&#x27;)
 
 ```python
 # Create a table for questions/answers
-qa = pxt.create_table(
-    'rag_demo.qa',
-    {'question': pxt.String}
-)
+qa = pxt.create_table('rag_demo.qa', {'question': pxt.String})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -277,7 +270,9 @@ No&nbsp;rows&nbsp;affected.
 # Build the RAG prompt
 @pxt.udf
 def build_rag_prompt(question: str, context: list[dict]) -> str:
-    context_text = '\n\n'.join([f"[{c['doc_id']}]: {c['text']}" for c in context])
+    context_text = '\n\n'.join(
+        [f'[{c["doc_id"]}]: {c["text"]}' for c in context]
+    )
     return f"""Answer the question based only on the provided context. If the context doesn't contain the answer, say "I don't have information about that."
 
 Context:
@@ -286,6 +281,7 @@ Context:
 Question: {question}
 
 Answer:"""
+
 
 qa.add_computed_column(prompt=build_rag_prompt(qa.question, qa.context))
 ```
@@ -301,7 +297,7 @@ No&nbsp;rows&nbsp;affected.
 qa.add_computed_column(
     response=chat_completions(
         messages=[{'role': 'user', 'content': qa.prompt}],
-        model='gpt-4o-mini'
+        model='gpt-4o-mini',
     )
 )
 qa.add_computed_column(answer=qa.response.choices[0].message.content)

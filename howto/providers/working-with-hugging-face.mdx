@@ -439,10 +439,9 @@ pxt.drop_dir('hf_demo', force=True)
 pxt.create_dir('hf_demo')
 
 # Load a dataset with images
-padoru = (
-    datasets.load_dataset("not-lain/padoru", split='train')
-    .select_columns(['Image', 'ImageSize', 'Name', 'ImageSource'])
-)
+padoru = datasets.load_dataset(
+    'not-lain/padoru', split='train'
+).select_columns(['Image', 'ImageSize', 'Name', 'ImageSource'])
 
 # Import into Pixeltable
 images = pxt.create_table('hf_demo.images', source=padoru)
@@ -481,15 +480,16 @@ imdb = datasets.load_dataset('stanfordnlp/imdb')
 reviews = pxt.create_table(
     'hf_demo.reviews',
     source=imdb,
-    extra_args={'column_name_for_split': 'split'}
+    extra_args={'column_name_for_split': 'split'},
 )
 ```
 
 
 ```python
 # Query by split
-reviews.where(reviews.split == 'train').limit(3).select(reviews.text, reviews.label, reviews.split).collect()
-
+reviews.where(reviews.split == 'train').limit(3).select(
+    reviews.text, reviews.label, reviews.split
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
@@ -497,7 +497,9 @@ reviews.where(reviews.split == 'train').limit(3).select(reviews.text, reviews.la
 
 ```python
 # Count rows per split
-reviews.group_by(reviews.split).select(reviews.split, count=pxt.functions.count(reviews.text)).collect()
+reviews.group_by(reviews.split).select(
+    reviews.split, count=pxt.functions.count(reviews.text)
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
@@ -511,7 +513,12 @@ use `schema_overrides` to specify the exact array shape:
 ```python
 # Wikipedia with pre-computed embeddings - specify array shape
 wiki_ds = (
-    datasets.load_dataset('Cohere/wikipedia-2023-11-embed-multilingual-v3', 'simple', split='train', streaming=True)
+    datasets.load_dataset(
+        'Cohere/wikipedia-2023-11-embed-multilingual-v3',
+        'simple',
+        split='train',
+        streaming=True,
+    )
     .select_columns(['url', 'title', 'text', 'emb'])
     .take(50)
 )
@@ -519,7 +526,7 @@ wiki_ds = (
 wiki = pxt.create_table(
     'hf_demo.wiki_embeddings',
     source=wiki_ds,
-    schema_overrides={'emb': pxt.Array[(1024,), pxt.Float]}
+    schema_overrides={'emb': pxt.Array[(1024,), pxt.Float]},
 )
 ```
 
@@ -538,18 +545,24 @@ before importing:
 
 ```python
 # Stream, filter, and sample before importing
-streaming_ds = datasets.load_dataset('stanfordnlp/imdb', split='train', streaming=True)
+streaming_ds = datasets.load_dataset(
+    'stanfordnlp/imdb', split='train', streaming=True
+)
 positive_stream = streaming_ds.filter(lambda x: x['label'] == 1).take(50)
 ```
 
 
 ```python
-positive_samples = pxt.create_table('hf_demo.positive_samples', source=positive_stream)
+positive_samples = pxt.create_table(
+    'hf_demo.positive_samples', source=positive_stream
+)
 ```
 
 
 ```python
-positive_samples.select(positive_samples.text, positive_samples.label).limit(2).collect()
+positive_samples.select(
+    positive_samples.text, positive_samples.label
+).limit(2).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
@@ -562,7 +575,9 @@ Audio datasets work seamlessly - Pixeltable stores audio files locally:
 ```python
 # Import a small audio dataset
 audio_ds = datasets.load_dataset(
-    'hf-internal-testing/librispeech_asr_dummy', 'clean', split='validation'
+    'hf-internal-testing/librispeech_asr_dummy',
+    'clean',
+    split='validation',
 )
 
 audio_table = pxt.create_table('hf_demo.audio_samples', source=audio_ds)
@@ -586,7 +601,9 @@ existing table:
 ```python
 # Insert more data from the same or similar dataset
 more_audio = datasets.load_dataset(
-    'hf-internal-testing/librispeech_asr_dummy', 'clean', split='validation'
+    'hf-internal-testing/librispeech_asr_dummy',
+    'clean',
+    split='validation',
 ).select(range(5))
 
 audio_table.insert(more_audio)
@@ -616,14 +633,14 @@ from pixeltable.functions.huggingface import clip
 
 # Add CLIP embedding index for cross-modal image search
 images.add_embedding_index(
-    'Image',
-    embedding=clip.using(model_id='openai/clip-vit-base-patch32')
+    'Image', embedding=clip.using(model_id='openai/clip-vit-base-patch32')
 )
 
 # Search images using text
 sim = images.Image.similarity(string='anime character with red clothes')
-images.order_by(sim, asc=False).limit(3).select(images.Image, images.Name, sim=sim).collect()
-
+images.order_by(sim, asc=False).limit(3).select(
+    images.Image, images.Name, sim=sim
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
@@ -637,14 +654,21 @@ from pixeltable.functions.huggingface import sentence_transformer
 # Create table with text embedding index
 sample_reviews = pxt.create_table(
     'hf_demo.sample_reviews',
-    source=datasets.load_dataset('stanfordnlp/imdb', split='test').select(range(100))
+    source=datasets.load_dataset('stanfordnlp/imdb', split='test').select(
+        range(100)
+    ),
 )
-sample_reviews.add_embedding_index('text', string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2'))
+sample_reviews.add_embedding_index(
+    'text',
+    string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2'),
+)
 
 # Semantic search
-query = "great acting and cinematography"
+query = 'great acting and cinematography'
 sim = sample_reviews.text.similarity(string=query)
-sample_reviews.order_by(sim, asc=False).limit(3).select(sample_reviews.text, sim=sim).collect()
+sample_reviews.order_by(sim, asc=False).limit(3).select(
+    sample_reviews.text, sim=sim
+).collect()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

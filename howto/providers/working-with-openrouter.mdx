@@ -40,7 +40,9 @@ import os
 import getpass
 
 if 'OPENROUTER_API_KEY' not in os.environ:
-    os.environ['OPENROUTER_API_KEY'] = getpass.getpass('Enter your OpenRouter API key:')
+    os.environ['OPENROUTER_API_KEY'] = getpass.getpass(
+        'Enter your OpenRouter API key:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -69,15 +71,17 @@ t = pxt.create_table('openrouter_demo.chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
 
-t.add_computed_column(output=openrouter.chat_completions(
-    messages=messages,
-    model='anthropic/claude-sonnet-4',
-    model_kwargs={
-        # Optional dict with parameters compatible with the model
-        'max_tokens': 300,
-        'temperature': 0.7
-    }
-))
+t.add_computed_column(
+    output=openrouter.chat_completions(
+        messages=messages,
+        model='anthropic/claude-sonnet-4',
+        model_kwargs={
+            # Optional dict with parameters compatible with the model
+            'max_tokens': 300,
+            'temperature': 0.7,
+        },
+    )
+)
 ```
 
 
@@ -89,10 +93,12 @@ t.add_computed_column(response=t.output.choices[0].message.content)
 
 ```python
 # Start a conversation
-t.insert([
-    {'input': 'How many species of felids have been classified?'},
-    {'input': 'Can you make me a coffee?'}
-])
+t.insert(
+    [
+        {'input': 'How many species of felids have been classified?'},
+        {'input': 'Can you make me a coffee?'},
+    ]
+)
 t.select(t.input, t.response).head()
 ```
 
@@ -105,7 +111,9 @@ Claude, OpenAI GPT-4, and Meta Llama.
 
 ```python
 # Create a table to compare different models
-compare_t = pxt.create_table('openrouter_demo.compare_models', {'prompt': pxt.String})
+compare_t = pxt.create_table(
+    'openrouter_demo.compare_models', {'prompt': pxt.String}
+)
 
 messages = [{'role': 'user', 'content': compare_t.prompt}]
 
@@ -114,32 +122,42 @@ compare_t.add_computed_column(
     claude=openrouter.chat_completions(
         messages=messages,
         model='anthropic/claude-sonnet-4',
-        model_kwargs={'max_tokens': 150}
-    ).choices[0].message.content
+        model_kwargs={'max_tokens': 150},
+    )
+    .choices[0]
+    .message.content
 )
 
 compare_t.add_computed_column(
     gpt4=openrouter.chat_completions(
         messages=messages,
         model='openai/gpt-4o-mini',
-        model_kwargs={'max_tokens': 150}
-    ).choices[0].message.content
+        model_kwargs={'max_tokens': 150},
+    )
+    .choices[0]
+    .message.content
 )
 
 compare_t.add_computed_column(
     llama=openrouter.chat_completions(
         messages=messages,
         model='meta-llama/llama-3.3-70b-instruct',
-        model_kwargs={'max_tokens': 150}
-    ).choices[0].message.content
+        model_kwargs={'max_tokens': 150},
+    )
+    .choices[0]
+    .message.content
 )
 ```
 
 
 ```python
 # Insert a prompt and compare responses
-compare_t.insert([{'prompt': 'Explain quantum entanglement in one sentence.'}])
-compare_t.select(compare_t.prompt, compare_t.claude, compare_t.gpt4, compare_t.llama).head()
+compare_t.insert(
+    [{'prompt': 'Explain quantum entanglement in one sentence.'}]
+)
+compare_t.select(
+    compare_t.prompt, compare_t.claude, compare_t.gpt4, compare_t.llama
+).head()
 ```
 
 ## Advanced features: provider routing
@@ -150,7 +168,9 @@ behavior and cost optimization.
 
 ```python
 # Create a table with provider routing
-routing_t = pxt.create_table('openrouter_demo.routing', {'input': pxt.String})
+routing_t = pxt.create_table(
+    'openrouter_demo.routing', {'input': pxt.String}
+)
 
 messages = [{'role': 'user', 'content': routing_t.input}]
 routing_t.add_computed_column(
@@ -160,13 +180,18 @@ routing_t.add_computed_column(
         model_kwargs={'max_tokens': 300},
         # Specify provider preferences
         provider={
-            'order': ['Anthropic', 'OpenAI'],  # Try Anthropic first, then OpenAI
-            'allow_fallbacks': True
-        }
+            'order': [
+                'Anthropic',
+                'OpenAI',
+            ],  # Try Anthropic first, then OpenAI
+            'allow_fallbacks': True,
+        },
     )
 )
 
-routing_t.add_computed_column(response=routing_t.output.choices[0].message.content)
+routing_t.add_computed_column(
+    response=routing_t.output.choices[0].message.content
+)
 ```
 
 
@@ -183,7 +208,9 @@ long contexts.
 
 ```python
 # Create a table with transforms for long context optimization
-transform_t = pxt.create_table('openrouter_demo.transforms', {'long_context': pxt.String})
+transform_t = pxt.create_table(
+    'openrouter_demo.transforms', {'long_context': pxt.String}
+)
 
 messages = [{'role': 'user', 'content': transform_t.long_context}]
 transform_t.add_computed_column(
@@ -192,11 +219,13 @@ transform_t.add_computed_column(
         model='openai/gpt-4o-mini',
         model_kwargs={'max_tokens': 200},
         # Apply middle-out transform for better long context handling
-        transforms=['middle-out']
+        transforms=['middle-out'],
     )
 )
 
-transform_t.add_computed_column(response=transform_t.output.choices[0].message.content)
+transform_t.add_computed_column(
+    response=transform_t.output.choices[0].message.content
+)
 ```
 
 

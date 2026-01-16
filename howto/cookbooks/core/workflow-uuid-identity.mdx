@@ -171,9 +171,9 @@ products = pxt.create_table(
     {
         'id': uuid4(),  # Auto-generates UUID for each row
         'name': pxt.String,
-        'price': pxt.Float
+        'price': pxt.Float,
     },
-    primary_key=['id']
+    primary_key=['id'],
 )
 ```
 
@@ -184,11 +184,13 @@ Created&nbsp;table&nbsp;&#x27;products&#x27;.
 
 ```python
 # Insert data - no need to provide 'id', it's auto-generated
-products.insert([
-    {'name': 'Laptop', 'price': 999.99},
-    {'name': 'Mouse', 'price': 29.99},
-    {'name': 'Keyboard', 'price': 79.99}
-])
+products.insert(
+    [
+        {'name': 'Laptop', 'price': 999.99},
+        {'name': 'Mouse', 'price': 29.99},
+        {'name': 'Keyboard', 'price': 79.99},
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -214,11 +216,7 @@ You can add a UUID column to a table that already exists using
 ```python
 # Create a table without a UUID column
 orders = pxt.create_table(
-    'uuid_demo.orders',
-    {
-        'customer': pxt.String,
-        'amount': pxt.Float
-    }
+    'uuid_demo.orders', {'customer': pxt.String, 'amount': pxt.Float}
 )
 ```
 
@@ -229,10 +227,12 @@ Created&nbsp;table&nbsp;&#x27;orders&#x27;.
 
 ```python
 # Insert some data
-orders.insert([
-    {'customer': 'Alice', 'amount': 150.00},
-    {'customer': 'Bob', 'amount': 75.50}
-])
+orders.insert(
+    [
+        {'customer': 'Alice', 'amount': 150.00},
+        {'customer': 'Bob', 'amount': 75.50},
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

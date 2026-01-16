@@ -47,6 +47,7 @@ account will exist only on your local system.**
 
 ```python
 import subprocess
+
 ls_process = subprocess.Popen(['label-studio'], stderr=subprocess.PIPE)
 ```
 
@@ -73,7 +74,9 @@ if 'LABEL_STUDIO_URL' not in os.environ:
     os.environ['LABEL_STUDIO_URL'] = 'http://localhost:8080/'
 
 if 'LABEL_STUDIO_API_KEY' not in os.environ:
-    os.environ['LABEL_STUDIO_API_KEY'] = getpass.getpass('Label Studio API key: ')
+    os.environ['LABEL_STUDIO_API_KEY'] = getpass.getpass(
+        'Label Studio API key: '
+    )
 ```
 
 ## Create a Table to Store Videos
@@ -86,10 +89,7 @@ workflow.
 ```python
 import pixeltable as pxt
 
-schema = {
-    'video': pxt.Video,
-    'date': pxt.Timestamp
-}
+schema = {'video': pxt.Video, 'date': pxt.Timestamp}
 
 # Before creating the table, we drop the `ls_demo` dir and all its contents,
 # in order to ensure a clean environment for the demo.
@@ -117,7 +117,9 @@ files = [
     'ffe/ff3/ffeff3c6bf57504e7a6cecaff6aefbc9.mp4',
 ]
 today = datetime(2024, 4, 22)
-videos_table.insert({'video': url_prefix + file, 'date': today} for file in files)
+videos_table.insert(
+    {'video': url_prefix + file, 'date': today} for file in files
+)
 ```
 
 Let’s have a look at the table now.
@@ -141,7 +143,7 @@ filters the table down by date.
 
 v = pxt.create_view(
     'ls_demo.videos_2024_04_22',
-    videos_table.where(videos_table.date == today)
+    videos_table.where(videos_table.date == today),
 )
 
 # Create a new Label Studio project and link it to the view. The
@@ -149,7 +151,7 @@ v = pxt.create_view(
 # needs to be done once: after the view and project are linked,
 # the relationship is stored indefinitely in Pixeltable's metadata.
 
-label_config = '''
+label_config = """
     <View>
       <Video name="video" value="$video"/>
       <Choices name="video-category" toName="video" showInLine="true">
@@ -158,7 +160,7 @@ label_config = '''
         <Choice value="sports"/>
       </Choices>
     </View>
-    '''
+    """
 
 pxt.io.create_label_studio_project(v, label_config)
 ```
@@ -243,7 +245,9 @@ such metadata.
 from pixeltable.functions.video import get_metadata
 
 v.add_computed_column(video_metadata=get_metadata(v.video))
-v.select(v.video, v.annotations, v.video_category, v.video_metadata).head()
+v.select(
+    v.video, v.annotations, v.video_category, v.video_metadata
+).head()
 ```
 
 ## Preannotations with Pixeltable and Label Studio
@@ -269,7 +273,7 @@ videos_table = pxt.get_table('ls_demo.videos')
 frames = pxt.create_view(
     'ls_demo.frames_2024_04_22',
     videos_table.where(videos_table.date == today),
-    iterator=frame_iterator(videos_table.video, fps=0.25)
+    iterator=frame_iterator(videos_table.video, fps=0.25),
 )
 ```
 
@@ -288,11 +292,11 @@ preannotations. We do this by creating a new computed column.
 from pixeltable.functions.huggingface import detr_for_object_detection
 
 # Run the Resnet-50 object detection model against each frame to generate bounding boxes
-frames.add_computed_column(detections=detr_for_object_detection(
-    frames.frame,
-    model_id='facebook/detr-resnet-50',
-    threshold=0.95
-))
+frames.add_computed_column(
+    detections=detr_for_object_detection(
+        frames.frame, model_id='facebook/detr-resnet-50', threshold=0.95
+    )
+)
 frames.select(frames.frame, frames.detections).head(3)
 ```
 
@@ -309,7 +313,9 @@ from pixeltable.functions.huggingface import detr_to_coco
 frames.add_computed_column(
     preannotations=detr_to_coco(frames.frame, frames.detections)
 )
-frames.select(frames.frame, frames.detections, frames.preannotations).head(3)
+frames.select(
+    frames.frame, frames.detections, frames.preannotations
+).head(3)
 ```
 
 ## Create a Label Studio Project for Frames
@@ -329,7 +335,7 @@ https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/c
 
 
 ```python
-frames_config = '''
+frames_config = """
     <View>
       <Image name="frame" value="$frame"/>
       <RectangleLabels name="preannotations" toName="frame">
@@ -338,7 +344,7 @@ frames_config = '''
         <Label value="train" background="green"/>
       </RectangleLabels>
     </View>
-    '''
+    """
 
 pxt.io.create_label_studio_project(frames, frames_config)
 ```
@@ -364,7 +370,7 @@ detection).
 ```python
 videos_table.insert(
     video=url_prefix + '22a/948/22a9487a92956ac453a9c15e0fc4dd4.mp4',
-    date=today
+    date=today,
 )
 ```
 
@@ -437,7 +443,11 @@ pxt.io.create_label_studio_project(
     v,
     label_config,
     media_import_method='url',
-    s3_configuration={'bucket': 'pxt-test', 'aws_access_key_id': my_key, 'aws_secret_access_key': my_secret}
+    s3_configuration={
+        'bucket': 'pxt-test',
+        'aws_access_key_id': my_key,
+        'aws_secret_access_key': my_secret,
+    },
 )
 ```
 

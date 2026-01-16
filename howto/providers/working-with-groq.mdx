@@ -38,8 +38,11 @@ API key.
 ```python
 import os
 import getpass
+
 if 'GROQ_API_KEY' not in os.environ:
-    os.environ['GROQ_API_KEY'] = getpass.getpass('Enter your Groq API key:')
+    os.environ['GROQ_API_KEY'] = getpass.getpass(
+        'Enter your Groq API key:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -68,16 +71,18 @@ from pixeltable.functions import groq
 t = pxt.create_table('groq_demo.chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
-t.add_computed_column(output=groq.chat_completions(
-    messages=messages,
-    model='llama-3.3-70b-versatile',
-    model_kwargs={
-        # Optional dict with parameters for the Groq API
-        'max_tokens': 300,
-        'top_p': 0.9,
-        'temperature': 0.7
-    }
-))
+t.add_computed_column(
+    output=groq.chat_completions(
+        messages=messages,
+        model='llama-3.3-70b-versatile',
+        model_kwargs={
+            # Optional dict with parameters for the Groq API
+            'max_tokens': 300,
+            'top_p': 0.9,
+            'temperature': 0.7,
+        },
+    )
+)
 ```
 
 
@@ -89,7 +94,9 @@ t.add_computed_column(response=t.output.choices[0].message.content)
 
 ```python
 # Start a conversation
-t.insert([{'input': 'How many islands are in the Aleutian island chain?'}])
+t.insert(
+    [{'input': 'How many islands are in the Aleutian island chain?'}]
+)
 t.select(t.input, t.response).head()
 ```
 

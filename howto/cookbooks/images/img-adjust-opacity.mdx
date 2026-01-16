@@ -173,11 +173,19 @@ Created&nbsp;table&nbsp;&#x27;opacity&#x27;.
 
 
 ```python
-t.insert([
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000776.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000885.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000016.jpg'},
-])
+t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000776.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000885.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000016.jpg'
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -223,7 +231,7 @@ t.select(
     t.image,
     alpha_25=set_opacity(t.image, 0.25),
     alpha_50=set_opacity(t.image, 0.5),
-    alpha_75=set_opacity(t.image, 0.75)
+    alpha_75=set_opacity(t.image, 0.75),
 ).head(1)
 ```
 

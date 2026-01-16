@@ -182,12 +182,17 @@ from enum import Enum
 import pydantic
 
 # Define an enum for product categories
+
+
 class Category(Enum):
     ELECTRONICS = 1
     CLOTHING = 2
     BOOKS = 3
 
+
 # Define a Pydantic model
+
+
 class Product(pydantic.BaseModel):
     name: str
     price: float
@@ -211,7 +216,7 @@ products = pxt.create_table(
         'rating': pxt.Required[pxt.String],  # Literal values
         'created_at': pxt.Required[pxt.Timestamp],
         'description': pxt.String,  # Nullable
-    }
+    },
 )
 ```
 
@@ -228,7 +233,7 @@ product_data = [
         category=Category.ELECTRONICS,
         rating='excellent',
         created_at=now,
-        description='High-quality wireless headphones with noise cancellation'
+        description='High-quality wireless headphones with noise cancellation',
     ),
     Product(
         name='Python Cookbook',
@@ -245,7 +250,7 @@ product_data = [
         category=Category.CLOTHING,
         rating='average',
         created_at=now,
-        description='Lightweight running shoes'
+        description='Lightweight running shoes',
     ),
 ]
 
@@ -268,10 +273,12 @@ class Address(pydantic.BaseModel):
     country: str
     zip_code: str
 
+
 class ContactInfo(pydantic.BaseModel):
     email: str
     phone: str | None = None
     address: Address
+
 
 class Customer(pydantic.BaseModel):
     customer_id: str
@@ -288,7 +295,7 @@ customers = pxt.create_table(
         'customer_id': pxt.Required[pxt.String],
         'name': pxt.Required[pxt.String],
         'contact': pxt.Required[pxt.Json],  # Nested model stored as JSON
-    }
+    },
 )
 ```
 
@@ -306,9 +313,9 @@ customer_data = [
                 street='123 Main St',
                 city='San Francisco',
                 country='USA',
-                zip_code='94102'
-            )
-        )
+                zip_code='94102',
+            ),
+        ),
     ),
     Customer(
         customer_id='C002',
@@ -319,9 +326,9 @@ customer_data = [
                 street='456 Oak Ave',
                 city='New York',
                 country='USA',
-                zip_code='10001'
-            )
-        )
+                zip_code='10001',
+            ),
+        ),
     ),
 ]
 
@@ -335,7 +342,7 @@ customers.collect()
 customers.select(
     customers.name,
     email=customers.contact.email,
-    city=customers.contact.address.city
+    city=customers.contact.address.city,
 ).collect()
 ```
 
@@ -348,10 +355,12 @@ fields in your Pydantic model to specify file paths or URLs.
 ```python
 from pathlib import Path
 
+
 class ImageRecord(pydantic.BaseModel):
     title: str
     image_url: str  # URLs or file paths as strings
     tags: list[str]
+
 
 # Create table with Image column
 images = pxt.create_table(
@@ -360,7 +369,7 @@ images = pxt.create_table(
         'title': pxt.Required[pxt.String],
         'image_url': pxt.Required[pxt.Image],  # Media column
         'tags': pxt.Required[pxt.Json],
-    }
+    },
 )
 ```
 
@@ -372,8 +381,8 @@ image_data = [
     ImageRecord(
         title='Sample Image',
         image_url=f'{base_url}/000000000036.jpg',
-        tags=['sample', 'test', 'image']
-    ),
+        tags=['sample', 'test', 'image'],
+    )
 ]
 
 images.insert(image_data)
@@ -393,18 +402,21 @@ class Article(pydantic.BaseModel):
     title: str
     content: str
 
+
 # Create table with computed column
 articles = pxt.create_table(
     'pydantic_demo.articles',
     {
         'title': pxt.Required[pxt.String],
         'content': pxt.Required[pxt.String],
-    }
+    },
 )
 
 # Add a computed column
 articles.add_computed_column(
-    word_count=articles.content.apply(lambda x: len(x.split()), col_type=pxt.Int)
+    word_count=articles.content.apply(
+        lambda x: len(x.split()), col_type=pxt.Int
+    )
 )
 ```
 
@@ -414,11 +426,11 @@ articles.add_computed_column(
 article_data = [
     Article(
         title='Getting Started with Pixeltable',
-        content='Pixeltable is a powerful tool for building AI applications. It provides automatic versioning and incremental computation.'
+        content='Pixeltable is a powerful tool for building AI applications. It provides automatic versioning and incremental computation.',
     ),
     Article(
         title='Type Safety in Python',
-        content='Using Pydantic with Pixeltable provides type safety and validation for your data pipelines.'
+        content='Using Pydantic with Pixeltable provides type safety and validation for your data pipelines.',
     ),
 ]
 
@@ -439,6 +451,7 @@ class Task(pydantic.BaseModel):
     due_date: datetime.datetime | None = None  # Optional
     notes: str | None = None  # Optional
 
+
 tasks = pxt.create_table(
     'pydantic_demo.tasks',
     {
@@ -446,15 +459,23 @@ tasks = pxt.create_table(
         'priority': pxt.Required[pxt.Int],
         'due_date': pxt.Timestamp,  # Nullable
         'notes': pxt.String,  # Nullable
-    }
+    },
 )
 
 # Insert with and without optional fields
-tasks.insert([
-    Task(title='Complete project', priority=3, due_date=datetime.datetime(2025, 12, 31)),
-    Task(title='Review code'),  # Uses default priority=1, None for optionals
-    Task(title='Write docs', notes='Include examples'),
-])
+tasks.insert(
+    [
+        Task(
+            title='Complete project',
+            priority=3,
+            due_date=datetime.datetime(2025, 12, 31),
+        ),
+        Task(
+            title='Review code'
+        ),  # Uses default priority=1, None for optionals
+        Task(title='Write docs', notes='Include examples'),
+    ]
+)
 
 tasks.collect()
 ```

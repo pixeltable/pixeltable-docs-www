@@ -171,7 +171,9 @@ import os
 import getpass
 
 if 'GEMINI_API_KEY' not in os.environ:
-    os.environ['GEMINI_API_KEY'] = getpass.getpass('Google AI Studio API Key: ')
+    os.environ['GEMINI_API_KEY'] = getpass.getpass(
+        'Google AI Studio API Key: '
+    )
 ```
 
 
@@ -199,15 +201,13 @@ Created&nbsp;directory&nbsp;&#x27;video_gen_demo&#x27;.
 ```python
 # Create a table for text-to-video generation
 videos = pxt.create_table(
-    'video_gen_demo.text_to_video',
-    {'prompt': pxt.String}
+    'video_gen_demo.text_to_video', {'prompt': pxt.String}
 )
 
 # Add computed column that generates videos
 videos.add_computed_column(
     video=gemini.generate_videos(
-        videos.prompt,
-        model='veo-2.0-generate-001'
+        videos.prompt, model='veo-2.0-generate-001'
     )
 )
 ```
@@ -221,9 +221,13 @@ No&nbsp;rows&nbsp;affected.
 
 ```python
 # Generate a video from a text prompt
-videos.insert([
-    {'prompt': 'A serene mountain lake at sunrise with mist rising from the water'}
-])
+videos.insert(
+    [
+        {
+            'prompt': 'A serene mountain lake at sunrise with mist rising from the water'
+        }
+    ]
+)
 
 # View the result
 videos.select(videos.prompt, videos.video).collect()
@@ -243,14 +247,13 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 # Create a table for image-to-video generation
 animated = pxt.create_table(
     'video_gen_demo.image_to_video',
-    {'image': pxt.Image, 'description': pxt.String}
+    {'image': pxt.Image, 'description': pxt.String},
 )
 
 # Add computed column that animates images
 animated.add_computed_column(
     video=gemini.generate_videos(
-        image=animated.image,
-        model='veo-2.0-generate-001'
+        image=animated.image, model='veo-2.0-generate-001'
     )
 )
 ```
@@ -266,12 +269,14 @@ No&nbsp;rows&nbsp;affected.
 # Animate an image
 base_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
 
-animated.insert([
-    {
-        'image': f'{base_url}/000000000030.jpg',
-        'description': 'Beach scene'
-    }
-])
+animated.insert(
+    [
+        {
+            'image': f'{base_url}/000000000030.jpg',
+            'description': 'Beach scene',
+        }
+    ]
+)
 
 # View the animated result
 animated.select(animated.image, animated.video).collect()

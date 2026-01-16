@@ -91,10 +91,10 @@ combining it with the foreground image we made in step 2 with
 
 
 ```python
-spunk_t = pxt.create_table('reve_demo.solarpunk_scenes', {
-    'prompt': pxt.String,
-    'source_image': pxt.Image
-})
+spunk_t = pxt.create_table(
+    'reve_demo.solarpunk_scenes',
+    {'prompt': pxt.String, 'source_image': pxt.Image},
+)
 ```
 
 To read more about creating tables, see [Tables and Data
@@ -113,19 +113,18 @@ prompt for the `reve.create()` function and a source image for the
 
 
 ```python
-scene_prompt = ('Create a scene of lush solarpunk metropolis in the desert '
-               'with urban agriculture and an oasis theme.'
-               'It should not look like an office park, corporate campus, or an outdoor mall.')
+scene_prompt = (
+    'Create a scene of lush solarpunk metropolis in the desert '
+    'with urban agriculture and an oasis theme.'
+    'It should not look like an office park, corporate campus, or an outdoor mall.'
+)
 
 image_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'
 ```
 
 
 ```python
-spunk_t.insert([{
-    'prompt': scene_prompt,
-    'source_image': image_url
-}])
+spunk_t.insert([{'prompt': scene_prompt, 'source_image': image_url}])
 ```
 
 To read more about inserting data, see [Bringing
@@ -151,10 +150,7 @@ solarpunk oasis city.
 from pixeltable.functions import reve
 
 spunk_t.add_computed_column(
-    new_image=reve.create(
-        spunk_t.prompt
-    ),
-    if_exists='replace'
+    new_image=reve.create(spunk_t.prompt), if_exists='replace'
 )
 ```
 
@@ -190,17 +186,16 @@ square frame.
 
 ```python
 spunk_t.add_computed_column(
-    new_image_sq=reve.create(
-        spunk_t.prompt,
-        aspect_ratio='1:1'
-    ),
-    if_exists='replace'
+    new_image_sq=reve.create(spunk_t.prompt, aspect_ratio='1:1'),
+    if_exists='replace',
 )
 ```
 
 
 ```python
-spunk_t.select(spunk_t.prompt, spunk_t.new_image, spunk_t.new_image_sq).collect()
+spunk_t.select(
+    spunk_t.prompt, spunk_t.new_image, spunk_t.new_image_sq
+).collect()
 ```
 
 To read more about `reve.create()`, see [reve.create
@@ -239,7 +234,7 @@ spunk_t.add_computed_column(
         spunk_t.source_image,
         'Remove any existing background. Focus on the closest person in the foreground. '
         'Keep the person and props, but make the lighting and colors vibrant and fit with a solarpunk theme. '
-        'Make the background behind the person blank.'
+        'Make the background behind the person blank.',
     ),
     if_exists='replace',
 )
@@ -280,7 +275,7 @@ spunk_t.add_computed_column(
         images=[spunk_t.edited_subject, spunk_t.new_image],
         aspect_ratio='16:9',
     ),
-    if_exists='replace'
+    if_exists='replace',
 )
 ```
 
@@ -306,10 +301,14 @@ populate the computed columns.
 
 
 ```python
-spunk_t.insert([{
-    'prompt': 'Create an indoor tennis court scene, with clay courts inside a lush solarpunk greenhouse filled with bougainvillea, terraced gardens, and an oasis theme.',
-    'source_image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000885.jpg'
-}])
+spunk_t.insert(
+    [
+        {
+            'prompt': 'Create an indoor tennis court scene, with clay courts inside a lush solarpunk greenhouse filled with bougainvillea, terraced gardens, and an oasis theme.',
+            'source_image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000885.jpg',
+        }
+    ]
+)
 ```
 
 Now we can inspect both outputs because the `insert()` in Pixeltable
@@ -336,7 +335,9 @@ our new scene.
 
 
 ```python
-spunk_t.select(spunk_t.new_image, spunk_t.edited_subject, spunk_t.solarpunk_remix).collect()
+spunk_t.select(
+    spunk_t.new_image, spunk_t.edited_subject, spunk_t.solarpunk_remix
+).collect()
 ```
 
 ## Review Reve in Pixeltable
@@ -352,9 +353,7 @@ writes its results into computed columns.
 
 ```python
 spunk_t.select(
-    spunk_t.prompt,
-    spunk_t.new_image,
-    spunk_t.new_image_sq,
+    spunk_t.prompt, spunk_t.new_image, spunk_t.new_image_sq
 ).collect()
 ```
 
@@ -366,10 +365,7 @@ spunk_t.select(
 
 
 ```python
-spunk_t.select(
-    spunk_t.source_image,
-    spunk_t.edited_subject,
-).collect()
+spunk_t.select(spunk_t.source_image, spunk_t.edited_subject).collect()
 ```
 
 ### Reve Remix
@@ -386,9 +382,7 @@ spunk_t.select(
 
 ```python
 spunk_t.select(
-    spunk_t.new_image,
-    spunk_t.edited_subject,
-    spunk_t.solarpunk_remix,
+    spunk_t.new_image, spunk_t.edited_subject, spunk_t.solarpunk_remix
 ).collect()
 ```
 

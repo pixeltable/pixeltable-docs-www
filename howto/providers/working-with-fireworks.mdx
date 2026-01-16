@@ -39,7 +39,9 @@ import os
 import getpass
 
 if 'FIREWORKS_API_KEY' not in os.environ:
-    os.environ['FIREWORKS_API_KEY'] = getpass.getpass('Fireworks API Key:')
+    os.environ['FIREWORKS_API_KEY'] = getpass.getpass(
+        'Fireworks API Key:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -68,17 +70,19 @@ from pixeltable.functions.fireworks import chat_completions
 t = pxt.create_table('fireworks_demo.chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
-t.add_computed_column(output=chat_completions(
-    messages=messages,
-    model='accounts/fireworks/models/llama-v3p3-70b-instruct',
-    model_kwargs={
-        # Optional dict with parameters for the Fireworks API
-        'max_tokens': 300,
-        'top_k': 40,
-        'top_p': 0.9,
-        'temperature': 0.7
-    }
-))
+t.add_computed_column(
+    output=chat_completions(
+        messages=messages,
+        model='accounts/fireworks/models/llama-v3p3-70b-instruct',
+        model_kwargs={
+            # Optional dict with parameters for the Fireworks API
+            'max_tokens': 300,
+            'top_k': 40,
+            'top_p': 0.9,
+            'temperature': 0.7,
+        },
+    )
+)
 ```
 
 
@@ -90,7 +94,9 @@ t.add_computed_column(response=t.output.choices[0].message.content)
 
 ```python
 # Start a conversation
-t.insert([{'input': 'Can you tell me who was President of the US in 1961?'}])
+t.insert(
+    [{'input': 'Can you tell me who was President of the US in 1961?'}]
+)
 t.select(t.input, t.response).show()
 ```
 

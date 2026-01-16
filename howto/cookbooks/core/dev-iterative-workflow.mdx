@@ -327,14 +327,16 @@ Created&nbsp;table&nbsp;&#x27;lyrics&#x27;.
 
 
 ```python
-t.insert([
-    {'text': 'Tumble out of bed and I stumble to the kitchen'},
-    {'text': 'Pour myself a cup of ambition'},
-    {'text': 'And yawn and stretch and try to come to life'},
-    {'text': "Jump in the shower and the blood starts pumpin'"},
-    {'text': "Out on the street, the traffic starts jumpin'"},
-    {'text': 'With folks like me on the job from nine to five'}
-])
+t.insert(
+    [
+        {'text': 'Tumble out of bed and I stumble to the kitchen'},
+        {'text': 'Pour myself a cup of ambition'},
+        {'text': 'And yawn and stretch and try to come to life'},
+        {'text': "Jump in the shower and the blood starts pumpin'"},
+        {'text': "Out on the street, the traffic starts jumpin'"},
+        {'text': 'With folks like me on the job from nine to five'},
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -350,10 +352,7 @@ Iterate with built-in functions, then add to the table.
 
 ```python
 # Test uppercase transformation on subset
-t.select(
-    t.text,
-    uppercase=t.text.upper()
-).head(2)
+t.select(t.text, uppercase=t.text.upper()).head(2)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
@@ -396,10 +395,7 @@ iterate and add steps.
 char_count_expr = t.text.len()
 
 # Iterate: Test on subset
-t.select(
-    t.text,
-    char_count=char_count_expr
-).head(2)
+t.select(t.text, char_count=char_count_expr).head(2)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
@@ -459,10 +455,7 @@ def word_count(text: str) -> int:
 
 ```python
 # Iterate: Test UDF on subset
-t.select(
-    t.text,
-    word_count=word_count(t.text)
-).head(2)
+t.select(t.text, word_count=word_count(t.text)).head(2)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />

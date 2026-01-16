@@ -265,7 +265,7 @@
             ]
           },
           {
-            "dropdown": "v0.5.12.dev9.5aed14d2",
+            "dropdown": "v0.5.12.dev10.555b45b4",
             "icon": "rocket",
             "groups": [
               {
@@ -274,65 +274,65 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.5.12.dev9.5aed14d2/pixeltable",
-                      "sdk/v0.5.12.dev9.5aed14d2/table",
-                      "sdk/v0.5.12.dev9.5aed14d2/query",
-                      "sdk/v0.5.12.dev9.5aed14d2/columnmetadata",
-                      "sdk/v0.5.12.dev9.5aed14d2/dircontents",
-                      "sdk/v0.5.12.dev9.5aed14d2/indexmetadata",
-                      "sdk/v0.5.12.dev9.5aed14d2/tablemetadata",
-                      "sdk/v0.5.12.dev9.5aed14d2/updatestatus",
-                      "sdk/v0.5.12.dev9.5aed14d2/versionmetadata"
+                      "sdk/v0.5.12.dev10.555b45b4/pixeltable",
+                      "sdk/v0.5.12.dev10.555b45b4/table",
+                      "sdk/v0.5.12.dev10.555b45b4/query",
+                      "sdk/v0.5.12.dev10.555b45b4/columnmetadata",
+                      "sdk/v0.5.12.dev10.555b45b4/dircontents",
+                      "sdk/v0.5.12.dev10.555b45b4/indexmetadata",
+                      "sdk/v0.5.12.dev10.555b45b4/tablemetadata",
+                      "sdk/v0.5.12.dev10.555b45b4/updatestatus",
+                      "sdk/v0.5.12.dev10.555b45b4/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.5.12.dev9.5aed14d2/functions",
-                      "sdk/v0.5.12.dev9.5aed14d2/audio",
-                      "sdk/v0.5.12.dev9.5aed14d2/date",
-                      "sdk/v0.5.12.dev9.5aed14d2/document",
-                      "sdk/v0.5.12.dev9.5aed14d2/image",
-                      "sdk/v0.5.12.dev9.5aed14d2/json",
-                      "sdk/v0.5.12.dev9.5aed14d2/math",
-                      "sdk/v0.5.12.dev9.5aed14d2/net",
-                      "sdk/v0.5.12.dev9.5aed14d2/string",
-                      "sdk/v0.5.12.dev9.5aed14d2/timestamp",
-                      "sdk/v0.5.12.dev9.5aed14d2/video"
+                      "sdk/v0.5.12.dev10.555b45b4/functions",
+                      "sdk/v0.5.12.dev10.555b45b4/audio",
+                      "sdk/v0.5.12.dev10.555b45b4/date",
+                      "sdk/v0.5.12.dev10.555b45b4/document",
+                      "sdk/v0.5.12.dev10.555b45b4/image",
+                      "sdk/v0.5.12.dev10.555b45b4/json",
+                      "sdk/v0.5.12.dev10.555b45b4/math",
+                      "sdk/v0.5.12.dev10.555b45b4/net",
+                      "sdk/v0.5.12.dev10.555b45b4/string",
+                      "sdk/v0.5.12.dev10.555b45b4/timestamp",
+                      "sdk/v0.5.12.dev10.555b45b4/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.5.12.dev9.5aed14d2/anthropic",
-                      "sdk/v0.5.12.dev9.5aed14d2/bedrock",
-                      "sdk/v0.5.12.dev9.5aed14d2/deepseek",
-                      "sdk/v0.5.12.dev9.5aed14d2/fal",
-                      "sdk/v0.5.12.dev9.5aed14d2/fireworks",
-                      "sdk/v0.5.12.dev9.5aed14d2/gemini",
-                      "sdk/v0.5.12.dev9.5aed14d2/groq",
-                      "sdk/v0.5.12.dev9.5aed14d2/huggingface",
-                      "sdk/v0.5.12.dev9.5aed14d2/llama_cpp",
-                      "sdk/v0.5.12.dev9.5aed14d2/mistralai",
-                      "sdk/v0.5.12.dev9.5aed14d2/ollama",
-                      "sdk/v0.5.12.dev9.5aed14d2/openai",
-                      "sdk/v0.5.12.dev9.5aed14d2/openrouter",
-                      "sdk/v0.5.12.dev9.5aed14d2/replicate",
-                      "sdk/v0.5.12.dev9.5aed14d2/reve",
-                      "sdk/v0.5.12.dev9.5aed14d2/together",
-                      "sdk/v0.5.12.dev9.5aed14d2/twelvelabs",
-                      "sdk/v0.5.12.dev9.5aed14d2/uuid",
-                      "sdk/v0.5.12.dev9.5aed14d2/vision",
-                      "sdk/v0.5.12.dev9.5aed14d2/voyageai",
-                      "sdk/v0.5.12.dev9.5aed14d2/whisper",
-                      "sdk/v0.5.12.dev9.5aed14d2/whisperx",
-                      "sdk/v0.5.12.dev9.5aed14d2/yolox"
+                      "sdk/v0.5.12.dev10.555b45b4/anthropic",
+                      "sdk/v0.5.12.dev10.555b45b4/bedrock",
+                      "sdk/v0.5.12.dev10.555b45b4/deepseek",
+                      "sdk/v0.5.12.dev10.555b45b4/fal",
+                      "sdk/v0.5.12.dev10.555b45b4/fireworks",
+                      "sdk/v0.5.12.dev10.555b45b4/gemini",
+                      "sdk/v0.5.12.dev10.555b45b4/groq",
+                      "sdk/v0.5.12.dev10.555b45b4/huggingface",
+                      "sdk/v0.5.12.dev10.555b45b4/llama_cpp",
+                      "sdk/v0.5.12.dev10.555b45b4/mistralai",
+                      "sdk/v0.5.12.dev10.555b45b4/ollama",
+                      "sdk/v0.5.12.dev10.555b45b4/openai",
+                      "sdk/v0.5.12.dev10.555b45b4/openrouter",
+                      "sdk/v0.5.12.dev10.555b45b4/replicate",
+                      "sdk/v0.5.12.dev10.555b45b4/reve",
+                      "sdk/v0.5.12.dev10.555b45b4/together",
+                      "sdk/v0.5.12.dev10.555b45b4/twelvelabs",
+                      "sdk/v0.5.12.dev10.555b45b4/uuid",
+                      "sdk/v0.5.12.dev10.555b45b4/vision",
+                      "sdk/v0.5.12.dev10.555b45b4/voyageai",
+                      "sdk/v0.5.12.dev10.555b45b4/whisper",
+                      "sdk/v0.5.12.dev10.555b45b4/whisperx",
+                      "sdk/v0.5.12.dev10.555b45b4/yolox"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.5.12.dev9.5aed14d2/io"
+                      "sdk/v0.5.12.dev10.555b45b4/io"
                     ]
                   }
                 ]

@@ -69,16 +69,18 @@ from pixeltable.functions.mistralai import chat_completions
 t = pxt.create_table('mistralai_demo.chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
-t.add_computed_column(output=chat_completions(
-    messages=messages,
-    model='mistral-small-latest',
-    model_kwargs={
-        # Optional dict with parameters for the Mistral API
-        'max_tokens': 300,
-        'top_p': 0.9,
-        'temperature': 0.7
-    }
-))
+t.add_computed_column(
+    output=chat_completions(
+        messages=messages,
+        model='mistral-small-latest',
+        model_kwargs={
+            # Optional dict with parameters for the Mistral API
+            'max_tokens': 300,
+            'top_p': 0.9,
+            'temperature': 0.7,
+        },
+    )
+)
 ```
 
 
@@ -90,7 +92,13 @@ t.add_computed_column(response=t.output.choices[0].message.content)
 
 ```python
 # Start a conversation
-t.insert([{'input': 'What three species of fish have the highest mercury content?'}])
+t.insert(
+    [
+        {
+            'input': 'What three species of fish have the highest mercury content?'
+        }
+    ]
+)
 t.select(t.input, t.response).show()
 ```
 

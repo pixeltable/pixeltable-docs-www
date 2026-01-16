@@ -1572,11 +1572,10 @@ newly-created directory.
 
 
 ```python
-films_t = pxt.create_table('fundamentals.films', {
-    'film_name': pxt.String,
-    'year': pxt.Int,
-    'revenue': pxt.Float
-})
+films_t = pxt.create_table(
+    'fundamentals.films',
+    {'film_name': pxt.String, 'year': pxt.Int, 'revenue': pxt.Float},
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1588,11 +1587,17 @@ list of Python dicts.
 
 
 ```python
-films_t.insert([
-    {'film_name': 'Jurassic Park', 'year': 1993, 'revenue': 1037.5},
-    {'film_name': 'Titanic', 'year': 1997, 'revenue': 2257.8},
-    {'film_name': 'Avengers: Endgame', 'year': 2019, 'revenue': 2797.5}
-])
+films_t.insert(
+    [
+        {'film_name': 'Jurassic Park', 'year': 1993, 'revenue': 1037.5},
+        {'film_name': 'Titanic', 'year': 1997, 'revenue': 2257.8},
+        {
+            'film_name': 'Avengers: Endgame',
+            'year': 2019,
+            'revenue': 2797.5,
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1606,7 +1611,9 @@ that is sometimes more convenient.
 
 
 ```python
-films_t.insert([{'film_name': 'Inside Out 2', 'year': 2024, 'revenue': 1462.7}])
+films_t.insert(
+    [{'film_name': 'Inside Out 2', 'year': 2024, 'revenue': 1462.7}]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1678,7 +1685,9 @@ assign it a more informative name with Python keyword syntax:
 
 
 ```python
-films_t.select(films_t.film_name, revenue_thousands=films_t.revenue * 1000).collect()
+films_t.select(
+    films_t.film_name, revenue_thousands=films_t.revenue * 1000
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
@@ -1842,7 +1851,9 @@ eq_t = pxt.create_table(
     'fundamentals.earthquakes',  # Name for the new table
     source='https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/earthquakes.csv',
     primary_key='id',  # Column 'id' is the primary key
-    schema_overrides={'timestamp': pxt.Timestamp}  # Interpret column 3 as a timestamp
+    schema_overrides={
+        'timestamp': pxt.Timestamp
+    },  # Interpret column 3 as a timestamp
 )
 ```
 
@@ -1957,8 +1968,10 @@ from datetime import datetime
 
 # 5 highest-magnitude earthquakes in Q3 2023
 
-eq_t.where((eq_t.timestamp >= datetime(2023, 6, 1)) & (eq_t.timestamp < datetime(2023, 10, 1))) \
-  .order_by(eq_t.magnitude, asc=False).limit(5).collect()
+eq_t.where(
+    (eq_t.timestamp >= datetime(2023, 6, 1))
+    & (eq_t.timestamp < datetime(2023, 10, 1))
+).order_by(eq_t.magnitude, asc=False).limit(5).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[28] }} />
@@ -1987,7 +2000,7 @@ that appear within a particular list:
 ```python
 # Earthquakes with specific ids
 
-eq_t.where(eq_t.id.isin([123,456,789])).collect()
+eq_t.where(eq_t.id.isin([123, 456, 789])).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[29] }} />
@@ -2015,7 +2028,9 @@ showcasing two fairly simple ones, `max()` and `min()`:
 ```python
 # Min and max ids
 
-eq_t.select(min=pxt.functions.min(eq_t.id), max=pxt.functions.max(eq_t.id)).collect()
+eq_t.select(
+    min=pxt.functions.min(eq_t.id), max=pxt.functions.max(eq_t.id)
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[31] }} />
@@ -2050,7 +2065,9 @@ result[0]  # Get the first row of the results as a dict
 
 
 ```python
-result['timestamp']  # Get a list of the `timestamp` field of all the rows that were queried
+result[
+    'timestamp'
+]  # Get a list of the `timestamp` field of all the rows that were queried
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -2157,9 +2174,12 @@ Table rows can be modified and deleted with the SQL-like `update()` and
 # Add a comment to records with IDs 123 and 127
 
 (
-    eq_t
-    .where(eq_t.id.isin([121,123]))
-    .update({'note': 'Still investigating.', 'contact_email': 'contact@pixeltable.com'})
+    eq_t.where(eq_t.id.isin([121, 123])).update(
+        {
+            'note': 'Still investigating.',
+            'contact_email': 'contact@pixeltable.com',
+        }
+    )
 )
 ```
 
@@ -2170,7 +2190,9 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`earthquakes\`:&nbsp;2&nbsp;rows&nbsp;\[00:0
 
 
 ```python
-eq_t.where(eq_t.id >= 120).select(eq_t.id, eq_t.magnitude, eq_t.note, eq_t.contact_email).head(5)
+eq_t.where(eq_t.id >= 120).select(
+    eq_t.id, eq_t.magnitude, eq_t.note, eq_t.contact_email
+).head(5)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[36] }} />
@@ -2218,7 +2240,7 @@ in action.
 updates = [
     {'id': 500, 'note': 'This is an example note.'},
     {'id': 501, 'note': 'This is a different note.'},
-    {'id': 502, 'note': 'A third note, unrelated to the others.'}
+    {'id': 502, 'note': 'A third note, unrelated to the others.'},
 ]
 eq_t.batch_update(updates)
 ```
@@ -2230,7 +2252,9 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`earthquakes\`:&nbsp;3&nbsp;rows&nbsp;\[00:0
 
 
 ```python
-eq_t.where(eq_t.id >= 500).select(eq_t.id, eq_t.magnitude, eq_t.note, eq_t.contact_email).head(5)
+eq_t.where(eq_t.id >= 500).select(
+    eq_t.id, eq_t.magnitude, eq_t.note, eq_t.contact_email
+).head(5)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[38] }} />
@@ -2381,7 +2405,9 @@ Added&nbsp;1823&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 # Update the row with id == 1002, adding an image to the `map_image` column
 
 eq_t.where(eq_t.id == 1002).update(
-    {'map_image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/port-townsend-map.jpeg'}
+    {
+        'map_image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/port-townsend-map.jpeg'
+    }
 )
 ```
 
@@ -2404,7 +2430,9 @@ a query:
 
 
 ```python
-eq_t.where(eq_t.id >= 1000).select(eq_t.id, eq_t.magnitude, eq_t.location, eq_t.map_image).head(5)
+eq_t.where(eq_t.id >= 1000).select(
+    eq_t.id, eq_t.magnitude, eq_t.location, eq_t.map_image
+).head(5)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[49] }} />
@@ -2419,7 +2447,9 @@ whatever fashion makes the most sense for a given application.
 ```python
 pxt.create_dir('fundamentals.subdir')
 pxt.create_dir('fundamentals.subdir.subsubdir')
-pxt.create_table('fundamentals.subdir.subsubdir.my_table', {'my_col': pxt.String})
+pxt.create_table(
+    'fundamentals.subdir.subsubdir.my_table', {'my_col': pxt.String}
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

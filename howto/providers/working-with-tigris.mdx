@@ -194,14 +194,14 @@ import os
 from getpass import getpass
 
 
-os.environ["AWS_ACCESS_KEY_ID"] = getpass("Tigris access key ID")
-os.environ["AWS_SECRET_ACCESS_KEY"] = getpass("Tigris secret access key")
-bucket_name = getpass("Tigris bucket name")
+os.environ['AWS_ACCESS_KEY_ID'] = getpass('Tigris access key ID')
+os.environ['AWS_SECRET_ACCESS_KEY'] = getpass('Tigris secret access key')
+bucket_name = getpass('Tigris bucket name')
 
-os.environ["AWS_ENDPOINT_URL_S3"] = "https://t3.storage.dev"
-os.environ["AWS_REGION"] = "auto"
-os.environ["PIXELTABLE_INPUT_MEDIA_DEST"] = f"s3://{bucket_name}/input/"
-os.environ["PIXELTABLE_OUTPUT_MEDIA_DEST"] = f"s3://{bucket_name}/output/"
+os.environ['AWS_ENDPOINT_URL_S3'] = 'https://t3.storage.dev'
+os.environ['AWS_REGION'] = 'auto'
+os.environ['PIXELTABLE_INPUT_MEDIA_DEST'] = f's3://{bucket_name}/input/'
+os.environ['PIXELTABLE_OUTPUT_MEDIA_DEST'] = f's3://{bucket_name}/output/'
 ```
 
 ## Create a table for images
@@ -217,15 +217,17 @@ from datasets import load_dataset
 
 
 # Create directory for this demo
-pxt.drop_dir("tigris", force=True)
-pxt.create_dir("tigris", if_exists="replace")
+pxt.drop_dir('tigris', force=True)
+pxt.create_dir('tigris', if_exists='replace')
 
 
 # Load the dataset
-ds = load_dataset("XeIaso/botw-screenshots-captioned")
+ds = load_dataset('XeIaso/botw-screenshots-captioned')
 # Import it to pixeltable with the name screenshots
-pxt.drop_table("tigris.screenshots", force=True)
-screenshots = pxt.create_table("tigris.screenshots", source=ds, if_exists="replace")
+pxt.drop_table('tigris.screenshots', force=True)
+screenshots = pxt.create_table(
+    'tigris.screenshots', source=ds, if_exists='replace'
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -251,7 +253,7 @@ column](/tutorials/computed-columns):
 # Uses output_media_dest by default, or specify a custom destination
 screenshots.add_computed_column(
     thumbnail=screenshots.image.resize((256, 256)),
-    destination=f"s3://{bucket_name}/botw-screenshots/thumbnails/"
+    destination=f's3://{bucket_name}/botw-screenshots/thumbnails/',
 )
 ```
 
@@ -279,10 +281,10 @@ need to serve media with. Fetch them with the `.fileurl` property:
 
 ```python
 screenshots.select(
-  image=screenshots.image,
-  image_url=screenshots.image.fileurl,
-  thumbnail=screenshots.thumbnail,
-  thumbnail_url=screenshots.thumbnail.fileurl,
+    image=screenshots.image,
+    image_url=screenshots.image.fileurl,
+    thumbnail=screenshots.thumbnail,
+    thumbnail_url=screenshots.thumbnail.fileurl,
 ).limit(1).collect()
 ```
 
@@ -308,7 +310,9 @@ screenshots.select(
     image_presigned=net.presigned_url(screenshots.image.fileurl, 3600),
     thumbnail=screenshots.thumbnail,
     thumbnail_url=screenshots.thumbnail.fileurl,
-    thumbnail_presigned=net.presigned_url(screenshots.thumbnail.fileurl, 3600),
+    thumbnail_presigned=net.presigned_url(
+        screenshots.thumbnail.fileurl, 3600
+    ),
 ).limit(1).collect()
 ```
 

@@ -303,7 +303,7 @@ full_text = pxt.create_view(
     iterator=DocumentSplitter.create(
         document=docs.doc,
         separators='',  # No splitting - extract full document
-    )
+    ),
 )
 ```
 
@@ -334,7 +334,7 @@ by_heading = pxt.create_view(
         document=docs.doc,
         separators='heading',
         metadata='heading',  # Preserve heading structure
-    )
+    ),
 )
 ```
 
@@ -367,7 +367,7 @@ by_tokens = pxt.create_view(
         limit=512,  # Maximum tokens per chunk
         overlap=50,  # Overlap between chunks to preserve context
         metadata='heading',
-    )
+    ),
 )
 ```
 
@@ -390,7 +390,9 @@ You search across all document chunks using standard Pixeltable queries.
 
 ```python
 # Find chunks containing specific keywords
-by_tokens.where(by_tokens.text.contains('Python')).select(by_tokens.doc, by_tokens.text).head(3)
+by_tokens.where(by_tokens.text.contains('Python')).select(
+    by_tokens.doc, by_tokens.text
+).head(3)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />

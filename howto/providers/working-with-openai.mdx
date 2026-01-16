@@ -38,8 +38,11 @@ API key.
 ```python
 import os
 import getpass
+
 if 'OPENAI_API_KEY' not in os.environ:
-    os.environ['OPENAI_API_KEY'] = getpass.getpass('Enter your OpenAI API key:')
+    os.environ['OPENAI_API_KEY'] = getpass.getpass(
+        'Enter your OpenAI API key:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -68,16 +71,18 @@ from pixeltable.functions import openai
 t = pxt.create_table('openai_demo.chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
-t.add_computed_column(output=openai.chat_completions(
-    messages=messages,
-    model='gpt-4o-mini',
-    model_kwargs={
-        # Optional dict with parameters for the OpenAI API
-        'max_tokens': 300,
-        'top_p': 0.9,
-        'temperature': 0.7
-    }
-))
+t.add_computed_column(
+    output=openai.chat_completions(
+        messages=messages,
+        model='gpt-4o-mini',
+        model_kwargs={
+            # Optional dict with parameters for the OpenAI API
+            'max_tokens': 300,
+            'top_p': 0.9,
+            'temperature': 0.7,
+        },
+    )
+)
 ```
 
 
@@ -89,7 +94,9 @@ t.add_computed_column(response=t.output.choices[0].message.content)
 
 ```python
 # Start a conversation
-t.insert([{'input': 'How many islands are in the Aleutian island chain?'}])
+t.insert(
+    [{'input': 'How many islands are in the Aleutian island chain?'}]
+)
 t.select(t.input, t.response).head()
 ```
 
@@ -100,15 +107,18 @@ Note: OpenAI Embeddings API is not available with free tier API keys
 
 ```python
 emb_t = pxt.create_table('openai_demo.embeddings', {'input': pxt.String})
-emb_t.add_computed_column(embedding=openai.embeddings(
-    input=emb_t.input,
-    model='text-embedding-3-small'
-))
+emb_t.add_computed_column(
+    embedding=openai.embeddings(
+        input=emb_t.input, model='text-embedding-3-small'
+    )
+)
 ```
 
 
 ```python
-emb_t.insert([{'input': 'OpenAI provides a variety of embeddings models.'}])
+emb_t.insert(
+    [{'input': 'OpenAI provides a variety of embeddings models.'}]
+)
 ```
 
 
@@ -121,17 +131,20 @@ emb_t.head()
 
 ```python
 image_t = pxt.create_table('openai_demo.images', {'input': pxt.String})
-image_t.add_computed_column(img=openai.image_generations(
-    image_t.input,
-    model='dall-e-2',
-))
+image_t.add_computed_column(
+    img=openai.image_generations(image_t.input, model='dall-e-2')
+)
 ```
 
 
 ```python
-image_t.insert([
-    {'input': 'A giant Pixel floating in the open ocean in a sea of data'}
-])
+image_t.insert(
+    [
+        {
+            'input': 'A giant Pixel floating in the open ocean in a sea of data'
+        }
+    ]
+)
 ```
 
 
@@ -149,14 +162,16 @@ image_t.head()
 
 ```python
 audio_t = pxt.create_table('openai_demo.audio', {'input': pxt.Audio})
-audio_t.add_computed_column(result=openai.transcriptions(
-    audio_t.input,
-    model='whisper-1',
-    model_kwargs={
-        'language': 'en',
-        'prompt': 'Transcribe the contents of this recording.'
-    },
-))
+audio_t.add_computed_column(
+    result=openai.transcriptions(
+        audio_t.input,
+        model='whisper-1',
+        model_kwargs={
+            'language': 'en',
+            'prompt': 'Transcribe the contents of this recording.',
+        },
+    )
+)
 ```
 
 

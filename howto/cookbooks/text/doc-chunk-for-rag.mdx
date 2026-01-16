@@ -187,9 +187,13 @@ Created&nbsp;table&nbsp;&#x27;documents&#x27;.
 
 ```python
 # Insert a sample PDF
-docs.insert([
-    {'document': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Argus-Market-Digest-June-2024.pdf'}
-])
+docs.insert(
+    [
+        {
+            'document': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Argus-Market-Digest-June-2024.pdf'
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -212,8 +216,8 @@ chunks = pxt.create_view(
     iterator=document_splitter(
         docs.document,
         separators='sentence,token_limit',  # Split by sentence with token limit
-        limit=300  # Max 300 tokens per chunk
-    )
+        limit=300,  # Max 300 tokens per chunk
+    ),
 )
 ```
 
@@ -238,7 +242,7 @@ Create an embedding index on the chunks for similarity search:
 # Add embedding index for semantic search
 chunks.add_embedding_index(
     column='text',
-    string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2')
+    string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2'),
 )
 ```
 
@@ -249,12 +253,11 @@ Use similarity search to find relevant chunks:
 
 ```python
 # Search for relevant chunks
-query = "market trends"
+query = 'market trends'
 sim = chunks.text.similarity(string=query)
 
 results = (
-    chunks
-    .order_by(sim, asc=False)
+    chunks.order_by(sim, asc=False)
     .select(chunks.text, score=sim)
     .limit(3)
 )

@@ -239,9 +239,14 @@ Test that Pixeltable can access your credentials by checking the config:
 
 ```python
 # Check which API keys are available
-services = ['OPENAI_API_KEY', 'ANTHROPIC_API_KEY', 'GOOGLE_API_KEY', 'MISTRAL_API_KEY']
+services = [
+    'OPENAI_API_KEY',
+    'ANTHROPIC_API_KEY',
+    'GOOGLE_API_KEY',
+    'MISTRAL_API_KEY',
+]
 for svc in services:
-    status = "✓" if svc in os.environ else "✗"
+    status = '✓' if svc in os.environ else '✗'
 ```
 
 ## Explanation

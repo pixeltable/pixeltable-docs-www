@@ -373,13 +373,21 @@ First, create a sample Parquet file to demonstrate the import process:
 
 ```python
 # Create sample data
-sample_data = pd.DataFrame({
-    'product_id': [1, 2, 3, 4, 5],
-    'name': ['Widget A', 'Widget B', 'Gadget X', 'Gadget Y', 'Tool Z'],
-    'price': [29.99, 39.99, 149.99, 199.99, 79.99],
-    'category': ['widgets', 'widgets', 'gadgets', 'gadgets', 'tools'],
-    'in_stock': [True, False, True, True, False]
-})
+sample_data = pd.DataFrame(
+    {
+        'product_id': [1, 2, 3, 4, 5],
+        'name': [
+            'Widget A',
+            'Widget B',
+            'Gadget X',
+            'Gadget Y',
+            'Tool Z',
+        ],
+        'price': [29.99, 39.99, 149.99, 199.99, 79.99],
+        'category': ['widgets', 'widgets', 'gadgets', 'gadgets', 'tools'],
+        'in_stock': [True, False, True, True, False],
+    }
+)
 
 # Save to temporary Parquet file
 temp_dir = tempfile.mkdtemp()
@@ -416,8 +424,7 @@ Created&nbsp;directory&nbsp;&#x27;parquet_demo&#x27;.
 ```python
 # Import Parquet file into a new table
 products = pxt.create_table(
-    'parquet_demo.products',
-    source=str(parquet_path)
+    'parquet_demo.products', source=str(parquet_path)
 )
 ```
 
@@ -456,7 +463,9 @@ Added&nbsp;5&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # View with computed column
-products.select(products.name, products.price, products.sale_price).collect()
+products.select(
+    products.name, products.price, products.sale_price
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
@@ -472,7 +481,7 @@ constraints:
 products_pk = pxt.create_table(
     'parquet_demo.products_with_pk',
     source=str(parquet_path),
-    primary_key='product_id'
+    primary_key='product_id',
 )
 ```
 
@@ -503,7 +512,7 @@ export_path = Path(temp_dir) / 'exported_products'
 
 pxt.io.export_parquet(
     products.select(products.name, products.price, products.sale_price),
-    parquet_path=export_path
+    parquet_path=export_path,
 )
 ```
 

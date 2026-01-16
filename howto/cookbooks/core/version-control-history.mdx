@@ -489,7 +489,7 @@ Every data or schema change creates a new version.
 # Create table (version 0)
 products = pxt.create_table(
     'version_demo.products',
-    {'name': pxt.String, 'price': pxt.Float, 'category': pxt.String}
+    {'name': pxt.String, 'price': pxt.Float, 'category': pxt.String},
 )
 ```
 
@@ -500,11 +500,13 @@ Created&nbsp;table&nbsp;&#x27;products&#x27;.
 
 ```python
 # Insert data (version 1)
-products.insert([
-    {'name': 'Widget', 'price': 9.99, 'category': 'Tools'},
-    {'name': 'Gadget', 'price': 24.99, 'category': 'Electronics'},
-    {'name': 'Gizmo', 'price': 14.99, 'category': 'Electronics'},
-])
+products.insert(
+    [
+        {'name': 'Widget', 'price': 9.99, 'category': 'Tools'},
+        {'name': 'Gadget', 'price': 24.99, 'category': 'Electronics'},
+        {'name': 'Gizmo', 'price': 14.99, 'category': 'Electronics'},
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -538,9 +540,9 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&
 
 ```python
 # Insert more data (version 4)
-products.insert([
-    {'name': 'Thingamajig', 'price': 49.99, 'category': 'Tools'},
-])
+products.insert(
+    [{'name': 'Thingamajig', 'price': 49.99, 'category': 'Tools'}]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -664,7 +666,9 @@ products.history()
 products.revert()
 
 # Check the Widget price is back to original
-products.where(products.name == 'Widget').select(products.name, products.price).collect()
+products.where(products.name == 'Widget').select(
+    products.name, products.price
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[11] }} />
@@ -687,9 +691,9 @@ snapshot_v1.collect()
 
 ```python
 # Now make changes to the original table
-products.insert([
-    {'name': 'Doohickey', 'price': 99.99, 'category': 'Premium'},
-])
+products.insert(
+    [{'name': 'Doohickey', 'price': 99.99, 'category': 'Premium'}]
+)
 products.update({'price': 29.99}, where=products.name == 'Gadget')
 
 products.collect()

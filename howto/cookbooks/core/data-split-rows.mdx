@@ -281,7 +281,13 @@ pxt.drop_dir('split_demo', force=True)
 pxt.create_dir('split_demo')
 
 docs = pxt.create_table('split_demo.docs', {'doc': pxt.Document})
-docs.insert([{'doc': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Jefferson-Amazon.pdf'}])
+docs.insert(
+    [
+        {
+            'doc': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Jefferson-Amazon.pdf'
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -297,7 +303,9 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 chunks = pxt.create_view(
     'split_demo.doc_chunks',
     docs,
-    iterator=document_splitter(docs.doc, separators='sentence,token_limit', limit=300)
+    iterator=document_splitter(
+        docs.doc, separators='sentence,token_limit', limit=300
+    ),
 )
 chunks.select(chunks.text).limit(3).collect()
 ```
@@ -328,7 +336,13 @@ Use `frame_iterator` to extract frames at specified intervals.
 from pixeltable.functions.video import frame_iterator
 
 videos = pxt.create_table('split_demo.videos', {'video': pxt.Video})
-videos.insert([{'video': 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/bangkok.mp4'}])
+videos.insert(
+    [
+        {
+            'video': 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/bangkok.mp4'
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -343,9 +357,11 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 frames = pxt.create_view(
     'split_demo.frames',
     videos,
-    iterator=frame_iterator(videos.video, fps=1.0)
+    iterator=frame_iterator(videos.video, fps=1.0),
 )
-frames.select(frames.frame_idx, frames.pos_msec, frames.frame).limit(3).collect()
+frames.select(frames.frame_idx, frames.pos_msec, frames.frame).limit(
+    3
+).collect()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -374,9 +390,13 @@ from pixeltable.functions.video import video_splitter
 segments = pxt.create_view(
     'split_demo.segments',
     videos,
-    iterator=video_splitter(videos.video, duration=5.0, min_segment_duration=1.0)
+    iterator=video_splitter(
+        videos.video, duration=5.0, min_segment_duration=1.0
+    ),
 )
-segments.select(segments.segment_start, segments.segment_end, segments.video_segment).limit(3).collect()
+segments.select(
+    segments.segment_start, segments.segment_end, segments.video_segment
+).limit(3).collect()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -403,7 +423,13 @@ Use `string_splitter` to divide text into sentences.
 from pixeltable.functions.string import string_splitter
 
 texts = pxt.create_table('split_demo.texts', {'content': pxt.String})
-texts.insert([{'content': 'AI data infrastructure simplifies ML workflows. Declarative pipelines update incrementally. This makes development faster and more maintainable.'}])
+texts.insert(
+    [
+        {
+            'content': 'AI data infrastructure simplifies ML workflows. Declarative pipelines update incrementally. This makes development faster and more maintainable.'
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -418,7 +444,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 sentences = pxt.create_view(
     'split_demo.sentences',
     texts,
-    iterator=string_splitter(texts.content, separators='sentence')
+    iterator=string_splitter(texts.content, separators='sentence'),
 )
 sentences.select(sentences.text).collect()
 ```
@@ -444,7 +470,13 @@ regions.
 from pixeltable.functions.image import tile_iterator
 
 images = pxt.create_table('split_demo.images', {'image': pxt.Image})
-images.insert([{'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/pixeltable-logo-large.png'}])
+images.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/pixeltable-logo-large.png'
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -459,7 +491,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 tiles = pxt.create_view(
     'split_demo.tiles',
     images,
-    iterator=tile_iterator(images.image, tile_size=(100, 100))
+    iterator=tile_iterator(images.image, tile_size=(100, 100)),
 )
 ```
 
@@ -492,7 +524,13 @@ transcription or analysis.
 from pixeltable.functions.audio import audio_splitter
 
 audio = pxt.create_table('split_demo.audio', {'audio': pxt.Audio})
-audio.insert([{'audio': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/10-minute%20tour%20of%20Pixeltable.mp3'}])
+audio.insert(
+    [
+        {
+            'audio': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/10-minute%20tour%20of%20Pixeltable.mp3'
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -507,10 +545,13 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 audio_chunks = pxt.create_view(
     'split_demo.audio_chunks',
     audio,
-    iterator=audio_splitter(audio.audio, chunk_duration_sec=30.0, overlap_sec=2.0)
+    iterator=audio_splitter(
+        audio.audio, chunk_duration_sec=30.0, overlap_sec=2.0
+    ),
 )
-audio_chunks.select(audio_chunks.start_time_sec, audio_chunks.end_time_sec).limit(5).collect()
-
+audio_chunks.select(
+    audio_chunks.start_time_sec, audio_chunks.end_time_sec
+).limit(5).collect()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

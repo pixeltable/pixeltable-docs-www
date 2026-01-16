@@ -545,11 +545,19 @@ Created&nbsp;table&nbsp;&#x27;images&#x27;.
 
 
 ```python
-t.insert([
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000285.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000776.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000885.jpg'},
-])
+t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000285.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000776.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000885.jpg'
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -719,7 +727,7 @@ from PIL import Image
 t.select(
     t.image,
     t.image.transpose(Image.FLIP_TOP_BOTTOM),
-    t.image.transpose(Image.FLIP_LEFT_RIGHT)
+    t.image.transpose(Image.FLIP_LEFT_RIGHT),
 ).head(1)
 ```
 
@@ -773,12 +781,14 @@ PIL:
 # Box format: (left, top, right, bottom)
 t.select(
     t.image,
-    t.image.crop((
-        t.image.width // 4,
-        t.image.height // 4,
-        3 * t.image.width // 4,
-        3 * t.image.height // 4
-    ))
+    t.image.crop(
+        (
+            t.image.width // 4,
+            t.image.height // 4,
+            3 * t.image.width // 4,
+            3 * t.image.height // 4,
+        )
+    ),
 ).head(1)
 ```
 
@@ -794,12 +804,14 @@ permanently in your table.
 ```python
 # Save as computed column
 t.add_computed_column(
-    center_crop=t.image.crop((
-        t.image.width // 4,
-        t.image.height // 4,
-        3 * t.image.width // 4,
-        3 * t.image.height // 4
-    ))
+    center_crop=t.image.crop(
+        (
+            t.image.width // 4,
+            t.image.height // 4,
+            3 * t.image.width // 4,
+            3 * t.image.height // 4,
+        )
+    )
 )
 ```
 

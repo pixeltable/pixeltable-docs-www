@@ -368,8 +368,14 @@ results.
 import numpy as np
 
 import pixeltable as pxt
-from pixeltable.functions.huggingface import detr_for_object_detection, detr_for_segmentation
-from pixeltable.functions.vision import draw_bounding_boxes, overlay_segmentation
+from pixeltable.functions.huggingface import (
+    detr_for_object_detection,
+    detr_for_segmentation,
+)
+from pixeltable.functions.vision import (
+    draw_bounding_boxes,
+    overlay_segmentation,
+)
 ```
 
 ### Load images
@@ -391,10 +397,12 @@ Created&nbsp;directory&nbsp;&#x27;detection_vs_seg&#x27;.
 images = pxt.create_table('detection_vs_seg.images', {'image': pxt.Image})
 
 base_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
-images.insert([
-    {'image': f'{base_url}/000000000034.jpg'},
-    {'image': f'{base_url}/000000000049.jpg'},
-])
+images.insert(
+    [
+        {'image': f'{base_url}/000000000034.jpg'},
+        {'image': f'{base_url}/000000000049.jpg'},
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -426,9 +434,7 @@ and confidence scores.
 ```python
 images.add_computed_column(
     detections=detr_for_object_detection(
-        images.image,
-        model_id='facebook/detr-resnet-50',
-        threshold=0.8
+        images.image, model_id='facebook/detr-resnet-50', threshold=0.8
     )
 )
 ```
@@ -459,7 +465,7 @@ images.add_computed_column(
         boxes=images.detections.boxes,
         labels=images.detections.label_text,
         fill=True,
-        width=2
+        width=2,
     )
 )
 ```
@@ -507,7 +513,7 @@ segment metadata.
 seg_expr = detr_for_segmentation(
     images.image,
     model_id='facebook/detr-resnet-50-panoptic',
-    threshold=0.5
+    threshold=0.5,
 )
 
 images.add_computed_column(segments_info=seg_expr.segments_info)
@@ -517,7 +523,6 @@ images.add_computed_column(segments_info=seg_expr.segments_info)
 ```python
 # View stored segmentation info
 images.select(images.image, images.segments_info).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
@@ -534,9 +539,11 @@ regions and contours.
 seg_expr = detr_for_segmentation(
     images.image,
     model_id='facebook/detr-resnet-50-panoptic',
-    threshold=0.5
+    threshold=0.5,
 )
-segmentation_map = seg_expr.segmentation.astype(pxt.Array[(None, None), np.int32])
+segmentation_map = seg_expr.segmentation.astype(
+    pxt.Array[(None, None), np.int32]
+)
 
 images.select(
     segmentation_viz=overlay_segmentation(
@@ -544,7 +551,7 @@ images.select(
         segmentation_map,
         alpha=0.5,
         draw_contours=True,
-        contour_thickness=2
+        contour_thickness=2,
     )
 ).collect()
 ```
@@ -559,9 +566,11 @@ images.select(
 seg_expr = detr_for_segmentation(
     images.image,
     model_id='facebook/detr-resnet-50-panoptic',
-    threshold=0.5
+    threshold=0.5,
 )
-segmentation_map = seg_expr.segmentation.astype(pxt.Array[(None, None), np.int32])
+segmentation_map = seg_expr.segmentation.astype(
+    pxt.Array[(None, None), np.int32]
+)
 
 images.select(
     images.image,
@@ -571,8 +580,8 @@ images.select(
         segmentation_map,
         alpha=0.5,
         draw_contours=True,
-        contour_thickness=2
-    )
+        contour_thickness=2,
+    ),
 ).collect()
 ```
 
@@ -586,9 +595,8 @@ images.select(
 images.select(
     images.image,
     num_detections=images.detections.boxes.apply(len, col_type=pxt.Int),
-    num_segments=images.segments_info.apply(len, col_type=pxt.Int)
+    num_segments=images.segments_info.apply(len, col_type=pxt.Int),
 ).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />

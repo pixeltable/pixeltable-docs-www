@@ -39,7 +39,9 @@ import os
 import getpass
 
 if 'REPLICATE_API_TOKEN' not in os.environ:
-    os.environ['REPLICATE_API_TOKEN'] = getpass.getpass('Replicate API Token:')
+    os.environ['REPLICATE_API_TOKEN'] = getpass.getpass(
+        'Replicate API Token:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -73,9 +75,11 @@ input = {
     # These parameters are optional and can be used to tune model behavior:
     'max_tokens': 300,
     'top_p': 0.9,
-    'temperature': 0.8
+    'temperature': 0.8,
 }
-t.add_computed_column(output=run(input, ref='meta/meta-llama-3-8b-instruct'))
+t.add_computed_column(
+    output=run(input, ref='meta/meta-llama-3-8b-instruct')
+)
 ```
 
 
@@ -100,17 +104,21 @@ models with Pixeltable. We’ll use the FLUX Schnell model.
 ```python
 t = pxt.create_table('replicate_demo.images', {'prompt': pxt.String})
 
-input = {
-    'prompt': t.prompt,
-    'go_fast': True,
-    'megapixels': '1'
-}
-t.add_computed_column(output=run(input, ref='black-forest-labs/flux-schnell'))
+input = {'prompt': t.prompt, 'go_fast': True, 'megapixels': '1'}
+t.add_computed_column(
+    output=run(input, ref='black-forest-labs/flux-schnell')
+)
 ```
 
 
 ```python
-t.insert([{'prompt': 'Draw a pencil sketch of a friendly dinosaur playing tennis in a cornfield.'}])
+t.insert(
+    [
+        {
+            'prompt': 'Draw a pencil sketch of a friendly dinosaur playing tennis in a cornfield.'
+        }
+    ]
+)
 ```
 
 

@@ -278,11 +278,41 @@ First, create a sample JSON file to demonstrate the import process:
 ```python
 # Create sample JSON data (array of objects)
 sample_data = [
-    {'id': 1, 'title': 'Introduction to ML', 'author': 'Alice', 'tags': ['ml', 'intro'], 'rating': 4.5},
-    {'id': 2, 'title': 'Deep Learning Basics', 'author': 'Bob', 'tags': ['dl', 'neural'], 'rating': 4.8},
-    {'id': 3, 'title': 'NLP Fundamentals', 'author': 'Carol', 'tags': ['nlp', 'text'], 'rating': 4.2},
-    {'id': 4, 'title': 'Computer Vision', 'author': 'Dave', 'tags': ['cv', 'images'], 'rating': 4.6},
-    {'id': 5, 'title': 'Reinforcement Learning', 'author': 'Eve', 'tags': ['rl', 'agents'], 'rating': 4.3}
+    {
+        'id': 1,
+        'title': 'Introduction to ML',
+        'author': 'Alice',
+        'tags': ['ml', 'intro'],
+        'rating': 4.5,
+    },
+    {
+        'id': 2,
+        'title': 'Deep Learning Basics',
+        'author': 'Bob',
+        'tags': ['dl', 'neural'],
+        'rating': 4.8,
+    },
+    {
+        'id': 3,
+        'title': 'NLP Fundamentals',
+        'author': 'Carol',
+        'tags': ['nlp', 'text'],
+        'rating': 4.2,
+    },
+    {
+        'id': 4,
+        'title': 'Computer Vision',
+        'author': 'Dave',
+        'tags': ['cv', 'images'],
+        'rating': 4.6,
+    },
+    {
+        'id': 5,
+        'title': 'Reinforcement Learning',
+        'author': 'Eve',
+        'tags': ['rl', 'agents'],
+        'rating': 4.3,
+    },
 ]
 
 # Save to temporary JSON file
@@ -317,7 +347,7 @@ Created&nbsp;directory&nbsp;&#x27;json_demo&#x27;.
 articles = pxt.create_table(
     'json_demo.articles',
     source=str(json_path),
-    source_format='json'  # Explicitly specify format when using local file paths
+    source_format='json',  # Explicitly specify format when using local file paths
 )
 ```
 
@@ -348,7 +378,7 @@ You can import JSON directly from a URL—useful for APIs and remote data:
 posts = pxt.create_table(
     'json_demo.posts',
     source='https://jsonplaceholder.typicode.com/posts',
-    source_format='json'  # Required for URL sources
+    source_format='json',  # Required for URL sources
 )
 ```
 
@@ -377,9 +407,21 @@ you have data in memory:
 ```python
 # Import from a list of dictionaries
 events = [
-    {'event': 'page_view', 'user_id': 101, 'timestamp': '2024-01-15T10:30:00'},
-    {'event': 'click', 'user_id': 101, 'timestamp': '2024-01-15T10:31:00'},
-    {'event': 'purchase', 'user_id': 102, 'timestamp': '2024-01-15T10:32:00'},
+    {
+        'event': 'page_view',
+        'user_id': 101,
+        'timestamp': '2024-01-15T10:30:00',
+    },
+    {
+        'event': 'click',
+        'user_id': 101,
+        'timestamp': '2024-01-15T10:31:00',
+    },
+    {
+        'event': 'purchase',
+        'user_id': 102,
+        'timestamp': '2024-01-15T10:32:00',
+    },
 ]
 
 event_table = pxt.create_table('json_demo.events', source=events)
@@ -421,7 +463,9 @@ Added&nbsp;5&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # View with computed column
-articles.select(articles.title, articles.author, articles.summary).collect()
+articles.select(
+    articles.title, articles.author, articles.summary
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />

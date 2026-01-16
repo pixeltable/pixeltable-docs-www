@@ -320,11 +320,19 @@ Created&nbsp;table&nbsp;&#x27;enhancements&#x27;.
 
 
 ```python
-t.insert([
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000016.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000049.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'},
-])
+t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000016.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000049.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -342,10 +350,12 @@ def adjust_brightness(img: pxt.Image, factor: float) -> pxt.Image:
     """Adjust brightness. factor < 1 = darker, > 1 = brighter."""
     return ImageEnhance.Brightness(img).enhance(factor)
 
+
 @pxt.udf
 def adjust_contrast(img: pxt.Image, factor: float) -> pxt.Image:
     """Adjust contrast. factor < 1 = lower, > 1 = higher."""
     return ImageEnhance.Contrast(img).enhance(factor)
+
 
 @pxt.udf
 def adjust_saturation(img: pxt.Image, factor: float) -> pxt.Image:
@@ -359,7 +369,7 @@ def adjust_saturation(img: pxt.Image, factor: float) -> pxt.Image:
 t.select(
     t.image,
     adjust_brightness(t.image, 0.5),
-    adjust_brightness(t.image, 1.5)
+    adjust_brightness(t.image, 1.5),
 ).head(1)
 ```
 

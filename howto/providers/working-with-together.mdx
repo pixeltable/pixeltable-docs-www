@@ -65,27 +65,33 @@ chat_t = pxt.create_table('together_demo.chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': chat_t.input}]
 
-chat_t.add_computed_column(output=together.chat_completions(
-    messages=messages,
-    model='meta-llama/Llama-3.3-70B-Instruct-Turbo',
-    model_kwargs={
-        # Optional dict with parameters for the Together API
-        'max_tokens': 300,
-        'stop': ['\n'],
-        'temperature': 0.7,
-        'top_p': 0.9,
-    }
-))
-chat_t.add_computed_column(response=chat_t.output.choices[0].message.content)
+chat_t.add_computed_column(
+    output=together.chat_completions(
+        messages=messages,
+        model='meta-llama/Llama-3.3-70B-Instruct-Turbo',
+        model_kwargs={
+            # Optional dict with parameters for the Together API
+            'max_tokens': 300,
+            'stop': ['\n'],
+            'temperature': 0.7,
+            'top_p': 0.9,
+        },
+    )
+)
+chat_t.add_computed_column(
+    response=chat_t.output.choices[0].message.content
+)
 ```
 
 
 ```python
 # Start a conversation
-chat_t.insert([
-    {'input': 'How many species of felids have been classified?'},
-    {'input': 'Can you make me a coffee?'}
-])
+chat_t.insert(
+    [
+        {'input': 'How many species of felids have been classified?'},
+        {'input': 'Can you make me a coffee?'},
+    ]
+)
 chat_t.select(chat_t.input, chat_t.response).head()
 ```
 
@@ -93,16 +99,21 @@ chat_t.select(chat_t.input, chat_t.response).head()
 
 
 ```python
-emb_t = pxt.create_table('together_demo.embeddings', {'input': pxt.String})
-emb_t.add_computed_column(embedding=together.embeddings(
-    input=emb_t.input,
-    model='BAAI/bge-base-en-v1.5'
-))
+emb_t = pxt.create_table(
+    'together_demo.embeddings', {'input': pxt.String}
+)
+emb_t.add_computed_column(
+    embedding=together.embeddings(
+        input=emb_t.input, model='BAAI/bge-base-en-v1.5'
+    )
+)
 ```
 
 
 ```python
-emb_t.insert([{'input': 'Together AI provides a variety of embeddings models.'}])
+emb_t.insert(
+    [{'input': 'Together AI provides a variety of embeddings models.'}]
+)
 ```
 
 
@@ -115,18 +126,20 @@ emb_t.head()
 
 ```python
 image_t = pxt.create_table('together_demo.images', {'input': pxt.String})
-image_t.add_computed_column(img=together.image_generations(
-    image_t.input,
-    model='black-forest-labs/FLUX.1-schnell',
-    model_kwargs={'steps': 5}
-))
+image_t.add_computed_column(
+    img=together.image_generations(
+        image_t.input,
+        model='black-forest-labs/FLUX.1-schnell',
+        model_kwargs={'steps': 5},
+    )
+)
 ```
 
 
 ```python
-image_t.insert([
-    {'input': 'A friendly dinosaur playing tennis in a cornfield'}
-])
+image_t.insert(
+    [{'input': 'A friendly dinosaur playing tennis in a cornfield'}]
+)
 ```
 
 

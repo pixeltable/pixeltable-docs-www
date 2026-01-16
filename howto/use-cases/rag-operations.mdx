@@ -901,10 +901,7 @@ document types, such as Markdown and HTML.
 
 
 ```python
-docs = pxt.create_table(
-    'rag_ops_demo.docs',
-    {'source_doc': pxt.Document}
-)
+docs = pxt.create_table('rag_ops_demo.docs', {'source_doc': pxt.Document})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -947,8 +944,8 @@ sentences = pxt.create_view(
     iterator=document_splitter(
         docs.source_doc,
         separators='sentence',  # Chunk docs into sentences
-        metadata='title,heading,sourceline'
-    )
+        metadata='title,heading,sourceline',
+    ),
 )
 ```
 
@@ -985,7 +982,13 @@ URL:
 
 
 ```python
-docs.insert([{'source_doc': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Argus-Market-Digest-June-2024.pdf'}])
+docs.insert(
+    [
+        {
+            'source_doc': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Argus-Market-Digest-June-2024.pdf'
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1036,14 +1039,15 @@ already in `docs`.
 
 ```python
 chunks = pxt.create_view(
-    'rag_ops_demo.chunks', docs,
+    'rag_ops_demo.chunks',
+    docs,
     iterator=document_splitter(
         docs.source_doc,
         separators='sentence,token_limit',
         limit=2048,
         overlap=0,
-        metadata='title,heading,sourceline'
-    )
+        metadata='title,heading,sourceline',
+    ),
 )
 ```
 
@@ -1054,14 +1058,15 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;217&nbsp;rows&nbsp;\[00:00,&
 
 ```python
 short_chunks = pxt.create_view(
-    'rag_ops_demo.short_chunks', docs,
+    'rag_ops_demo.short_chunks',
+    docs,
     iterator=document_splitter(
         docs.source_doc,
         separators='sentence,token_limit',
         limit=72,
         overlap=0,
-        metadata='title,heading,sourceline'
-    )
+        metadata='title,heading,sourceline',
+    ),
 )
 ```
 
@@ -1072,14 +1077,15 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`short_chunks\`:&nbsp;219&nbsp;rows&nbsp;\[0
 
 ```python
 short_char_chunks = pxt.create_view(
-    'rag_ops_demo.short_char_chunks', docs,
+    'rag_ops_demo.short_char_chunks',
+    docs,
     iterator=document_splitter(
         docs.source_doc,
         separators='sentence,char_limit',
         limit=72,
         overlap=0,
-        metadata='title,heading,sourceline'
-    )
+        metadata='title,heading,sourceline',
+    ),
 )
 ```
 
@@ -1103,7 +1109,9 @@ short_chunks.select(short_chunks.text, short_chunks.heading).show(20)
 
 
 ```python
-short_char_chunks.select(short_char_chunks.text, short_char_chunks.heading).show(20)
+short_char_chunks.select(
+    short_char_chunks.text, short_char_chunks.heading
+).show(20)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[12] }} />
@@ -1117,7 +1125,7 @@ documents as they are inserted.
 urls = [
     'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Argus-Market-Watch-June-2024.pdf',
     'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Company-Research-Alphabet.pdf',
-    'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Zacks-Nvidia-Report.pdf'
+    'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/rag-demo/Zacks-Nvidia-Report.pdf',
 ]
 docs.insert({'source_doc': url} for url in urls)
 ```
@@ -1160,10 +1168,11 @@ applying the new column to all existing data in the view.
 ```python
 from pixeltable.functions.huggingface import sentence_transformer
 
-chunks.add_computed_column(minilm_embed=sentence_transformer(
-    chunks.text,
-    model_id='paraphrase-MiniLM-L6-v2'
-))
+chunks.add_computed_column(
+    minilm_embed=sentence_transformer(
+        chunks.text, model_id='paraphrase-MiniLM-L6-v2'
+    )
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1203,9 +1212,9 @@ again, it’s just another computed column:
 ```python
 from pixeltable.functions.huggingface import clip
 
-chunks.add_computed_column(clip_embed=clip(
-    chunks.text, model_id='openai/clip-vit-base-patch32'
-))
+chunks.add_computed_column(
+    clip_embed=clip(chunks.text, model_id='openai/clip-vit-base-patch32')
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

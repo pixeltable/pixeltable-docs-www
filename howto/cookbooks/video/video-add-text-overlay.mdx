@@ -250,17 +250,18 @@ Created&nbsp;directory&nbsp;&#x27;overlay_demo&#x27;.
 ```python
 # Create a video table
 videos = pxt.create_table(
-    'overlay_demo.videos',
-    {'video': pxt.Video, 'title': pxt.String}
+    'overlay_demo.videos', {'video': pxt.Video, 'title': pxt.String}
 )
 
 # Insert a sample video
-videos.insert([
-    {
-        'video': 's3://multimedia-commons/data/videos/mp4/ffe/ffb/ffeffbef41bbc269810b2a1a888de.mp4',
-        'title': 'Sample Video'
-    }
-])
+videos.insert(
+    [
+        {
+            'video': 's3://multimedia-commons/data/videos/mp4/ffe/ffb/ffeffbef41bbc269810b2a1a888de.mp4',
+            'title': 'Sample Video',
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -284,7 +285,7 @@ videos.add_computed_column(
         horizontal_align='right',
         horizontal_margin=20,
         vertical_align='top',
-        vertical_margin=20
+        vertical_margin=20,
     )
 )
 ```
@@ -304,13 +305,13 @@ videos.add_computed_column(
         'This is a sample caption',
         font_size=32,
         color='white',
-        box=True,                    # Add background box
+        box=True,  # Add background box
         box_color='black',
         box_opacity=0.8,
-        box_border=[6, 14],          # Padding: [top/bottom, left/right]
+        box_border=[6, 14],  # Padding: [top/bottom, left/right]
         horizontal_align='center',
         vertical_align='bottom',
-        vertical_margin=70           # Distance from bottom
+        vertical_margin=70,  # Distance from bottom
     )
 )
 ```
@@ -327,13 +328,13 @@ Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
 # Add video title as an overlay (dynamic per video)
 videos.add_computed_column(
     titled=videos.video.overlay_text(
-        videos.title,                # Use the title column!
+        videos.title,  # Use the title column!
         font_size=48,
         color='yellow',
         opacity=1.0,
         horizontal_align='center',
         vertical_align='top',
-        vertical_margin=30
+        vertical_margin=30,
     )
 )
 ```
@@ -351,7 +352,7 @@ videos.select(
     videos.video,
     videos.watermarked,
     videos.captioned,
-    videos.titled
+    videos.titled,
 ).collect()
 ```
 

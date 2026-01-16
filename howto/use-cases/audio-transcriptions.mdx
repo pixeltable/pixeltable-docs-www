@@ -45,13 +45,14 @@ Now we create a Pixeltable table to hold our videos.
 ```python
 import pixeltable as pxt
 
-pxt.drop_dir('transcription_demo', force=True)  # Ensure a clean slate for the demo
+pxt.drop_dir(
+    'transcription_demo', force=True
+)  # Ensure a clean slate for the demo
 pxt.create_dir('transcription_demo')
 
 # Create a table to store our videos and workflow
 video_table = pxt.create_table(
-    'transcription_demo.video_table',
-    {'video': pxt.Video}
+    'transcription_demo.video_table', {'video': pxt.Video}
 )
 
 video_table
@@ -106,9 +107,7 @@ audio streams.
 ```python
 from pixeltable.functions.audio import get_metadata
 
-video_table.add_computed_column(
-    metadata=get_metadata(video_table.audio)
-)
+video_table.add_computed_column(metadata=get_metadata(video_table.audio))
 video_table.show()
 ```
 
@@ -127,14 +126,12 @@ from pixeltable.functions import whisper
 
 video_table.add_computed_column(
     transcription=whisper.transcribe(
-        audio=video_table.audio,
-        model='base.en'
+        audio=video_table.audio, model='base.en'
     )
 )
 
 video_table.select(
-    video_table.video,
-    video_table.transcription.text
+    video_table.video, video_table.transcription.text
 ).show()
 ```
 
@@ -150,9 +147,8 @@ sentences_view = pxt.create_view(
     'transcription_demo.sentences_view',
     video_table,
     iterator=string_splitter(
-        video_table.transcription.text,
-        separators='sentence'
-    )
+        video_table.transcription.text, separators='sentence'
+    ),
 )
 ```
 
@@ -161,10 +157,7 @@ broken into individual, one-sentence chunks.
 
 
 ```python
-sentences_view.select(
-    sentences_view.pos,
-    sentences_view.text
-).show(8)
+sentences_view.select(sentences_view.pos, sentences_view.text).show(8)
 ```
 
 ## Add an Embedding Index
@@ -179,7 +172,7 @@ from pixeltable.functions.huggingface import sentence_transformer
 
 sentences_view.add_embedding_index(
     'text',
-    embedding=sentence_transformer.using(model_id='intfloat/e5-large-v2')
+    embedding=sentence_transformer.using(model_id='intfloat/e5-large-v2'),
 )
 ```
 
@@ -192,10 +185,9 @@ happiness?”
 sim = sentences_view.text.similarity(string='What is happiness?')
 
 (
-    sentences_view
-    .order_by(sim, asc=False)
+    sentences_view.order_by(sim, asc=False)
     .limit(10)
-    .select(sentences_view.text,similarity=sim)
+    .select(sentences_view.text, similarity=sim)
     .collect()
 )
 ```
@@ -218,7 +210,7 @@ video_table.insert([{'video': videos[2]}])
 video_table.select(
     video_table.video,
     video_table.metadata,
-    video_table.transcription.text
+    video_table.transcription.text,
 ).show()
 ```
 
@@ -227,8 +219,7 @@ video_table.select(
 sim = sentences_view.text.similarity(string='What is happiness?')
 
 (
-    sentences_view
-    .order_by(sim, asc=False)
+    sentences_view.order_by(sim, asc=False)
     .limit(20)
     .select(sentences_view.text, similarity=sim)
     .collect()
@@ -263,8 +254,7 @@ from pixeltable.functions import openai
 
 video_table.add_computed_column(
     transcription_from_api=openai.transcriptions(
-        video_table.audio,
-        model='whisper-1'
+        video_table.audio, model='whisper-1'
     )
 )
 ```
@@ -277,7 +267,7 @@ side-by-side.
 video_table.select(
     video_table.video,
     video_table.transcription.text,
-    video_table.transcription_from_api.text
+    video_table.transcription_from_api.text,
 ).show()
 ```
 
@@ -297,7 +287,6 @@ output):
 
 ```python
 video_table.select(
-    video_table.transcription,
-    video_table.transcription_from_api
+    video_table.transcription, video_table.transcription_from_api
 ).show(1)
 ```

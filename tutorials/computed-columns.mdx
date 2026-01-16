@@ -1151,7 +1151,7 @@ pxt.create_dir('fundamentals', if_exists='ignore')
 pop_t = pxt.create_table(
     'fundamentals.population',
     source='https://github.com/pixeltable/pixeltable/raw/release/docs/resources/world-population-data.csv',
-    if_exists='replace'
+    if_exists='replace',
 )
 ```
 
@@ -1193,7 +1193,9 @@ into a Pixeltable `Query`, giving it the name `yoy_change`
 
 
 ```python
-pop_t.select(pop_t.country, yoy_change=(pop_t.pop_2023 - pop_t.pop_2022)).head(5)
+pop_t.select(
+    pop_t.country, yoy_change=(pop_t.pop_2023 - pop_t.pop_2022)
+).head(5)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
@@ -1272,7 +1274,9 @@ pop_t
 
 
 ```python
-pop_t.select(pop_t.country, pop_t.yoy_change, pop_t.yoy_percent_change).head(5)
+pop_t.select(
+    pop_t.country, pop_t.yoy_change, pop_t.yoy_percent_change
+).head(5)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[15] }} />
@@ -1298,11 +1302,7 @@ we’ll add an entry for California to the table, as if it were a country.
 
 
 ```python
-pop_t.insert(
-    country='California',
-    pop_2023=39110000,
-    pop_2022=39030000,
-)
+pop_t.insert(country='California', pop_2023=39110000, pop_2022=39030000)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1458,7 +1458,9 @@ image operations, adding a transparency layer before doing the rotation.
 
 
 ```python
-t.add_computed_column(rotated_transparent=t.source.convert('RGBA').rotate(10))
+t.add_computed_column(
+    rotated_transparent=t.source.convert('RGBA').rotate(10)
+)
 t.collect()
 ```
 
@@ -1512,11 +1514,11 @@ running inference on the images in our table.
 ```python
 from pixeltable.functions.huggingface import detr_for_object_detection
 
-t.add_computed_column(detections=detr_for_object_detection(
-    t.source,
-    model_id='facebook/detr-resnet-50',
-    threshold=0.8
-))
+t.add_computed_column(
+    detections=detr_for_object_detection(
+        t.source, model_id='facebook/detr-resnet-50', threshold=0.8
+    )
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1543,9 +1545,11 @@ different object categories.
 ```python
 from pixeltable.functions.vision import draw_bounding_boxes
 
-t.add_computed_column(image_with_bb=draw_bounding_boxes(
-    t.source, t.detections.boxes, t.detections.label_text, fill=True
-))
+t.add_computed_column(
+    image_with_bb=draw_bounding_boxes(
+        t.source, t.detections.boxes, t.detections.label_text, fill=True
+    )
+)
 t.select(t.source, t.image_with_bb).collect()
 ```
 
@@ -1599,7 +1603,9 @@ Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 
 ```python
-t.select(t.source, t.image_with_bb, t.detections.label_text, t.metadata).tail(2)
+t.select(
+    t.source, t.image_with_bb, t.detections.label_text, t.metadata
+).tail(2)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[33] }} />

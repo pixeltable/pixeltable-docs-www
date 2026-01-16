@@ -156,8 +156,7 @@ Created&nbsp;directory&nbsp;&#x27;audio_extract_demo&#x27;.
 ```python
 # Create table for videos
 videos = pxt.create_table(
-    'audio_extract_demo.videos',
-    {'title': pxt.String, 'video': pxt.Video}
+    'audio_extract_demo.videos', {'title': pxt.String, 'video': pxt.Video}
 )
 ```
 
@@ -183,10 +182,7 @@ No&nbsp;rows&nbsp;affected.
 # Insert a sample video (from multimedia-commons with audio)
 video_url = 's3://multimedia-commons/data/videos/mp4/ffe/ffb/ffeffbef41bbc269810b2a1a888de.mp4'
 
-videos.insert([{
-    'title': 'Sample Video',
-    'video': video_url
-}])
+videos.insert([{'title': 'Sample Video', 'video': video_url}])
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -231,9 +227,7 @@ Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # Extract the transcript text
-videos.add_computed_column(
-    transcript=videos.transcription.text
-)
+videos.add_computed_column(transcript=videos.transcription.text)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

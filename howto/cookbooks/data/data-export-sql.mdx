@@ -265,13 +265,40 @@ Created&nbsp;table&nbsp;&#x27;products&#x27;.
 
 ```python
 # Insert sample products
-products.insert([
-    {'name': 'Wireless Mouse', 'price': 29.99, 'in_stock': True, 'metadata': {'category': 'electronics', 'rating': 4.5}},
-    {'name': 'USB-C Hub', 'price': 49.99, 'in_stock': False, 'metadata': {'category': 'electronics', 'rating': 4.2}},
-    {'name': 'Mechanical Keyboard', 'price': 89.99, 'in_stock': True, 'metadata': {'category': 'electronics', 'rating': 4.8}},
-    {'name': 'Monitor Stand', 'price': 39.99, 'in_stock': True, 'metadata': {'category': 'accessories', 'rating': 4.0}},
-    {'name': 'Webcam', 'price': 59.99, 'in_stock': False, 'metadata': {'category': 'electronics', 'rating': 3.9}},
-])
+products.insert(
+    [
+        {
+            'name': 'Wireless Mouse',
+            'price': 29.99,
+            'in_stock': True,
+            'metadata': {'category': 'electronics', 'rating': 4.5},
+        },
+        {
+            'name': 'USB-C Hub',
+            'price': 49.99,
+            'in_stock': False,
+            'metadata': {'category': 'electronics', 'rating': 4.2},
+        },
+        {
+            'name': 'Mechanical Keyboard',
+            'price': 89.99,
+            'in_stock': True,
+            'metadata': {'category': 'electronics', 'rating': 4.8},
+        },
+        {
+            'name': 'Monitor Stand',
+            'price': 39.99,
+            'in_stock': True,
+            'metadata': {'category': 'accessories', 'rating': 4.0},
+        },
+        {
+            'name': 'Webcam',
+            'price': 59.99,
+            'in_stock': False,
+            'metadata': {'category': 'electronics', 'rating': 3.9},
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -344,7 +371,9 @@ export_sql(
 ```python
 # Verify filtered export
 with engine.connect() as conn:
-    result = conn.execute(sql.text('SELECT name, price FROM in_stock_products')).fetchall()
+    result = conn.execute(
+        sql.text('SELECT name, price FROM in_stock_products')
+    ).fetchall()
 
 result
 ```
@@ -374,7 +403,9 @@ export_sql(
 ```python
 # Export with renamed columns
 export_sql(
-    products.select(product_name=products.name, unit_price=products.price),
+    products.select(
+        product_name=products.name, unit_price=products.price
+    ),
     'renamed_columns',
     db_connect_str=connection_string,
 )
@@ -414,7 +445,9 @@ export_sql(
 ```python
 # Check row count after insert
 with engine.connect() as conn:
-    result = conn.execute(sql.text('SELECT COUNT(*) FROM products')).fetchone()
+    result = conn.execute(
+        sql.text('SELECT COUNT(*) FROM products')
+    ).fetchone()
 
 f'Total rows after insert: {result[0]}'
 ```
@@ -441,7 +474,9 @@ inspector = sql.inspect(engine)
 columns = [col['name'] for col in inspector.get_columns('products')]
 
 with engine.connect() as conn:
-    row_count = conn.execute(sql.text('SELECT COUNT(*) FROM products')).fetchone()[0]
+    row_count = conn.execute(
+        sql.text('SELECT COUNT(*) FROM products')
+    ).fetchone()[0]
 
 f'Columns: {columns}, Row count: {row_count}'
 ```
@@ -462,11 +497,15 @@ import getpass
 import os
 
 # Skip interactive sections in CI environments
-SKIP_CLOUD_TESTS = os.environ.get('CI') or os.environ.get('GITHUB_ACTIONS')
+SKIP_CLOUD_TESTS = os.environ.get('CI') or os.environ.get(
+    'GITHUB_ACTIONS'
+)
 
 if not SKIP_CLOUD_TESTS:
     # Enter your TigerData credentials interactively
-    tigerdata_host = input('TigerData host (e.g., abc123.tsdb.cloud.timescale.com): ')
+    tigerdata_host = input(
+        'TigerData host (e.g., abc123.tsdb.cloud.timescale.com): '
+    )
     tigerdata_port = input('TigerData port (e.g., 38963): ')
     tigerdata_user = input('TigerData username (e.g., tsdbadmin): ')
     tigerdata_password = getpass.getpass('TigerData password: ')
@@ -482,7 +521,12 @@ else:
 ```python
 if not SKIP_CLOUD_TESTS:
     # Export to TigerData
-    export_sql(products, 'pixeltable_products', db_connect_str=tigerdata_connection, if_exists='replace')
+    export_sql(
+        products,
+        'pixeltable_products',
+        db_connect_str=tigerdata_connection,
+        if_exists='replace',
+    )
 ```
 
 
@@ -491,7 +535,9 @@ if not SKIP_CLOUD_TESTS:
     # Verify the export in TigerData
     tigerdata_engine = sql.create_engine(tigerdata_connection)
     with tigerdata_engine.connect() as conn:
-        result = conn.execute(sql.text('SELECT * FROM pixeltable_products')).fetchall()
+        result = conn.execute(
+            sql.text('SELECT * FROM pixeltable_products')
+        ).fetchall()
     result
 ```
 
@@ -513,10 +559,14 @@ under **Admin → Accounts**.
 ```python
 if not SKIP_CLOUD_TESTS:
     # Enter your Snowflake credentials interactively
-    snowflake_account = input('Snowflake account identifier (e.g., WEZMMGC-AIB20064): ')
+    snowflake_account = input(
+        'Snowflake account identifier (e.g., WEZMMGC-AIB20064): '
+    )
     snowflake_user = input('Snowflake username: ')
     snowflake_password = getpass.getpass('Snowflake password: ')
-    snowflake_warehouse = input('Snowflake warehouse (e.g., COMPUTE_WH): ')
+    snowflake_warehouse = input(
+        'Snowflake warehouse (e.g., COMPUTE_WH): '
+    )
     snowflake_database = input('Snowflake database: ')
     snowflake_schema = input('Snowflake schema (e.g., PUBLIC): ')
 
@@ -534,7 +584,7 @@ if not SKIP_CLOUD_TESTS:
         products.select(products.name, products.price, products.in_stock),
         'PIXELTABLE_PRODUCTS',
         db_connect_str=snowflake_connection,
-        if_exists='replace'
+        if_exists='replace',
     )
 ```
 
@@ -544,7 +594,9 @@ if not SKIP_CLOUD_TESTS:
     # Verify the export in Snowflake
     snowflake_engine = sql.create_engine(snowflake_connection)
     with snowflake_engine.connect() as conn:
-        result = conn.execute(sql.text('SELECT * FROM PIXELTABLE_PRODUCTS')).fetchall()
+        result = conn.execute(
+            sql.text('SELECT * FROM PIXELTABLE_PRODUCTS')
+        ).fetchall()
     result
 ```
 
@@ -576,8 +628,7 @@ For tables containing media types (`pxt.Image`, `pxt.Video`,
 ```python
 # Create a table with images
 images = pxt.create_table(
-    'sql_export_demo.images',
-    {'image': pxt.Image, 'label': pxt.String}
+    'sql_export_demo.images', {'image': pxt.Image, 'label': pxt.String}
 )
 
 # Add computed columns for metadata
@@ -598,10 +649,12 @@ No&nbsp;rows&nbsp;affected.
 ```python
 # Insert sample images
 base_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
-images.insert([
-    {'image': f'{base_url}/000000000036.jpg', 'label': 'cat'},
-    {'image': f'{base_url}/000000000090.jpg', 'label': 'scene'},
-])
+images.insert(
+    [
+        {'image': f'{base_url}/000000000036.jpg', 'label': 'cat'},
+        {'image': f'{base_url}/000000000090.jpg', 'label': 'scene'},
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -623,7 +676,9 @@ export_sql(
 ```python
 # Verify the metadata export
 with engine.connect() as conn:
-    result = conn.execute(sql.text('SELECT * FROM image_metadata')).fetchall()
+    result = conn.execute(
+        sql.text('SELECT * FROM image_metadata')
+    ).fetchall()
 
 result
 ```

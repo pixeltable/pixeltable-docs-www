@@ -337,6 +337,7 @@ def count_objects(detections: dict) -> int:
     """Count the number of detected objects."""
     return len(detections.get('labels', []))
 
+
 images.add_computed_column(object_count=count_objects(images.detections))
 ```
 
@@ -353,6 +354,7 @@ def get_classes(detections: dict) -> list:
     """Get list of detected object classes."""
     return list(set(detections.get('labels', [])))
 
+
 images.add_computed_column(object_classes=get_classes(images.detections))
 ```
 
@@ -364,7 +366,9 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # View summary
-images.select(images.image, images.object_count, images.object_classes).collect()
+images.select(
+    images.image, images.object_count, images.object_classes
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />

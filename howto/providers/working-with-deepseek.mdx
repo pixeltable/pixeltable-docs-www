@@ -69,10 +69,9 @@ from pixeltable.functions import deepseek
 t = pxt.create_table('deepseek_demo.chat', {'input': pxt.String})
 
 msgs = [{'role': 'user', 'content': t.input}]
-t.add_computed_column(output=deepseek.chat_completions(
-    messages=msgs,
-    model='deepseek-chat',
-))
+t.add_computed_column(
+    output=deepseek.chat_completions(messages=msgs, model='deepseek-chat')
+)
 ```
 
 
@@ -84,7 +83,13 @@ t.add_computed_column(response=t.output.choices[0].message.content)
 
 ```python
 # Start a conversation
-t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'}])
+t.insert(
+    [
+        {
+            'input': 'What was the outcome of the 1904 US Presidential election?'
+        }
+    ]
+)
 t.select(t.input, t.response).show()
 ```
 

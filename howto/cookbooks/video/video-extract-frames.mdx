@@ -208,9 +208,13 @@ Created&nbsp;table&nbsp;&#x27;videos&#x27;.
 
 ```python
 # Insert a sample video
-videos.insert([
-    {'video': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/bangkok.mp4'}
-])
+videos.insert(
+    [
+        {
+            'video': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/bangkok.mp4'
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -231,8 +235,8 @@ frames = pxt.create_view(
     videos,
     iterator=frame_iterator(
         videos.video,
-        fps=1.0  # 1 frame per second
-    )
+        fps=1.0,  # 1 frame per second
+    ),
 )
 ```
 
@@ -258,10 +262,7 @@ For faster processing, extract only keyframes (I-frames):
 keyframes = pxt.create_view(
     'video_demo.keyframes',
     videos,
-    iterator=frame_iterator(
-        videos.video,
-        keyframes_only=True
-    )
+    iterator=frame_iterator(videos.video, keyframes_only=True),
 )
 keyframes.select(keyframes.frame).head(3)
 ```

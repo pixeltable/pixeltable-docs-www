@@ -72,7 +72,9 @@ import os
 import getpass
 
 if 'ANTHROPIC_API_KEY' not in os.environ:
-    os.environ['ANTHROPIC_API_KEY'] = getpass.getpass('Anthropic API Key:')
+    os.environ['ANTHROPIC_API_KEY'] = getpass.getpass(
+        'Anthropic API Key:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -106,16 +108,18 @@ from pixeltable.functions import anthropic
 t = pxt.create_table('anthropic_demo.chat', {'input': pxt.String})
 
 msgs = [{'role': 'user', 'content': t.input}]
-t.add_computed_column(output=anthropic.messages(
-    messages=msgs,
-    model='claude-haiku-4-5-20251001',
-    max_tokens=300,
-    model_kwargs={
-        # Optional dict with parameters for the Anthropic API
-        'system': 'Respond to the prompt with detailed historical information.',
-        'temperature': 0.7
-    }
-))
+t.add_computed_column(
+    output=anthropic.messages(
+        messages=msgs,
+        model='claude-haiku-4-5-20251001',
+        max_tokens=300,
+        model_kwargs={
+            # Optional dict with parameters for the Anthropic API
+            'system': 'Respond to the prompt with detailed historical information.',
+            'temperature': 0.7,
+        },
+    )
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -138,7 +142,13 @@ No&nbsp;rows&nbsp;affected.
 
 ```python
 # Start a conversation
-t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'}])
+t.insert(
+    [
+        {
+            'input': 'What was the outcome of the 1904 US Presidential election?'
+        }
+    ]
+)
 t.select(t.input, t.response).show()
 ```
 

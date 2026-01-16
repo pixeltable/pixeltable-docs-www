@@ -307,7 +307,7 @@ images.add_computed_column(
     caption=vision(
         'Write a concise, descriptive caption for this image in one sentence.',
         images.image,
-        model='gpt-4o-mini'
+        model='gpt-4o-mini',
     )
 )
 ```
@@ -336,7 +336,7 @@ images.add_computed_column(
     alt_text=vision(
         'Write a brief alt text for this image (under 125 characters) for screen readers.',
         images.image,
-        model='gpt-4o-mini'
+        model='gpt-4o-mini',
     )
 )
 ```
@@ -353,7 +353,7 @@ images.add_computed_column(
     description=vision(
         'Describe this image in detail, including objects, colors, setting, and mood.',
         images.image,
-        model='gpt-4o-mini'
+        model='gpt-4o-mini',
     )
 )
 ```

@@ -40,7 +40,9 @@ import os
 import getpass
 
 if 'GEMINI_API_KEY' not in os.environ:
-    os.environ['GEMINI_API_KEY'] = getpass.getpass('Google AI Studio API Key:')
+    os.environ['GEMINI_API_KEY'] = getpass.getpass(
+        'Google AI Studio API Key:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -76,26 +78,30 @@ config = GenerateContentConfigDict(
     top_p=0.95,
     top_k=40,
 )
-t.add_computed_column(output=gemini.generate_content(
-    t.input,
-    model='gemini-2.0-flash',
-    config=config
-))
+t.add_computed_column(
+    output=gemini.generate_content(
+        t.input, model='gemini-2.0-flash', config=config
+    )
+)
 ```
 
 
 ```python
 # Ask Gemini to generate some content based on the input
-t.insert([
-    {'input': 'Write a story about a magic backpack.'},
-    {'input': 'Tell me a science joke.'}
-])
+t.insert(
+    [
+        {'input': 'Write a story about a magic backpack.'},
+        {'input': 'Tell me a science joke.'},
+    ]
+)
 ```
 
 
 ```python
 # Parse the response into a new column
-t.add_computed_column(response=t.output['candidates'][0]['content']['parts'][0]['text'])
+t.add_computed_column(
+    response=t.output['candidates'][0]['content']['parts'][0]['text']
+)
 t.select(t.input, t.response).head()
 ```
 
@@ -108,16 +114,18 @@ from google.genai.types import GenerateImagesConfigDict
 images_t = pxt.create_table('gemini_demo.images', {'prompt': pxt.String})
 
 config = GenerateImagesConfigDict(aspect_ratio='16:9')
-images_t.add_computed_column(generated_image=gemini.generate_images(
-    images_t.prompt,
-    model='imagen-4.0-generate-001',
-    config=config
-))
+images_t.add_computed_column(
+    generated_image=gemini.generate_images(
+        images_t.prompt, model='imagen-4.0-generate-001', config=config
+    )
+)
 ```
 
 
 ```python
-images_t.insert([{'prompt': 'A friendly dinosaur playing tennis in a cornfield'}])
+images_t.insert(
+    [{'prompt': 'A friendly dinosaur playing tennis in a cornfield'}]
+)
 ```
 
 
@@ -131,15 +139,22 @@ images_t.head()
 ```python
 videos_t = pxt.create_table('gemini_demo.videos', {'prompt': pxt.String})
 
-videos_t.add_computed_column(generated_video=gemini.generate_videos(
-    videos_t.prompt,
-    model='veo-2.0-generate-001',
-))
+videos_t.add_computed_column(
+    generated_video=gemini.generate_videos(
+        videos_t.prompt, model='veo-2.0-generate-001'
+    )
+)
 ```
 
 
 ```python
-videos_t.insert([{'prompt': 'A giant pixel floating over the open ocean in a sea of data'}])
+videos_t.insert(
+    [
+        {
+            'prompt': 'A giant pixel floating over the open ocean in a sea of data'
+        }
+    ]
+)
 ```
 
 
@@ -154,10 +169,11 @@ animate the generated images.
 
 
 ```python
-images_t.add_computed_column(generated_video=gemini.generate_videos(
-    image=images_t.generated_image,
-    model='veo-2.0-generate-001',
-))
+images_t.add_computed_column(
+    generated_video=gemini.generate_videos(
+        image=images_t.generated_image, model='veo-2.0-generate-001'
+    )
+)
 ```
 
 

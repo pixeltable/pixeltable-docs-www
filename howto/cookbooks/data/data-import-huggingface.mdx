@@ -283,10 +283,7 @@ hf_dataset = load_dataset('rotten_tomatoes', split='train[:100]')
 
 ```python
 # Import into Pixeltable
-reviews = pxt.create_table(
-    'hf_demo.reviews',
-    source=hf_dataset
-)
+reviews = pxt.create_table('hf_demo.reviews', source=hf_dataset)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -312,8 +309,7 @@ came from:
 ```python
 # Load dataset with multiple splits (small subset for demo)
 hf_dataset_dict = load_dataset(
-    'rotten_tomatoes',
-    split={'train': 'train[:50]', 'test': 'test[:50]'}
+    'rotten_tomatoes', split={'train': 'train[:50]', 'test': 'test[:50]'}
 )
 ```
 
@@ -321,12 +317,10 @@ hf_dataset_dict = load_dataset(
 ```python
 # Import each split separately for clarity
 train_data = pxt.create_table(
-    'hf_demo.reviews_train',
-    source=hf_dataset_dict['train']
+    'hf_demo.reviews_train', source=hf_dataset_dict['train']
 )
 test_data = pxt.create_table(
-    'hf_demo.reviews_test',
-    source=hf_dataset_dict['test']
+    'hf_demo.reviews_test', source=hf_dataset_dict['test']
 )
 ```
 
@@ -362,7 +356,9 @@ Enrich the dataset with AI models:
 
 ```python
 # Add a computed column for text length
-reviews.add_computed_column(text_length=reviews.text.apply(len, col_type=pxt.Int))
+reviews.add_computed_column(
+    text_length=reviews.text.apply(len, col_type=pxt.Int)
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
