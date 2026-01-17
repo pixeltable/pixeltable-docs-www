@@ -231,7 +231,7 @@ images.add_computed_column(
     annotated=draw_bounding_boxes(
         images.image,
         images.detections.bboxes,
-        images.detections.labels
+        labels=images.detections.labels
     )
 )
 ```
