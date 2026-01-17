@@ -1544,7 +1544,7 @@ different object categories.
 from pixeltable.functions.vision import draw_bounding_boxes
 
 t.add_computed_column(image_with_bb=draw_bounding_boxes(
-    t.source, t.detections.boxes, t.detections.label_text, fill=True
+    t.source, t.detections.boxes, labels=t.detections.label_text, fill=True
 ))
 t.select(t.source, t.image_with_bb).collect()
 ```
@@ -1622,7 +1622,7 @@ last example.
 
 
 ```python
-draw_bounding_boxes(t.source, t.detections.boxes, t.detections.label_text, fill=True)
+draw_bounding_boxes(t.source, t.detections.boxes, labels=t.detections.label_text, fill=True)
 ```
 
 There are a couple of things going on. `draw_bounding_boxes()` is, of
