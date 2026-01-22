@@ -44,7 +44,7 @@ from pixeltable.functions import llama_cpp
 pxt.drop_dir('llama_demo', force=True)
 pxt.create_dir('llama_demo')
 
-t = pxt.create_table('llama_demo.chat', {'input': pxt.String})
+t = pxt.create_table('llama_demo/chat', {'input': pxt.String})
 ```
 
 Next, we add a computed column that calls the Pixeltable

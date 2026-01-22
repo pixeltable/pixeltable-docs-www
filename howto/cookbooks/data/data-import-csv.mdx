@@ -214,7 +214,7 @@ Use `create_table` with `source` to create a table from a CSV file:
 csv_url = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/world-population-data.csv'
 
 population = pxt.create_table(
-    'import_demo.population',
+    'import_demo/population',
     source=csv_url
 )
 ```
@@ -249,7 +249,7 @@ df = pd.DataFrame({
 })
 
 # Create table and insert DataFrame
-users = pxt.create_table('import_demo.users', {
+users = pxt.create_table('import_demo/users', {
     'name': pxt.String,
     'age': pxt.Int,
     'city': pxt.String

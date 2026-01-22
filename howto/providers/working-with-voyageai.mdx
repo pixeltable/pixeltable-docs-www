@@ -195,7 +195,7 @@ and RAG applications.
 from pixeltable.functions import voyageai
 
 # Create a table for document embeddings
-docs_t = pxt.create_table('voyageai_demo.documents', {'text': pxt.String})
+docs_t = pxt.create_table('voyageai_demo/documents', {'text': pxt.String})
 
 # Add computed column with Voyage embeddings
 docs_t.add_computed_column(
@@ -250,7 +250,7 @@ efficient similarity search.
 
 ```python
 # Create a table with an embedding index
-search_t = pxt.create_table('voyageai_demo.search', {'text': pxt.String})
+search_t = pxt.create_table('voyageai_demo/search', {'text': pxt.String})
 
 # Add embedding index for similarity search
 embed_fn = voyageai.embeddings.using(model='voyage-3.5', input_type='document')
@@ -291,7 +291,7 @@ accurate relevance scores.
 ```python
 # Create a table for reranking
 rerank_t = pxt.create_table(
-    'voyageai_demo.rerank',
+    'voyageai_demo/rerank',
     {'query': pxt.String, 'documents': pxt.Json}
 )
 
@@ -368,7 +368,7 @@ similarity search.
 
 ```python
 # Create a table for multimodal embeddings
-mm_t = pxt.create_table('voyageai_demo.multimodal', {'image': pxt.Image, 'caption': pxt.String}, if_exists='replace')
+mm_t = pxt.create_table('voyageai_demo/multimodal', {'image': pxt.Image, 'caption': pxt.String}, if_exists='replace')
 
 # Add computed columns for image and text embeddings
 # multimodal_embed can embed either images or text independently

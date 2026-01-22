@@ -198,7 +198,7 @@ Created&nbsp;directory&nbsp;&#x27;video_demo&#x27;.
 
 ```python
 # Create table for videos
-videos = pxt.create_table('video_demo.videos', {'video': pxt.Video})
+videos = pxt.create_table('video_demo/videos', {'video': pxt.Video})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -227,7 +227,7 @@ Create a view that extracts 1 frame per second:
 ```python
 # Extract 1 frame per second
 frames = pxt.create_view(
-    'video_demo.frames',
+    'video_demo/frames',
     videos,
     iterator=frame_iterator(
         videos.video,
@@ -256,7 +256,7 @@ For faster processing, extract only keyframes (I-frames):
 ```python
 # Extract only keyframes (much faster for long videos)
 keyframes = pxt.create_view(
-    'video_demo.keyframes',
+    'video_demo/keyframes',
     videos,
     iterator=frame_iterator(
         videos.video,

@@ -224,8 +224,8 @@ pxt.create_dir("tigris", if_exists="replace")
 # Load the dataset
 ds = load_dataset("XeIaso/botw-screenshots-captioned")
 # Import it to pixeltable with the name screenshots
-pxt.drop_table("tigris.screenshots", force=True)
-screenshots = pxt.create_table("tigris.screenshots", source=ds, if_exists="replace")
+pxt.drop_table("tigris/screenshots", force=True)
+screenshots = pxt.create_table("tigris/screenshots", source=ds, if_exists="replace")
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

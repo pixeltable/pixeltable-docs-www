@@ -214,7 +214,7 @@ Created&nbsp;directory&nbsp;&#x27;audio_demo&#x27;.
 
 ```python
 # Create table for audio files
-audio = pxt.create_table('audio_demo.files', {'audio': pxt.Audio})
+audio = pxt.create_table('audio_demo/files', {'audio': pxt.Audio})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -243,7 +243,7 @@ Create a view that splits audio into 30-second chunks with overlap:
 ```python
 # Split audio into chunks for transcription
 chunks = pxt.create_view(
-    'audio_demo.chunks',
+    'audio_demo/chunks',
     audio,
     iterator=audio_splitter(
         audio.audio,

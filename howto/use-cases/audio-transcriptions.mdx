@@ -50,7 +50,7 @@ pxt.create_dir('transcription_demo')
 
 # Create a table to store our videos and workflow
 video_table = pxt.create_table(
-    'transcription_demo.video_table',
+    'transcription_demo/video_table',
     {'video': pxt.Video}
 )
 
@@ -147,7 +147,7 @@ into sentences. We can do this using Pixeltable’s built-in
 from pixeltable.functions.string import string_splitter
 
 sentences_view = pxt.create_view(
-    'transcription_demo.sentences_view',
+    'transcription_demo/sentences_view',
     video_table,
     iterator=string_splitter(
         video_table.transcription.text,

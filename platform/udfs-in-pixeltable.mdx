@@ -323,7 +323,7 @@ import pixeltable as pxt
 # Create the directory and table
 pxt.drop_dir('udf_demo', force=True)  # Ensure a clean slate for the demo
 pxt.create_dir('udf_demo')
-t = pxt.create_table('udf_demo.strings', {'input': pxt.String})
+t = pxt.create_table('udf_demo/strings', {'input': pxt.String})
 
 # Add some sample data
 t.insert([{'input': 'Hello, world!'}, {'input': 'You can do a lot with Pixeltable UDFs.'}])
@@ -669,7 +669,7 @@ creating a table containing all the integers from 0 to 49.
 ```python
 import pixeltable as pxt
 
-t = pxt.create_table('udf_demo.values', {'val': pxt.Int})
+t = pxt.create_table('udf_demo/values', {'val': pxt.Int})
 t.insert({'val': n} for n in range(50))
 ```
 

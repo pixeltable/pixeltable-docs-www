@@ -55,7 +55,7 @@ urls = [
     'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000034.jpg',
 ]
 
-t = pxt.create_table('fo_demo.images', {'image': pxt.Image})
+t = pxt.create_table('fo_demo/images', {'image': pxt.Image})
 t.insert({'image': url} for url in urls)
 t.head()
 ```

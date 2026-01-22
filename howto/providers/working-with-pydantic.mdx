@@ -202,7 +202,7 @@ class Product(pydantic.BaseModel):
 ```python
 # Create a table with matching schema
 products = pxt.create_table(
-    'pydantic_demo.products',
+    'pydantic_demo/products',
     {
         'name': pxt.Required[pxt.String],
         'price': pxt.Required[pxt.Float],
@@ -283,7 +283,7 @@ class Customer(pydantic.BaseModel):
 ```python
 # Create table with JSON column for nested data
 customers = pxt.create_table(
-    'pydantic_demo.customers',
+    'pydantic_demo/customers',
     {
         'customer_id': pxt.Required[pxt.String],
         'name': pxt.Required[pxt.String],
@@ -355,7 +355,7 @@ class ImageRecord(pydantic.BaseModel):
 
 # Create table with Image column
 images = pxt.create_table(
-    'pydantic_demo.images',
+    'pydantic_demo/images',
     {
         'title': pxt.Required[pxt.String],
         'image_url': pxt.Required[pxt.Image],  # Media column
@@ -395,7 +395,7 @@ class Article(pydantic.BaseModel):
 
 # Create table with computed column
 articles = pxt.create_table(
-    'pydantic_demo.articles',
+    'pydantic_demo/articles',
     {
         'title': pxt.Required[pxt.String],
         'content': pxt.Required[pxt.String],
@@ -440,7 +440,7 @@ class Task(pydantic.BaseModel):
     notes: str | None = None  # Optional
 
 tasks = pxt.create_table(
-    'pydantic_demo.tasks',
+    'pydantic_demo/tasks',
     {
         'title': pxt.Required[pxt.String],
         'priority': pxt.Required[pxt.Int],

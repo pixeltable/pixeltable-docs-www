@@ -48,12 +48,12 @@ pxt.create_dir('my_dir')
 
 Create a subdirectory:
 ```python
-pxt.create_dir('my_dir.sub_dir')
+pxt.create_dir('my_dir/sub_dir')
 ```
 
 Create a subdirectory only if it does not already exist, otherwise do nothing:
 ```python
-pxt.create_dir('my_dir.sub_dir', if_exists='ignore')
+pxt.create_dir('my_dir/sub_dir', if_exists='ignore')
 ```
 
 Create a directory and replace if it already exists:
@@ -63,7 +63,7 @@ pxt.create_dir('my_dir', if_exists='replace_force')
 
 Create a subdirectory along with its ancestors:
 ```python
-pxt.create_dir('parent1.parent2.sub_dir', parents=True)
+pxt.create_dir('parent1/parent2/sub_dir', parents=True)
 ```
 
 
@@ -89,7 +89,7 @@ Create a snapshot of an existing table object (which itself can be a view or a s
 **Parameters:**
 
 - **`path_str`** (`str`): A name for the snapshot; can be either a simple name such as `my_snapshot`, or a pathname such as
-    `dir1.my_snapshot`.
+    `dir1/my_snapshot`.
 - **`base`** (`catalog.Table | Query`): [`Table`](./table) (i.e., table or view or snapshot) or [`Query`](./query) to
     base the snapshot on.
 - **`additional_columns`** (`dict[str, Any] | None`): If specified, will add these columns to the snapshot once it is created. The format
@@ -174,7 +174,7 @@ source format and/or schema can be specified directly via the `source_format` an
 
 **Parameters:**
 
-- **`path`** (`str`): Pixeltable path (qualified name) of the table, such as `'my_table'` or `'my_dir.my_subdir.my_table'`.
+- **`path`** (`str`): Pixeltable path (qualified name) of the table, such as `'my_table'` or `'my_dir/my_subdir/my_table'`.
 - **`schema`** (`dict[str, Any] | None`): Schema for the new table, mapping column names to Pixeltable types.
 - **`source`** (`TableDataSource | None`): A data source (file, URL, Table, Query, or list of rows) to import from.
 - **`source_format`** (`Literal['csv', 'excel', 'parquet', 'json'] | None`): Must be used in conjunction with a `source`.
@@ -287,7 +287,7 @@ Create a view of an existing table object (which itself can be a view or a snaps
 **Parameters:**
 
 - **`path`** (`str`): A name for the view; can be either a simple name such as `my_view`, or a pathname such as
-    `dir1.my_view`.
+    `dir1/my_view`.
 - **`base`** (`catalog.Table | Query`): [`Table`](./table) (i.e., table or view or snapshot) or [`Query`](./query) to
     base the view on.
 - **`additional_columns`** (`dict[str, Any] | None`): If specified, will add these columns to the view once it is created. The format
@@ -376,12 +376,12 @@ pxt.drop_dir('my_dir')
 
 Remove a subdirectory:
 ```python
-pxt.drop_dir('my_dir.sub_dir')
+pxt.drop_dir('my_dir/sub_dir')
 ```
 
 Remove an existing directory if it is empty, but do nothing if it does not exist:
 ```python
-pxt.drop_dir('my_dir.sub_dir', if_not_exists='ignore')
+pxt.drop_dir('my_dir/sub_dir', if_not_exists='ignore')
 ```
 
 Remove an existing directory and all its contents:
@@ -418,23 +418,23 @@ Drop a table, view, snapshot, or replica.
 
 Drop a table by its fully qualified name:
 ```python
-pxt.drop_table('subdir.my_table')
+pxt.drop_table('subdir/my_table')
 ```
 
 Drop a table by its handle:
 ```python
-t = pxt.get_table('subdir.my_table')
+t = pxt.get_table('subdir/my_table')
 pxt.drop_table(t)
 ```
 
 Drop a table if it exists, otherwise do nothing:
 ```python
-pxt.drop_table('subdir.my_table', if_not_exists='ignore')
+pxt.drop_table('subdir/my_table', if_not_exists='ignore')
 ```
 
 Drop a table and all its dependents:
 ```python
-pxt.drop_table('subdir.my_table', force=True)
+pxt.drop_table('subdir/my_table', force=True)
 ```
 
 
@@ -505,7 +505,7 @@ tbl = pxt.get_table('my_table')
 
 For a table in a subdirectory:
 ```python
-tbl = pxt.get_table('subdir.my_table')
+tbl = pxt.get_table('subdir/my_table')
 ```
 
 Handles to views and snapshots are retrieved in the same way:
@@ -577,12 +577,12 @@ Move a schema object to a new directory and/or rename a schema object.
 
 Move a table to a different directory:
 ```python
- pxt.move('dir1.my_table', 'dir2.my_table')
+ pxt.move('dir1/my_table', 'dir2/my_table')
 ```
 
 Rename a table:
 ```python
- pxt.move('dir1.my_table', 'dir1.new_name')
+ pxt.move('dir1/my_table', 'dir1/new_name')
 ```
 
 
@@ -626,7 +626,7 @@ queried offline just as any other Pixeltable table.
 
 - **`remote_uri`** (`str`): Remote URI of the table to be replicated, such as `'pxt://org_name/my_dir/my_table'` or
     `'pxt://org_name/my_dir/my_table:5'` (with version 5).
-- **`local_path`** (`str`): Local table path where the replica will be created, such as `'my_new_dir.my_new_tbl'`. It can be
+- **`local_path`** (`str`): Local table path where the replica will be created, such as `'my_new_dir/my_new_tbl'`. It can be
     the same or different from the cloud table name.
 
 **Returns:**

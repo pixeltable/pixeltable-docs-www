@@ -248,7 +248,7 @@ Created&nbsp;directory&nbsp;&#x27;sql_export_demo&#x27;.
 ```python
 # Create a table with product data
 products = pxt.create_table(
-    'sql_export_demo.products',
+    'sql_export_demo/products',
     {
         'name': pxt.String,
         'price': pxt.Float,
@@ -576,7 +576,7 @@ For tables containing media types (`pxt.Image`, `pxt.Video`,
 ```python
 # Create a table with images
 images = pxt.create_table(
-    'sql_export_demo.images',
+    'sql_export_demo/images',
     {'image': pxt.Image, 'label': pxt.String}
 )
 

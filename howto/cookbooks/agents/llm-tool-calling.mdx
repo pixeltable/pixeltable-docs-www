@@ -99,7 +99,7 @@ export const quartoRawHtml =
 <tbody>
 <tr>
 <td id="T_e6641_row0_col0" class="data row0 col0">table
-'tools_demo.mcp_queries'</td>
+'tools_demo/mcp_queries'</td>
 </tr>
 </tbody>
 </table>
@@ -392,7 +392,7 @@ tools = pxt.tools(get_weather, get_stock_price)
 ```python
 # Create table for queries
 queries = pxt.create_table(
-    'tools_demo.queries',
+    'tools_demo/queries',
     {'query': pxt.String}
 )
 ```
@@ -528,7 +528,7 @@ mcp_toolset = pxt.tools(*mcp_tools)
 
 # Create a table with MCP tool-calling pipeline
 mcp_queries = pxt.create_table(
-    'tools_demo.mcp_queries',
+    'tools_demo/mcp_queries',
     {'query': pxt.String}
 )
 

@@ -284,7 +284,7 @@ hf_dataset = load_dataset('rotten_tomatoes', split='train[:100]')
 ```python
 # Import into Pixeltable
 reviews = pxt.create_table(
-    'hf_demo.reviews',
+    'hf_demo/reviews',
     source=hf_dataset
 )
 ```
@@ -321,11 +321,11 @@ hf_dataset_dict = load_dataset(
 ```python
 # Import each split separately for clarity
 train_data = pxt.create_table(
-    'hf_demo.reviews_train',
+    'hf_demo/reviews_train',
     source=hf_dataset_dict['train']
 )
 test_data = pxt.create_table(
-    'hf_demo.reviews_test',
+    'hf_demo/reviews_test',
     source=hf_dataset_dict['test']
 )
 ```

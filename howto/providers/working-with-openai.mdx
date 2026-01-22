@@ -65,7 +65,7 @@ from pixeltable.functions import openai
 
 # Create a table in Pixeltable and add a computed column that calls OpenAI
 
-t = pxt.create_table('openai_demo.chat', {'input': pxt.String})
+t = pxt.create_table('openai_demo/chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=openai.chat_completions(
@@ -99,7 +99,7 @@ Note: OpenAI Embeddings API is not available with free tier API keys
 
 
 ```python
-emb_t = pxt.create_table('openai_demo.embeddings', {'input': pxt.String})
+emb_t = pxt.create_table('openai_demo/embeddings', {'input': pxt.String})
 emb_t.add_computed_column(embedding=openai.embeddings(
     input=emb_t.input,
     model='text-embedding-3-small'
@@ -120,7 +120,7 @@ emb_t.head()
 
 
 ```python
-image_t = pxt.create_table('openai_demo.images', {'input': pxt.String})
+image_t = pxt.create_table('openai_demo/images', {'input': pxt.String})
 image_t.add_computed_column(img=openai.image_generations(
     image_t.input,
     model='dall-e-2',
@@ -148,7 +148,7 @@ image_t.head()
 
 
 ```python
-audio_t = pxt.create_table('openai_demo.audio', {'input': pxt.Audio})
+audio_t = pxt.create_table('openai_demo/audio', {'input': pxt.Audio})
 audio_t.add_computed_column(result=openai.transcriptions(
     audio_t.input,
     model='whisper-1',

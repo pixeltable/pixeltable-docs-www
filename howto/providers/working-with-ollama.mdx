@@ -89,7 +89,7 @@ from pixeltable.functions.ollama import chat
 
 pxt.drop_dir('ollama_demo', force=True)
 pxt.create_dir('ollama_demo')
-t = pxt.create_table('ollama_demo.chat', {'input': pxt.String})
+t = pxt.create_table('ollama_demo/chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
 

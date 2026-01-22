@@ -372,7 +372,7 @@ videos - all against the same index.
 from pixeltable.functions.video import video_splitter
 
 # Create a table for videos
-video_t = pxt.create_table('twelvelabs_demo.videos', {'video': pxt.Video})
+video_t = pxt.create_table('twelvelabs_demo/videos', {'video': pxt.Video})
 
 # Insert a sample video
 video_url = 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/The-Pursuit-of-Happiness.mp4'
@@ -390,7 +390,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;2.35&nbsp;s&n
 # Create a view that segments the video into searchable chunks
 # Twelve Labs requires minimum 4 second segments
 video_chunks = pxt.create_view(
-    'twelvelabs_demo.video_chunks',
+    'twelvelabs_demo/video_chunks',
     video_t,
     iterator=video_splitter(
         video=video_t.video,
@@ -517,7 +517,7 @@ table**.
 ```python
 # Create a multimodal content table
 content_t = pxt.create_table(
-    'twelvelabs_demo.content',
+    'twelvelabs_demo/content',
     {
         'title': pxt.String,
         'description': pxt.String,

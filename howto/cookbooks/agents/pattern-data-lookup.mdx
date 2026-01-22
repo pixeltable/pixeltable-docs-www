@@ -250,7 +250,7 @@ Created&nbsp;directory&nbsp;&#x27;lookup_demo&#x27;.
 ```python
 # Create a product catalog
 products = pxt.create_table(
-    'lookup_demo.products',
+    'lookup_demo/products',
     {'sku': pxt.String, 'name': pxt.String, 'price': pxt.Float, 'category': pxt.String}
 )
 
@@ -319,7 +319,7 @@ products.select(get_by_category(category="electronics")).limit(1).collect()
 ```python
 # Create an orders table
 orders = pxt.create_table(
-    'lookup_demo.orders',
+    'lookup_demo/orders',
     {'order_id': pxt.String, 'product_sku': pxt.String, 'quantity': pxt.Int}
 )
 
