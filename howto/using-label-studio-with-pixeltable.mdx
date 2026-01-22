@@ -95,7 +95,7 @@ schema = {
 # in order to ensure a clean environment for the demo.
 pxt.drop_dir('ls_demo', force=True)
 pxt.create_dir('ls_demo')
-videos_table = pxt.create_table('ls_demo.videos', schema)
+videos_table = pxt.create_table('ls_demo/videos', schema)
 ```
 
 ## Populate It with Data
@@ -140,7 +140,7 @@ filters the table down by date.
 # Create a view to filter on the specified date
 
 v = pxt.create_view(
-    'ls_demo.videos_2024_04_22',
+    'ls_demo/videos_2024_04_22',
     videos_table.where(videos_table.date == today)
 )
 
@@ -205,7 +205,7 @@ Now let’s try importing annotations from Label Studio back to our view.
 
 
 ```python
-v = pxt.get_table('ls_demo.videos_2024_04_22')
+v = pxt.get_table('ls_demo/videos_2024_04_22')
 v.sync()
 ```
 
@@ -260,14 +260,14 @@ from datetime import datetime
 from pixeltable.functions.video import frame_iterator
 
 today = datetime(2024, 4, 22)
-videos_table = pxt.get_table('ls_demo.videos')
+videos_table = pxt.get_table('ls_demo/videos')
 
 # Create the view, using a `frame_iterator` to extract frames with a sample rate
 # of `fps=0.25`, or 1 frame per 4 seconds of video. Setting `fps=0` would use the
 # native framerate of the video, extracting every frame.
 
 frames = pxt.create_view(
-    'ls_demo.frames_2024_04_22',
+    'ls_demo/frames_2024_04_22',
     videos_table.where(videos_table.date == today),
     iterator=frame_iterator(videos_table.video, fps=0.25)
 )

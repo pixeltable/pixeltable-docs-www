@@ -103,7 +103,7 @@ from pixeltable.functions import anthropic
 
 # Create a table in Pixeltable and add a computed column that calls Anthropic
 
-t = pxt.create_table('anthropic_demo.chat', {'input': pxt.String})
+t = pxt.create_table('anthropic_demo/chat', {'input': pxt.String})
 
 msgs = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=anthropic.messages(

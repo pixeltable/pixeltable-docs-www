@@ -488,7 +488,7 @@ Every data or schema change creates a new version.
 ```python
 # Create table (version 0)
 products = pxt.create_table(
-    'version_demo.products',
+    'version_demo/products',
     {'name': pxt.String, 'price': pxt.Float, 'category': pxt.String}
 )
 ```
@@ -603,7 +603,7 @@ specific version:
 
 ```python
 # Get the table at version 1 (after initial insert, before computed column)
-products_v1 = pxt.get_table('version_demo.products:1')
+products_v1 = pxt.get_table('version_demo/products:1')
 
 # This is a read-only view of the data at that point in time
 products_v1.collect()
@@ -615,7 +615,7 @@ products_v1.collect()
 ```python
 # Compare data at version 2 (after computed column added) vs version 1
 # Note: version 1 doesn't have the price_with_tax column yet
-products_v2 = pxt.get_table('version_demo.products:2')
+products_v2 = pxt.get_table('version_demo/products:2')
 products_v2.collect()
 ```
 
@@ -677,7 +677,7 @@ snapshots preserve the data indefinitely.
 
 ```python
 # Create a snapshot of the current state
-snapshot_v1 = pxt.create_snapshot('version_demo.products_v1', products)
+snapshot_v1 = pxt.create_snapshot('version_demo/products_v1', products)
 
 snapshot_v1.collect()
 ```

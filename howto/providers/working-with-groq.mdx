@@ -65,7 +65,7 @@ from pixeltable.functions import groq
 
 # Create a table in Pixeltable and add a computed column that calls OpenAI
 
-t = pxt.create_table('groq_demo.chat', {'input': pxt.String})
+t = pxt.create_table('groq_demo/chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=groq.chat_completions(

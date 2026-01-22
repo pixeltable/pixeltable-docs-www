@@ -65,7 +65,7 @@ from pixeltable.functions.replicate import run
 
 # Create a table in Pixeltable and pick a model hosted on Replicate with some parameters
 
-t = pxt.create_table('replicate_demo.chat', {'prompt': pxt.String})
+t = pxt.create_table('replicate_demo/chat', {'prompt': pxt.String})
 
 input = {
     'system_prompt': 'You are a helpful assistant.',
@@ -98,7 +98,7 @@ models with Pixeltable. We’ll use the FLUX Schnell model.
 
 
 ```python
-t = pxt.create_table('replicate_demo.images', {'prompt': pxt.String})
+t = pxt.create_table('replicate_demo/images', {'prompt': pxt.String})
 
 input = {
     'prompt': t.prompt,

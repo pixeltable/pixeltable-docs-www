@@ -86,7 +86,7 @@ export const quartoRawHtml =
 <tbody>
 <tr>
 <td id="T_4942f_row0_col0" class="data row0 col0">table
-'fundamentals.population'</td>
+'fundamentals/population'</td>
 </tr>
 </tbody>
 </table>
@@ -193,7 +193,7 @@ data-quarto-table-cell-role="th">Computed With</th>
 <tbody>
 <tr>
 <td id="T_7bfef_row0_col0" class="data row0 col0">table
-'fundamentals.population'</td>
+'fundamentals/population'</td>
 </tr>
 </tbody>
 </table>
@@ -306,7 +306,7 @@ pop_2022</td>
 <tbody>
 <tr>
 <td id="T_03477_row0_col0" class="data row0 col0">table
-'fundamentals.population'</td>
+'fundamentals/population'</td>
 </tr>
 </tbody>
 </table>
@@ -789,7 +789,7 @@ width="240" />
 <tbody>
 <tr>
 <td id="T_82051_row0_col0" class="data row0 col0">table
-'fundamentals.image_ops'</td>
+'fundamentals/image_ops'</td>
 </tr>
 </tbody>
 </table>
@@ -990,7 +990,7 @@ width="640" />
 <tbody>
 <tr>
 <td id="T_0a06a_row0_col0" class="data row0 col0">table
-'fundamentals.image_ops'</td>
+'fundamentals/image_ops'</td>
 </tr>
 </tbody>
 </table>
@@ -1149,7 +1149,7 @@ import pixeltable as pxt
 
 pxt.create_dir('fundamentals', if_exists='ignore')
 pop_t = pxt.create_table(
-    'fundamentals.population',
+    'fundamentals/population',
     source='https://github.com/pixeltable/pixeltable/raw/release/docs/resources/world-population-data.csv',
     if_exists='replace'
 )
@@ -1379,7 +1379,7 @@ rather than importing it from a CSV.
 
 
 ```python
-t = pxt.create_table('fundamentals.image_ops', {'source': pxt.Image})
+t = pxt.create_table('fundamentals/image_ops', {'source': pxt.Image})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

@@ -72,7 +72,7 @@ from pixeltable.functions import bedrock
 
 # Create a table in Pixeltable and pick a model hosted on Bedrock with some parameters
 
-t = pxt.create_table('bedrock_demo.chat', {'input': pxt.String})
+t = pxt.create_table('bedrock_demo/chat', {'input': pxt.String})
 
 msgs = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=bedrock.converse(
@@ -160,7 +160,7 @@ tools = pxt.tools(search_news, get_weather)
 ```python
 # Create base table
 tool_agent = pxt.create_table(
-    "agents.tools",
+    "agents/tools",
     {"prompt": pxt.String},
     if_exists="ignore"
 )

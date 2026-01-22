@@ -61,7 +61,7 @@ OpenAI.
 ```python
 from pixeltable.functions import together
 
-chat_t = pxt.create_table('together_demo.chat', {'input': pxt.String})
+chat_t = pxt.create_table('together_demo/chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': chat_t.input}]
 
@@ -93,7 +93,7 @@ chat_t.select(chat_t.input, chat_t.response).head()
 
 
 ```python
-emb_t = pxt.create_table('together_demo.embeddings', {'input': pxt.String})
+emb_t = pxt.create_table('together_demo/embeddings', {'input': pxt.String})
 emb_t.add_computed_column(embedding=together.embeddings(
     input=emb_t.input,
     model='BAAI/bge-base-en-v1.5'
@@ -114,7 +114,7 @@ emb_t.head()
 
 
 ```python
-image_t = pxt.create_table('together_demo.images', {'input': pxt.String})
+image_t = pxt.create_table('together_demo/images', {'input': pxt.String})
 image_t.add_computed_column(img=together.image_generations(
     image_t.input,
     model='black-forest-labs/FLUX.1-schnell',

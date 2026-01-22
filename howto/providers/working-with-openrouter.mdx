@@ -65,7 +65,7 @@ OpenRouter.
 from pixeltable.functions import openrouter
 
 # Create a table in Pixeltable and add a computed column that calls OpenRouter
-t = pxt.create_table('openrouter_demo.chat', {'input': pxt.String})
+t = pxt.create_table('openrouter_demo/chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
 
@@ -105,7 +105,7 @@ Claude, OpenAI GPT-4, and Meta Llama.
 
 ```python
 # Create a table to compare different models
-compare_t = pxt.create_table('openrouter_demo.compare_models', {'prompt': pxt.String})
+compare_t = pxt.create_table('openrouter_demo/compare_models', {'prompt': pxt.String})
 
 messages = [{'role': 'user', 'content': compare_t.prompt}]
 
@@ -150,7 +150,7 @@ behavior and cost optimization.
 
 ```python
 # Create a table with provider routing
-routing_t = pxt.create_table('openrouter_demo.routing', {'input': pxt.String})
+routing_t = pxt.create_table('openrouter_demo/routing', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': routing_t.input}]
 routing_t.add_computed_column(
@@ -183,7 +183,7 @@ long contexts.
 
 ```python
 # Create a table with transforms for long context optimization
-transform_t = pxt.create_table('openrouter_demo.transforms', {'long_context': pxt.String})
+transform_t = pxt.create_table('openrouter_demo/transforms', {'long_context': pxt.String})
 
 messages = [{'role': 'user', 'content': transform_t.long_context}]
 transform_t.add_computed_column(

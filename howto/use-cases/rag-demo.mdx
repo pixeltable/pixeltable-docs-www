@@ -78,7 +78,7 @@ annually</td>
 <tbody>
 <tr>
 <td id="T_fea7a_row0_col0" class="data row0 col0">table
-'rag_demo.documents'</td>
+'rag_demo/documents'</td>
 </tr>
 </tbody>
 </table>
@@ -160,8 +160,8 @@ style="object-fit: contain; border: 1px solid black;" /></a>
 <table id="T_b8b15" data-quarto-postprocess="true">
 <tbody>
 <tr>
-<td id="T_b8b15_row0_col0" class="data row0 col0">view 'rag_demo.chunks'
-(of 'rag_demo.documents')</td>
+<td id="T_b8b15_row0_col0" class="data row0 col0">view 'rag_demo/chunks'
+(of 'rag_demo/documents')</td>
 </tr>
 </tbody>
 </table>
@@ -465,7 +465,7 @@ Jefferson Research (i) 34 Buy Trading Central</td>
 <tbody>
 <tr>
 <td id="T_d5616_row0_col0" class="data row0 col0">table
-'rag_demo.queries'</td>
+'rag_demo/queries'</td>
 </tr>
 </tbody>
 </table>
@@ -563,7 +563,7 @@ Neutral\nZacks Investment Research, Inc (i) 56 Outperform\nISS-EVA (i)
 <tbody>
 <tr>
 <td id="T_c01dc_row0_col0" class="data row0 col0">table
-'rag_demo.queries'</td>
+'rag_demo/queries'</td>
 </tr>
 </tbody>
 </table>
@@ -657,7 +657,7 @@ rate?</td>
 <tbody>
 <tr>
 <td id="T_7797c_row0_col0" class="data row0 col0">table
-'rag_demo.queries'</td>
+'rag_demo/queries'</td>
 </tr>
 </tbody>
 </table>
@@ -1127,7 +1127,7 @@ that we can pass the URL of the spreadsheet directly.
 ```python
 base = 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/rag-demo/'
 qa_url = base + 'Q-A-Rag.xlsx'
-queries_t = pxt.create_table('rag_demo.queries', source=qa_url)
+queries_t = pxt.create_table('rag_demo/queries', source=qa_url)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1166,7 +1166,7 @@ empty table `rag_demo.documents` with a single column, `document`.
 
 ```python
 documents_t = pxt.create_table(
-    'rag_demo.documents',
+    'rag_demo/documents',
     {'document': pxt.Document}
 )
 
@@ -1234,7 +1234,7 @@ iteration over the chunks of a `document_splitter`.
 from pixeltable.functions.document import document_splitter
 
 chunks_t = pxt.create_view(
-    'rag_demo.chunks',
+    'rag_demo/chunks',
     documents_t,
     iterator=document_splitter(
         documents_t.document,

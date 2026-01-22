@@ -67,7 +67,7 @@ from pixeltable.functions import gemini
 
 # Create a table in Pixeltable and pick a model hosted on Google AI Studio with some parameters
 
-t = pxt.create_table('gemini_demo.text', {'input': pxt.String})
+t = pxt.create_table('gemini_demo/text', {'input': pxt.String})
 
 config = GenerateContentConfigDict(
     stop_sequences=['\n'],
@@ -105,7 +105,7 @@ t.select(t.input, t.response).head()
 ```python
 from google.genai.types import GenerateImagesConfigDict
 
-images_t = pxt.create_table('gemini_demo.images', {'prompt': pxt.String})
+images_t = pxt.create_table('gemini_demo/images', {'prompt': pxt.String})
 
 config = GenerateImagesConfigDict(aspect_ratio='16:9')
 images_t.add_computed_column(generated_image=gemini.generate_images(
@@ -129,7 +129,7 @@ images_t.head()
 
 
 ```python
-videos_t = pxt.create_table('gemini_demo.videos', {'prompt': pxt.String})
+videos_t = pxt.create_table('gemini_demo/videos', {'prompt': pxt.String})
 
 videos_t.add_computed_column(generated_video=gemini.generate_videos(
     videos_t.prompt,

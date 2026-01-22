@@ -159,7 +159,7 @@ Created&nbsp;directory&nbsp;&#x27;rag_demo&#x27;.
 ```python
 # Create table for document chunks
 chunks = pxt.create_table(
-    'rag_demo.chunks',
+    'rag_demo/chunks',
     {'doc_id': pxt.String, 'chunk_text': pxt.String}
 )
 ```
@@ -252,7 +252,7 @@ retrieve_context(&#x27;What&nbsp;are&nbsp;the&nbsp;key&nbsp;features?&#x27;)
 ```python
 # Create a table for questions/answers
 qa = pxt.create_table(
-    'rag_demo.qa',
+    'rag_demo/qa',
     {'question': pxt.String}
 )
 ```

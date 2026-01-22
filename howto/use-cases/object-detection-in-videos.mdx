@@ -47,7 +47,7 @@ import pixeltable as pxt
 
 pxt.create_dir('detection_demo', if_exists='replace_force')
 videos_table = pxt.create_table(
-    'detection_demo.videos',
+    'detection_demo/videos',
     {'video': pxt.Video}
 )
 ```
@@ -62,7 +62,7 @@ provides the built-in `frame_iterator` for this.
 from pixeltable.functions.video import frame_iterator
 
 frames_view = pxt.create_view(
-    'detection_demo.frames',
+    'detection_demo/frames',
     videos_table,
     # `fps` determines the frame rate; a value of `0`
     # indicates the native frame rate of the video.

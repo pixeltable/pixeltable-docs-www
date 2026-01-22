@@ -424,7 +424,7 @@ Created&nbsp;directory&nbsp;&#x27;join_demo&#x27;.
 ```python
 # Create a customers table
 customers = pxt.create_table(
-    'join_demo.customers',
+    'join_demo/customers',
     {'customer_id': pxt.Int, 'name': pxt.String, 'email': pxt.String}
 )
 
@@ -449,7 +449,7 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # Create an orders table
 orders = pxt.create_table(
-    'join_demo.orders',
+    'join_demo/orders',
     {'order_id': pxt.Int, 'customer_id': pxt.Int, 'product': pxt.String, 'amount': pxt.Float}
 )
 
@@ -553,7 +553,7 @@ customers.join(
 ```python
 # Cross join: every customer paired with every product (no 'on' condition)
 products = pxt.create_table(
-    'join_demo.products',
+    'join_demo/products',
     {'product': pxt.String, 'price': pxt.Float}
 )
 products.insert([
@@ -605,7 +605,7 @@ customer_orders_df
 ```python
 # Create a new table from the DataFrame
 orders_report = pxt.create_table(
-    'join_demo.orders_report',
+    'join_demo/orders_report',
     source=customer_orders_df
 )
 

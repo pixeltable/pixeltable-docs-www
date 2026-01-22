@@ -445,7 +445,7 @@ padoru = (
 )
 
 # Import into Pixeltable
-images = pxt.create_table('hf_demo.images', source=padoru)
+images = pxt.create_table('hf_demo/images', source=padoru)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -479,7 +479,7 @@ imdb = datasets.load_dataset('stanfordnlp/imdb')
 
 # Import all splits, storing split info in 'split' column
 reviews = pxt.create_table(
-    'hf_demo.reviews',
+    'hf_demo/reviews',
     source=imdb,
     extra_args={'column_name_for_split': 'split'}
 )
@@ -517,7 +517,7 @@ wiki_ds = (
 )
 
 wiki = pxt.create_table(
-    'hf_demo.wiki_embeddings',
+    'hf_demo/wiki_embeddings',
     source=wiki_ds,
     schema_overrides={'emb': pxt.Array[(1024,), pxt.Float]}
 )
@@ -544,7 +544,7 @@ positive_stream = streaming_ds.filter(lambda x: x['label'] == 1).take(50)
 
 
 ```python
-positive_samples = pxt.create_table('hf_demo.positive_samples', source=positive_stream)
+positive_samples = pxt.create_table('hf_demo/positive_samples', source=positive_stream)
 ```
 
 
@@ -565,7 +565,7 @@ audio_ds = datasets.load_dataset(
     'hf-internal-testing/librispeech_asr_dummy', 'clean', split='validation'
 )
 
-audio_table = pxt.create_table('hf_demo.audio_samples', source=audio_ds)
+audio_table = pxt.create_table('hf_demo/audio_samples', source=audio_ds)
 audio_table.select(audio_table.audio, audio_table.text).limit(2).collect()
 ```
 
@@ -636,7 +636,7 @@ from pixeltable.functions.huggingface import sentence_transformer
 
 # Create table with text embedding index
 sample_reviews = pxt.create_table(
-    'hf_demo.sample_reviews',
+    'hf_demo/sample_reviews',
     source=datasets.load_dataset('stanfordnlp/imdb', split='test').select(range(100))
 )
 sample_reviews.add_embedding_index('text', string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2'))

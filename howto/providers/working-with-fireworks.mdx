@@ -65,7 +65,7 @@ from pixeltable.functions.fireworks import chat_completions
 
 # Create a table in Pixeltable and pick a model hosted on Fireworks with some parameters
 
-t = pxt.create_table('fireworks_demo.chat', {'input': pxt.String})
+t = pxt.create_table('fireworks_demo/chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(output=chat_completions(

@@ -315,7 +315,7 @@ Created&nbsp;directory&nbsp;&#x27;json_demo&#x27;.
 ```python
 # Import JSON file into a new table
 articles = pxt.create_table(
-    'json_demo.articles',
+    'json_demo/articles',
     source=str(json_path),
     source_format='json'  # Explicitly specify format when using local file paths
 )
@@ -346,7 +346,7 @@ You can import JSON directly from a URL—useful for APIs and remote data:
 # Import from a public JSON URL
 # Using JSONPlaceholder API as an example
 posts = pxt.create_table(
-    'json_demo.posts',
+    'json_demo/posts',
     source='https://jsonplaceholder.typicode.com/posts',
     source_format='json'  # Required for URL sources
 )
@@ -382,7 +382,7 @@ events = [
     {'event': 'purchase', 'user_id': 102, 'timestamp': '2024-01-15T10:32:00'},
 ]
 
-event_table = pxt.create_table('json_demo.events', source=events)
+event_table = pxt.create_table('json_demo/events', source=events)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

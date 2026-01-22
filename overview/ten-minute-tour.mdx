@@ -467,7 +467,7 @@ libraries needed for this tutorial.
 ## Creating a table
 
 Let’s begin by creating a `demo` directory (if it doesn’t already exist)
-and a table that can hold image data, `demo.first`. The table will
+and a table that can hold image data, `demo/first`. The table will
 initially have just a single column to hold our input images, which
 we’ll call `input_image`. We also need to specify a type for the column:
 `pxt.Image`.
@@ -480,8 +480,8 @@ import pixeltable as pxt
 pxt.drop_dir('demo', force=True)  # First drop `demo` to ensure a clean environment
 pxt.create_dir('demo')
 
-# Create the table `demo.first` with a single column `input_image`
-t = pxt.create_table('demo.first', {'input_image': pxt.Image})
+# Create the table `demo/first` with a single column `input_image`
+t = pxt.create_table('demo/first', {'input_image': pxt.Image})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -686,7 +686,7 @@ persists across sessions.
 
 # Instantiate a new client object
 import pixeltable as pxt
-t = pxt.get_table('demo.first')
+t = pxt.get_table('demo/first')
 
 # Display just the first two rows, to avoid cluttering the tutorial
 t.select(t.input_image, t.detections_text).show(2)
