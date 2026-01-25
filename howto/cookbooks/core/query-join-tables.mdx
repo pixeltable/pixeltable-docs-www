@@ -402,7 +402,7 @@ matching columns.
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions import sum as pxt_sum, count as pxt_count
+import pixeltable.functions as pxtf
 ```
 
 
@@ -425,21 +425,29 @@ Created&nbsp;directory&nbsp;&#x27;join_demo&#x27;.
 # Create a customers table
 customers = pxt.create_table(
     'join_demo/customers',
-    {'customer_id': pxt.Int, 'name': pxt.String, 'email': pxt.String}
+    {'customer_id': pxt.Int, 'name': pxt.String, 'email': pxt.String},
 )
 
-customers.insert([
-    {'customer_id': 1, 'name': 'Alice', 'email': 'alice@example.com'},
-    {'customer_id': 2, 'name': 'Bob', 'email': 'bob@example.com'},
-    {'customer_id': 3, 'name': 'Charlie', 'email': 'charlie@example.com'},
-])
+customers.insert(
+    [
+        {'customer_id': 1, 'name': 'Alice', 'email': 'alice@example.com'},
+        {'customer_id': 2, 'name': 'Bob', 'email': 'bob@example.com'},
+        {
+            'customer_id': 3,
+            'name': 'Charlie',
+            'email': 'charlie@example.com',
+        },
+    ]
+)
 
 customers.collect()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;customers&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;378.55&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;378.55&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -450,22 +458,51 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 # Create an orders table
 orders = pxt.create_table(
     'join_demo/orders',
-    {'order_id': pxt.Int, 'customer_id': pxt.Int, 'product': pxt.String, 'amount': pxt.Float}
+    {
+        'order_id': pxt.Int,
+        'customer_id': pxt.Int,
+        'product': pxt.String,
+        'amount': pxt.Float,
+    },
 )
 
-orders.insert([
-    {'order_id': 101, 'customer_id': 1, 'product': 'Laptop', 'amount': 999.00},
-    {'order_id': 102, 'customer_id': 1, 'product': 'Mouse', 'amount': 29.00},
-    {'order_id': 103, 'customer_id': 2, 'product': 'Keyboard', 'amount': 79.00},
-    {'order_id': 104, 'customer_id': 4, 'product': 'Monitor', 'amount': 299.00},  # No matching customer
-])
+orders.insert(
+    [
+        {
+            'order_id': 101,
+            'customer_id': 1,
+            'product': 'Laptop',
+            'amount': 999.00,
+        },
+        {
+            'order_id': 102,
+            'customer_id': 1,
+            'product': 'Mouse',
+            'amount': 29.00,
+        },
+        {
+            'order_id': 103,
+            'customer_id': 2,
+            'product': 'Keyboard',
+            'amount': 79.00,
+        },
+        {
+            'order_id': 104,
+            'customer_id': 4,
+            'product': 'Monitor',
+            'amount': 299.00,
+        },  # No matching customer
+    ]
+)
 
 orders.collect()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;orders&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;1261.07&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;1261.07&nbsp;rows/s\]
 Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -477,14 +514,8 @@ Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # Inner join: only rows that match in both tables
 customers.join(
-    orders,
-    on=customers.customer_id == orders.customer_id,
-    how='inner'
-).select(
-    customers.name,
-    orders.product,
-    orders.amount
-).collect()
+    orders, on=customers.customer_id == orders.customer_id, how='inner'
+).select(customers.name, orders.product, orders.amount).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
@@ -496,14 +527,8 @@ customers.join(
 # Left join: all customers, with order data where available
 # Charlie has no orders, so product/amount will be null
 customers.join(
-    orders,
-    on=customers.customer_id == orders.customer_id,
-    how='left'
-).select(
-    customers.name,
-    orders.product,
-    orders.amount
-).collect()
+    orders, on=customers.customer_id == orders.customer_id, how='left'
+).select(customers.name, orders.product, orders.amount).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
@@ -514,16 +539,9 @@ customers.join(
 ```python
 # Combine join with where clause to filter results
 customers.join(
-    orders,
-    on=customers.customer_id == orders.customer_id,
-    how='inner'
-).where(
-    orders.amount > 50
-).select(
-    customers.name,
-    customers.email,
-    orders.product,
-    orders.amount
+    orders, on=customers.customer_id == orders.customer_id, how='inner'
+).where(orders.amount > 50).select(
+    customers.name, customers.email, orders.product, orders.amount
 ).collect()
 ```
 
@@ -535,13 +553,11 @@ customers.join(
 ```python
 # Join and aggregate: total spending per customer
 customers.join(
-    orders,
-    on=customers.customer_id == orders.customer_id,
-    how='inner'
+    orders, on=customers.customer_id == orders.customer_id, how='inner'
 ).group_by(customers.name).select(
     customers.name,
-    total_spent=pxt_sum(orders.amount),
-    order_count=pxt_count(orders.order_id)
+    total_spent=pxtf.sum(orders.amount),
+    order_count=pxtf.count(orders.order_id),
 ).collect()
 ```
 
@@ -553,24 +569,25 @@ customers.join(
 ```python
 # Cross join: every customer paired with every product (no 'on' condition)
 products = pxt.create_table(
-    'join_demo/products',
-    {'product': pxt.String, 'price': pxt.Float}
+    'join_demo/products', {'product': pxt.String, 'price': pxt.Float}
 )
-products.insert([
-    {'product': 'Widget', 'price': 19.99},
-    {'product': 'Gadget', 'price': 29.99},
-])
+products.insert(
+    [
+        {'product': 'Widget', 'price': 19.99},
+        {'product': 'Gadget', 'price': 29.99},
+    ]
+)
 
 customers.join(products, how='cross').select(
-    customers.name,
-    products.product,
-    products.price
+    customers.name, products.product, products.price
 ).collect()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;products&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;815.30&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;815.30&nbsp;rows/s\]
 Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 
@@ -581,16 +598,21 @@ Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # Build a join query and collect as DataFrame
-customer_orders_df = customers.join(
-    orders,
-    on=customers.customer_id == orders.customer_id,
-    how='inner'
-).select(
-    name=customers.name,
-    email=customers.email,
-    product=orders.product,
-    amount=orders.amount
-).collect().to_pandas()
+customer_orders_df = (
+    customers.join(
+        orders,
+        on=customers.customer_id == orders.customer_id,
+        how='inner',
+    )
+    .select(
+        name=customers.name,
+        email=customers.email,
+        product=orders.product,
+        amount=orders.amount,
+    )
+    .collect()
+    .to_pandas()
+)
 
 customer_orders_df
 ```
@@ -605,8 +627,7 @@ customer_orders_df
 ```python
 # Create a new table from the DataFrame
 orders_report = pxt.create_table(
-    'join_demo/orders_report',
-    source=customer_orders_df
+    'join_demo/orders_report', source=customer_orders_df
 )
 
 orders_report.collect()
@@ -614,7 +635,9 @@ orders_report.collect()
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;orders_report&#x27;.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders_report\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`orders_report\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;529.36&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`orders_report\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`orders_report\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;529.36&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 </pre>
 

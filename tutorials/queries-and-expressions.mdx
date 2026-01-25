@@ -1130,10 +1130,11 @@ classification model against the images in our dataset.
 ```python
 from pixeltable.functions.huggingface import vit_for_image_classification
 
-t.add_computed_column(classification=vit_for_image_classification(
-    t.image,
-    model_id='farleyknight-org-username/vit-base-mnist'
-))
+t.add_computed_column(
+    classification=vit_for_image_classification(
+        t.image, model_id='farleyknight-org-username/vit-base-mnist'
+    )
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1319,7 +1320,7 @@ the model doesn’t perform as well on the rotated images.
 ```python
 rot_model_result = vit_for_image_classification(
     t.image.rotate(90),
-    model_id='farleyknight-org-username/vit-base-mnist'
+    model_id='farleyknight-org-username/vit-base-mnist',
 )
 
 t.select(t.image, rot_label=rot_model_result.labels[0]).head(5)
@@ -1388,12 +1389,7 @@ every row.
 
 
 ```python
-t.select(
-    t.image,
-    t.label,
-    t.label == '4',
-    t.label < '5',
-).head(5)
+t.select(t.image, t.label, t.label == '4', t.label < '5').head(5)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[21] }} />
@@ -1475,7 +1471,9 @@ of an embedding.
 from pixeltable.functions.huggingface import clip
 
 # Add a computed column that computes a CLIP embedding for each image
-t.add_computed_column(clip=clip(t.image, model_id='openai/clip-vit-base-patch32'))
+t.add_computed_column(
+    clip=clip(t.image, model_id='openai/clip-vit-base-patch32')
+)
 t.select(t.image, t.clip).head(5)
 ```
 
@@ -1660,7 +1658,9 @@ but the `errortype` and `errormsg` fields contain details of the error.
 
 
 ```python
-t.select(t.image, t.channel, t.channel.errortype, t.channel.errormsg).head(5)
+t.select(
+    t.image, t.channel, t.channel.errortype, t.channel.errormsg
+).head(5)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[27] }} />

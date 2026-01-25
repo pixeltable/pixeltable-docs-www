@@ -125,9 +125,10 @@ compatible with PyTorch DataLoader.
 
 
 ```python
-import pixeltable as pxt
 import torch
 from torch.utils.data import DataLoader
+
+import pixeltable as pxt
 ```
 
 
@@ -149,8 +150,7 @@ Created&nbsp;directory&nbsp;&#x27;pytorch_demo&#x27;.
 ```python
 # Create table with images and labels
 training_data = pxt.create_table(
-    'pytorch_demo/training_data',
-    {'image': pxt.Image, 'label': pxt.Int}
+    'pytorch_demo/training_data', {'image': pxt.Image, 'label': pxt.Int}
 )
 ```
 
@@ -188,8 +188,7 @@ training_data.add_computed_column(
 # Convert to PyTorch dataset
 # 'pt' format returns images as CxHxW tensors with values in [0,1]
 pytorch_dataset = training_data.select(
-    training_data.image_resized,
-    training_data.label
+    training_data.image_resized, training_data.label
 ).to_pytorch_dataset(image_format='pt')
 ```
 
@@ -204,7 +203,9 @@ dataloader = DataLoader(pytorch_dataset, batch_size=2)
 
 # Get first batch to verify the shape
 batch = next(iter(dataloader))
-batch['image_resized'].shape  # Should be (2, 3, 224, 224) - batch_size x channels x height x width
+batch[
+    'image_resized'
+].shape  # Should be (2, 3, 224, 224) - batch_size x channels x height x width
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -223,7 +224,7 @@ export_path = Path(tempfile.mkdtemp()) / 'training_data'
 
 pxt.io.export_parquet(
     training_data.select(training_data.label),  # Non-image columns
-    parquet_path=export_path
+    parquet_path=export_path,
 )
 ```
 

@@ -324,8 +324,8 @@ You define tools with JSON schemas, pass them to the LLM, and use
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -365,7 +365,10 @@ def get_weather(city: str) -> str:
         'tokyo': 'Rainy, 65°F',
         'paris': 'Partly cloudy, 68°F',
     }
-    return weather_data.get(city.lower(), f'Weather data not available for {city}')
+    return weather_data.get(
+        city.lower(), f'Weather data not available for {city}'
+    )
+
 
 @pxt.udf
 def get_stock_price(symbol: str) -> str:
@@ -391,10 +394,7 @@ tools = pxt.tools(get_weather, get_stock_price)
 
 ```python
 # Create table for queries
-queries = pxt.create_table(
-    'tools_demo/queries',
-    {'query': pxt.String}
-)
+queries = pxt.create_table('tools_demo/queries', {'query': pxt.String})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -408,7 +408,7 @@ queries.add_computed_column(
     response=openai.chat_completions(
         messages=[{'role': 'user', 'content': queries.query}],
         model='gpt-4o-mini',
-        tools=tools  # Pass tools to the LLM
+        tools=tools,  # Pass tools to the LLM
     )
 )
 ```
@@ -439,7 +439,9 @@ No&nbsp;rows&nbsp;affected.
 sample_queries = [
     {'query': "What's the weather in Tokyo?"},
     {'query': "What's the stock price of Apple?"},
-    {'query': "What's the weather in Paris and the price of Microsoft stock?"},
+    {
+        'query': "What's the weather in Paris and the price of Microsoft stock?"
+    },
 ]
 
 queries.insert(sample_queries)
@@ -514,7 +516,7 @@ mcp_tools = pxt.mcp_udfs('https://docs.pixeltable.com/mcp')
 
 # View available tools - each is now a callable Pixeltable function
 for tool in mcp_tools:
-    print(f"- {tool.name}: {tool.comment()}")
+    print(f'- {tool.name}: {tool.comment()}')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -528,8 +530,7 @@ mcp_toolset = pxt.tools(*mcp_tools)
 
 # Create a table with MCP tool-calling pipeline
 mcp_queries = pxt.create_table(
-    'tools_demo/mcp_queries',
-    {'query': pxt.String}
+    'tools_demo/mcp_queries', {'query': pxt.String}
 )
 
 # Add LLM call with MCP tools
@@ -537,7 +538,7 @@ mcp_queries.add_computed_column(
     response=openai.chat_completions(
         messages=[{'role': 'user', 'content': mcp_queries.query}],
         model='gpt-4o-mini',
-        tools=mcp_toolset
+        tools=mcp_toolset,
     )
 )
 
@@ -568,10 +569,12 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0
 
 ```python
 # Test with e-commerce queries
-mcp_queries.insert([
-    {'query': "What is Pixeltable?"},
-    {'query': "How to use OpenAI in Pixeltable?"},
-])
+mcp_queries.insert(
+    [
+        {'query': 'What is Pixeltable?'},
+        {'query': 'How to use OpenAI in Pixeltable?'},
+    ]
+)
 
 mcp_queries.select(mcp_queries.query, mcp_queries.tool_results).collect()
 ```
@@ -582,7 +585,9 @@ mcp_queries.select(mcp_queries.query, mcp_queries.tool_results).collect()
 ```python
 # Extract the search result with a named column
 mcp_queries.select(
-    search_result=mcp_queries.tool_results['SearchPixeltableDocumentation'][0]
+    search_result=mcp_queries.tool_results[
+        'SearchPixeltableDocumentation'
+    ][0]
 ).collect()
 ```
 

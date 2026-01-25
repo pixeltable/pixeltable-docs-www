@@ -156,8 +156,8 @@ changes.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -188,8 +188,7 @@ Created&nbsp;directory&nbsp;&#x27;embed_demo&#x27;.
 ```python
 # Create table for documents
 docs = pxt.create_table(
-    'embed_demo/documents',
-    {'title': pxt.String, 'content': pxt.String}
+    'embed_demo/documents', {'title': pxt.String, 'content': pxt.String}
 )
 ```
 
@@ -216,11 +215,26 @@ No&nbsp;rows&nbsp;affected.
 ```python
 # Insert sample documents
 sample_docs = [
-    {'title': 'Python Basics', 'content': 'Python is a high-level programming language known for its clear syntax and readability.'},
-    {'title': 'Machine Learning', 'content': 'Machine learning is a subset of AI that enables systems to learn from data.'},
-    {'title': 'Web Development', 'content': 'Web development involves building websites and web applications using HTML, CSS, and JavaScript.'},
-    {'title': 'Data Science', 'content': 'Data science combines statistics, programming, and domain expertise to extract insights from data.'},
-    {'title': 'Cloud Computing', 'content': 'Cloud computing provides on-demand computing resources over the internet.'},
+    {
+        'title': 'Python Basics',
+        'content': 'Python is a high-level programming language known for its clear syntax and readability.',
+    },
+    {
+        'title': 'Machine Learning',
+        'content': 'Machine learning is a subset of AI that enables systems to learn from data.',
+    },
+    {
+        'title': 'Web Development',
+        'content': 'Web development involves building websites and web applications using HTML, CSS, and JavaScript.',
+    },
+    {
+        'title': 'Data Science',
+        'content': 'Data science combines statistics, programming, and domain expertise to extract insights from data.',
+    },
+    {
+        'title': 'Cloud Computing',
+        'content': 'Cloud computing provides on-demand computing resources over the internet.',
+    },
 ]
 
 docs.insert(sample_docs)
@@ -246,15 +260,17 @@ Find documents similar to a query by creating an embedding index:
 ```python
 # Add embedding index for semantic search
 docs.add_embedding_index(
-    column="content",
-    string_embed=embeddings.using(model="text-embedding-3-small")
+    column='content',
+    string_embed=embeddings.using(model='text-embedding-3-small'),
 )
 ```
 
 
 ```python
 # Search for similar documents
-sim = docs.content.similarity(string="artificial intelligence applications")
+sim = docs.content.similarity(
+    string='artificial intelligence applications'
+)
 results = (
     docs.where(sim > 0.2)
     .order_by(sim, asc=False)

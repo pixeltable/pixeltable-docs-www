@@ -135,8 +135,8 @@ future queries.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -167,8 +167,7 @@ Created&nbsp;directory&nbsp;&#x27;translate_demo&#x27;.
 ```python
 # Create table for content
 content = pxt.create_table(
-    'translate_demo/content',
-    {'title': pxt.String, 'text_en': pxt.String}
+    'translate_demo/content', {'title': pxt.String, 'text_en': pxt.String}
 )
 ```
 
@@ -179,15 +178,20 @@ Created&nbsp;table&nbsp;&#x27;content&#x27;.
 
 ```python
 # Add Spanish translation column
-spanish_prompt = 'Translate the following text to Spanish. Return only the translation, no explanations:\n\n' + content.text_en
+spanish_prompt = (
+    'Translate the following text to Spanish. Return only the translation, no explanations:\n\n'
+    + content.text_en
+)
 
 content.add_computed_column(
     response_es=chat_completions(
         messages=[{'role': 'user', 'content': spanish_prompt}],
-        model='gpt-4o-mini'
+        model='gpt-4o-mini',
     )
 )
-content.add_computed_column(text_es=content.response_es.choices[0].message.content)
+content.add_computed_column(
+    text_es=content.response_es.choices[0].message.content
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -199,15 +203,20 @@ No&nbsp;rows&nbsp;affected.
 
 ```python
 # Add French translation column
-french_prompt = 'Translate the following text to French. Return only the translation, no explanations:\n\n' + content.text_en
+french_prompt = (
+    'Translate the following text to French. Return only the translation, no explanations:\n\n'
+    + content.text_en
+)
 
 content.add_computed_column(
     response_fr=chat_completions(
         messages=[{'role': 'user', 'content': french_prompt}],
-        model='gpt-4o-mini'
+        model='gpt-4o-mini',
     )
 )
-content.add_computed_column(text_fr=content.response_fr.choices[0].message.content)
+content.add_computed_column(
+    text_fr=content.response_fr.choices[0].message.content
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -224,15 +233,15 @@ No&nbsp;rows&nbsp;affected.
 sample_content = [
     {
         'title': 'Welcome Message',
-        'text_en': 'Welcome to our platform! We are excited to have you here.'
+        'text_en': 'Welcome to our platform! We are excited to have you here.',
     },
     {
         'title': 'Product Description',
-        'text_en': 'This lightweight laptop features a 14-inch display and all-day battery life.'
+        'text_en': 'This lightweight laptop features a 14-inch display and all-day battery life.',
     },
     {
         'title': 'Support Article',
-        'text_en': 'To reset your password, click the forgot password link on the login page.'
+        'text_en': 'To reset your password, click the forgot password link on the login page.',
     },
 ]
 
@@ -248,7 +257,9 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # View all translations
-content.select(content.title, content.text_en, content.text_es, content.text_fr).collect()
+content.select(
+    content.title, content.text_en, content.text_es, content.text_fr
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />

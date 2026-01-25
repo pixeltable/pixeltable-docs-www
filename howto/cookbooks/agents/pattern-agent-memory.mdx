@@ -133,8 +133,8 @@ This pattern is inspired by
 
 
 ```python
-import os
 import getpass
+import os
 from datetime import datetime
 
 if 'OPENAI_API_KEY' not in os.environ:
@@ -144,7 +144,7 @@ if 'OPENAI_API_KEY' not in os.environ:
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions.openai import embeddings, chat_completions
+from pixeltable.functions.openai import chat_completions, embeddings
 ```
 
 
@@ -167,10 +167,10 @@ Created&nbsp;directory&nbsp;&#x27;agent_demo&#x27;.
 memories = pxt.create_table(
     'agent_demo/memories',
     {
-        'content': pxt.String,           # The memory content
-        'category': pxt.String,          # Optional category (preference, fact, etc.)
-        'created_at': pxt.Timestamp,     # When the memory was stored
-    }
+        'content': pxt.String,  # The memory content
+        'category': pxt.String,  # Optional category (preference, fact, etc.)
+        'created_at': pxt.Timestamp,  # When the memory was stored
+    },
 )
 ```
 
@@ -182,8 +182,8 @@ Created&nbsp;table&nbsp;&#x27;memories&#x27;.
 ```python
 # Add embedding index for semantic search on content
 memories.add_embedding_index(
-    column="content",
-    string_embed=embeddings.using(model="text-embedding-3-small")
+    column='content',
+    string_embed=embeddings.using(model='text-embedding-3-small'),
 )
 ```
 
@@ -200,10 +200,7 @@ def recall_memories(context: str, top_k: int = 3):
         memories.where(sim > 0.5)
         .order_by(sim, asc=False)
         .limit(top_k)
-        .select(
-            content=memories.content,
-            category=memories.category
-        )
+        .select(content=memories.content, category=memories.category)
     )
 ```
 
@@ -213,11 +210,31 @@ def recall_memories(context: str, top_k: int = 3):
 ```python
 # Store some initial memories
 initial_memories = [
-    {'content': 'User prefers Python for data analysis', 'category': 'preference', 'created_at': datetime.now()},
-    {'content': 'The project deadline is March 15, 2024', 'category': 'fact', 'created_at': datetime.now()},
-    {'content': 'User works at a startup in San Francisco', 'category': 'fact', 'created_at': datetime.now()},
-    {'content': 'Budget for the ML project is $50,000', 'category': 'fact', 'created_at': datetime.now()},
-    {'content': 'User prefers concise explanations over detailed ones', 'category': 'preference', 'created_at': datetime.now()},
+    {
+        'content': 'User prefers Python for data analysis',
+        'category': 'preference',
+        'created_at': datetime.now(),
+    },
+    {
+        'content': 'The project deadline is March 15, 2024',
+        'category': 'fact',
+        'created_at': datetime.now(),
+    },
+    {
+        'content': 'User works at a startup in San Francisco',
+        'category': 'fact',
+        'created_at': datetime.now(),
+    },
+    {
+        'content': 'Budget for the ML project is $50,000',
+        'category': 'fact',
+        'created_at': datetime.now(),
+    },
+    {
+        'content': 'User prefers concise explanations over detailed ones',
+        'category': 'preference',
+        'created_at': datetime.now(),
+    },
 ]
 
 memories.insert(initial_memories)
@@ -235,8 +252,7 @@ Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # Create conversation table
 conversations = pxt.create_table(
-    'agent_demo/conversations',
-    {'user_message': pxt.String}
+    'agent_demo/conversations', {'user_message': pxt.String}
 )
 ```
 
@@ -261,8 +277,12 @@ No&nbsp;rows&nbsp;affected.
 ```python
 # Build prompt with memories
 @pxt.udf
-def build_memory_prompt(user_message: str, relevant_memories: list[dict]) -> str:
-    memory_text = '\n'.join([f"- {m['content']}" for m in relevant_memories])
+def build_memory_prompt(
+    user_message: str, relevant_memories: list[dict]
+) -> str:
+    memory_text = '\n'.join(
+        [f'- {m["content"]}' for m in relevant_memories]
+    )
     return f"""You are a helpful assistant with access to the following memories about the user:
 
 {memory_text}
@@ -272,8 +292,11 @@ Use these memories to personalize your response when relevant.
 User: {user_message}
 Assistant:"""
 
+
 conversations.add_computed_column(
-    prompt=build_memory_prompt(conversations.user_message, conversations.relevant_memories)
+    prompt=build_memory_prompt(
+        conversations.user_message, conversations.relevant_memories
+    )
 )
 ```
 
@@ -288,7 +311,7 @@ No&nbsp;rows&nbsp;affected.
 conversations.add_computed_column(
     response=chat_completions(
         messages=[{'role': 'user', 'content': conversations.prompt}],
-        model='gpt-4o-mini'
+        model='gpt-4o-mini',
     )
 )
 conversations.add_computed_column(
@@ -308,7 +331,9 @@ No&nbsp;rows&nbsp;affected.
 ```python
 # Test the memory-aware agent
 test_messages = [
-    {'user_message': 'What programming language should I use for this project?'},
+    {
+        'user_message': 'What programming language should I use for this project?'
+    },
     {'user_message': 'When do I need to finish this?'},
     {'user_message': 'How much can I spend on cloud resources?'},
 ]
@@ -328,7 +353,7 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 conversations.select(
     conversations.user_message,
     conversations.relevant_memories,
-    conversations.assistant_reply
+    conversations.assistant_reply,
 ).collect()
 ```
 

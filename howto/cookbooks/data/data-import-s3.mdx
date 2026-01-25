@@ -419,9 +419,8 @@ import pixeltable.functions as pxtf
 videos.select(
     videos.video,
     original_uri=videos.video.fileurl,
-    http_url=pxtf.net.presigned_url(videos.video.fileurl, 3600)
+    http_url=pxtf.net.presigned_url(videos.video.fileurl, 3600),
 ).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
@@ -430,9 +429,10 @@ videos.select(
 ```python
 # Store presigned URLs as computed column for API responses
 videos.add_computed_column(
-    serving_url=pxtf.net.presigned_url(videos.video.fileurl, 86400)  # 24-hour expiration
+    serving_url=pxtf.net.presigned_url(
+        videos.video.fileurl, 86400
+    )  # 24-hour expiration
 )
-
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

@@ -208,8 +208,8 @@ code needed.
 ```python
 %pip install -qU pixeltable openai
 
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -248,11 +248,19 @@ Created&nbsp;table&nbsp;&#x27;images&#x27;.
 
 ```python
 # Insert sample images
-t.insert([
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000106.jpg'},
-])
+t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000106.jpg'
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -277,14 +285,12 @@ automatically on all images:
 
 ```python
 # Define the prompt
-PROMPT = "Describe this image in one sentence."
+PROMPT = 'Describe this image in one sentence.'
 
 # Add computed column for AI analysis using openai.vision
 t.add_computed_column(
     description=openai.vision(
-        prompt=PROMPT,
-        image=t.image,
-        model='gpt-4o-mini'
+        prompt=PROMPT, image=t.image, model='gpt-4o-mini'
     )
 )
 ```
@@ -313,7 +319,13 @@ When you insert more images, the analysis runs without any extra code:
 
 ```python
 # Insert a new image - analysis happens automatically
-t.insert([{'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000139.jpg'}])
+t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000139.jpg'
+        }
+    ]
+)
 
 # View all results including the new image
 t.select(t.image, t.description).collect()

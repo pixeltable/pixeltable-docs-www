@@ -232,10 +232,7 @@ pxt.drop_dir('indices_demo', force=True)
 
 # Create the directory and table to use for the demo
 pxt.create_dir('indices_demo')
-schema = {
-    'id': pxt.Int,
-    'img': pxt.Image,
-}
+schema = {'id': pxt.Int, 'img': pxt.Image}
 imgs = pxt.create_table('indices_demo/img_tbl', schema)
 ```
 
@@ -303,13 +300,13 @@ against the index.
 
 
 ```python
-from pixeltable.functions.huggingface import clip
 import PIL.Image
+
+from pixeltable.functions.huggingface import clip
 
 # create embedding index on the 'img' column
 imgs.add_embedding_index(
-    'img',
-    embedding=clip.using(model_id='openai/clip-vit-base-patch32')
+    'img', embedding=clip.using(model_id='openai/clip-vit-base-patch32')
 )
 ```
 
@@ -441,7 +438,9 @@ more_img_urls = [
     'https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/images/000000000776.jpg',
     'https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/images/000000000785.jpg',
 ]
-imgs.insert({'id': 10 + i, 'img': url} for i, url in enumerate(more_img_urls))
+imgs.insert(
+    {'id': 10 + i, 'img': url} for i, url in enumerate(more_img_urls)
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -501,16 +500,16 @@ Picasso](https://en.wikipedia.org/wiki/Pablo_Picasso)):
 ```python
 txts = pxt.create_table('indices_demo/text_tbl', {'text': pxt.String})
 sentences = [
-    "Pablo Ruiz Picasso (25 October 1881 – 8 April 1973) was a Spanish painter, sculptor, printmaker, ceramicist, and theatre designer who spent most of his adult life in France.",
-    "One of the most influential artists of the 20th century, he is known for co-founding the Cubist movement, the invention of constructed sculpture,[8][9] the co-invention of collage, and for the wide variety of styles that he helped develop and explore.",
+    'Pablo Ruiz Picasso (25 October 1881 – 8 April 1973) was a Spanish painter, sculptor, printmaker, ceramicist, and theatre designer who spent most of his adult life in France.',
+    'One of the most influential artists of the 20th century, he is known for co-founding the Cubist movement, the invention of constructed sculpture,[8][9] the co-invention of collage, and for the wide variety of styles that he helped develop and explore.',
     "Among his most famous works are the proto-Cubist Les Demoiselles d'Avignon (1907) and the anti-war painting Guernica (1937), a dramatic portrayal of the bombing of Guernica by German and Italian air forces during the Spanish Civil War.",
-    "Picasso demonstrated extraordinary artistic talent in his early years, painting in a naturalistic manner through his childhood and adolescence.",
-    "During the first decade of the 20th century, his style changed as he experimented with different theories, techniques, and ideas.",
-    "After 1906, the Fauvist work of the older artist Henri Matisse motivated Picasso to explore more radical styles, beginning a fruitful rivalry between the two artists, who subsequently were often paired by critics as the leaders of modern art.",
+    'Picasso demonstrated extraordinary artistic talent in his early years, painting in a naturalistic manner through his childhood and adolescence.',
+    'During the first decade of the 20th century, his style changed as he experimented with different theories, techniques, and ideas.',
+    'After 1906, the Fauvist work of the older artist Henri Matisse motivated Picasso to explore more radical styles, beginning a fruitful rivalry between the two artists, who subsequently were often paired by critics as the leaders of modern art.',
     "Picasso's output, especially in his early career, is often periodized.",
-    "While the names of many of his later periods are debated, the most commonly accepted periods in his work are the Blue Period (1901–1904), the Rose Period (1904–1906), the African-influenced Period (1907–1909), Analytic Cubism (1909–1912), and Synthetic Cubism (1912–1919), also referred to as the Crystal period.",
+    'While the names of many of his later periods are debated, the most commonly accepted periods in his work are the Blue Period (1901–1904), the Rose Period (1904–1906), the African-influenced Period (1907–1909), Analytic Cubism (1909–1912), and Synthetic Cubism (1912–1919), also referred to as the Crystal period.',
     "Much of Picasso's work of the late 1910s and early 1920s is in a neoclassical style, and his work in the mid-1920s often has characteristics of Surrealism.",
-    "His later work often combines elements of his earlier styles.",
+    'His later work often combines elements of his earlier styles.',
 ]
 txts.insert({'text': s} for s in sentences)
 ```
@@ -534,12 +533,14 @@ from pixeltable.functions.huggingface import sentence_transformer
 txts.add_embedding_index(
     'text',
     idx_name='minilm_idx',
-    embedding=sentence_transformer.using(model_id='sentence-transformers/all-MiniLM-L12-v2')
+    embedding=sentence_transformer.using(
+        model_id='sentence-transformers/all-MiniLM-L12-v2'
+    ),
 )
 txts.add_embedding_index(
     'text',
     idx_name='e5_idx',
-    embedding=sentence_transformer.using(model_id='intfloat/e5-large-v2')
+    embedding=sentence_transformer.using(model_id='intfloat/e5-large-v2'),
 )
 ```
 
@@ -554,7 +555,12 @@ parameter:
 
 ```python
 sim = txts.text.similarity('cubism', idx='minilm_idx')
-res = txts.order_by(sim, asc=False).limit(2).select(txts.text, sim).collect()
+res = (
+    txts.order_by(sim, asc=False)
+    .limit(2)
+    .select(txts.text, sim)
+    .collect()
+)
 res
 ```
 
@@ -591,13 +597,19 @@ model invocation.
 import tensorflow as tf
 import tensorflow_hub as hub
 import tensorflow_text  # Necessary to ensure BERT dependencies are loaded
+
 import pixeltable as pxt
+
 
 @pxt.udf
 def bert(input: str) -> pxt.Array[(512,), pxt.Float]:
     """Computes text embeddings using the small_bert model."""
-    preprocessor = hub.load('https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3')
-    bert_model = hub.load('https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-512_A-8/2')
+    preprocessor = hub.load(
+        'https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3'
+    )
+    bert_model = hub.load(
+        'https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-512_A-8/2'
+    )
     tensor = tf.constant([input])  # Convert the string to a tensor
     result = bert_model(preprocessor(tensor))['pooled_output']
     return result.numpy()[0, :]
@@ -605,11 +617,7 @@ def bert(input: str) -> pxt.Array[(512,), pxt.Float]:
 
 
 ```python
-txts.add_embedding_index(
-    'text',
-    idx_name='bert_idx',
-    embedding=bert
-)
+txts.add_embedding_index('text', idx_name='bert_idx', embedding=bert)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -621,7 +629,12 @@ Here’s the output of our sample query run against `bert_idx`.
 
 ```python
 sim = txts.text.similarity('cubism', idx='bert_idx')
-res = txts.order_by(sim, asc=False).limit(2).select(txts.text, sim).collect()
+res = (
+    txts.order_by(sim, asc=False)
+    .limit(2)
+    .select(txts.text, sim)
+    .collect()
+)
 res
 ```
 

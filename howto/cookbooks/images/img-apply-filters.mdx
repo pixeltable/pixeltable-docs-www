@@ -221,8 +221,9 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 
 ```python
-import pixeltable as pxt
 from PIL import ImageFilter
+
+import pixeltable as pxt
 ```
 
 ### Load images
@@ -251,11 +252,19 @@ Created&nbsp;table&nbsp;&#x27;filters&#x27;.
 
 
 ```python
-t.insert([
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000106.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000285.jpg'},
-])
+t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000106.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000285.jpg'
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -273,15 +282,18 @@ def apply_blur(img: pxt.Image) -> pxt.Image:
     """Apply blur filter."""
     return img.filter(ImageFilter.BLUR)
 
+
 @pxt.udf
 def apply_sharpen(img: pxt.Image) -> pxt.Image:
     """Apply sharpen filter."""
     return img.filter(ImageFilter.SHARPEN)
 
+
 @pxt.udf
 def apply_find_edges(img: pxt.Image) -> pxt.Image:
     """Apply edge detection filter."""
     return img.filter(ImageFilter.FIND_EDGES)
+
 
 @pxt.udf
 def apply_edge_enhance(img: pxt.Image) -> pxt.Image:
@@ -292,11 +304,7 @@ def apply_edge_enhance(img: pxt.Image) -> pxt.Image:
 
 ```python
 # Test blur and sharpen
-t.select(
-    t.image,
-    apply_blur(t.image),
-    apply_sharpen(t.image)
-).head(1)
+t.select(t.image, apply_blur(t.image), apply_sharpen(t.image)).head(1)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />

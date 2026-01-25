@@ -311,9 +311,10 @@ perceptual weighting in linear color space.
 
 
 ```python
-import pixeltable as pxt
 import numpy as np
 from PIL import Image
+
+import pixeltable as pxt
 ```
 
 ### Load images
@@ -342,11 +343,19 @@ Created&nbsp;table&nbsp;&#x27;gray&#x27;.
 
 
 ```python
-t.insert([
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'},
-    {'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000106.jpg'},
-])
+t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000036.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000090.jpg'
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000106.jpg'
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -413,9 +422,9 @@ def rgb_to_gray_accurate(img: Image.Image) -> Image.Image:
 
     # Apply perceptual weights in linear space
     gray_lin = (
-        0.2126 * rgb_lin[:, :, 0] +
-        0.7152 * rgb_lin[:, :, 1] +
-        0.0722 * rgb_lin[:, :, 2]
+        0.2126 * rgb_lin[:, :, 0]
+        + 0.7152 * rgb_lin[:, :, 1]
+        + 0.0722 * rgb_lin[:, :, 2]
     )
 
     # Gamma compress: make values display-ready
@@ -429,11 +438,7 @@ def rgb_to_gray_accurate(img: Image.Image) -> Image.Image:
 
 ```python
 # Compare both methods on first image
-t.select(
-    t.image,
-    t.grayscale,
-    rgb_to_gray_accurate(t.image)
-).head(1)
+t.select(t.image, t.grayscale, rgb_to_gray_accurate(t.image)).head(1)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
