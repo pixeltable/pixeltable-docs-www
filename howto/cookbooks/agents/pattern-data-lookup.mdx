@@ -251,16 +251,48 @@ Created&nbsp;directory&nbsp;&#x27;lookup_demo&#x27;.
 # Create a product catalog
 products = pxt.create_table(
     'lookup_demo/products',
-    {'sku': pxt.String, 'name': pxt.String, 'price': pxt.Float, 'category': pxt.String}
+    {
+        'sku': pxt.String,
+        'name': pxt.String,
+        'price': pxt.Float,
+        'category': pxt.String,
+    },
 )
 
-products.insert([
-    {'sku': 'LAPTOP-001', 'name': 'MacBook Pro 14"', 'price': 1999.00, 'category': 'electronics'},
-    {'sku': 'LAPTOP-002', 'name': 'ThinkPad X1', 'price': 1499.00, 'category': 'electronics'},
-    {'sku': 'PHONE-001', 'name': 'iPhone 15 Pro', 'price': 999.00, 'category': 'electronics'},
-    {'sku': 'CHAIR-001', 'name': 'Ergonomic Office Chair', 'price': 449.00, 'category': 'furniture'},
-    {'sku': 'DESK-001', 'name': 'Standing Desk', 'price': 699.00, 'category': 'furniture'},
-])
+products.insert(
+    [
+        {
+            'sku': 'LAPTOP-001',
+            'name': 'MacBook Pro 14"',
+            'price': 1999.00,
+            'category': 'electronics',
+        },
+        {
+            'sku': 'LAPTOP-002',
+            'name': 'ThinkPad X1',
+            'price': 1499.00,
+            'category': 'electronics',
+        },
+        {
+            'sku': 'PHONE-001',
+            'name': 'iPhone 15 Pro',
+            'price': 999.00,
+            'category': 'electronics',
+        },
+        {
+            'sku': 'CHAIR-001',
+            'name': 'Ergonomic Office Chair',
+            'price': 449.00,
+            'category': 'furniture',
+        },
+        {
+            'sku': 'DESK-001',
+            'name': 'Standing Desk',
+            'price': 699.00,
+            'category': 'furniture',
+        },
+    ]
+)
 
 products.collect()
 ```
@@ -283,7 +315,7 @@ get_product = pxt.retrieval_udf(
     name='get_product',
     description='Look up a product by its SKU code',
     parameters=['sku'],  # Only use SKU as the lookup key
-    limit=1  # Return at most 1 result
+    limit=1,  # Return at most 1 result
 )
 # Check the function signature
 ```
@@ -301,14 +333,16 @@ result = products.select(get_product(sku='LAPTOP-001')).limit(1).collect()
 # Create a category lookup (returns multiple products)
 get_by_category = pxt.retrieval_udf(
     products,
-    name="get_by_category",
-    description="Get all products in a category",
-    parameters=["category"],
-    limit=10  # Return up to 10 products
+    name='get_by_category',
+    description='Get all products in a category',
+    parameters=['category'],
+    limit=10,  # Return up to 10 products
 )
 
 # Find all electronics
-products.select(get_by_category(category="electronics")).limit(1).collect()
+products.select(get_by_category(category='electronics')).limit(
+    1
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
@@ -320,14 +354,32 @@ products.select(get_by_category(category="electronics")).limit(1).collect()
 # Create an orders table
 orders = pxt.create_table(
     'lookup_demo/orders',
-    {'order_id': pxt.String, 'product_sku': pxt.String, 'quantity': pxt.Int}
+    {
+        'order_id': pxt.String,
+        'product_sku': pxt.String,
+        'quantity': pxt.Int,
+    },
 )
 
-orders.insert([
-    {'order_id': 'ORD-001', 'product_sku': 'LAPTOP-001', 'quantity': 2},
-    {'order_id': 'ORD-002', 'product_sku': 'PHONE-001', 'quantity': 1},
-    {'order_id': 'ORD-003', 'product_sku': 'CHAIR-001', 'quantity': 4},
-])
+orders.insert(
+    [
+        {
+            'order_id': 'ORD-001',
+            'product_sku': 'LAPTOP-001',
+            'quantity': 2,
+        },
+        {
+            'order_id': 'ORD-002',
+            'product_sku': 'PHONE-001',
+            'quantity': 1,
+        },
+        {
+            'order_id': 'ORD-003',
+            'product_sku': 'CHAIR-001',
+            'quantity': 4,
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -340,14 +392,16 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # Add a computed column that enriches orders with product details
-orders.add_computed_column(product_info=get_product(sku=orders.product_sku))
+orders.add_computed_column(
+    product_info=get_product(sku=orders.product_sku)
+)
 
 # View enriched orders
 orders.select(
     orders.order_id,
     orders.product_sku,
     orders.quantity,
-    orders.product_info
+    orders.product_info,
 ).collect()
 ```
 

@@ -172,8 +172,8 @@ cached and only regenerated when the source text changes.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -204,8 +204,7 @@ Created&nbsp;directory&nbsp;&#x27;tts_demo&#x27;.
 ```python
 # Create table for articles
 articles = pxt.create_table(
-    'tts_demo/articles',
-    {'title': pxt.String, 'content': pxt.String}
+    'tts_demo/articles', {'title': pxt.String, 'content': pxt.String}
 )
 ```
 
@@ -217,11 +216,7 @@ Created&nbsp;table&nbsp;&#x27;articles&#x27;.
 ```python
 # Add audio generation column
 articles.add_computed_column(
-    audio=speech(
-        articles.content,
-        model='tts-1',
-        voice='alloy'
-    )
+    audio=speech(articles.content, model='tts-1', voice='alloy')
 )
 ```
 
@@ -238,11 +233,11 @@ No&nbsp;rows&nbsp;affected.
 sample_articles = [
     {
         'title': 'Welcome to AI',
-        'content': 'Artificial intelligence is transforming how we work and live. From smart assistants to autonomous vehicles, AI is becoming part of our daily lives.'
+        'content': 'Artificial intelligence is transforming how we work and live. From smart assistants to autonomous vehicles, AI is becoming part of our daily lives.',
     },
     {
         'title': 'Getting Started',
-        'content': 'To begin your journey with machine learning, start by understanding the basics of data preparation and model training.'
+        'content': 'To begin your journey with machine learning, start by understanding the basics of data preparation and model training.',
     },
 ]
 
@@ -258,7 +253,9 @@ Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # View articles with generated audio
-articles.select(articles.title, articles.content, articles.audio).collect()
+articles.select(
+    articles.title, articles.content, articles.audio
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />

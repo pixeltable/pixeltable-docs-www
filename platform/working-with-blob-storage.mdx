@@ -402,8 +402,9 @@ anywhere you see a local destination path.
 
 
 ```python
-import pixeltable as pxt
 from pathlib import Path
+
+import pixeltable as pxt
 ```
 
 
@@ -425,7 +426,11 @@ from the web.
 
 ```python
 # Create table
-t = pxt.create_table('blob_storage_demo/media', {'source_image': pxt.Image}, if_exists='replace')
+t = pxt.create_table(
+    'blob_storage_demo/media',
+    {'source_image': pxt.Image},
+    if_exists='replace',
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -503,8 +508,7 @@ will show us where Pixeltable stores **output** files by default.
 ```python
 # Add computed column with no destination specified - uses default
 t.add_computed_column(
-    flipped=t.source_image.transpose(0),
-    if_exists='replace'
+    flipped=t.source_image.transpose(0), if_exists='replace'
 )
 ```
 
@@ -558,7 +562,7 @@ the difference from the default behavior.
 t.add_computed_column(
     rotated=t.source_image.rotate(90),
     destination=dest_rotated,
-    if_exists='replace'
+    if_exists='replace',
 )
 ```
 
@@ -652,7 +656,7 @@ Path(dest_thumbnails).mkdir(exist_ok=True)
 t.add_computed_column(
     thumbnail=t.source_image.resize((128, 128)),
     destination=dest_thumbnails,
-    if_exists='replace'
+    if_exists='replace',
 )
 ```
 
@@ -684,7 +688,7 @@ The `.fileurl` property gives you direct URLs you can use anywhere.
 t.select(
     source=t.source_image.fileurl,
     rotated=t.rotated.fileurl,
-    flipped=t.flipped.fileurl
+    flipped=t.flipped.fileurl,
 ).collect()
 ```
 
@@ -724,13 +728,15 @@ import os
 # Use HTTPS URL format for Backblaze B2 (not s3://)
 b2_region = 'us-east-005'
 b2_bucket = 'pixeltable'
-cloud_destination = f'https://s3.{b2_region}.backblazeb2.com/{b2_bucket}/presigned-demo/'
+cloud_destination = (
+    f'https://s3.{b2_region}.backblazeb2.com/{b2_bucket}/presigned-demo/'
+)
 
 # Add the computed column
 t.add_computed_column(
     cloud_thumbnail=t.source_image.resize((64, 64)),
     destination=cloud_destination,
-    if_exists='replace'
+    if_exists='replace',
 )
 ```
 
@@ -747,9 +753,10 @@ from pixeltable.functions import net
 t.select(
     cloud_thumbnail=t.cloud_thumbnail,
     storage_url=t.cloud_thumbnail.fileurl,
-    presigned_url=net.presigned_url(t.cloud_thumbnail.fileurl, 3600),  # 1-hour expiration
+    presigned_url=net.presigned_url(
+        t.cloud_thumbnail.fileurl, 3600
+    ),  # 1-hour expiration
 ).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[13] }} />

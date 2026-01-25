@@ -1084,8 +1084,9 @@ We first set up our OpenAI API key:
 
 
 ```python
-import os
 import getpass
+import os
+
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key:')
 ```
@@ -1166,8 +1167,7 @@ empty table `rag_demo.documents` with a single column, `document`.
 
 ```python
 documents_t = pxt.create_table(
-    'rag_demo/documents',
-    {'document': pxt.Document}
+    'rag_demo/documents', {'document': pxt.Document}
 )
 
 documents_t
@@ -1237,10 +1237,8 @@ chunks_t = pxt.create_view(
     'rag_demo/chunks',
     documents_t,
     iterator=document_splitter(
-        documents_t.document,
-        separators='token_limit',
-        limit=300
-    )
+        documents_t.document, separators='token_limit', limit=300
+    ),
 )
 ```
 
@@ -1304,7 +1302,7 @@ from pixeltable.functions.huggingface import sentence_transformer
 
 chunks_t.add_embedding_index(
     'text',
-    embedding=sentence_transformer.using(model_id='intfloat/e5-large-v2')
+    embedding=sentence_transformer.using(model_id='intfloat/e5-large-v2'),
 )
 ```
 
@@ -1320,11 +1318,10 @@ application, let’s run a sample query to make sure it works.
 
 
 ```python
-query_text = "What is the expected EPS for Nvidia in Q1 2026?"
+query_text = 'What is the expected EPS for Nvidia in Q1 2026?'
 sim = chunks_t.text.similarity(string=query_text)
 nvidia_eps_query = (
-    chunks_t
-    .order_by(sim, asc=False)
+    chunks_t.order_by(sim, asc=False)
     .select(similarity=sim, text=chunks_t.text)
     .limit(5)
 )
@@ -1344,20 +1341,20 @@ capabilities of the `chunks` table.
 # A @query is essentially a reusable, parameterized query that is attached to a table (or view),
 # which is a modular way of getting data from that table.
 
+
 @pxt.query
 def top_k(query_text: str):
     sim = chunks_t.text.similarity(string=query_text)
     return (
         chunks_t.order_by(sim, asc=False)
-            .select(chunks_t.text, sim=sim)
-            .limit(5)
+        .select(chunks_t.text, sim=sim)
+        .limit(5)
     )
+
 
 # Now add a computed column to `queries_t`, calling the query
 # `top_k` that we just defined.
-queries_t.add_computed_column(
-    question_context=top_k(queries_t.Question)
-)
+queries_t.add_computed_column(question_context=top_k(queries_t.Question))
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -1409,14 +1406,14 @@ def create_prompt(top_k_list: list[dict], question: str) -> str:
     concat_top_k = '\n\n'.join(
         elt['text'] for elt in reversed(top_k_list)
     )
-    return f'''
+    return f"""
     PASSAGES:
 
     {concat_top_k}
 
     QUESTION:
 
-    {question}'''
+    {question}"""
 ```
 
 We then add that again as a computed column to `queries`:
@@ -1468,17 +1465,16 @@ from pixeltable.functions import openai
 messages = [
     {
         'role': 'system',
-        'content': 'Please read the following passages and answer the question based on their contents.'
+        'content': 'Please read the following passages and answer the question based on their contents.',
     },
-    {
-        'role': 'user',
-        'content': queries_t.prompt
-    }
+    {'role': 'user', 'content': queries_t.prompt},
 ]
 
 # Add a computed column that calls OpenAI
 queries_t.add_computed_column(
-    response=openai.chat_completions(model='gpt-4o-mini', messages=messages)
+    response=openai.chat_completions(
+        model='gpt-4o-mini', messages=messages
+    )
 )
 ```
 
@@ -1523,7 +1519,9 @@ Let’s take a look at what we got back:
 
 
 ```python
-queries_t.select(queries_t.Question, queries_t.correct_answer, queries_t.answer).show()
+queries_t.select(
+    queries_t.Question, queries_t.correct_answer, queries_t.answer
+).show()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[26] }} />
@@ -1600,9 +1598,7 @@ As a final step, let’s confirm that all the queries now have answers:
 
 ```python
 queries_t.select(
-    queries_t.Question,
-    queries_t.correct_answer,
-    queries_t.answer
+    queries_t.Question, queries_t.correct_answer, queries_t.answer
 ).show()
 ```
 

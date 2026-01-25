@@ -44,16 +44,6 @@
             "pages": [
               "platform/configuration",
               {
-                "group": "Deployment",
-                "pages": [
-                  "howto/deployment/overview",
-                  "howto/deployment/infrastructure",
-                  "howto/deployment/operations",
-                  "howto/deployment/monitoring",
-                  "howto/deployment/security"
-                ]
-              },
-              {
                 "group": "Integrations",
                 "pages": [
                   "howto/providers/working-with-anthropic",
@@ -244,6 +234,7 @@
                       "sdk/latest/openrouter",
                       "sdk/latest/replicate",
                       "sdk/latest/reve",
+                      "sdk/latest/runwayml",
                       "sdk/latest/together",
                       "sdk/latest/twelvelabs",
                       "sdk/latest/uuid",
@@ -265,8 +256,84 @@
             ]
           },
           {
-            "dropdown": "v0.5.13",
+            "dropdown": "v0.5.14",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.14/pixeltable",
+                      "sdk/v0.5.14/table",
+                      "sdk/v0.5.14/query",
+                      "sdk/v0.5.14/columnmetadata",
+                      "sdk/v0.5.14/dircontents",
+                      "sdk/v0.5.14/indexmetadata",
+                      "sdk/v0.5.14/tablemetadata",
+                      "sdk/v0.5.14/updatestatus",
+                      "sdk/v0.5.14/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.14/functions",
+                      "sdk/v0.5.14/audio",
+                      "sdk/v0.5.14/date",
+                      "sdk/v0.5.14/document",
+                      "sdk/v0.5.14/image",
+                      "sdk/v0.5.14/json",
+                      "sdk/v0.5.14/math",
+                      "sdk/v0.5.14/net",
+                      "sdk/v0.5.14/string",
+                      "sdk/v0.5.14/timestamp",
+                      "sdk/v0.5.14/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.14/anthropic",
+                      "sdk/v0.5.14/bedrock",
+                      "sdk/v0.5.14/deepseek",
+                      "sdk/v0.5.14/fal",
+                      "sdk/v0.5.14/fireworks",
+                      "sdk/v0.5.14/gemini",
+                      "sdk/v0.5.14/groq",
+                      "sdk/v0.5.14/huggingface",
+                      "sdk/v0.5.14/llama_cpp",
+                      "sdk/v0.5.14/mistralai",
+                      "sdk/v0.5.14/ollama",
+                      "sdk/v0.5.14/openai",
+                      "sdk/v0.5.14/openrouter",
+                      "sdk/v0.5.14/replicate",
+                      "sdk/v0.5.14/reve",
+                      "sdk/v0.5.14/runwayml",
+                      "sdk/v0.5.14/together",
+                      "sdk/v0.5.14/twelvelabs",
+                      "sdk/v0.5.14/uuid",
+                      "sdk/v0.5.14/vision",
+                      "sdk/v0.5.14/voyageai",
+                      "sdk/v0.5.14/whisper",
+                      "sdk/v0.5.14/whisperx",
+                      "sdk/v0.5.14/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.14/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.13",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -798,12 +865,31 @@
         ]
       },
       {
-        "tab": "Cloud",
+        "tab": "Use Cases & Deployment",
         "groups": [
           {
-            "group": "Cloud",
+            "group": "Use Cases",
             "pages": [
-              "cloud/get-started"
+              "use-cases/ml-data-wrangling",
+              "use-cases/ai-applications",
+              "use-cases/agents-mcp"
+            ]
+          },
+          {
+            "group": "Deployment",
+            "pages": [
+              "howto/deployment/overview",
+              "howto/deployment/infrastructure",
+              "howto/deployment/operations",
+              "howto/deployment/monitoring",
+              "howto/deployment/security"
+            ]
+          },
+          {
+            "group": "Pixeltable Cloud",
+            "pages": [
+              "use-cases/services",
+              "use-cases/get-started"
             ]
           }
         ]
@@ -1110,6 +1196,30 @@
     {
       "source": "/tutorials/embedding-indexes",
       "destination": "/platform/embedding-indexes"
+    },
+    {
+      "source": "/cloud/use-cases",
+      "destination": "/use-cases/ml-data-wrangling"
+    },
+    {
+      "source": "/cloud/ml-data-wrangling",
+      "destination": "/use-cases/ml-data-wrangling"
+    },
+    {
+      "source": "/cloud/ai-applications",
+      "destination": "/use-cases/ai-applications"
+    },
+    {
+      "source": "/cloud/agents-mcp",
+      "destination": "/use-cases/agents-mcp"
+    },
+    {
+      "source": "/cloud/services",
+      "destination": "/use-cases/services"
+    },
+    {
+      "source": "/cloud/get-started",
+      "destination": "/use-cases/get-started"
     }
   ]
 }

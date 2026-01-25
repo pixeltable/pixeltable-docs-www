@@ -39,14 +39,18 @@ key.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'AWS_ACCESS_KEY' not in os.environ:
-    os.environ['AWS_ACCESS_KEY'] = getpass.getpass('Enter your AWS Access Key:')
+    os.environ['AWS_ACCESS_KEY'] = getpass.getpass(
+        'Enter your AWS Access Key:'
+    )
 
 if 'AWS_SECRET_ACCESS_KEY' not in os.environ:
-    os.environ['AWS_SECRET_ACCESS_KEY'] = getpass.getpass('Enter your AWS Secret Access Key:')
+    os.environ['AWS_SECRET_ACCESS_KEY'] = getpass.getpass(
+        'Enter your AWS Secret Access Key:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -75,19 +79,12 @@ from pixeltable.functions import bedrock
 t = pxt.create_table('bedrock_demo/chat', {'input': pxt.String})
 
 msgs = [{'role': 'user', 'content': t.input}]
-t.add_computed_column(output=bedrock.converse(
-        model_id="amazon.nova-pro-v1:0",
-        messages=[
-            {
-                'role': 'user',
-                'content': [
-                    {
-                        'text': t.input,
-                    }
-                ]
-            }
-        ],
-    ))
+t.add_computed_column(
+    output=bedrock.converse(
+        model_id='amazon.nova-pro-v1:0',
+        messages=[{'role': 'user', 'content': [{'text': t.input}]}],
+    )
+)
 ```
 
 
@@ -99,7 +96,13 @@ t.add_computed_column(response=t.output.output.message.content[0].text)
 
 ```python
 # Start a conversation
-t.insert([{'input': 'What was the outcome of the 1904 US Presidential election?'}])
+t.insert(
+    [
+        {
+            'input': 'What was the outcome of the 1904 US Presidential election?'
+        }
+    ]
+)
 t.select(t.input, t.response).show()
 ```
 
@@ -110,14 +113,15 @@ news search and weather information.
 
 
 ```python
+from duckduckgo_search import DDGS
+
 import pixeltable as pxt
 import pixeltable.functions as pxtf
 from pixeltable.functions.bedrock import converse, invoke_tools
-from duckduckgo_search import DDGS
 
 # Initialize app structure
-pxt.drop_dir("agents", force=True)
-pxt.create_dir("agents")
+pxt.drop_dir('agents', force=True)
+pxt.create_dir('agents')
 ```
 
 
@@ -130,27 +134,29 @@ def search_news(keywords: str, max_results: int) -> str:
         with DDGS() as ddgs:
             results = ddgs.news(
                 keywords=keywords,
-                region="wt-wt",
-                safesearch="off",
-                timelimit="m",
+                region='wt-wt',
+                safesearch='off',
+                timelimit='m',
                 max_results=max_results,
             )
             formatted_results = []
             for i, r in enumerate(results, 1):
                 formatted_results.append(
-                    f"{i}. Title: {r['title']}\n"
-                    f"   Source: {r['source']}\n"
-                    f"   Published: {r['date']}\n"
-                    f"   Snippet: {r['body']}\n"
+                    f'{i}. Title: {r["title"]}\n'
+                    f'   Source: {r["source"]}\n'
+                    f'   Published: {r["date"]}\n'
+                    f'   Snippet: {r["body"]}\n'
                 )
-            return "\n".join(formatted_results)
+            return '\n'.join(formatted_results)
     except Exception as e:
-        return f"Search failed: {str(e)}"
+        return f'Search failed: {str(e)}'
+
 
 @pxt.udf
 def get_weather(location: str) -> str:
     """Mock weather function - replace with actual API call."""
-    return f"Current weather in {location}: 72°F, Partly Cloudy"
+    return f'Current weather in {location}: 72°F, Partly Cloudy'
+
 
 # Register all tools
 tools = pxt.tools(search_news, get_weather)
@@ -160,24 +166,15 @@ tools = pxt.tools(search_news, get_weather)
 ```python
 # Create base table
 tool_agent = pxt.create_table(
-    "agents/tools",
-    {"prompt": pxt.String},
-    if_exists="ignore"
+    'agents/tools', {'prompt': pxt.String}, if_exists='ignore'
 )
 
 # Add tool selection and execution workflow
 tool_agent.add_computed_column(
     initial_response=converse(
-        model_id="amazon.nova-pro-v1:0",
+        model_id='amazon.nova-pro-v1:0',
         messages=[
-            {
-                'role': 'user',
-                'content': [
-                    {
-                        'text': tool_agent.prompt,
-                    }
-                ]
-            }
+            {'role': 'user', 'content': [{'text': tool_agent.prompt}]}
         ],
         tool_config=tools,
     )
@@ -194,27 +191,23 @@ tool_agent.add_computed_column(
 # Add response formatting
 tool_agent.add_computed_column(
     tool_response_prompt=pxtf.string.format(
-        "Orginal Prompt\n{0}: Tool Output\n{1}",
+        'Orginal Prompt\n{0}: Tool Output\n{1}',
         tool_agent.prompt,
-        tool_agent.tool_output
+        tool_agent.tool_output,
     ),
-    if_exists="ignore",
+    if_exists='ignore',
 )
 
 # Add final response generation
 tool_agent.add_computed_column(
     final_response=converse(
-        model_id="amazon.nova-pro-v1:0",
+        model_id='amazon.nova-pro-v1:0',
         messages=[
             {
                 'role': 'user',
-                'content': [
-                    {
-                        'text': tool_agent.tool_response_prompt,
-                    }
-                ]
+                'content': [{'text': tool_agent.tool_response_prompt}],
             }
-        ]
+        ],
     )
 )
 
@@ -235,9 +228,7 @@ queries = [
 for query in queries:
     tool_agent.insert([{'prompt': query}])
     result = tool_agent.select(
-        tool_agent.prompt,
-        tool_agent.tool_output,
-        tool_agent.answer
+        tool_agent.prompt, tool_agent.tool_output, tool_agent.answer
     ).tail(1)
 
 # Display the full table

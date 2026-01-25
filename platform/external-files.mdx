@@ -155,9 +155,10 @@ Let’s create a table and load some data to see what that looks like:
 
 
 ```python
-import tempfile
 import random
 import shutil
+import tempfile
+
 import pixeltable as pxt
 
 # First drop the `external_data` directory if it exists, to ensure
@@ -180,7 +181,7 @@ prefix = 's3://multimedia-commons/'
 paths = [
     'data/videos/mp4/ffe/ffb/ffeffbef41bbc269810b2a1a888de.mp4',
     'data/videos/mp4/ffe/feb/ffefebb41485539f964760e6115fbc44.mp4',
-    'data/videos/mp4/ffe/f73/ffef7384d698b5f70d411c696247169.mp4'
+    'data/videos/mp4/ffe/f73/ffef7384d698b5f70d411c696247169.mp4',
 ]
 v.insert({'video': prefix + p} for p in paths)
 ```
@@ -385,7 +386,9 @@ The same happens for corrupted files:
 
 ```python
 # create invalid .mp4
-with tempfile.NamedTemporaryFile(mode='wb', suffix='.mp4', delete=False) as temp_file:
+with tempfile.NamedTemporaryFile(
+    mode='wb', suffix='.mp4', delete=False
+) as temp_file:
     temp_file.write(random.randbytes(1024))
     corrupted_path = temp_file.name
 
@@ -454,7 +457,10 @@ conditions and proceed with the ingest, via the `on_error` flag
 
 
 ```python
-v.insert([{'video': prefix + 'bad_path.mp4'}, {'video': corrupted_path}], on_error='ignore')
+v.insert(
+    [{'video': prefix + 'bad_path.mp4'}, {'video': corrupted_path}],
+    on_error='ignore',
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

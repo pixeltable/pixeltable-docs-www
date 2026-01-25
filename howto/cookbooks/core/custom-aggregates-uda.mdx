@@ -235,17 +235,54 @@ Created&nbsp;directory&nbsp;&#x27;uda_demo&#x27;.
 ```python
 sales = pxt.create_table(
     'uda_demo/sales',
-    {'region': pxt.String, 'product': pxt.String, 'amount': pxt.Float, 'quantity': pxt.Int}
+    {
+        'region': pxt.String,
+        'product': pxt.String,
+        'amount': pxt.Float,
+        'quantity': pxt.Int,
+    },
 )
 
-sales.insert([
-    {'region': 'North', 'product': 'Widget', 'amount': 100.0, 'quantity': 5},
-    {'region': 'North', 'product': 'Gadget', 'amount': 250.0, 'quantity': 2},
-    {'region': 'North', 'product': 'Widget', 'amount': 150.0, 'quantity': 8},
-    {'region': 'South', 'product': 'Widget', 'amount': 200.0, 'quantity': 10},
-    {'region': 'South', 'product': 'Gadget', 'amount': 175.0, 'quantity': 3},
-    {'region': 'East', 'product': 'Widget', 'amount': 125.0, 'quantity': 6},
-])
+sales.insert(
+    [
+        {
+            'region': 'North',
+            'product': 'Widget',
+            'amount': 100.0,
+            'quantity': 5,
+        },
+        {
+            'region': 'North',
+            'product': 'Gadget',
+            'amount': 250.0,
+            'quantity': 2,
+        },
+        {
+            'region': 'North',
+            'product': 'Widget',
+            'amount': 150.0,
+            'quantity': 8,
+        },
+        {
+            'region': 'South',
+            'product': 'Widget',
+            'amount': 200.0,
+            'quantity': 10,
+        },
+        {
+            'region': 'South',
+            'product': 'Gadget',
+            'amount': 175.0,
+            'quantity': 3,
+        },
+        {
+            'region': 'East',
+            'product': 'Widget',
+            'amount': 125.0,
+            'quantity': 6,
+        },
+    ]
+)
 
 sales.collect()
 ```
@@ -266,6 +303,7 @@ Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # A UDA is a class that inherits from pxt.Aggregator
 # It must implement: __init__, update, and value
+
 
 @pxt.uda
 class variance(pxt.Aggregator):
@@ -302,8 +340,7 @@ sales.select(variance(sales.amount)).collect()
 ```python
 # Use in group_by queries
 sales.group_by(sales.region).select(
-    sales.region,
-    amount_variance=variance(sales.amount)
+    sales.region, amount_variance=variance(sales.amount)
 ).collect()
 ```
 
@@ -332,8 +369,7 @@ class string_agg(pxt.Aggregator):
 ```python
 # List all products sold in each region
 sales.group_by(sales.region).select(
-    sales.region,
-    products=string_agg(sales.product)
+    sales.region, products=string_agg(sales.product)
 ).collect()
 ```
 
@@ -362,8 +398,7 @@ class collect_list(pxt.Aggregator):
 ```python
 # Get all amounts per region as a list
 sales.group_by(sales.region).select(
-    sales.region,
-    amounts=collect_list(sales.amount)
+    sales.region, amounts=collect_list(sales.amount)
 ).collect()
 ```
 
@@ -396,8 +431,7 @@ class weighted_avg(pxt.Aggregator):
 ```python
 # Compute quantity-weighted average price per region
 sales.group_by(sales.region).select(
-    sales.region,
-    avg_price=weighted_avg(sales.amount, sales.quantity)
+    sales.region, avg_price=weighted_avg(sales.amount, sales.quantity)
 ).collect()
 ```
 
@@ -408,6 +442,7 @@ sales.group_by(sales.region).select(
 
 ```python
 from collections import Counter
+
 
 @pxt.uda
 class mode(pxt.Aggregator):
@@ -430,8 +465,7 @@ class mode(pxt.Aggregator):
 ```python
 # Find most common product per region
 sales.group_by(sales.region).select(
-    sales.region,
-    top_product=mode(sales.product)
+    sales.region, top_product=mode(sales.product)
 ).collect()
 ```
 

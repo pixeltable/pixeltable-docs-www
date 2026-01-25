@@ -169,8 +169,8 @@ new audio files.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -179,7 +179,7 @@ if 'OPENAI_API_KEY' not in os.environ:
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions import whisper, openai
+from pixeltable.functions import openai, whisper
 ```
 
 
@@ -203,8 +203,7 @@ transcription and summarization:
 ```python
 # Create table for audio files
 podcasts = pxt.create_table(
-    'podcast_demo/episodes',
-    {'title': pxt.String, 'audio': pxt.Audio}
+    'podcast_demo/episodes', {'title': pxt.String, 'audio': pxt.Audio}
 )
 ```
 
@@ -241,15 +240,18 @@ No&nbsp;rows&nbsp;affected.
 
 ```python
 # Step 2: Summarize the transcript with OpenAI
-summary_prompt = '''Summarize this transcript in 2-3 sentences, then list 3 key points.
+summary_prompt = (
+    """Summarize this transcript in 2-3 sentences, then list 3 key points.
 
 Transcript:
-''' + podcasts.transcript_text
+"""
+    + podcasts.transcript_text
+)
 
 podcasts.add_computed_column(
     summary_response=openai.chat_completions(
         messages=[{'role': 'user', 'content': summary_prompt}],
-        model='gpt-4o-mini'
+        model='gpt-4o-mini',
     )
 )
 ```
@@ -281,10 +283,7 @@ Insert audio files and watch the pipeline run automatically:
 # Insert sample audio
 audio_url = 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/10-minute%20tour%20of%20Pixeltable.mp3'
 
-podcasts.insert([{
-    'title': 'Pixeltable Tour',
-    'audio': audio_url
-}])
+podcasts.insert([{'title': 'Pixeltable Tour', 'audio': audio_url}])
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

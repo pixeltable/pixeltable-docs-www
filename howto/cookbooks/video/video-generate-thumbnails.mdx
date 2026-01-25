@@ -430,7 +430,7 @@ Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 videos.select(
     videos.thumbnail_small,
     videos.thumbnail_small.width,
-    videos.thumbnail_small.height
+    videos.thumbnail_small.height,
 ).collect()
 ```
 
@@ -447,7 +447,7 @@ extract multiple frames:
 frames = pxt.create_view(
     'thumbnail_demo/frames',
     videos,
-    iterator=pxtf.video.frame_iterator(videos.video, fps=0.5)
+    iterator=pxtf.video.frame_iterator(videos.video, fps=0.5),
 )
 ```
 

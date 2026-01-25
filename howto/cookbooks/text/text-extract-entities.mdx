@@ -143,8 +143,8 @@ Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -152,9 +152,10 @@ if 'OPENAI_API_KEY' not in os.environ:
 
 
 ```python
+import json
+
 import pixeltable as pxt
 from pixeltable.functions.openai import chat_completions
-import json
 ```
 
 
@@ -175,38 +176,38 @@ Created&nbsp;directory&nbsp;&#x27;entities_demo&#x27;.
 ```python
 # Define the JSON schema for entity extraction
 entity_schema = {
-    "type": "json_schema",
-    "json_schema": {
-        "name": "entities",
-        "strict": True,
-        "schema": {
-            "type": "object",
-            "properties": {
-                "people": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "Names of people mentioned"
+    'type': 'json_schema',
+    'json_schema': {
+        'name': 'entities',
+        'strict': True,
+        'schema': {
+            'type': 'object',
+            'properties': {
+                'people': {
+                    'type': 'array',
+                    'items': {'type': 'string'},
+                    'description': 'Names of people mentioned',
                 },
-                "organizations": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "Names of companies, institutions, or groups"
+                'organizations': {
+                    'type': 'array',
+                    'items': {'type': 'string'},
+                    'description': 'Names of companies, institutions, or groups',
                 },
-                "locations": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "Geographic locations (cities, countries, addresses)"
+                'locations': {
+                    'type': 'array',
+                    'items': {'type': 'string'},
+                    'description': 'Geographic locations (cities, countries, addresses)',
                 },
-                "dates": {
-                    "type": "array",
-                    "items": {"type": "string"},
-                    "description": "Dates or time references"
-                }
+                'dates': {
+                    'type': 'array',
+                    'items': {'type': 'string'},
+                    'description': 'Dates or time references',
+                },
             },
-            "required": ["people", "organizations", "locations", "dates"],
-            "additionalProperties": False
-        }
-    }
+            'required': ['people', 'organizations', 'locations', 'dates'],
+            'additionalProperties': False,
+        },
+    },
 }
 ```
 
@@ -216,8 +217,7 @@ entity_schema = {
 ```python
 # Create table for articles
 articles = pxt.create_table(
-    'entities_demo/articles',
-    {'title': pxt.String, 'content': pxt.String}
+    'entities_demo/articles', {'title': pxt.String, 'content': pxt.String}
 )
 ```
 
@@ -228,13 +228,16 @@ Created&nbsp;table&nbsp;&#x27;articles&#x27;.
 
 ```python
 # Add entity extraction column
-extraction_prompt = 'Extract all named entities from the following text:\n\n' + articles.content
+extraction_prompt = (
+    'Extract all named entities from the following text:\n\n'
+    + articles.content
+)
 
 articles.add_computed_column(
     extraction_response=chat_completions(
         messages=[{'role': 'user', 'content': extraction_prompt}],
         model='gpt-4o-mini',
-        model_kwargs={'response_format': entity_schema}
+        model_kwargs={'response_format': entity_schema},
     )
 )
 ```
@@ -265,15 +268,15 @@ No&nbsp;rows&nbsp;affected.
 sample_articles = [
     {
         'title': 'Tech Acquisition',
-        'content': 'Microsoft announced today that CEO Satya Nadella will lead the acquisition of a Seattle-based startup. The deal, expected to close in March 2024, is valued at $500 million.'
+        'content': 'Microsoft announced today that CEO Satya Nadella will lead the acquisition of a Seattle-based startup. The deal, expected to close in March 2024, is valued at $500 million.',
     },
     {
         'title': 'Sports Update',
-        'content': 'LeBron James led the Los Angeles Lakers to victory against the Boston Celtics on Tuesday night at Staples Center. Coach Darvin Ham praised the teams performance.'
+        'content': 'LeBron James led the Los Angeles Lakers to victory against the Boston Celtics on Tuesday night at Staples Center. Coach Darvin Ham praised the teams performance.',
     },
     {
         'title': 'Research Breakthrough',
-        'content': 'Dr. Sarah Chen at Stanford University published groundbreaking research on renewable energy. The study, funded by the National Science Foundation, was conducted in Palo Alto, California.'
+        'content': 'Dr. Sarah Chen at Stanford University published groundbreaking research on renewable energy. The study, funded by the National Science Foundation, was conducted in Palo Alto, California.',
     },
 ]
 

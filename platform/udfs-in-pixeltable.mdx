@@ -326,7 +326,12 @@ pxt.create_dir('udf_demo')
 t = pxt.create_table('udf_demo/strings', {'input': pxt.String})
 
 # Add some sample data
-t.insert([{'input': 'Hello, world!'}, {'input': 'You can do a lot with Pixeltable UDFs.'}])
+t.insert(
+    [
+        {'input': 'Hello, world!'},
+        {'input': 'You can do a lot with Pixeltable UDFs.'},
+    ]
+)
 t.show()
 ```
 
@@ -368,9 +373,12 @@ word among those ties.) In Python, that might look something like this:
 ```python
 import numpy as np
 
+
 def longest_word(sentence: str, strip_punctuation: bool = False) -> str:
     words = sentence.split()
-    if strip_punctuation:  # Remove non-alphanumeric characters from each word
+    if (
+        strip_punctuation
+    ):  # Remove non-alphanumeric characters from each word
         words = [''.join(filter(str.isalnum, word)) for word in words]
     i = np.argmax([len(word) for word in words])
     return words[i]
@@ -394,7 +402,9 @@ decorator turns it into a UDF:
 @pxt.udf
 def longest_word(sentence: str, strip_punctuation: bool = False) -> str:
     words = sentence.split()
-    if strip_punctuation:  # Remove non-alphanumeric characters from each word
+    if (
+        strip_punctuation
+    ):  # Remove non-alphanumeric characters from each word
         words = [''.join(filter(str.isalnum, word)) for word in words]
     i = np.argmax([len(word) for word in words])
     return words[i]
@@ -528,8 +538,7 @@ def longest_word(sentence: str, strip_punctuation: bool = False) -> str:
     words = sentence.split()
     if strip_punctuation:
         words = [
-            word if word[-1].isalnum() else word[:-1]
-            for word in words
+            word if word[-1].isalnum() else word[:-1] for word in words
         ]
     i = np.argmax([len(word) for word in words])
     return words[i]
@@ -591,8 +600,11 @@ parameter. Here’s what it looks like:
 ```python
 from pixeltable.func import Batch
 
+
 @pxt.udf(batch_size=16)
-def longest_word(sentences: Batch[str], strip_punctuation: bool = False) -> Batch[str]:
+def longest_word(
+    sentences: Batch[str], strip_punctuation: bool = False
+) -> Batch[str]:
     results = []
     for sentence in sentences:
         words = sentence.split()

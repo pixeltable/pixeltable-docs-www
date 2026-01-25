@@ -179,11 +179,10 @@ Created&nbsp;directory&nbsp;&#x27;search_demo&#x27;.
 
 ```python
 # Create table with content and metadata
-kb = pxt.create_table('search_demo/articles', {
-    'title': pxt.String,
-    'content': pxt.String,
-    'category': pxt.String
-})
+kb = pxt.create_table(
+    'search_demo/articles',
+    {'title': pxt.String, 'content': pxt.String, 'category': pxt.String},
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -193,20 +192,30 @@ Created&nbsp;table&nbsp;&#x27;articles&#x27;.
 
 ```python
 # Insert sample content
-kb.insert([
-    {'title': 'Debugging best practices',
-     'content': 'Use logging, breakpoints, and unit tests to identify and fix issues in your code.',
-     'category': 'engineering'},
-    {'title': 'Machine learning model optimization',
-     'content': 'Improve training efficiency with batch normalization, learning rate schedules, and early stopping.',
-     'category': 'ml'},
-    {'title': 'Production infrastructure setup',
-     'content': 'Deploy applications using containers, load balancers, and automated scaling.',
-     'category': 'devops'},
-    {'title': 'API design principles',
-     'content': 'Create RESTful endpoints with proper versioning, authentication, and error handling.',
-     'category': 'engineering'},
-])
+kb.insert(
+    [
+        {
+            'title': 'Debugging best practices',
+            'content': 'Use logging, breakpoints, and unit tests to identify and fix issues in your code.',
+            'category': 'engineering',
+        },
+        {
+            'title': 'Machine learning model optimization',
+            'content': 'Improve training efficiency with batch normalization, learning rate schedules, and early stopping.',
+            'category': 'ml',
+        },
+        {
+            'title': 'Production infrastructure setup',
+            'content': 'Deploy applications using containers, load balancers, and automated scaling.',
+            'category': 'devops',
+        },
+        {
+            'title': 'API design principles',
+            'content': 'Create RESTful endpoints with proper versioning, authentication, and error handling.',
+            'category': 'engineering',
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -224,7 +233,7 @@ Create an embedding index on the content column:
 # Add embedding index
 kb.add_embedding_index(
     column='content',
-    string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2')
+    string_embed=sentence_transformer.using(model_id='all-MiniLM-L6-v2'),
 )
 ```
 
@@ -235,12 +244,11 @@ Find content semantically similar to your query:
 
 ```python
 # Search by meaning
-query = "how to fix bugs"
+query = 'how to fix bugs'
 sim = kb.content.similarity(string=query)
 
 results = (
-    kb
-    .order_by(sim, asc=False)
+    kb.order_by(sim, asc=False)
     .select(kb.title, kb.content, score=sim)
     .limit(2)
 )
@@ -256,12 +264,11 @@ Combine semantic search with metadata filters:
 
 ```python
 # Search within a specific category
-query = "best practices"
+query = 'best practices'
 sim = kb.content.similarity(string=query)
 
 results = (
-    kb
-    .where(kb.category == 'engineering')  # Filter first
+    kb.where(kb.category == 'engineering')  # Filter first
     .order_by(sim, asc=False)
     .select(kb.title, kb.category, score=sim)
     .limit(2)

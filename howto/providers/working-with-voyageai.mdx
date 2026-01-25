@@ -163,10 +163,13 @@ API key.
 
 
 ```python
-import os
 import getpass
+import os
+
 if 'VOYAGE_API_KEY' not in os.environ:
-    os.environ['VOYAGE_API_KEY'] = getpass.getpass('Enter your Voyage AI API key:')
+    os.environ['VOYAGE_API_KEY'] = getpass.getpass(
+        'Enter your Voyage AI API key:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -200,9 +203,7 @@ docs_t = pxt.create_table('voyageai_demo/documents', {'text': pxt.String})
 # Add computed column with Voyage embeddings
 docs_t.add_computed_column(
     embedding=voyageai.embeddings(
-        docs_t.text,
-        model='voyage-3.5',
-        input_type='document'
+        docs_t.text, model='voyage-3.5', input_type='document'
     )
 )
 ```
@@ -217,12 +218,12 @@ No&nbsp;rows&nbsp;affected.
 ```python
 # Insert some sample documents
 documents = [
-    "The Mediterranean diet emphasizes fish, olive oil, and vegetables, believed to reduce chronic diseases.",
-    "Photosynthesis in plants converts light energy into glucose and produces essential oxygen.",
-    "20th-century innovations, from radios to smartphones, centered on electronic advancements.",
-    "Rivers provide water, irrigation, and habitat for aquatic species, vital for ecosystems.",
+    'The Mediterranean diet emphasizes fish, olive oil, and vegetables, believed to reduce chronic diseases.',
+    'Photosynthesis in plants converts light energy into glucose and produces essential oxygen.',
+    '20th-century innovations, from radios to smartphones, centered on electronic advancements.',
+    'Rivers provide water, irrigation, and habitat for aquatic species, vital for ecosystems.',
     "Apple's conference call to discuss fourth fiscal quarter results is scheduled for Thursday, November 2, 2023.",
-    "Shakespeare's works, like 'Hamlet' and 'A Midsummer Night's Dream,' endure in literature."
+    "Shakespeare's works, like 'Hamlet' and 'A Midsummer Night's Dream,' endure in literature.",
 ]
 
 docs_t.insert({'text': doc} for doc in documents)
@@ -253,7 +254,9 @@ efficient similarity search.
 search_t = pxt.create_table('voyageai_demo/search', {'text': pxt.String})
 
 # Add embedding index for similarity search
-embed_fn = voyageai.embeddings.using(model='voyage-3.5', input_type='document')
+embed_fn = voyageai.embeddings.using(
+    model='voyage-3.5', input_type='document'
+)
 search_t.add_embedding_index('text', string_embed=embed_fn)
 ```
 
@@ -276,8 +279,12 @@ Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # Perform similarity search
-sim = search_t.text.similarity(string="What are the health benefits of Mediterranean food?")
-search_t.order_by(sim, asc=False).limit(3).select(search_t.text, score=sim).collect()
+sim = search_t.text.similarity(
+    string='What are the health benefits of Mediterranean food?'
+)
+search_t.order_by(sim, asc=False).limit(3).select(
+    search_t.text, score=sim
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
@@ -291,17 +298,13 @@ accurate relevance scores.
 ```python
 # Create a table for reranking
 rerank_t = pxt.create_table(
-    'voyageai_demo/rerank',
-    {'query': pxt.String, 'documents': pxt.Json}
+    'voyageai_demo/rerank', {'query': pxt.String, 'documents': pxt.Json}
 )
 
 # Add computed column with reranking results
 rerank_t.add_computed_column(
     reranked=voyageai.rerank(
-        rerank_t.query,
-        rerank_t.documents,
-        model='rerank-2.5',
-        top_k=3
+        rerank_t.query, rerank_t.documents, model='rerank-2.5', top_k=3
     )
 )
 ```
@@ -315,10 +318,14 @@ No&nbsp;rows&nbsp;affected.
 
 ```python
 # Insert query and documents to rerank
-rerank_t.insert([{
-    'query': "When is Apple's conference call scheduled?",
-    'documents': documents
-}])
+rerank_t.insert(
+    [
+        {
+            'query': "When is Apple's conference call scheduled?",
+            'documents': documents,
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -344,9 +351,8 @@ Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors.
 rerank_t.select(
     rerank_t.query,
     top_document=rerank_t.top_results[0]['document'],
-    top_score=rerank_t.top_results[0]['relevance_score']
+    top_score=rerank_t.top_results[0]['relevance_score'],
 ).collect()
-
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
@@ -368,15 +374,23 @@ similarity search.
 
 ```python
 # Create a table for multimodal embeddings
-mm_t = pxt.create_table('voyageai_demo/multimodal', {'image': pxt.Image, 'caption': pxt.String}, if_exists='replace')
+mm_t = pxt.create_table(
+    'voyageai_demo/multimodal',
+    {'image': pxt.Image, 'caption': pxt.String},
+    if_exists='replace',
+)
 
 # Add computed columns for image and text embeddings
 # multimodal_embed can embed either images or text independently
 mm_t.add_computed_column(
-    image_embedding=voyageai.multimodal_embed(mm_t.image, input_type='document')
+    image_embedding=voyageai.multimodal_embed(
+        mm_t.image, input_type='document'
+    )
 )
 mm_t.add_computed_column(
-    text_embedding=voyageai.multimodal_embed(mm_t.caption, input_type='document')
+    text_embedding=voyageai.multimodal_embed(
+        mm_t.caption, input_type='document'
+    )
 )
 ```
 
@@ -390,10 +404,14 @@ No&nbsp;rows&nbsp;affected.
 
 ```python
 # Insert a sample image with caption
-mm_t.insert([{
-    'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000139.jpg',
-    'caption': 'A person standing next to an elephant'
-}])
+mm_t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000139.jpg',
+            'caption': 'A person standing next to an elephant',
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -405,7 +423,9 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # View the multimodal embeddings
-mm_t.select(mm_t.image, mm_t.caption, mm_t.image_embedding, mm_t.text_embedding).head()
+mm_t.select(
+    mm_t.image, mm_t.caption, mm_t.image_embedding, mm_t.text_embedding
+).head()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />

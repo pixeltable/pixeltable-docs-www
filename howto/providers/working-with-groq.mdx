@@ -12,6 +12,36 @@ above links.</Tip>
 
 
 
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">How many islands are in the Aleutian island chain?</td>
+<td style="vertical-align: middle;">The Aleutian Islands are a chain of approximately 300 small volcanic
+islands, stretching about 1,200 miles (1,900 km) westward from the
+Alaska Peninsula. However, not all of these islands are named or
+inhabited. According to the U.S. Geological Survey, there are around 14
+main islands in the Aleutian Islands chain, along with many smaller
+islets and rocks. Some of the main islands include: 1. Unimak Island 2.
+Unalaska Island 3. Umnak Island 4. Adak Island 5. Atka Island 6. Amlia
+Island 7. Tanaga Island 8. Kanaga Island 9. Adugak Island (also known as
+Adugak Island or "Four Mountains Islands") 10. Great Sitkin Island 11.
+Semisopochnoi Island 12. Kiska Island 13. Little Sitkin Island 14. Attu
+Island Keep in mind that some sources may group the islands differently,
+and there may be variations in the number of islands depending on the
+definition of a "main island" versus a smaller islet or rock.</td>
+</tr>
+</tbody>
+</table>
+`];
+
 Pixeltable’s Groq integration enables you to access Groq models via the
 Groq API.
 
@@ -36,10 +66,13 @@ API key.
 
 
 ```python
-import os
 import getpass
+import os
+
 if 'GROQ_API_KEY' not in os.environ:
-    os.environ['GROQ_API_KEY'] = getpass.getpass('Enter your Groq API key:')
+    os.environ['GROQ_API_KEY'] = getpass.getpass(
+        'Enter your Groq API key:'
+    )
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -52,6 +85,12 @@ import pixeltable as pxt
 pxt.drop_dir('groq_demo', force=True)
 pxt.create_dir('groq_demo')
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;groq_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x169723490&gt;
+</pre>
 
 ## Chat Completions
 
@@ -68,17 +107,25 @@ from pixeltable.functions import groq
 t = pxt.create_table('groq_demo/chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
-t.add_computed_column(output=groq.chat_completions(
-    messages=messages,
-    model='llama-3.3-70b-versatile',
-    model_kwargs={
-        # Optional dict with parameters for the Groq API
-        'max_tokens': 300,
-        'top_p': 0.9,
-        'temperature': 0.7
-    }
-))
+t.add_computed_column(
+    output=groq.chat_completions(
+        messages=messages,
+        model='llama-3.3-70b-versatile',
+        model_kwargs={
+            # Optional dict with parameters for the Groq API
+            'max_tokens': 300,
+            'top_p': 0.9,
+            'temperature': 0.7,
+        },
+    )
+)
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -86,12 +133,25 @@ t.add_computed_column(output=groq.chat_completions(
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
 
 ```python
 # Start a conversation
-t.insert([{'input': 'How many islands are in the Aleutian island chain?'}])
+t.insert(
+    [{'input': 'How many islands are in the Aleutian island chain?'}]
+)
 t.select(t.input, t.response).head()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;1.16&nbsp;s&nbsp;(0.86&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn more
 

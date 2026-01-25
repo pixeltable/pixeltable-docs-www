@@ -224,9 +224,13 @@ Created&nbsp;table&nbsp;&#x27;files&#x27;.
 
 ```python
 # Insert a sample audio file (video files also work - audio is extracted automatically)
-audio.insert([
-    {'audio': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/audio-transcription-demo/Lex-Fridman-Podcast-430-Excerpt-0.mp4'}
-])
+audio.insert(
+    [
+        {
+            'audio': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/audio-transcription-demo/Lex-Fridman-Podcast-430-Excerpt-0.mp4'
+        }
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -248,9 +252,9 @@ chunks = pxt.create_view(
     iterator=audio_splitter(
         audio.audio,
         chunk_duration_sec=30.0,  # 30-second chunks
-        overlap_sec=2.0,          # 2-second overlap for context
-        min_chunk_duration_sec=5.0  # Drop chunks shorter than 5 seconds
-    )
+        overlap_sec=2.0,  # 2-second overlap for context
+        min_chunk_duration_sec=5.0,  # Drop chunks shorter than 5 seconds
+    ),
 )
 ```
 
@@ -276,7 +280,7 @@ Add a computed column that transcribes each chunk:
 chunks.add_computed_column(
     transcription=whisper.transcribe(
         audio=chunks.audio_chunk,
-        model='base.en'  # Options: tiny.en, base.en, small.en, medium.en, large
+        model='base.en',  # Options: tiny.en, base.en, small.en, medium.en, large
     )
 )
 ```
@@ -300,7 +304,9 @@ Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 # View transcriptions with timestamps
-chunks.select(chunks.start_time_sec, chunks.end_time_sec, chunks.text).collect()
+chunks.select(
+    chunks.start_time_sec, chunks.end_time_sec, chunks.text
+).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />

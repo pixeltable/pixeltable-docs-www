@@ -267,10 +267,9 @@ Created&nbsp;directory&nbsp;&#x27;img2img_demo&#x27;.
 
 
 ```python
-t = pxt.create_table('img2img_demo/images', {
-    'image': pxt.Image,
-    'prompt': pxt.String
-})
+t = pxt.create_table(
+    'img2img_demo/images', {'image': pxt.Image, 'prompt': pxt.String}
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -279,16 +278,18 @@ Created&nbsp;table&nbsp;&#x27;images&#x27;.
 
 
 ```python
-t.insert([
-    {
-        'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000285.jpg',
-        'prompt': 'oil painting style, vibrant colors, brushstrokes visible'
-    },
-    {
-        'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000776.jpg',
-        'prompt': 'watercolor painting, soft edges, artistic'
-    },
-])
+t.insert(
+    [
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000285.jpg',
+            'prompt': 'oil painting style, vibrant colors, brushstrokes visible',
+        },
+        {
+            'image': 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000776.jpg',
+            'prompt': 'watercolor painting, soft edges, artistic',
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -325,8 +326,8 @@ t.select(
     image_to_image(
         t.image,
         t.prompt,
-        model_id='stable-diffusion-v1-5/stable-diffusion-v1-5'
-    )
+        model_id='stable-diffusion-v1-5/stable-diffusion-v1-5',
+    ),
 ).head(1)
 ```
 
@@ -353,8 +354,8 @@ t.select(
         t.image,
         t.prompt,
         model_id='stable-diffusion-v1-5/stable-diffusion-v1-5',
-        model_kwargs={'strength': 0.5, 'num_inference_steps': 30}
-    )
+        model_kwargs={'strength': 0.5, 'num_inference_steps': 30},
+    ),
 ).head(1)
 ```
 
@@ -374,7 +375,7 @@ t.add_computed_column(
         t.image,
         t.prompt,
         model_id='stable-diffusion-v1-5/stable-diffusion-v1-5',
-        model_kwargs={'strength': 0.6, 'num_inference_steps': 25}
+        model_kwargs={'strength': 0.6, 'num_inference_steps': 25},
     )
 )
 ```
@@ -406,7 +407,7 @@ t.add_computed_column(
         t.prompt,
         model_id='stable-diffusion-v1-5/stable-diffusion-v1-5',
         seed=42,
-        model_kwargs={'strength': 0.6}
+        model_kwargs={'strength': 0.6},
     )
 )
 ```

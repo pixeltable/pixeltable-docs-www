@@ -35,8 +35,8 @@ key.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'FAL_API_KEY' not in os.environ:
     os.environ['FAL_API_KEY'] = getpass.getpass('fal.ai API Key: ')
@@ -69,8 +69,7 @@ t = pxt.create_table('fal_demo/images', {'prompt': pxt.String})
 # Add a computed column that calls the FLUX Schnell model
 t.add_computed_column(
     response=fal.run(
-        input={'prompt': t.prompt},
-        app='fal-ai/flux/schnell'
+        input={'prompt': t.prompt}, app='fal-ai/flux/schnell'
     )
 )
 ```
@@ -80,11 +79,17 @@ Now let’s insert some prompts and see the results:
 
 ```python
 # Insert a few prompts
-t.insert([
-    {'prompt': 'A serene mountain landscape at sunset with a crystal clear lake'},
-    {'prompt': 'A friendly robot teaching a class of kittens to code'},
-    {'prompt': 'An underwater city with bioluminescent architecture'}
-])
+t.insert(
+    [
+        {
+            'prompt': 'A serene mountain landscape at sunset with a crystal clear lake'
+        },
+        {
+            'prompt': 'A friendly robot teaching a class of kittens to code'
+        },
+        {'prompt': 'An underwater city with bioluminescent architecture'},
+    ]
+)
 ```
 
 Let’s examine the structure of the response:
@@ -100,7 +105,9 @@ Each image has a `url` field. Let’s extract and display the images:
 
 ```python
 # Add a computed column to extract the image URL and convert it to an Image type
-t.add_computed_column(image=t.response['images'][0]['url'].astype(pxt.Image))
+t.add_computed_column(
+    image=t.response['images'][0]['url'].astype(pxt.Image)
+)
 
 # Display the prompts and images
 t.select(t.prompt, t.image).head()
@@ -120,8 +127,8 @@ sdxl_t = pxt.create_table(
     {
         'prompt': pxt.String,
         'negative_prompt': pxt.String,
-        'steps': pxt.Int
-    }
+        'steps': pxt.Int,
+    },
 )
 
 # Add a computed column with more parameters
@@ -131,31 +138,35 @@ sdxl_t.add_computed_column(
             'prompt': sdxl_t.prompt,
             'negative_prompt': sdxl_t.negative_prompt,
             'image_size': 'square_hd',  # 1024x1024
-            'num_inference_steps': sdxl_t.steps
+            'num_inference_steps': sdxl_t.steps,
         },
-        app='fal-ai/fast-sdxl'
+        app='fal-ai/fast-sdxl',
     )
 )
 
 # Extract the image
-sdxl_t.add_computed_column(image=sdxl_t.response['images'][0]['url'].astype(pxt.Image))
+sdxl_t.add_computed_column(
+    image=sdxl_t.response['images'][0]['url'].astype(pxt.Image)
+)
 ```
 
 
 ```python
 # Insert prompts with different parameters
-sdxl_t.insert([
-    {
-        'prompt': 'A majestic lion in a savanna at golden hour, photorealistic',
-        'negative_prompt': 'cartoon, illustration, drawing',
-        'steps': 25
-    },
-    {
-        'prompt': 'A futuristic cityscape with flying cars and neon lights',
-        'negative_prompt': 'blurry, low quality',
-        'steps': 30
-    }
-])
+sdxl_t.insert(
+    [
+        {
+            'prompt': 'A majestic lion in a savanna at golden hour, photorealistic',
+            'negative_prompt': 'cartoon, illustration, drawing',
+            'steps': 25,
+        },
+        {
+            'prompt': 'A futuristic cityscape with flying cars and neon lights',
+            'negative_prompt': 'blurry, low quality',
+            'steps': 30,
+        },
+    ]
+)
 ```
 
 
@@ -172,29 +183,36 @@ request:
 
 ```python
 # Create a table for multiple image generation
-multi_t = pxt.create_table('fal_demo/multi_images', {'prompt': pxt.String})
+multi_t = pxt.create_table(
+    'fal_demo/multi_images', {'prompt': pxt.String}
+)
 
 # Generate 3 variations of each prompt
 multi_t.add_computed_column(
     response=fal.run(
-        input={
-            'prompt': multi_t.prompt,
-            'num_images': 3
-        },
-        app='fal-ai/flux/schnell'
+        input={'prompt': multi_t.prompt, 'num_images': 3},
+        app='fal-ai/flux/schnell',
     )
 )
 
 # Extract the first image (you could create columns for all three)
-multi_t.add_computed_column(image_1=multi_t.response['images'][0]['url'].astype(pxt.Image))
-multi_t.add_computed_column(image_2=multi_t.response['images'][1]['url'].astype(pxt.Image))
-multi_t.add_computed_column(image_3=multi_t.response['images'][2]['url'].astype(pxt.Image))
+multi_t.add_computed_column(
+    image_1=multi_t.response['images'][0]['url'].astype(pxt.Image)
+)
+multi_t.add_computed_column(
+    image_2=multi_t.response['images'][1]['url'].astype(pxt.Image)
+)
+multi_t.add_computed_column(
+    image_3=multi_t.response['images'][2]['url'].astype(pxt.Image)
+)
 ```
 
 
 ```python
 # Insert a prompt
-multi_t.insert([{'prompt': 'A steampunk mechanical butterfly on a brass flower'}])
+multi_t.insert(
+    [{'prompt': 'A steampunk mechanical butterfly on a brass flower'}]
+)
 ```
 
 
@@ -216,18 +234,25 @@ dev_t = pxt.create_table('fal_demo/flux_dev', {'prompt': pxt.String})
 # Use FLUX Dev model for higher quality
 dev_t.add_computed_column(
     response=fal.run(
-        input={'prompt': dev_t.prompt},
-        app='fal-ai/flux/dev'
+        input={'prompt': dev_t.prompt}, app='fal-ai/flux/dev'
     )
 )
 
-dev_t.add_computed_column(image=dev_t.response['images'][0]['url'].astype(pxt.Image))
+dev_t.add_computed_column(
+    image=dev_t.response['images'][0]['url'].astype(pxt.Image)
+)
 ```
 
 
 ```python
 # Insert a prompt (note: FLUX Dev may take longer but produces higher quality results)
-dev_t.insert([{'prompt': 'A highly detailed oil painting of a wizard casting a spell in an ancient library'}])
+dev_t.insert(
+    [
+        {
+            'prompt': 'A highly detailed oil painting of a wizard casting a spell in an ancient library'
+        }
+    ]
+)
 ```
 
 
@@ -264,40 +289,58 @@ batch. Let’s create a larger dataset:
 
 ```python
 # Create a batch processing table
-batch_t = pxt.create_table('fal_demo/batch', {'category': pxt.String, 'description': pxt.String})
+batch_t = pxt.create_table(
+    'fal_demo/batch', {'category': pxt.String, 'description': pxt.String}
+)
 
 # Create a prompt by combining category and description
 batch_t.add_computed_column(
-    prompt=pxt.functions.string.format('A {} that is {}', batch_t.category, batch_t.description)
+    prompt=pxt.functions.string.format(
+        'A {} that is {}', batch_t.category, batch_t.description
+    )
 )
 
 # Generate images
 batch_t.add_computed_column(
     response=fal.run(
-        input={'prompt': batch_t.prompt},
-        app='fal-ai/flux/schnell'
+        input={'prompt': batch_t.prompt}, app='fal-ai/flux/schnell'
     )
 )
 
-batch_t.add_computed_column(image=batch_t.response['images'][0]['url'].astype(pxt.Image))
+batch_t.add_computed_column(
+    image=batch_t.response['images'][0]['url'].astype(pxt.Image)
+)
 ```
 
 
 ```python
 # Insert a batch of prompts
-batch_t.insert([
-    {'category': 'landscape', 'description': 'peaceful and zen-like'},
-    {'category': 'portrait', 'description': 'mysterious and ethereal'},
-    {'category': 'abstract art', 'description': 'colorful and energetic'},
-    {'category': 'architecture', 'description': 'modern and minimalist'},
-    {'category': 'animal', 'description': 'cute and fluffy'}
-])
+batch_t.insert(
+    [
+        {'category': 'landscape', 'description': 'peaceful and zen-like'},
+        {
+            'category': 'portrait',
+            'description': 'mysterious and ethereal',
+        },
+        {
+            'category': 'abstract art',
+            'description': 'colorful and energetic',
+        },
+        {
+            'category': 'architecture',
+            'description': 'modern and minimalist',
+        },
+        {'category': 'animal', 'description': 'cute and fluffy'},
+    ]
+)
 ```
 
 
 ```python
 # View all results
-batch_t.select(batch_t.category, batch_t.description, batch_t.image).show()
+batch_t.select(
+    batch_t.category, batch_t.description, batch_t.image
+).show()
 ```
 
 ## Tips and Best Practices

@@ -132,8 +132,8 @@ all computed columns, and returns the specified output column.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -167,8 +167,7 @@ builds a summarization agent:
 ```python
 # Create the agent table with input column
 summarizer = pxt.create_table(
-    'table_udf_demo/summarizer',
-    {'text': pxt.String}
+    'table_udf_demo/summarizer', {'text': pxt.String}
 )
 ```
 
@@ -181,11 +180,14 @@ Created&nbsp;table&nbsp;&#x27;summarizer&#x27;.
 # Add the LLM call as a computed column
 summarizer.add_computed_column(
     response=chat_completions(
-        messages=[{
-            'role': 'user',
-            'content': 'Summarize this in one sentence:\n\n' + summarizer.text
-        }],
-        model='gpt-4o-mini'
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Summarize this in one sentence:\n\n'
+                + summarizer.text,
+            }
+        ],
+        model='gpt-4o-mini',
     )
 )
 ```
@@ -216,10 +218,7 @@ callable function. The `return_value` specifies which column to return:
 
 ```python
 # Convert the summarizer table into a callable UDF
-summarize = pxt.udf(
-    summarizer,
-    return_value=summarizer.summary
-)
+summarize = pxt.udf(summarizer, return_value=summarizer.summary)
 ```
 
 ### Use the table UDF in another table
@@ -231,7 +230,7 @@ You can now use `summarize()` as a computed column in any other table:
 # Create a table that uses the summarizer
 articles = pxt.create_table(
     'table_udf_demo/articles',
-    {'title': pxt.String, 'content': pxt.String}
+    {'title': pxt.String, 'content': pxt.String},
 )
 ```
 
@@ -242,9 +241,7 @@ Created&nbsp;table&nbsp;&#x27;articles&#x27;.
 
 ```python
 # Add the table UDF as a computed column
-articles.add_computed_column(
-    summary=summarize(text=articles.content)
-)
+articles.add_computed_column(summary=summarize(text=articles.content))
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -255,16 +252,18 @@ No&nbsp;rows&nbsp;affected.
 
 ```python
 # Insert articles - summaries are generated automatically
-articles.insert([
-    {
-        'title': 'Climate Report',
-        'content': 'Global temperatures rose by 1.2 degrees Celsius above pre-industrial levels last year, marking the hottest year on record. Scientists attribute this to continued greenhouse gas emissions and a strong El Nino pattern. The report calls for immediate action to reduce carbon emissions.'
-    },
-    {
-        'title': 'Tech Merger',
-        'content': 'Two major semiconductor companies announced a merger valued at $50 billion. The combined entity will control 30% of the global chip market. Regulators in multiple countries will review the deal over the next 18 months.'
-    },
-])
+articles.insert(
+    [
+        {
+            'title': 'Climate Report',
+            'content': 'Global temperatures rose by 1.2 degrees Celsius above pre-industrial levels last year, marking the hottest year on record. Scientists attribute this to continued greenhouse gas emissions and a strong El Nino pattern. The report calls for immediate action to reduce carbon emissions.',
+        },
+        {
+            'title': 'Tech Merger',
+            'content': 'Two major semiconductor companies announced a merger valued at $50 billion. The combined entity will control 30% of the global chip market. Regulators in multiple countries will review the deal over the next 18 months.',
+        },
+    ]
+)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
