@@ -26,10 +26,13 @@ t.select(pxtv.draw_bounding_boxes(t.img, boxes=t.boxes, label=t.labels)).collect
 draw_bounding_boxes(
     img: pxt.Image,
     boxes: pxt.Json,
+    *,
     labels: pxt.Json | None = None,
     color: pxt.String | None = None,
     box_colors: pxt.Json | None = None,
+    alpha: pxt.Float | None = None,
     fill: pxt.Bool = False,
+    fill_alpha: pxt.Float | None = None,
     width: pxt.Int = 1,
     font: pxt.String | None = None,
     font_size: pxt.Int | None = None
@@ -42,7 +45,8 @@ Labels can be any type that supports `str()` and is hashable (e.g., strings, int
 
 Colors can be specified as common HTML color names (e.g., 'red') supported by PIL's
 [`ImageColor`](https://pillow.readthedocs.io/en/stable/reference/ImageColor.html#imagecolor-module) module or as
-RGB hex codes (e.g., '#FF0000').
+RGB/RGBA hex codes (e.g., '#FF0000', '#FF0000FF'). If opacity isn't specified in the color string and
+`alpha`/`fill_alpha` is `None`, defaults to 1.0 for box borders and 0.5 for filled boxes.
 
 If no colors are specified, this function randomly assigns each label a specific color based on a hash of the label.
 
@@ -53,7 +57,11 @@ If no colors are specified, this function randomly assigns each label a specific
 - **`labels`** (`pxt.Json | None`): List of labels for each bounding box.
 - **`color`** (`pxt.String | None`): Single color to be used for all bounding boxes and labels.
 - **`box_colors`** (`pxt.Json | None`): List of colors, one per bounding box.
+- **`alpha`** (`pxt.Float | None`): Opacity (0-1) of the bounding box borders and labels. If non-`None`, overrides any alpha in
+    `color`/`box_colors`.
 - **`fill`** (`pxt.Bool`): Whether to fill the bounding boxes with color.
+- **`fill_alpha`** (`pxt.Float | None`): Opacity (0-1) of the bounding box fill. If non-`None`, overrides any alpha in
+    `color`/`box_colors`.
 - **`width`** (`pxt.Int`): Width of the bounding box borders.
 - **`font`** (`pxt.String | None`): Name of a system font or path to a TrueType font file, as required by
     [`PIL.ImageFont.truetype()`](https://pillow.readthedocs.io/en/stable/reference/ImageFont.html#PIL.ImageFont.truetype).

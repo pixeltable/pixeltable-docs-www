@@ -1,0 +1,177 @@
+---
+title: "Working with Ollama in Pixeltable"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-ollama.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/notebooks/integrations/working-with-ollama.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/notebooks/integrations/working-with-ollama.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What are the most popular services for LLM inference?</td>
+<td style="vertical-align: middle;">LLM (Large Language Model) inference is a complex process that
+involves generating human-like text using artificial intelligence
+models. The most popular services and technologies used in this field
+include: 1. **Hugging Face**: Hugging Face, an open-source platform,
+provides several APIs and libraries for building LLMs. Some of the most
+commonly used ones are: • transformers (for natural language processing)
+• torchtext (for text generation) • t5 (for T5 models) • pytorc ......
+based on user input. These services are popular because they provide
+flexibility, speed, and ease of use for developers who want to work with
+large language models. The choice of service depends on the specific
+requirements of your project, including the type of data you're working
+with, the level of customization you need, and whether you prefer a more
+lightweight or more powerful solution. If you have any questions about
+these services or if you need help choosing one, feel free to ask!</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Ollama is a popular platform for local serving of LLMs. In this
+tutorial, we’ll show how to integrate Ollama models into a Pixeltable
+workflow.
+
+## Install Ollama
+
+You’ll need to have an Ollama server instance to query. There are
+several ways to do this.
+
+### Running on a Local Machine
+
+If you’re running this notebook on your own machine, running Windows,
+Mac OS, or Linux, you can install Ollama at: https://ollama.com/download
+
+### Running on Google Colab
+
+-   OR, if you’re running on Colab, you can install Ollama by
+    uncommenting and running the following code.
+
+
+```python
+# To install Ollama on colab, uncomment and run the following
+# three lines (this will also work on a local Linux machine
+# if you don't already have Ollama installed).
+
+# !curl -fsSL https://ollama.com/install.sh | sh
+# import subprocess
+# ollama_process = subprocess.Popen(['ollama', 'serve'], stderr=subprocess.PIPE)
+```
+
+### Running on a remote Ollama server
+
+-   OR, if you have access to an Ollama server running remotely, you can
+    uncomment and run the following line, replacing the default URL with
+    the URL of your remote Ollama instance.
+
+
+```python
+# To run the notebook against an instance of Ollama running on a
+# remote server, uncomment the following line and specify the URL.
+
+# os.environs['OLLAMA_HOST'] = 'https://127.0.0.1:11434'
+```
+
+Once you’ve completed the installation, run the following commands to
+verify that it’s been successfully installed. This may result in an LLM
+being downloaded, so it may take some time.
+
+
+```python
+%pip install -qU ollama
+```
+
+
+```python
+import ollama
+
+ollama.pull('qwen2.5:0.5b')
+ollama.generate('qwen2.5:0.5b', 'What is the capital of Missouri?')['response']
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+&quot;The&nbsp;capital&nbsp;city&nbsp;of&nbsp;Missouri&nbsp;is&nbsp;Jefferson&nbsp;City.&nbsp;It&#x27;s&nbsp;located&nbsp;in&nbsp;the&nbsp;central&nbsp;part&nbsp;of&nbsp;the&nbsp;state&nbsp;and&nbsp;serves&nbsp;as&nbsp;the&nbsp;administrative&nbsp;center&nbsp;for&nbsp;the&nbsp;Midwestern&nbsp;U.S.&nbsp;territory&nbsp;of&nbsp;Missouri.&nbsp;The&nbsp;state&nbsp;is&nbsp;known&nbsp;for&nbsp;its&nbsp;rich&nbsp;history,&nbsp;particularly&nbsp;regarding&nbsp;the&nbsp;Missouri&nbsp;River,&nbsp;which&nbsp;runs&nbsp;through&nbsp;its&nbsp;central&nbsp;parts&nbsp;and&nbsp;provides&nbsp;access&nbsp;to&nbsp;major&nbsp;cities&nbsp;along&nbsp;the&nbsp;border&nbsp;with&nbsp;Illinois.&quot;
+</pre>
+
+## Install Pixeltable
+
+Now, let’s install Pixeltable and create a table for the demo.
+
+
+```python
+%pip install -qU pixeltable
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.ollama import chat
+
+pxt.drop_dir('ollama_demo', force=True)
+pxt.create_dir('ollama_demo')
+t = pxt.create_table('ollama_demo.chat', {'input': pxt.String})
+
+messages = [{'role': 'user', 'content': t.input}]
+
+t.add_computed_column(output=chat(
+    messages=messages,
+    model='qwen2.5:0.5b',
+    # These parameters are optional and can be used to tune model behavior:
+    options={'max_tokens': 300, 'top_p': 0.9, 'temperature': 0.5},
+))
+
+# Extract the response content into a separate column
+
+t.add_computed_column(response=t.output.message.content)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;\`ollama_demo\`.
+Created&nbsp;table&nbsp;\`chat\`.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+We can insert our input prompts into the table now. As always,
+Pixeltable automatically updates the computed columns by calling the
+relevant Ollama endpoint.
+
+
+```python
+# Start a conversation
+t.insert(input='What are the most popular services for LLM inference?')
+t.select(t.input, t.response).show()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.18&nbsp;cells/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`chat\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;75.39&nbsp;rows/s\]
+Computing&nbsp;cells:&nbsp;100%|████████████████████████████████████████████|&nbsp;3/3&nbsp;\[00:02&lt;00:00,&nbsp;&nbsp;1.17&nbsp;cells/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+### Learn More
+
+To learn more about advanced techniques like RAG operations in
+Pixeltable, check out the [RAG Operations in
+Pixeltable](/notebooks/use-cases/rag-operations)
+tutorial.
+
+If you have any questions, don’t hesitate to reach out.

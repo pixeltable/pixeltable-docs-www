@@ -7,7 +7,33 @@ noindex: true
 # <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.uuid
 
 
-Pixeltable UDFs for `UUIDType`.
+Pixeltable UDFs for `UUID`.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; to_string()
+
+```python Signature
+@pxt.udf
+to_string(u: pxt.UUID) -> pxt.String
+```
+
+Convert a UUID to its string representation.
+
+
+**Parameters:**
+
+- **`u`** (`pxt.UUID`): The UUID to convert.
+
+**Returns:**
+
+- `pxt.String`: The string representation of the UUID, in the form `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`.
+
+**Examples:**
+
+Convert the UUID column `id` in an existing table `tbl` to a string:
+```python
+tbl.add_computed_column(id_string=to_string(tbl.id))
+```
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; uuid4()
@@ -18,4 +44,18 @@ uuid4() -> pxt.UUID
 ```
 
 Generate a random UUID (version 4).
+
+Equivalent to [`uuid.uuid4()`](https://docs.python.org/3/library/uuid.html#uuid.uuid4).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; uuid7()
+
+```python Signature
+@pxt.udf
+uuid7() -> pxt.UUID
+```
+
+Generate a time-based UUID.
+
+Equivalent to [`uuid.uuid7()`](https://docs.python.org/3/library/uuid.html#uuid.uuid7).
 

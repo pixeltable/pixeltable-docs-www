@@ -165,6 +165,7 @@
                       "howto/cookbooks/data/data-import-excel",
                       "howto/cookbooks/data/data-import-huggingface",
                       "howto/cookbooks/data/data-import-s3",
+                      "howto/cookbooks/data/data-export-s3",
                       "howto/cookbooks/data/data-export-pytorch",
                       "howto/cookbooks/data/data-export-sql",
                       "howto/cookbooks/data/data-sampling"
@@ -257,7 +258,7 @@
           },
           {
             "dropdown": "v0.5.14",
-            "icon": "rocket",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -483,7 +484,7 @@
           },
           {
             "dropdown": "v0.5.11",
-            "icon": "archive",
+            "icon": "rocket",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -536,6 +537,7 @@
                       "sdk/v0.5.11/openrouter",
                       "sdk/v0.5.11/replicate",
                       "sdk/v0.5.11/reve",
+                      "sdk/v0.5.11/runwayml",
                       "sdk/v0.5.11/together",
                       "sdk/v0.5.11/twelvelabs",
                       "sdk/v0.5.11/uuid",
