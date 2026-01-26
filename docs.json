@@ -258,7 +258,7 @@
           },
           {
             "dropdown": "v0.5.14",
-            "icon": "archive",
+            "icon": "rocket",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -484,7 +484,7 @@
           },
           {
             "dropdown": "v0.5.11",
-            "icon": "rocket",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",

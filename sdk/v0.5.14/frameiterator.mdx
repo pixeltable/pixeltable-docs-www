@@ -1,0 +1,41 @@
+---
+title: "FrameIterator"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/iterators/video.py#L26\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.iterators.FrameIterator
+
+
+Iterator over frames of a video. At most one of `fps`, `num_frames`, or `keyframes_only` may be specified. If `fps`
+is specified, then frames will be extracted at the specified rate (frames per second). If `num_frames` is specified,
+then the exact number of frames will be extracted. If neither is specified, then all frames will be extracted.
+
+If `fps` or `num_frames` is large enough to exceed the native framerate of the video, then all frames will be
+extracted. (Frames will never be duplicated; the maximum number of frames extracted is the total number of frames
+in the video.)
+
+**Parameters:**
+
+- **`fps`** (`float | None`): Number of frames to extract per second of video. This may be a fractional value, such as `0.5` (one frame
+    per two seconds). The first frame of the video will always be extracted.
+- **`num_frames`** (`int | None`): Exact number of frames to extract. The frames will be spaced as evenly as possible: the video will
+    be divided into `num_frames` evenly spaced intervals, and the midpoint of each interval will be used for
+    frame extraction.
+- **`keyframes_only`** (`bool`, default: `False`): If True, only extract keyframes.
+- **`all_frame_attrs`** (`bool`, default: `False`): If True, outputs a `pxt.Json` column `frame_attrs` with the following `pyav`-provided attributes
+    (for more information, see `pyav`'s documentation on
+    [VideoFrame](https://pyav.org/docs/develop/api/video.html#module-av.video.frame) and
+    [Frame](https://pyav.org/docs/develop/api/frame.html)):
+
+    * `index` (`int`)
+    * `pts` (`int | None`)
+    * `dts` (`int | None`)
+    * `time` (`float | None`)
+    * `is_corrupt` (`bool`)
+    * `key_frame` (`bool`)
+    * `pict_type` (`int`)
+    * `interlaced_frame` (`bool`)
+
+    If False, only outputs frame attributes `frame_idx`, `pos_msec`, and `pos_frame` as separate columns.
+
