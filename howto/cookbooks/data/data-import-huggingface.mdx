@@ -278,7 +278,9 @@ Load a specific split from a dataset:
 
 ```python
 # Load a small subset for demo (first 100 rows of rotten_tomatoes)
-hf_dataset = load_dataset('rotten_tomatoes', split='train[:100]')
+hf_dataset = load_dataset(
+    'cornell-movie-review-data/rotten_tomatoes', split='train[:100]'
+)
 ```
 
 
@@ -310,7 +312,8 @@ came from:
 ```python
 # Load dataset with multiple splits (small subset for demo)
 hf_dataset_dict = load_dataset(
-    'rotten_tomatoes', split={'train': 'train[:50]', 'test': 'test[:50]'}
+    'cornell-movie-review-data/rotten_tomatoes',
+    split={'train': 'train[:50]', 'test': 'test[:50]'},
 )
 ```
 

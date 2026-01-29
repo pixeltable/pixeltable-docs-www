@@ -256,8 +256,84 @@
             ]
           },
           {
-            "dropdown": "v0.5.14",
+            "dropdown": "v0.5.15",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.15/pixeltable",
+                      "sdk/v0.5.15/table",
+                      "sdk/v0.5.15/query",
+                      "sdk/v0.5.15/columnmetadata",
+                      "sdk/v0.5.15/dircontents",
+                      "sdk/v0.5.15/indexmetadata",
+                      "sdk/v0.5.15/tablemetadata",
+                      "sdk/v0.5.15/updatestatus",
+                      "sdk/v0.5.15/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.15/functions",
+                      "sdk/v0.5.15/audio",
+                      "sdk/v0.5.15/date",
+                      "sdk/v0.5.15/document",
+                      "sdk/v0.5.15/image",
+                      "sdk/v0.5.15/json",
+                      "sdk/v0.5.15/math",
+                      "sdk/v0.5.15/net",
+                      "sdk/v0.5.15/string",
+                      "sdk/v0.5.15/timestamp",
+                      "sdk/v0.5.15/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.15/anthropic",
+                      "sdk/v0.5.15/bedrock",
+                      "sdk/v0.5.15/deepseek",
+                      "sdk/v0.5.15/fal",
+                      "sdk/v0.5.15/fireworks",
+                      "sdk/v0.5.15/gemini",
+                      "sdk/v0.5.15/groq",
+                      "sdk/v0.5.15/huggingface",
+                      "sdk/v0.5.15/llama_cpp",
+                      "sdk/v0.5.15/mistralai",
+                      "sdk/v0.5.15/ollama",
+                      "sdk/v0.5.15/openai",
+                      "sdk/v0.5.15/openrouter",
+                      "sdk/v0.5.15/replicate",
+                      "sdk/v0.5.15/reve",
+                      "sdk/v0.5.15/runwayml",
+                      "sdk/v0.5.15/together",
+                      "sdk/v0.5.15/twelvelabs",
+                      "sdk/v0.5.15/uuid",
+                      "sdk/v0.5.15/vision",
+                      "sdk/v0.5.15/voyageai",
+                      "sdk/v0.5.15/whisper",
+                      "sdk/v0.5.15/whisperx",
+                      "sdk/v0.5.15/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.15/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.14",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -536,6 +612,7 @@
                       "sdk/v0.5.11/openrouter",
                       "sdk/v0.5.11/replicate",
                       "sdk/v0.5.11/reve",
+                      "sdk/v0.5.11/runwayml",
                       "sdk/v0.5.11/together",
                       "sdk/v0.5.11/twelvelabs",
                       "sdk/v0.5.11/uuid",
