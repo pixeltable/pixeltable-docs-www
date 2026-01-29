@@ -1,0 +1,49 @@
+---
+title: "llama_cpp"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/llama_cpp.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.llama_cpp
+
+
+Pixeltable UDFs for llama.cpp models.
+
+Provides integration with llama.cpp for running quantized language models locally,
+supporting chat completions and embeddings with GGUF format models.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; create_chat_completion()
+
+```python Signature
+@pxt.udf
+create_chat_completion(
+    messages: pxt.Json,
+    *,
+    model_path: pxt.String | None = None,
+    repo_id: pxt.String | None = None,
+    repo_filename: pxt.String | None = None,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Generate a chat completion from a list of messages.
+
+The model can be specified either as a local path, or as a repo_id and repo_filename that reference a pretrained
+model on the Hugging Face model hub. Exactly one of `model_path` or `repo_id` must be provided; if `model_path`
+is provided, then an optional `repo_filename` can also be specified.
+
+For additional details, see the
+[llama_cpp create_chat_completions documentation](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.create_chat_completion).
+
+**Parameters:**
+
+- **`messages`** (`pxt.Json`): A list of messages to generate a response for.
+- **`model_path`** (`pxt.String | None`): Path to the model (if using a local model).
+- **`repo_id`** (`pxt.String | None`): The Hugging Face model repo id (if using a pretrained model).
+- **`repo_filename`** (`pxt.String | None`): A filename or glob pattern to match the model file in the repo (optional, if using a
+    pretrained model).
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the llama_cpp `create_chat_completions` API, such as `max_tokens`,
+    `temperature`, `top_p`, and `top_k`. For details, see the
+    [llama_cpp create_chat_completions documentation](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.create_chat_completion).
+
