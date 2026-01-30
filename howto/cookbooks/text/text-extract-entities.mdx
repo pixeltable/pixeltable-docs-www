@@ -143,8 +143,8 @@ Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -152,9 +152,10 @@ if 'OPENAI_API_KEY' not in os.environ:
 
 
 ```python
+import json
+
 import pixeltable as pxt
 from pixeltable.functions.openai import chat_completions
-import json
 ```
 
 
@@ -216,7 +217,7 @@ entity_schema = {
 ```python
 # Create table for articles
 articles = pxt.create_table(
-    'entities_demo.articles', {'title': pxt.String, 'content': pxt.String}
+    'entities_demo/articles', {'title': pxt.String, 'content': pxt.String}
 )
 ```
 

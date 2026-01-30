@@ -267,7 +267,7 @@ Created&nbsp;directory&nbsp;&#x27;office_docs&#x27;.
 
 ```python
 # Create table for office documents
-docs = pxt.create_table('office_docs.documents', {'doc': pxt.Document})
+docs = pxt.create_table('office_docs/documents', {'doc': pxt.Document})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -298,7 +298,7 @@ You create a view with `DocumentSplitter` to extract text. Setting
 ```python
 # Create a view to extract full document text
 full_text = pxt.create_view(
-    'office_docs.full_text',
+    'office_docs/full_text',
     docs,
     iterator=DocumentSplitter.create(
         document=docs.doc,
@@ -328,7 +328,7 @@ Each section under a heading becomes a separate chunk.
 ```python
 # Create view that splits by headings
 by_heading = pxt.create_view(
-    'office_docs.by_heading',
+    'office_docs/by_heading',
     docs,
     iterator=DocumentSplitter.create(
         document=docs.doc,
@@ -359,7 +359,7 @@ You split documents by token count when feeding chunks to AI models. The
 ```python
 # Create view with token-based splitting
 by_tokens = pxt.create_view(
-    'office_docs.by_tokens',
+    'office_docs/by_tokens',
     docs,
     iterator=DocumentSplitter.create(
         document=docs.doc,

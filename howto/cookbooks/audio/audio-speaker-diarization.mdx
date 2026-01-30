@@ -1,0 +1,274 @@
+---
+title: "Transcribe meetings with speaker identification"
+sidebarTitle: "Transcribe meetings with speaker identification"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-speaker-diarization.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-speaker-diarization.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-speaker-diarization.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<thead>
+<tr>
+<th>Recording type</th>
+<th>Need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Meeting recordings</td>
+<td style="vertical-align: middle;">Attribute comments to participants</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Interview audio</td>
+<td style="vertical-align: middle;">Separate interviewer from interviewee</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Podcasts</td>
+<td style="vertical-align: middle;">Identify hosts vs guests</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Customer calls</td>
+<td style="vertical-align: middle;">Track agent vs customer</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>diarize=True</code></td>
+<td style="vertical-align: middle;">Enable speaker identification</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>min_speakers</code></td>
+<td style="vertical-align: middle;">Minimum expected speakers</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>max_speakers</code></td>
+<td style="vertical-align: middle;">Maximum expected speakers</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>num_speakers</code></td>
+<td style="vertical-align: middle;">Exact number if known</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Speed</th>
+<th>Accuracy</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>tiny.en</code></td>
+<td style="vertical-align: middle;">Fast</td>
+<td style="vertical-align: middle;">Lower</td>
+<td style="vertical-align: middle;">Testing, English only</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>base.en</code></td>
+<td style="vertical-align: middle;">Medium</td>
+<td style="vertical-align: middle;">Good</td>
+<td style="vertical-align: middle;">English production</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>large-v3</code></td>
+<td style="vertical-align: middle;">Slow</td>
+<td style="vertical-align: middle;">Best</td>
+<td style="vertical-align: middle;">Multi-language, high accuracy</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Automatically transcribe audio and identify who said what using speaker
+diarization.
+
+## Problem
+
+You have recordings of meetings, interviews, or podcasts and need
+transcripts that show who said what. Standard transcription only gives
+you text—you lose track of speakers.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:** - Transcribe audio with WhisperX - Enable
+speaker diarization to identify speakers - Extract speaker-labeled
+segments
+
+Use WhisperX’s `transcribe()` with `diarize=True` to get transcripts
+with speaker labels.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable whisperx
+
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import whisperx
+
+```
+
+
+```python
+# Create a fresh directory
+pxt.drop_dir('diarization_demo', force=True)
+pxt.create_dir('diarization_demo')
+
+```
+
+### Create a meetings table
+
+
+```python
+# Create a table for meeting recordings
+meetings = pxt.create_table(
+    'diarization_demo.meetings',
+    {'audio': pxt.Audio, 'meeting_name': pxt.String}
+)
+
+```
+
+
+```python
+# Insert a sample audio file (replace with your own recordings)
+meetings.insert([
+    {
+        'audio': 'https://github.com/pixeltable/pixeltable/raw/main/docs/resources/audio/short-clip.mp3',
+        'meeting_name': 'Sample Meeting'
+    }
+])
+
+```
+
+### Add transcription with speaker diarization
+
+
+```python
+# Add a computed column with speaker diarization
+# Note: Requires HF_TOKEN environment variable for pyannote models
+meetings.add_computed_column(
+    transcript=whisperx.transcribe(
+        meetings.audio,
+        model='tiny.en',       # Use 'large-v3' for production
+        diarize=True,          # Enable speaker identification
+        min_speakers=1,        # Minimum expected speakers
+        max_speakers=4         # Maximum expected speakers
+    )
+)
+
+```
+
+
+```python
+# View the transcript with speaker labels
+result = meetings.select(meetings.meeting_name, meetings.transcript).collect()
+
+for row in result:
+    print(f"Meeting: {row['meeting_name']}")
+    print("-" * 40)
+    
+    # Extract segments with speaker labels
+    segments = row['transcript'].get('segments', [])
+    for seg in segments:
+        speaker = seg.get('speaker', 'Unknown')
+        text = seg.get('text', '').strip()
+        start = seg.get('start', 0)
+        print(f"[{start:.1f}s] {speaker}: {text}")
+
+```
+
+### Extract speaker-specific text
+
+
+```python
+# Create a UDF to extract text by speaker
+@pxt.udf
+def get_speaker_text(transcript: dict, speaker_id: str) -> str:
+    """Extract all text from a specific speaker."""
+    segments = transcript.get('segments', [])
+    speaker_text = [
+        seg.get('text', '').strip() 
+        for seg in segments 
+        if seg.get('speaker') == speaker_id
+    ]
+    return ' '.join(speaker_text)
+
+# Add columns for each speaker's contributions
+meetings.add_computed_column(speaker_0_text=get_speaker_text(meetings.transcript, 'SPEAKER_00'))
+meetings.add_computed_column(speaker_1_text=get_speaker_text(meetings.transcript, 'SPEAKER_01'))
+
+```
+
+
+```python
+# View speaker-separated text
+meetings.select(
+    meetings.meeting_name,
+    meetings.speaker_0_text,
+    meetings.speaker_1_text
+).collect()
+
+```
+
+## Explanation
+
+**WhisperX diarization parameters:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+**Output structure:**
+
+The transcript contains `segments` with speaker labels:
+
+
+```python
+{
+    'segments': [
+        {'speaker': 'SPEAKER_00', 'text': '...', 'start': 0.0, 'end': 2.5},
+        {'speaker': 'SPEAKER_01', 'text': '...', 'start': 2.5, 'end': 5.0},
+    ]
+}
+```
+
+**Model selection:**
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+**Requirements:** - Set `HF_TOKEN` environment variable for pyannote
+diarization models - GPU recommended for larger models
+
+## See also
+
+-   [Transcribe audio
+    files](/howto/cookbooks/audio/audio-transcribe) -
+    Basic transcription without diarization
+-   [Summarize
+    podcasts](/howto/cookbooks/audio/audio-summarize-podcast) -
+    Transcribe and summarize

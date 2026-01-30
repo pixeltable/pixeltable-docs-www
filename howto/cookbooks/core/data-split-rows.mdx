@@ -280,7 +280,7 @@ from pixeltable.functions.document import document_splitter
 pxt.drop_dir('split_demo', force=True)
 pxt.create_dir('split_demo')
 
-docs = pxt.create_table('split_demo.docs', {'doc': pxt.Document})
+docs = pxt.create_table('split_demo/docs', {'doc': pxt.Document})
 docs.insert(
     [
         {
@@ -301,7 +301,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 chunks = pxt.create_view(
-    'split_demo.doc_chunks',
+    'split_demo/doc_chunks',
     docs,
     iterator=document_splitter(
         docs.doc, separators='sentence,token_limit', limit=300
@@ -335,7 +335,7 @@ Use `frame_iterator` to extract frames at specified intervals.
 ```python
 from pixeltable.functions.video import frame_iterator
 
-videos = pxt.create_table('split_demo.videos', {'video': pxt.Video})
+videos = pxt.create_table('split_demo/videos', {'video': pxt.Video})
 videos.insert(
     [
         {
@@ -355,7 +355,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 frames = pxt.create_view(
-    'split_demo.frames',
+    'split_demo/frames',
     videos,
     iterator=frame_iterator(videos.video, fps=1.0),
 )
@@ -388,7 +388,7 @@ Use `video_splitter` to divide videos into smaller clips.
 from pixeltable.functions.video import video_splitter
 
 segments = pxt.create_view(
-    'split_demo.segments',
+    'split_demo/segments',
     videos,
     iterator=video_splitter(
         videos.video, duration=5.0, min_segment_duration=1.0
@@ -422,7 +422,7 @@ Use `string_splitter` to divide text into sentences.
 ```python
 from pixeltable.functions.string import string_splitter
 
-texts = pxt.create_table('split_demo.texts', {'content': pxt.String})
+texts = pxt.create_table('split_demo/texts', {'content': pxt.String})
 texts.insert(
     [
         {
@@ -442,7 +442,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 sentences = pxt.create_view(
-    'split_demo.sentences',
+    'split_demo/sentences',
     texts,
     iterator=string_splitter(texts.content, separators='sentence'),
 )
@@ -469,7 +469,7 @@ regions.
 ```python
 from pixeltable.functions.image import tile_iterator
 
-images = pxt.create_table('split_demo.images', {'image': pxt.Image})
+images = pxt.create_table('split_demo/images', {'image': pxt.Image})
 images.insert(
     [
         {
@@ -489,7 +489,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 tiles = pxt.create_view(
-    'split_demo.tiles',
+    'split_demo/tiles',
     images,
     iterator=tile_iterator(images.image, tile_size=(100, 100)),
 )
@@ -523,7 +523,7 @@ transcription or analysis.
 ```python
 from pixeltable.functions.audio import audio_splitter
 
-audio = pxt.create_table('split_demo.audio', {'audio': pxt.Audio})
+audio = pxt.create_table('split_demo/audio', {'audio': pxt.Audio})
 audio.insert(
     [
         {
@@ -543,7 +543,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 
 ```python
 audio_chunks = pxt.create_view(
-    'split_demo.audio_chunks',
+    'split_demo/audio_chunks',
     audio,
     iterator=audio_splitter(
         audio.audio, chunk_duration_sec=30.0, overlap_sec=2.0

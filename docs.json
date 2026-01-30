@@ -44,16 +44,6 @@
             "pages": [
               "platform/configuration",
               {
-                "group": "Deployment",
-                "pages": [
-                  "howto/deployment/overview",
-                  "howto/deployment/infrastructure",
-                  "howto/deployment/operations",
-                  "howto/deployment/monitoring",
-                  "howto/deployment/security"
-                ]
-              },
-              {
                 "group": "Integrations",
                 "pages": [
                   "howto/providers/working-with-anthropic",
@@ -244,6 +234,7 @@
                       "sdk/latest/openrouter",
                       "sdk/latest/replicate",
                       "sdk/latest/reve",
+                      "sdk/latest/runwayml",
                       "sdk/latest/together",
                       "sdk/latest/twelvelabs",
                       "sdk/latest/uuid",
@@ -265,7 +256,7 @@
             ]
           },
           {
-            "dropdown": "v0.5.12.dev10.555b45b4",
+            "dropdown": "v0.5.16.dev8.1be5fcd3",
             "icon": "rocket",
             "groups": [
               {
@@ -274,65 +265,66 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.5.12.dev10.555b45b4/pixeltable",
-                      "sdk/v0.5.12.dev10.555b45b4/table",
-                      "sdk/v0.5.12.dev10.555b45b4/query",
-                      "sdk/v0.5.12.dev10.555b45b4/columnmetadata",
-                      "sdk/v0.5.12.dev10.555b45b4/dircontents",
-                      "sdk/v0.5.12.dev10.555b45b4/indexmetadata",
-                      "sdk/v0.5.12.dev10.555b45b4/tablemetadata",
-                      "sdk/v0.5.12.dev10.555b45b4/updatestatus",
-                      "sdk/v0.5.12.dev10.555b45b4/versionmetadata"
+                      "sdk/v0.5.16.dev8.1be5fcd3/pixeltable",
+                      "sdk/v0.5.16.dev8.1be5fcd3/table",
+                      "sdk/v0.5.16.dev8.1be5fcd3/query",
+                      "sdk/v0.5.16.dev8.1be5fcd3/columnmetadata",
+                      "sdk/v0.5.16.dev8.1be5fcd3/dircontents",
+                      "sdk/v0.5.16.dev8.1be5fcd3/indexmetadata",
+                      "sdk/v0.5.16.dev8.1be5fcd3/tablemetadata",
+                      "sdk/v0.5.16.dev8.1be5fcd3/updatestatus",
+                      "sdk/v0.5.16.dev8.1be5fcd3/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.5.12.dev10.555b45b4/functions",
-                      "sdk/v0.5.12.dev10.555b45b4/audio",
-                      "sdk/v0.5.12.dev10.555b45b4/date",
-                      "sdk/v0.5.12.dev10.555b45b4/document",
-                      "sdk/v0.5.12.dev10.555b45b4/image",
-                      "sdk/v0.5.12.dev10.555b45b4/json",
-                      "sdk/v0.5.12.dev10.555b45b4/math",
-                      "sdk/v0.5.12.dev10.555b45b4/net",
-                      "sdk/v0.5.12.dev10.555b45b4/string",
-                      "sdk/v0.5.12.dev10.555b45b4/timestamp",
-                      "sdk/v0.5.12.dev10.555b45b4/video"
+                      "sdk/v0.5.16.dev8.1be5fcd3/functions",
+                      "sdk/v0.5.16.dev8.1be5fcd3/audio",
+                      "sdk/v0.5.16.dev8.1be5fcd3/date",
+                      "sdk/v0.5.16.dev8.1be5fcd3/document",
+                      "sdk/v0.5.16.dev8.1be5fcd3/image",
+                      "sdk/v0.5.16.dev8.1be5fcd3/json",
+                      "sdk/v0.5.16.dev8.1be5fcd3/math",
+                      "sdk/v0.5.16.dev8.1be5fcd3/net",
+                      "sdk/v0.5.16.dev8.1be5fcd3/string",
+                      "sdk/v0.5.16.dev8.1be5fcd3/timestamp",
+                      "sdk/v0.5.16.dev8.1be5fcd3/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.5.12.dev10.555b45b4/anthropic",
-                      "sdk/v0.5.12.dev10.555b45b4/bedrock",
-                      "sdk/v0.5.12.dev10.555b45b4/deepseek",
-                      "sdk/v0.5.12.dev10.555b45b4/fal",
-                      "sdk/v0.5.12.dev10.555b45b4/fireworks",
-                      "sdk/v0.5.12.dev10.555b45b4/gemini",
-                      "sdk/v0.5.12.dev10.555b45b4/groq",
-                      "sdk/v0.5.12.dev10.555b45b4/huggingface",
-                      "sdk/v0.5.12.dev10.555b45b4/llama_cpp",
-                      "sdk/v0.5.12.dev10.555b45b4/mistralai",
-                      "sdk/v0.5.12.dev10.555b45b4/ollama",
-                      "sdk/v0.5.12.dev10.555b45b4/openai",
-                      "sdk/v0.5.12.dev10.555b45b4/openrouter",
-                      "sdk/v0.5.12.dev10.555b45b4/replicate",
-                      "sdk/v0.5.12.dev10.555b45b4/reve",
-                      "sdk/v0.5.12.dev10.555b45b4/together",
-                      "sdk/v0.5.12.dev10.555b45b4/twelvelabs",
-                      "sdk/v0.5.12.dev10.555b45b4/uuid",
-                      "sdk/v0.5.12.dev10.555b45b4/vision",
-                      "sdk/v0.5.12.dev10.555b45b4/voyageai",
-                      "sdk/v0.5.12.dev10.555b45b4/whisper",
-                      "sdk/v0.5.12.dev10.555b45b4/whisperx",
-                      "sdk/v0.5.12.dev10.555b45b4/yolox"
+                      "sdk/v0.5.16.dev8.1be5fcd3/anthropic",
+                      "sdk/v0.5.16.dev8.1be5fcd3/bedrock",
+                      "sdk/v0.5.16.dev8.1be5fcd3/deepseek",
+                      "sdk/v0.5.16.dev8.1be5fcd3/fal",
+                      "sdk/v0.5.16.dev8.1be5fcd3/fireworks",
+                      "sdk/v0.5.16.dev8.1be5fcd3/gemini",
+                      "sdk/v0.5.16.dev8.1be5fcd3/groq",
+                      "sdk/v0.5.16.dev8.1be5fcd3/huggingface",
+                      "sdk/v0.5.16.dev8.1be5fcd3/llama_cpp",
+                      "sdk/v0.5.16.dev8.1be5fcd3/mistralai",
+                      "sdk/v0.5.16.dev8.1be5fcd3/ollama",
+                      "sdk/v0.5.16.dev8.1be5fcd3/openai",
+                      "sdk/v0.5.16.dev8.1be5fcd3/openrouter",
+                      "sdk/v0.5.16.dev8.1be5fcd3/replicate",
+                      "sdk/v0.5.16.dev8.1be5fcd3/reve",
+                      "sdk/v0.5.16.dev8.1be5fcd3/runwayml",
+                      "sdk/v0.5.16.dev8.1be5fcd3/together",
+                      "sdk/v0.5.16.dev8.1be5fcd3/twelvelabs",
+                      "sdk/v0.5.16.dev8.1be5fcd3/uuid",
+                      "sdk/v0.5.16.dev8.1be5fcd3/vision",
+                      "sdk/v0.5.16.dev8.1be5fcd3/voyageai",
+                      "sdk/v0.5.16.dev8.1be5fcd3/whisper",
+                      "sdk/v0.5.16.dev8.1be5fcd3/whisperx",
+                      "sdk/v0.5.16.dev8.1be5fcd3/yolox"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.5.12.dev10.555b45b4/io"
+                      "sdk/v0.5.16.dev8.1be5fcd3/io"
                     ]
                   }
                 ]
@@ -342,12 +334,31 @@
         ]
       },
       {
-        "tab": "Cloud",
+        "tab": "Use Cases & Deployment",
         "groups": [
           {
-            "group": "Cloud",
+            "group": "Use Cases",
             "pages": [
-              "cloud/get-started"
+              "use-cases/ml-data-wrangling",
+              "use-cases/ai-applications",
+              "use-cases/agents-mcp"
+            ]
+          },
+          {
+            "group": "Deployment",
+            "pages": [
+              "howto/deployment/overview",
+              "howto/deployment/infrastructure",
+              "howto/deployment/operations",
+              "howto/deployment/monitoring",
+              "howto/deployment/security"
+            ]
+          },
+          {
+            "group": "Pixeltable Cloud",
+            "pages": [
+              "use-cases/services",
+              "use-cases/get-started"
             ]
           }
         ]
@@ -654,6 +665,30 @@
     {
       "source": "/tutorials/embedding-indexes",
       "destination": "/platform/embedding-indexes"
+    },
+    {
+      "source": "/cloud/use-cases",
+      "destination": "/use-cases/ml-data-wrangling"
+    },
+    {
+      "source": "/cloud/ml-data-wrangling",
+      "destination": "/use-cases/ml-data-wrangling"
+    },
+    {
+      "source": "/cloud/ai-applications",
+      "destination": "/use-cases/ai-applications"
+    },
+    {
+      "source": "/cloud/agents-mcp",
+      "destination": "/use-cases/agents-mcp"
+    },
+    {
+      "source": "/cloud/services",
+      "destination": "/use-cases/services"
+    },
+    {
+      "source": "/cloud/get-started",
+      "destination": "/use-cases/get-started"
     }
   ]
 }

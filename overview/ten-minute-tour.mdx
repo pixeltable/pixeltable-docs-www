@@ -3,7 +3,7 @@ title: "10-Minute Tour"
 sidebarTitle: "10-Minute Tour"
 icon: "notebook"
 ---
-<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/overview/ten-minute-tour.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/overview/ten-minute-tour.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/overview/ten-minute-tour.ipynb" class="download-notebook" data-filename="ten-minute-tour.ipynb"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/overview/ten-minute-tour.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/overview/ten-minute-tour.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/overview/ten-minute-tour.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
 
 <Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
 Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
@@ -467,7 +467,7 @@ libraries needed for this tutorial.
 ## Creating a table
 
 Let’s begin by creating a `demo` directory (if it doesn’t already exist)
-and a table that can hold image data, `demo.first`. The table will
+and a table that can hold image data, `demo/first`. The table will
 initially have just a single column to hold our input images, which
 we’ll call `input_image`. We also need to specify a type for the column:
 `pxt.Image`.
@@ -482,8 +482,8 @@ pxt.drop_dir(
 )  # First drop `demo` to ensure a clean environment
 pxt.create_dir('demo')
 
-# Create the table `demo.first` with a single column `input_image`
-t = pxt.create_table('demo.first', {'input_image': pxt.Image})
+# Create the table `demo/first` with a single column `input_image`
+t = pxt.create_table('demo/first', {'input_image': pxt.Image})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -697,7 +697,7 @@ persists across sessions.
 # Instantiate a new client object
 import pixeltable as pxt
 
-t = pxt.get_table('demo.first')
+t = pxt.get_table('demo/first')
 
 # Display just the first two rows, to avoid cluttering the tutorial
 t.select(t.input_image, t.detections_text).show(2)
@@ -714,8 +714,8 @@ API key to the environment (just enter your API key when prompted):
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass(

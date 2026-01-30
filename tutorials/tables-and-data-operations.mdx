@@ -253,7 +253,7 @@ export const quartoRawHtml =
 <tbody>
 <tr>
 <td id="T_30b76_row0_col0" class="data row0 col0">table
-'fundamentals.films'</td>
+'fundamentals/films'</td>
 </tr>
 </tbody>
 </table>
@@ -309,7 +309,7 @@ data-quarto-table-cell-role="th">Computed With</th>
 <tbody>
 <tr>
 <td id="T_74ef7_row0_col0" class="data row0 col0">table
-'fundamentals.films'</td>
+'fundamentals/films'</td>
 </tr>
 </tbody>
 </table>
@@ -530,7 +530,7 @@ data-quarto-table-cell-role="th">Computed With</th>
 <tbody>
 <tr>
 <td id="T_b0d19_row0_col0" class="data row0 col0">table
-'fundamentals.earthquakes'</td>
+'fundamentals/earthquakes'</td>
 </tr>
 </tbody>
 </table>
@@ -836,7 +836,7 @@ data-quarto-table-cell-role="th">Computed With</th>
 <tbody>
 <tr>
 <td id="T_9f3c3_row0_col0" class="data row0 col0">table
-'fundamentals.earthquakes'</td>
+'fundamentals/earthquakes'</td>
 </tr>
 </tbody>
 </table>
@@ -1261,7 +1261,7 @@ data-quarto-table-cell-role="th">Computed With</th>
 <tbody>
 <tr>
 <td id="T_ead77_row0_col0" class="data row0 col0">table
-'fundamentals.earthquakes'</td>
+'fundamentals/earthquakes'</td>
 </tr>
 </tbody>
 </table>
@@ -1400,7 +1400,7 @@ width="240" />
 <tbody>
 <tr>
 <td id="T_1250e_row0_col0" class="data row0 col0">table
-'fundamentals.subdir.subsubdir.my_table'</td>
+'fundamentals/subdir/subsubdir/my_table'</td>
 </tr>
 </tbody>
 </table>
@@ -1446,7 +1446,7 @@ data-quarto-table-cell-role="th">Computed With</th>
 <tbody>
 <tr>
 <td id="T_c37a3_row0_col0" class="data row0 col0">table
-'fundamentals.earthquakes'</td>
+'fundamentals/earthquakes'</td>
 </tr>
 </tbody>
 </table>
@@ -1573,7 +1573,7 @@ newly-created directory.
 
 ```python
 films_t = pxt.create_table(
-    'fundamentals.films',
+    'fundamentals/films',
     {'film_name': pxt.String, 'year': pxt.Int, 'revenue': pxt.Float},
 )
 ```
@@ -1732,7 +1732,7 @@ reference to the underlying database table. We can recover it with the
 ```python
 import pixeltable as pxt
 
-films_t = pxt.get_table('fundamentals.films')
+films_t = pxt.get_table('fundamentals/films')
 films_t.collect()
 ```
 
@@ -1848,7 +1848,7 @@ Pixeltable table from the contents of a CSV file.
 
 ```python
 eq_t = pxt.create_table(
-    'fundamentals.earthquakes',  # Name for the new table
+    'fundamentals/earthquakes',  # Name for the new table
     source='https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/earthquakes.csv',
     primary_key='id',  # Column 'id' is the primary key
     schema_overrides={
@@ -2445,16 +2445,16 @@ whatever fashion makes the most sense for a given application.
 
 
 ```python
-pxt.create_dir('fundamentals.subdir')
-pxt.create_dir('fundamentals.subdir.subsubdir')
+pxt.create_dir('fundamentals/subdir')
+pxt.create_dir('fundamentals/subdir/subsubdir')
 pxt.create_table(
-    'fundamentals.subdir.subsubdir.my_table', {'my_col': pxt.String}
+    'fundamentals/subdir/subsubdir/my_table', {'my_col': pxt.String}
 )
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;directory&nbsp;&#x27;fundamentals.subdir&#x27;.
-Created&nbsp;directory&nbsp;&#x27;fundamentals.subdir.subsubdir&#x27;.
+Created&nbsp;directory&nbsp;&#x27;fundamentals/subdir&#x27;.
+Created&nbsp;directory&nbsp;&#x27;fundamentals/subdir/subsubdir&#x27;.
 Created&nbsp;table&nbsp;&#x27;my_table&#x27;.
 </pre>
 
@@ -2495,7 +2495,7 @@ eq_t.describe()
 ```python
 # Delete the entire table (cannot be reverted!)
 
-pxt.drop_table('fundamentals.earthquakes')
+pxt.drop_table('fundamentals/earthquakes')
 ```
 
 

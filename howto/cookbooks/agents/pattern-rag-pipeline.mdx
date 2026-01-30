@@ -127,8 +127,8 @@ context.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -137,7 +137,7 @@ if 'OPENAI_API_KEY' not in os.environ:
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions.openai import embeddings, chat_completions
+from pixeltable.functions.openai import chat_completions, embeddings
 ```
 
 
@@ -159,7 +159,7 @@ Created&nbsp;directory&nbsp;&#x27;rag_demo&#x27;.
 ```python
 # Create table for document chunks
 chunks = pxt.create_table(
-    'rag_demo.chunks', {'doc_id': pxt.String, 'chunk_text': pxt.String}
+    'rag_demo/chunks', {'doc_id': pxt.String, 'chunk_text': pxt.String}
 )
 ```
 
@@ -247,7 +247,7 @@ retrieve_context(&#x27;What&nbsp;are&nbsp;the&nbsp;key&nbsp;features?&#x27;)
 
 ```python
 # Create a table for questions/answers
-qa = pxt.create_table('rag_demo.qa', {'question': pxt.String})
+qa = pxt.create_table('rag_demo/qa', {'question': pxt.String})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

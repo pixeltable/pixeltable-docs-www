@@ -135,8 +135,8 @@ future queries.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -167,7 +167,7 @@ Created&nbsp;directory&nbsp;&#x27;translate_demo&#x27;.
 ```python
 # Create table for content
 content = pxt.create_table(
-    'translate_demo.content', {'title': pxt.String, 'text_en': pxt.String}
+    'translate_demo/content', {'title': pxt.String, 'text_en': pxt.String}
 )
 ```
 

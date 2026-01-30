@@ -259,8 +259,8 @@ Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -291,7 +291,7 @@ Created&nbsp;directory&nbsp;&#x27;summarize_demo&#x27;.
 ```python
 # Create table for articles
 articles = pxt.create_table(
-    'summarize_demo.articles',
+    'summarize_demo/articles',
     {'title': pxt.String, 'content': pxt.String},
 )
 ```

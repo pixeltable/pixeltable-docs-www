@@ -360,10 +360,12 @@ schema automatically.
 
 
 ```python
-import pixeltable as pxt
-import pandas as pd
 import tempfile
 from pathlib import Path
+
+import pandas as pd
+
+import pixeltable as pxt
 ```
 
 ### Create sample Parquet file
@@ -424,7 +426,7 @@ Created&nbsp;directory&nbsp;&#x27;parquet_demo&#x27;.
 ```python
 # Import Parquet file into a new table
 products = pxt.create_table(
-    'parquet_demo.products', source=str(parquet_path)
+    'parquet_demo/products', source=str(parquet_path)
 )
 ```
 
@@ -479,7 +481,7 @@ constraints:
 ```python
 # Import with a primary key
 products_pk = pxt.create_table(
-    'parquet_demo.products_with_pk',
+    'parquet_demo/products_with_pk',
     source=str(parquet_path),
     primary_key='product_id',
 )

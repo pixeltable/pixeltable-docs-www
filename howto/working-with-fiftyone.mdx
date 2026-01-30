@@ -33,6 +33,7 @@ We begin by installing the necessary libraries for this tutorial.
 
 ```python
 import fiftyone as fo
+
 import pixeltable as pxt
 
 # Create a Pixeltable directory for the demo. We first drop the directory if it
@@ -55,7 +56,7 @@ urls = [
     'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images/000000000034.jpg',
 ]
 
-t = pxt.create_table('fo_demo.images', {'image': pxt.Image})
+t = pxt.create_table('fo_demo/images', {'image': pxt.Image})
 t.insert({'image': url} for url in urls)
 t.head()
 ```
@@ -83,8 +84,8 @@ and a DETR model for object detection.
 
 ```python
 from pixeltable.functions.huggingface import (
-    vit_for_image_classification,
     detr_for_object_detection,
+    vit_for_image_classification,
 )
 
 t.add_computed_column(

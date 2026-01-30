@@ -133,8 +133,8 @@ This pattern is inspired by
 
 
 ```python
-import os
 import getpass
+import os
 from datetime import datetime
 
 if 'OPENAI_API_KEY' not in os.environ:
@@ -144,7 +144,7 @@ if 'OPENAI_API_KEY' not in os.environ:
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions.openai import embeddings, chat_completions
+from pixeltable.functions.openai import chat_completions, embeddings
 ```
 
 
@@ -165,7 +165,7 @@ Created&nbsp;directory&nbsp;&#x27;agent_demo&#x27;.
 ```python
 # Create memory bank table
 memories = pxt.create_table(
-    'agent_demo.memories',
+    'agent_demo/memories',
     {
         'content': pxt.String,  # The memory content
         'category': pxt.String,  # Optional category (preference, fact, etc.)
@@ -252,7 +252,7 @@ Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # Create conversation table
 conversations = pxt.create_table(
-    'agent_demo.conversations', {'user_message': pxt.String}
+    'agent_demo/conversations', {'user_message': pxt.String}
 )
 ```
 

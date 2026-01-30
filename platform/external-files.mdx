@@ -155,9 +155,10 @@ Let’s create a table and load some data to see what that looks like:
 
 
 ```python
-import tempfile
 import random
 import shutil
+import tempfile
+
 import pixeltable as pxt
 
 # First drop the `external_data` directory if it exists, to ensure
@@ -174,7 +175,7 @@ Created&nbsp;directory&nbsp;\`external_data\`.
 
 
 ```python
-v = pxt.create_table('external_data.videos', {'video': pxt.Video})
+v = pxt.create_table('external_data/videos', {'video': pxt.Video})
 
 prefix = 's3://multimedia-commons/'
 paths = [

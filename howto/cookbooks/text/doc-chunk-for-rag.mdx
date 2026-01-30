@@ -177,7 +177,7 @@ Created&nbsp;directory&nbsp;&#x27;rag_demo&#x27;.
 
 ```python
 # Create table for documents
-docs = pxt.create_table('rag_demo.documents', {'document': pxt.Document})
+docs = pxt.create_table('rag_demo/documents', {'document': pxt.Document})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -211,7 +211,7 @@ limit:
 ```python
 # Create a view that splits documents into chunks
 chunks = pxt.create_view(
-    'rag_demo.chunks',
+    'rag_demo/chunks',
     docs,
     iterator=document_splitter(
         docs.document,

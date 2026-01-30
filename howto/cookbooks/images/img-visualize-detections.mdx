@@ -178,8 +178,8 @@ the original image.
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions.yolox import yolox
 from pixeltable.functions.vision import draw_bounding_boxes
+from pixeltable.functions.yolox import yolox
 ```
 
 
@@ -200,7 +200,7 @@ Created&nbsp;directory&nbsp;&#x27;viz_demo&#x27;.
 
 ```python
 # Create table for images
-images = pxt.create_table('viz_demo.images', {'image': pxt.Image})
+images = pxt.create_table('viz_demo/images', {'image': pxt.Image})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -226,7 +226,9 @@ No&nbsp;rows&nbsp;affected.
 # Note: draw_bounding_boxes takes image, boxes, and labels (scores are not used for drawing)
 images.add_computed_column(
     annotated=draw_bounding_boxes(
-        images.image, images.detections.bboxes, images.detections.labels
+        images.image,
+        images.detections.bboxes,
+        labels=images.detections.labels,
     )
 )
 ```

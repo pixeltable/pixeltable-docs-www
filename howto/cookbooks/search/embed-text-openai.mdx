@@ -156,8 +156,8 @@ changes.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -188,7 +188,7 @@ Created&nbsp;directory&nbsp;&#x27;embed_demo&#x27;.
 ```python
 # Create table for documents
 docs = pxt.create_table(
-    'embed_demo.documents', {'title': pxt.String, 'content': pxt.String}
+    'embed_demo/documents', {'title': pxt.String, 'content': pxt.String}
 )
 ```
 

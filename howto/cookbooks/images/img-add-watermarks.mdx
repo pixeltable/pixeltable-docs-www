@@ -129,8 +129,9 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 
 ```python
-import pixeltable as pxt
 from PIL import Image, ImageDraw, ImageFont
+
+import pixeltable as pxt
 ```
 
 ### Load images
@@ -150,7 +151,7 @@ Created&nbsp;directory&nbsp;&#x27;image_demo&#x27;.
 
 
 ```python
-t = pxt.create_table('image_demo.watermarks', {'image': pxt.Image})
+t = pxt.create_table('image_demo/watermarks', {'image': pxt.Image})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

@@ -172,8 +172,8 @@ cached and only regenerated when the source text changes.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -204,7 +204,7 @@ Created&nbsp;directory&nbsp;&#x27;tts_demo&#x27;.
 ```python
 # Create table for articles
 articles = pxt.create_table(
-    'tts_demo.articles', {'title': pxt.String, 'content': pxt.String}
+    'tts_demo/articles', {'title': pxt.String, 'content': pxt.String}
 )
 ```
 

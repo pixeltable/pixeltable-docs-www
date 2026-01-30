@@ -243,7 +243,7 @@ export const quartoRawHtml =
 </tr>
 <tr>
 <td style="vertical-align: middle;">Auto-detect from .xlsx</td>
-<td style="vertical-align: middle;"><code>pxt.create_table('t', source='data.xlsx')</code></td>
+<td style="vertical-align: middle;"><code>pxt.create_table('t', source='data/xlsx')</code></td>
 </tr>
 </tbody>
 </table>
@@ -306,10 +306,12 @@ parameter. Pixeltable infers column types automatically.
 
 
 ```python
-import pixeltable as pxt
-import pandas as pd
 import tempfile
 from pathlib import Path
+
+import pandas as pd
+
+import pixeltable as pxt
 ```
 
 ### Create sample Excel file
@@ -372,7 +374,7 @@ Created&nbsp;directory&nbsp;&#x27;excel_demo&#x27;.
 ```python
 # Import Excel file directly
 orders = pxt.create_table(
-    'excel_demo.orders',
+    'excel_demo/orders',
     source=str(excel_path),
     source_format='excel',  # Hint for Excel format
 )

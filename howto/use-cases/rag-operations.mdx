@@ -25,7 +25,7 @@ export const quartoRawHtml =
 <tbody>
 <tr>
 <td id="T_f745c_row0_col0" class="data row0 col0">table
-'rag_ops_demo.docs'</td>
+'rag_ops_demo/docs'</td>
 </tr>
 </tbody>
 </table>
@@ -71,7 +71,7 @@ data-quarto-table-cell-role="th">Computed With</th>
 <tbody>
 <tr>
 <td id="T_259a5_row0_col0" class="data row0 col0">view
-'rag_ops_demo.sentences' (of 'rag_ops_demo.docs')</td>
+'rag_ops_demo/sentences' (of 'rag_ops_demo/docs')</td>
 </tr>
 </tbody>
 </table>
@@ -558,7 +558,7 @@ lower b</td>
 <tbody>
 <tr>
 <td id="T_c8070_row0_col0" class="data row0 col0">view
-'rag_ops_demo.chunks' (of 'rag_ops_demo.docs')</td>
+'rag_ops_demo/chunks' (of 'rag_ops_demo/docs')</td>
 </tr>
 </tbody>
 </table>
@@ -710,7 +710,7 @@ model_id='paraphrase-MiniLM-L6-v2')</td>
 <tbody>
 <tr>
 <td id="T_878c7_row0_col0" class="data row0 col0">view
-'rag_ops_demo.chunks' (of 'rag_ops_demo.docs')</td>
+'rag_ops_demo/chunks' (of 'rag_ops_demo/docs')</td>
 </tr>
 </tbody>
 </table>
@@ -901,7 +901,7 @@ document types, such as Markdown and HTML.
 
 
 ```python
-docs = pxt.create_table('rag_ops_demo.docs', {'source_doc': pxt.Document})
+docs = pxt.create_table('rag_ops_demo/docs', {'source_doc': pxt.Document})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -939,7 +939,7 @@ we want Pixeltable to execute when it sees new data.
 from pixeltable.functions.document import document_splitter
 
 sentences = pxt.create_view(
-    'rag_ops_demo.sentences',  # Name of the view
+    'rag_ops_demo/sentences',  # Name of the view
     docs,  # Table from which the view is derived
     iterator=document_splitter(
         docs.source_doc,
@@ -1039,7 +1039,7 @@ already in `docs`.
 
 ```python
 chunks = pxt.create_view(
-    'rag_ops_demo.chunks',
+    'rag_ops_demo/chunks',
     docs,
     iterator=document_splitter(
         docs.source_doc,
@@ -1058,7 +1058,7 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;217&nbsp;rows&nbsp;\[00:00,&
 
 ```python
 short_chunks = pxt.create_view(
-    'rag_ops_demo.short_chunks',
+    'rag_ops_demo/short_chunks',
     docs,
     iterator=document_splitter(
         docs.source_doc,
@@ -1077,7 +1077,7 @@ Inserting&nbsp;rows&nbsp;into&nbsp;\`short_chunks\`:&nbsp;219&nbsp;rows&nbsp;\[0
 
 ```python
 short_char_chunks = pxt.create_view(
-    'rag_ops_demo.short_char_chunks',
+    'rag_ops_demo/short_char_chunks',
     docs,
     iterator=document_splitter(
         docs.source_doc,

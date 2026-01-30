@@ -35,8 +35,8 @@ key.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'FAL_API_KEY' not in os.environ:
     os.environ['FAL_API_KEY'] = getpass.getpass('fal.ai API Key: ')
@@ -64,7 +64,7 @@ generated images.
 from pixeltable.functions import fal
 
 # Create a table for image generation
-t = pxt.create_table('fal_demo.images', {'prompt': pxt.String})
+t = pxt.create_table('fal_demo/images', {'prompt': pxt.String})
 
 # Add a computed column that calls the FLUX Schnell model
 t.add_computed_column(
@@ -123,7 +123,7 @@ capabilities.
 ```python
 # Create a table with more parameters
 sdxl_t = pxt.create_table(
-    'fal_demo.sdxl_images',
+    'fal_demo/sdxl_images',
     {
         'prompt': pxt.String,
         'negative_prompt': pxt.String,
@@ -184,7 +184,7 @@ request:
 ```python
 # Create a table for multiple image generation
 multi_t = pxt.create_table(
-    'fal_demo.multi_images', {'prompt': pxt.String}
+    'fal_demo/multi_images', {'prompt': pxt.String}
 )
 
 # Generate 3 variations of each prompt
@@ -229,7 +229,7 @@ which produce better results but take more time:
 
 ```python
 # Create a table using FLUX Dev
-dev_t = pxt.create_table('fal_demo.flux_dev', {'prompt': pxt.String})
+dev_t = pxt.create_table('fal_demo/flux_dev', {'prompt': pxt.String})
 
 # Use FLUX Dev model for higher quality
 dev_t.add_computed_column(
@@ -290,7 +290,7 @@ batch. Let’s create a larger dataset:
 ```python
 # Create a batch processing table
 batch_t = pxt.create_table(
-    'fal_demo.batch', {'category': pxt.String, 'description': pxt.String}
+    'fal_demo/batch', {'category': pxt.String, 'description': pxt.String}
 )
 
 # Create a prompt by combining category and description

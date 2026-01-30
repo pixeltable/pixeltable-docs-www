@@ -163,8 +163,8 @@ API key.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'VOYAGE_API_KEY' not in os.environ:
     os.environ['VOYAGE_API_KEY'] = getpass.getpass(
@@ -198,7 +198,7 @@ and RAG applications.
 from pixeltable.functions import voyageai
 
 # Create a table for document embeddings
-docs_t = pxt.create_table('voyageai_demo.documents', {'text': pxt.String})
+docs_t = pxt.create_table('voyageai_demo/documents', {'text': pxt.String})
 
 # Add computed column with Voyage embeddings
 docs_t.add_computed_column(
@@ -251,7 +251,7 @@ efficient similarity search.
 
 ```python
 # Create a table with an embedding index
-search_t = pxt.create_table('voyageai_demo.search', {'text': pxt.String})
+search_t = pxt.create_table('voyageai_demo/search', {'text': pxt.String})
 
 # Add embedding index for similarity search
 embed_fn = voyageai.embeddings.using(
@@ -298,7 +298,7 @@ accurate relevance scores.
 ```python
 # Create a table for reranking
 rerank_t = pxt.create_table(
-    'voyageai_demo.rerank', {'query': pxt.String, 'documents': pxt.Json}
+    'voyageai_demo/rerank', {'query': pxt.String, 'documents': pxt.Json}
 )
 
 # Add computed column with reranking results
@@ -375,7 +375,7 @@ similarity search.
 ```python
 # Create a table for multimodal embeddings
 mm_t = pxt.create_table(
-    'voyageai_demo.multimodal',
+    'voyageai_demo/multimodal',
     {'image': pxt.Image, 'caption': pxt.String},
     if_exists='replace',
 )

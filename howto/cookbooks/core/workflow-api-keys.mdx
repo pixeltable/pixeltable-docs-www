@@ -158,9 +158,9 @@ variables or config files—no code changes needed.
 
 
 ```python
-import pixeltable as pxt
 import os
-from pathlib import Path
+
+import pixeltable as pxt
 ```
 
 ### Option 1: environment variables
@@ -186,7 +186,12 @@ You can also set it in Python (useful for testing):
 # os.environ['OPENAI_API_KEY'] = 'sk-...'
 
 # Check if a key is set
+'OPENAI_API_KEY' in os.environ
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+True
+</pre>
 
 ### Option 2: config file
 
@@ -213,9 +218,16 @@ You can check if the config file exists:
 
 ```python
 # Check config file location
-config_dir = Path.home() / '.pixeltable'
-config_file = config_dir / 'config.toml'
+home_dir = pxt.home()  # Usually ~/.pixeltable
+config_file = home_dir / 'config.toml'
+print(config_file)
+config_file.exists()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+/Users/asiegel/.pixeltable/config.toml
+True
+</pre>
 
 ### Option 3: getpass (interactive)
 
@@ -247,7 +259,15 @@ services = [
 ]
 for svc in services:
     status = '✓' if svc in os.environ else '✗'
+    print(f'{status} {svc}')
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+✓&nbsp;OPENAI_API_KEY
+✓&nbsp;ANTHROPIC_API_KEY
+✓&nbsp;GOOGLE_API_KEY
+✓&nbsp;MISTRAL_API_KEY
+</pre>
 
 ## Explanation
 

@@ -12,6 +12,38 @@ above links.</Tip>
 
 
 
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What are the most popular services for LLM inference?</td>
+<td style="vertical-align: middle;">LLM inference is a type of artificial intelligence that can generate
+human-like text based on specific input data. In order to find the most
+popular services for LLM inference, we need to consider several factors
+such as the availability of resources, the quality of the models, and
+the popularity among users. One common service for LLM inference is
+Hugging Face's transformers library, which provides a wide range of
+pre-trained language models including BERT, RoBERTa, and GPT-2. This
+library ...... Qwen model, Hugging Face's transformers library, and many
+more. The Alibaba Cloud LLM platform provides a wide range of
+pre-trained models for various tasks, including language generation,
+text classification, and more. Overall, both Hugging Face's transformers
+library and the Alibaba Cloud LLM platform offer popular services for
+LLM inference. However, it is essential to consider the specific use
+case and requirements when choosing a service, as each has its own
+strengths and limitations.</td>
+</tr>
+</tbody>
+</table>
+`];
+
 Ollama is a popular platform for local serving of LLMs. In this
 tutorial, we’ll show how to integrate Ollama models into a Pixeltable
 workflow.
@@ -75,6 +107,10 @@ ollama.generate('qwen2.5:0.5b', 'What is the capital of Missouri?')[
 ]
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+&#x27;The&nbsp;capital&nbsp;of&nbsp;Missouri&nbsp;is&nbsp;Jefferson&nbsp;City.&nbsp;Jefferson&nbsp;City&nbsp;was&nbsp;originally&nbsp;named&nbsp;after&nbsp;the&nbsp;French&nbsp;explorer&nbsp;Pierre-Jacques&nbsp;Houget&nbsp;and&nbsp;the&nbsp;American&nbsp;statesman&nbsp;Thomas&nbsp;Jefferson,&nbsp;who&nbsp;lived&nbsp;in&nbsp;this&nbsp;city&nbsp;from&nbsp;1764&nbsp;to&nbsp;1805.&nbsp;It&nbsp;became&nbsp;the&nbsp;seat&nbsp;of&nbsp;government&nbsp;for&nbsp;most&nbsp;of&nbsp;Jefferson&nbsp;County&nbsp;when&nbsp;it&nbsp;was&nbsp;established&nbsp;in&nbsp;1836.&nbsp;In&nbsp;more&nbsp;recent&nbsp;times,&nbsp;the&nbsp;name&nbsp;has&nbsp;changed&nbsp;several&nbsp;times&nbsp;due&nbsp;to&nbsp;various&nbsp;political&nbsp;changes&nbsp;and&nbsp;legal&nbsp;changes.&#x27;
+</pre>
+
 ## Install Pixeltable
 
 Now, let’s install Pixeltable and create a table for the demo.
@@ -91,10 +127,21 @@ from pixeltable.functions.ollama import chat
 
 pxt.drop_dir('ollama_demo', force=True)
 pxt.create_dir('ollama_demo')
-t = pxt.create_table('ollama_demo.chat', {'input': pxt.String})
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;ollama_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x13e95cbb0&gt;
+</pre>
+
+
+```python
+t = pxt.create_table('ollama_demo/chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
 
+# Add a computed column that runs the model to generate responses
 t.add_computed_column(
     output=chat(
         messages=messages,
@@ -103,11 +150,24 @@ t.add_computed_column(
         options={'max_tokens': 300, 'top_p': 0.9, 'temperature': 0.5},
     )
 )
+```
 
-# Extract the response content into a separate column
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
 
+
+```python
+# Extract the message content into a separate column
 t.add_computed_column(response=t.output.message.content)
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 We can insert our input prompts into the table now. As always,
 Pixeltable automatically updates the computed columns by calling the
@@ -119,6 +179,12 @@ relevant Ollama endpoint.
 t.insert(input='What are the most popular services for LLM inference?')
 t.select(t.input, t.response).show()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;1.28&nbsp;s&nbsp;(0.78&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn More
 

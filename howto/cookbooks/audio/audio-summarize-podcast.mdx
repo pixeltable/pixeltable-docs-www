@@ -169,8 +169,8 @@ new audio files.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -179,7 +179,7 @@ if 'OPENAI_API_KEY' not in os.environ:
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions import whisper, openai
+from pixeltable.functions import openai, whisper
 ```
 
 
@@ -203,7 +203,7 @@ transcription and summarization:
 ```python
 # Create table for audio files
 podcasts = pxt.create_table(
-    'podcast_demo.episodes', {'title': pxt.String, 'audio': pxt.Audio}
+    'podcast_demo/episodes', {'title': pxt.String, 'audio': pxt.Audio}
 )
 ```
 

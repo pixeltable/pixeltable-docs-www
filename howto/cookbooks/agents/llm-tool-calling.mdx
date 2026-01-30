@@ -99,7 +99,7 @@ export const quartoRawHtml =
 <tbody>
 <tr>
 <td id="T_e6641_row0_col0" class="data row0 col0">table
-'tools_demo.mcp_queries'</td>
+'tools_demo/mcp_queries'</td>
 </tr>
 </tbody>
 </table>
@@ -324,8 +324,8 @@ You define tools with JSON schemas, pass them to the LLM, and use
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -394,7 +394,7 @@ tools = pxt.tools(get_weather, get_stock_price)
 
 ```python
 # Create table for queries
-queries = pxt.create_table('tools_demo.queries', {'query': pxt.String})
+queries = pxt.create_table('tools_demo/queries', {'query': pxt.String})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -530,7 +530,7 @@ mcp_toolset = pxt.tools(*mcp_tools)
 
 # Create a table with MCP tool-calling pipeline
 mcp_queries = pxt.create_table(
-    'tools_demo.mcp_queries', {'query': pxt.String}
+    'tools_demo/mcp_queries', {'query': pxt.String}
 )
 
 # Add LLM call with MCP tools

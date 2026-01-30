@@ -167,8 +167,8 @@ cached—regeneration only happens if the prompt changes.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'GEMINI_API_KEY' not in os.environ:
     os.environ['GEMINI_API_KEY'] = getpass.getpass(
@@ -201,7 +201,7 @@ Created&nbsp;directory&nbsp;&#x27;video_gen_demo&#x27;.
 ```python
 # Create a table for text-to-video generation
 videos = pxt.create_table(
-    'video_gen_demo.text_to_video', {'prompt': pxt.String}
+    'video_gen_demo/text_to_video', {'prompt': pxt.String}
 )
 
 # Add computed column that generates videos
@@ -246,7 +246,7 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 ```python
 # Create a table for image-to-video generation
 animated = pxt.create_table(
-    'video_gen_demo.image_to_video',
+    'video_gen_demo/image_to_video',
     {'image': pxt.Image, 'description': pxt.String},
 )
 

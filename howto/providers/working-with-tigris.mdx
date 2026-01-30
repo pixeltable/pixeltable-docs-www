@@ -193,7 +193,6 @@ These steps will have you enter in your Tigris credentials:
 import os
 from getpass import getpass
 
-
 os.environ['AWS_ACCESS_KEY_ID'] = getpass('Tigris access key ID')
 os.environ['AWS_SECRET_ACCESS_KEY'] = getpass('Tigris secret access key')
 bucket_name = getpass('Tigris bucket name')
@@ -212,9 +211,9 @@ dataset:
 
 
 ```python
-import pixeltable as pxt
 from datasets import load_dataset
 
+import pixeltable as pxt
 
 # Create directory for this demo
 pxt.drop_dir('tigris', force=True)
@@ -224,9 +223,9 @@ pxt.create_dir('tigris', if_exists='replace')
 # Load the dataset
 ds = load_dataset('XeIaso/botw-screenshots-captioned')
 # Import it to pixeltable with the name screenshots
-pxt.drop_table('tigris.screenshots', force=True)
+pxt.drop_table('tigris/screenshots', force=True)
 screenshots = pxt.create_table(
-    'tigris.screenshots', source=ds, if_exists='replace'
+    'tigris/screenshots', source=ds, if_exists='replace'
 )
 ```
 

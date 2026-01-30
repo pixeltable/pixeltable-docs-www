@@ -254,8 +254,9 @@ types.
 
 
 ```python
-import pixeltable as pxt
 from datasets import load_dataset
+
+import pixeltable as pxt
 ```
 
 
@@ -277,13 +278,15 @@ Load a specific split from a dataset:
 
 ```python
 # Load a small subset for demo (first 100 rows of rotten_tomatoes)
-hf_dataset = load_dataset('rotten_tomatoes', split='train[:100]')
+hf_dataset = load_dataset(
+    'cornell-movie-review-data/rotten_tomatoes', split='train[:100]'
+)
 ```
 
 
 ```python
 # Import into Pixeltable
-reviews = pxt.create_table('hf_demo.reviews', source=hf_dataset)
+reviews = pxt.create_table('hf_demo/reviews', source=hf_dataset)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -309,7 +312,8 @@ came from:
 ```python
 # Load dataset with multiple splits (small subset for demo)
 hf_dataset_dict = load_dataset(
-    'rotten_tomatoes', split={'train': 'train[:50]', 'test': 'test[:50]'}
+    'cornell-movie-review-data/rotten_tomatoes',
+    split={'train': 'train[:50]', 'test': 'test[:50]'},
 )
 ```
 
@@ -317,10 +321,10 @@ hf_dataset_dict = load_dataset(
 ```python
 # Import each split separately for clarity
 train_data = pxt.create_table(
-    'hf_demo.reviews_train', source=hf_dataset_dict['train']
+    'hf_demo/reviews_train', source=hf_dataset_dict['train']
 )
 test_data = pxt.create_table(
-    'hf_demo.reviews_test', source=hf_dataset_dict['test']
+    'hf_demo/reviews_test', source=hf_dataset_dict['test']
 )
 ```
 

@@ -232,8 +232,8 @@ captioning prompt. New images are captioned automatically on insert.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -263,7 +263,7 @@ Created&nbsp;directory&nbsp;&#x27;caption_demo&#x27;.
 
 ```python
 # Create table for images
-images = pxt.create_table('caption_demo.images', {'image': pxt.Image})
+images = pxt.create_table('caption_demo/images', {'image': pxt.Image})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

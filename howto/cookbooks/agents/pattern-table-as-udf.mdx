@@ -132,8 +132,8 @@ all computed columns, and returns the specified output column.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -167,7 +167,7 @@ builds a summarization agent:
 ```python
 # Create the agent table with input column
 summarizer = pxt.create_table(
-    'table_udf_demo.summarizer', {'text': pxt.String}
+    'table_udf_demo/summarizer', {'text': pxt.String}
 )
 ```
 
@@ -229,7 +229,7 @@ You can now use `summarize()` as a computed column in any other table:
 ```python
 # Create a table that uses the summarizer
 articles = pxt.create_table(
-    'table_udf_demo.articles',
+    'table_udf_demo/articles',
     {'title': pxt.String, 'content': pxt.String},
 )
 ```

@@ -208,8 +208,8 @@ code needed.
 ```python
 %pip install -qU pixeltable openai
 
-import os
 import getpass
+import os
 
 if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
@@ -238,7 +238,7 @@ Created&nbsp;directory&nbsp;&#x27;vision_demo&#x27;.
 
 
 ```python
-t = pxt.create_table('vision_demo.images', {'image': pxt.Image})
+t = pxt.create_table('vision_demo/images', {'image': pxt.Image})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

@@ -125,9 +125,10 @@ compatible with PyTorch DataLoader.
 
 
 ```python
-import pixeltable as pxt
 import torch
 from torch.utils.data import DataLoader
+
+import pixeltable as pxt
 ```
 
 
@@ -149,7 +150,7 @@ Created&nbsp;directory&nbsp;&#x27;pytorch_demo&#x27;.
 ```python
 # Create table with images and labels
 training_data = pxt.create_table(
-    'pytorch_demo.training_data', {'image': pxt.Image, 'label': pxt.Int}
+    'pytorch_demo/training_data', {'image': pxt.Image, 'label': pxt.Int}
 )
 ```
 

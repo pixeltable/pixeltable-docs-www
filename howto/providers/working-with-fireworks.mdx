@@ -12,6 +12,26 @@ above links.</Tip>
 
 
 
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Can you tell me who was President of the US in 1961?</td>
+<td style="vertical-align: middle;">The President of the United States in 1961 was John F. Kennedy. He
+was inaugurated as the 35th President of the United States on January
+20, 1961.</td>
+</tr>
+</tbody>
+</table>
+`];
+
 Pixeltable’s Fireworks integration enables you to access LLMs hosted on
 the Fireworks platform.
 
@@ -35,8 +55,8 @@ API key.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'FIREWORKS_API_KEY' not in os.environ:
     os.environ['FIREWORKS_API_KEY'] = getpass.getpass(
@@ -55,6 +75,12 @@ pxt.drop_dir('fireworks_demo', force=True)
 pxt.create_dir('fireworks_demo')
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;fireworks_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x30b4331f0&gt;
+</pre>
+
 ## Completions
 
 Create a Table: In Pixeltable, create a table with columns to represent
@@ -67,7 +93,7 @@ from pixeltable.functions.fireworks import chat_completions
 
 # Create a table in Pixeltable and pick a model hosted on Fireworks with some parameters
 
-t = pxt.create_table('fireworks_demo.chat', {'input': pxt.String})
+t = pxt.create_table('fireworks_demo/chat', {'input': pxt.String})
 
 messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(
@@ -85,11 +111,22 @@ t.add_computed_column(
 )
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
 
 ```python
 # Parse the bot_response into a new column
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -99,6 +136,12 @@ t.insert(
 )
 t.select(t.input, t.response).show()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;2.15&nbsp;s&nbsp;(0.47&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn more
 

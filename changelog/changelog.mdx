@@ -21,6 +21,91 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.5.15
+
+**Released:** January 29, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.15](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.15)
+
+#### What's Changed
+* docs: update overview description and callout/footer styling by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1086](https://github.com/pixeltable/pixeltable/pull/1086)
+* Fix HF datasets rotten_tomatoes references in tests & notebook by [@aaron-siegel](https://github.com/aaron-siegel) in [#1089](https://github.com/pixeltable/pixeltable/pull/1089)
+* Gemini UDFs to use "rate limits" scheduler by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1092](https://github.com/pixeltable/pixeltable/pull/1092)
+* Allow dict/list config params to be specified as environment variables by [@aaron-siegel](https://github.com/aaron-siegel) in [#1091](https://github.com/pixeltable/pixeltable/pull/1091)
+* Minor Gemini UDF followup for safer get_retry_delay() by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1098](https://github.com/pixeltable/pixeltable/pull/1098)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.14...v0.5.15
+
+---
+
+### v0.5.14
+
+**Released:** January 24, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.14](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.14)
+
+#### What's Changed
+* Add RunwayML integration with UDFs for image and video generation by [@tiennguyentony](https://github.com/tiennguyentony) in [#1019](https://github.com/pixeltable/pixeltable/pull/1019)
+* Deployment and Use Cases Docs by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1043](https://github.com/pixeltable/pixeltable/pull/1043)
+* Transaction rollback by [@mkornacker](https://github.com/mkornacker) in [#1075](https://github.com/pixeltable/pixeltable/pull/1075)
+* [PXT-972] Bugfix: FrameIterator.set_pos() on videos with start_time > 0 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1082](https://github.com/pixeltable/pixeltable/pull/1082)
+* to_string() method on UUIDType by [@aaron-siegel](https://github.com/aaron-siegel) in [#1078](https://github.com/pixeltable/pixeltable/pull/1078)
+* CI and Makefile step to ensure notebooks have >= 50% of their cells with outputs by [@aaron-siegel](https://github.com/aaron-siegel) in [#1073](https://github.com/pixeltable/pixeltable/pull/1073)
+* Regenerate all outputs for Reve integration notebook by [@apreshill](https://github.com/apreshill) in [#1071](https://github.com/pixeltable/pixeltable/pull/1071)
+* Apply ruff formatting to all notebooks by [@aaron-siegel](https://github.com/aaron-siegel) in [#1074](https://github.com/pixeltable/pixeltable/pull/1074)
+
+#### New Contributors
+* [@tiennguyentony](https://github.com/tiennguyentony) made their first contribution in [#1019](https://github.com/pixeltable/pixeltable/pull/1019)
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.13...v0.5.14
+
+---
+
+### v0.5.13
+
+**Released:** January 22, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.13](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.13)
+
+#### What's Changed
+* rename reset_db fixture to uses_db by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1067](https://github.com/pixeltable/pixeltable/pull/1067)
+* Use '/' as path delimiter by [@amithadke](https://github.com/amithadke) in [#1055](https://github.com/pixeltable/pixeltable/pull/1055)
+* Temporarily disable progress reporting when verbosity < 2 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1079](https://github.com/pixeltable/pixeltable/pull/1079)
+* Follow up fixes for Path delimiter change by [@amithadke](https://github.com/amithadke) in [#1076](https://github.com/pixeltable/pixeltable/pull/1076)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.12...v0.5.13
+
+---
+
+### v0.5.12
+
+**Released:** January 17, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.12](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.12)
+
+#### What's Changed
+* Lint markdown in notebooks by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1033](https://github.com/pixeltable/pixeltable/pull/1033)
+* Adjust down max connections on OpenAI client by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1058](https://github.com/pixeltable/pixeltable/pull/1058)
+* [PXT-915] Gemini embedding UDFs by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#986](https://github.com/pixeltable/pixeltable/pull/986)
+* PXT-866 Add validation for version in pixeltable uri by [@amithadke](https://github.com/amithadke) in [#1048](https://github.com/pixeltable/pixeltable/pull/1048)
+* uuid7() udf by [@mkornacker](https://github.com/mkornacker) in [#1059](https://github.com/pixeltable/pixeltable/pull/1059)
+* [PXT-875] Disable performance test until it reliably passes by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1061](https://github.com/pixeltable/pixeltable/pull/1061)
+* Daemonize pgserver on Windows by [@aaron-siegel](https://github.com/aaron-siegel) in [#1057](https://github.com/pixeltable/pixeltable/pull/1057)
+* PXT-954: assertion in recompute_columns() for view column by [@mkornacker](https://github.com/mkornacker) in [#1064](https://github.com/pixeltable/pixeltable/pull/1064)
+* Remove obsolete mkdocs by [@aaron-siegel](https://github.com/aaron-siegel) in [#1056](https://github.com/pixeltable/pixeltable/pull/1056)
+* Working with blob storage nb by [@apreshill](https://github.com/apreshill) in [#977](https://github.com/pixeltable/pixeltable/pull/977)
+* PXT-961: correct support for alpha in draw_bounding_boxes() by [@mkornacker](https://github.com/mkornacker) in [#1068](https://github.com/pixeltable/pixeltable/pull/1068)
+* Notebook CI tweaks by [@aaron-siegel](https://github.com/aaron-siegel) in [#1069](https://github.com/pixeltable/pixeltable/pull/1069)
+* PXT-943: Rectify all indices in TableRestorer, not just embedding indices by [@aaron-siegel](https://github.com/aaron-siegel) in [#1066](https://github.com/pixeltable/pixeltable/pull/1066)
+* [PXT-955] Skip UDA evaluation if a required parameter is None by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1070](https://github.com/pixeltable/pixeltable/pull/1070)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.11...v0.5.12
+
+---
+
 ### v0.5.11
 
 **Released:** January 13, 2026  
@@ -1066,90 +1151,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.9...v0.3.10
-
----
-
-### v0.3.9
-
-**Released:** March 28, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.3.9](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.9)
-
-#### What's Changed
-* PXT-499 Add create_parents option to create_dir to create missing ele… by [@amithadke](https://github.com/amithadke) in [#525](https://github.com/pixeltable/pixeltable/pull/525)
-* Jw/fix syntax error by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#531](https://github.com/pixeltable/pixeltable/pull/531)
-* Concurrent directory operations by [@mkornacker](https://github.com/mkornacker) in [#510](https://github.com/pixeltable/pixeltable/pull/510)
-* adding pixelagent page by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#536](https://github.com/pixeltable/pixeltable/pull/536)
-* PXT-512 Update the together.ai examples notebook to use the newer mod… by [@amithadke](https://github.com/amithadke) in [#537](https://github.com/pixeltable/pixeltable/pull/537)
-* Bugfix when drop_dir() is the first operation after a catalog load by [@aaron-siegel](https://github.com/aaron-siegel) in [#539](https://github.com/pixeltable/pixeltable/pull/539)
-* Fixing log output of paths. by [@mkornacker](https://github.com/mkornacker) in [#538](https://github.com/pixeltable/pixeltable/pull/538)
-* Bugfix related to chained tool calling by [@aaron-siegel](https://github.com/aaron-siegel) in [#534](https://github.com/pixeltable/pixeltable/pull/534)
-* Bugfix involving `[@pxt](https://github.com/pxt).query` instances whose parameters have default values by [@aaron-siegel](https://github.com/aaron-siegel) in [#540](https://github.com/pixeltable/pixeltable/pull/540)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.8...v0.3.9
-
----
-
-### v0.3.8
-
-**Released:** March 25, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.3.8](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.8)
-
-#### What's Changed
-* add async support to udfs and column casting to table operations by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#518](https://github.com/pixeltable/pixeltable/pull/518)
-* Jw/docs move mcp server docs by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#519](https://github.com/pixeltable/pixeltable/pull/519)
-* Fix broken link + chatbot by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#520](https://github.com/pixeltable/pixeltable/pull/520)
-* adding jfk mcp server by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#515](https://github.com/pixeltable/pixeltable/pull/515)
-* Update changelogs and added Deepseek to Integration Tab by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#523](https://github.com/pixeltable/pixeltable/pull/523)
-* remove default values from udf args in docs by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#527](https://github.com/pixeltable/pixeltable/pull/527)
-* Load jfk index on MCP initialization by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#528](https://github.com/pixeltable/pixeltable/pull/528)
-* Linting for `ext`, `func`, `share`, and `utils` packages by [@aaron-siegel](https://github.com/aaron-siegel) in [#517](https://github.com/pixeltable/pixeltable/pull/517)
-* Fix bug in JsonPath serialization by [@aaron-siegel](https://github.com/aaron-siegel) in [#532](https://github.com/pixeltable/pixeltable/pull/532)
-* replace get_view with get_table by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#533](https://github.com/pixeltable/pixeltable/pull/533)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.7...v0.3.8
-
----
-
-### v0.3.7
-
-**Released:** March 19, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.3.7](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.7)
-
-#### What's Changed
-* remove mentions of [''] notation by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#504](https://github.com/pixeltable/pixeltable/pull/504)
-* Catalog changes to prepare for concurrency by [@mkornacker](https://github.com/mkornacker) in [#497](https://github.com/pixeltable/pixeltable/pull/497)
-* update configurations page to match api reference by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#505](https://github.com/pixeltable/pixeltable/pull/505)
-* Introduce linting by [@aaron-siegel](https://github.com/aaron-siegel) in [#482](https://github.com/pixeltable/pixeltable/pull/482)
-* add video index to cookbook by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#507](https://github.com/pixeltable/pixeltable/pull/507)
-* Fail gracefully when a backwards incompatibility is detected in a computed column UDF call by [@aaron-siegel](https://github.com/aaron-siegel) in [#494](https://github.com/pixeltable/pixeltable/pull/494)
-* Docs/update vision search example by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#508](https://github.com/pixeltable/pixeltable/pull/508)
-* Add MCP to docs by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#509](https://github.com/pixeltable/pixeltable/pull/509)
-* Refactor Config into a separate abstraction distinct from Env by [@aaron-siegel](https://github.com/aaron-siegel) in [#511](https://github.com/pixeltable/pixeltable/pull/511)
-* Use just-in-time initialization for spaCy, speeding up pxt.init() by [@aaron-siegel](https://github.com/aaron-siegel) in [#513](https://github.com/pixeltable/pixeltable/pull/513)
-* Update Label Studio job to Python 3.10 in nightly CI by [@aaron-siegel](https://github.com/aaron-siegel) in [#516](https://github.com/pixeltable/pixeltable/pull/516)
-* Bugfixes by [@aaron-siegel](https://github.com/aaron-siegel) in [#512](https://github.com/pixeltable/pixeltable/pull/512)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.6...v0.3.7
-
----
-
-### v0.3.6
-
-**Released:** March 12, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.3.6](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.6)
-
-#### What's Changed
-* [OpenAI/Anthropic] Support multiple invocations of the same tool in tool calling logic by [@aaron-siegel](https://github.com/aaron-siegel) in [#496](https://github.com/pixeltable/pixeltable/pull/496)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.5...v0.3.6
 
 ---
 

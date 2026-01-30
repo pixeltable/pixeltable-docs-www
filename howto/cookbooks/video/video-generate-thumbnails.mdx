@@ -348,7 +348,7 @@ Created&nbsp;directory&nbsp;&#x27;thumbnail_demo&#x27;.
 
 ```python
 # Create table for videos
-videos = pxt.create_table('thumbnail_demo.videos', {'video': pxt.Video})
+videos = pxt.create_table('thumbnail_demo/videos', {'video': pxt.Video})
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -445,7 +445,7 @@ extract multiple frames:
 ```python
 # Create a view with frames extracted at 0.5 fps (one frame every 2 seconds)
 frames = pxt.create_view(
-    'thumbnail_demo.frames',
+    'thumbnail_demo/frames',
     videos,
     iterator=pxtf.video.frame_iterator(videos.video, fps=0.5),
 )

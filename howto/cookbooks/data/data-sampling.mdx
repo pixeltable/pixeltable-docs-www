@@ -269,7 +269,7 @@ Created&nbsp;directory&nbsp;&#x27;sampling_demo&#x27;.
 ```python
 # Create a dataset with labels
 data = pxt.create_table(
-    'sampling_demo.data',
+    'sampling_demo/data',
     {'text': pxt.String, 'label': pxt.String, 'score': pxt.Float},
 )
 
@@ -351,8 +351,8 @@ train_sample = data.sample(fraction=0.8, seed=42)
 test_sample = data.sample(fraction=0.2, seed=43)
 
 # Persist as new tables
-train_table = pxt.create_table('sampling_demo.train', source=train_sample)
-test_table = pxt.create_table('sampling_demo.test', source=test_sample)
+train_table = pxt.create_table('sampling_demo/train', source=train_sample)
+test_table = pxt.create_table('sampling_demo/test', source=test_sample)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>

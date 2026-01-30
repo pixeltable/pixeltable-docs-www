@@ -12,6 +12,38 @@ above links.</Tip>
 
 
 
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What was the outcome of the 1904 US Presidential election?</td>
+<td style="vertical-align: middle;">The **1904 U.S. presidential election** resulted in a decisive
+victory for the **incumbent Republican President Theodore Roosevelt**,
+who was seeking a full term in his own right after succeeding the
+assassinated William McKinley in 1901. Here are the key details of the
+outcome: --- ### **Results at a Glance** - **Winner:** **Theodore
+Roosevelt** (Republican) - **Opponent:** **Alton B. Parker** (Democrat)
+- **Electoral Vote:** - Roosevelt: **336** electoral votes - Parker:
+**140** ...... t by supporting William Howard Taft’s candidacy (though
+he later ran again in 1912 with the Bull Moose Party). - The election
+solidified Roosevelt’s control of the Republican Party and marked the
+continued dominance of Republicans in national politics (they had won
+every presidential election since 1896 except 1912). In short, the 1904
+election was a **major personal triumph for Theodore Roosevelt**,
+affirming his progressive leadership and giving him a powerful mandate
+for his second term.</td>
+</tr>
+</tbody>
+</table>
+`];
+
 Pixeltable’s Deepseek integration enables you to access Deepseek’s LLM
 via the Deepseek API.
 
@@ -36,8 +68,8 @@ install it in addition to Pixeltable.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'DEEPSEEK_API_KEY' not in os.environ:
     os.environ['DEEPSEEK_API_KEY'] = getpass.getpass('Deepseek API Key:')
@@ -54,6 +86,12 @@ pxt.drop_dir('deepseek_demo', force=True)
 pxt.create_dir('deepseek_demo')
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;deepseek_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x14c339cc0&gt;
+</pre>
+
 ## Messages
 
 Create a Table: In Pixeltable, create a table with columns to represent
@@ -66,7 +104,7 @@ from pixeltable.functions import deepseek
 
 # Create a table in Pixeltable and add a computed column that calls Deepseek
 
-t = pxt.create_table('deepseek_demo.chat', {'input': pxt.String})
+t = pxt.create_table('deepseek_demo/chat', {'input': pxt.String})
 
 msgs = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(
@@ -74,11 +112,22 @@ t.add_computed_column(
 )
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
 
 ```python
 # Parse the response into a new column
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -92,6 +141,12 @@ t.insert(
 )
 t.select(t.input, t.response).show()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;18.72&nbsp;s&nbsp;(0.05&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn more
 
