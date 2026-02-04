@@ -47,17 +47,17 @@ export const quartoRawHtml =
 </thead>
 <tbody>
 <tr>
-<td style="vertical-align: middle;">0beebcb6-1a63-4c8c-a802-346b01f7ec6d</td>
+<td style="vertical-align: middle;">019c00eb-b464-7170-8fc8-d96bddf56508</td>
 <td style="vertical-align: middle;">Laptop</td>
 <td style="vertical-align: middle;">999.99</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;">a6fd0a8b-0156-492f-baa8-a4d1017de831</td>
+<td style="vertical-align: middle;">019c00eb-b464-7170-8fc8-d96c137f00f4</td>
 <td style="vertical-align: middle;">Mouse</td>
 <td style="vertical-align: middle;">29.99</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;">0f2a8c94-0bcd-442e-af22-50213edb08c1</td>
+<td style="vertical-align: middle;">019c00eb-b464-7170-8fc8-d96dfaad1c2a</td>
 <td style="vertical-align: middle;">Keyboard</td>
 <td style="vertical-align: middle;">79.99</td>
 </tr>
@@ -76,12 +76,12 @@ export const quartoRawHtml =
 <tr>
 <td style="vertical-align: middle;">Alice</td>
 <td style="vertical-align: middle;">150.</td>
-<td style="vertical-align: middle;">b68ab3ab-5e4b-402e-8b9e-5fbd17830851</td>
+<td style="vertical-align: middle;">019c00eb-e605-7112-81bd-90a8e8e40943</td>
 </tr>
 <tr>
 <td style="vertical-align: middle;">Bob</td>
 <td style="vertical-align: middle;">75.5</td>
-<td style="vertical-align: middle;">8edd6548-3ad5-4d0a-b23b-c03c6f791d90</td>
+<td style="vertical-align: middle;">019c00eb-e605-7112-81bd-90a9b86c26af</td>
 </tr>
 </tbody>
 </table>
@@ -99,11 +99,11 @@ export const quartoRawHtml =
 </thead>
 <tbody>
 <tr>
-<td style="vertical-align: middle;"><code>uuid4()</code> in schema</td>
+<td style="vertical-align: middle;"><code>uuid7()</code> in schema</td>
 <td style="vertical-align: middle;">Auto-generated UUID at table creation</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;"><code>add_computed_column(col=uuid4())</code></td>
+<td style="vertical-align: middle;"><code>add_computed_column(col=uuid7())</code></td>
 <td style="vertical-align: middle;">Add UUID column to existing table</td>
 </tr>
 </tbody>
@@ -126,10 +126,10 @@ status across systems, or joining data from multiple sources.
 
 -   Create tables with auto-generated UUID primary keys
 -   Add UUID columns to existing tables
--   Generate UUIDs with `uuid4()`
+-   Generate UUIDs with `uuid7()`
 
-You use `uuid4()` to generate UUIDs for each row. Define it in the
-schema with `{'column_name': uuid4()}` syntax, or add it to existing
+You use `uuid7()` to generate UUIDs for each row. Define it in the
+schema with `{'column_name': uuid7()}` syntax, or add it to existing
 tables with `add_computed_column()`.
 
 ### Setup
@@ -142,7 +142,7 @@ tables with `add_computed_column()`.
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions.uuid import uuid4
+from pixeltable.functions.uuid import uuid7
 ```
 
 
@@ -152,15 +152,9 @@ pxt.drop_dir('uuid_demo', force=True)
 pxt.create_dir('uuid_demo')
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
-Created&nbsp;directory&nbsp;&#x27;uuid_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x104e3c810&gt;
-</pre>
-
 ### Create a table with a UUID primary key
 
-Use `uuid4()` in your schema to create a column that auto-generates
+Use `uuid7()` in your schema to create a column that auto-generates
 UUIDs:
 
 
@@ -169,7 +163,7 @@ UUIDs:
 products = pxt.create_table(
     'uuid_demo/products',
     {
-        'id': uuid4(),  # Auto-generates UUID for each row
+        'id': uuid7(),  # Auto-generates UUID for each row
         'name': pxt.String,
         'price': pxt.Float,
     },
@@ -194,9 +188,8 @@ products.insert(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;338.71&nbsp;rows/s\]
-Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
-3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.02&nbsp;s&nbsp;(191.21&nbsp;rows/s)
+3&nbsp;rows&nbsp;inserted.
 </pre>
 
 
@@ -236,20 +229,19 @@ orders.insert(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;1070.66&nbsp;rows/s\]
-Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
-2&nbsp;rows&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s&nbsp;(310.49&nbsp;rows/s)
+2&nbsp;rows&nbsp;inserted.
 </pre>
 
 
 ```python
 # Add a UUID column to existing table
-orders.add_computed_column(order_id=uuid4())
+orders.add_computed_column(order_id=uuid7())
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-2&nbsp;rows&nbsp;updated,&nbsp;4&nbsp;values&nbsp;computed.
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.02&nbsp;s&nbsp;(98.14&nbsp;rows/s)
+2&nbsp;rows&nbsp;updated.
 </pre>
 
 
@@ -266,11 +258,12 @@ orders.collect()
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
-Both use `uuid4()` which generates UUIDv4 (random) identifiers:
+Both use `uuid7()` which generates UUIDv7 (time-based) identifiers:
 
 -   128-bit values
 -   Formatted as 32 hex digits with hyphens:
-    `550e8400-e29b-41d4-a716-446655440000`
+    `018e65c5-35e5-7c5d-8f37-f1c5b9c8a7b2`
+-   Time-ordered for better database performance
 -   Virtually guaranteed unique (collision probability is negligible)
 
 ## See also

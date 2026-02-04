@@ -301,7 +301,6 @@ against the index.
 
 ```python
 import PIL.Image
-
 from pixeltable.functions.huggingface import clip
 
 # create embedding index on the 'img' column
@@ -594,11 +593,10 @@ model invocation.
 
 
 ```python
+import pixeltable as pxt
 import tensorflow as tf
 import tensorflow_hub as hub
 import tensorflow_text  # Necessary to ensure BERT dependencies are loaded
-
-import pixeltable as pxt
 
 
 @pxt.udf
