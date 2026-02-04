@@ -1,0 +1,534 @@
+---
+title: "image"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/image.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.image
+
+
+Pixeltable UDFs for `ImageType`.
+
+Example:
+```python
+import pixeltable as pxt
+
+t = pxt.get_table(...)
+t.select(t.img_col.convert('L')).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>iterator</span>&nbsp; tile_iterator()
+
+```python Signature
+tile_iterator(
+    image: Any,
+    tile_size: tuple[int, int],
+    *,
+    overlap: tuple[int, int] = (0, 0)
+) 
+```
+
+Iterator over tiles of an image. Each image will be divided into tiles of size `tile_size`, and the tiles will be
+iterated over in row-major order (left-to-right, then top-to-bottom). An optional `overlap` parameter may be
+specified. If the tiles do not exactly cover the image, then the rightmost and bottommost tiles will be padded with
+blackspace, so that the output images all have the exact size `tile_size`.
+
+**Parameters:**
+
+- **`image`** (`typing.Any`): Image to split into tiles.
+- **`tile_size`** (`tuple[int, int]`): Size of each tile, as a pair of integers `[width, height]`.
+- **`overlap`** (`tuple[int, int]`, default: `(0, 0)`): Amount of overlap between adjacent tiles, as a pair of integers `[width, height]`.
+
+**Examples:**
+
+This example assumes an existing table `tbl` with a column `img` of type `pxt.Image`. Create a view that splits all images into 256x256 tiles with 32 pixels of overlap:
+```python
+pxt.create_view(
+    'image_tiles',
+    tbl,
+    iterator=image_tile_iterator(
+        tbl.img, tile_size=(256, 256), overlap=(32, 32)
+    ),
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; alpha_composite()
+
+```python Signature
+@pxt.udf
+alpha_composite(im1: pxt.Image, im2: pxt.Image) -> pxt.Image
+```
+
+Alpha composite `im2` over `im1`.
+
+Equivalent to [`PIL.Image.alpha_composite()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.alpha_composite)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; b64_encode()
+
+```python Signature
+@pxt.udf
+b64_encode(
+    img: pxt.Image,
+    image_format: pxt.String = 'png'
+) -> pxt.String
+```
+
+Convert image to a base64-encoded string.
+
+
+**Parameters:**
+
+- **`img`** (`pxt.Image`): image
+- **`image_format`** (`pxt.String`): image format [supported by PIL](https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#fully-supported-formats)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; blend()
+
+```python Signature
+@pxt.udf
+blend(
+    im1: pxt.Image,
+    im2: pxt.Image,
+    alpha: pxt.Float
+) -> pxt.Image
+```
+
+Return a new image by interpolating between two input images, using a constant alpha.
+
+Equivalent to [`PIL.Image.blend()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.blend)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; composite()
+
+```python Signature
+@pxt.udf
+composite(
+    image1: pxt.Image,
+    image2: pxt.Image,
+    mask: pxt.Image
+) -> pxt.Image
+```
+
+Return a composite image by blending two images using a mask.
+
+Equivalent to [`PIL.Image.composite()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.composite)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; convert()
+
+```python Signature
+@pxt.udf
+convert(self: pxt.Image, mode: pxt.String) -> pxt.Image
+```
+
+Convert the image to a different mode.
+
+Equivalent to
+[`PIL.Image.Image.convert()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.convert).
+
+**Parameters:**
+
+- **`mode`** (`pxt.String`): The mode to convert to. See the
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes)
+    for a list of supported modes.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; crop()
+
+```python Signature
+@pxt.udf
+crop(self: pxt.Image, box: pxt.Json) -> pxt.Image
+```
+
+Return a rectangular region from the image. The box is a 4-tuple defining the left, upper, right, and lower pixel
+coordinates.
+
+Equivalent to
+[`PIL.Image.Image.crop()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.crop)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; effect_spread()
+
+```python Signature
+@pxt.udf
+effect_spread(self: pxt.Image, distance: pxt.Int) -> pxt.Image
+```
+
+Randomly spread pixels in an image.
+
+Equivalent to
+[`PIL.Image.Image.effect_spread()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.effect_spread)
+
+**Parameters:**
+
+- **`distance`** (`pxt.Int`): The distance to spread pixels.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; entropy()
+
+```python Signature
+@pxt.udf
+entropy(
+    self: pxt.Image,
+    mask: pxt.Image | None = None,
+    extrema: pxt.Json | None = None
+) -> pxt.Float
+```
+
+Returns the entropy of the image, optionally using a mask and extrema.
+
+Equivalent to
+[`PIL.Image.Image.entropy()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.entropy)
+
+**Parameters:**
+
+- **`mask`** (`pxt.Image | None`): An optional mask image.
+- **`extrema`** (`pxt.Json | None`): An optional list of extrema.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get_metadata()
+
+```python Signature
+@pxt.udf
+get_metadata(self: pxt.Image) -> pxt.Json
+```
+
+Return metadata for the image.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getbands()
+
+```python Signature
+@pxt.udf
+getbands(self: pxt.Image) -> pxt.Json
+```
+
+Return a tuple containing the names of the image bands.
+
+Equivalent to
+[`PIL.Image.Image.getbands()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getbands)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getbbox()
+
+```python Signature
+@pxt.udf
+getbbox(
+    self: pxt.Image,
+    *,
+    alpha_only: pxt.Bool = True
+) -> pxt.Json | None
+```
+
+Return a bounding box for the non-zero regions of the image.
+
+Equivalent to [`PIL.Image.Image.getbbox()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getbbox)
+
+**Parameters:**
+
+- **`alpha_only`** (`pxt.Bool`): If `True`, and the image has an alpha channel, trim transparent pixels. Otherwise,
+    trim pixels when all channels are zero.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getchannel()
+
+```python Signature
+@pxt.udf
+getchannel(self: pxt.Image, channel: pxt.Int) -> pxt.Image
+```
+
+Return an L-mode image containing a single channel of the original image.
+
+Equivalent to
+[`PIL.Image.Image.getchannel()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getchannel)
+
+**Parameters:**
+
+- **`channel`** (`pxt.Int`): The channel to extract. This is a 0-based index.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getcolors()
+
+```python Signature
+@pxt.udf
+getcolors(self: pxt.Image, maxcolors: pxt.Int = 256) -> pxt.Json
+```
+
+Return a list of colors used in the image, up to a maximum of `maxcolors`.
+
+Equivalent to
+[`PIL.Image.Image.getcolors()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getcolors)
+
+**Parameters:**
+
+- **`maxcolors`** (`pxt.Int`): The maximum number of colors to return.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getextrema()
+
+```python Signature
+@pxt.udf
+getextrema(self: pxt.Image) -> pxt.Json
+```
+
+Return a 2-tuple containing the minimum and maximum pixel values of the image.
+
+Equivalent to
+[`PIL.Image.Image.getextrema()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getextrema)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getpalette()
+
+```python Signature
+@pxt.udf
+getpalette(
+    self: pxt.Image,
+    mode: pxt.String | None = None
+) -> pxt.Json | None
+```
+
+Return the palette of the image, optionally converting it to a different mode.
+
+Equivalent to
+[`PIL.Image.Image.getpalette()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getpalette)
+
+**Parameters:**
+
+- **`mode`** (`pxt.String | None`): The mode to convert the palette to.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getpixel()
+
+```python Signature
+@pxt.udf
+getpixel(self: pxt.Image, xy: pxt.Json) -> pxt.Json
+```
+
+Return the pixel value at the given position. The position `xy` is a tuple containing the x and y coordinates.
+
+Equivalent to
+[`PIL.Image.Image.getpixel()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getpixel)
+
+**Parameters:**
+
+- **`xy`** (`pxt.Json`): The coordinates, given as (x, y).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getprojection()
+
+```python Signature
+@pxt.udf
+getprojection(self: pxt.Image) -> pxt.Json
+```
+
+Return two sequences representing the horizontal and vertical projection of the image.
+
+Equivalent to
+[`PIL.Image.Image.getprojection()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.getprojection)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; height()
+
+```python Signature
+@pxt.udf
+height(self: pxt.Image) -> pxt.Int
+```
+
+Return the height of the image.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; histogram()
+
+```python Signature
+@pxt.udf
+histogram(
+    self: pxt.Image,
+    mask: pxt.Image | None = None,
+    extrema: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Return a histogram for the image.
+
+Equivalent to
+[`PIL.Image.Image.histogram()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.histogram)
+
+**Parameters:**
+
+- **`mask`** (`pxt.Image | None`): An optional mask image.
+- **`extrema`** (`pxt.Json | None`): An optional list of extrema.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; mode()
+
+```python Signature
+@pxt.udf
+mode(self: pxt.Image) -> pxt.String
+```
+
+Return the image mode.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; point()
+
+```python Signature
+@pxt.udf
+point(
+    self: pxt.Image,
+    lut: pxt.Json,
+    mode: pxt.String | None = None
+) -> pxt.Image
+```
+
+Map image pixels through a lookup table.
+
+Equivalent to
+[`PIL.Image.Image.point()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.point)
+
+**Parameters:**
+
+- **`lut`** (`pxt.Json`): A lookup table.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; quantize()
+
+```python Signature
+@pxt.udf
+quantize(
+    self: pxt.Image,
+    colors: pxt.Int = 256,
+    method: pxt.Int | None = None,
+    kmeans: pxt.Int = 0,
+    palette: pxt.Image | None = None,
+    dither: pxt.Int = <Dither.FLOYDSTEINBERG: 3>
+) -> pxt.Image
+```
+
+Convert the image to 'P' mode with the specified number of colors.
+
+Equivalent to
+ [`PIL.Image.Image.quantize()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
+
+**Parameters:**
+
+- **`colors`** (`pxt.Int`): The number of colors to quantize to.
+- **`method`** (`pxt.Int | None`): The quantization method. See the
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
+    for a list of supported methods.
+- **`kmeans`** (`pxt.Int`): The number of k-means clusters to use.
+- **`palette`** (`pxt.Image | None`): The palette to use.
+- **`dither`** (`pxt.Int`): The dithering method. See the
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.quantize)
+    for a list of supported methods.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; reduce()
+
+```python Signature
+@pxt.udf
+reduce(
+    self: pxt.Image,
+    factor: pxt.Int,
+    box: pxt.Json | None = None
+) -> pxt.Image
+```
+
+Reduce the image by the given factor.
+
+Equivalent to
+[`PIL.Image.Image.reduce()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.reduce)
+
+**Parameters:**
+
+- **`factor`** (`pxt.Int`): The reduction factor.
+- **`box`** (`pxt.Json | None`): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within
+    (0, 0, width, height) rectangle. If omitted or None, the entire source is used.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; resize()
+
+```python Signature
+@pxt.udf
+resize(self: pxt.Image, size: pxt.Json) -> pxt.Image
+```
+
+Return a resized copy of the image. The size parameter is a tuple containing the width and height of the new image.
+
+Equivalent to
+[`PIL.Image.Image.resize()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.resize)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; rotate()
+
+```python Signature
+@pxt.udf
+rotate(self: pxt.Image, angle: pxt.Int) -> pxt.Image
+```
+
+Return a copy of the image rotated by the given angle.
+
+Equivalent to
+[`PIL.Image.Image.rotate()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.rotate)
+
+**Parameters:**
+
+- **`angle`** (`pxt.Int`): The angle to rotate the image, in degrees. Positive angles are counter-clockwise.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; thumbnail()
+
+```python Signature
+@pxt.udf
+thumbnail(
+    self: pxt.Image,
+    size: pxt.Json,
+    resample: pxt.Int = <Resampling.LANCZOS: 1>,
+    reducing_gap: pxt.Float | None = 2.0
+) -> pxt.Image
+```
+
+Create a thumbnail of the image.
+
+Equivalent to
+[`PIL.Image.Image.thumbnail()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail)
+
+**Parameters:**
+
+- **`size`** (`pxt.Json`): The size of the thumbnail, as a tuple of (width, height).
+- **`resample`** (`pxt.Int`): The resampling filter to use. See the
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail)
+    for a list of supported filters.
+- **`reducing_gap`** (`pxt.Float | None`): The reducing gap to use.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; transpose()
+
+```python Signature
+@pxt.udf
+transpose(self: pxt.Image, method: pxt.Int) -> pxt.Image
+```
+
+Transpose the image.
+
+Equivalent to
+[`PIL.Image.Image.transpose()`](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.transpose)
+
+**Parameters:**
+
+- **`method`** (`pxt.Int`): The transpose method. See the
+    [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.transpose)
+    for a list of supported methods.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; width()
+
+```python Signature
+@pxt.udf
+width(self: pxt.Image) -> pxt.Int
+```
+
+Return the width of the image.
+

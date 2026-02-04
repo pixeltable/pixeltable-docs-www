@@ -165,6 +165,7 @@
                       "howto/cookbooks/data/data-import-excel",
                       "howto/cookbooks/data/data-import-huggingface",
                       "howto/cookbooks/data/data-import-s3",
+                      "howto/cookbooks/data/data-export-s3",
                       "howto/cookbooks/data/data-export-pytorch",
                       "howto/cookbooks/data/data-export-sql",
                       "howto/cookbooks/data/data-sampling"
@@ -256,8 +257,84 @@
             ]
           },
           {
-            "dropdown": "v0.5.15",
+            "dropdown": "v0.5.16",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.16/pixeltable",
+                      "sdk/v0.5.16/table",
+                      "sdk/v0.5.16/query",
+                      "sdk/v0.5.16/columnmetadata",
+                      "sdk/v0.5.16/dircontents",
+                      "sdk/v0.5.16/indexmetadata",
+                      "sdk/v0.5.16/tablemetadata",
+                      "sdk/v0.5.16/updatestatus",
+                      "sdk/v0.5.16/versionmetadata"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.16/functions",
+                      "sdk/v0.5.16/audio",
+                      "sdk/v0.5.16/date",
+                      "sdk/v0.5.16/document",
+                      "sdk/v0.5.16/image",
+                      "sdk/v0.5.16/json",
+                      "sdk/v0.5.16/math",
+                      "sdk/v0.5.16/net",
+                      "sdk/v0.5.16/string",
+                      "sdk/v0.5.16/timestamp",
+                      "sdk/v0.5.16/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.16/anthropic",
+                      "sdk/v0.5.16/bedrock",
+                      "sdk/v0.5.16/deepseek",
+                      "sdk/v0.5.16/fal",
+                      "sdk/v0.5.16/fireworks",
+                      "sdk/v0.5.16/gemini",
+                      "sdk/v0.5.16/groq",
+                      "sdk/v0.5.16/huggingface",
+                      "sdk/v0.5.16/llama_cpp",
+                      "sdk/v0.5.16/mistralai",
+                      "sdk/v0.5.16/ollama",
+                      "sdk/v0.5.16/openai",
+                      "sdk/v0.5.16/openrouter",
+                      "sdk/v0.5.16/replicate",
+                      "sdk/v0.5.16/reve",
+                      "sdk/v0.5.16/runwayml",
+                      "sdk/v0.5.16/together",
+                      "sdk/v0.5.16/twelvelabs",
+                      "sdk/v0.5.16/uuid",
+                      "sdk/v0.5.16/vision",
+                      "sdk/v0.5.16/voyageai",
+                      "sdk/v0.5.16/whisper",
+                      "sdk/v0.5.16/whisperx",
+                      "sdk/v0.5.16/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.16/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.15",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
