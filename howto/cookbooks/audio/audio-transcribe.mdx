@@ -36,7 +36,7 @@ export const quartoRawHtml =
 <tr>
 <td style="vertical-align: middle;">meeting.wav</td>
 <td style="vertical-align: middle;">2 hours</td>
-<td style="vertical-align: middle;">Must chunk for memory efficiency</td>
+<td style="vertical-align: middle;">Must segment for memory efficiency</td>
 </tr>
 </tbody>
 </table>
@@ -44,8 +44,8 @@ export const quartoRawHtml =
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">start_time_sec</th>
-<th data-quarto-table-cell-role="th">end_time_sec</th>
+<th data-quarto-table-cell-role="th">segment_start</th>
+<th data-quarto-table-cell-role="th">segment_end</th>
 </tr>
 </thead>
 <tbody>
@@ -63,8 +63,8 @@ export const quartoRawHtml =
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">start_time_sec</th>
-<th data-quarto-table-cell-role="th">end_time_sec</th>
+<th data-quarto-table-cell-role="th">segment_start</th>
+<th data-quarto-table-cell-role="th">segment_end</th>
 <th data-quarto-table-cell-role="th">text</th>
 </tr>
 </thead>
@@ -144,16 +144,16 @@ Otherwise it's like, you know, everybody leaves.</td>
 </thead>
 <tbody>
 <tr>
-<td style="vertical-align: middle;"><code>chunk_duration_sec</code></td>
-<td style="vertical-align: middle;">Duration of each chunk in seconds</td>
+<td style="vertical-align: middle;"><code>duration</code></td>
+<td style="vertical-align: middle;">Duration of each segment in seconds</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;"><code>overlap_sec</code></td>
-<td style="vertical-align: middle;">Overlap between chunks (helps with word boundaries)</td>
+<td style="vertical-align: middle;"><code>overlap</code></td>
+<td style="vertical-align: middle;">Overlap between segments (helps with word boundaries)</td>
 </tr>
 <tr>
-<td style="vertical-align: middle;"><code>min_chunk_duration_sec</code></td>
-<td style="vertical-align: middle;">Drop the last chunk if shorter than this</td>
+<td style="vertical-align: middle;"><code>min_segment_duration</code></td>
+<td style="vertical-align: middle;">Drop the last segment if shorter than this</td>
 </tr>
 </tbody>
 </table>
@@ -166,7 +166,7 @@ model—no API key needed.
 
 You have audio or video files that need transcription. Long files are
 memory-intensive to process at once, so you need to split them into
-manageable chunks.
+manageable segments.
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
@@ -175,12 +175,12 @@ manageable chunks.
 **What’s in this recipe:**
 
 -   Transcribe audio files locally with Whisper (no API key)
--   Automatically chunk long files
+-   Automatically segment long files
 -   Extract and transcribe audio from videos
 
-You create a view with `audio_splitter` to break long files into chunks,
-then add a computed column for transcription. Whisper runs locally on
-your machine—no API calls needed.
+You create a view with `audio_splitter` to break long files into
+segments, then add a computed column for transcription. Whisper runs
+locally on your machine—no API calls needed.
 
 ### Setup
 
@@ -206,9 +206,10 @@ pxt.create_dir('audio_demo')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Converting&nbsp;metadata&nbsp;from&nbsp;version&nbsp;45&nbsp;to&nbsp;46
 Created&nbsp;directory&nbsp;&#x27;audio_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x16218a9d0&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x169ab36a0&gt;
 </pre>
 
 
@@ -234,78 +235,73 @@ audio.insert(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`files\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;285.54&nbsp;rows/s\]
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;1.05&nbsp;s&nbsp;(0.95&nbsp;rows/s)
+1&nbsp;row&nbsp;inserted.
 </pre>
 
-### Split into chunks
+### Split into segments
 
-Create a view that splits audio into 30-second chunks with overlap:
+Create a view that splits audio into 30-second segments with overlap:
 
 
 ```python
-# Split audio into chunks for transcription
-chunks = pxt.create_view(
-    'audio_demo/chunks',
+# Split audio into segments for transcription
+segments = pxt.create_view(
+    'audio_demo/segments',
     audio,
     iterator=audio_splitter(
         audio.audio,
-        chunk_duration_sec=30.0,  # 30-second chunks
-        overlap_sec=2.0,  # 2-second overlap for context
-        min_chunk_duration_sec=5.0,  # Drop chunks shorter than 5 seconds
+        duration=30.0,  # 30-second segments
+        overlap=2.0,  # 2-second overlap for context
+        min_segment_duration=5.0,  # Drop segments shorter than 5 seconds
     ),
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`chunks\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;1257.10&nbsp;rows/s\]
-</pre>
-
 
 ```python
-# View the chunks
-chunks.select(chunks.start_time_sec, chunks.end_time_sec).collect()
+# View the segments
+segments.select(segments.segment_start, segments.segment_end).collect()
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ### Transcribe with Whisper
 
-Add a computed column that transcribes each chunk:
+Add a computed column that transcribes each segment:
 
 
 ```python
 # Add transcription column (runs locally - no API key needed)
-chunks.add_computed_column(
+segments.add_computed_column(
     transcription=whisper.transcribe(
-        audio=chunks.audio_chunk,
+        audio=segments.audio_segment,
         model='base.en',  # Options: tiny.en, base.en, small.en, medium.en, large
     )
 )
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-2&nbsp;rows&nbsp;updated,&nbsp;2&nbsp;values&nbsp;computed.
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;3.35&nbsp;s&nbsp;(0.60&nbsp;rows/s)
+2&nbsp;rows&nbsp;updated.
 </pre>
 
 
 ```python
 # Extract just the text
-chunks.add_computed_column(text=chunks.transcription.text)
+segments.add_computed_column(text=segments.transcription.text)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
-2&nbsp;rows&nbsp;updated,&nbsp;2&nbsp;values&nbsp;computed.
+Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.06&nbsp;s&nbsp;(31.82&nbsp;rows/s)
+2&nbsp;rows&nbsp;updated.
 </pre>
 
 
 ```python
 # View transcriptions with timestamps
-chunks.select(
-    chunks.start_time_sec, chunks.end_time_sec, chunks.text
+segments.select(
+    segments.segment_start, segments.segment_end, segments.text
 ).collect()
 ```
 

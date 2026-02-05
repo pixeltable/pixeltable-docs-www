@@ -21,6 +21,38 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.5.16
+
+**Released:** February 04, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.16](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.16)
+
+#### What's Changed
+* PXT-898 Allow Pixeltable API key to change in the environment mid-stream in a Python session by [@amithadke](https://github.com/amithadke) in [#1060](https://github.com/pixeltable/pixeltable/pull/1060)
+* various runwayml followups by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1095](https://github.com/pixeltable/pixeltable/pull/1095)
+* Ensure progress bar stops on empty results and plan exit by [@amithadke](https://github.com/amithadke) in [#1097](https://github.com/pixeltable/pixeltable/pull/1097)
+* Fix exception handling in catalog by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1101](https://github.com/pixeltable/pixeltable/pull/1101)
+* Migrate docs to `uuid7()` UDF by [@apreshill](https://github.com/apreshill) in [#1093](https://github.com/pixeltable/pixeltable/pull/1093)
+* Add retries to Python install in CI by [@aaron-siegel](https://github.com/aaron-siegel) in [#1094](https://github.com/pixeltable/pixeltable/pull/1094)
+* fix: Make notebook outputs visible in dark mode by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1107](https://github.com/pixeltable/pixeltable/pull/1107)
+* various improvements to random-ops script by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1084](https://github.com/pixeltable/pixeltable/pull/1084)
+* Prep work for iterator refactor: Add media types and iterators to migration test by [@aaron-siegel](https://github.com/aaron-siegel) in [#1103](https://github.com/pixeltable/pixeltable/pull/1103)
+* Add export media to s3 to io cookbooks in docs by [@apreshill](https://github.com/apreshill) in [#1088](https://github.com/pixeltable/pixeltable/pull/1088)
+* Include audio_splitter and video_splitter in db dumps by [@aaron-siegel](https://github.com/aaron-siegel) in [#1110](https://github.com/pixeltable/pixeltable/pull/1110)
+* PXT-965 Support http url and blob store uri for creating  json/parquet/csv tables by [@amithadke](https://github.com/amithadke) in [#1104](https://github.com/pixeltable/pixeltable/pull/1104)
+* Fixes for Pandas 3.0 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1112](https://github.com/pixeltable/pixeltable/pull/1112)
+* Upgrade ruff to latest by [@aaron-siegel](https://github.com/aaron-siegel) in [#1114](https://github.com/pixeltable/pixeltable/pull/1114)
+* Fixes for Transformers 5 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1113](https://github.com/pixeltable/pixeltable/pull/1113)
+* Use a larger runner in merge queue for full tests on Python 3.10 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1120](https://github.com/pixeltable/pixeltable/pull/1120)
+* [PXT-944] speech2text_for_conditional_generation declares return type… by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1116](https://github.com/pixeltable/pixeltable/pull/1116)
+* [PXT-875] Fix openai perftest on github by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1062](https://github.com/pixeltable/pixeltable/pull/1062)
+* PXT-973: additional_columns doesn't evaluate as expected when creating a view by [@mkornacker](https://github.com/mkornacker) in [#1087](https://github.com/pixeltable/pixeltable/pull/1087)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.15...v0.5.16
+
+---
+
 ### v0.5.15
 
 **Released:** January 29, 2026  
@@ -1126,31 +1158,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.10...v0.3.11
-
----
-
-### v0.3.10
-
-**Released:** April 02, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.3.10](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.10)
-
-#### What's Changed
-* Introduce `pxtf.map()` as a replacement for >> to create JsonMappers by [@aaron-siegel](https://github.com/aaron-siegel) in [#514](https://github.com/pixeltable/pixeltable/pull/514)
-* PXT-384 Support string concatenation operations(+ and *) in Arithmeti… by [@amithadke](https://github.com/amithadke) in [#529](https://github.com/pixeltable/pixeltable/pull/529)
-* restructure docs by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#541](https://github.com/pixeltable/pixeltable/pull/541)
-* Fix event loop debug logging by [@mkornacker](https://github.com/mkornacker) in [#544](https://github.com/pixeltable/pixeltable/pull/544)
-* Fold import operations into table_create and insert methods. by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#522](https://github.com/pixeltable/pixeltable/pull/522)
-* PXT-336: Add access method for embedding indices. by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#526](https://github.com/pixeltable/pixeltable/pull/526)
-* remove versions from docs by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#546](https://github.com/pixeltable/pixeltable/pull/546)
-* Use pixeltable-yolox by [@aaron-siegel](https://github.com/aaron-siegel) in [#543](https://github.com/pixeltable/pixeltable/pull/543)
-* Documentation updates by [@aaron-siegel](https://github.com/aaron-siegel) in [#548](https://github.com/pixeltable/pixeltable/pull/548)
-* Add unit tests for QueryTemplateFunction in JsonMapper by [@aaron-siegel](https://github.com/aaron-siegel) in [#542](https://github.com/pixeltable/pixeltable/pull/542)
-* Add table ids to pixeltable mds. by [@amithadke](https://github.com/amithadke) in [#547](https://github.com/pixeltable/pixeltable/pull/547)
-* rename extensions to libraries by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#550](https://github.com/pixeltable/pixeltable/pull/550)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.9...v0.3.10
 
 ---
 
