@@ -228,6 +228,7 @@
                       "sdk/latest/gemini",
                       "sdk/latest/groq",
                       "sdk/latest/huggingface",
+                      "sdk/latest/jina",
                       "sdk/latest/llama_cpp",
                       "sdk/latest/mistralai",
                       "sdk/latest/ollama",
@@ -257,7 +258,7 @@
             ]
           },
           {
-            "dropdown": "v0.5.16.dev87.23ed4112",
+            "dropdown": "v0.5.17.dev77.db36992d",
             "icon": "rocket",
             "groups": [
               {
@@ -266,66 +267,67 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.5.16.dev87.23ed4112/pixeltable",
-                      "sdk/v0.5.16.dev87.23ed4112/table",
-                      "sdk/v0.5.16.dev87.23ed4112/query",
-                      "sdk/v0.5.16.dev87.23ed4112/columnmetadata",
-                      "sdk/v0.5.16.dev87.23ed4112/dircontents",
-                      "sdk/v0.5.16.dev87.23ed4112/indexmetadata",
-                      "sdk/v0.5.16.dev87.23ed4112/tablemetadata",
-                      "sdk/v0.5.16.dev87.23ed4112/updatestatus",
-                      "sdk/v0.5.16.dev87.23ed4112/versionmetadata"
+                      "sdk/v0.5.17.dev77.db36992d/pixeltable",
+                      "sdk/v0.5.17.dev77.db36992d/table",
+                      "sdk/v0.5.17.dev77.db36992d/query",
+                      "sdk/v0.5.17.dev77.db36992d/columnmetadata",
+                      "sdk/v0.5.17.dev77.db36992d/dircontents",
+                      "sdk/v0.5.17.dev77.db36992d/indexmetadata",
+                      "sdk/v0.5.17.dev77.db36992d/tablemetadata",
+                      "sdk/v0.5.17.dev77.db36992d/updatestatus",
+                      "sdk/v0.5.17.dev77.db36992d/versionmetadata"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.5.16.dev87.23ed4112/functions",
-                      "sdk/v0.5.16.dev87.23ed4112/audio",
-                      "sdk/v0.5.16.dev87.23ed4112/date",
-                      "sdk/v0.5.16.dev87.23ed4112/document",
-                      "sdk/v0.5.16.dev87.23ed4112/image",
-                      "sdk/v0.5.16.dev87.23ed4112/json",
-                      "sdk/v0.5.16.dev87.23ed4112/math",
-                      "sdk/v0.5.16.dev87.23ed4112/net",
-                      "sdk/v0.5.16.dev87.23ed4112/string",
-                      "sdk/v0.5.16.dev87.23ed4112/timestamp",
-                      "sdk/v0.5.16.dev87.23ed4112/video"
+                      "sdk/v0.5.17.dev77.db36992d/functions",
+                      "sdk/v0.5.17.dev77.db36992d/audio",
+                      "sdk/v0.5.17.dev77.db36992d/date",
+                      "sdk/v0.5.17.dev77.db36992d/document",
+                      "sdk/v0.5.17.dev77.db36992d/image",
+                      "sdk/v0.5.17.dev77.db36992d/json",
+                      "sdk/v0.5.17.dev77.db36992d/math",
+                      "sdk/v0.5.17.dev77.db36992d/net",
+                      "sdk/v0.5.17.dev77.db36992d/string",
+                      "sdk/v0.5.17.dev77.db36992d/timestamp",
+                      "sdk/v0.5.17.dev77.db36992d/video"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.5.16.dev87.23ed4112/anthropic",
-                      "sdk/v0.5.16.dev87.23ed4112/bedrock",
-                      "sdk/v0.5.16.dev87.23ed4112/deepseek",
-                      "sdk/v0.5.16.dev87.23ed4112/fal",
-                      "sdk/v0.5.16.dev87.23ed4112/fireworks",
-                      "sdk/v0.5.16.dev87.23ed4112/gemini",
-                      "sdk/v0.5.16.dev87.23ed4112/groq",
-                      "sdk/v0.5.16.dev87.23ed4112/huggingface",
-                      "sdk/v0.5.16.dev87.23ed4112/llama_cpp",
-                      "sdk/v0.5.16.dev87.23ed4112/mistralai",
-                      "sdk/v0.5.16.dev87.23ed4112/ollama",
-                      "sdk/v0.5.16.dev87.23ed4112/openai",
-                      "sdk/v0.5.16.dev87.23ed4112/openrouter",
-                      "sdk/v0.5.16.dev87.23ed4112/replicate",
-                      "sdk/v0.5.16.dev87.23ed4112/reve",
-                      "sdk/v0.5.16.dev87.23ed4112/runwayml",
-                      "sdk/v0.5.16.dev87.23ed4112/together",
-                      "sdk/v0.5.16.dev87.23ed4112/twelvelabs",
-                      "sdk/v0.5.16.dev87.23ed4112/uuid",
-                      "sdk/v0.5.16.dev87.23ed4112/vision",
-                      "sdk/v0.5.16.dev87.23ed4112/voyageai",
-                      "sdk/v0.5.16.dev87.23ed4112/whisper",
-                      "sdk/v0.5.16.dev87.23ed4112/whisperx",
-                      "sdk/v0.5.16.dev87.23ed4112/yolox"
+                      "sdk/v0.5.17.dev77.db36992d/anthropic",
+                      "sdk/v0.5.17.dev77.db36992d/bedrock",
+                      "sdk/v0.5.17.dev77.db36992d/deepseek",
+                      "sdk/v0.5.17.dev77.db36992d/fal",
+                      "sdk/v0.5.17.dev77.db36992d/fireworks",
+                      "sdk/v0.5.17.dev77.db36992d/gemini",
+                      "sdk/v0.5.17.dev77.db36992d/groq",
+                      "sdk/v0.5.17.dev77.db36992d/huggingface",
+                      "sdk/v0.5.17.dev77.db36992d/jina",
+                      "sdk/v0.5.17.dev77.db36992d/llama_cpp",
+                      "sdk/v0.5.17.dev77.db36992d/mistralai",
+                      "sdk/v0.5.17.dev77.db36992d/ollama",
+                      "sdk/v0.5.17.dev77.db36992d/openai",
+                      "sdk/v0.5.17.dev77.db36992d/openrouter",
+                      "sdk/v0.5.17.dev77.db36992d/replicate",
+                      "sdk/v0.5.17.dev77.db36992d/reve",
+                      "sdk/v0.5.17.dev77.db36992d/runwayml",
+                      "sdk/v0.5.17.dev77.db36992d/together",
+                      "sdk/v0.5.17.dev77.db36992d/twelvelabs",
+                      "sdk/v0.5.17.dev77.db36992d/uuid",
+                      "sdk/v0.5.17.dev77.db36992d/vision",
+                      "sdk/v0.5.17.dev77.db36992d/voyageai",
+                      "sdk/v0.5.17.dev77.db36992d/whisper",
+                      "sdk/v0.5.17.dev77.db36992d/whisperx",
+                      "sdk/v0.5.17.dev77.db36992d/yolox"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.5.16.dev87.23ed4112/io"
+                      "sdk/v0.5.17.dev77.db36992d/io"
                     ]
                   }
                 ]

@@ -19,8 +19,7 @@ frame_iterator(
     *,
     fps: pxt.Float | None = None,
     num_frames: pxt.Int | None = None,
-    keyframes_only: pxt.Bool = False,
-    use_legacy_schema: pxt.Bool = False
+    keyframes_only: pxt.Bool = False
 )
 ```
 
@@ -47,24 +46,14 @@ One row per extracted frame, with the following columns:
         * `pict_type` (`int`): The picture type of the frame
         * `interlaced_frame` (`bool`): `True` if the frame is interlaced
 
-If `use_legacy_schema=True`, then `frame_attrs` will be omitted, and the following columns will be provided
-instead:
-
-- `frame` (`pxt.Image`): The extracted video frame
-- `frame_idx` (`int`): The index of the frame in the video stream
-- `pos_msec` (`float`): The timestamp of the frame in milliseconds
-- `pos_frame` (`int`): The position of the frame in the video stream
-
 **Parameters:**
 
 - **`fps`** (`pxt.Float | None`): Number of frames to extract per second of video. This may be a fractional value, such as 0.5.
-    If omitted or set to 0.0, or if greater than the native framerate of the video,
+    If omitted, or if greater than the native framerate of the video,
     then the framerate of the video will be used (all frames will be extracted).
 - **`num_frames`** (`pxt.Int | None`): Exact number of frames to extract. The frames will be spaced as evenly as possible. If
     `num_frames` is greater than the number of frames in the video, all frames will be extracted.
 - **`keyframes_only`** (`pxt.Bool`): If True, only extract keyframes.
-- **`use_legacy_schema`** (`pxt.Bool`): For backward compatibility. If `True`, then uses the alternative output schema
-    as described above.
 
 **Examples:**
 
@@ -168,7 +157,7 @@ pxt.create_view(
 
 ```python Signature
 @pxt.uda
-make_video(frame: pxt.Image, fps: pxt.Int) -> pxt.Video
+make_video(*args, **kwargs) -> pxt.Video
 ```
 
 Aggregate function that creates a video from a sequence of images, using the default video encoder and

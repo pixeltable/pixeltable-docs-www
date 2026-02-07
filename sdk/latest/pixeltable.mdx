@@ -78,6 +78,7 @@ create_snapshot(
     iterator: func.GeneratingFunctionCall | None = None,
     num_retained_versions: int = 10,
     comment: str = '',
+    custom_metadata: Any = None,
     media_validation: Literal['on_read', 'on_write'] = 'on_write',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
 ) -> catalog.Table | None
@@ -99,6 +100,7 @@ Create a snapshot of an existing table object (which itself can be a view or a s
     the base table.
 - **`num_retained_versions`** (`int`, default: `10`): Number of versions of the view to retain.
 - **`comment`** (`str`, default: `''`): Optional comment for the snapshot.
+- **`custom_metadata`** (`Any`): Optional user-defined JSON metadata to associate with the snapshot.
 - **`media_validation`** (`Literal['on_read', 'on_write']`, default: `'on_write'`): Media validation policy for the snapshot.
     - `'on_read'`: validate media files at query time
     - `'on_write'`: validate media files during insert/update operations
@@ -158,6 +160,7 @@ create_table(
     primary_key: str | list[str] | None = None,
     num_retained_versions: int = 10,
     comment: str = '',
+    custom_metadata: Any = None,
     media_validation: Literal['on_read', 'on_write'] = 'on_write',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error',
     extra_args: dict[str, Any] | None = None
@@ -196,6 +199,8 @@ source format and/or schema can be specified directly via the `source_format` an
     table.
 - **`num_retained_versions`** (`int`, default: `10`): Number of versions of the table to retain.
 - **`comment`** (`str`, default: `''`): An optional comment; its meaning is user-defined.
+- **`custom_metadata`** (`Any`): Optional user-defined metadata to associate with the table. Must be a valid JSON-serializable
+    object [str, int, float, bool, dict, list].
 - **`media_validation`** (`Literal['on_read', 'on_write']`, default: `'on_write'`): Media validation policy for the table.
     - `'on_read'`: validate media files at query time
     - `'on_write'`: validate media files during insert/update operations
@@ -276,6 +281,7 @@ create_view(
     iterator: func.GeneratingFunctionCall | None = None,
     num_retained_versions: int = 10,
     comment: str = '',
+    custom_metadata: Any = None,
     media_validation: Literal['on_read', 'on_write'] = 'on_write',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
 ) -> catalog.Table | None
@@ -301,6 +307,7 @@ Create a view of an existing table object (which itself can be a view or a snaps
     the base table.
 - **`num_retained_versions`** (`int`, default: `10`): Number of versions of the view to retain.
 - **`comment`** (`str`, default: `''`): Optional comment for the view.
+- **`custom_metadata`** (`Any`): Optional user-defined JSON metadata to associate with the view.
 - **`media_validation`** (`Literal['on_read', 'on_write']`, default: `'on_write'`): Media validation policy for the view.
     - `'on_read'`: validate media files at query time
     - `'on_write'`: validate media files during insert/update operations

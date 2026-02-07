@@ -181,7 +181,7 @@ Equivalent to [`str.endswith()`](https://docs.python.org/3/library/stdtypes.html
 
 ```python Signature
 @pxt.udf
-fill(self: pxt.String, width: pxt.Int) -> pxt.String
+fill(self: pxt.String, width: pxt.Int, **kwargs) -> pxt.String
 ```
 
 Wraps the single paragraph in string, and returns a single string containing the wrapped paragraph.
@@ -242,7 +242,7 @@ Equivalent to [`re.findall()`](https://docs.python.org/3/library/re.html#re.find
 
 ```python Signature
 @pxt.udf
-format(self: pxt.String) -> pxt.String
+format(self: pxt.String, *args, **kwargs) -> pxt.String
 ```
 
 Perform string formatting.
@@ -887,7 +887,7 @@ Equivalent to [`str.upper()`](https://docs.python.org/3/library/stdtypes.html#st
 
 ```python Signature
 @pxt.udf
-wrap(self: pxt.String, width: pxt.Int) -> pxt.Json
+wrap(self: pxt.String, width: pxt.Int, **kwargs) -> pxt.Json
 ```
 
 Wraps the single paragraph in string so every line is at most `width` characters long.
