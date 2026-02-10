@@ -190,7 +190,7 @@ config = GenerateContentConfigDict(
 )
 t.add_computed_column(
     output=gemini.generate_content(
-        t.input, model='gemini-2.0-flash', config=config
+        t.input, model='gemini-2.5-flash', config=config
     )
 )
 ```
