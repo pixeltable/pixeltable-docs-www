@@ -1,0 +1,367 @@
+---
+title: "Working with Jina AI in Pixeltable"
+sidebarTitle: "Jina AI"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-jina.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-jina.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-jina.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">embedding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">The Mediterranean diet emphasizes fish, olive oil, and vegetables,
+believed to reduce chronic diseases.</td>
+<td style="vertical-align: middle;">[-0.004 0.03 0.057 -0.048 -0.086 -0.037 ... 0.013 0.008 -0.007 0.012
+0. -0.019]</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Photosynthesis in plants converts light energy into glucose and
+produces essential oxygen.</td>
+<td style="vertical-align: middle;">[ 0.028 0.112 0.031 -0.085 -0.082 -0.1 ... 0.045 0.012 0.003 0.015
+-0.019 0.012]</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">20th-century innovations, from radios to smartphones, centered on
+electronic advancements.</td>
+<td style="vertical-align: middle;">[ 0.026 0.022 -0.036 0.026 0.016 -0.04 ... 0.021 0.006 0.012 -0.008
+-0.002 -0.027]</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">language</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">English</td>
+<td style="vertical-align: middle;">Organic skincare for sensitive skin with aloe vera and
+chamomile.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">German</td>
+<td style="vertical-align: middle;">Bio-Hautpflege für empfindliche Haut mit Aloe Vera und Kamille.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Spanish</td>
+<td style="vertical-align: middle;">Cuidado de la piel orgánico para piel sensible con aloe vera y
+manzanilla.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Chinese</td>
+<td style="vertical-align: middle;">针对敏感肌专门设计的天然有机护肤产品</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">The Mediterranean diet emphasizes fish, olive oil, and vegetables,
+believed to reduce chronic diseases.</td>
+<td style="vertical-align: middle;">0.555</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Rivers provide water, irrigation, and habitat for aquatic species,
+vital for ecosystems.</td>
+<td style="vertical-align: middle;">0.324</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Shakespeare's works, like 'Hamlet' and 'A Midsummer Night's Dream,'
+endure in literature.</td>
+<td style="vertical-align: middle;">0.295</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Jina AI integration enables you to access state-of-the-art
+embedding and reranker models via the Jina AI API.
+
+### Prerequisites
+
+-   A Jina AI account with an API key (https://jina.ai/)
+
+### Important notes
+
+-   Jina AI usage may incur costs based on your Jina AI plan.
+-   Be mindful of sensitive data and consider security measures when
+    integrating with external services.
+
+First you’ll need to install Pixeltable and set up your Jina AI API key.
+
+
+```python
+%pip install -qU pixeltable
+```
+
+
+```python
+import os
+import getpass
+
+if 'JINA_API_KEY' not in os.environ:
+    os.environ['JINA_API_KEY'] = getpass.getpass(
+        'Enter your Jina AI API key: '
+    )
+```
+
+Now let’s create a Pixeltable directory to hold the tables for our demo.
+
+
+```python
+import pixeltable as pxt
+
+# Remove the 'jina_demo' directory and its contents, if it exists
+pxt.drop_dir('jina_demo', force=True)
+pxt.create_dir('jina_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;jina_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1454c53d0&gt;
+</pre>
+
+## Text Embeddings
+
+Jina AI provides frontier multilingual embedding models for semantic
+search and RAG applications. The `jina-embeddings-v3` model supports 89+
+languages and achieves state-of-the-art performance.
+
+
+```python
+from pixeltable.functions import jina
+
+# Create a table for document embeddings
+docs_t = pxt.create_table('jina_demo.documents', {'text': pxt.String})
+
+# Add computed column with Jina embeddings
+# task='retrieval.passage' optimizes embeddings for documents to be searched
+docs_t.add_computed_column(
+    embedding=jina.embeddings(
+        docs_t.text, model='jina-embeddings-v3', task='retrieval.passage'
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;documents&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Insert some sample documents
+documents = [
+    'The Mediterranean diet emphasizes fish, olive oil, and vegetables, believed to reduce chronic diseases.',
+    'Photosynthesis in plants converts light energy into glucose and produces essential oxygen.',
+    '20th-century innovations, from radios to smartphones, centered on electronic advancements.',
+    'Rivers provide water, irrigation, and habitat for aquatic species, vital for ecosystems.',
+    "Apple's conference call to discuss fourth fiscal quarter results is scheduled for Thursday, November 2, 2023.",
+    "Shakespeare's works, like 'Hamlet' and 'A Midsummer Night's Dream,' endure in literature.",
+]
+
+docs_t.insert({'text': doc} for doc in documents)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserting&nbsp;rows&nbsp;into&nbsp;\`documents\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;1394.00&nbsp;rows/s\]
+Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+6&nbsp;rows&nbsp;inserted,&nbsp;12&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View the embeddings
+docs_t.select(docs_t.text, docs_t.embedding).head(3)
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Multilingual Embeddings
+
+Jina AI models excel at multilingual text. The same model can embed text
+in different languages into the same semantic space.
+
+
+```python
+# Create a table for multilingual content
+multilingual_t = pxt.create_table(
+    'jina_demo.multilingual', {'text': pxt.String, 'language': pxt.String}
+)
+
+multilingual_t.add_computed_column(
+    embedding=jina.embeddings(
+        multilingual_t.text,
+        model='jina-embeddings-v3',
+        task='text-matching',
+    )
+)
+
+# Insert texts in different languages (all about organic skincare)
+multilingual_t.insert(
+    [
+        {
+            'text': 'Organic skincare for sensitive skin with aloe vera and chamomile.',
+            'language': 'English',
+        },
+        {
+            'text': 'Bio-Hautpflege für empfindliche Haut mit Aloe Vera und Kamille.',
+            'language': 'German',
+        },
+        {
+            'text': 'Cuidado de la piel orgánico para piel sensible con aloe vera y manzanilla.',
+            'language': 'Spanish',
+        },
+        {
+            'text': '针对敏感肌专门设计的天然有机护肤产品',
+            'language': 'Chinese',
+        },
+    ]
+)
+
+multilingual_t.select(
+    multilingual_t.language, multilingual_t.text
+).collect()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;multilingual&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`multilingual\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;736.23&nbsp;rows/s\]
+Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Embedding Index for Similarity Search
+
+You can use Jina AI embeddings with Pixeltable’s embedding index for
+efficient similarity search.
+
+
+```python
+# Create a table with an embedding index
+search_t = pxt.create_table('jina_demo.search', {'text': pxt.String})
+
+# Add embedding index for similarity search
+embed_fn = jina.embeddings.using(
+    model='jina-embeddings-v3', task='retrieval.passage'
+)
+search_t.add_embedding_index('text', string_embed=embed_fn)
+
+# Insert documents
+search_t.insert({'text': doc} for doc in documents)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;search&#x27;.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`search\`:&nbsp;6&nbsp;rows&nbsp;\[00:00,&nbsp;565.03&nbsp;rows/s\]
+Inserted&nbsp;6&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+6&nbsp;rows&nbsp;inserted,&nbsp;12&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# Perform similarity search
+sim = search_t.text.similarity(
+    string='What are the health benefits of Mediterranean food?'
+)
+search_t.order_by(sim, asc=False).limit(3).select(
+    search_t.text, score=sim
+).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## Reranking
+
+Jina AI’s reranker models can improve search relevance by reordering
+results based on semantic similarity to the query.
+
+
+```python
+# Create a table for reranking queries
+rerank_t = pxt.create_table(
+    'jina_demo.rerank',
+    {'query': pxt.String, 'documents': pxt.Json},
+    if_exists='replace',
+)
+
+# Add computed column for reranking
+rerank_t.add_computed_column(
+    reranked=jina.rerank(
+        rerank_t.query,
+        rerank_t.documents,
+        model='jina-reranker-v2-base-multilingual',
+        top_n=3,
+        return_documents=True,
+    )
+)
+
+# Insert a query with candidate documents
+rerank_t.insert(
+    query="When is Apple's conference call scheduled?",
+    documents=documents,
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;rerank&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Inserting&nbsp;rows&nbsp;into&nbsp;\`rerank\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;543.16&nbsp;rows/s\]
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
+1&nbsp;row&nbsp;inserted,&nbsp;2&nbsp;values&nbsp;computed.
+</pre>
+
+
+```python
+# View the reranked results
+result = rerank_t.select(rerank_t.reranked).collect()
+result['reranked'][0]
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+\{&#x27;usage&#x27;:&nbsp;\{&#x27;total_tokens&#x27;:&nbsp;221\},
+&nbsp;&#x27;results&#x27;:&nbsp;\[\{&#x27;index&#x27;:&nbsp;4,
+&nbsp;&nbsp;&nbsp;&#x27;document&#x27;:&nbsp;&quot;Apple&#x27;s&nbsp;conference&nbsp;call&nbsp;to&nbsp;discuss&nbsp;fourth&nbsp;fiscal&nbsp;quarter&nbsp;results&nbsp;is&nbsp;scheduled&nbsp;for&nbsp;Thursday,&nbsp;November&nbsp;2,&nbsp;2023.&quot;,
+&nbsp;&nbsp;&nbsp;&#x27;relevance_score&#x27;:&nbsp;0.64511991\},
+&nbsp;&nbsp;\{&#x27;index&#x27;:&nbsp;2,
+&nbsp;&nbsp;&nbsp;&#x27;document&#x27;:&nbsp;&#x27;20th-century&nbsp;innovations,&nbsp;from&nbsp;radios&nbsp;to&nbsp;smartphones,&nbsp;centered&nbsp;on&nbsp;electronic&nbsp;advancements.&#x27;,
+&nbsp;&nbsp;&nbsp;&#x27;relevance_score&#x27;:&nbsp;0.03846619\},
+&nbsp;&nbsp;\{&#x27;index&#x27;:&nbsp;5,
+&nbsp;&nbsp;&nbsp;&#x27;document&#x27;:&nbsp;&quot;Shakespeare&#x27;s&nbsp;works,&nbsp;like&nbsp;&#x27;Hamlet&#x27;&nbsp;and&nbsp;&#x27;A&nbsp;Midsummer&nbsp;Night&#x27;s&nbsp;Dream,&#x27;&nbsp;endure&nbsp;in&nbsp;literature.&quot;,
+&nbsp;&nbsp;&nbsp;&#x27;relevance_score&#x27;:&nbsp;0.02517884\}\]\}
+</pre>
+
+## Learn More
+
+-   [Jina AI Documentation](https://jina.ai/)
+-   [Jina Embeddings](https://jina.ai/embeddings/)
+-   [Jina Reranker](https://jina.ai/reranker/)
+-   [API Rate Limits](https://jina.ai/api-dashboard/rate-limit)

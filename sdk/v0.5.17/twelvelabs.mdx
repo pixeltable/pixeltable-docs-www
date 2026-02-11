@@ -1,0 +1,92 @@
+---
+title: "twelvelabs"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/twelvelabs.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.twelvelabs
+
+
+Pixeltable UDFs
+that wrap various endpoints from the TwelveLabs API. In order to use them, you must
+first `pip install twelvelabs` and configure your TwelveLabs credentials, as described in
+the [Working with TwelveLabs](https://docs.pixeltable.com/notebooks/integrations/working-with-twelvelabs) tutorial.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embed()
+
+```python Signatures
+# Signature 1:
+@pxt.udf
+embed(
+    text: pxt.String,
+    image: pxt.Image | None,
+    model_name: pxt.String
+) -> pxt.Array[float32] | None
+
+# Signature 2:
+@pxt.udf
+embed(
+    image: pxt.Image,
+    model_name: pxt.String
+) -> pxt.Array[float32] | None
+
+# Signature 3:
+@pxt.udf
+embed(
+    audio: pxt.Audio,
+    model_name: pxt.String,
+    start_sec: pxt.Float | None,
+    end_sec: pxt.Float | None,
+    embedding_option: pxt.Json | None
+) -> pxt.Array[float32] | None
+
+# Signature 4:
+@pxt.udf
+embed(
+    video: pxt.Video,
+    model_name: pxt.String,
+    start_sec: pxt.Float | None,
+    end_sec: pxt.Float | None,
+    embedding_option: pxt.Json | None
+) -> pxt.Array[float32] | None
+```
+
+Creates an embedding vector for the given text, audio, image, or video input.
+
+Each UDF signature corresponds to one of the four supported input types. If text is specified, it is possible to
+specify an image as well, corresponding to the `text_image` embedding type in the TwelveLabs API. This is
+(currently) the only way to include more than one input type at a time.
+
+Equivalent to the TwelveLabs Embed API:
+[https://docs.twelvelabs.io/v1.3/docs/guides/create-embeddings](https://docs.twelvelabs.io/v1.3/docs/guides/create-embeddings)
+
+Request throttling:
+Applies the rate limit set in the config (section `twelvelabs`, key `rate_limit`). If no rate
+limit is configured, uses a default of 600 RPM.
+
+__Requirements:__
+
+- `pip install twelvelabs`
+
+**Parameters:**
+
+- **`model_name`** (`String`): The name of the model to use. Check
+    [the TwelveLabs documentation](https://docs.twelvelabs.io/v1.3/sdk-reference/python/create-text-image-and-audio-embeddings)
+    for available models.
+- **`text`** (`String`): The text to embed.
+- **`image`** (`Image | None`, default: `Literal(None)`): If specified, the embedding will be created from both the text and the image.
+
+**Returns:**
+
+- `pxt.Array[float32] | None`: The embedding.
+
+**Examples:**
+
+Add a computed column `embed` for an embedding of a string column `input`:
+```python
+tbl.add_computed_column(
+    embed=embed(model_name='marengo3.0', text=tbl.input)
+)
+```
+
