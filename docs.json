@@ -90,6 +90,7 @@
                   {
                     "group": "Agents",
                     "pages": [
+                      "howto/cookbooks/agents/agentic-patterns",
                       "howto/cookbooks/agents/pattern-rag-pipeline",
                       "howto/use-cases/rag-demo",
                       "howto/use-cases/rag-operations",
@@ -198,7 +199,8 @@
                       "sdk/latest/indexmetadata",
                       "sdk/latest/tablemetadata",
                       "sdk/latest/updatestatus",
-                      "sdk/latest/versionmetadata"
+                      "sdk/latest/versionmetadata",
+                      "sdk/latest/columnspec"
                     ]
                   },
                   {
@@ -258,8 +260,86 @@
             ]
           },
           {
-            "dropdown": "v0.5.17",
+            "dropdown": "v0.5.18",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.18/pixeltable",
+                      "sdk/v0.5.18/table",
+                      "sdk/v0.5.18/query",
+                      "sdk/v0.5.18/columnmetadata",
+                      "sdk/v0.5.18/dircontents",
+                      "sdk/v0.5.18/indexmetadata",
+                      "sdk/v0.5.18/tablemetadata",
+                      "sdk/v0.5.18/updatestatus",
+                      "sdk/v0.5.18/versionmetadata",
+                      "sdk/v0.5.18/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.18/functions",
+                      "sdk/v0.5.18/audio",
+                      "sdk/v0.5.18/date",
+                      "sdk/v0.5.18/document",
+                      "sdk/v0.5.18/image",
+                      "sdk/v0.5.18/json",
+                      "sdk/v0.5.18/math",
+                      "sdk/v0.5.18/net",
+                      "sdk/v0.5.18/string",
+                      "sdk/v0.5.18/timestamp",
+                      "sdk/v0.5.18/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.18/anthropic",
+                      "sdk/v0.5.18/bedrock",
+                      "sdk/v0.5.18/deepseek",
+                      "sdk/v0.5.18/fal",
+                      "sdk/v0.5.18/fireworks",
+                      "sdk/v0.5.18/gemini",
+                      "sdk/v0.5.18/groq",
+                      "sdk/v0.5.18/huggingface",
+                      "sdk/v0.5.18/jina",
+                      "sdk/v0.5.18/llama_cpp",
+                      "sdk/v0.5.18/mistralai",
+                      "sdk/v0.5.18/ollama",
+                      "sdk/v0.5.18/openai",
+                      "sdk/v0.5.18/openrouter",
+                      "sdk/v0.5.18/replicate",
+                      "sdk/v0.5.18/reve",
+                      "sdk/v0.5.18/runwayml",
+                      "sdk/v0.5.18/together",
+                      "sdk/v0.5.18/twelvelabs",
+                      "sdk/v0.5.18/uuid",
+                      "sdk/v0.5.18/vision",
+                      "sdk/v0.5.18/voyageai",
+                      "sdk/v0.5.18/whisper",
+                      "sdk/v0.5.18/whisperx",
+                      "sdk/v0.5.18/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.18/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.17",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",

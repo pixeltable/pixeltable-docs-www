@@ -8,6 +8,14 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 
 Metadata for a column of a Pixeltable table.
 
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; comment
+
+```
+comment: str
+```
+
+User-provided column comment.
+
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; computed_with
 
 ```
@@ -15,6 +23,14 @@ computed_with: str | None
 ```
 
 Expression used to compute this column; `None` if this is not a computed column.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; custom_metadata
+
+```
+custom_metadata: Any
+```
+
+User-defined JSON metadata for this column, if any.
 
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; defined_in
 

@@ -75,6 +75,22 @@ tbl.add_computed_column(
 )
 ```
 
+You can also include images in the messages list by passing image data directly in the input dictionary, in the `'image_url'` field of the message content, as in this example:
+```python
+messages = [
+    {
+        'role': 'user',
+        'content': [
+            {'type': 'text', 'text': "What's in this image?"},
+            {'type': 'image_url', 'image_url': tbl.image},
+        ],
+    }
+]
+tbl.add_computed_column(
+    response=chat_completions(messages, model='gpt-4o-mini')
+)
+```
+
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embeddings()
 
@@ -136,9 +152,9 @@ tbl.add_embedding_index(
 image_generations(
     prompt: pxt.String,
     *,
-    model: pxt.String = 'dall-e-2',
+    model: pxt.String,
     model_kwargs: pxt.Json | None = None
-) -> pxt.Image
+) -> pxt.Json
 ```
 
 Creates an image given a prompt.
@@ -163,7 +179,19 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Image`: The generated image.
+- `pxt.Json`: A dictionary containing the generated image data. Images will be deserialized into `PIL.Image.Image` objects,
+  and the result dictionary will have the following form:
+  ```json
+  {
+      "created": 1234567890,
+      "data": [
+          PIL.Image.Image(...),
+          PIL.Image.Image(...),
+          ...
+      ],
+      "usage": <optional usage data, depending on model>
+  }
+  ```
 
 **Examples:**
 
@@ -395,7 +423,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.String`: The response from the OpenAI vision API.
+- `pxt.String`: A dictionary containing the response and associated metadata.
 
 **Examples:**
 
