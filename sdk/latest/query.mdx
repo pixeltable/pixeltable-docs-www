@@ -180,19 +180,36 @@ query = t.join(d, on=(t.d1 == d.pk1) & (t.d2 == d.pk2), how='left')
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; limit()
 
 ```python Signature
-limit(n: int) -> Query
+limit(n: int, offset: int | None = None) -> Query
 ```
 
-Limit the number of rows in the Query.
+Limit the number of rows in the Query, optionally skipping rows for pagination.
 
 
 **Parameters:**
 
 - **`n`** (`int`): Number of rows to select.
+- **`offset`** (`int | None`): Number of rows to skip before returning results. Default is None (no offset).
 
 **Returns:**
 
 - `Query`: A new Query with the specified limited rows.
+
+**Examples:**
+
+```python
+query = t.select()
+```
+
+Get the first 10 rows:
+```python
+query.limit(10).collect()
+```
+
+Get rows 21-30 (skip first 20, return next 10):
+```python
+query.limit(10, offset=20).collect()
+```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; order_by()

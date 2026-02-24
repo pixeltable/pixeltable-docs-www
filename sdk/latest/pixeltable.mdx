@@ -74,10 +74,10 @@ create_snapshot(
     path_str: str,
     base: catalog.Table | Query,
     *,
-    additional_columns: dict[str, Any] | None = None,
+    additional_columns: Mapping[str, type | ColumnSpec | exprs.Expr] | None = None,
     iterator: tuple[type[ComponentIterator], dict[str, Any]] | None = None,
     num_retained_versions: int = 10,
-    comment: str = '',
+    comment: str | None = None,
     custom_metadata: Any = None,
     media_validation: Literal['on_read', 'on_write'] = 'on_write',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
@@ -93,13 +93,13 @@ Create a snapshot of an existing table object (which itself can be a view or a s
     `dir1/my_snapshot`.
 - **`base`** (`catalog.Table | Query`): [`Table`](./table) (i.e., table or view or snapshot) or [`Query`](./query) to
     base the snapshot on.
-- **`additional_columns`** (`dict[str, Any] | None`): If specified, will add these columns to the snapshot once it is created. The format
+- **`additional_columns`** (`Mapping[str, type | ColumnSpec | exprs.Expr] | None`): If specified, will add these columns to the snapshot once it is created. The format
     of the `additional_columns` parameter is identical to the format of the `schema` parameter in
-    [`create_table`](./pixeltable#func-create-table).
+    [`create_table`](./pixeltable#func-create_table).
 - **`iterator`** (`tuple[type[ComponentIterator], dict[str, Any]] | None`): The iterator to use for this snapshot. If specified, then this snapshot will be a one-to-many view of
     the base table.
 - **`num_retained_versions`** (`int`, default: `10`): Number of versions of the view to retain.
-- **`comment`** (`str`, default: `''`): Optional comment for the snapshot.
+- **`comment`** (`str | None`): Optional comment for the snapshot.
 - **`custom_metadata`** (`Any`): Optional user-defined JSON metadata to associate with the snapshot.
 - **`media_validation`** (`Literal['on_read', 'on_write']`, default: `'on_write'`): Media validation policy for the snapshot.
     - `'on_read'`: validate media files at query time
@@ -150,7 +150,7 @@ snapshot = pxt.create_snapshot(
 ```python Signature
 create_table(
     path: str,
-    schema: dict[str, Any] | None = None,
+    schema: Mapping[str, type | ColumnSpec | exprs.Expr] | None = None,
     *,
     source: TableDataSource | None = None,
     source_format: Literal['csv', 'excel', 'parquet', 'json'] | None = None,
@@ -159,7 +159,7 @@ create_table(
     on_error: Literal['abort', 'ignore'] = 'abort',
     primary_key: str | list[str] | None = None,
     num_retained_versions: int = 10,
-    comment: str = '',
+    comment: str | None = None,
     custom_metadata: Any = None,
     media_validation: Literal['on_read', 'on_write'] = 'on_write',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error',
@@ -178,7 +178,7 @@ source format and/or schema can be specified directly via the `source_format` an
 **Parameters:**
 
 - **`path`** (`str`): Pixeltable path (qualified name) of the table, such as `'my_table'` or `'my_dir/my_subdir/my_table'`.
-- **`schema`** (`dict[str, Any] | None`): Schema for the new table, mapping column names to Pixeltable types.
+- **`schema`** (`Mapping[str, type | ColumnSpec | exprs.Expr] | None`): Schema for the new table, mapping column names to Pixeltable types.
 - **`source`** (`TableDataSource | None`): A data source (file, URL, Table, Query, or list of rows) to import from.
 - **`source_format`** (`Literal['csv', 'excel', 'parquet', 'json'] | None`): Must be used in conjunction with a `source`.
     If specified, then the given format will be used to read the source data. (Otherwise,
@@ -198,7 +198,7 @@ source format and/or schema can be specified directly via the `source_format` an
 - **`primary_key`** (`str | list[str] | None`): An optional column name or list of column names to use as the primary key(s) of the
     table.
 - **`num_retained_versions`** (`int`, default: `10`): Number of versions of the table to retain.
-- **`comment`** (`str`, default: `''`): An optional comment; its meaning is user-defined.
+- **`comment`** (`str | None`): An optional comment; its meaning is user-defined.
 - **`custom_metadata`** (`Any`): Optional user-defined metadata to associate with the table. Must be a valid JSON-serializable
     object [str, int, float, bool, dict, list].
 - **`media_validation`** (`Literal['on_read', 'on_write']`, default: `'on_write'`): Media validation policy for the table.
@@ -275,12 +275,12 @@ create_view(
     path: str,
     base: catalog.Table | Query,
     *,
-    additional_columns: dict[str, Any] | None = None,
+    additional_columns: Mapping[str, type | ColumnSpec | exprs.Expr] | None = None,
     is_snapshot: bool = False,
     create_default_idxs: bool = False,
     iterator: tuple[type[ComponentIterator], dict[str, Any]] | None = None,
     num_retained_versions: int = 10,
-    comment: str = '',
+    comment: str | None = None,
     custom_metadata: Any = None,
     media_validation: Literal['on_read', 'on_write'] = 'on_write',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
@@ -296,17 +296,17 @@ Create a view of an existing table object (which itself can be a view or a snaps
     `dir1/my_view`.
 - **`base`** (`catalog.Table | Query`): [`Table`](./table) (i.e., table or view or snapshot) or [`Query`](./query) to
     base the view on.
-- **`additional_columns`** (`dict[str, Any] | None`): If specified, will add these columns to the view once it is created. The format
+- **`additional_columns`** (`Mapping[str, type | ColumnSpec | exprs.Expr] | None`): If specified, will add these columns to the view once it is created. The format
     of the `additional_columns` parameter is identical to the format of the `schema` parameter in
-    [`create_table`](./pixeltable#func-create-table).
+    [`create_table`](./pixeltable#func-create_table).
 - **`is_snapshot`** (`bool`, default: `False`): Whether the view is a snapshot. Setting this to `True` is equivalent to calling
-    [`create_snapshot`](./pixeltable#func-create-snapshot).
+    [`create_snapshot`](./pixeltable#func-create_snapshot).
 - **`create_default_idxs`** (`bool`, default: `False`): Whether to create default indexes on the view's columns (the base's columns are excluded).
     Cannot be `True` for snapshots.
 - **`iterator`** (`tuple[type[ComponentIterator], dict[str, Any]] | None`): The iterator to use for this view. If specified, then this view will be a one-to-many view of
     the base table.
 - **`num_retained_versions`** (`int`, default: `10`): Number of versions of the view to retain.
-- **`comment`** (`str`, default: `''`): Optional comment for the view.
+- **`comment`** (`str | None`): Optional comment for the view.
 - **`custom_metadata`** (`Any`): Optional user-defined JSON metadata to associate with the view.
 - **`media_validation`** (`Literal['on_read', 'on_write']`, default: `'on_write'`): Media validation policy for the view.
     - `'on_read'`: validate media files at query time
@@ -560,7 +560,7 @@ List the contents of a Pixeltable directory.
 This function returns a Pandas DataFrame representing a human-readable listing of the specified directory,
 including various attributes such as version and base table, as appropriate.
 
-To get a programmatic list of the directory's contents, use [get_dir_contents()](./pixeltable#func-get-dir-contents)
+To get a programmatic list of the directory's contents, use [get_dir_contents()](./pixeltable#func-get_dir_contents)
 instead.
 
 

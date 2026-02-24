@@ -1,0 +1,1648 @@
+---
+title: "Agentic Patterns"
+sidebarTitle: "Agentic Patterns"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/agentic-patterns.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/agents/agentic-patterns.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/agents/agentic-patterns.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Taxonomy 1 (cognitive)</th>
+<th>Taxonomy 2 (architectural)</th>
+<th>Relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Tool Use</td>
+<td style="vertical-align: middle;">Tool Use</td>
+<td style="vertical-align: middle;">Direct overlap</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Reflection</td>
+<td style="vertical-align: middle;">Evaluator-Optimizer</td>
+<td style="vertical-align: middle;">Close cousins</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Multi-Agent</td>
+<td style="vertical-align: middle;">Orchestrator-Worker</td>
+<td style="vertical-align: middle;">Close cousins</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">ReAct</td>
+<td style="vertical-align: middle;"><em>(cross-cutting)</em></td>
+<td style="vertical-align: middle;">Reasoning strategy applicable within any pattern</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Planning</td>
+<td style="vertical-align: middle;"><em>(cross-cutting)</em></td>
+<td style="vertical-align: middle;">Reasoning strategy applicable within any pattern</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">—</td>
+<td style="vertical-align: middle;">Prompt Chaining</td>
+<td style="vertical-align: middle;">Unique architectural wiring pattern</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">—</td>
+<td style="vertical-align: middle;">Routing</td>
+<td style="vertical-align: middle;">Unique architectural wiring pattern</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">—</td>
+<td style="vertical-align: middle;">Parallelization</td>
+<td style="vertical-align: middle;">Unique architectural wiring pattern</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Imperative frameworks</th>
+<th>Pixeltable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Pipeline step</td>
+<td style="vertical-align: middle;">Function call in a loop</td>
+<td style="vertical-align: middle;">Computed column</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Parallel execution</td>
+<td style="vertical-align: middle;"><code>asyncio.gather</code></td>
+<td style="vertical-align: middle;">Independent computed columns (automatic)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Persistence / observability</td>
+<td style="vertical-align: middle;">Separate logging layer</td>
+<td style="vertical-align: middle;">Built-in — every intermediate result is stored and queryable</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Caching</td>
+<td style="vertical-align: middle;">Manual memoization</td>
+<td style="vertical-align: middle;">Automatic — same input is never recomputed</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Reusable sub-agent</td>
+<td style="vertical-align: middle;">Agent class with <code>.run()</code></td>
+<td style="vertical-align: middle;"><code>pxt.udf(table, return_value=...)</code></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">topic</th>
+<th data-quarto-table-cell-role="th">outline</th>
+<th data-quarto-table-cell-role="th">draft</th>
+<th data-quarto-table-cell-role="th">final_article</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">the benefits of declarative AI pipelines</td>
+<td style="vertical-align: middle;">**Outline for Article: Benefits of Declarative AI Pipelines** 1.
+**Enhanced Clarity and Maintainability**    - Definition of declarative
+AI pipelines and how they differ from imperative approaches.    - The
+role of high-level abstraction in providing clear, succinct
+representations of AI workflows.    - Benefits of ease of understanding,
+enabling collaboration among teams, and simplifying maintenance and
+updates. 2. **Increased Efficiency and Productivity**    - Automated
+management of res ...... ture.    - Examples of how declarative
+pipelines streamline repetitive tasks and optimize resource allocation.
+3. **Scalability and Flexibility**    - How declarative AI pipelines
+facilitate scaling to handle large datasets and complex models
+effectively.    - The ability to easily adapt and modify pipelines in
+response to changing project requirements or data inputs.    - Use cases
+highlighting successful implementations in dynamic environments that
+require quick iterations and deployment.</td>
+<td style="vertical-align: middle;">**The Benefits of Declarative AI Pipelines** Declarative AI
+pipelines represent a significant shift from traditional imperative
+approaches in machine learning, emphasizing a high-level abstraction
+that simplifies the creation and management of AI workflows. Unlike
+imperative programming, which focuses on detailing the step-by-step
+procedures, declarative pipelines allow users to define what the desired
+outcome is without getting bogged down in how to achieve it. This
+clarity enhances mainta ...... mlessly, allowing organizations to handle
+vast amounts of data without sacrificing performance. Furthermore, the
+ability to swiftly adapt and modify these pipelines in response to
+evolving project needs or data inputs makes them ideal for dynamic
+environments. Successful use cases across various industries showcase
+how declarative pipelines have empowered organizations to iterate
+quickly and deploy solutions with confidence, further solidifying their
+place at the forefront of AI development.</td>
+<td style="vertical-align: middle;">**The Benefits of Declarative AI Pipelines** Declarative AI
+pipelines mark a significant shift from traditional imperative
+approaches in machine learning, offering a high-level abstraction that
+simplifies the creation and management of AI workflows. Unlike
+imperative programming, which details step-by-step procedures,
+declarative pipelines let users specify the desired outcomes without
+worrying about the implementation. This clarity enhances maintainability
+and fosters collaboration, as all ......  and complex models, allowing
+organizations to process vast amounts of data without compromising
+performance. Additionally, the ability to quickly adapt and modify these
+pipelines in response to changing project needs or data inputs makes
+them well-suited for dynamic environments. Successful case studies
+across various industries demonstrate how declarative pipelines empower
+organizations to iterate rapidly and deploy solutions confidently,
+solidifying their role in advancing AI development.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">query</th>
+<th data-quarto-table-cell-role="th">intent</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">I was charged twice for my subscription last month</td>
+<td style="vertical-align: middle;">billing</td>
+<td style="vertical-align: middle;">I’m really sorry to hear that you've been charged twice for your
+subscription. I understand how frustrating this can be, and I'm here to
+help resolve the issue. Could you please provide me with your account
+details or the specific dates of the charges? This will help me look
+into the matter more effectively. Once I have that information, I can
+check if it was an error and discuss potential refunds if applicable.
+Additionally, we can review your payment options to ensure everything is
+set up correctly for the future. Thank you for your patience as we work
+this out!</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">What programming languages do you support?</td>
+<td style="vertical-align: middle;">technical</td>
+<td style="vertical-align: middle;">As a senior technical support engineer, I can provide assistance
+across a wide range of programming languages, including but not limited
+to: 1. **Python** 2. **JavaScript** 3. **Java** 4. **C#** 5. **C++** 6.
+**Ruby** 7. **PHP** 8. **Swift** 9. **Go** 10. **Rust** 11. **Kotlin**
+12. **TypeScript** 13. **SQL** 14. **HTML/CSS** (for web development) If
+you have specific questions or issues regarding any of these programming
+languages, please provide details, and I will guide you through
+troubleshooting steps or answering your questions accordingly.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">My API calls are returning 429 errors since this morning</td>
+<td style="vertical-align: middle;">technical</td>
+<td style="vertical-align: middle;">A 429 error indicates "Too Many Requests," meaning your application
+is exceeding the rate limits set by the API provider. Here is a
+step-by-step troubleshooting guide to help you resolve this issue: ###
+Step 1: Verify API Documentation 1. **Check Rate Limits**: Review the
+API documentation to find the rate limits for your account and endpoints
+you are using. Determine if you are indeed exceeding these limits. ###
+Step 2: Inspect Your API Call Patterns 1. **Review Calls**: Analyze your
+API  ...... h details of the error and your current implementation. ###
+Step 8: Scale Up (if applicable) 1. **Review Plan**: If you're
+consistently hitting your rate limits and it’s affecting your
+application, consider upgrading to a higher plan if available. ###
+Conclusion Follow these steps systematically to narrow down the cause of
+the 429 errors and address the issue. It’s essential to ensure that your
+application adheres to the API limits to maintain functionality and
+avoid service interruptions.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">product_brief</th>
+<th data-quarto-table-cell-role="th">first_draft</th>
+<th data-quarto-table-cell-role="th">evaluation</th>
+<th data-quarto-table-cell-role="th">refined</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">A noise-canceling headphone designed for open-plan offices, with
+30-hour battery life and a built-in microphone for calls.</td>
+<td style="vertical-align: middle;">"Stay focused and connected in open offices with our 30-hour
+noise-canceling headphones—your ultimate work companion!"</td>
+<td style="vertical-align: middle;">Score: 8   Feedback: Consider simplifying the phrasing to enhance
+clarity and impact, such as "Connect and concentrate anywhere with our
+30-hour noise-canceling headphones!"</td>
+<td style="vertical-align: middle;">"Concentrate and connect anywhere with our 30-hour noise-canceling
+headphones!"</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">An AI-powered code review tool that catches bugs, suggests
+improvements, and learns your team's coding style over time.</td>
+<td style="vertical-align: middle;">"Elevate your code quality with our AI-driven review tool that
+catches bugs, enhances style, and evolves with your team!"</td>
+<td style="vertical-align: middle;">Score: 8   Feedback: To enhance clarity, consider simplifying the
+phrasing to make it more concise and impactful.</td>
+<td style="vertical-align: middle;">"Boost your code quality with our AI review tool that catches bugs,
+improves style, and grows with your team!"</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">summary</th>
+<th data-quarto-table-cell-role="th">fact_check_result</th>
+<th data-quarto-table-cell-role="th">briefing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">A study in Nature reveals that global sea levels have risen by 4.5
+mm annually over the past decade, nearly double the rate seen in the
+1990s, mainly due to ice sheet loss in Greenland and Antarctica and the
+thermal expansion of ocean water. These findings indicate that coastal
+cities could experience serious flooding risks by 2050 if strong
+mitigation efforts are not implemented.</td>
+<td style="vertical-align: middle;">PLAUSIBLE - The claim aligns with current scientific understanding
+of sea level rise trends due to ice melt and thermal expansion, and
+studies in reputable journals like Nature often report on these alarming
+changes.</td>
+<td style="vertical-align: middle;">This article highlights alarming findings from a recent study in
+*Nature*, underscoring the urgent need for action to combat climate
+change as global sea levels rise at an unprecedented rate. With rising
+tides threatening coastal cities by 2050, the report serves as a crucial
+reminder of the pressing implications of ice sheet loss and ocean
+warming. It is imperative that we heed these warnings and implement
+robust mitigation strategies to safeguard vulnerable communities and
+ecosystems.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Use case</th>
+<th>Pattern</th>
+<th>Key Pixeltable feature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Multi-step content generation</td>
+<td style="vertical-align: middle;"><strong>Prompt Chaining</strong></td>
+<td style="vertical-align: middle;">Sequential computed columns</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Intent-based request handling</td>
+<td style="vertical-align: middle;"><strong>Routing</strong></td>
+<td style="vertical-align: middle;">Classification column + UDF routing</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Independent analyses on same input</td>
+<td style="vertical-align: middle;"><strong>Parallelization</strong></td>
+<td style="vertical-align: middle;">Independent computed columns (auto-parallel)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">LLM needs external data or actions</td>
+<td style="vertical-align: middle;"><strong>Tool Use</strong></td>
+<td style="vertical-align: middle;"><code>pxt.tools()</code> + <code>invoke_tools()</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Quality assurance / self-improvement</td>
+<td style="vertical-align: middle;"><strong>Evaluator-Optimizer</strong></td>
+<td style="vertical-align: middle;">LLM-as-judge + refinement columns</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Complex multi-agent workflows</td>
+<td style="vertical-align: middle;"><strong>Orchestrator-Worker</strong></td>
+<td style="vertical-align: middle;"><code>pxt.udf(table, return_value=...)</code></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>When to use</th>
+<th>How it layers in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><strong>ReAct</strong></td>
+<td style="vertical-align: middle;">The agent needs to reason step-by-step and call tools based on
+intermediate observations</td>
+<td style="vertical-align: middle;">Loop that inserts rows into a tool-calling table; every
+thought-action-observation is persisted</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Planning</strong></td>
+<td style="vertical-align: middle;">The full structure of the task can be determined upfront before
+execution</td>
+<td style="vertical-align: middle;">First column generates a plan; downstream columns execute and
+synthesize</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Two popular taxonomies describe the building blocks of agentic AI
+systems:
+
+-   **Cognitive / reasoning-oriented** (Taxonomy 1): Reflection, Tool
+    Use, ReAct, Planning, Multi-Agent — asks *“how does the agent
+    think?”*
+-   **Architectural / system-design-oriented** (Taxonomy 2): Prompt
+    Chaining, Routing, Parallelization, Tool Use, Evaluator-Optimizer,
+    Orchestrator-Worker — asks *“how do you wire LLM calls together?”*
+
+(See [OpenAI’s Practical Guide to Building
+Agents](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf),
+[Anthropic’s multi-agent research
+system](https://www.anthropic.com/engineering/multi-agent-research-system),
+and [Pydantic AI’s multi-agent
+delegation](https://ai.pydantic.dev/multi-agent-applications/#agent-delegation).)
+
+Mapping them against each other reveals:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+The cleanest framing: **six architectural patterns** that describe how
+you structure LLM calls, plus **two cross-cutting reasoning strategies**
+(ReAct and Planning) that can be layered inside any of them.
+
+This cookbook implements all eight in Pixeltable, where your agent *is*
+a table:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Setup
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import getpass
+import os
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import openai
+
+pxt.drop_dir('agentic_patterns', force=True)
+pxt.create_dir('agentic_patterns')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;agentic_patterns&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x32639cb90&gt;
+</pre>
+
+## Pattern 1: Prompt Chaining
+
+Break a complex task into sequential steps, where each step’s output
+feeds the next.
+
+**Imperative approach:** a chain of function calls or an explicit
+pipeline object. **Pixeltable approach:** each step is a computed
+column. The engine resolves dependencies automatically.
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+input&nbsp;→&nbsp;step&nbsp;1&nbsp;(outline)&nbsp;→&nbsp;step&nbsp;2&nbsp;(draft)&nbsp;→&nbsp;step&nbsp;3&nbsp;(polish)&nbsp;→&nbsp;output
+</pre>
+
+
+```python
+# Create a table with a single input column
+chain = pxt.create_table('agentic_patterns/chain', {'topic': pxt.String})
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chain&#x27;.
+</pre>
+
+
+```python
+# Step 1: generate an outline
+chain.add_computed_column(
+    outline_response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Create a 3-point outline for a short article about: '
+                + chain.topic,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+chain.add_computed_column(
+    outline=chain.outline_response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Step 2: write a draft from the outline
+chain.add_computed_column(
+    draft_response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Write a short article (2-3 paragraphs) based on this outline:\n\n'
+                + chain.outline,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+chain.add_computed_column(
+    draft=chain.draft_response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Step 3: polish the draft
+chain.add_computed_column(
+    polish_response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Edit this article for clarity and conciseness. '
+                'Return only the improved text:\n\n' + chain.draft,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+chain.add_computed_column(
+    final_article=chain.polish_response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Insert a topic — all three steps execute automatically
+chain.insert([{'topic': 'the benefits of declarative AI pipelines'}])
+
+chain.select(
+    chain.topic, chain.outline, chain.draft, chain.final_article
+).collect()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;14.58&nbsp;s&nbsp;(0.07&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+Every intermediate result (`outline`, `draft`, `final_article`) is
+persisted in the table. Inserting another topic reuses the same pipeline
+— no code changes needed. If the same topic is inserted again, cached
+results are returned instantly.
+
+## Pattern 2: Routing
+
+Classify an input and route it to a specialized handler. This is the
+agent equivalent of a switch/case statement.
+
+**Imperative approach:** a triage agent that performs handoffs to
+specialized agents. **Pixeltable approach:** one computed column
+classifies; a UDF selects the prompt; a second LLM call generates the
+response.
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+input&nbsp;→&nbsp;classify&nbsp;intent&nbsp;→&nbsp;select&nbsp;specialized&nbsp;prompt&nbsp;→&nbsp;generate&nbsp;response
+</pre>
+
+
+```python
+router = pxt.create_table(
+    'agentic_patterns/router', {'query': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;router&#x27;.
+</pre>
+
+
+```python
+# Step 1: classify the query intent
+router.add_computed_column(
+    classify_response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Classify this customer query into exactly one category: '
+                'technical, billing, or general. Reply with the single word only.\n\n'
+                'Query: ' + router.query,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+router.add_computed_column(
+    intent=router.classify_response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Step 2: route to a specialized system prompt based on the classification
+@pxt.udf
+def route_prompt(intent: str, query: str) -> list[dict]:
+    """Select a system prompt based on the classified intent."""
+    system_prompts = {
+        'technical': 'You are a senior technical support engineer. '
+        'Provide precise, step-by-step troubleshooting guidance.',
+        'billing': 'You are a billing specialist. '
+        'Be empathetic and clear about charges, refunds, and payment options.',
+        'general': 'You are a friendly customer service representative. '
+        'Answer helpfully and concisely.',
+    }
+    # Default to general if classification is unexpected
+    system = system_prompts.get(
+        intent.strip().lower(), system_prompts['general']
+    )
+    return [
+        {'role': 'system', 'content': system},
+        {'role': 'user', 'content': query},
+    ]
+
+
+router.add_computed_column(
+    routed_messages=route_prompt(router.intent, router.query)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Step 3: generate the specialized response
+router.add_computed_column(
+    response_raw=openai.chat_completions(
+        messages=router.routed_messages, model='gpt-4o-mini'
+    )
+)
+router.add_computed_column(
+    response=router.response_raw.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Insert queries spanning different intents
+router.insert(
+    [
+        {
+            'query': 'My API calls are returning 429 errors since this morning'
+        },
+        {'query': 'I was charged twice for my subscription last month'},
+        {'query': 'What programming languages do you support?'},
+    ]
+)
+
+router.select(router.query, router.intent, router.response).collect()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;6.93&nbsp;s&nbsp;(0.43&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+Each query was classified and then handled by a specialized system
+prompt. The `intent` column is inspectable for every row, making it easy
+to audit routing decisions.
+
+## Pattern 3: Parallelization
+
+Run multiple independent LLM calls on the same input simultaneously,
+then combine the results.
+
+**Imperative approach:** `asyncio.gather` or thread pools. **Pixeltable
+approach:** add independent computed columns. The engine parallelizes
+them automatically because they share no dependencies.
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;┌→&nbsp;sentiment&nbsp;&nbsp;─┐
+input&nbsp;&nbsp;──┼→&nbsp;entities&nbsp;&nbsp;&nbsp;──┼→&nbsp;merge&nbsp;→&nbsp;combined&nbsp;output
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└→&nbsp;summary&nbsp;&nbsp;&nbsp;&nbsp;─┘
+</pre>
+
+
+```python
+parallel = pxt.create_table(
+    'agentic_patterns/parallel', {'text': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;parallel&#x27;.
+</pre>
+
+
+```python
+# Three independent LLM calls — Pixeltable runs them in parallel automatically
+parallel.add_computed_column(
+    sentiment_raw=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Analyze the sentiment of this text. '
+                'Reply with: positive, negative, or neutral.\n\n'
+                + parallel.text,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+parallel.add_computed_column(
+    sentiment=parallel.sentiment_raw.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+
+parallel.add_computed_column(
+    entities_raw=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Extract all named entities (people, companies, locations) '
+                'from this text. Return a comma-separated list.\n\n'
+                + parallel.text,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+parallel.add_computed_column(
+    entities=parallel.entities_raw.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+
+parallel.add_computed_column(
+    summary_raw=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Summarize this text in one sentence.\n\n'
+                + parallel.text,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+parallel.add_computed_column(
+    summary=parallel.summary_raw.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Merge the parallel results into a single structured report
+@pxt.udf
+def merge_analysis(sentiment: str, entities: str, summary: str) -> dict:
+    """Combine parallel analysis results into one report."""
+    return {
+        'sentiment': sentiment.strip(),
+        'entities': entities.strip(),
+        'summary': summary.strip(),
+    }
+
+
+parallel.add_computed_column(
+    report=merge_analysis(
+        parallel.sentiment, parallel.entities, parallel.summary
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+parallel.insert(
+    [
+        {
+            'text': 'Apple announced record quarterly revenue of $124 billion, '
+            'driven by strong iPhone sales in Europe and Asia. CEO Tim Cook '
+            "expressed optimism about the company's AI initiatives, while "
+            'some analysts remain cautious about increased R&D spending.'
+        }
+    ]
+)
+
+parallel.select(
+    parallel.text, parallel.sentiment, parallel.entities, parallel.summary
+).collect()
+```
+
+The three LLM calls (`sentiment`, `entities`, `summary`) have no
+dependency on each other, so Pixeltable dispatches them concurrently.
+The `merge_analysis` UDF waits for all three before combining the
+results. No async code required.
+
+## Pattern 4: Tool Use
+
+Give an LLM access to external functions it can call to gather
+information or take action.
+
+**Imperative approach:** `@function_tool` decorator, tool loop that
+re-prompts until the LLM stops requesting tools. **Pixeltable
+approach:** `pxt.tools()` bundles UDFs into tool definitions;
+`invoke_tools()` executes the LLM’s choices — both as computed columns.
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+input&nbsp;→&nbsp;LLM&nbsp;(with&nbsp;tools)&nbsp;→&nbsp;invoke_tools()&nbsp;→&nbsp;results
+</pre>
+
+For a deeper walkthrough including MCP servers, see [Use tool calling
+with
+LLMs](/howto/cookbooks/agents/llm-tool-calling).
+
+
+```python
+# Define tool functions as UDFs
+@pxt.udf
+def get_weather(city: str) -> str:
+    """Get the current weather for a city."""
+    weather_data = {
+        'new york': 'Sunny, 72F',
+        'london': 'Cloudy, 58F',
+        'tokyo': 'Rainy, 65F',
+        'paris': 'Partly cloudy, 68F',
+    }
+    return weather_data.get(
+        city.lower(), f'Weather data not available for {city}'
+    )
+
+
+@pxt.udf
+def get_stock_price(symbol: str) -> str:
+    """Get the current stock price for a ticker symbol."""
+    prices = {'AAPL': '$178.50', 'GOOGL': '$141.25', 'MSFT': '$378.90'}
+    return prices.get(symbol.upper(), f'Price not available for {symbol}')
+
+
+# Bundle into a Tools object
+tools = pxt.tools(get_weather, get_stock_price)
+```
+
+
+```python
+# Create the tool-calling pipeline
+tool_agent = pxt.create_table(
+    'agentic_patterns/tool_agent', {'query': pxt.String}
+)
+
+# LLM decides which tool(s) to call
+tool_agent.add_computed_column(
+    response=openai.chat_completions(
+        messages=[{'role': 'user', 'content': tool_agent.query}],
+        model='gpt-4o-mini',
+        tools=tools,
+    )
+)
+
+# Execute the tool calls automatically
+tool_agent.add_computed_column(
+    tool_output=openai.invoke_tools(tools, tool_agent.response)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;tool_agent&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+tool_agent.insert(
+    [
+        {'query': "What's the weather in Tokyo?"},
+        {'query': "What's Apple's stock price?"},
+        {
+            'query': "What's the weather in Paris and Microsoft's stock price?"
+        },
+    ]
+)
+
+for row in tool_agent.select(
+    tool_agent.query, tool_agent.tool_output
+).collect():
+    print(f'Query: {row["query"]}')
+    for tool_name, results in (row['tool_output'] or {}).items():
+        if results:
+            print(f'  -> {tool_name}: {results}')
+    print()
+```
+
+The LLM chose which tools to invoke (including multiple tools for the
+last query). `invoke_tools()` executed them and stored results. The full
+LLM response is also persisted in the `response` column for debugging.
+
+## Pattern 5: Evaluator-Optimizer
+
+One LLM generates output, a second LLM evaluates it, and the results are
+used to decide whether to refine. This is the architectural cousin of
+the *Reflection* pattern from Taxonomy 1 — an agent critiques its own
+output and iteratively improves it.
+
+**Imperative approach:** a while-loop that re-prompts until a quality
+threshold is met (see [Pixelagent’s reflection
+example](https://github.com/pixeltable/pixelagent/tree/main/examples/reflection)).
+**Pixeltable approach:** chained computed columns — generate, evaluate,
+then conditionally refine. The evaluation score is stored alongside the
+content for analysis.
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+input&nbsp;→&nbsp;generate&nbsp;→&nbsp;evaluate&nbsp;(score&nbsp;+&nbsp;feedback)&nbsp;→&nbsp;refine&nbsp;if&nbsp;needed&nbsp;→&nbsp;output
+</pre>
+
+
+```python
+evaluator = pxt.create_table(
+    'agentic_patterns/evaluator', {'product_brief': pxt.String}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;evaluator&#x27;.
+</pre>
+
+
+```python
+# Step 1: generate initial marketing copy
+evaluator.add_computed_column(
+    gen_response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Write a short marketing tagline (one sentence) for this product:\n\n'
+                + evaluator.product_brief,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+evaluator.add_computed_column(
+    first_draft=evaluator.gen_response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Step 2: evaluate the draft with an LLM-as-judge
+evaluator.add_computed_column(
+    eval_response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Rate this marketing tagline on a scale of 1-10 for clarity, '
+                'creativity, and persuasiveness. Then provide one sentence of feedback '
+                'for improvement.\n\n'
+                'Tagline: ' + evaluator.first_draft + '\n\n'
+                'Reply in this exact format:\n'
+                'Score: <number>\nFeedback: <one sentence>',
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+evaluator.add_computed_column(
+    evaluation=evaluator.eval_response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Step 3: refine using the feedback
+evaluator.add_computed_column(
+    refine_response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Improve this marketing tagline based on the feedback below. '
+                'Return only the improved tagline.\n\n'
+                'Original: ' + evaluator.first_draft + '\n\n'
+                'Feedback: ' + evaluator.evaluation,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+evaluator.add_computed_column(
+    refined=evaluator.refine_response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+evaluator.insert(
+    [
+        {
+            'product_brief': 'A noise-canceling headphone designed for open-plan offices, '
+            'with 30-hour battery life and a built-in microphone for calls.'
+        },
+        {
+            'product_brief': 'An AI-powered code review tool that catches bugs, suggests '
+            "improvements, and learns your team's coding style over time."
+        },
+    ]
+)
+
+evaluator.select(
+    evaluator.product_brief,
+    evaluator.first_draft,
+    evaluator.evaluation,
+    evaluator.refined,
+).collect()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;2.95&nbsp;s&nbsp;(0.68&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+Both the first draft and the refined version are stored side-by-side
+with the evaluation. This makes it straightforward to compare outputs,
+audit the judge’s reasoning, or filter rows where the score fell below a
+threshold.
+
+## Pattern 6: Orchestrator-Worker
+
+A central agent decomposes a task, delegates sub-tasks to specialized
+worker agents, and synthesizes the results. This is the architectural
+cousin of the *Multi-Agent* pattern from Taxonomy 1, and the same
+structure Anthropic uses in their [multi-agent research
+system](https://www.anthropic.com/engineering/multi-agent-research-system)
+— a lead agent coordinates parallel subagents, each with their own
+context and tools.
+
+**Imperative approach:** an orchestrator agent class that spawns worker
+agent instances and collects their outputs. **Pixeltable approach:**
+each worker is a table with computed columns, wrapped as a callable
+function via `pxt.udf(table, return_value=...)`. The orchestrator table
+calls these functions as computed columns.
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+input&nbsp;→&nbsp;decompose&nbsp;→&nbsp;worker&nbsp;A&nbsp;(summarizer)&nbsp;&nbsp;─┐
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→&nbsp;worker&nbsp;B&nbsp;(fact-checker)&nbsp;─┼→&nbsp;synthesize&nbsp;→&nbsp;output
+</pre>
+
+For more on table UDFs, see [Use a table pipeline as a reusable
+function](/howto/cookbooks/agents/pattern-table-as-udf).
+
+### Build worker agents as tables
+
+
+```python
+# Worker A: summarizer
+summarizer_tbl = pxt.create_table(
+    'agentic_patterns/summarizer', {'text': pxt.String}
+)
+summarizer_tbl.add_computed_column(
+    response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Summarize this text in 2-3 sentences:\n\n'
+                + summarizer_tbl.text,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+summarizer_tbl.add_computed_column(
+    summary=summarizer_tbl.response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+
+# Wrap as a callable function
+summarize = pxt.udf(summarizer_tbl, return_value=summarizer_tbl.summary)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;summarizer&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.10&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.06&nbsp;s
+</pre>
+
+
+```python
+# Worker B: fact-checker
+checker_tbl = pxt.create_table(
+    'agentic_patterns/checker', {'claim': pxt.String}
+)
+checker_tbl.add_computed_column(
+    response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Assess whether this claim is plausible. '
+                'Reply with: PLAUSIBLE or DUBIOUS, followed by a one-sentence explanation.\n\n'
+                'Claim: ' + checker_tbl.claim,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+checker_tbl.add_computed_column(
+    assessment=checker_tbl.response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+
+# Wrap as a callable function
+fact_check = pxt.udf(checker_tbl, return_value=checker_tbl.assessment)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;checker&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.02&nbsp;s
+</pre>
+
+### Build the orchestrator
+
+
+```python
+# Orchestrator table: delegates to workers, then synthesizes
+orchestrator = pxt.create_table(
+    'agentic_patterns/orchestrator', {'article': pxt.String}
+)
+
+# Dispatch to worker A (summarizer) and worker B (fact-checker) in parallel
+orchestrator.add_computed_column(
+    summary=summarize(text=orchestrator.article)
+)
+orchestrator.add_computed_column(
+    fact_check_result=fact_check(claim=orchestrator.article)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;orchestrator&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Synthesize worker outputs into a final briefing
+orchestrator.add_computed_column(
+    synth_response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Based on the summary and fact-check below, write a brief '
+                'editorial note (2-3 sentences) about this article.\n\n'
+                'Summary: ' + orchestrator.summary + '\n\n'
+                'Fact-check: ' + orchestrator.fact_check_result,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+orchestrator.add_computed_column(
+    briefing=orchestrator.synth_response.choices[
+        0
+    ].message.content.astype(pxt.String)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.02&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+orchestrator.insert(
+    [
+        {
+            'article': 'A recent study published in Nature found that global sea levels '
+            'rose by 4.5 mm per year over the last decade, nearly double the rate observed '
+            'in the 1990s. Researchers attribute the acceleration primarily to ice sheet '
+            'loss in Greenland and Antarctica, compounded by thermal expansion of ocean '
+            'water. The findings suggest coastal cities may face significant flooding risks '
+            'by 2050 without aggressive mitigation strategies.'
+        }
+    ]
+)
+
+orchestrator.select(
+    orchestrator.summary,
+    orchestrator.fact_check_result,
+    orchestrator.briefing,
+).collect()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;4.69&nbsp;s&nbsp;(0.21&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+The orchestrator table called two independent worker pipelines
+(`summarize` and `fact_check`), each backed by their own table with full
+intermediate-result persistence. The synthesis step consumed both
+outputs to produce the final briefing. Adding a new worker (e.g., a tone
+analyzer) requires only creating another table, wrapping it with
+`pxt.udf()`, and adding one more computed column to the orchestrator.
+
+## Strategy A: ReAct
+
+ReAct is not a wiring pattern — it is a **reasoning strategy** that can
+be applied inside any of the six patterns above. The agent alternates
+between reasoning about the next step and acting on it (typically via
+tools), observing the result before deciding what to do next.
+
+**Imperative approach:** a while-loop that parses the LLM’s
+THOUGHT/ACTION output, calls tools, and feeds observations back (see
+[Pixelagent’s ReAct
+example](https://github.com/pixeltable/pixelagent/tree/main/examples/planning)).
+**Pixeltable approach:** the reasoning loop lives in a UDF that inserts
+rows into a tool-calling table and reads back results. The table stores
+every thought-action-observation triple for full observability.
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+question&nbsp;→&nbsp;\[THOUGHT&nbsp;→&nbsp;ACTION&nbsp;→&nbsp;OBSERVATION\]&nbsp;×&nbsp;N&nbsp;→&nbsp;final&nbsp;answer
+</pre>
+
+
+```python
+import re
+
+# Define a tool for the ReAct agent
+
+
+@pxt.udf
+def lookup_population(country: str) -> str:
+    """Look up the approximate population of a country."""
+    populations = {
+        'united states': '331 million',
+        'china': '1.4 billion',
+        'india': '1.4 billion',
+        'germany': '84 million',
+        'brazil': '214 million',
+        'japan': '125 million',
+    }
+    return populations.get(
+        country.lower(), f'Population data not available for {country}'
+    )
+
+
+react_tools = pxt.tools(lookup_population)
+```
+
+
+```python
+# Build a tool-calling table that the ReAct loop will insert into
+react_steps = pxt.create_table(
+    'agentic_patterns/react_steps',
+    {'step': pxt.Int, 'prompt': pxt.String, 'system_prompt': pxt.String},
+)
+
+react_steps.add_computed_column(
+    response=openai.chat_completions(
+        messages=[
+            {'role': 'system', 'content': react_steps.system_prompt},
+            {'role': 'user', 'content': react_steps.prompt},
+        ],
+        model='gpt-4o-mini',
+        tools=react_tools,
+    )
+)
+react_steps.add_computed_column(
+    answer=react_steps.response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+react_steps.add_computed_column(
+    tool_output=openai.invoke_tools(react_tools, react_steps.response)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;react_steps&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# The ReAct loop: reason → act → observe, repeated until done
+REACT_SYSTEM = (
+    "You are a research assistant. Answer the user's question step by step.\n"
+    'Available tools: lookup_population\n\n'
+    'On each turn, respond in this exact format:\n'
+    'THOUGHT: <your reasoning>\n'
+    'ACTION: <tool name to call, or FINAL if ready to answer>\n\n'
+    'When ACTION is FINAL, include your final answer after it.\n'
+    'Current step: {step} of {max_steps}.'
+)
+
+question = 'Which country has a larger population, Brazil or Germany?'
+max_steps = 4
+history = []
+
+for step in range(1, max_steps + 1):
+    # Build prompt with accumulated observations
+    prompt = question
+    if history:
+        prompt += '\n\nPrevious observations:\n' + '\n'.join(history)
+
+    system = REACT_SYSTEM.format(step=step, max_steps=max_steps)
+
+    react_steps.insert(
+        [{'step': step, 'prompt': prompt, 'system_prompt': system}]
+    )
+
+    # Read back the result for this step
+    row = (
+        react_steps.where(react_steps.step == step)
+        .select(react_steps.answer, react_steps.tool_output)
+        .collect()
+    )
+    answer_text = row['answer'][0] or ''
+    tool_out = row['tool_output'][0]
+
+    # Record observation from tool output (if any)
+    if tool_out:
+        history.append(f'Step {step} tool result: {tool_out}')
+
+    # Check if the agent decided to finalize
+    if 'FINAL' in answer_text.upper():
+        break
+
+print(f'Completed in {step} steps')
+for row in react_steps.select(
+    react_steps.step, react_steps.answer, react_steps.tool_output
+).collect():
+    print(f'Step {row["step"]}:')
+    if row['answer']:
+        print(f'  {row["answer"][:200]}')
+    for tool_name, results in (row['tool_output'] or {}).items():
+        if results:
+            print(f'  -> {tool_name}: {results}')
+    print()
+```
+
+Every thought, action, and observation is persisted as a row in the
+`react_steps` table. The loop itself is plain Python; the LLM calls and
+tool execution happen declaratively via computed columns. This makes the
+reasoning trace fully queryable after the fact — useful for debugging or
+evaluation.
+
+## Strategy B: Planning
+
+Planning is the second cross-cutting reasoning strategy. Instead of
+acting step-by-step (ReAct), the agent first generates a complete plan,
+then executes each step. This is especially effective for complex tasks
+where the structure of the solution can be determined upfront.
+
+**Imperative approach:** an LLM generates a plan as structured JSON,
+then a loop executes each step (see [Pixelagent’s planning
+example](https://github.com/pixeltable/pixelagent/tree/main/examples/planning)).
+**Pixeltable approach:** a prompt-chaining pipeline where the first
+column generates the plan and a UDF parses it into executable steps.
+Each step then feeds into subsequent computed columns.
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+question&nbsp;→&nbsp;generate&nbsp;plan&nbsp;→&nbsp;execute&nbsp;step&nbsp;1&nbsp;→&nbsp;execute&nbsp;step&nbsp;2&nbsp;→&nbsp;...&nbsp;→&nbsp;synthesize
+</pre>
+
+
+```python
+import json as json_mod
+
+planner = pxt.create_table(
+    'agentic_patterns/planner', {'question': pxt.String}
+)
+
+# Step 1: generate a plan as structured JSON
+planner.add_computed_column(
+    plan_response=openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': 'Break this question into 2-3 research steps. '
+                'Return ONLY a JSON object like {"steps": ["sub-question 1", "sub-question 2"]}. '
+                'No other text.\n\n'
+                'Question: ' + planner.question,
+            }
+        ],
+        model='gpt-4o-mini',
+    )
+)
+planner.add_computed_column(
+    plan_text=planner.plan_response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;planner&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Step 2: parse the plan and execute each sub-question, then synthesize
+@pxt.udf
+def execute_plan(plan_json: str, original_question: str) -> list[dict]:
+    """Parse the plan JSON and return structured sub-questions."""
+    try:
+        data = json_mod.loads(plan_json)
+        # Handle both {"steps": [...]} and direct [...]
+        steps = (
+            data
+            if isinstance(data, list)
+            else data.get('steps', data.get('questions', []))
+        )
+        return [
+            {'step': i + 1, 'sub_question': q}
+            for i, q in enumerate(steps)
+        ]
+    except (json_mod.JSONDecodeError, TypeError):
+        return [{'step': 1, 'sub_question': original_question}]
+
+
+planner.add_computed_column(
+    plan_steps=execute_plan(planner.plan_text, planner.question)
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Step 3: execute the plan — answer each sub-question, then synthesize
+@pxt.udf
+def format_plan_for_execution(
+    plan_steps: list[dict], original_question: str
+) -> str:
+    """Format the plan steps into a single execution prompt."""
+    step_list = '\n'.join(
+        f'{s["step"]}. {s["sub_question"]}' for s in plan_steps
+    )
+    return (
+        f'Answer each of these research sub-questions briefly, '
+        f'then provide a final synthesis that answers the original question.\n\n'
+        f'Original question: {original_question}\n\n'
+        f'Sub-questions:\n{step_list}'
+    )
+
+
+planner.add_computed_column(
+    exec_prompt=format_plan_for_execution(
+        planner.plan_steps, planner.question
+    )
+)
+
+planner.add_computed_column(
+    exec_response=openai.chat_completions(
+        messages=[{'role': 'user', 'content': planner.exec_prompt}],
+        model='gpt-4o-mini',
+    )
+)
+planner.add_computed_column(
+    final_answer=planner.exec_response.choices[0].message.content.astype(
+        pxt.String
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+planner.insert(
+    [
+        {
+            'question': 'What are the economic and environmental trade-offs of electric vehicles vs hydrogen fuel cells?'
+        }
+    ]
+)
+
+row = planner.select(
+    planner.question, planner.plan_text, planner.final_answer
+).collect()
+print('Plan:', row['plan_text'][0])
+print()
+print('Answer:', row['final_answer'][0][:500])
+```
+
+The plan (stored in `plan_steps`) is fully inspectable. The execution
+step answers all sub-questions in a single LLM call, but this could also
+use parallelization (Pattern 3) to answer each sub-question
+independently and merge the results. Planning and ReAct compose
+naturally with any of the six architectural patterns.
+
+## Choosing a Pattern
+
+### Six architectural patterns
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+
+### Two cross-cutting reasoning strategies
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
+
+Patterns compose naturally. An orchestrator-worker system might use
+routing in the orchestrator, tool use within a worker, and ReAct
+reasoning inside the tool-calling loop. Because each pattern is just a
+set of computed columns on a table, combining them requires no special
+glue code.
+
+## See Also
+
+**Pixeltable cookbooks:**
+
+-   [Use tool calling with
+    LLMs](/howto/cookbooks/agents/llm-tool-calling)
+    — deep dive into `pxt.tools()`, `invoke_tools()`, and MCP server
+    integration
+-   [Build an agent with persistent
+    memory](/howto/cookbooks/agents/pattern-agent-memory)
+    — embedding indexes for semantic memory recall
+-   [Build a RAG
+    pipeline](/howto/cookbooks/agents/pattern-rag-pipeline)
+    — document chunking, embedding, and retrieval-augmented generation
+-   [Look up structured data with retrieval
+    UDFs](/howto/cookbooks/agents/pattern-data-lookup)
+    — `pxt.retrieval_udf()` for key-based lookups
+-   [Use a table pipeline as a reusable
+    function](/howto/cookbooks/agents/pattern-table-as-udf)
+    — `pxt.udf(table)` explained in depth
+
+**Pixelagent examples** (imperative implementations of the same
+patterns):
+
+-   [Reflection
+    loop](https://github.com/pixeltable/pixelagent/tree/main/examples/reflection)
+    — main agent + critic agent with iterative refinement
+-   [ReAct /
+    Planning](https://github.com/pixeltable/pixelagent/tree/main/examples/planning)
+    — step-by-step reasoning with tool calls
+-   [Tool
+    calling](https://github.com/pixeltable/pixelagent/tree/main/examples/tool-calling)
+    — OpenAI, Anthropic, and Bedrock tool integration
+-   [Memory](https://github.com/pixeltable/pixelagent/tree/main/examples/memory)
+    — persistent and semantic memory management
+
+**External references:**
+
+-   [OpenAI’s Practical Guide to Building
+    Agents](https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf)
+    — the six architectural patterns
+-   [Anthropic: How we built our multi-agent research
+    system](https://www.anthropic.com/engineering/multi-agent-research-system)
+    — orchestrator-worker at scale
+-   [Pydantic AI: Multi-agent
+    applications](https://ai.pydantic.dev/multi-agent-applications/#agent-delegation)
+    — agent delegation patterns

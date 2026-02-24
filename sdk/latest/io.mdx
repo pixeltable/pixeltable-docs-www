@@ -149,7 +149,7 @@ fully worked example showing how to export data from a Pixeltable table and load
 
 Images in the dataset that already exist on disk will be exported directly, in whatever format they
 are stored in. Images that are not already on disk (such as frames extracted using a
-[`frame_iterator`](./video#func-frame-iterator)) will first be written to disk in the specified
+[`frame_iterator`](./video#iterator-frame_iterator)) will first be written to disk in the specified
 `image_format`.
 
 The label parameters accept one or more sets of labels of each type. If a single `Expr` is provided, then it will
@@ -380,7 +380,7 @@ HuggingFace feature types are mapped to Pixeltable column types as follows:
     name `name` will be given type `type`, instead of being inferred from the `Dataset` or `DatasetDict`.
     The keys in `schema_overrides` should be the column names of the `Dataset` or `DatasetDict` (whether or not
     they are valid Pixeltable identifiers).
-- **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create-table)).
+- **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create_table)).
 - **`kwargs`** (`Any`): Additional arguments to pass to `create_table`.
     An argument of `column_name_for_split` must be provided if the source is a DatasetDict.
     This column name will contain the split information. If None, no split information will be stored.
@@ -414,11 +414,11 @@ is the contents of the specified `filepath_or_url`.
 - **`tbl_path`** (`str`): The name of the table to create.
 - **`filepath_or_url`** (`str`): The path or URL of the JSON file.
 - **`schema_overrides`** (`dict[str, Any] | None`): If specified, then columns in `schema_overrides` will be given the specified types
-    (see [`import_rows()`](./io#func-import-rows)).
-- **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create-table)).
+    (see [`import_rows()`](./io#func-import_rows)).
+- **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create_table)).
 - **`num_retained_versions`** (`int`, default: `10`): The number of retained versions of the table
-    (see [`create_table()`](./pixeltable#func-create-table)).
-- **`comment`** (`str`, default: `''`): A comment to attach to the table (see [`create_table()`](./pixeltable#func-create-table)).
+    (see [`create_table()`](./pixeltable#func-create_table)).
+- **`comment`** (`str`, default: `''`): A comment to attach to the table (see [`create_table()`](./pixeltable#func-create_table)).
 - **`kwargs`** (`Any`): Additional keyword arguments to pass to `json.loads`.
 
 **Returns:**
@@ -489,7 +489,7 @@ Creates a new base table from a Parquet file or set of files. Requires pyarrow t
     name `name` will be given type `type`, instead of being inferred from the Parquet dataset. The keys in
     `schema_overrides` should be the column names of the Parquet dataset (whether or not they are valid
     Pixeltable identifiers).
-- **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create-table)).
+- **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create_table)).
 - **`kwargs`** (`Any`): Additional arguments to pass to `create_table`.
 
 **Returns:**
@@ -528,10 +528,10 @@ All column types of the new table will be nullable unless explicitly specified a
 - **`rows`** (`list[dict[str, Any]]`): The list of dictionaries to import.
 - **`schema_overrides`** (`dict[str, Any] | None`): If specified, then columns in `schema_overrides` will be given the specified types
     as described above.
-- **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create-table)).
+- **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create_table)).
 - **`num_retained_versions`** (`int`, default: `10`): The number of retained versions of the table
-    (see [`create_table()`](./pixeltable#func-create-table)).
-- **`comment`** (`str`, default: `''`): A comment to attach to the table (see [`create_table()`](./pixeltable#func-create-table)).
+    (see [`create_table()`](./pixeltable#func-create_table)).
+- **`comment`** (`str`, default: `''`): A comment to attach to the table (see [`create_table()`](./pixeltable#func-create_table)).
 
 **Returns:**
 

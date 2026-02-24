@@ -1,16 +1,13 @@
 ---
 title: "Table"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L61\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L62\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Table
 
 
 A handle to a table, view, or snapshot. This class is the primary interface through which table operations
 (queries, insertions, updates, etc.) are performed in Pixeltable.
-
-Every user-invoked operation that runs an ExecNode tree (directly or indirectly) needs to call
-FileCache.emit_eviction_warnings() at the end of the operation.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_column()
@@ -19,7 +16,7 @@ FileCache.emit_eviction_warnings() at the end of the operation.
 add_column(
     *,
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error',
-    **kwargs: ts.ColumnType | builtins.type | _GenericAlias | exprs.Expr
+    **kwargs: type | ColumnSpec
 ) -> UpdateStatus
 ```
 
@@ -28,7 +25,8 @@ Adds an ordinary (non-computed) column to the table.
 
 **Parameters:**
 
-- **`kwargs`** (`ts.ColumnType | builtins.type | _GenericAlias | exprs.Expr`): Exactly one keyword argument of the form `col_name=col_type`.
+- **`kwargs`** (`type | ColumnSpec`): Exactly one keyword argument of the form `col_name=type` or `col_name=col_spec_dict`,
+    where `col_spec_dict` is a [`ColumnSpec`](./columnspec) dict.
 - **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Determines the behavior if the column already exists. Must be one of the following:
     - `'error'`: an exception will be raised.
     - `'ignore'`: do nothing and return.
@@ -46,9 +44,33 @@ Add an int column:
 tbl.add_column(new_col=pxt.Int)
 ```
 
-Alternatively, this can also be expressed as:
+Add a column with column metadata using a dict:
+```python
+tbl.add_column(
+    img_col={
+        'type': pxt.Image,
+        'stored': True,
+        'media_validation': 'on_write',
+    }
+)
+```
+
+Alternatively, adding a column can also be expressed using `add_columns`:
 ```python
 tbl.add_columns({'new_col': pxt.Int})
+```
+
+As well as with column metadata:
+```python
+tbl.add_columns(
+    {
+        'img_col': {
+            'type': pxt.Image,
+            'stored': True,
+            'media_validation': 'on_write',
+        }
+    }
+)
 ```
 
 
@@ -56,19 +78,19 @@ tbl.add_columns({'new_col': pxt.Int})
 
 ```python Signature
 add_columns(
-    schema: dict[str, ts.ColumnType | builtins.type | _GenericAlias],
+    schema: Mapping[str, type | ColumnSpec],
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
 ) -> UpdateStatus
 ```
 
 Adds multiple columns to the table. The columns must be concrete (non-computed) columns; to add computed
-columns, use [`add_computed_column()`](./table#method-add-computed-column) instead.
+columns, use [`add_computed_column()`](./table#method-add_computed_column) instead.
 
 The format of the `schema` argument is a dict mapping column names to their types.
 
 **Parameters:**
 
-- **`schema`** (`dict[str, ts.ColumnType | builtins.type | _GenericAlias]`): A dictionary mapping column names to types.
+- **`schema`** (`Mapping[str, type | ColumnSpec]`): A dictionary mapping column names to a `type` or a [`ColumnSpec`](./columnspec) dict.
 - **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Determines the behavior if a column already exists. Must be one of the following:
     - `'error'`: an exception will be raised.
     - `'ignore'`: do nothing and return.
@@ -77,7 +99,7 @@ The format of the `schema` argument is a dict mapping column names to their type
 
     Note that the `if_exists` parameter is applied to all columns in the schema.
     To apply different behaviors to different columns, please use
-    [`add_column()`](./table#method-add-column) for each column.
+    [`add_column()`](./table#method-add_column) for each column.
 
 **Returns:**
 
@@ -89,6 +111,20 @@ Add multiple columns to the table `my_table`:
 ```python
 tbl = pxt.get_table('my_table')
 schema = {'new_col_1': pxt.Int, 'new_col_2': pxt.String}
+tbl.add_columns(schema)
+```
+
+It is also possible to specify column metadata using a dict:
+```python
+tbl = pxt.get_table('my_table')
+schema = {
+    'new_col_1': {
+        'type': pxt.Image,
+        'stored': True,
+        'media_validation': 'on_write',
+    },
+    'new_col_2': pxt.String,
+}
 tbl.add_columns(schema)
 ```
 
@@ -290,6 +326,15 @@ tbl.batch_update(
 ```
 
 
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; collect()
+
+```python Signature
+collect() -> pxt._query.ResultSet
+```
+
+Return rows from this table.
+
+
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; columns()
 
 ```python Signature
@@ -341,6 +386,15 @@ describe() -> None
 ```
 
 Print the table schema.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; distinct()
+
+```python Signature
+distinct() -> pxt.Query
+```
+
+Remove duplicate rows from table.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; drop_column()
@@ -540,6 +594,26 @@ tbl.get_versions(n=5)
 ```
 
 
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; group_by()
+
+```python Signature
+group_by(*items: exprs.Expr) -> pxt.Query
+```
+
+Group the rows of this table based on the expression.
+
+See [`Query.group_by`](./query#method-group_by) for more details.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; head()
+
+```python Signature
+head(*args: Any, **kwargs: Any) -> pxt._query.ResultSet
+```
+
+Return the first n rows inserted into this table.
+
+
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; history()
 
 ```python Signature
@@ -549,7 +623,7 @@ history(n: int | None = None) -> pd.DataFrame
 Returns a human-readable report about versions of this table.
 
 `history()` is intended for human-readable output of version metadata; for programmatic access,
-use [`get_versions()`](./table#method-get-versions) instead.
+use [`get_versions()`](./table#method-get_versions) instead.
 
 **Parameters:**
 
@@ -672,6 +746,51 @@ tbl.insert(models)
 ```
 
 
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; join()
+
+```python Signature
+join(
+    other: Table,
+    *,
+    on: exprs.Expr | None = None,
+    how: pixeltable.plan.JoinType.LiteralType = 'inner'
+) -> pxt.Query
+```
+
+Join this table with another table.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; limit()
+
+```python Signature
+limit(n: int, offset: int | None = None) -> pxt.Query
+```
+
+Select a limited number of rows from the Table, optionally skipping rows for pagination.
+
+
+**Parameters:**
+
+- **`n`** (`int`): Number of rows to select.
+- **`offset`** (`int | None`): Number of rows to skip before returning results. Default is None (no offset).
+
+**Returns:**
+
+- `'pxt.Query'`: A Query with the specified limited rows.
+
+**Examples:**
+
+Get the first 10 rows:
+```python
+t.limit(10).collect()
+```
+
+Get rows 21-30 (skip first 20, return next 10):
+```python
+t.limit(10, offset=20).collect()
+```
+
+
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; list_views()
 
 ```python Signature
@@ -689,6 +808,17 @@ Returns a list of all views and snapshots of this `Table`.
 **Returns:**
 
 - `list[str]`: A list of view paths.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; order_by()
+
+```python Signature
+order_by(*items: exprs.Expr, asc: bool = True) -> pxt.Query
+```
+
+Order the rows of this table based on the expression.
+
+See [`Query.order_by`](./query#method-order_by) for more details.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; recompute_columns()
@@ -771,6 +901,43 @@ Reverts the table to the previous version.
     This operation is irreversible.
 
 
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; sample()
+
+```python Signature
+sample(
+    n: int | None = None,
+    n_per_stratum: int | None = None,
+    fraction: float | None = None,
+    seed: int | None = None,
+    stratify_by: Any = None
+) -> pxt.Query
+```
+
+Choose a shuffled sample of rows
+
+See [`Query.sample`](./query#method-sample) for more details.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; select()
+
+```python Signature
+select(*items: Any, **named_items: Any) -> pxt.Query
+```
+
+Select columns or expressions from this table.
+
+See [`Query.select`](./query#method-select) for more details.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; show()
+
+```python Signature
+show(*args: Any, **kwargs: Any) -> pxt._query.ResultSet
+```
+
+Return rows from this table.
+
+
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; sync()
 
 ```python Signature
@@ -791,6 +958,15 @@ Synchronizes this table with its linked external stores.
     will synchronize all of this table's external stores.
 - **`export_data`** (`bool`, default: `True`): If `True`, data from this table will be exported to the external stores during synchronization.
 - **`import_data`** (`bool`, default: `True`): If `True`, data from the external stores will be imported to this table during synchronization.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; tail()
+
+```python Signature
+tail(*args: Any, **kwargs: Any) -> pxt._query.ResultSet
+```
+
+Return the last n rows inserted into this table.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; unlink_external_stores()
@@ -861,4 +1037,15 @@ Increment `int_col` by 1 for all rows where `int_col` is 0:
 ```python
 tbl.update({'int_col': tbl.int_col + 1}, where=tbl.int_col == 0)
 ```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; where()
+
+```python Signature
+where(pred: exprs.Expr) -> pxt.Query
+```
+
+Filter rows from this table based on the expression.
+
+See [`Query.where`](./query#method-where) for more details.
 
