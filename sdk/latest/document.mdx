@@ -12,47 +12,67 @@ Pixeltable UDFs for `DocumentType`.
 ## <span style={{ 'color': 'gray' }}>iterator</span>&nbsp; document_splitter()
 
 ```python Signature
+@pxt.iterator
 document_splitter(
-    document: Any,
-    separators: str,
+    document: pxt.Document,
+    separators: pxt.String,
     *,
-    elements: list[typing.Literal['text', 'image']] | None = None,
-    limit: int | None = None,
-    overlap: int | None = None,
-    metadata: str = '',
-    skip_tags: list[str] | None = None,
-    spacy_model: str = 'en_core_web_sm',
-    tiktoken_encoding: str | None = 'cl100k_base',
-    tiktoken_target_model: str | None = None,
-    image_dpi: int = 300,
-    image_format: str = 'png'
-) 
+    elements: pxt.Json | None = None,
+    limit: pxt.Int | None = None,
+    overlap: pxt.Int | None = None,
+    metadata: pxt.String = '',
+    skip_tags: pxt.Json | None = None,
+    spacy_model: pxt.String = 'en_core_web_sm',
+    tiktoken_encoding: pxt.String | None = 'cl100k_base',
+    tiktoken_target_model: pxt.String | None = None,
+    image_dpi: pxt.Int = 300,
+    image_format: pxt.String = 'png'
+)
 ```
 
 Iterator over chunks of a document. The document is chunked according to the specified `separators`.
 
-The iterator yields a `text` field containing the text of the chunk, and it may also
-include additional metadata fields if specified in the `metadata` parameter, as explained below.
-
 Chunked text will be cleaned with `ftfy.fix_text` to fix up common problems with unicode sequences.
+
+__Outputs__:
+
+    One row per chunk, with the following columns, depending on the specified `elements` and `metadata`:
+
+    - `text` (`pxt.String`): The text of the chunk. Present if `'text'` is specified in `elements`.
+    - `image` (`pxt.Image`): The image extracted from the chunk. Present if `'image'` is specified in `elements`.
+    - `title` (`pxt.String | None`): The document title. Present if `'title'` is specified in `metadata`.
+    - `heading` (`pxt.Json | None`): The heading hierarchy at the start of the chunk (HTML and Markdown only).
+        Present if `'heading'` is specified in `metadata`.
+    - `sourceline` (`pxt.Int | None`): The source line number of the start of the chunk (HTML only).
+        Present if `'sourceline'` is specified in `metadata`.
+    - `page` (`pxt.Int | None`): The page number of the chunk (PDF only). Present if `'page'` is specified in
+        `metadata`.
+    - `bounding_box` (`pxt.Json | None`): The bounding box of the chunk on the page, as an `{x1, y1, x2, y2}`
+        dictionary (PDF only). Present if `'bounding_box'` is specified in `metadata`.
 
 **Parameters:**
 
-- **`separators`** (`str`): separators to use to chunk the document. Options are:
+- **`separators`** (`pxt.String`): separators to use to chunk the document. Options are:
     `'heading'`, `'paragraph'`, `'sentence'`, `'token_limit'`, `'char_limit'`, `'page'`.
     This may be a comma-separated string, e.g., `'heading,token_limit'`.
-- **`elements`** (`list[typing.Literal['text', 'image']] | None`): list of elements to extract from the document. Options are:
+- **`elements`** (`pxt.Json | None`): list of elements to extract from the document. Options are:
     `'text'`, `'image'`. Defaults to `['text']` if not specified. The `'image'` element is only supported
     for the `'page'` separator on PDF documents.
-- **`limit`** (`int | None`): the maximum number of tokens or characters in each chunk, if `'token_limit'`
+- **`limit`** (`pxt.Int | None`): the maximum number of tokens or characters in each chunk, if `'token_limit'`
     or `'char_limit'` is specified.
-- **`metadata`** (`str`, default: `''`): additional metadata fields to include in the output. Options are:
+- **`metadata`** (`pxt.String`): additional metadata fields to include in the output. Options are:
     `'title'`, `'heading'` (HTML and Markdown), `'sourceline'` (HTML), `'page'` (PDF), `'bounding_box'`
     (PDF). The input may be a comma-separated string, e.g., `'title,heading,sourceline'`.
-- **`spacy_model`** (`str`, default: `'en_core_web_sm'`): Name of the spaCy model to use for sentence segmentation. This parameter is ignored unless
+- **`skip_tags`** (`pxt.Json | None`): list of HTML tags to skip when processing HTML documents.
+- **`spacy_model`** (`pxt.String`): Name of the spaCy model to use for sentence segmentation. This parameter is ignored unless
     the `'sentence'` separator is specified.
-- **`image_dpi`** (`int`, default: `300`): DPI to use when extracting images from PDFs. Defaults to 300.
-- **`image_format`** (`str`, default: `'png'`): format to use when extracting images from PDFs. Defaults to 'png'.
+- **`tiktoken_encoding`** (`pxt.String | None`): Name of the tiktoken encoding to use when counting tokens. This parameter is ignored
+    unless the `'token_limit'` separator is specified.
+- **`tiktoken_target_model`** (`pxt.String | None`): Name of the target model to use when counting tokens with tiktoken. If specified,
+    this parameter overrides `tiktoken_encoding`. This parameter is ignored unless the `'token_limit'`
+    separator is specified.
+- **`image_dpi`** (`pxt.Int`): DPI to use when extracting images from PDFs. Defaults to 300.
+- **`image_format`** (`pxt.String`): format to use when extracting images from PDFs. Defaults to 'png'.
 
 **Examples:**
 

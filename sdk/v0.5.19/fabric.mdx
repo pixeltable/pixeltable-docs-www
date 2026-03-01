@@ -1,0 +1,166 @@
+---
+title: "fabric"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/fabric.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.fabric
+
+
+Pixeltable UDFs that wrap Azure OpenAI endpoints via Microsoft Fabric.
+
+These functions provide seamless access to Azure OpenAI models within Microsoft Fabric
+notebook environments. Authentication and endpoint discovery are handled automatically
+using Fabric's built-in service discovery and token utilities.
+
+**Note:** These functions only work within Microsoft Fabric notebook environments.
+
+For more information on Fabric AI services, see:
+[https://learn.microsoft.com/en-us/fabric/data-science/ai-services/ai-services-overview](https://learn.microsoft.com/en-us/fabric/data-science/ai-services/ai-services-overview)
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat_completions()
+
+```python Signature
+@pxt.udf
+chat_completions(
+    messages: pxt.Json,
+    *,
+    model: pxt.String,
+    api_version: pxt.String | None = None,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Creates a model response for the given chat conversation using Azure OpenAI in Fabric.
+
+Equivalent to the Azure OpenAI `chat/completions` API endpoint.
+For additional details, see: [https://learn.microsoft.com/en-us/azure/ai-services/openai/reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
+
+**Automatic authentication:** Authentication is handled automatically in Fabric notebooks using
+token-based authentication. No API keys are required.
+
+**Supported models in Fabric:**
+- `gpt-5` (reasoning model)
+- `gpt-4.1`
+- `gpt-4.1-mini`
+
+Request throttling:
+Applies the rate limit set in the config (section `fabric.rate_limits`, key `chat`). If no rate
+limit is configured, uses a default of 600 RPM.
+
+__Requirements:__
+
+- Microsoft Fabric notebook environment
+- `synapse-ml-fabric` package (pre-installed in Fabric)
+
+**Parameters:**
+
+- **`messages`** (`pxt.Json`): A list of message dicts with 'role' and 'content' keys, as described in the
+    Azure OpenAI API documentation.
+- **`model`** (`pxt.String`): The deployment name to use (e.g., 'gpt-5', 'gpt-4.1', 'gpt-4.1-mini').
+- **`api_version`** (`pxt.String | None`): Optional API version override. If not specified, defaults to '2025-04-01-preview'
+    for reasoning models (gpt-5) and '2024-02-15-preview' for standard models.
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Azure OpenAI `chat/completions` API.
+    For details on available parameters, see:
+    [https://learn.microsoft.com/en-us/azure/ai-services/openai/reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
+
+    **Note:** Reasoning models (gpt-5) use `max_completion_tokens` instead of `max_tokens`
+    and do not support the `temperature` parameter.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the response and other metadata.
+
+**Examples:**
+
+Add a computed column that applies the model `gpt-4.1` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+```python
+from pixeltable.functions import fabric
+
+messages = [
+    {'role': 'system', 'content': 'You are a helpful assistant.'},
+    {'role': 'user', 'content': tbl.prompt},
+]
+tbl.add_computed_column(
+    response=fabric.chat_completions(messages, model='gpt-4.1')
+)
+```
+
+Using a reasoning model (gpt-5):
+```python
+tbl.add_computed_column(
+    reasoning_response=fabric.chat_completions(
+        messages,
+        model='gpt-5',
+        model_kwargs={'max_completion_tokens': 5000},
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embeddings()
+
+```python Signature
+@pxt.udf
+embeddings(
+    input: pxt.String,
+    *,
+    model: pxt.String = 'text-embedding-ada-002',
+    api_version: pxt.String = '2024-02-15-preview',
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Array[(None,), float32]
+```
+
+Creates an embedding vector representing the input text using Azure OpenAI in Fabric.
+
+Equivalent to the Azure OpenAI `embeddings` API endpoint.
+For additional details, see: [https://learn.microsoft.com/en-us/azure/ai-services/openai/reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
+
+**Automatic authentication:** Authentication is handled automatically in Fabric notebooks using
+token-based authentication. No API keys are required.
+
+**Supported models in Fabric:**
+- `text-embedding-ada-002`
+- `text-embedding-3-small`
+- `text-embedding-3-large`
+
+Request throttling:
+Applies the rate limit set in the config (section `fabric.rate_limits`, key `embeddings`). If no rate
+limit is configured, uses a default of 600 RPM. Batches up to 32 inputs per request for efficiency.
+
+__Requirements:__
+
+- Microsoft Fabric notebook environment
+- `synapse-ml-fabric` package (pre-installed in Fabric)
+
+**Parameters:**
+
+- **`input`** (`pxt.String`): The text to embed (automatically batched).
+- **`model`** (`pxt.String`): The embedding model deployment name (default: 'text-embedding-ada-002').
+- **`api_version`** (`pxt.String`): The API version to use (default: '2024-02-15-preview').
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Azure OpenAI `embeddings` API.
+    For details on available parameters, see:
+    [https://learn.microsoft.com/en-us/azure/ai-services/openai/reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
+
+**Returns:**
+
+- `pxt.Array[(None,), float32]`: An array representing the embedding vector for the input text.
+
+**Examples:**
+
+Add a computed column that applies the model `text-embedding-ada-002` to an existing Pixeltable column `tbl.text` of the table `tbl`:
+```python
+from pixeltable.functions import fabric
+
+tbl.add_computed_column(embed=fabric.embeddings(tbl.text))
+```
+
+Add an embedding index to an existing column `text`:
+```python
+tbl.add_embedding_index(
+    'text',
+    embedding=fabric.embeddings.using(model='text-embedding-ada-002'),
+)
+```
+

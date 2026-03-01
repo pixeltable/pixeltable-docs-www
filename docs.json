@@ -50,10 +50,12 @@
                   "howto/providers/working-with-bedrock",
                   "howto/providers/working-with-deepseek",
                   "howto/providers/working-with-fal",
+                  "howto/providers/working-with-fabric",
                   "howto/providers/working-with-fireworks",
                   "howto/providers/working-with-gemini",
                   "howto/providers/working-with-groq",
                   "howto/providers/working-with-hugging-face",
+                  "howto/providers/working-with-jina",
                   "howto/providers/working-with-llama-cpp",
                   "howto/providers/working-with-mistralai",
                   "howto/providers/working-with-ollama",
@@ -225,6 +227,7 @@
                       "sdk/latest/anthropic",
                       "sdk/latest/bedrock",
                       "sdk/latest/deepseek",
+                      "sdk/latest/fabric",
                       "sdk/latest/fal",
                       "sdk/latest/fireworks",
                       "sdk/latest/gemini",
@@ -260,8 +263,87 @@
             ]
           },
           {
-            "dropdown": "v0.5.18",
+            "dropdown": "v0.5.19",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.19/pixeltable",
+                      "sdk/v0.5.19/table",
+                      "sdk/v0.5.19/query",
+                      "sdk/v0.5.19/columnmetadata",
+                      "sdk/v0.5.19/dircontents",
+                      "sdk/v0.5.19/indexmetadata",
+                      "sdk/v0.5.19/tablemetadata",
+                      "sdk/v0.5.19/updatestatus",
+                      "sdk/v0.5.19/versionmetadata",
+                      "sdk/v0.5.19/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.19/functions",
+                      "sdk/v0.5.19/audio",
+                      "sdk/v0.5.19/date",
+                      "sdk/v0.5.19/document",
+                      "sdk/v0.5.19/image",
+                      "sdk/v0.5.19/json",
+                      "sdk/v0.5.19/math",
+                      "sdk/v0.5.19/net",
+                      "sdk/v0.5.19/string",
+                      "sdk/v0.5.19/timestamp",
+                      "sdk/v0.5.19/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.19/anthropic",
+                      "sdk/v0.5.19/bedrock",
+                      "sdk/v0.5.19/deepseek",
+                      "sdk/v0.5.19/fabric",
+                      "sdk/v0.5.19/fal",
+                      "sdk/v0.5.19/fireworks",
+                      "sdk/v0.5.19/gemini",
+                      "sdk/v0.5.19/groq",
+                      "sdk/v0.5.19/huggingface",
+                      "sdk/v0.5.19/jina",
+                      "sdk/v0.5.19/llama_cpp",
+                      "sdk/v0.5.19/mistralai",
+                      "sdk/v0.5.19/ollama",
+                      "sdk/v0.5.19/openai",
+                      "sdk/v0.5.19/openrouter",
+                      "sdk/v0.5.19/replicate",
+                      "sdk/v0.5.19/reve",
+                      "sdk/v0.5.19/runwayml",
+                      "sdk/v0.5.19/together",
+                      "sdk/v0.5.19/twelvelabs",
+                      "sdk/v0.5.19/uuid",
+                      "sdk/v0.5.19/vision",
+                      "sdk/v0.5.19/voyageai",
+                      "sdk/v0.5.19/whisper",
+                      "sdk/v0.5.19/whisperx",
+                      "sdk/v0.5.19/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.19/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.18",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",

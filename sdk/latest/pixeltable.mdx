@@ -75,7 +75,7 @@ create_snapshot(
     base: catalog.Table | Query,
     *,
     additional_columns: Mapping[str, type | ColumnSpec | exprs.Expr] | None = None,
-    iterator: tuple[type[ComponentIterator], dict[str, Any]] | None = None,
+    iterator: func.GeneratingFunctionCall | None = None,
     num_retained_versions: int = 10,
     comment: str | None = None,
     custom_metadata: Any = None,
@@ -96,7 +96,7 @@ Create a snapshot of an existing table object (which itself can be a view or a s
 - **`additional_columns`** (`Mapping[str, type | ColumnSpec | exprs.Expr] | None`): If specified, will add these columns to the snapshot once it is created. The format
     of the `additional_columns` parameter is identical to the format of the `schema` parameter in
     [`create_table`](./pixeltable#func-create_table).
-- **`iterator`** (`tuple[type[ComponentIterator], dict[str, Any]] | None`): The iterator to use for this snapshot. If specified, then this snapshot will be a one-to-many view of
+- **`iterator`** (`func.GeneratingFunctionCall | None`): The iterator to use for this snapshot. If specified, then this snapshot will be a one-to-many view of
     the base table.
 - **`num_retained_versions`** (`int`, default: `10`): Number of versions of the view to retain.
 - **`comment`** (`str | None`): Optional comment for the snapshot.
@@ -278,7 +278,7 @@ create_view(
     additional_columns: Mapping[str, type | ColumnSpec | exprs.Expr] | None = None,
     is_snapshot: bool = False,
     create_default_idxs: bool = False,
-    iterator: tuple[type[ComponentIterator], dict[str, Any]] | None = None,
+    iterator: func.GeneratingFunctionCall | None = None,
     num_retained_versions: int = 10,
     comment: str | None = None,
     custom_metadata: Any = None,
@@ -303,7 +303,7 @@ Create a view of an existing table object (which itself can be a view or a snaps
     [`create_snapshot`](./pixeltable#func-create_snapshot).
 - **`create_default_idxs`** (`bool`, default: `False`): Whether to create default indexes on the view's columns (the base's columns are excluded).
     Cannot be `True` for snapshots.
-- **`iterator`** (`tuple[type[ComponentIterator], dict[str, Any]] | None`): The iterator to use for this view. If specified, then this view will be a one-to-many view of
+- **`iterator`** (`func.GeneratingFunctionCall | None`): The iterator to use for this view. If specified, then this view will be a one-to-many view of
     the base table.
 - **`num_retained_versions`** (`int`, default: `10`): Number of versions of the view to retain.
 - **`comment`** (`str | None`): Optional comment for the view.
@@ -598,12 +598,12 @@ Move a schema object to a new directory and/or rename a schema object.
 
 Move a table to a different directory:
 ```python
- pxt.move('dir1/my_table', 'dir2/my_table')
+pxt.move('dir1/my_table', 'dir2/my_table')
 ```
 
 Rename a table:
 ```python
- pxt.move('dir1/my_table', 'dir1/new_name')
+pxt.move('dir1/my_table', 'dir1/new_name')
 ```
 
 
