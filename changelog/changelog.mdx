@@ -21,6 +21,34 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.5.19
+
+**Released:** March 01, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.19](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.19)
+
+#### What's Changed
+* Add local docs serving instructions to contributing guide by [@apreshill](https://github.com/apreshill) in [#1054](https://github.com/pixeltable/pixeltable/pull/1054)
+* TableOp refactoring so that TableVersion is not required for some ops by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1153](https://github.com/pixeltable/pixeltable/pull/1153)
+* [@pxt](https://github.com/pxt).iterator decorator by [@aaron-siegel](https://github.com/aaron-siegel) in [#1111](https://github.com/pixeltable/pixeltable/pull/1111)
+* Docs: add missing integrations, SDK entries, and cookbook updates for v0.5.11–v0.5.18 by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1158](https://github.com/pixeltable/pixeltable/pull/1158)
+* Quieter CI output by [@aaron-siegel](https://github.com/aaron-siegel) in [#1161](https://github.com/pixeltable/pixeltable/pull/1161)
+* [PXT-1002] Make non-transactional TableOps idempotent by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1139](https://github.com/pixeltable/pixeltable/pull/1139)
+* [PXT-1043] Support video embeddings in VoyageAI by [@aaron-siegel](https://github.com/aaron-siegel) in [#1160](https://github.com/pixeltable/pixeltable/pull/1160)
+* PXT-877 Fixing if_exists='replace' cannot be used to replace a Table with a View/Snapshot or vice-versa by [@christopherpestano](https://github.com/christopherpestano) in [#1150](https://github.com/pixeltable/pixeltable/pull/1150)
+* PXT-1020: support for multi-threaded API calls by [@mkornacker](https://github.com/mkornacker) in [#1155](https://github.com/pixeltable/pixeltable/pull/1155)
+* Fix TableVersion.is_iterator_column by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1159](https://github.com/pixeltable/pixeltable/pull/1159)
+* PXT-933 Support videos in gemini generate_content by [@amithadke](https://github.com/amithadke) in [#1152](https://github.com/pixeltable/pixeltable/pull/1152)
+* [PXT-1018] Add a "source" field to list of columns in t.describe() by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1135](https://github.com/pixeltable/pixeltable/pull/1135)
+* uvloop compatibility by [@mkornacker](https://github.com/mkornacker) in [#1164](https://github.com/pixeltable/pixeltable/pull/1164)
+* docs: update deployment guides for thread safety, sync endpoints, and uvloop by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1165](https://github.com/pixeltable/pixeltable/pull/1165)
+* Add Bedrock API Key auth support and notebook outputs by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1146](https://github.com/pixeltable/pixeltable/pull/1146)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.18...v0.5.19
+
+---
+
 ### v0.5.18
 
 **Released:** February 24, 2026  
@@ -1129,39 +1157,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.13...v0.3.14
-
----
-
-### v0.3.13
-
-**Released:** May 05, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.3.13](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.13)
-
-#### What's Changed
-* Update embedding index and add change log by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#574](https://github.com/pixeltable/pixeltable/pull/574)
-* update changelog and add technical diagram by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#586](https://github.com/pixeltable/pixeltable/pull/586)
-* remove sample snippet from installation page by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#587](https://github.com/pixeltable/pixeltable/pull/587)
-* PXT-551 Remove internal column types from pixeltable top level module by [@amithadke](https://github.com/amithadke) in [#584](https://github.com/pixeltable/pixeltable/pull/584)
-* PXT-553: Use source CTE explicitly to generate GROUP BY. by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#588](https://github.com/pixeltable/pixeltable/pull/588)
-* PXT-550 Add markdown when displaying table/dataframe descriptors in n… by [@amithadke](https://github.com/amithadke) in [#585](https://github.com/pixeltable/pixeltable/pull/585)
-* Ensure that extra_fields is properly set in TableDataConduit. by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#583](https://github.com/pixeltable/pixeltable/pull/583)
-* CI fixes by [@aaron-siegel](https://github.com/aaron-siegel) in [#593](https://github.com/pixeltable/pixeltable/pull/593)
-* Improvements and fixes for Table._descriptors() by [@mkornacker](https://github.com/mkornacker) in [#589](https://github.com/pixeltable/pixeltable/pull/589)
-* AWS Bedrock Adapter by [@aaron-siegel](https://github.com/aaron-siegel) in [#592](https://github.com/pixeltable/pixeltable/pull/592)
-* [Sample-App] Reddit Agentic Bot by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#590](https://github.com/pixeltable/pixeltable/pull/590)
-* Improved error reporting in ExprEvalError by [@aaron-siegel](https://github.com/aaron-siegel) in [#595](https://github.com/pixeltable/pixeltable/pull/595)
-* CI fixes by [@aaron-siegel](https://github.com/aaron-siegel) in [#603](https://github.com/pixeltable/pixeltable/pull/603)
-* Add OpenAI tool call to integration notebook by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#601](https://github.com/pixeltable/pixeltable/pull/601)
-* Fix docs integration links by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#605](https://github.com/pixeltable/pixeltable/pull/605)
-* Update Reddit BOT README.md by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#602](https://github.com/pixeltable/pixeltable/pull/602)
-* Add comprehensive user workflow test script with timing by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#594](https://github.com/pixeltable/pixeltable/pull/594)
-* add deepseek integration notebook by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#606](https://github.com/pixeltable/pixeltable/pull/606)
-* fix typo in file name by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#580](https://github.com/pixeltable/pixeltable/pull/580)
-* Removing anthropic import from FnCallEvaluator by [@mkornacker](https://github.com/mkornacker) in [#609](https://github.com/pixeltable/pixeltable/pull/609)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.12...v0.3.13
 
 ---
 

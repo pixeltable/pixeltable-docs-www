@@ -21,23 +21,27 @@ t.select(t.str_col.capitalize()).collect()
 ## <span style={{ 'color': 'gray' }}>iterator</span>&nbsp; string_splitter()
 
 ```python Signature
+@pxt.iterator
 string_splitter(
-    text: Any,
-    separators: str,
+    text: pxt.String,
+    separators: pxt.String,
     *,
-    spacy_model: str = 'en_core_web_sm'
-) 
+    spacy_model: pxt.String = 'en_core_web_sm'
+)
 ```
 
 Iterator over chunks of a string. The string is chunked according to the specified `separators`.
 
-The iterator yields a `text` field containing the text of the chunk.
-Chunked text will be cleaned with `ftfy.fix_text` to fix up common problems with unicode sequences.
+__Outputs__:
+
+    One row per chunk, with the following columns:
+
+    - `text` (`pxt.String`): The text of the chunk.
 
 **Parameters:**
 
-- **`separators`** (`str`): separators to use to chunk the document. Currently the only supported option is `'sentence'`.
-- **`spacy_model`** (`str`, default: `'en_core_web_sm'`): Name of the spaCy model to use for sentence segmentation.
+- **`separators`** (`pxt.String`): Separators to use to chunk the document. Currently the only supported option is `'sentence'`.
+- **`spacy_model`** (`pxt.String`): Name of the spaCy model to use for sentence segmentation.
 
 **Examples:**
 

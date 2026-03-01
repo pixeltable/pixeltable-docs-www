@@ -12,16 +12,48 @@ above links.</Tip>
 
 
 
-Pixeltable’s Bedrock integration enables you to access AWS Bedrock via
-the Bedrock API.
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What was the outcome of the 1904 US Presidential election?</td>
+<td style="vertical-align: middle;">The 1904 United States Presidential election was a contest between
+the incumbent President Theodore Roosevelt, representing the Republican
+Party, and Alton B. Parker, the candidate of the Democratic Party. The
+election took place on November 8, 1904. ### Outcome: - **Theodore
+Roosevelt** won the election in a landslide victory. - **Electoral
+Votes:**   - Theodore Roosevelt (Republican): 336 electoral votes   -
+Alton B. Parker (Democratic): 140 electoral votes - **Popular Vote:**
+  - Theodor ...... mpaign emphasized a return to limited government and
+states' rights, which did not resonate as strongly with the electorate.
+4. **Third Parties:** Minor parties, including the Socialist Party with
+Eugene V. Debs as its candidate, had little impact on the overall
+outcome but indicated growing interest in alternative political
+movements. In summary, the 1904 election solidified Theodore Roosevelt’s
+position as a transformative leader and marked a significant victory for
+the Republican Party.</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Bedrock integration enables you to access AWS Bedrock
+foundation models directly from your tables.
 
 ### Prerequisites
 
 -   Activate Bedrock in your AWS account.
 -   Request access to your desired models (e.g. Claude Sonnet 3.7,
-    Amazon Nova Pro)
--   Optional - you may need to configure AWS CLI locally to authenticate
-    with your AWS account.
+    Amazon Nova Pro).
+-   Obtain a **Bedrock API Key** from the AWS console (under Bedrock \>
+    API keys), or configure standard AWS IAM credentials.
 
 ### Important notes
 
@@ -29,12 +61,12 @@ the Bedrock API.
 -   Be mindful of sensitive data and consider security measures when
     integrating with external services.
 
-First you’ll need to install required libraries and enter an Bedrock API
-key.
+First you’ll need to install required libraries and configure your
+Bedrock credentials.
 
 
 ```python
-%pip install -qU pixeltable boto3 duckduckgo-search
+%pip install -qU pixeltable boto3
 ```
 
 
@@ -42,15 +74,13 @@ key.
 import getpass
 import os
 
-if 'AWS_ACCESS_KEY' not in os.environ:
-    os.environ['AWS_ACCESS_KEY'] = getpass.getpass(
-        'Enter your AWS Access Key:'
+if 'BEDROCK_API_KEY' not in os.environ:
+    os.environ['BEDROCK_API_KEY'] = getpass.getpass(
+        'Enter your Bedrock API Key: '
     )
 
-if 'AWS_SECRET_ACCESS_KEY' not in os.environ:
-    os.environ['AWS_SECRET_ACCESS_KEY'] = getpass.getpass(
-        'Enter your AWS Secret Access Key:'
-    )
+# Optional: set the region if your Bedrock endpoint is not in us-east-1
+# os.environ['BEDROCK_REGION_NAME'] = 'us-west-2'
 ```
 
 Now let’s create a Pixeltable directory to hold the tables for our demo.
@@ -64,7 +94,12 @@ pxt.drop_dir('bedrock_demo', force=True)
 pxt.create_dir('bedrock_demo')
 ```
 
-## Basic messages
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;bedrock_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1512adb10&gt;
+</pre>
+
+## Messages
 
 Create a Table: In Pixeltable, create a table with columns to represent
 your input data and the columns where you want to store the results from
@@ -74,11 +109,10 @@ Bedrock.
 ```python
 from pixeltable.functions import bedrock
 
-# Create a table in Pixeltable and pick a model hosted on Bedrock with some parameters
+# Create a table in Pixeltable and add a computed column that calls Bedrock
 
 t = pxt.create_table('bedrock_demo/chat', {'input': pxt.String})
 
-msgs = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(
     output=bedrock.converse(
         model_id='amazon.nova-pro-v1:0',
@@ -87,11 +121,22 @@ t.add_computed_column(
 )
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
 
 ```python
 # Parse the response into a new column
 t.add_computed_column(response=t.output.output.message.content[0].text)
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -106,152 +151,11 @@ t.insert(
 t.select(t.input, t.response).show()
 ```
 
-## Advanced: Tool-based agent with Bedrock
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;2.75&nbsp;s&nbsp;(0.36&nbsp;rows/s)
+</pre>
 
-Now let’s create a more advanced example using Bedrock with tools for
-news search and weather information.
-
-
-```python
-import pixeltable as pxt
-import pixeltable.functions as pxtf
-from duckduckgo_search import DDGS
-from pixeltable.functions.bedrock import converse, invoke_tools
-
-# Initialize app structure
-pxt.drop_dir('agents', force=True)
-pxt.create_dir('agents')
-```
-
-
-```python
-# Define tools
-@pxt.udf
-def search_news(keywords: str, max_results: int) -> str:
-    """Search news using DuckDuckGo and return results."""
-    try:
-        with DDGS() as ddgs:
-            results = ddgs.news(
-                keywords=keywords,
-                region='wt-wt',
-                safesearch='off',
-                timelimit='m',
-                max_results=max_results,
-            )
-            formatted_results = []
-            for i, r in enumerate(results, 1):
-                formatted_results.append(
-                    f'{i}. Title: {r["title"]}\n'
-                    f'   Source: {r["source"]}\n'
-                    f'   Published: {r["date"]}\n'
-                    f'   Snippet: {r["body"]}\n'
-                )
-            return '\n'.join(formatted_results)
-    except Exception as e:
-        return f'Search failed: {str(e)}'
-
-
-@pxt.udf
-def get_weather(location: str) -> str:
-    """Mock weather function - replace with actual API call."""
-    return f'Current weather in {location}: 72°F, Partly Cloudy'
-
-
-# Register all tools
-tools = pxt.tools(search_news, get_weather)
-```
-
-
-```python
-# Create base table
-tool_agent = pxt.create_table(
-    'agents/tools', {'prompt': pxt.String}, if_exists='ignore'
-)
-
-# Add tool selection and execution workflow
-tool_agent.add_computed_column(
-    initial_response=converse(
-        model_id='amazon.nova-pro-v1:0',
-        messages=[
-            {'role': 'user', 'content': [{'text': tool_agent.prompt}]}
-        ],
-        tool_config=tools,
-    )
-)
-
-# Add tool execution
-tool_agent.add_computed_column(
-    tool_output=invoke_tools(tools, tool_agent.initial_response)
-)
-```
-
-
-```python
-# Add response formatting
-tool_agent.add_computed_column(
-    tool_response_prompt=pxtf.string.format(
-        'Orginal Prompt\n{0}: Tool Output\n{1}',
-        tool_agent.prompt,
-        tool_agent.tool_output,
-    ),
-    if_exists='ignore',
-)
-
-# Add final response generation
-tool_agent.add_computed_column(
-    final_response=converse(
-        model_id='amazon.nova-pro-v1:0',
-        messages=[
-            {
-                'role': 'user',
-                'content': [{'text': tool_agent.tool_response_prompt}],
-            }
-        ],
-    )
-)
-
-tool_agent.add_computed_column(
-    answer=tool_agent.final_response.output.message.content[0].text
-)
-```
-
-
-```python
-# Example queries using different tools
-queries = [
-    "What's the latest news about SpaceX?",
-    "What's the weather in San Francisco?",
-]
-
-# Use the agent
-for query in queries:
-    tool_agent.insert([{'prompt': query}])
-    result = tool_agent.select(
-        tool_agent.prompt, tool_agent.tool_output, tool_agent.answer
-    ).tail(1)
-
-# Display the full table
-tool_agent.select(tool_agent.prompt, tool_agent.answer).show()
-```
-
-## How it works
-
-This notebook demonstrates two key Bedrock integration patterns:
-
-1.  **Basic Message Completion**: Using the `bedrock.messages()`
-    function to generate responses from Bedrock models.
-
-2.  **Tool-based Agent**: Using `bedrock.converse()` and
-    `bedrock.invoke_tools()` to create an agent that can:
-
-    -   Analyze user queries
-    -   Select appropriate tools (news search or weather)
-    -   Execute the tools to retrieve information
-    -   Generate a final response based on the tool output
-
-This pattern demonstrates how Pixeltable can be used as an agent
-engineering framework, allowing you to create complex, multi-step
-workflows with LLMs and external tools.
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ### Learn more
 
@@ -259,8 +163,5 @@ To learn more about advanced techniques like RAG operations in
 Pixeltable, check out the [RAG Operations in
 Pixeltable](/howto/use-cases/rag-operations)
 tutorial.
-
-For more on agent engineering with Pixeltable, see the [PixelAgent
-documentation](/libraries/pixelagent).
 
 If you have any questions, don’t hesitate to reach out.

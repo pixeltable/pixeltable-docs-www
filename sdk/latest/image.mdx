@@ -20,12 +20,13 @@ t.select(t.img_col.convert('L')).collect()
 ## <span style={{ 'color': 'gray' }}>iterator</span>&nbsp; tile_iterator()
 
 ```python Signature
+@pxt.iterator
 tile_iterator(
-    image: Any,
-    tile_size: tuple[int, int],
+    image: pxt.Image,
+    tile_size: pxt.Json,
     *,
-    overlap: tuple[int, int] = (0, 0)
-) 
+    overlap: pxt.Json = (0, 0)
+)
 ```
 
 Iterator over tiles of an image. Each image will be divided into tiles of size `tile_size`, and the tiles will be
@@ -33,11 +34,19 @@ iterated over in row-major order (left-to-right, then top-to-bottom). An optiona
 specified. If the tiles do not exactly cover the image, then the rightmost and bottommost tiles will be padded with
 blackspace, so that the output images all have the exact size `tile_size`.
 
+__Outputs__:
+
+    One row per tile, with the following columns:
+
+    - `tile` (`pxt.Image`): The image tile
+    - `tile_coord` (`pxt.Json`): The (x, y) coordinates of the tile in the grid of tiles
+    - `tile_box` (`pxt.Json`): The (x1, y1, x2, y2) pixel coordinates of the tile in the original image
+
 **Parameters:**
 
-- **`image`** (`typing.Any`): Image to split into tiles.
-- **`tile_size`** (`tuple[int, int]`): Size of each tile, as a pair of integers `[width, height]`.
-- **`overlap`** (`tuple[int, int]`, default: `(0, 0)`): Amount of overlap between adjacent tiles, as a pair of integers `[width, height]`.
+- **`image`** (`pxt.Image`): Image to split into tiles.
+- **`tile_size`** (`pxt.Json`): Size of each tile, as a pair of integers `(width, height)`.
+- **`overlap`** (`pxt.Json`): Amount of overlap between adjacent tiles, as a pair of integers `(width, height)`.
 
 **Examples:**
 
@@ -46,7 +55,7 @@ This example assumes an existing table `tbl` with a column `img` of type `pxt.Im
 pxt.create_view(
     'image_tiles',
     tbl,
-    iterator=image_tile_iterator(
+    iterator=tile_iterator(
         tbl.img, tile_size=(256, 256), overlap=(32, 32)
     ),
 )

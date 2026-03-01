@@ -163,7 +163,7 @@ export const quartoRawHtml =
 </tr>
 <tr>
 <td style="vertical-align: middle;">Charlie</td>
-<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">NaN</td>
 <td style="vertical-align: middle;">NaN</td>
 </tr>
 </tbody>
@@ -337,6 +337,56 @@ export const quartoRawHtml =
 </tbody>
 </table>
 `,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">order_id</th>
+<th data-quarto-table-cell-role="th">customer_id</th>
+<th data-quarto-table-cell-role="th">product</th>
+<th data-quarto-table-cell-role="th">amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">101</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Laptop</td>
+<td style="vertical-align: middle;">999.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">102</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">Mouse</td>
+<td style="vertical-align: middle;">29.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">order_id</th>
+<th data-quarto-table-cell-role="th">customer_id</th>
+<th data-quarto-table-cell-role="th">product</th>
+<th data-quarto-table-cell-role="th">amount</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">103</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">Keyboard</td>
+<td style="vertical-align: middle;">79.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">104</td>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">Monitor</td>
+<td style="vertical-align: middle;">299.</td>
+</tr>
+</tbody>
+</table>
+`,`
 <table>
 <thead>
 <tr>
@@ -388,6 +438,7 @@ metadata.
 -   Left join to keep all rows from the first table
 -   Cross join for Cartesian product (all combinations)
 -   Join with filtering, aggregation, and saving results
+-   Paginate results with `limit()` and `offset`
 
 Use `table1.join(table2, on=..., how=...)` to combine tables based on
 matching columns.
@@ -415,7 +466,7 @@ pxt.create_dir('join_demo')
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;join_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x1494a4a90&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x148e73850&gt;
 </pre>
 
 ### Create sample tables
@@ -445,10 +496,7 @@ customers.collect()
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;customers&#x27;.
-
-Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;\`customers\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;378.55&nbsp;rows/s\]
-Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s&nbsp;(385.68&nbsp;rows/s)
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
@@ -500,10 +548,7 @@ orders.collect()
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;orders&#x27;.
-
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders\`:&nbsp;4&nbsp;rows&nbsp;\[00:00,&nbsp;1261.07&nbsp;rows/s\]
-Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+Inserted&nbsp;4&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s&nbsp;(657.81&nbsp;rows/s)
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
@@ -585,10 +630,7 @@ customers.join(products, how='cross').select(
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;products&#x27;.
-
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;2&nbsp;rows&nbsp;\[00:00,&nbsp;815.30&nbsp;rows/s\]
-Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s&nbsp;(422.52&nbsp;rows/s)
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
@@ -635,19 +677,37 @@ orders_report.collect()
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;orders_report&#x27;.
-
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders_report\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
-Inserting&nbsp;rows&nbsp;into&nbsp;\`orders_report\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;529.36&nbsp;rows/s\]
-Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
+Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s&nbsp;(500.32&nbsp;rows/s)
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[11] }} />
+
+### Paginate results with limit and offset
+
+Use `limit(n, offset=k)` to retrieve results in pages. This is useful
+for displaying results incrementally or building paginated APIs.
+
+
+```python
+# Page 1: first 2 rows
+orders.order_by(orders.order_id).limit(2).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[12] }} />
+
+
+```python
+# Page 2: next 2 rows (skip the first 2)
+orders.order_by(orders.order_id).limit(2, offset=2).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[13] }} />
 
 ## Explanation
 
 **Join types:**
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[12] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[14] }} />
 
 **Join syntax:**
 
@@ -683,6 +743,16 @@ df = query.select(name=t.col, ...).collect().to_pandas()
 new_table = pxt.create_table('path', source=df)
 ```
 
+**Pagination:**
+
+
+```python
+# limit(n) returns at most n rows
+# limit(n, offset=k) skips the first k rows, then returns n
+query.order_by(t.id).limit(10)           # rows 0-9
+query.order_by(t.id).limit(10, offset=10) # rows 10-19
+```
+
 **Tips:**
 
 -   Use explicit predicates (`t1.col == t2.col`) for clarity
@@ -690,6 +760,8 @@ new_table = pxt.create_table('path', source=df)
 -   Chain `.group_by()` for aggregations
 -   Use `'left'` join when the first table is your “main” table
 -   Use named columns in `.select(name=col)` for clean column names
+-   Always use `.order_by()` with pagination to get deterministic page
+    ordering
 
 ## See also
 

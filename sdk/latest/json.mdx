@@ -18,6 +18,26 @@ t.select(pxtf.json.make_list(t.json_col)).collect()
 ```
 
 
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; dumps()
+
+```python Signature
+@pxt.udf
+dumps(obj: pxt.Json) -> pxt.String
+```
+
+Serialize a JSON object to a string.
+
+Equivalent to [`json.dumps()`](https://docs.python.org/3/library/json.html#json.dumps).
+
+**Parameters:**
+
+- **`obj`** (`pxt.Json`): A JSON-serializable object (dict, list, or scalar).
+
+**Returns:**
+
+- `pxt.String`: A JSON-formatted string.
+
+
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; make_list()
 
 ```python Signature

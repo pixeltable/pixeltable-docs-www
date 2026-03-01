@@ -96,9 +96,18 @@ multimodal_embed(
     input_type: pxt.String | None,
     truncation: pxt.Bool
 ) -> pxt.Array[(1024,), float32]
+
+# Signature 3:
+@pxt.udf
+multimodal_embed(
+    video: pxt.Video,
+    model: pxt.String,
+    input_type: pxt.String | None,
+    truncation: pxt.Bool
+) -> pxt.Array[(1024,), float32]
 ```
 
-Creates an embedding vector for text or images using Voyage AI's multimodal model.
+Creates an embedding vector for text, images, or video using Voyage AI's multimodal model.
 
 Equivalent to the Voyage AI `multimodal_embed` API endpoint.
 For additional details, see: [https://docs.voyageai.com/docs/multimodal-embeddings](https://docs.voyageai.com/docs/multimodal-embeddings)
@@ -114,7 +123,9 @@ __Requirements:__
 **Parameters:**
 
 - **`text`** (`String`): The text to embed.
-- **`model`** (`String`, default: `Literal('voyage-multimodal-3')`): The model to use. Currently only `voyage-multimodal-3` is supported.
+- **`image`** (`Image`): The image to embed.
+- **`video`** (`Video`): The video to embed.
+- **`model`** (`String`): The model to use. Currently only `voyage-multimodal-3` is supported.
 - **`input_type`** (`String | None`, default: `Literal(None)`): Type of the input. Options: `None`, `query`, `document`.
     For retrieval/search, set to `query` or `document` as appropriate.
 - **`truncation`** (`Bool`, default: `Literal(True)`): Whether to truncate inputs to fit within context length. Defaults to `True`.
@@ -136,14 +147,7 @@ Add an embedding index for column `description`:
 ```python
 tbl.add_embedding_index(
     'description',
-    string_embed=multimodal_embed.using(model='voyage-multimodal-3'),
-)
-```
-
-Embed an image column `img`:
-```python
-tbl.add_computed_column(
-    embed=multimodal_embed(tbl.img, input_type='document')
+    embed=multimodal_embed.using(model='voyage-multimodal-3'),
 )
 ```
 
