@@ -44,6 +44,14 @@
             "pages": [
               "platform/configuration",
               {
+                "group": "Migrating from...",
+                "pages": [
+                  "migrate/from-diy-data-pipeline",
+                  "migrate/from-rdbms-vectordbs",
+                  "migrate/from-agent-frameworks"
+                ]
+              },
+              {
                 "group": "Integrations",
                 "pages": [
                   "howto/providers/working-with-anthropic",
@@ -263,8 +271,87 @@
             ]
           },
           {
-            "dropdown": "v0.5.19",
+            "dropdown": "v0.5.20",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.20/pixeltable",
+                      "sdk/v0.5.20/table",
+                      "sdk/v0.5.20/query",
+                      "sdk/v0.5.20/columnmetadata",
+                      "sdk/v0.5.20/dircontents",
+                      "sdk/v0.5.20/indexmetadata",
+                      "sdk/v0.5.20/tablemetadata",
+                      "sdk/v0.5.20/updatestatus",
+                      "sdk/v0.5.20/versionmetadata",
+                      "sdk/v0.5.20/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.20/functions",
+                      "sdk/v0.5.20/audio",
+                      "sdk/v0.5.20/date",
+                      "sdk/v0.5.20/document",
+                      "sdk/v0.5.20/image",
+                      "sdk/v0.5.20/json",
+                      "sdk/v0.5.20/math",
+                      "sdk/v0.5.20/net",
+                      "sdk/v0.5.20/string",
+                      "sdk/v0.5.20/timestamp",
+                      "sdk/v0.5.20/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.20/anthropic",
+                      "sdk/v0.5.20/bedrock",
+                      "sdk/v0.5.20/deepseek",
+                      "sdk/v0.5.20/fabric",
+                      "sdk/v0.5.20/fal",
+                      "sdk/v0.5.20/fireworks",
+                      "sdk/v0.5.20/gemini",
+                      "sdk/v0.5.20/groq",
+                      "sdk/v0.5.20/huggingface",
+                      "sdk/v0.5.20/jina",
+                      "sdk/v0.5.20/llama_cpp",
+                      "sdk/v0.5.20/mistralai",
+                      "sdk/v0.5.20/ollama",
+                      "sdk/v0.5.20/openai",
+                      "sdk/v0.5.20/openrouter",
+                      "sdk/v0.5.20/replicate",
+                      "sdk/v0.5.20/reve",
+                      "sdk/v0.5.20/runwayml",
+                      "sdk/v0.5.20/together",
+                      "sdk/v0.5.20/twelvelabs",
+                      "sdk/v0.5.20/uuid",
+                      "sdk/v0.5.20/vision",
+                      "sdk/v0.5.20/voyageai",
+                      "sdk/v0.5.20/whisper",
+                      "sdk/v0.5.20/whisperx",
+                      "sdk/v0.5.20/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.20/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.19",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
