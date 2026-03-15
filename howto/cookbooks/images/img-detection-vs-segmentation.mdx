@@ -371,10 +371,7 @@ from pixeltable.functions.huggingface import (
     detr_for_object_detection,
     detr_for_segmentation,
 )
-from pixeltable.functions.vision import (
-    draw_bounding_boxes,
-    overlay_segmentation,
-)
+from pixeltable.functions.vision import bboxes_draw, overlay_segmentation
 ```
 
 ### Load images
@@ -453,13 +450,13 @@ images.select(images.image, images.detections).collect()
 
 ### Visualize detections with bounding boxes
 
-Use `draw_bounding_boxes` to overlay the detection results on the
-original image.
+Use `bboxes_draw` to overlay the detection results on the original
+image.
 
 
 ```python
 images.add_computed_column(
-    detection_viz=draw_bounding_boxes(
+    detection_viz=bboxes_draw(
         images.image,
         boxes=images.detections.boxes,
         labels=images.detections.label_text,

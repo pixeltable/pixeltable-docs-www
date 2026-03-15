@@ -178,7 +178,7 @@ the original image.
 
 ```python
 import pixeltable as pxt
-from pixeltable.functions.vision import draw_bounding_boxes
+from pixeltable.functions.vision import bboxes_draw
 from pixeltable.functions.yolox import yolox
 ```
 
@@ -223,9 +223,9 @@ No&nbsp;rows&nbsp;affected.
 
 ```python
 # Step 2: Draw bounding boxes on the image
-# Note: draw_bounding_boxes takes image, boxes, and labels (scores are not used for drawing)
+# Note: bboxes_draw takes image, boxes, and labels (scores are not used for drawing)
 images.add_computed_column(
-    annotated=draw_bounding_boxes(
+    annotated=bboxes_draw(
         images.image,
         images.detections.bboxes,
         labels=images.detections.labels,
@@ -282,7 +282,7 @@ images.select(images.detections).collect()
 **Pipeline flow:**
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Image&nbsp;→&nbsp;YOLOX&nbsp;detection&nbsp;→&nbsp;Bounding&nbsp;boxes&nbsp;+&nbsp;labels&nbsp;→&nbsp;draw_bounding_boxes&nbsp;→&nbsp;Annotated&nbsp;image
+Image&nbsp;→&nbsp;YOLOX&nbsp;detection&nbsp;→&nbsp;Bounding&nbsp;boxes&nbsp;+&nbsp;labels&nbsp;→&nbsp;bboxes_draw&nbsp;→&nbsp;Annotated&nbsp;image
 </pre>
 
 **Detection output format:**

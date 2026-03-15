@@ -15,16 +15,43 @@ from pixeltable.functions import vision as pxtv
 
 t = pxt.get_table(...)
 t.select(
-    pxtv.draw_bounding_boxes(t.img, boxes=t.boxes, label=t.labels)
+    pxtv.bboxes_draw(t.img, boxes=t.boxes, labels=t.labels)
 ).collect()
 ```
 
 
-## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; draw_bounding_boxes()
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_convert()
 
 ```python Signature
 @pxt.udf
-draw_bounding_boxes(
+bboxes_convert(
+    bboxes: pxt.Json,
+    *,
+    src_format: pxt.String,
+    dst_format: pxt.String
+) -> pxt.Json
+```
+
+Convert a list of bounding boxes from src_format to dst_format.
+
+
+**Parameters:**
+
+- **`bboxes`** (`pxt.Json`): List of bounding boxes, each either specified with absolute pixel coordinates or relative
+    coordinates in [0, 1].
+- **`src_format`** (`pxt.String`): Source format, one of 'xyxy', 'xywh', 'cxcywh'.
+- **`dst_format`** (`pxt.String`): Destination format, one of 'xyxy', 'xywh', 'cxcywh'.
+
+**Returns:**
+
+- `pxt.Json`: List of bounding boxes in dst_format.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_draw()
+
+```python Signature
+@pxt.udf
+bboxes_draw(
     img: pxt.Image,
     boxes: pxt.Json,
     *,
@@ -73,6 +100,57 @@ If no colors are specified, this function randomly assigns each label a specific
 **Returns:**
 
 - `pxt.Image`: The image with bounding boxes drawn on it.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_resize()
+
+```python Signatures
+# Signature 1:
+@pxt.udf
+bboxes_resize(
+    bboxes: pxt.Json,
+    format: pxt.String,
+    width: pxt.Int | None,
+    height: pxt.Int | None,
+    aspect: pxt.String | None,
+    aspect_mode: pxt.String | None
+) -> pxt.Json
+
+# Signature 2:
+@pxt.udf
+bboxes_resize(
+    bboxes: pxt.Json,
+    format: pxt.String,
+    width: pxt.Float | None,
+    height: pxt.Float | None,
+    aspect: pxt.Float | None,
+    aspect_mode: pxt.String | None
+) -> pxt.Json
+```
+
+Resize a list of bounding boxes (center-anchored):
+
+- to a specified width or height (the other dimension is scaled to maintain the aspect ratio)
+- to a specified aspect ratio
+
+Only one of `width`, `height`, or `aspect` can be specified.
+
+**Parameters:**
+
+- **`bboxes`** (`Json`): List of bounding boxes, each either specified with absolute pixel coordinates or relative
+    coordinates in [0, 1].
+- **`format`** (`String`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
+- **`width`** (`Int | None`, default: `Literal(None)`): Target width. Pass an `int` for absolute pixels or a `float` for relative coordinates.
+- **`height`** (`Int | None`, default: `Literal(None)`): Target height. Pass an `int` for absolute pixels or a `float` for relative coordinates.
+- **`aspect`** (`String | None`, default: `Literal(None)`): Target aspect ratio. Pass a `str` like '16:9' or a `float` like 1.78.
+- **`aspect`** (`String | None`, default: `Literal(None)`): Target aspect ratio as a string 'W:H' (e.g., '16:9') or a `float`. Resizes either the width
+    or height to match the specified aspect ratio, maintaining the other dimension. Requires `aspect_mode`.
+- **`aspect_mode`** (`String | None`, default: `Literal(None)`): Either 'crop' or 'pad'. Required when `aspect` is specified. If `crop`, reduces the oversized
+    dimension to match the aspect ratio. If `pad`, extends the undersized dimension to match the aspect ratio.
+
+**Returns:**
+
+- `pxt.Json`: List of resized bounding boxes in the same format as the input.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; eval_detections()
