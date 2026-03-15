@@ -21,6 +21,49 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.5.21
+
+**Released:** March 15, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.21](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.21)
+
+#### What's Changed
+* [PXT-1002] Do not convert SQL errors when loading a table version for… by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1170](https://github.com/pixeltable/pixeltable/pull/1170)
+* Enable cockroach tests by [@amithadke](https://github.com/amithadke) in [#1118](https://github.com/pixeltable/pixeltable/pull/1118)
+* [PXT-1002] RandomTableOps should ignore the error when creating a vie… by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1172](https://github.com/pixeltable/pixeltable/pull/1172)
+* Random-ops should exit with a non-zero code on KeyboardInterrupt by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1175](https://github.com/pixeltable/pixeltable/pull/1175)
+* Refactor Sample Apps with New Pattern + Broken Links and new Generic Zapier-esque ETL Demo App by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1169](https://github.com/pixeltable/pixeltable/pull/1169)
+* [PXT-1002] Fix a broken self-validation in Catalog by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1174](https://github.com/pixeltable/pixeltable/pull/1174)
+* Create *.instructions.md by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1177](https://github.com/pixeltable/pixeltable/pull/1177)
+* [PXT-1002] Improve random_ops logging + a bug fix in Catalog by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1178](https://github.com/pixeltable/pixeltable/pull/1178)
+* [PXT-969] Materialize stores_cellmd as boolean property in ColumnMd by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1127](https://github.com/pixeltable/pixeltable/pull/1127)
+* [PXT-1052] Fix RateLimitsScheduler crash when functions share a pool with different signatures by [@christopherpestano](https://github.com/christopherpestano) in [#1181](https://github.com/pixeltable/pixeltable/pull/1181)
+* PXT-920 + PXT-1046 Refactor execution dispatch/init_rows to improve performance and adding perf testing by [@christopherpestano](https://github.com/christopherpestano) in [#1154](https://github.com/pixeltable/pixeltable/pull/1154)
+* [PXT-1024] Catch up Reve UDFs with the API updates by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1180](https://github.com/pixeltable/pixeltable/pull/1180)
+* Enable cockroachdb tests for merge queue by [@amithadke](https://github.com/amithadke) in [#1183](https://github.com/pixeltable/pixeltable/pull/1183)
+* PXT-1061 Handle non-path text strings in process_media_contents by [@amithadke](https://github.com/amithadke) in [#1173](https://github.com/pixeltable/pixeltable/pull/1173)
+* Add BFL FLUX integration for image generation and editing by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1028](https://github.com/pixeltable/pixeltable/pull/1028)
+* PXT-1044: parquet import of image urls is broken by [@mkornacker](https://github.com/mkornacker) in [#1186](https://github.com/pixeltable/pixeltable/pull/1186)
+* PXT-883 Allow pixeltable http urls for referencing replicas by [@amithadke](https://github.com/amithadke) in [#1179](https://github.com/pixeltable/pixeltable/pull/1179)
+* Add Vertex AI authentication to Gemini integration by [@mkornacker](https://github.com/mkornacker) in [#1193](https://github.com/pixeltable/pixeltable/pull/1193)
+* Log thread name now that Pixeltable can be used in a multi-threaded f… by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1184](https://github.com/pixeltable/pixeltable/pull/1184)
+* [PXT-1002] Retry pending table ops on InFailedSqlTransaction by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1192](https://github.com/pixeltable/pixeltable/pull/1192)
+* Fix flakiness in some sample tests by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1196](https://github.com/pixeltable/pixeltable/pull/1196)
+* Updates to CLAUDE.md by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1197](https://github.com/pixeltable/pixeltable/pull/1197)
+* [PXT-1067] Disable sqlalchemy INFO logging by default by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1195](https://github.com/pixeltable/pixeltable/pull/1195)
+* fix model_dump() calls in udfs by [@mkornacker](https://github.com/mkornacker) in [#1198](https://github.com/pixeltable/pixeltable/pull/1198)
+* concat_videos_agg() uda, equivalent to concat_videos() udf by [@mkornacker](https://github.com/mkornacker) in [#1188](https://github.com/pixeltable/pixeltable/pull/1188)
+* PXT-968: bounding box udfs by [@mkornacker](https://github.com/mkornacker) in [#1190](https://github.com/pixeltable/pixeltable/pull/1190)
+* miniconda migration: update context for ai agents by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1200](https://github.com/pixeltable/pixeltable/pull/1200)
+* Adjusting Copilot review instructions by [@mkornacker](https://github.com/mkornacker) in [#1205](https://github.com/pixeltable/pixeltable/pull/1205)
+* fix: update transformers to 4.57.6 and fix huggingface.py mypy errors by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1189](https://github.com/pixeltable/pixeltable/pull/1189)
+* Multimodal embeddings support in Gemini integration by [@aaron-siegel](https://github.com/aaron-siegel) in [#1206](https://github.com/pixeltable/pixeltable/pull/1206)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.20...v0.5.21
+
+---
+
 ### v0.5.20
 
 **Released:** March 03, 2026  
@@ -1127,25 +1170,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.15...v0.4.0-pre.1
-
----
-
-### v0.3.15
-
-**Released:** May 25, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.3.15](https://github.com/pixeltable/pixeltable/releases/tag/v0.3.15)
-
-#### What's Changed
-* Rename blueprint links to guides in pixelagent documentation by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#628](https://github.com/pixeltable/pixeltable/pull/628)
-* Add documentation for embedding_access feature by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#626](https://github.com/pixeltable/pixeltable/pull/626)
-* Improve import documentation by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#624](https://github.com/pixeltable/pixeltable/pull/624)
-* Update mint.json to use Kandinsky color theme by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#633](https://github.com/pixeltable/pixeltable/pull/633)
-* Merge different versions of base tables consistently when pulling replicas by [@aaron-siegel](https://github.com/aaron-siegel) in [#625](https://github.com/pixeltable/pixeltable/pull/625)
-* Add UDFs for Google Imagen and Veo; Support Tool Calling in Gemini by [@aaron-siegel](https://github.com/aaron-siegel) in [#632](https://github.com/pixeltable/pixeltable/pull/632)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.14...v0.3.15
 
 ---
 

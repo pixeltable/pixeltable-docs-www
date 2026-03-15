@@ -152,6 +152,32 @@ pxt.create_view(
 ```
 
 
+## <span style={{ 'color': 'gray' }}>uda</span>&nbsp; concat_videos_agg()
+
+```python Signature
+@pxt.uda
+concat_videos_agg(*args, **kwargs) -> pxt.Video | None
+```
+
+Aggregate function that merges videos into a single video.
+
+__Requirements:__
+
+- `ffmpeg` needs to be installed and in PATH
+- All videos must have the same resolution
+
+**Returns:**
+
+- `pxt.Video | None`: A new video containing all input videos concatenated in order, or None if all inputs are None.
+
+**Examples:**
+
+Concatenate all videos in a table, ordered by timestamp:
+```python
+tbl.select(concat_videos_agg(tbl.timestamp, tbl.video)).collect()
+```
+
+
 ## <span style={{ 'color': 'gray' }}>uda</span>&nbsp; make_video()
 
 ```python Signature
@@ -230,7 +256,7 @@ __Requirements:__
 
 ```python Signature
 @pxt.udf
-concat_videos(videos: pxt.Json) -> pxt.Video
+concat_videos(videos: pxt.Json) -> pxt.Video | None
 ```
 
 Merge multiple videos into a single video.
@@ -245,7 +271,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Video`: A new video containing the merged videos.
+- `pxt.Video | None`: A new video containing the merged videos, or None if the input list is empty.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; crop()

@@ -1050,9 +1050,8 @@ model_id='facebook/detr-resnet-50', threshold=0.8)</td>
 <tr>
 <td id="T_d9488_row5_col0" class="data row5 col0">image_with_bb</td>
 <td id="T_d9488_row5_col1" class="data row5 col1">Image</td>
-<td id="T_d9488_row5_col2"
-class="data row5 col2">draw_bounding_boxes(source, detections.boxes,
-detections.label_text, fill=True)</td>
+<td id="T_d9488_row5_col2" class="data row5 col2">bboxes_draw(source,
+detections.boxes, detections.label_text, fill=True)</td>
 </tr>
 </tbody>
 </table>
@@ -1537,16 +1536,16 @@ It’s great that the DETR model gave us so much information about the
 images, but it’s not exactly in human-readable form. Those are JSON
 structures that encode bounding boxes, confidence scores, and categories
 for each detected object. Let’s do something more useful with them:
-we’ll use Pixeltable’s `draw_bounding_boxes()` API to superimpose
-bounding boxes on the images, using different colors to distinguish
-different object categories.
+we’ll use Pixeltable’s `bboxes_draw()` API to superimpose bounding boxes
+on the images, using different colors to distinguish different object
+categories.
 
 
 ```python
-from pixeltable.functions.vision import draw_bounding_boxes
+from pixeltable.functions.vision import bboxes_draw
 
 t.add_computed_column(
-    image_with_bb=draw_bounding_boxes(
+    image_with_bb=bboxes_draw(
         t.source,
         t.detections.boxes,
         labels=t.detections.label_text,
@@ -1626,28 +1625,28 @@ output is always persisted</b>.)
 
 ### Expressions
 
-Let’s have a closer look at that call to `draw_bounding_boxes()` in the
-last example.
+Let’s have a closer look at that call to `bboxes_draw()` in the last
+example.
 
 
 ```python
-draw_bounding_boxes(t.source, t.detections.boxes, labels=t.detections.label_text, fill=True)
+bboxes_draw(t.source, t.detections.boxes, labels=t.detections.label_text, fill=True)
 ```
 
-There are a couple of things going on. `draw_bounding_boxes()` is, of
-course, a UDF, and its first argument is a column reference of the sort
-we’ve used many times now: `t.source`, the source image. The other two
-arguments are more than simple column references, though: they’re
-compound expressions that include the column reference `t.detections`
-along with a suffix (`.boxes` or `.label_text`) that tells Pixeltable to
-look inside the dictionary stored in `t.detections`.
+There are a couple of things going on. `bboxes_draw()` is, of course, a
+UDF, and its first argument is a column reference of the sort we’ve used
+many times now: `t.source`, the source image. The other two arguments
+are more than simple column references, though: they’re compound
+expressions that include the column reference `t.detections` along with
+a suffix (`.boxes` or `.label_text`) that tells Pixeltable to look
+inside the dictionary stored in `t.detections`.
 
 These are all examples of <b>Pixeltable expressions</b>. In fact, we’ve
 seen other types of Pixeltable expressions as well, without explicitly
 calling them out:
 
 -   Calls to a UDF are expressions, such as `t.source.rotate(10)`, or
-    the `draw_bounding_boxes()` example above;
+    the `bboxes_draw()` example above;
 -   Arithmetic operations are expressions, such as year-over-year
     calculation in our first example:
     `100 * pop_t.yoy_change / pop_t.pop_2022`.

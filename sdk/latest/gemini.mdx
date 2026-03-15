@@ -9,7 +9,15 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 Pixeltable UDFs
 that wrap various endpoints from the Google Gemini API. In order to use them, you must
 first `pip install google-genai` and configure your Gemini credentials, as described in
-the [Working with Gemini](https://docs.pixeltable.com/notebooks/integrations/working-with-gemini) tutorial.
+the [Working with Gemini](https://docs.pixeltable.com/howto/providers/working-with-gemini) tutorial.
+
+Supports two authentication methods:
+
+- Google AI Studio: set `GOOGLE_API_KEY` or `GEMINI_API_KEY` (or put `api_key` in the `gemini` section of
+  the Pixeltable config file).
+- Vertex AI: set `GOOGLE_GENAI_USE_VERTEXAI=true` and `GOOGLE_CLOUD_PROJECT` (and optionally
+  `GOOGLE_CLOUD_LOCATION`), then authenticate via Application Default Credentials
+  (e.g. `gcloud auth application-default login`).
 
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; invoke_tools()
@@ -22,6 +30,89 @@ invoke_tools(
 ```
 
 Converts an OpenAI response dict to Pixeltable tool invocation format and calls `tools._invoke()`.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embed_content()
+
+```python Signatures
+# Signature 1:
+@pxt.udf
+embed_content(
+    contents: pxt.String,
+    model: pxt.String,
+    config: pxt.Json | None,
+    use_batch_api: pxt.Bool
+) -> pxt.Array[(None,), float32]
+
+# Signature 2:
+@pxt.udf
+embed_content(
+    contents: pxt.Image,
+    model: pxt.String,
+    config: pxt.Json | None
+) -> pxt.Array[(None,), float32]
+
+# Signature 3:
+@pxt.udf
+embed_content(
+    contents: pxt.Audio,
+    model: pxt.String,
+    config: pxt.Json | None
+) -> pxt.Array[(None,), float32]
+
+# Signature 4:
+@pxt.udf
+embed_content(
+    contents: pxt.Video,
+    model: pxt.String,
+    config: pxt.Json | None
+) -> pxt.Array[(None,), float32]
+
+# Signature 5:
+@pxt.udf
+embed_content(
+    contents: pxt.Document,
+    model: pxt.String,
+    config: pxt.Json | None
+) -> pxt.Array[(None,), float32]
+```
+
+Generate embeddings for text, images, video, and other content. For more information on Gemini embeddings API, see:
+[https://ai.google.dev/gemini-api/docs/embeddings](https://ai.google.dev/gemini-api/docs/embeddings)
+
+__Requirements:__
+
+- `pip install google-genai`
+
+**Parameters:**
+
+- **`contents`** (`String`): The string, image, audio, video, or document to embed.
+- **`model`** (`String`): The Gemini model to use.
+- **`config`** (`Json | None`, default: `Literal(None)`): Configuration for embedding generation, corresponding to keyword arguments of
+    `genai.types.EmbedContentConfig`. For details on the parameters, see:
+    [https://googleapis.github.io/python-genai/genai.html#genai.types.EmbedContentConfig](https://googleapis.github.io/python-genai/genai.html#genai.types.EmbedContentConfig)
+- **`use_batch_api`** (`Bool`, default: `Literal(False)`): If True, use [Gemini's Batch API](https://ai.google.dev/gemini-api/docs/batch-api) that provides
+    a higher throughput at a lower cost at the expense of higher latency.
+
+**Returns:**
+
+- `pxt.Array[(None,), float32]`: The corresponding embedding vector.
+
+**Examples:**
+
+Add a computed column with embeddings to an existing table with a `text` column:
+```python
+t.add_computed_column(
+    embedding=embed_content(t.text, model='gemini-embedding-001')
+)
+```
+
+Add an embedding index on `text` column:
+```python
+t.add_embedding_index(
+    t.text, embedding=embed_content.using(model='gemini-embedding-001')
+)
+```
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate_content()
@@ -69,58 +160,6 @@ Add a computed column that applies the model `gemini-2.5-flash` to an existing P
 tbl.add_computed_column(
     response=generate_content(tbl.prompt, model='gemini-2.5-flash')
 )
-```
-
-
-## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate_embedding()
-
-```python Signature
-@pxt.udf
-generate_embedding(
-    input: pxt.String,
-    *,
-    model: pxt.String,
-    config: pxt.Json | None = None,
-    use_batch_api: pxt.Bool = False
-) -> pxt.Array[(None,), float32]
-```
-
-Generate embeddings for the input strings. For more information on Gemini embeddings API, see:
-[https://ai.google.dev/gemini-api/docs/embeddings](https://ai.google.dev/gemini-api/docs/embeddings)
-
-__Requirements:__
-
-- `pip install google-genai`
-
-**Parameters:**
-
-- **`input`** (`pxt.String`): The strings to generate embeddings for.
-- **`model`** (`pxt.String`): The Gemini model to use.
-- **`config`** (`pxt.Json | None`): Configuration for embedding generation, corresponding to keyword arguments of
-    `genai.types.EmbedContentConfig`. For details on the parameters, see:
-    [https://googleapis.github.io/python-genai/genai.html#genai.types.EmbedContentConfig](https://googleapis.github.io/python-genai/genai.html#genai.types.EmbedContentConfig)
-- **`use_batch_api`** (`pxt.Bool`): If True, use [Gemini's Batch API](https://ai.google.dev/gemini-api/docs/batch-api) that provides
-    a higher throughput at a lower cost at the expense of higher latency.
-
-**Returns:**
-
-- `pxt.Array[(None,), float32]`: The generated embeddings.
-
-**Examples:**
-
-Add a computed column with embeddings to an existing table with a `text` column:
-```python
-t.add_computed_column(embedding=generate_embedding(t.text))
-```
-
-Add an embedding index on `text` column:
-```python
-t.add_embedding_index(
-   t.text,
-   embedding=generate_embedding.using(
-       model='gemini-embedding-001', config={'output_dimensionality': 3072}
-   ),
-
 ```
 
 

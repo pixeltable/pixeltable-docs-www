@@ -19,7 +19,8 @@ create(
     prompt: pxt.String,
     *,
     aspect_ratio: pxt.String | None = None,
-    version: pxt.String | None = None
+    version: pxt.String | None = None,
+    model_kwargs: pxt.Json | None = None
 ) -> pxt.Image
 ```
 
@@ -33,6 +34,7 @@ This UDF wraps the `https://api.reve.com/v1/image/create` endpoint. For more inf
 - **`prompt`** (`pxt.String`): prompt describing the desired image
 - **`aspect_ratio`** (`pxt.String | None`): desired image aspect ratio, e.g. '3:2', '16:9', '1:1', etc.
 - **`version`** (`pxt.String | None`): specific model version to use. Latest if not specified.
+- **`model_kwargs`** (`pxt.Json | None`): additional keyword arguments to pass to the Reve API.
 
 **Returns:**
 
@@ -54,7 +56,8 @@ edit(
     image: pxt.Image,
     edit_instruction: pxt.String,
     *,
-    version: pxt.String | None = None
+    version: pxt.String | None = None,
+    model_kwargs: pxt.Json | None = None
 ) -> pxt.Image
 ```
 
@@ -68,6 +71,7 @@ This UDF wraps the `https://api.reve.com/v1/image/edit` endpoint. For more infor
 - **`image`** (`pxt.Image`): image to edit
 - **`edit_instruction`** (`pxt.String`): text prompt describing the desired edit
 - **`version`** (`pxt.String | None`): specific model version to use. Latest if not specified.
+- **`model_kwargs`** (`pxt.Json | None`): additional keyword arguments to pass to the Reve API.
 
 **Returns:**
 
@@ -95,7 +99,8 @@ remix(
     images: pxt.Json,
     *,
     aspect_ratio: pxt.String | None = None,
-    version: pxt.String | None = None
+    version: pxt.String | None = None,
+    model_kwargs: pxt.Json | None = None
 ) -> pxt.Image
 ```
 
@@ -112,6 +117,7 @@ This UDF wraps the `https://api.reve.com/v1/image/remix` endpoint. For more info
 - **`images`** (`pxt.Json`): list of reference images
 - **`aspect_ratio`** (`pxt.String | None`): desired image aspect ratio, e.g. '3:2', '16:9', '1:1', etc.
 - **`version`** (`pxt.String | None`): specific model version to use. Latest by default.
+- **`model_kwargs`** (`pxt.Json | None`): additional keyword arguments to pass to the Reve API.
 
 **Returns:**
 

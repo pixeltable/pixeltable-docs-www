@@ -412,7 +412,7 @@ width="240" />
 <thead>
 <tr style="text-align: right;">
 <th data-quarto-table-cell-role="th">frame</th>
-<th data-quarto-table-cell-role="th">draw_bounding_boxes</th>
+<th data-quarto-table-cell-role="th">bboxes_draw</th>
 </tr>
 </thead>
 <tbody>
@@ -851,7 +851,7 @@ frames_view.select(frames_view.frame, frames_view.detections_tiny).show(3)
 
 Now let’s create a new set of images, in which we superimpose the
 detected bounding boxes on top of the original images. We’ll use the
-handy built-in `draw_bounding_boxes` UDF for this. We could create a new
+handy built-in `bboxes_draw` UDF for this. We could create a new
 computed column to hold the superimposed images, but we don’t have to;
 sometimes it’s easier just to use a `select` comprehension, as we did
 when we were first experimenting with the detection model.
@@ -862,7 +862,7 @@ import pixeltable.functions as pxtf
 
 frames_view.select(
     frames_view.frame,
-    pxtf.vision.draw_bounding_boxes(
+    pxtf.vision.bboxes_draw(
         frames_view.frame, frames_view.detections_tiny.bboxes, width=4
     ),
 ).show(1)
@@ -889,7 +889,7 @@ an image, and then assembles the sequence of images into a video.
 frames_view.group_by(videos_table).select(
     pxt.functions.video.make_video(
         frames_view.pos,
-        pxtf.vision.draw_bounding_boxes(
+        pxtf.vision.bboxes_draw(
             frames_view.frame, frames_view.detections_tiny.bboxes, width=4
         ),
     )
@@ -929,13 +929,13 @@ Let’s see the results of the two models side-by-side.
 frames_view.group_by(videos_table).select(
     pxt.functions.video.make_video(
         frames_view.pos,
-        pxtf.vision.draw_bounding_boxes(
+        pxtf.vision.bboxes_draw(
             frames_view.frame, frames_view.detections_tiny.bboxes, width=4
         ),
     ),
     pxt.functions.video.make_video(
         frames_view.pos,
-        pxtf.vision.draw_bounding_boxes(
+        pxtf.vision.bboxes_draw(
             frames_view.frame, frames_view.detections_m.bboxes, width=4
         ),
     ),

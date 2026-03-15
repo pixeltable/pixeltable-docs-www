@@ -56,6 +56,7 @@
                 "pages": [
                   "howto/providers/working-with-anthropic",
                   "howto/providers/working-with-bedrock",
+                  "howto/providers/working-with-bfl",
                   "howto/providers/working-with-deepseek",
                   "howto/providers/working-with-fal",
                   "howto/providers/working-with-fabric",
@@ -234,6 +235,7 @@
                     "pages": [
                       "sdk/latest/anthropic",
                       "sdk/latest/bedrock",
+                      "sdk/latest/bfl",
                       "sdk/latest/deepseek",
                       "sdk/latest/fabric",
                       "sdk/latest/fal",
@@ -271,8 +273,88 @@
             ]
           },
           {
-            "dropdown": "v0.5.20",
+            "dropdown": "v0.5.21",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.21/pixeltable",
+                      "sdk/v0.5.21/table",
+                      "sdk/v0.5.21/query",
+                      "sdk/v0.5.21/columnmetadata",
+                      "sdk/v0.5.21/dircontents",
+                      "sdk/v0.5.21/indexmetadata",
+                      "sdk/v0.5.21/tablemetadata",
+                      "sdk/v0.5.21/updatestatus",
+                      "sdk/v0.5.21/versionmetadata",
+                      "sdk/v0.5.21/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.21/functions",
+                      "sdk/v0.5.21/audio",
+                      "sdk/v0.5.21/date",
+                      "sdk/v0.5.21/document",
+                      "sdk/v0.5.21/image",
+                      "sdk/v0.5.21/json",
+                      "sdk/v0.5.21/math",
+                      "sdk/v0.5.21/net",
+                      "sdk/v0.5.21/string",
+                      "sdk/v0.5.21/timestamp",
+                      "sdk/v0.5.21/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.21/anthropic",
+                      "sdk/v0.5.21/bedrock",
+                      "sdk/v0.5.21/bfl",
+                      "sdk/v0.5.21/deepseek",
+                      "sdk/v0.5.21/fabric",
+                      "sdk/v0.5.21/fal",
+                      "sdk/v0.5.21/fireworks",
+                      "sdk/v0.5.21/gemini",
+                      "sdk/v0.5.21/groq",
+                      "sdk/v0.5.21/huggingface",
+                      "sdk/v0.5.21/jina",
+                      "sdk/v0.5.21/llama_cpp",
+                      "sdk/v0.5.21/mistralai",
+                      "sdk/v0.5.21/ollama",
+                      "sdk/v0.5.21/openai",
+                      "sdk/v0.5.21/openrouter",
+                      "sdk/v0.5.21/replicate",
+                      "sdk/v0.5.21/reve",
+                      "sdk/v0.5.21/runwayml",
+                      "sdk/v0.5.21/together",
+                      "sdk/v0.5.21/twelvelabs",
+                      "sdk/v0.5.21/uuid",
+                      "sdk/v0.5.21/vision",
+                      "sdk/v0.5.21/voyageai",
+                      "sdk/v0.5.21/whisper",
+                      "sdk/v0.5.21/whisperx",
+                      "sdk/v0.5.21/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.21/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.20",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
