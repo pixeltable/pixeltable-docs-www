@@ -1,0 +1,108 @@
+---
+title: "ollama"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/ollama.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.ollama
+
+
+Pixeltable UDFs for Ollama local models.
+
+Provides integration with Ollama for running large language models locally,
+including chat completions and embeddings.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat()
+
+```python Signature
+@pxt.udf
+chat(
+    messages: pxt.Json,
+    *,
+    model: pxt.String,
+    tools: pxt.Json | None = None,
+    format: pxt.String | None = None,
+    options: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Generate the next message in a chat with a provided model.
+
+
+**Parameters:**
+
+- **`messages`** (`pxt.Json`): The messages of the chat.
+- **`model`** (`pxt.String`): The model name.
+- **`tools`** (`pxt.Json | None`): Tools for the model to use.
+- **`format`** (`pxt.String | None`): The format of the response; must be one of `'json'` or `None`.
+- **`options`** (`pxt.Json | None`): Additional options to pass to the `chat` call, such as `max_tokens`, `temperature`, `top_p`, and
+    `top_k`. For details, see the
+    [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.mdx#valid-parameters-and-values)
+    section of the Ollama documentation.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embed()
+
+```python Signature
+@pxt.udf
+embed(
+    input: pxt.String,
+    *,
+    model: pxt.String,
+    truncate: pxt.Bool = True,
+    options: pxt.Json | None = None
+) -> pxt.Array[(None,), float32]
+```
+
+Generate embeddings from a model.
+
+
+**Parameters:**
+
+- **`input`** (`pxt.String`): The input text to generate embeddings for.
+- **`model`** (`pxt.String`): The model name.
+- **`truncate`** (`pxt.Bool`): Truncates the end of each input to fit within context length.
+    Returns error if false and context length is exceeded.
+- **`options`** (`pxt.Json | None`): Additional options to pass to the `embed` call.
+    For details, see the
+    [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.mdx#valid-parameters-and-values)
+    section of the Ollama documentation.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate()
+
+```python Signature
+@pxt.udf
+generate(
+    prompt: pxt.String,
+    *,
+    model: pxt.String,
+    suffix: pxt.String = '',
+    system: pxt.String = '',
+    template: pxt.String = '',
+    context: pxt.Json | None = None,
+    raw: pxt.Bool = False,
+    format: pxt.String | None = None,
+    options: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Generate a response for a given prompt with a provided model.
+
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): The prompt to generate a response for.
+- **`model`** (`pxt.String`): The model name.
+- **`suffix`** (`pxt.String`): The text after the model response.
+- **`format`** (`pxt.String | None`): The format of the response; must be one of `'json'` or `None`.
+- **`system`** (`pxt.String`): System message.
+- **`template`** (`pxt.String`): Prompt template to use.
+- **`context`** (`pxt.Json | None`): The context parameter returned from a previous call to `generate()`.
+- **`raw`** (`pxt.Bool`): If `True`, no formatting will be applied to the prompt.
+- **`options`** (`pxt.Json | None`): Additional options for the Ollama `chat` call, such as `max_tokens`, `temperature`, `top_p`, and
+    `top_k`. For details, see the
+    [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.mdx#valid-parameters-and-values)
+    section of the Ollama documentation.
+
