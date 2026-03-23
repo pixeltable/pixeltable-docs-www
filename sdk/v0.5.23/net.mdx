@@ -1,0 +1,51 @@
+---
+title: "net"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/net.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.net
+
+
+Pixeltable UDF for converting media file URIs to presigned HTTP URLs.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; presigned_url()
+
+```python Signature
+@pxt.udf
+presigned_url(uri: pxt.String, expiration_seconds: pxt.Int) -> pxt.String
+```
+
+Convert a blob storage URI to a presigned HTTP URL for direct access.
+
+Generates a time-limited, publicly accessible URL from cloud storage URIs
+(S3, GCS, Azure, etc.) that can be used to serve media files over HTTP.
+
+Note:
+    This function uses presigned URLs from storage providers. Provider-specific
+    limitations apply:
+
+    - Google Cloud Storage: maximum 7-day expiration
+    - AWS S3: requires proper region configuration
+    - Azure: subject to storage account access policies
+
+**Parameters:**
+
+- **`uri`** (`pxt.String`): The media file URI (e.g., `s3://bucket/path`, `gs://bucket/path`, `azure://container/path`)
+- **`expiration_seconds`** (`pxt.Int`): How long the URL remains valid
+
+**Returns:**
+
+- `pxt.String`: A presigned HTTP URL for accessing the file
+
+**Examples:**
+
+Generate a presigned URL for a video column with 1-hour expiration:
+```python
+tbl.select(
+    original_url=tbl.video.fileurl,
+    presigned_url=pxtf.net.presigned_url(tbl.video.fileurl, 3600),
+).collect()
+```
+
