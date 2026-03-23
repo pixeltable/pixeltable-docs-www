@@ -273,8 +273,88 @@
             ]
           },
           {
-            "dropdown": "v0.5.22",
+            "dropdown": "v0.5.23",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.23/pixeltable",
+                      "sdk/v0.5.23/table",
+                      "sdk/v0.5.23/query",
+                      "sdk/v0.5.23/columnmetadata",
+                      "sdk/v0.5.23/dircontents",
+                      "sdk/v0.5.23/indexmetadata",
+                      "sdk/v0.5.23/tablemetadata",
+                      "sdk/v0.5.23/updatestatus",
+                      "sdk/v0.5.23/versionmetadata",
+                      "sdk/v0.5.23/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.23/functions",
+                      "sdk/v0.5.23/audio",
+                      "sdk/v0.5.23/date",
+                      "sdk/v0.5.23/document",
+                      "sdk/v0.5.23/image",
+                      "sdk/v0.5.23/json",
+                      "sdk/v0.5.23/math",
+                      "sdk/v0.5.23/net",
+                      "sdk/v0.5.23/string",
+                      "sdk/v0.5.23/timestamp",
+                      "sdk/v0.5.23/video"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.23/anthropic",
+                      "sdk/v0.5.23/bedrock",
+                      "sdk/v0.5.23/bfl",
+                      "sdk/v0.5.23/deepseek",
+                      "sdk/v0.5.23/fabric",
+                      "sdk/v0.5.23/fal",
+                      "sdk/v0.5.23/fireworks",
+                      "sdk/v0.5.23/gemini",
+                      "sdk/v0.5.23/groq",
+                      "sdk/v0.5.23/huggingface",
+                      "sdk/v0.5.23/jina",
+                      "sdk/v0.5.23/llama_cpp",
+                      "sdk/v0.5.23/mistralai",
+                      "sdk/v0.5.23/ollama",
+                      "sdk/v0.5.23/openai",
+                      "sdk/v0.5.23/openrouter",
+                      "sdk/v0.5.23/replicate",
+                      "sdk/v0.5.23/reve",
+                      "sdk/v0.5.23/runwayml",
+                      "sdk/v0.5.23/together",
+                      "sdk/v0.5.23/twelvelabs",
+                      "sdk/v0.5.23/uuid",
+                      "sdk/v0.5.23/vision",
+                      "sdk/v0.5.23/voyageai",
+                      "sdk/v0.5.23/whisper",
+                      "sdk/v0.5.23/whisperx",
+                      "sdk/v0.5.23/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.23/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.22",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
