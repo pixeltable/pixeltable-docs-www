@@ -23,14 +23,7 @@ edit(
     image: pxt.Image,
     *,
     model: pxt.String,
-    reference_images: pxt.Json | None = None,
-    width: pxt.Int | None = None,
-    height: pxt.Int | None = None,
-    seed: pxt.Int | None = None,
-    safety_tolerance: pxt.Int | None = None,
-    output_format: pxt.String | None = None,
-    steps: pxt.Int | None = None,
-    guidance: pxt.Float | None = None
+    reference_images: pxt.Json[(Image = None, width: pxt.Int | None = None, height: pxt.Int | None = None, seed: pxt.Int | None = None, safety_tolerance: pxt.Int | None = None, output_format: pxt.String | None = None, steps: pxt.Int | None = None, guidance: pxt.Float | None = None
 ) -> pxt.Image
 ```
 
@@ -45,14 +38,14 @@ This UDF wraps the BFL FLUX image editing API. For more information, refer to th
 - **`image`** (`pxt.Image`): The base image to edit.
 - **`model`** (`pxt.String`): The FLUX model to use for editing. See available models at
     [https://docs.bfl.ai/](https://docs.bfl.ai/).
-- **`reference_images`** (`pxt.Json | None`): Additional reference images (up to 7) for multi-reference editing.
-- **`width`** (`pxt.Int | None`): Output width in pixels (multiple of 16). Matches input if not specified.
-- **`height`** (`pxt.Int | None`): Output height in pixels (multiple of 16). Matches input if not specified.
-- **`seed`** (`pxt.Int | None`): Random seed for reproducible results.
-- **`safety_tolerance`** (`pxt.Int | None`): Moderation level from 0 (strict) to 6 (permissive). Default 2.
-- **`output_format`** (`pxt.String | None`): Image format, 'jpeg' or 'png'. Default 'jpeg'.
-- **`steps`** (`pxt.Int | None`): Number of inference steps (flux-2-flex only, max 50).
-- **`guidance`** (`pxt.Float | None`): Guidance scale 1.5-10 (flux-2-flex only). Default 4.5.
+- **`reference_images`** (`pxt.Json[(Image`): Additional reference images (up to 7) for multi-reference editing.
+- **`width`** (`Any`): Output width in pixels (multiple of 16). Matches input if not specified.
+- **`height`** (`Any`): Output height in pixels (multiple of 16). Matches input if not specified.
+- **`seed`** (`Any`): Random seed for reproducible results.
+- **`safety_tolerance`** (`Any`): Moderation level from 0 (strict) to 6 (permissive). Default 2.
+- **`output_format`** (`Any`): Image format, 'jpeg' or 'png'. Default 'jpeg'.
+- **`steps`** (`Any`): Number of inference steps (flux-2-flex only, max 50).
+- **`guidance`** (`Any`): Guidance scale 1.5-10 (flux-2-flex only). Default 4.5.
 
 **Returns:**
 

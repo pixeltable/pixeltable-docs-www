@@ -124,7 +124,7 @@ generate_content(
     *,
     model: pxt.String,
     config: pxt.Json | None = None,
-    tools: pxt.Json | None = None
+    tools: pxt.Json[(Json = None
 ) -> pxt.Json
 ```
 
@@ -146,7 +146,7 @@ __Requirements:__
 - **`config`** (`pxt.Json | None`): Configuration for generation, corresponding to keyword arguments of
     `genai.types.GenerateContentConfig`. For details on the parameters, see:
     [https://googleapis.github.io/python-genai/genai.html#genai.types.GenerateContentConfig](https://googleapis.github.io/python-genai/genai.html#genai.types.GenerateContentConfig)
-- **`tools`** (`pxt.Json | None`): An optional list of Pixeltable tools to use. It is also possible to specify tools manually via the
+- **`tools`** (`pxt.Json[(Json`): An optional list of Pixeltable tools to use. It is also possible to specify tools manually via the
     `config['tools']` parameter, but at most one of `config['tools']` or `tools` may be used.
 
 **Returns:**

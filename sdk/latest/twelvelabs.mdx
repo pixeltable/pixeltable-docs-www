@@ -37,7 +37,7 @@ embed(
     model_name: pxt.String,
     start_sec: pxt.Float | None,
     end_sec: pxt.Float | None,
-    embedding_option: pxt.Json | None
+    embedding_option: pxt.Json[(String, ...)] | None
 ) -> pxt.Array[float32] | None
 
 # Signature 4:
@@ -47,7 +47,7 @@ embed(
     model_name: pxt.String,
     start_sec: pxt.Float | None,
     end_sec: pxt.Float | None,
-    embedding_option: pxt.Json | None
+    embedding_option: pxt.Json[(String, ...)] | None
 ) -> pxt.Array[float32] | None
 ```
 

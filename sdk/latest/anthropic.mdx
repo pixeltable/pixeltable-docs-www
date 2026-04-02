@@ -28,15 +28,7 @@ Converts an Anthropic response dict to Pixeltable tool invocation format and cal
 
 ```python Signature
 @pxt.udf
-messages(
-    messages: pxt.Json,
-    *,
-    model: pxt.String,
-    max_tokens: pxt.Int,
-    model_kwargs: pxt.Json | None = None,
-    tools: pxt.Json | None = None,
-    tool_choice: pxt.Json | None = None
-) -> pxt.Json
+messages(messages: pxt.Json[(Json, *, model: pxt.String, max_tokens: pxt.Int, model_kwargs: pxt.Json | None = None, tools: pxt.Json[(Json = None, tool_choice: pxt.Json | None = None) -> pxt.Json
 ```
 
 Create a Message.
@@ -54,12 +46,12 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`pxt.Json`): Input messages.
-- **`model`** (`pxt.String`): The model that will complete your prompt.
-- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Anthropic `messages` API.
+- **`messages`** (`pxt.Json[(Json`): Input messages.
+- **`model`** (`Any`): The model that will complete your prompt.
+- **`model_kwargs`** (`Any`): Additional keyword args for the Anthropic `messages` API.
     For details on the available parameters, see: [https://docs.anthropic.com/en/api/messages](https://docs.anthropic.com/en/api/messages)
-- **`tools`** (`pxt.Json | None`): An optional list of Pixeltable tools to use for the request.
-- **`tool_choice`** (`pxt.Json | None`): An optional tool choice configuration.
+- **`tools`** (`Any`): An optional list of Pixeltable tools to use for the request.
+- **`tool_choice`** (`Any`): An optional tool choice configuration.
 
 **Returns:**
 

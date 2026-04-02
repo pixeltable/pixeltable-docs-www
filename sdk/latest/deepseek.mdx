@@ -21,8 +21,7 @@ chat_completions(
     *,
     model: pxt.String,
     model_kwargs: pxt.Json | None = None,
-    tools: pxt.Json | None = None,
-    tool_choice: pxt.Json | None = None
+    tools: pxt.Json[(Json = None, tool_choice: pxt.Json | None = None
 ) -> pxt.Json
 ```
 
@@ -47,8 +46,8 @@ __Requirements:__
 - **`model`** (`pxt.String`): The model to use for chat completion.
 - **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Deepseek `chat/completions` API.
     For details on the available parameters, see: [https://api-docs.deepseek.com/api/create-chat-completion](https://api-docs.deepseek.com/api/create-chat-completion)
-- **`tools`** (`pxt.Json | None`): An optional list of Pixeltable tools to use for the request.
-- **`tool_choice`** (`pxt.Json | None`): An optional tool choice configuration.
+- **`tools`** (`pxt.Json[(Json`): An optional list of Pixeltable tools to use for the request.
+- **`tool_choice`** (`Any`): An optional tool choice configuration.
 
 **Returns:**
 

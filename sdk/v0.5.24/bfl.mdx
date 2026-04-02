@@ -1,0 +1,262 @@
+---
+title: "bfl"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/bfl.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.bfl
+
+
+Pixeltable [UDFs](https://docs.pixeltable.com/platform/udfs-in-pixeltable) that wrap
+[Black Forest Labs (BFL)](https://docs.bfl.ai/) FLUX image generation API. In order to use them,
+the API key must be specified either with `BFL_API_KEY` environment variable, or as `api_key`
+in the `bfl` section of the Pixeltable config file.
+
+For more information on FLUX models, see the [BFL documentation](https://docs.bfl.ai/).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; edit()
+
+```python Signature
+@pxt.udf
+edit(
+    prompt: pxt.String,
+    image: pxt.Image,
+    *,
+    model: pxt.String,
+    reference_images: pxt.Json[(Image = None, width: pxt.Int | None = None, height: pxt.Int | None = None, seed: pxt.Int | None = None, safety_tolerance: pxt.Int | None = None, output_format: pxt.String | None = None, steps: pxt.Int | None = None, guidance: pxt.Float | None = None
+) -> pxt.Image
+```
+
+Edit an image using FLUX models with text prompts and optional reference images.
+
+This UDF wraps the BFL FLUX image editing API. For more information, refer to the official
+[API documentation](https://docs.bfl.ai/flux_2/flux2_image_editing).
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): Text description of the edit to apply.
+- **`image`** (`pxt.Image`): The base image to edit.
+- **`model`** (`pxt.String`): The FLUX model to use for editing. See available models at
+    [https://docs.bfl.ai/](https://docs.bfl.ai/).
+- **`reference_images`** (`pxt.Json[(Image`): Additional reference images (up to 7) for multi-reference editing.
+- **`width`** (`Any`): Output width in pixels (multiple of 16). Matches input if not specified.
+- **`height`** (`Any`): Output height in pixels (multiple of 16). Matches input if not specified.
+- **`seed`** (`Any`): Random seed for reproducible results.
+- **`safety_tolerance`** (`Any`): Moderation level from 0 (strict) to 6 (permissive). Default 2.
+- **`output_format`** (`Any`): Image format, 'jpeg' or 'png'. Default 'jpeg'.
+- **`steps`** (`Any`): Number of inference steps (flux-2-flex only, max 50).
+- **`guidance`** (`Any`): Guidance scale 1.5-10 (flux-2-flex only). Default 4.5.
+
+**Returns:**
+
+- `pxt.Image`: An edited PIL Image.
+
+**Examples:**
+
+Edit an image to change its background:
+```python
+t.add_computed_column(
+    edited=bfl.edit(
+        'Change the background to a sunset beach',
+        t.original_image,
+        model='flux-2-pro',
+    )
+)
+```
+
+Multi-reference editing with additional images:
+```python
+t.add_computed_column(
+    edited=bfl.edit(
+        'Combine the person from the first image with the background from the second',
+        t.person_image,
+        model='flux-kontext-pro',
+        reference_images=[t.background_image],
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; expand()
+
+```python Signature
+@pxt.udf
+expand(
+    prompt: pxt.String,
+    image: pxt.Image,
+    *,
+    model: pxt.String,
+    top: pxt.Int = 0,
+    bottom: pxt.Int = 0,
+    left: pxt.Int = 0,
+    right: pxt.Int = 0,
+    seed: pxt.Int | None = None,
+    safety_tolerance: pxt.Int | None = None,
+    output_format: pxt.String | None = None
+) -> pxt.Image
+```
+
+Expand an image by adding pixels on any side using FLUX Expand models.
+
+Outpaint an image by specifying how many pixels to add to each edge.
+The expansion maintains context from the original image.
+
+This UDF wraps the BFL FLUX Expand API. For more information, refer to the official
+[API documentation](https://docs.bfl.ai/flux_tools/flux_1_expand).
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): Text description to guide the expansion.
+- **`image`** (`pxt.Image`): The base image to expand.
+- **`model`** (`pxt.String`): The FLUX Expand model to use. See available models at
+    [https://docs.bfl.ai/](https://docs.bfl.ai/).
+- **`top`** (`pxt.Int`): Pixels to add to the top edge.
+- **`bottom`** (`pxt.Int`): Pixels to add to the bottom edge.
+- **`left`** (`pxt.Int`): Pixels to add to the left edge.
+- **`right`** (`pxt.Int`): Pixels to add to the right edge.
+- **`seed`** (`pxt.Int | None`): Random seed for reproducible results.
+- **`safety_tolerance`** (`pxt.Int | None`): Moderation level from 0 (strict) to 6 (permissive). Default 2.
+- **`output_format`** (`pxt.String | None`): Image format, 'jpeg' or 'png'. Default 'jpeg'.
+
+**Returns:**
+
+- `pxt.Image`: An expanded PIL Image.
+
+**Examples:**
+
+Expand an image to create a wider landscape:
+```python
+t.add_computed_column(
+    wide=bfl.expand(
+        'Continue the landscape scenery',
+        t.original_image,
+        model='flux-pro-1.0-expand',
+        left=256,
+        right=256,
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; fill()
+
+```python Signature
+@pxt.udf
+fill(
+    prompt: pxt.String,
+    image: pxt.Image,
+    mask: pxt.Image,
+    *,
+    model: pxt.String,
+    steps: pxt.Int | None = None,
+    guidance: pxt.Float | None = None,
+    seed: pxt.Int | None = None,
+    safety_tolerance: pxt.Int | None = None,
+    output_format: pxt.String | None = None
+) -> pxt.Image
+```
+
+Inpaint an image using FLUX Fill models.
+
+Fill specified areas of an image based on a mask and text prompt. The mask can be
+a separate image or applied to the alpha channel of the input image.
+
+This UDF wraps the BFL FLUX Fill API. For more information, refer to the official
+[API documentation](https://docs.bfl.ai/flux_tools/flux_1_fill).
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): Text description of what to fill in the masked area.
+- **`image`** (`pxt.Image`): The base image to inpaint.
+- **`mask`** (`pxt.Image`): Mask image where white areas indicate regions to fill (black areas preserved).
+- **`model`** (`pxt.String`): The FLUX Fill model to use. See available models at
+    [https://docs.bfl.ai/](https://docs.bfl.ai/).
+- **`steps`** (`pxt.Int | None`): Number of inference steps (max 50). Default 50.
+- **`guidance`** (`pxt.Float | None`): Guidance scale for generation. Default 30.
+- **`seed`** (`pxt.Int | None`): Random seed for reproducible results.
+- **`safety_tolerance`** (`pxt.Int | None`): Moderation level from 0 (strict) to 6 (permissive). Default 2.
+- **`output_format`** (`pxt.String | None`): Image format, 'jpeg' or 'png'. Default 'jpeg'.
+
+**Returns:**
+
+- `pxt.Image`: An inpainted PIL Image.
+
+**Examples:**
+
+Fill a masked region with generated content:
+```python
+t.add_computed_column(
+    filled=bfl.fill(
+        'A beautiful garden with flowers',
+        t.original_image,
+        t.mask_image,
+        model='flux-pro-1.0-fill',
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate()
+
+```python Signature
+@pxt.udf
+generate(
+    prompt: pxt.String,
+    *,
+    model: pxt.String,
+    width: pxt.Int | None = None,
+    height: pxt.Int | None = None,
+    seed: pxt.Int | None = None,
+    safety_tolerance: pxt.Int | None = None,
+    output_format: pxt.String | None = None,
+    steps: pxt.Int | None = None,
+    guidance: pxt.Float | None = None
+) -> pxt.Image
+```
+
+Generate an image from a text prompt using FLUX models.
+
+This UDF wraps the BFL FLUX API endpoints. For more information, refer to the official
+[API documentation](https://docs.bfl.ai/flux_2/flux2_text_to_image).
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): Text description of the image to generate.
+- **`model`** (`pxt.String`): The FLUX model to use. See available models at
+    [https://docs.bfl.ai/](https://docs.bfl.ai/).
+- **`width`** (`pxt.Int | None`): Output width in pixels (multiple of 16). Default 1024.
+- **`height`** (`pxt.Int | None`): Output height in pixels (multiple of 16). Default 1024.
+- **`seed`** (`pxt.Int | None`): Random seed for reproducible results.
+- **`safety_tolerance`** (`pxt.Int | None`): Moderation level from 0 (strict) to 6 (permissive). Default 2.
+- **`output_format`** (`pxt.String | None`): Image format, 'jpeg' or 'png'. Default 'jpeg'.
+- **`steps`** (`pxt.Int | None`): Number of inference steps (flux-2-flex only, max 50).
+- **`guidance`** (`pxt.Float | None`): Guidance scale 1.5-10 (flux-2-flex only). Default 4.5.
+
+**Returns:**
+
+- `pxt.Image`: A generated PIL Image.
+
+**Examples:**
+
+Generate images using default dimensions:
+```python
+t.add_computed_column(image=bfl.generate(t.prompt, model='flux-2-pro'))
+```
+
+Generate with custom dimensions:
+```python
+t.add_computed_column(
+    image=bfl.generate(
+        t.prompt, model='flux-2-pro', width=1920, height=1080
+    )
+)
+```
+
+Generate with specific seed for reproducibility:
+```python
+t.add_computed_column(
+    image=bfl.generate(t.prompt, model='flux-2-pro', seed=42)
+)
+```
+

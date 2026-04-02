@@ -886,7 +886,11 @@ Equivalent to [`str.upper()`](https://docs.python.org/3/library/stdtypes.html#st
 
 ```python Signature
 @pxt.udf
-wrap(self: pxt.String, width: pxt.Int, **kwargs) -> pxt.Json
+wrap(
+    self: pxt.String,
+    width: pxt.Int,
+    **kwargs
+) -> pxt.Json[(String, ...)]
 ```
 
 Wraps the single paragraph in string so every line is at most `width` characters long.

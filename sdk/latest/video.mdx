@@ -95,10 +95,7 @@ video_splitter(
     duration: pxt.Float | None = None,
     overlap: pxt.Float | None = None,
     min_segment_duration: pxt.Float | None = None,
-    segment_times: pxt.Json | None = None,
-    mode: pxt.String = 'accurate',
-    video_encoder: pxt.String | None = None,
-    video_encoder_args: pxt.Json | None = None
+    segment_times: pxt.Json[(Float = None, mode: pxt.String = 'accurate', video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None
 )
 ```
 
@@ -110,16 +107,16 @@ fixed duration or a list of split points.
 - **`duration`** (`pxt.Float | None`): Video segment duration in seconds
 - **`overlap`** (`pxt.Float | None`): Overlap between consecutive segments in seconds. Only available for `mode='fast'`.
 - **`min_segment_duration`** (`pxt.Float | None`): Drop the last segment if it is smaller than min_segment_duration.
-- **`segment_times`** (`pxt.Json | None`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
+- **`segment_times`** (`pxt.Json[(Float`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
     segment durations. If all segment times are less than the duration of the video, produces exactly
     `len(segment_times) + 1` segments. An argument of `[]` will produce a single segment containing the
     entire video.
-- **`mode`** (`pxt.String`): Segmentation mode:
+- **`mode`** (`Any`): Segmentation mode:
     - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations)
     - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower)
-- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+- **`video_encoder`** (`Any`): Video encoder to use. If not specified, uses the default encoder for the current platform.
     Only available for `mode='accurate'`.
-- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
+- **`video_encoder_args`** (`Any`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 **Examples:**
 
@@ -165,6 +162,11 @@ __Requirements:__
 
 - `ffmpeg` needs to be installed and in PATH
 - All videos must have the same resolution
+
+**Parameters:**
+
+- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder.
 
 **Returns:**
 
@@ -256,7 +258,7 @@ __Requirements:__
 
 ```python Signature
 @pxt.udf
-concat_videos(videos: pxt.Json) -> pxt.Video | None
+concat_videos(videos: pxt.Json[(Video, *, video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None) -> pxt.Video | None
 ```
 
 Merge multiple videos into a single video.
@@ -267,7 +269,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`videos`** (`pxt.Json`): List of videos to merge.
+- **`videos`** (`pxt.Json[(Video`): List of videos to merge.
+- **`video_encoder`** (`Any`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+- **`video_encoder_args`** (`Any`): Additional arguments to pass to the video encoder.
 
 **Returns:**
 
@@ -280,11 +284,7 @@ __Requirements:__
 @pxt.udf
 crop(
     video: pxt.Video,
-    bbox: pxt.Json,
-    *,
-    bbox_format: pxt.String = 'xywh',
-    video_encoder: pxt.String | None = None,
-    video_encoder_args: pxt.Json | None = None
+    bbox: pxt.Json[(Int, *, bbox_format: pxt.String = 'xywh', video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None
 ) -> pxt.Video
 ```
 
@@ -297,13 +297,13 @@ __Requirements:__
 **Parameters:**
 
 - **`video`** (`pxt.Video`): Input video.
-- **`bbox`** (`pxt.Json`): Crop region as a list of 4 integers.
-- **`bbox_format`** (`pxt.String`): Format of the `bbox` coordinates:
+- **`bbox`** (`pxt.Json[(Int`): Crop region as a list of 4 integers.
+- **`bbox_format`** (`Any`): Format of the `bbox` coordinates:
     - `'xyxy'`: `[x1, y1, x2, y2]` where (x1, y1) is top-left and (x2, y2) is bottom-right
     - `'xywh'`: `[x, y, width, height]` where (x, y) is top-left corner
     - `'cxcywh'`: `[cx, cy, width, height]` where (cx, cy) is the center
-- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder.
-- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder.
+- **`video_encoder`** (`Any`): Video encoder to use. If not specified, uses the default encoder.
+- **`video_encoder_args`** (`Any`): Additional arguments to pass to the video encoder.
 
 **Returns:**
 
@@ -511,7 +511,7 @@ overlay_text(
     box: pxt.Bool = False,
     box_color: pxt.String = 'black',
     box_opacity: pxt.Float = 1.0,
-    box_border: pxt.Json | None = None
+    box_border: pxt.Json[(Int = None, video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None
 ) -> pxt.Video
 ```
 
@@ -536,11 +536,13 @@ __Requirements:__
 - **`box`** (`pxt.Bool`): Whether to draw a background box behind the text.
 - **`box_color`** (`pxt.String`): Background box color as a string.
 - **`box_opacity`** (`pxt.Float`): Background box opacity from 0.0 to 1.0.
-- **`box_border`** (`pxt.Json | None`): Padding around text in the box in pixels.
+- **`box_border`** (`pxt.Json[(Int`): Padding around text in the box in pixels.
     - `[10]`: 10 pixels on all sides
     - `[10, 20]`: 10 pixels on top/bottom, 20 on left/right
     - `[10, 20, 30]`: 10 pixels on top, 20 on left/right, 30 on bottom
     - `[10, 20, 30, 40]`: 10 pixels on top, 20 on right, 30 on bottom, 40 on left
+- **`video_encoder`** (`Any`): Video encoder to use. If not specified, uses the default encoder.
+- **`video_encoder_args`** (`Any`): Additional arguments to pass to the video encoder.
 
 **Returns:**
 
@@ -606,7 +608,7 @@ scene_detect_adaptive(
     delta_edges: pxt.Float = 0.0,
     luma_only: pxt.Bool = False,
     kernel_size: pxt.Int | None = None
-) -> pxt.Json
+) -> pxt.Json[(Json, ...)]
 ```
 
 Detect scene cuts in a video using PySceneDetect's
@@ -642,7 +644,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -701,7 +703,7 @@ scene_detect_content(
     luma_only: pxt.Bool = False,
     kernel_size: pxt.Int | None = None,
     filter_mode: pxt.String = 'merge'
-) -> pxt.Json
+) -> pxt.Json[(Json, ...)]
 ```
 
 Detect scene cuts in a video using PySceneDetect's
@@ -733,7 +735,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -787,7 +789,7 @@ scene_detect_hash(
     size: pxt.Int = 16,
     lowpass: pxt.Int = 2,
     min_scene_len: pxt.Int = 15
-) -> pxt.Json
+) -> pxt.Json[(Json, ...)]
 ```
 
 Detect scene cuts in a video using PySceneDetect's
@@ -820,7 +822,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -867,7 +869,7 @@ scene_detect_histogram(
     threshold: pxt.Float = 0.05,
     bins: pxt.Int = 256,
     min_scene_len: pxt.Int = 15
-) -> pxt.Json
+) -> pxt.Json[(Json, ...)]
 ```
 
 Detect scene cuts in a video using PySceneDetect's
@@ -897,7 +899,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -948,7 +950,7 @@ scene_detect_threshold(
     fade_bias: pxt.Float = 0.0,
     add_final_scene: pxt.Bool = False,
     method: pxt.String = 'floor'
-) -> pxt.Json
+) -> pxt.Json[(Json, ...)]
 ```
 
 Detect fade-in and fade-out transitions in a video using PySceneDetect's
@@ -981,7 +983,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -1029,11 +1031,8 @@ segment_video(
     video: pxt.Video,
     *,
     duration: pxt.Float | None = None,
-    segment_times: pxt.Json | None = None,
-    mode: pxt.String = 'accurate',
-    video_encoder: pxt.String | None = None,
-    video_encoder_args: pxt.Json | None = None
-) -> pxt.Json
+    segment_times: pxt.Json[(Float = None, mode: pxt.String = 'accurate', video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None) -> pxt.Json[(String, ...
+) ]
 ```
 
 Split a video into segments.
@@ -1048,19 +1047,19 @@ __Requirements:__
 - **`duration`** (`pxt.Float | None`): Duration of each segment (in seconds). For `mode='fast'`, this is approximate;
     for `mode='accurate'`, segments will have exact durations. Cannot be specified together with
     `segment_times`.
-- **`segment_times`** (`pxt.Json | None`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
+- **`segment_times`** (`pxt.Json[(Float`): List of timestamps (in seconds) in video where segments should be split. Note that these are not
     segment durations. If all segment times are less than the duration of the video, produces exactly
     `len(segment_times) + 1` segments. Cannot be empty or be specified together with `duration`.
-- **`mode`** (`pxt.String`): Segmentation mode:
+- **`mode`** (`Any`): Segmentation mode:
     - `'fast'`: Quick segmentation using stream copy (splits only at keyframes, approximate durations)
     - `'accurate'`: Precise segmentation with re-encoding (exact durations, slower)
-- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder for the current platform.
+- **`video_encoder`** (`Any`): Video encoder to use. If not specified, uses the default encoder for the current platform.
     Only available for `mode='accurate'`.
-- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
+- **`video_encoder_args`** (`Any`): Additional arguments to pass to the video encoder. Only available for `mode='accurate'`.
 
 **Returns:**
 
-- `pxt.Json`: List of file paths for the generated video segments.
+- `pxt.Json[(String, ...)]`: List of file paths for the generated video segments.
 
 **Examples:**
 
