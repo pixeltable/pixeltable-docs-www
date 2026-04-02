@@ -78,11 +78,7 @@ tbl.add_embedding_index(
 @pxt.udf
 rerank(
     query: pxt.String,
-    documents: pxt.Json,
-    *,
-    model: pxt.String,
-    top_n: pxt.Int | None = None,
-    return_documents: pxt.Bool | None = None
+    documents: pxt.Json[(String, *, model: pxt.String, top_n: pxt.Int | None = None, return_documents: pxt.Bool | None = None
 ) -> pxt.Json
 ```
 
@@ -98,11 +94,11 @@ limit is configured, uses a default of 600 RPM.
 **Parameters:**
 
 - **`query`** (`pxt.String`): The query string to rank documents against.
-- **`documents`** (`pxt.Json`): The list of documents to rerank.
-- **`model`** (`pxt.String`): The Jina reranker model to use. See available models at
+- **`documents`** (`pxt.Json[(String`): The list of documents to rerank.
+- **`model`** (`Any`): The Jina reranker model to use. See available models at
     [https://jina.ai/reranker/](https://jina.ai/reranker/).
-- **`top_n`** (`pxt.Int | None`): Number of top results to return. If not specified, returns all documents.
-- **`return_documents`** (`pxt.Bool | None`): Whether to include the original document text in results.
+- **`top_n`** (`Any`): Number of top results to return. If not specified, returns all documents.
+- **`return_documents`** (`Any`): Whether to include the original document text in results.
 
 **Returns:**
 

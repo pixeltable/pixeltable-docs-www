@@ -16,12 +16,7 @@ the [Working with Mistral AI](https://docs.pixeltable.com/notebooks/integrations
 
 ```python Signature
 @pxt.udf
-chat_completions(
-    messages: pxt.Json,
-    *,
-    model: pxt.String,
-    model_kwargs: pxt.Json | None = None
-) -> pxt.Json
+chat_completions(messages: pxt.Json[(Json, *, model: pxt.String, model_kwargs: pxt.Json | None = None) -> pxt.Json
 ```
 
 Chat Completion API.
@@ -39,9 +34,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`pxt.Json`): The prompt(s) to generate completions for.
-- **`model`** (`pxt.String`): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
-- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Mistral `chat/completions` API.
+- **`messages`** (`pxt.Json[(Json`): The prompt(s) to generate completions for.
+- **`model`** (`Any`): ID of the model to use. (See overview here: [https://docs.mistral.ai/getting-started/models/](https://docs.mistral.ai/getting-started/models/))
+- **`model_kwargs`** (`Any`): Additional keyword args for the Mistral `chat/completions` API.
     For details on the available parameters, see: [https://docs.mistral.ai/api/#tag/chat](https://docs.mistral.ai/api/#tag/chat)
 
 **Returns:**

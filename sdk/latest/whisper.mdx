@@ -21,16 +21,7 @@ transcribe(
     audio: pxt.Audio,
     *,
     model: pxt.String,
-    temperature: pxt.Json | None = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
-    compression_ratio_threshold: pxt.Float | None = 2.4,
-    logprob_threshold: pxt.Float | None = -1.0,
-    no_speech_threshold: pxt.Float | None = 0.6,
-    condition_on_previous_text: pxt.Bool = True,
-    initial_prompt: pxt.String | None = None,
-    word_timestamps: pxt.Bool = False,
-    prepend_punctuations: pxt.String = '"\'“¿([{-',
-    append_punctuations: pxt.String = '"\'.。,，!！?？:：”)]}、',
-    decode_options: pxt.Json | None = None
+    temperature: pxt.Json[(Float = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0), compression_ratio_threshold: pxt.Float | None = 2.4, logprob_threshold: pxt.Float | None = -1.0, no_speech_threshold: pxt.Float | None = 0.6, condition_on_previous_text: pxt.Bool = True, initial_prompt: pxt.String | None = None, word_timestamps: pxt.Bool = False, prepend_punctuations: pxt.String = '"\'“¿([{-', append_punctuations: pxt.String = '"\'.。,，!！?？:：”)]}、', decode_options: pxt.Json | None = None
 ) -> pxt.Json
 ```
 

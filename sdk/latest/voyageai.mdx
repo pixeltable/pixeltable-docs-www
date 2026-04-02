@@ -158,11 +158,7 @@ tbl.add_embedding_index(
 @pxt.udf
 rerank(
     query: pxt.String,
-    documents: pxt.Json,
-    *,
-    model: pxt.String,
-    top_k: pxt.Int | None = None,
-    truncation: pxt.Bool = True
+    documents: pxt.Json[(String, *, model: pxt.String, top_k: pxt.Int | None = None, truncation: pxt.Bool = True
 ) -> pxt.Json
 ```
 
@@ -182,11 +178,11 @@ __Requirements:__
 **Parameters:**
 
 - **`query`** (`pxt.String`): The query as a string.
-- **`documents`** (`pxt.Json`): The documents to be reranked as a list of strings.
-- **`model`** (`pxt.String`): The model to use for reranking. Recommended options: `rerank-2.5`, `rerank-2.5-lite`.
-- **`top_k`** (`pxt.Int | None`): The number of most relevant documents to return. If not specified, all documents
+- **`documents`** (`pxt.Json[(String`): The documents to be reranked as a list of strings.
+- **`model`** (`Any`): The model to use for reranking. Recommended options: `rerank-2.5`, `rerank-2.5-lite`.
+- **`top_k`** (`Any`): The number of most relevant documents to return. If not specified, all documents
     will be reranked and returned.
-- **`truncation`** (`pxt.Bool`): Whether to truncate the input to satisfy context length limits. Defaults to `True`.
+- **`truncation`** (`Any`): Whether to truncate the input to satisfy context length limits. Defaults to `True`.
 
 **Returns:**
 

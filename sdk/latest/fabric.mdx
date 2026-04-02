@@ -22,13 +22,7 @@ For more information on Fabric AI services, see:
 
 ```python Signature
 @pxt.udf
-chat_completions(
-    messages: pxt.Json,
-    *,
-    model: pxt.String,
-    api_version: pxt.String | None = None,
-    model_kwargs: pxt.Json | None = None
-) -> pxt.Json
+chat_completions(messages: pxt.Json[(Json, *, model: pxt.String, api_version: pxt.String | None = None, model_kwargs: pxt.Json | None = None) -> pxt.Json
 ```
 
 Creates a model response for the given chat conversation using Azure OpenAI in Fabric.
@@ -55,12 +49,12 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`pxt.Json`): A list of message dicts with 'role' and 'content' keys, as described in the
+- **`messages`** (`pxt.Json[(Json`): A list of message dicts with 'role' and 'content' keys, as described in the
     Azure OpenAI API documentation.
-- **`model`** (`pxt.String`): The deployment name to use (e.g., 'gpt-5', 'gpt-4.1', 'gpt-4.1-mini').
-- **`api_version`** (`pxt.String | None`): Optional API version override. If not specified, defaults to '2025-04-01-preview'
+- **`model`** (`Any`): The deployment name to use (e.g., 'gpt-5', 'gpt-4.1', 'gpt-4.1-mini').
+- **`api_version`** (`Any`): Optional API version override. If not specified, defaults to '2025-04-01-preview'
     for reasoning models (gpt-5) and '2024-02-15-preview' for standard models.
-- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Azure OpenAI `chat/completions` API.
+- **`model_kwargs`** (`Any`): Additional keyword args for the Azure OpenAI `chat/completions` API.
     For details on available parameters, see:
     [https://learn.microsoft.com/en-us/azure/ai-services/openai/reference](https://learn.microsoft.com/en-us/azure/ai-services/openai/reference)
 

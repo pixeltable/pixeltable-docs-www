@@ -16,14 +16,7 @@ supporting chat completions and embeddings with GGUF format models.
 
 ```python Signature
 @pxt.udf
-create_chat_completion(
-    messages: pxt.Json,
-    *,
-    model_path: pxt.String | None = None,
-    repo_id: pxt.String | None = None,
-    repo_filename: pxt.String | None = None,
-    model_kwargs: pxt.Json | None = None
-) -> pxt.Json
+create_chat_completion(messages: pxt.Json[(Json, *, model_path: pxt.String | None = None, repo_id: pxt.String | None = None, repo_filename: pxt.String | None = None, chat_format: pxt.String | None = None, tools: pxt.Json[(Json = None, tool_choice: pxt.Json | None = None, model_kwargs: pxt.Json | None = None) -> pxt.Json
 ```
 
 Generate a chat completion from a list of messages.
@@ -33,16 +26,19 @@ model on the Hugging Face model hub. Exactly one of `model_path` or `repo_id` mu
 is provided, then an optional `repo_filename` can also be specified.
 
 For additional details, see the
-[llama_cpp create_chat_completions documentation](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.create_chat_completion).
+[llama_cpp create_chat_completion documentation](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.create_chat_completion).
 
 **Parameters:**
 
-- **`messages`** (`pxt.Json`): A list of messages to generate a response for.
-- **`model_path`** (`pxt.String | None`): Path to the model (if using a local model).
-- **`repo_id`** (`pxt.String | None`): The Hugging Face model repo id (if using a pretrained model).
-- **`repo_filename`** (`pxt.String | None`): A filename or glob pattern to match the model file in the repo (optional, if using a
+- **`messages`** (`pxt.Json[(Json`): A list of messages to generate a response for.
+- **`model_path`** (`Any`): Path to the model (if using a local model).
+- **`repo_id`** (`Any`): The Hugging Face model repo id (if using a pretrained model).
+- **`repo_filename`** (`Any`): A filename or glob pattern to match the model file in the repo (optional, if using a
     pretrained model).
-- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the llama_cpp `create_chat_completions` API, such as `max_tokens`,
+- **`chat_format`** (`Any`): An optional string specifying the chat format to use with the model.
+- **`tools`** (`Any`): An optional list of tools (functions) the model may call, specified as `pxt.func.tools.Tools`.
+- **`tool_choice`** (`Any`): An optional `pxt.func.tools.ToolChoice` controlling which tool(s) the model should use.
+- **`model_kwargs`** (`Any`): Additional keyword args for the llama_cpp `create_chat_completion` API, such as `max_tokens`,
     `temperature`, `top_p`, and `top_k`. For details, see the
-    [llama_cpp create_chat_completions documentation](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.create_chat_completion).
+    [llama_cpp create_chat_completion documentation](https://llama-cpp-python.readthedocs.io/en/latest/api-reference/#llama_cpp.Llama.create_chat_completion).
 

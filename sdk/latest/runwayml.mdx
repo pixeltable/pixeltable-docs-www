@@ -75,12 +75,7 @@ tbl.add_computed_column(video=tbl.response['output'].astype(pxt.Video))
 @pxt.udf
 text_to_image(
     prompt_text: pxt.String,
-    reference_images: pxt.Json,
-    model: pxt.String,
-    ratio: pxt.String,
-    *,
-    seed: pxt.Int | None = None,
-    model_kwargs: pxt.Json | None = None
+    reference_images: pxt.Json[(Image, model: pxt.String, ratio: pxt.String, *, seed: pxt.Int | None = None, model_kwargs: pxt.Json | None = None
 ) -> pxt.Json
 ```
 
@@ -95,11 +90,11 @@ __Requirements:__
 **Parameters:**
 
 - **`prompt_text`** (`pxt.String`): Text description of the image to generate.
-- **`reference_images`** (`pxt.Json`): List of 1-3 reference images.
-- **`model`** (`pxt.String`): The model to use.
-- **`ratio`** (`pxt.String`): Aspect ratio of the generated image.
-- **`seed`** (`pxt.Int | None`): Seed for reproducibility.
-- **`model_kwargs`** (`pxt.Json | None`): Additional API parameters.
+- **`reference_images`** (`pxt.Json[(Image`): List of 1-3 reference images.
+- **`model`** (`Any`): The model to use.
+- **`ratio`** (`Any`): Aspect ratio of the generated image.
+- **`seed`** (`Any`): Seed for reproducibility.
+- **`model_kwargs`** (`Any`): Additional API parameters.
 
 **Returns:**
 

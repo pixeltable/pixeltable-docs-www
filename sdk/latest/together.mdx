@@ -16,12 +16,7 @@ the [Working with Together AI](https://docs.pixeltable.com/notebooks/integration
 
 ```python Signature
 @pxt.udf
-chat_completions(
-    messages: pxt.Json,
-    *,
-    model: pxt.String,
-    model_kwargs: pxt.Json | None = None
-) -> pxt.Json
+chat_completions(messages: pxt.Json[(Json, *, model: pxt.String, model_kwargs: pxt.Json | None = None) -> pxt.Json
 ```
 
 Generate chat completions based on a given prompt using a specified model.
@@ -39,9 +34,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`pxt.Json`): A list of messages comprising the conversation so far.
-- **`model`** (`pxt.String`): The name of the model to query.
-- **`model_kwargs`** (`pxt.Json | None`): Additional keyword arguments for the Together `chat/completions` API.
+- **`messages`** (`pxt.Json[(Json`): A list of messages comprising the conversation so far.
+- **`model`** (`Any`): The name of the model to query.
+- **`model_kwargs`** (`Any`): Additional keyword arguments for the Together `chat/completions` API.
     For details on the available parameters, see: [https://docs.together.ai/reference/chat-completions-1](https://docs.together.ai/reference/chat-completions-1)
 
 **Returns:**

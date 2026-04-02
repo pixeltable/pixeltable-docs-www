@@ -96,11 +96,7 @@ t.add_computed_column(
 @pxt.udf
 remix(
     prompt: pxt.String,
-    images: pxt.Json,
-    *,
-    aspect_ratio: pxt.String | None = None,
-    version: pxt.String | None = None,
-    model_kwargs: pxt.Json | None = None
+    images: pxt.Json[(Image, *, aspect_ratio: pxt.String | None = None, version: pxt.String | None = None, model_kwargs: pxt.Json | None = None
 ) -> pxt.Image
 ```
 
@@ -114,10 +110,10 @@ This UDF wraps the `https://api.reve.com/v1/image/remix` endpoint. For more info
 **Parameters:**
 
 - **`prompt`** (`pxt.String`): prompt describing the desired image
-- **`images`** (`pxt.Json`): list of reference images
-- **`aspect_ratio`** (`pxt.String | None`): desired image aspect ratio, e.g. '3:2', '16:9', '1:1', etc.
-- **`version`** (`pxt.String | None`): specific model version to use. Latest by default.
-- **`model_kwargs`** (`pxt.Json | None`): additional keyword arguments to pass to the Reve API.
+- **`images`** (`pxt.Json[(Image`): list of reference images
+- **`aspect_ratio`** (`Any`): desired image aspect ratio, e.g. '3:2', '16:9', '1:1', etc.
+- **`version`** (`Any`): specific model version to use. Latest by default.
+- **`model_kwargs`** (`Any`): additional keyword arguments to pass to the Reve API.
 
 **Returns:**
 

@@ -23,9 +23,7 @@ t.select(t.img_col.convert('L')).collect()
 @pxt.iterator
 tile_iterator(
     image: pxt.Image,
-    tile_size: pxt.Json,
-    *,
-    overlap: pxt.Json = (0, 0)
+    tile_size: pxt.Json[(Int, *, overlap: pxt.Json[(Int = (0, 0)
 )
 ```
 
@@ -45,8 +43,8 @@ __Outputs__:
 **Parameters:**
 
 - **`image`** (`pxt.Image`): Image to split into tiles.
-- **`tile_size`** (`pxt.Json`): Size of each tile, as a pair of integers `(width, height)`.
-- **`overlap`** (`pxt.Json`): Amount of overlap between adjacent tiles, as a pair of integers `(width, height)`.
+- **`tile_size`** (`pxt.Json[(Int`): Size of each tile, as a pair of integers `(width, height)`.
+- **`overlap`** (`Any`): Amount of overlap between adjacent tiles, as a pair of integers `(width, height)`.
 
 **Examples:**
 
@@ -148,7 +146,7 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-crop(self: pxt.Image, box: pxt.Json) -> pxt.Image
+crop(self: pxt.Image, box: pxt.Json[(Int) -> pxt.Image
 ```
 
 Return a rectangular region from the image. The box is a 4-tuple defining the left, upper, right, and lower pixel
@@ -211,7 +209,7 @@ Return metadata for the image.
 
 ```python Signature
 @pxt.udf
-getbands(self: pxt.Image) -> pxt.Json
+getbands(self: pxt.Image) -> pxt.Json[(String, ...)]
 ```
 
 Return a tuple containing the names of the image bands.
@@ -228,7 +226,7 @@ getbbox(
     self: pxt.Image,
     *,
     alpha_only: pxt.Bool = True
-) -> pxt.Json | None
+) -> pxt.Json[(Int, Int, Int, Int)] | None
 ```
 
 Return a bounding box for the non-zero regions of the image.
@@ -262,7 +260,10 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-getcolors(self: pxt.Image, maxcolors: pxt.Int = 256) -> pxt.Json
+getcolors(
+    self: pxt.Image,
+    maxcolors: pxt.Int = 256
+) -> pxt.Json[(Json[(Int, Int)], ...)]
 ```
 
 Return a list of colors used in the image, up to a maximum of `maxcolors`.
@@ -279,7 +280,7 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-getextrema(self: pxt.Image) -> pxt.Json
+getextrema(self: pxt.Image) -> pxt.Json[(Int, Int)]
 ```
 
 Return a 2-tuple containing the minimum and maximum pixel values of the image.
@@ -295,7 +296,7 @@ Equivalent to
 getpalette(
     self: pxt.Image,
     mode: pxt.String | None = None
-) -> pxt.Json | None
+) -> pxt.Json[(Int, ...)] | None
 ```
 
 Return the palette of the image, optionally converting it to a different mode.
@@ -312,7 +313,7 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-getpixel(self: pxt.Image, xy: pxt.Json) -> pxt.Json
+getpixel(self: pxt.Image, xy: pxt.Json) -> pxt.Json[(Int,)]
 ```
 
 Return the pixel value at the given position. The position `xy` is a tuple containing the x and y coordinates.
@@ -329,7 +330,7 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-getprojection(self: pxt.Image) -> pxt.Json
+getprojection(self: pxt.Image) -> pxt.Json[(Json[(Int, ...)], Json[(Int, ...)])]
 ```
 
 Return two sequences representing the horizontal and vertical projection of the image.
@@ -356,7 +357,7 @@ histogram(
     self: pxt.Image,
     mask: pxt.Image | None = None,
     extrema: pxt.Json | None = None
-) -> pxt.Json
+) -> pxt.Json[(Int, ...)]
 ```
 
 Return a histogram for the image.
@@ -386,8 +387,7 @@ Return the image mode.
 @pxt.udf
 point(
     self: pxt.Image,
-    lut: pxt.Json,
-    mode: pxt.String | None = None
+    lut: pxt.Json[(Int, mode: pxt.String | None = None
 ) -> pxt.Image
 ```
 
@@ -398,7 +398,7 @@ Equivalent to
 
 **Parameters:**
 
-- **`lut`** (`pxt.Json`): A lookup table.
+- **`lut`** (`pxt.Json[(Int`): A lookup table.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; quantize()
@@ -440,7 +440,7 @@ Equivalent to
 reduce(
     self: pxt.Image,
     factor: pxt.Int,
-    box: pxt.Json | None = None
+    box: pxt.Json[(Int = None
 ) -> pxt.Image
 ```
 
@@ -452,7 +452,7 @@ Equivalent to
 **Parameters:**
 
 - **`factor`** (`pxt.Int`): The reduction factor.
-- **`box`** (`pxt.Json | None`): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within
+- **`box`** (`pxt.Json[(Int`): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within
     (0, 0, width, height) rectangle. If omitted or None, the entire source is used.
 
 
@@ -460,7 +460,7 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-resize(self: pxt.Image, size: pxt.Json) -> pxt.Image
+resize(self: pxt.Image, size: pxt.Json[(Int) -> pxt.Image
 ```
 
 Return a resized copy of the image. The size parameter is a tuple containing the width and height of the new image.
@@ -492,9 +492,7 @@ Equivalent to
 @pxt.udf
 thumbnail(
     self: pxt.Image,
-    size: pxt.Json,
-    resample: pxt.Int = <Resampling.LANCZOS: 1>,
-    reducing_gap: pxt.Float | None = 2.0
+    size: pxt.Json[(Int, resample: pxt.Int = <Resampling.LANCZOS: 1>, reducing_gap: pxt.Float | None = 2.0
 ) -> pxt.Image
 ```
 
@@ -505,11 +503,11 @@ Equivalent to
 
 **Parameters:**
 
-- **`size`** (`pxt.Json`): The size of the thumbnail, as a tuple of (width, height).
-- **`resample`** (`pxt.Int`): The resampling filter to use. See the
+- **`size`** (`pxt.Json[(Int`): The size of the thumbnail, as a tuple of (width, height).
+- **`resample`** (`Any`): The resampling filter to use. See the
     [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail)
     for a list of supported filters.
-- **`reducing_gap`** (`pxt.Float | None`): The reducing gap to use.
+- **`reducing_gap`** (`Any`): The reducing gap to use.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; transpose()

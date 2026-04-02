@@ -16,14 +16,7 @@ including chat completions and embeddings.
 
 ```python Signature
 @pxt.udf
-chat(
-    messages: pxt.Json,
-    *,
-    model: pxt.String,
-    tools: pxt.Json | None = None,
-    format: pxt.String | None = None,
-    options: pxt.Json | None = None
-) -> pxt.Json
+chat(messages: pxt.Json[(Json, *, model: pxt.String, tools: pxt.Json[(Json = None, format: pxt.String | None = None, options: pxt.Json | None = None) -> pxt.Json
 ```
 
 Generate the next message in a chat with a provided model.
@@ -31,11 +24,11 @@ Generate the next message in a chat with a provided model.
 
 **Parameters:**
 
-- **`messages`** (`pxt.Json`): The messages of the chat.
-- **`model`** (`pxt.String`): The model name.
-- **`tools`** (`pxt.Json | None`): Tools for the model to use.
-- **`format`** (`pxt.String | None`): The format of the response; must be one of `'json'` or `None`.
-- **`options`** (`pxt.Json | None`): Additional options to pass to the `chat` call, such as `max_tokens`, `temperature`, `top_p`, and
+- **`messages`** (`pxt.Json[(Json`): The messages of the chat.
+- **`model`** (`Any`): The model name.
+- **`tools`** (`Any`): Tools for the model to use.
+- **`format`** (`Any`): The format of the response; must be one of `'json'` or `None`.
+- **`options`** (`Any`): Additional options to pass to the `chat` call, such as `max_tokens`, `temperature`, `top_p`, and
     `top_k`. For details, see the
     [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.mdx#valid-parameters-and-values)
     section of the Ollama documentation.
@@ -80,10 +73,7 @@ generate(
     suffix: pxt.String = '',
     system: pxt.String = '',
     template: pxt.String = '',
-    context: pxt.Json | None = None,
-    raw: pxt.Bool = False,
-    format: pxt.String | None = None,
-    options: pxt.Json | None = None
+    context: pxt.Json[(Int = None, raw: pxt.Bool = False, format: pxt.String | None = None, options: pxt.Json | None = None
 ) -> pxt.Json
 ```
 
@@ -95,12 +85,12 @@ Generate a response for a given prompt with a provided model.
 - **`prompt`** (`pxt.String`): The prompt to generate a response for.
 - **`model`** (`pxt.String`): The model name.
 - **`suffix`** (`pxt.String`): The text after the model response.
-- **`format`** (`pxt.String | None`): The format of the response; must be one of `'json'` or `None`.
+- **`format`** (`Any`): The format of the response; must be one of `'json'` or `None`.
 - **`system`** (`pxt.String`): System message.
 - **`template`** (`pxt.String`): Prompt template to use.
-- **`context`** (`pxt.Json | None`): The context parameter returned from a previous call to `generate()`.
-- **`raw`** (`pxt.Bool`): If `True`, no formatting will be applied to the prompt.
-- **`options`** (`pxt.Json | None`): Additional options for the Ollama `chat` call, such as `max_tokens`, `temperature`, `top_p`, and
+- **`context`** (`pxt.Json[(Int`): The context parameter returned from a previous call to `generate()`.
+- **`raw`** (`Any`): If `True`, no formatting will be applied to the prompt.
+- **`options`** (`Any`): Additional options for the Ollama `chat` call, such as `max_tokens`, `temperature`, `top_p`, and
     `top_k`. For details, see the
     [Valid Parameters and Values](https://github.com/ollama/ollama/blob/main/docs/modelfile.mdx#valid-parameters-and-values)
     section of the Ollama documentation.

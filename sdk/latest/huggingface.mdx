@@ -179,7 +179,7 @@ detr_for_object_detection(
     model_id: pxt.String,
     threshold: pxt.Float = 0.5,
     revision: pxt.String = 'no_timm'
-) -> pxt.Json
+) -> pxt.Json[{'scores': Json[(Float, ...)], 'labels': Json[(Int, ...)], 'label_text': Json[(String, ...)], 'boxes': Json[(Json[(Float, ...)], ...)]}]
 ```
 
 Computes DETR object detections for the specified image. `model_id` should be a reference to a pretrained
@@ -196,7 +196,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing the output of the object detection model, in the following format:
+- `pxt.Json[{'scores': Json[(Float, ...)], 'labels': Json[(Int, ...)], 'label_text': Json[(String, ...)], 'boxes': Json[(Json[(Float, ...)], ...)]}]`: A dictionary containing the output of the object detection model, in the following format:
   ```python
   {
       # list of confidence scores for each detected object
@@ -664,7 +664,7 @@ text_classification(
     *,
     model_id: pxt.String,
     top_k: pxt.Int = 5
-) -> pxt.Json
+) -> pxt.Json[(Json, ...)]
 ```
 
 Classifies text using a pretrained classification model. `model_id` should be a reference to a pretrained
@@ -683,7 +683,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing classification results with scores, labels, and label text.
+- `pxt.Json[(Json, ...)]`: A dictionary containing classification results with scores, labels, and label text.
 
 **Examples:**
 
@@ -849,7 +849,7 @@ token_classification(
     *,
     model_id: pxt.String,
     aggregation_strategy: pxt.String = 'simple'
-) -> pxt.Json
+) -> pxt.Json[(Json, ...)]
 ```
 
 Extracts named entities from text using a pretrained named entity recognition (NER) model.
@@ -868,7 +868,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A list of dictionaries containing entity information (text, label, confidence, start, end).
+- `pxt.Json[(Json, ...)]`: A list of dictionaries containing entity information (text, label, confidence, start, end).
 
 **Examples:**
 
