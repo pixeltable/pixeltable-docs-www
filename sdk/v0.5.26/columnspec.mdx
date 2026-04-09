@@ -1,0 +1,80 @@
+---
+title: "ColumnSpec"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/types.py#L10\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.types.ColumnSpec
+
+
+Column specification, a dictionary representation of a column's schema.
+Exactly one of `type` or `value` must be included in the dictionary.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; comment
+
+```
+comment: str
+```
+
+Optional comment for the column. Displayed in .describe() output.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; custom_metadata
+
+```
+custom_metadata: Any
+```
+
+User-defined metadata to associate with the column.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; destination
+
+```
+destination: str | Path
+```
+
+Destination for storing computed output files. Only applicable for computed columns.
+Can be:
+
+    - A local pathname (such as `path/to/outputs/`), or
+    - The URI of an object store (such as `s3://my-bucket/outputs/`).
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; media_validation
+
+```
+media_validation: Literal['on_read', 'on_write']
+```
+
+When to validate media; `'on_read'` or `'on_write'`.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; primary_key
+
+```
+primary_key: bool
+```
+
+Whether this column is part of the primary key. Defaults to `False`.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; stored
+
+```
+stored: bool
+```
+
+Whether to store the column data. Defaults to `True`.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; type
+
+```
+type: type
+```
+
+The column type (e.g., `pxt.Image`, `str`). Required unless `value` is specified.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; value
+
+```
+value: exprs.Expr
+```
+
+A Pixeltable expression for computed columns. Mutually exclusive with `type`.
+
