@@ -21,6 +21,31 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.5.25
+
+**Released:** April 09, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.25](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.25)
+
+#### What's Changed
+* Local UI by [@aaron-siegel](https://github.com/aaron-siegel) in [#1224](https://github.com/pixeltable/pixeltable/pull/1224)
+* [PXT-1088] Fix RateLimitsScheduler over-scheduling causing 429 cascades by [@christopherpestano](https://github.com/christopherpestano) in [#1176](https://github.com/pixeltable/pixeltable/pull/1176)
+* [PXT-1002] Catalog refactoring in begin_xact by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1225](https://github.com/pixeltable/pixeltable/pull/1225)
+* get rid of the corrupts_db marker -- we've fixed all issues, and it's… by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1236](https://github.com/pixeltable/pixeltable/pull/1236)
+* Fix for https://github.com/pixeltable/pixeltable/issues/1239 by [@mkornacker](https://github.com/mkornacker) in [#1241](https://github.com/pixeltable/pixeltable/pull/1241)
+* list_iterator by [@aaron-siegel](https://github.com/aaron-siegel) in [#1231](https://github.com/pixeltable/pixeltable/pull/1231)
+* Use miniforge in CI instead of miniconda3 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1162](https://github.com/pixeltable/pixeltable/pull/1162)
+* [PXT-836] Decouple resource estimation from rate-limits pool by [@christopherpestano](https://github.com/christopherpestano) in [#1191](https://github.com/pixeltable/pixeltable/pull/1191)
+* Clean up bridge.py by [@mkornacker](https://github.com/mkornacker) in [#1237](https://github.com/pixeltable/pixeltable/pull/1237)
+* Use v2.x API in Mistral AI integration by [@aaron-siegel](https://github.com/aaron-siegel) in [#1251](https://github.com/pixeltable/pixeltable/pull/1251)
+* More video udfs by [@mkornacker](https://github.com/mkornacker) in [#1240](https://github.com/pixeltable/pixeltable/pull/1240)
+* [PXT-1081] Exclude Microsoft Fabric notebook from make check by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1253](https://github.com/pixeltable/pixeltable/pull/1253)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.24...v0.5.25
+
+---
+
 ### v0.5.24
 
 **Released:** April 02, 2026  
@@ -1120,54 +1145,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.0...v0.4.1
-
----
-
-### v0.4.0
-
-**Released:** June 16, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.0](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.0)
-
-#### Highlights
-* Support for concurrent insert/query and table/view operations
-* `sample()` operator for deterministic, pseudo-random samples of tables and data frames
-* More flexible API for optional LLM parameters
-* Groq integration
-* MCP integration
-* HEIC image support
-* Numerous bugfixes
-
-#### All Changes
-* Support for concurrent table operations by [@mkornacker](https://github.com/mkornacker) in [#611](https://github.com/pixeltable/pixeltable/pull/611)
-* New Deepseek notebook by [@aaron-siegel](https://github.com/aaron-siegel) in [#634](https://github.com/pixeltable/pixeltable/pull/634)
-* Re-enable 3 of the 4 disabled Labelstudio tests by [@mkornacker](https://github.com/mkornacker) in [#635](https://github.com/pixeltable/pixeltable/pull/635)
-* Implement `to_sql` for many string methods by [@aaron-siegel](https://github.com/aaron-siegel) in [#636](https://github.com/pixeltable/pixeltable/pull/636)
-* Remove extraneous reload_catalog() in test_packager by [@aaron-siegel](https://github.com/aaron-siegel) in [#637](https://github.com/pixeltable/pixeltable/pull/637)
-* fix building with llm link by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#638](https://github.com/pixeltable/pixeltable/pull/638)
-* Allow HEIC images by [@aaron-siegel](https://github.com/aaron-siegel) in [#639](https://github.com/pixeltable/pixeltable/pull/639)
-* Include preview data in request when publishing a table by [@aaron-siegel](https://github.com/aaron-siegel) in [#631](https://github.com/pixeltable/pixeltable/pull/631)
-* WIP: stratified sampling operation on DataFrame by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#591](https://github.com/pixeltable/pixeltable/pull/591)
-* remove main reference and replace with release by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#646](https://github.com/pixeltable/pixeltable/pull/646)
-* docs: add product updates changelog with version history and release notes by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#645](https://github.com/pixeltable/pixeltable/pull/645)
-* remove print statement in gemini tool calls by [@jacobweiss2305](https://github.com/jacobweiss2305) in [#651](https://github.com/pixeltable/pixeltable/pull/651)
-* PXT-595: Raise error if attempting to access metadata from a future v… by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#642](https://github.com/pixeltable/pixeltable/pull/642)
-* Make TableVersion timestamps consistent across propagated changes. by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#643](https://github.com/pixeltable/pixeltable/pull/643)
-* Update RowBuilder.create_table_raw to save PIL image with the jpeg extension by [@Yann-CV](https://github.com/Yann-CV) in [#648](https://github.com/pixeltable/pixeltable/pull/648)
-* Fix bug in handling "nullary" JsonMapper expressions by [@aaron-siegel](https://github.com/aaron-siegel) in [#655](https://github.com/pixeltable/pixeltable/pull/655)
-* Update release.sh to handle pre-releases by [@aaron-siegel](https://github.com/aaron-siegel) in [#656](https://github.com/pixeltable/pixeltable/pull/656)
-* Refactor inference API integrations to use `model_kwargs` dicts instead of explicit parameters by [@aaron-siegel](https://github.com/aaron-siegel) in [#641](https://github.com/pixeltable/pixeltable/pull/641)
-* Refactor tool invocation unit tests [techdebt] by [@aaron-siegel](https://github.com/aaron-siegel) in [#657](https://github.com/pixeltable/pixeltable/pull/657)
-* Concurrent view interactions by [@mkornacker](https://github.com/mkornacker) in [#652](https://github.com/pixeltable/pixeltable/pull/652)
-* Consolidate all SQL generation related to sampling inside of SqlSampleNode by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#649](https://github.com/pixeltable/pixeltable/pull/649)
-* Suppressing asyncio slow callback warnings by [@mkornacker](https://github.com/mkornacker) in [#660](https://github.com/pixeltable/pixeltable/pull/660)
-* Groq integration by [@aaron-siegel](https://github.com/aaron-siegel) in [#659](https://github.com/pixeltable/pixeltable/pull/659)
-* First cut at MCP integration by [@aaron-siegel](https://github.com/aaron-siegel) in [#661](https://github.com/pixeltable/pixeltable/pull/661)
-
-#### New Contributors
-* [@Yann-CV](https://github.com/Yann-CV) made their first contribution in [#648](https://github.com/pixeltable/pixeltable/pull/648)
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.3.15...v0.4.0
 
 ---
 
