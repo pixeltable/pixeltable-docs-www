@@ -9,6 +9,36 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 Core Pixeltable API for table operations, data processing, and UDF management.
 
 
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; array()
+
+```python Signature
+array(elements: Iterable) -> exprs.Expr
+```
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; configure_logging()
+
+```python Signature
+configure_logging(
+    *,
+    to_stdout: bool | None = None,
+    level: int | None = None,
+    add: str | None = None,
+    remove: str | None = None
+) -> None
+```
+
+Configure logging.
+
+
+**Parameters:**
+
+- **`to_stdout`** (`bool | None`): if True, also log to stdout
+- **`level`** (`int | None`): default log level
+- **`add`** (`str | None`): comma-separated list of 'module name:log level' pairs; ex.: add='video:10'
+- **`remove`** (`str | None`): comma-separated list of module names
+
+
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; create_dir()
 
 ```python Signature
@@ -554,6 +584,84 @@ Initializes the Pixeltable environment.
 - **`config_overrides`** (`dict[str, Any] | None`): Optional dictionary of configuration overrides.
 
 
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; iterator()
+
+```python Signature
+iterator(*args, **kwargs)
+```
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; list_dirs()
+
+```python Signature
+list_dirs(path: str = '', recursive: bool = True) -> list[str]
+```
+
+List the directories in a directory.
+
+
+**Parameters:**
+
+- **`path`** (`str`, default: `''`): Name or path of the directory.
+- **`recursive`** (`bool`, default: `True`): If `True`, lists all descendants of this directory recursively.
+
+**Returns:**
+
+- `list[str]`: List of directory paths.
+
+**Examples:**
+
+```python
+cl.list_dirs('my_dir', recursive=True)
+```
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; list_functions()
+
+```python Signature
+list_functions() -> Styler
+```
+
+Returns information about all registered functions.
+
+
+**Returns:**
+
+- `Styler`: Pandas DataFrame with columns 'Path', 'Name', 'Parameters', 'Return Type', 'Is Agg', 'Library'
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; list_tables()
+
+```python Signature
+list_tables(dir_path: str = '', recursive: bool = True) -> list[str]
+```
+
+List the [`Table`](./table)s in a directory.
+
+
+**Parameters:**
+
+- **`dir_path`** (`str`, default: `''`): Path to the directory. Defaults to the root directory.
+- **`recursive`** (`bool`, default: `True`): If `False`, returns only those tables that are directly contained in specified directory; if
+    `True`, returns all tables that are descendants of the specified directory, recursively.
+
+**Returns:**
+
+- `list[str]`: A list of [`Table`](./table) paths.
+
+**Examples:**
+
+List tables in top-level directory:
+```python
+pxt.list_tables()
+```
+
+List tables in 'dir1':
+```python
+pxt.list_tables('dir1')
+```
+
+
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; ls()
 
 ```python Signature
@@ -567,6 +675,13 @@ including various attributes such as version and base table, as appropriate.
 
 To get a programmatic list of the directory's contents, use [get_dir_contents()](./pixeltable#func-get_dir_contents)
 instead.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; mcp_udfs()
+
+```python Signature
+mcp_udfs(url: str) -> list['pxt.func.Function']
+```
 
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; move()
@@ -638,6 +753,13 @@ URI per Pixeltable cloud database.
     - `'private'`: Only the host organization can access.
 
 
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; query()
+
+```python Signature
+query(*args: Any, **kwargs: Any) -> Any
+```
+
+
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; replicate()
 
 ```python Signature
@@ -658,4 +780,154 @@ queried offline just as any other Pixeltable table.
 **Returns:**
 
 - `catalog.Table`: A handle to the newly created local replica table.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; retrieval_udf()
+
+```python Signature
+retrieval_udf(
+    table: catalog.Table,
+    name: str | None = None,
+    description: str | None = None,
+    parameters: Iterable[str | exprs.ColumnRef] | None = None,
+    limit: int | None = 10
+) -> func.QueryTemplateFunction
+```
+
+Constructs a retrieval UDF for the given table. The retrieval UDF is a UDF whose parameters are
+columns of the table and whose return value is a list of rows from the table. The return value of
+```python
+f(col1=x, col2=y, ...)
+```
+will be a list of all rows from the table that match the specified arguments.
+
+**Parameters:**
+
+- **`table`** (`catalog.Table`): The table to use as the dataset for the retrieval tool.
+- **`name`** (`str | None`): The name of the tool. If not specified, then the name of the table will be used by default.
+- **`description`** (`str | None`): The description of the tool. If not specified, then a default description will be generated.
+- **`parameters`** (`Iterable[str | exprs.ColumnRef] | None`): The columns of the table to use as parameters. If not specified, all data columns
+    (non-computed columns) will be used as parameters.
+
+    All of the specified parameters will be required parameters of the tool, regardless of their status
+    as columns.
+- **`limit`** (`int | None`, default: `10`): The maximum number of rows to return. If not specified, then all matching rows will be returned.
+
+**Returns:**
+
+- `func.QueryTemplateFunction`: A list of dictionaries containing data from the table, one per row that matches the input arguments.
+  If there are no matching rows, an empty list will be returned.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; tool()
+
+```python Signature
+tool(
+    fn: func.Function,
+    name: str | None = None,
+    description: str | None = None
+) -> func.tools.Tool
+```
+
+Specifies a Pixeltable UDF to be used as an LLM tool with customizable metadata. See the documentation for
+[pxt.tools()](./pixeltable#func-tools) for more details.
+
+**Parameters:**
+
+- **`fn`** (`func.Function`): The UDF to use as a tool.
+- **`name`** (`str | None`): The name of the tool. If not specified, then the unqualified name of the UDF will be used by default.
+- **`description`** (`str | None`): The description of the tool. If not specified, then the entire contents of the UDF docstring
+    will be used by default.
+
+**Returns:**
+
+- `func.tools.Tool`: A `Tool` instance that can be passed to an LLM tool-calling API.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; tools()
+
+```python Signature
+tools(*args: func.Function | func.tools.Tool) -> func.tools.Tools
+```
+
+Specifies a collection of UDFs to be used as LLM tools. Pixeltable allows any UDF to be used as an input into an
+LLM tool-calling API. To use one or more UDFs as tools, wrap them in a `pxt.tools` call and pass the return value
+to an LLM API.
+
+The UDFs can be specified directly or wrapped inside a [pxt.tool()](./pixeltable#func-tool) invocation. If a UDF is
+specified directly, the tool name will be the (unqualified) UDF name, and the tool description will consist of the
+entire contents of the UDF docstring. If a UDF is wrapped in a `pxt.tool()` invocation, then the name and/or
+description may be customized.
+
+**Parameters:**
+
+- **`args`** (`func.Function | func.tools.Tool`): The UDFs to use as tools.
+
+**Returns:**
+
+- `func.tools.Tools`: A `Tools` instance that can be passed to an LLM tool-calling API or invoked to generate tool results.
+
+**Examples:**
+
+Create a tools instance with a single UDF:
+```python
+tools = pxt.tools(stock_price)
+```
+
+Create a tools instance with several UDFs:
+```python
+tools = pxt.tools(stock_price, weather_quote)
+```
+
+Create a tools instance, some of whose UDFs have customized metadata:
+```python
+tools = pxt.tools(
+    stock_price,
+    pxt.tool(
+        weather_quote,
+        description='Returns information about the weather in a particular location.',
+    ),
+    pxt.tool(traffic_quote, name='traffic_conditions'),
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; uda()
+
+```python Signature
+uda(*args, **kwargs)
+```
+
+Decorator for user-defined aggregate functions.
+
+The decorated class must inherit from Aggregator and implement the following methods:
+- __init__(self, ...) to initialize the aggregator
+- update(self, ...) to update the aggregator with a new value
+- value(self) to return the final result
+
+The decorator creates an AggregateFunction instance from the class and adds it
+to the module where the class is defined.
+
+Parameters:
+- requires_order_by: if True, the first parameter to the function is the order-by expression
+- allows_std_agg: if True, the function can be used as a standard aggregate function w/o a window
+- allows_window: if True, the function can be used with a window
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; udf()
+
+```python Signature
+udf(*args, **kwargs)
+```
+
+A decorator to create a Function from a function definition.
+
+
+**Examples:**
+
+```python
+@pxt.udf
+def my_function(x: int) -> int:
+    return x + 1
+```
 

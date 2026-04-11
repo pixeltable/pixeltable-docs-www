@@ -1,0 +1,129 @@
+---
+title: "ColumnRef"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/exprs/column_ref.py#L31\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.exprs.ColumnRef
+
+
+A Pixeltable expression that references a column of a table. A `ColumnRef` is created by column access
+on a [`Table`](./table), such as `t.col`.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; embedding()
+
+```python Signature
+embedding(*, idx: str | None = None) -> ColumnRef
+```
+
+Return a reference to the values of an embedding index on this column.
+
+If an embedding index is defined on a column, the usual way to use that index is via a
+[`similarity()`](./columnref#method-similarity) lookup. Sometimes it is also useful to directly access
+the index values (i.e., the embedding vectors themselves). Calling `embedding()` returns a new `ColumnRef`
+expression of type `pxt.Array[(dim,), prec]`, where `dim` and `prec` are the dimensionality and precision
+of the column's embedding index.
+
+If there is more than one embedding index defined on this column, then the `idx` parameter must be provided to
+specify which index to reference. If there is only one index, then `idx` is optional.
+
+Args:
+    idx: An optional embedding index name. _Required_ if there is more than one embedding index defined on
+        this column.
+
+Returns:
+    A new `ColumnRef` referencing the values of the specified embedding index on this column.
+
+Raises:
+    `pxt.Error` if there is no embedding index defined on this column, if `idx` is not provided when there are
+    multiple embedding indices, or if `idx` does not match any embedding index defined on this column.
+
+Examples:
+    All of these examples assume that `t` is a table with an image column `t.image`.
+
+    Add an embedding index to `t.image` using the `clip()`
+    embedding (this only needs to be done once):
+
+    >>> from pixeltable.functions.huggingface import clip
+    ...
+    ... t.add_embedding_index(
+    ...     t.image, clip.using(model_id='openai/clip-vit-base-patch32')
+    ... )
+
+    Reference the embedding index values directly:
+
+    >>> t.select(t.image, t.image.embedding())
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; similarity()
+
+```python Signature
+similarity(
+    item: Any = None,
+    *,
+    string: str | None = None,
+    image: str | PIL.Image.Image | None = None,
+    audio: str | None = None,
+    video: str | None = None,
+    document: str | None = None,
+    vector: np.ndarray | None = None,
+    idx: str | None = None
+) -> Expr
+```
+
+Return a new expression representing the similarity score between the values of this column and the given
+(constant) item. In order for this to work, there must be an embedding index defined on this column that
+supports the modality of the given item (string, image, audio, video, document). Similarity will be scored
+according to the metric defined by the embedding index.
+
+Exactly one of `string`, `image`, `audio`, `video`, `document`, or `vector` must be provided. The `item`
+parameter is deprecated and exists for backward compatibility only.
+
+If `string`, `image`, `audio`, `video`, or `document` is provided, then an embedding vector will be computed
+for the given input as defined by the embedding index and used to determine similarity. If `vector` is
+provided, then it must be a 1-dimensional array of the same dimensionality as the index, and similarity will
+be determined directly against the vector.
+
+The optional `idx` parameter specifies the name of the embedding index to use. If there is more than one
+embedding index defined on this column, then `idx` _must_ be provided.
+
+**Parameters:**
+
+- **`string`** (`str | None`): A string to compare against the values of this column.
+- **`image`** (`str | PIL.Image.Image | None`): An image to compare against the values of this column (either a local file path, a URL, or an
+    in-memory `PIL.Image.Image`).
+- **`audio`** (`str | None`): An audio file to compare against the values of this column (a local file path or a URL).
+- **`video`** (`str | None`): A video file to compare against the values of this column (a local file path or a URL).
+- **`document`** (`str | None`): A document file to compare against the values of this column (a local file path or a URL).
+- **`vector`** (`np.ndarray | None`): A 1-dimensional NumPy array to compare against the values of this column.
+- **`idx`** (`str | None`): An optional embedding index name. _Required_ if there is more than one embedding index defined on
+    this column.
+- **`item`** (`Any`): **Deprecated** as of version 0.5.7.
+
+**Returns:**
+
+- `Expr`: A new expression representing the similarity score between the values of this column and the given item.
+
+**Examples:**
+
+All of these examples assume that `t` is a table with an image column `t.image`. Add an embedding index to `t.image` using the `clip()` embedding (this only needs to be done once):
+```python
+from pixeltable.functions.huggingface import clip
+
+t.add_embedding_index(
+    t.image, clip.using(model_id='openai/clip-vit-base-patch32')
+)
+```
+
+Do a nearest neighbor search against a string (with `k=5`):
+```python
+sim = t.image.similarity(string='a photograph of a cat')
+t.select(t.image, sim).order_by(sim, asc=False).head(5)
+```
+
+Do a nearest neighbor search against an image:
+```python
+sim = t.image.similarity(image='https://example.com/reference-cat.jpg')
+t.select(t.image, sim).order_by(sim, asc=False).head(5)
+```
+

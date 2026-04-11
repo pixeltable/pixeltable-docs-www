@@ -261,11 +261,6 @@ videos, images, audio, and strings.
 !python -m spacy download en_core_web_sm -q
 ```
 
-
-```python
-import pixeltable as pxt
-```
-
 ### Split documents into chunks
 
 Use `document_splitter` to break documents (PDF, HTML, Markdown, TXT)
@@ -273,6 +268,7 @@ into text chunks.
 
 
 ```python
+import pixeltable as pxt
 from pixeltable.functions.document import document_splitter
 
 pxt.drop_dir('split_demo', force=True)

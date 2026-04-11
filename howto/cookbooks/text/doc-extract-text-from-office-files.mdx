@@ -243,16 +243,13 @@ chunk of the document with its metadata.
 %pip install -qU pixeltable 'markitdown[pptx,docx,xlsx]' mistune tiktoken
 ```
 
-
-```python
-import pixeltable as pxt
-from pixeltable.iterators.document import DocumentSplitter
-```
-
 ### Load office documents
 
 
 ```python
+import pixeltable as pxt
+from pixeltable.iterators.document import DocumentSplitter
+
 # Create a fresh directory (drop existing if present)
 pxt.drop_dir('office_docs', force=True)
 pxt.create_dir('office_docs')

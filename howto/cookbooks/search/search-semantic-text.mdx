@@ -155,16 +155,13 @@ generates embeddings for each row and enables similarity search.
 %pip install -qU pixeltable sentence-transformers
 ```
 
-
-```python
-import pixeltable as pxt
-from pixeltable.functions.huggingface import sentence_transformer
-```
-
 ### Create knowledge base
 
 
 ```python
+import pixeltable as pxt
+from pixeltable.functions.huggingface import sentence_transformer
+
 # Create a fresh directory
 pxt.drop_dir('search_demo', force=True)
 pxt.create_dir('search_demo')

@@ -1,0 +1,298 @@
+---
+title: "Working with RunwayML in Pixeltable"
+sidebarTitle: "RunwayML"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-runwayml.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-runwayml.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-runwayml.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+Pixeltable’s RunwayML integration lets you generate and transform images
+and videos using RunwayML’s Gen-4.5, Veo, and other models, directly
+from your Pixeltable tables.
+
+## What is RunwayML?
+
+[RunwayML](https://runwayml.com/) is an AI creative platform offering
+state-of-the-art generative models for images and video. Pixeltable
+wraps four endpoints:
+
+-   **`text_to_image`**: Generate images from text prompts with optional
+    reference images
+-   **`text_to_video`**: Generate videos from text prompts
+-   **`image_to_video`**: Animate a still image into a video
+-   **`video_to_video`**: Transform an existing video with text guidance
+
+### Documentation
+
+-   [Pixeltable RunwayML SDK
+    Reference](/sdk/latest/runwayml)
+-   [RunwayML API Reference](https://docs.dev.runwayml.com/api/)
+
+## Prerequisites
+
+1.  A RunwayML account with an API secret from
+    [RunwayML](https://app.runwayml.com/)
+2.  `pip install runwayml`
+
+**Important:** RunwayML API calls consume credits based on your plan.
+Image and video generation can be expensive — monitor your usage to
+avoid unexpected charges.
+
+## Setup
+
+
+```python
+%pip install -qU pixeltable runwayml
+```
+
+
+```python
+import getpass
+import os
+
+if 'RUNWAYML_API_SECRET' not in os.environ:
+    os.environ['RUNWAYML_API_SECRET'] = getpass.getpass(
+        'RunwayML API Secret: '
+    )
+```
+
+To read more about working with API keys in Pixeltable, see
+[Configuration](/platform/configuration).
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions import runwayml
+
+pxt.drop_dir('runwayml_demo', force=True)
+pxt.create_dir('runwayml_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;runwayml_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x32bd20a10&gt;
+</pre>
+
+## Text-to-Video Generation
+
+Generate videos from text prompts. The `text_to_video` function returns
+a JSON response containing the output video URL.
+
+
+```python
+t2v = pxt.create_table(
+    'runwayml_demo.text_to_video', {'prompt': pxt.String}
+)
+
+t2v.add_computed_column(
+    response=runwayml.text_to_video(
+        t2v.prompt, model='gen4.5', ratio='1280:720', duration=5
+    )
+)
+
+# Extract the video URL from the response
+t2v.add_computed_column(video=t2v.response['output'][0].astype(pxt.Video))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;text_to_video&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+t2v.insert(
+    [
+        {
+            'prompt': 'A cinematic aerial shot of a coastal city at golden hour, waves crashing against the shore'
+        }
+    ]
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;105.52&nbsp;s&nbsp;(0.01&nbsp;rows/s)
+1&nbsp;row&nbsp;inserted.
+</pre>
+
+
+```python
+t2v.select(t2v.prompt, t2v.video).collect()
+```
+
+## Image-to-Video Generation
+
+Animate a still image into a video. You can optionally add a text prompt
+to guide the motion.
+
+
+```python
+i2v = pxt.create_table(
+    'runwayml_demo.image_to_video',
+    {'image': pxt.Image, 'prompt': pxt.String},
+)
+
+i2v.add_computed_column(
+    response=runwayml.image_to_video(
+        i2v.image,
+        model='gen4.5',
+        ratio='1280:720',
+        prompt_text=i2v.prompt,
+        duration=5,
+    )
+)
+
+i2v.add_computed_column(video=i2v.response['output'][0].astype(pxt.Video))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;image_to_video&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+i2v.insert(
+    [
+        {
+            'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/640px-Camponotus_flavomarginatus_ant.jpg',
+            'prompt': 'The ant slowly walks across the leaf',
+        }
+    ]
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;145.73&nbsp;s&nbsp;(0.01&nbsp;rows/s)
+1&nbsp;row&nbsp;inserted.
+</pre>
+
+
+```python
+i2v.select(i2v.image, i2v.video).collect()
+```
+
+## Text-to-Image Generation
+
+Generate images from text prompts with reference images. The
+`text_to_image` function requires at least one reference image.
+
+
+```python
+t2i = pxt.create_table(
+    'runwayml_demo.text_to_image',
+    {'prompt': pxt.String, 'ref_image': pxt.Image},
+)
+
+t2i.add_computed_column(
+    response=runwayml.text_to_image(
+        t2i.prompt, [t2i.ref_image], model='gen4_image', ratio='1280:720'
+    )
+)
+
+# The response contains a list of output image URLs
+t2i.add_computed_column(image=t2i.response['output'][0].astype(pxt.Image))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;text_to_image&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+t2i.insert(
+    [
+        {
+            'prompt': 'A photorealistic painting in the same style as the reference',
+            'ref_image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
+        }
+    ]
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;21.70&nbsp;s&nbsp;(0.05&nbsp;rows/s)
+1&nbsp;row&nbsp;inserted.
+</pre>
+
+
+```python
+t2i.select(t2i.ref_image, t2i.image).collect()
+```
+
+## Video-to-Video Transformation
+
+Transform an existing video with text guidance. Note that
+`video_to_video` requires a publicly accessible HTTPS URL for the input
+video (not a local file).
+
+
+```python
+v2v = pxt.create_table(
+    'runwayml_demo.video_to_video',
+    {'video_url': pxt.String, 'style_prompt': pxt.String},
+)
+
+v2v.add_computed_column(
+    response=runwayml.video_to_video(
+        v2v.video_url,
+        v2v.style_prompt,
+        model='gen4_aleph',
+        ratio='1280:720',
+    )
+)
+
+v2v.add_computed_column(video=v2v.response['output'][0].astype(pxt.Video))
+```
+
+## Using `model_kwargs` for Advanced Parameters
+
+All RunwayML functions accept an optional `model_kwargs` parameter for
+passing additional API parameters not exposed as explicit arguments.
+Refer to the [RunwayML API docs](https://docs.dev.runwayml.com/api/) for
+the full list of supported parameters per endpoint.
+
+
+```python
+# Example: pass additional parameters via model_kwargs
+advanced = pxt.create_table(
+    'runwayml_demo.advanced', {'prompt': pxt.String}
+)
+
+advanced.add_computed_column(
+    response=runwayml.text_to_video(
+        advanced.prompt,
+        model='gen4.5',
+        ratio='1280:720',
+        duration=5,
+        model_kwargs={'audio': True, 'seed': 42},
+    )
+)
+```
+
+## Learn More
+
+-   [RunwayML SDK
+    Reference](/sdk/latest/runwayml) — Full
+    API details for all RunwayML functions
+-   [RunwayML API Documentation](https://docs.dev.runwayml.com/api/) —
+    Official RunwayML API reference
+-   [Working with
+    fal.ai](/howto/providers/working-with-fal)
+    — Another image/video generation integration
+-   [Working with
+    Reve](/howto/providers/working-with-reve)
+    — AI video generation and editing
