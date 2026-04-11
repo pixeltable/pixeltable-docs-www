@@ -255,16 +255,13 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 %pip install -qU pixeltable torch transformers diffusers accelerate
 ```
 
-
-```python
-import pixeltable as pxt
-from pixeltable.functions.huggingface import image_to_image
-```
-
 ### Load images
 
 
 ```python
+import pixeltable as pxt
+from pixeltable.functions.huggingface import image_to_image
+
 # Create a fresh directory (drop existing if present)
 pxt.drop_dir('img2img_demo', force=True)
 pxt.create_dir('img2img_demo')

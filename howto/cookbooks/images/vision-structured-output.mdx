@@ -185,12 +185,12 @@ processing.
 **What’s in this recipe:**
 
 -   Extract structured JSON from images using GPT-4o
--   Use `openai.vision()` which handles images directly
+-   Use `openai.chat_completions()` with multimodal messages
 -   Access individual fields from the extracted data
 
-You use Pixeltable’s `openai.vision()` function which automatically
-handles image encoding. Request JSON output via `response_format` in
-`model_kwargs`.
+You use Pixeltable’s `openai.chat_completions()` function with
+multimodal messages that include images directly. Request JSON output
+via `response_format` in `model_kwargs`.
 
 ### Setup
 
@@ -205,16 +205,13 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
 ```
 
-
-```python
-import pixeltable as pxt
-from pixeltable.functions import openai
-```
-
 ### Load images
 
 
 ```python
+import pixeltable as pxt
+from pixeltable.functions import openai
+
 # Create a fresh directory
 pxt.drop_dir('extraction_demo', force=True)
 pxt.create_dir('extraction_demo')
@@ -261,7 +258,7 @@ Use `openai.chat_completions()` to analyze images and get JSON output:
 
 
 ```python
-# Add extraction column using openai.vision (handles images directly)
+# Add extraction column using openai.chat_completions with multimodal messages
 PROMPT = """Analyze this image and extract the following as JSON:
 - description: A brief description of the image
 - objects: List of objects visible in the image

@@ -167,10 +167,7 @@ Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp
 import pixeltable as pxt
 import pixeltable.functions.math as pxtmath
 from pixeltable.functions.video import concat_videos_agg, with_audio
-```
 
-
-```python
 pxt.drop_dir('slideshow_demo', force=True)
 pxt.create_dir('slideshow_demo')
 ```
@@ -359,7 +356,15 @@ is trimmed to match the video duration automatically.
 
 
 ```python
-MUSIC_URL = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/sample-background-music.m4a'final = pxt.create_table(    'slideshow_demo/final', {'video': pxt.Video, 'music': pxt.Audio})final.insert([{'video': video_path, 'music': MUSIC_URL}])final.add_computed_column(out=with_audio(final.video, final.music))final.select(final.out).collect()
+MUSIC_URL = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/sample-background-music.m4a'
+
+final = pxt.create_table(
+    'slideshow_demo/final', {'video': pxt.Video, 'music': pxt.Audio}
+)
+final.insert([{'video': video_path, 'music': MUSIC_URL}])
+final.add_computed_column(out=with_audio(final.video, final.music))
+
+final.select(final.out).collect()
 ```
 
 ## How it works

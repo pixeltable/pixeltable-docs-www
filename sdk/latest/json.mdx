@@ -53,6 +53,16 @@ necessary in order for Pixeltable to determine the types of the output columns).
     Cannot be specified together with `elements`.
 
 
+## <span style={{ 'color': 'gray' }}>uda</span>&nbsp; make_list()
+
+```python Signature
+@pxt.uda
+make_list(*args, **kwargs) -> pxt.Json[(Json, ...)]
+```
+
+Collects arguments into a list.
+
+
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; dumps()
 
 ```python Signature
@@ -71,14 +81,4 @@ Equivalent to [`json.dumps()`](https://docs.python.org/3/library/json.html#json.
 **Returns:**
 
 - `pxt.String`: A JSON-formatted string.
-
-
-## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; make_list()
-
-```python Signature
-@pxt.udf
-make_list(*args, **kwargs) -> pxt.Json[(Json, ...)]
-```
-
-Collects arguments into a list.
 
