@@ -1,7 +1,8 @@
 /* Pixeltable Documentation - Minimal overrides */
 
 /* Sidebar icon ordering (keeps notebook icons in correct position) */
-#sidebar svg.h-4 {
+/* Mintlify moved from Tailwind v3 (h-4) to v4 (size-4) class names */
+#sidebar svg.size-4 {
   order: 1;
 }
 
