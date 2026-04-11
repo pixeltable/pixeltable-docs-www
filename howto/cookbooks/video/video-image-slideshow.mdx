@@ -1,0 +1,400 @@
+---
+title: "Create a video slideshow from images"
+sidebarTitle: "Create a video slideshow from images"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-image-slideshow.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/video/video-image-slideshow.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/video/video-image-slideshow.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr>
+<th>Use case</th>
+<th>What you need</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Product ad</td>
+<td style="vertical-align: middle;">Ken Burns pan/zoom on product shots, title cards, logo, music</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Social reel</td>
+<td style="vertical-align: middle;">Animated image sequence with captions</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Photo slideshow</td>
+<td style="vertical-align: middle;">Smooth transitions between photos with background audio</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Marketing clip</td>
+<td style="vertical-align: middle;">Branded video from static assets, no video editor needed</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">seq</th>
+<th data-quarto-table-cell-role="th">caption</th>
+<th data-quarto-table-cell-role="th">pan_sign</th>
+<th data-quarto-table-cell-role="th">dur</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">DISCOVER NATURE</td>
+<td style="vertical-align: middle;">1.</td>
+<td style="vertical-align: middle;">4.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">WILD FORESTS</td>
+<td style="vertical-align: middle;">-1.</td>
+<td style="vertical-align: middle;">4.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">SUNLIT CANOPY</td>
+<td style="vertical-align: middle;">1.</td>
+<td style="vertical-align: middle;">4.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">OCEAN BREEZE</td>
+<td style="vertical-align: middle;">-1.</td>
+<td style="vertical-align: middle;">4.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">EXPLORE MORE</td>
+<td style="vertical-align: middle;">1.</td>
+<td style="vertical-align: middle;">4.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Purpose</th>
+<th>Example values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>image</code></td>
+<td style="vertical-align: middle;">Source photo</td>
+<td style="vertical-align: middle;">Unsplash URLs</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>seq</code></td>
+<td style="vertical-align: middle;">Clip ordering</td>
+<td style="vertical-align: middle;">0, 1, 2, 3, 4</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>caption</code></td>
+<td style="vertical-align: middle;">Text overlay per clip</td>
+<td style="vertical-align: middle;"><code>'DISCOVER NATURE'</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>logo</code></td>
+<td style="vertical-align: middle;">Corner logo image</td>
+<td style="vertical-align: middle;">Logo URL</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pan_sign</code></td>
+<td style="vertical-align: middle;">Pan direction</td>
+<td style="vertical-align: middle;"><code>+1.0</code> (right), <code>-1.0</code> (left)</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Turn a collection of images into an animated video with Ken Burns
+effects, text overlays, logos, and background music — using a fully
+declarative Pixeltable pipeline.
+
+## Problem
+
+You have a set of images and want to produce a polished video — an ad, a
+product reel, a social media clip. Typically this means a video editor
+or a complex ffmpeg scripting pipeline.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Solution
+
+**What’s in this recipe:**
+
+-   Convert still images into animated video clips with pan effects
+-   Control pan direction per image from table data (no Python loops)
+-   Add per-image captions and a logo overlay
+-   Concatenate all clips and add background music
+
+The key insight: store per-clip metadata (caption text, pan direction,
+logo) as **table columns**. One chained computed column expression
+handles the entire pipeline, and Pixeltable evaluates it per row.
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
+</pre>
+
+
+```python
+import pixeltable as pxt
+import pixeltable.functions.math as pxtmath
+from pixeltable.functions.video import concat_videos_agg, with_audio
+
+pxt.drop_dir('slideshow_demo', force=True)
+pxt.create_dir('slideshow_demo')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Pixeltable&nbsp;dashboard&nbsp;available&nbsp;at:&nbsp;http://localhost:22089
+Created&nbsp;directory&nbsp;&#x27;slideshow_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x13fca3ac0&gt;
+</pre>
+
+## Step 1: Define the data
+
+Each row is one clip in the final video. Per-clip variation comes from
+table columns:
+
+-   `caption`: text overlay for each clip
+-   `pan_sign`: `+1.0` for pan-right, `-1.0` for pan-left
+-   `logo`: image to overlay in the corner
+
+This is what makes the pipeline fully declarative — no Python loops, no
+conditional logic.
+
+
+```python
+LOGO_URL = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/pixeltable-logo-large.png'
+
+t = pxt.create_table(
+    'slideshow_demo/clips',
+    {
+        'image': pxt.Image,
+        'seq': pxt.Int,
+        'caption': pxt.String,
+        'logo': pxt.Image,
+        'pan_sign': pxt.Float,
+    },
+)
+
+t.insert(
+    [
+        {
+            'image': 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&q=80',
+            'seq': 0,
+            'caption': 'DISCOVER NATURE',
+            'logo': LOGO_URL,
+            'pan_sign': 1.0,
+        },
+        {
+            'image': 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&q=80',
+            'seq': 1,
+            'caption': 'WILD FORESTS',
+            'logo': LOGO_URL,
+            'pan_sign': -1.0,
+        },
+        {
+            'image': 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80',
+            'seq': 2,
+            'caption': 'SUNLIT CANOPY',
+            'logo': LOGO_URL,
+            'pan_sign': 1.0,
+        },
+        {
+            'image': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80',
+            'seq': 3,
+            'caption': 'OCEAN BREEZE',
+            'logo': LOGO_URL,
+            'pan_sign': -1.0,
+        },
+        {
+            'image': 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80',
+            'seq': 4,
+            'caption': 'EXPLORE MORE',
+            'logo': LOGO_URL,
+            'pan_sign': 1.0,
+        },
+    ]
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;5&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;1.04&nbsp;s&nbsp;(4.81&nbsp;rows/s)
+5&nbsp;rows&nbsp;inserted.
+</pre>
+
+## Step 2: Build the video pipeline
+
+One computed column chains the entire transformation:
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+image&nbsp;→&nbsp;static&nbsp;video&nbsp;→&nbsp;resize&nbsp;→&nbsp;pan&nbsp;effect&nbsp;→&nbsp;resize&nbsp;→&nbsp;logo&nbsp;overlay&nbsp;→&nbsp;text&nbsp;overlay
+</pre>
+
+The pan direction alternates per row via `scroll()`, which accepts
+Pixeltable expressions. `pan()` is a convenience wrapper that only takes
+literal direction strings, so for per-row control we use `scroll()`
+directly with a `pan_sign` column:
+
+-   `pan_sign = +1.0` → `x_speed` positive, `x_start = 0` (pans right)
+-   `pan_sign = -1.0` → `x_speed` negative, `x_start = pan_range` (pans
+    left)
+
+
+```python
+W, H, DUR, CROP = 1280, 720, 4.0, 0.25
+
+# Base: still image → video → uniform resolution
+t.add_computed_column(
+    base=t.image.to_video(duration=DUR).resize(width=W, height=H)
+)
+
+# Compute pan parameters from video metadata + pan_sign column
+md = t.base.get_metadata()
+vid_w = md.streams[0].width
+viewport_w = pxtmath.floor(vid_w * (1 - CROP)).to_int()
+pan_range = vid_w - viewport_w
+speed = pan_range / t.base.get_duration()
+x_start = pxtmath.floor(pan_range * ((1 - t.pan_sign) / 2)).to_int()
+
+# Full pipeline: pan → resize → logo → caption
+t.add_computed_column(
+    clip=t.base.scroll(
+        w=viewport_w, x_speed=speed * t.pan_sign, x_start=x_start
+    )
+    .resize(width=W, height=H)
+    .overlay_image(
+        t.logo,
+        scale=0.10,
+        opacity=0.85,
+        horizontal_align='right',
+        vertical_align='top',
+        horizontal_margin=15,
+        vertical_margin=15,
+    )
+    .overlay_text(
+        t.caption,
+        font_size=44,
+        color='white',
+        horizontal_align='center',
+        vertical_align='bottom',
+        vertical_margin=50,
+        box=True,
+        box_color='black',
+        box_opacity=0.5,
+        box_border=[8, 16],
+        start_time=0.5,
+        end_time=3.0,
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;5&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;6.43&nbsp;s&nbsp;(0.78&nbsp;rows/s)
+5&nbsp;rows&nbsp;updated.
+</pre>
+
+## Step 3: Preview individual clips
+
+Each row now has a fully rendered video clip. Let’s inspect them.
+
+
+```python
+t.select(
+    t.seq, t.caption, t.pan_sign, dur=t.clip.get_duration()
+).order_by(t.seq).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Step 4: Concatenate into final video
+
+`concat_videos_agg` merges all clips in `seq` order into a single video.
+
+
+```python
+video_path = (
+    t.group_by()
+    .select(v=concat_videos_agg(t.seq, t.clip))
+    .collect()[0]['v']
+)
+```
+
+## Step 5: Add background music
+
+`with_audio()` replaces (or adds) the audio track on a video. The audio
+is trimmed to match the video duration automatically.
+
+
+```python
+MUSIC_URL = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/sample-background-music.m4a'
+
+final = pxt.create_table(
+    'slideshow_demo/final', {'video': pxt.Video, 'music': pxt.Audio}
+)
+final.insert([{'video': video_path, 'music': MUSIC_URL}])
+final.add_computed_column(out=with_audio(final.video, final.music))
+
+final.select(final.out).collect()
+```
+
+## How it works
+
+The entire pipeline is declarative — per-clip variation comes from
+**data**, not code:
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+One computed column expression handles the full transformation chain.
+Pixeltable evaluates it per row, pulling caption, logo, and pan
+direction from each row’s data.
+
+### Alternative effects
+
+Swap the pan for other built-in effects:
+
+
+```python
+# Zoom instead of pan
+t.add_computed_column(clip=t.base.zoom(start_scale=1.0, end_scale=1.3))
+
+# Fade-through-black transitions (add to each clip before concat)
+t.add_computed_column(clip=t.base.fade_in(duration=0.5).fade_out(duration=0.5))
+
+# Combine: pan + fade
+t.add_computed_column(
+    clip=pan(t.base, direction='right')
+    .resize(width=1280, height=720)
+    .fade_in(duration=0.5)
+    .fade_out(duration=0.5)
+)
+```

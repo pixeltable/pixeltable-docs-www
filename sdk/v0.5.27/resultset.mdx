@@ -1,0 +1,60 @@
+---
+title: "ResultSet"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L35\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.ResultSet
+
+
+A dataset obtained by executing a [`Query`](./query). Returned by
+[`Query.collect()`](./query#method-collect), [`Query.head()`](./query#method-head),
+[`Query.tail()`](./query#method-tail), and the equivalent methods on class [`Table`](./table).
+
+A `ResultSet` is structured as a table with rows (indexed by integers) and columns (indexed by strings).
+The column names correspond to the expressions in the query's select list. The values in a `ResultSet` can
+be accessed in various ways:
+
+- `len(result)` returns the number of rows
+- `result[i]` returns the `i`th row as a `dict` mapping column names to values
+- `result['col']` returns a `list` of all values in the column named `'col'`
+- `result[i, 'col']` returns the specific value in the `i`th row and column `'col'`
+
+`ResultSet` implements the Sequence protocol, so it can be iterated over and converted to other sequence
+types in the usual fashion; for example:
+
+- `for row in result` (iterates over rows)
+- `list(result)` (converts to a list of rows)
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; to_pandas()
+
+```python Signature
+to_pandas() -> pd.DataFrame
+```
+
+Convert the `ResultSet` to a Pandas `DataFrame`.
+
+
+**Returns:**
+
+- `pd.DataFrame`: A `DataFrame` with one column per column in the `ResultSet`.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; to_pydantic()
+
+```python Signature
+to_pydantic(model: type[BaseModelT]) -> Iterator[BaseModelT]
+```
+
+Convert the `ResultSet` to Pydantic model instances.
+
+
+**Parameters:**
+
+- **`model`** (`type[BaseModelT]`): A Pydantic model class.
+
+**Returns:**
+
+- `Iterator[BaseModelT]`: An iterator over Pydantic model instances, one for each row in the result set.
+
