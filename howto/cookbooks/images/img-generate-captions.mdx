@@ -285,13 +285,16 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
 ```
 
-### Load images
-
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import chat_completions
+```
 
+### Load images
+
+
+```python
 # Create a fresh directory
 pxt.drop_dir('caption_demo', force=True)
 pxt.create_dir('caption_demo')

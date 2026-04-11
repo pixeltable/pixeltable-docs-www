@@ -107,13 +107,16 @@ if 'OPENAI_API_KEY' not in os.environ:
     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
 ```
 
-### Create prompts table
-
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions import openai
+```
 
+### Create prompts table
+
+
+```python
 # Create a fresh directory
 pxt.drop_dir('json_demo', force=True)
 pxt.create_dir('json_demo')

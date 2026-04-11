@@ -146,7 +146,10 @@ if 'OPENAI_API_KEY' not in os.environ:
 ```python
 import pixeltable as pxt
 from pixeltable.functions.openai import chat_completions
+```
 
+
+```python
 # Create a fresh directory
 pxt.drop_dir('translate_demo', force=True)
 pxt.create_dir('translate_demo')

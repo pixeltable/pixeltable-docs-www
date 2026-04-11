@@ -44,7 +44,7 @@
             "pages": [
               "platform/configuration",
               {
-                "group": "Migrating from ...",
+                "group": "Migrating from...",
                 "pages": [
                   "migrate/from-diy-data-pipeline",
                   "migrate/from-rdbms-vectordbs",
@@ -73,7 +73,6 @@
                   "howto/providers/working-with-pydantic",
                   "howto/providers/working-with-replicate",
                   "howto/providers/working-with-reve",
-                  "howto/providers/working-with-runwayml",
                   "howto/providers/working-with-tigris",
                   "howto/providers/working-with-together",
                   "howto/providers/working-with-twelvelabs",
@@ -95,7 +94,6 @@
                       "howto/cookbooks/core/query-join-tables",
                       "howto/cookbooks/core/version-control-history",
                       "howto/cookbooks/core/custom-aggregates-uda",
-                      "howto/cookbooks/core/custom-iterators",
                       "howto/cookbooks/core/data-split-rows",
                       "howto/cookbooks/core/time-zones"
                     ]
@@ -207,9 +205,6 @@
                       "sdk/latest/pixeltable",
                       "sdk/latest/table",
                       "sdk/latest/query",
-                      "sdk/latest/resultset",
-                      "sdk/latest/expr",
-                      "sdk/latest/columnref",
                       "sdk/latest/columnmetadata",
                       "sdk/latest/dircontents",
                       "sdk/latest/indexmetadata",
@@ -232,7 +227,8 @@
                       "sdk/latest/net",
                       "sdk/latest/string",
                       "sdk/latest/timestamp",
-                      "sdk/latest/video"
+                      "sdk/latest/video",
+                      "sdk/latest/vision"
                     ]
                   },
                   {
@@ -260,7 +256,6 @@
                       "sdk/latest/together",
                       "sdk/latest/twelvelabs",
                       "sdk/latest/uuid",
-                      "sdk/latest/vision",
                       "sdk/latest/voyageai",
                       "sdk/latest/whisper",
                       "sdk/latest/whisperx",
@@ -279,7 +274,7 @@
           },
           {
             "dropdown": "v0.5.27",
-            "icon": "rocket",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -362,7 +357,7 @@
           },
           {
             "dropdown": "v0.5.26",
-            "icon": "archive",
+            "icon": "rocket",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -1993,13 +1988,7 @@
     }
   },
   "styling": {
-    "eyebrows": "breadcrumbs",
-    "codeblocks": {
-      "theme": {
-        "light": "light-plus",
-        "dark": "dark-plus"
-      }
-    }
+    "eyebrows": "breadcrumbs"
   },
   "appearance": {
     "default": "system",

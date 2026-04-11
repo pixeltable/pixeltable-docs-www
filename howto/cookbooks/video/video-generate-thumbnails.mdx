@@ -324,13 +324,16 @@ generated automatically when you insert new videos.
 %pip install -qU pixeltable
 ```
 
-### Load videos
-
 
 ```python
 import pixeltable as pxt
 import pixeltable.functions as pxtf
+```
 
+### Load videos
+
+
+```python
 # Create a fresh directory
 pxt.drop_dir('thumbnail_demo', force=True)
 pxt.create_dir('thumbnail_demo')

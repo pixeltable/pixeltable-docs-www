@@ -363,8 +363,6 @@ results.
 %pip install -qU pixeltable torch transformers timm
 ```
 
-### Load images
-
 
 ```python
 import numpy as np
@@ -374,7 +372,12 @@ from pixeltable.functions.huggingface import (
     detr_for_segmentation,
 )
 from pixeltable.functions.vision import bboxes_draw, overlay_segmentation
+```
 
+### Load images
+
+
+```python
 pxt.drop_dir('detection_vs_seg', force=True)
 pxt.create_dir('detection_vs_seg')
 ```

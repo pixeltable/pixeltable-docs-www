@@ -221,15 +221,18 @@ Pixeltable types to appropriate SQL types for each database dialect.
 %pip install -qU pixeltable snowflake-sqlalchemy
 ```
 
-### Create sample data
-
 
 ```python
 import pixeltable as pxt
 import tempfile
 from pathlib import Path
 from pixeltable.io.sql import export_sql
+```
 
+### Create sample data
+
+
+```python
 # Create a fresh directory
 pxt.drop_dir('sql_export_demo', force=True)
 pxt.create_dir('sql_export_demo')

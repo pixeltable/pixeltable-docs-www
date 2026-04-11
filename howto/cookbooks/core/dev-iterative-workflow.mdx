@@ -372,12 +372,15 @@ text data and shows three examples:
 %pip install -qU pixeltable
 ```
 
+
+```python
+import pixeltable as pxt
+```
+
 ### Create sample data
 
 
 ```python
-import pixeltable as pxt
-
 # Create a fresh directory (drop existing if present)
 pxt.drop_dir('demo_project', force=True)
 pxt.create_dir('demo_project')

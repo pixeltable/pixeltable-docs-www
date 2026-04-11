@@ -767,6 +767,11 @@ includes built-in support for a number of models; we’re going to use the
 YOLOX family of models, which are lightweight models with solid
 performance. We first import the `yolox` Pixeltable function.
 
+
+```python
+from pixeltable.functions.yolox import yolox
+```
+
 Pixeltable functions operate on columns and expressions using standard
 Python function call syntax. Here’s an example that shows how we might
 experiment with applying one of the YOLOX models to the first few frames
@@ -774,8 +779,6 @@ in our video, using Pixeltable’s powerful `select` comprehension.
 
 
 ```python
-from pixeltable.functions.yolox import yolox
-
 # Show the results of applying the `yolox_tiny` model
 # to the first few frames in the table.
 

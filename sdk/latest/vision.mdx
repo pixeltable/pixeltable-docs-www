@@ -20,33 +20,6 @@ t.select(
 ```
 
 
-## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_clip_to_canvas()
-
-```python Signature
-@pxt.udf
-bboxes_clip_to_canvas(bboxes: pxt.Json[(Json, format: pxt.String, *, width: pxt.Int | None = None, height: pxt.Int | None = None, min_visibility: pxt.Float = 0.0, min_area: pxt.Float = 0.0) -> pxt.Json[(Json, ...) ]
-```
-
-Clip a list of bounding boxes to a canvas of specified size.
-
-
-**Parameters:**
-
-- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each either specified with absolute pixel coordinates (`int`) or relative
-    coordinates (`float`).
-- **`format`** (`Any`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
-- **`width`** (`Any`): Canvas width in absolute pixels. Required for absolute coordinates, must not be specified for relative.
-- **`height`** (`Any`): Canvas height in absolute pixels. Required for absolute coordinates, must not be specified for relative.
-- **`min_visibility`** (`Any`): Minimum fraction of the bounding box that must be visible after clipping. If the visibility
-    is less than this value, returns None.
-- **`min_area`** (`Any`): Minimum area of the bounding box after clipping. If the area is less than this value, returns None.
-
-**Returns:**
-
-- `pxt.Json[(Json, ...)]`: List of clipped bounding boxes in the same format as the input. Boxes that don't meet the
-  min_visibility or min_area thresholds are replaced with None.
-
-
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_convert()
 
 ```python Signature
@@ -67,31 +40,6 @@ Convert a list of bounding boxes from src_format to dst_format.
 **Returns:**
 
 - `pxt.Json[(Json, ...)]`: List of bounding boxes in dst_format.
-
-
-## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_crop_canvas()
-
-```python Signature
-@pxt.udf
-bboxes_crop_canvas(bboxes: pxt.Json[(Json, format: pxt.String, *, canvas_region: pxt.Json[(Json, canvas_region_format: pxt.String, canvas_width: pxt.Int | None = None, canvas_height: pxt.Int | None = None) -> pxt.Json[(Json, ...) ]
-```
-
-Adjust a list of bounding boxes to account for a canvas crop.
-
-
-**Parameters:**
-
-- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each either specified with absolute pixel coordinates or relative coordinates.
-- **`format`** (`Any`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
-- **`canvas_width`** (`Any`): Canvas width.
-- **`canvas_height`** (`Any`): Canvas height.
-- **`canvas_region`** (`Any`): Canvas region that was cropped, either specified with absolute pixel coordinates or relative
-    coordinates, in the format specified by `canvas_region_format`.
-- **`canvas_region_format`** (`Any`): Format of the `canvas_region` coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
-
-**Returns:**
-
-- `pxt.Json[(Json, ...)]`: List of adjusted bounding boxes in the same format as the input. They can extend beyond the canvas boundaries.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_draw()
@@ -137,32 +85,6 @@ If no colors are specified, this function randomly assigns each label a specific
 **Returns:**
 
 - `pxt.Image`: The image with bounding boxes drawn on it.
-
-
-## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_pad()
-
-```python Signature
-@pxt.udf
-bboxes_pad(bboxes: pxt.Json[(Json, format: pxt.String, *, top: pxt.Int | None = None, bottom: pxt.Int | None = None, left: pxt.Int | None = None, right: pxt.Int | None = None, x: pxt.Int | None = None, y: pxt.Int | None = None) -> pxt.Json[(Json, ...) ]
-```
-
-Pad a list of bounding boxes.
-
-
-**Parameters:**
-
-- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes in absolute pixel coordinates.
-- **`format`** (`Any`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
-- **`top`** (`Any`): Amount to pad at the top, in absolute pixels.
-- **`bottom`** (`Any`): Amount to pad at the bottom, in absolute pixels.
-- **`left`** (`Any`): Amount to pad at the left, in absolute pixels.
-- **`right`** (`Any`): Amount to pad at the right, in absolute pixels.
-- **`x`** (`Any`): Amount to pad at the left and right, in absolute pixels.
-- **`y`** (`Any`): Amount to pad at the top and bottom, in absolute pixels.
-
-**Returns:**
-
-- `pxt.Json[(Json, ...)]`: List of padded bounding boxes in the same format as the input.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_resize()
@@ -216,6 +138,124 @@ Only one of `width`, `height`, or `aspect` can be specified.
 - `pxt.Json[(Json, ...)]`: List of resized bounding boxes in the same format as the input.
 
 
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; eval_detections()
+
+```python Signature
+@pxt.udf
+eval_detections(pred_bboxes: pxt.Json[(Json[(Int, pred_labels: pxt.Json[(Int, pred_scores: pxt.Json[(Float, gt_bboxes: pxt.Json[(Json[(Int, gt_labels: pxt.Json[(Int, min_iou: pxt.Float = 0.5) -> pxt.Json[(Json, ...) ]
+```
+
+Evaluates the performance of a set of predicted bounding boxes against a set of ground truth bounding boxes.
+
+
+**Parameters:**
+
+- **`pred_bboxes`** (`pxt.Json[(Json[(Int`): List of predicted bounding boxes, each represented as [xmin, ymin, xmax, ymax].
+- **`pred_labels`** (`Any`): List of predicted labels.
+- **`pred_scores`** (`Any`): List of predicted scores.
+- **`gt_bboxes`** (`Any`): List of ground truth bounding boxes, each represented as [xmin, ymin, xmax, ymax].
+- **`gt_labels`** (`Any`): List of ground truth labels.
+- **`min_iou`** (`Any`): Minimum intersection-over-union (IoU) threshold for a predicted bounding box to be
+    considered a true positive.
+
+**Returns:**
+
+- `pxt.Json[(Json, ...)]`: A list of dictionaries, one per label class, with the following structure:
+  ```python
+  {
+      'min_iou': float,  # The value of `min_iou` used for the detections
+      'class': int,  # The label class
+      # List of 1's and 0's indicating true positives for each
+      # predicted bounding box of this class
+      'tp': list[int],
+      # List of 1's and 0's indicating false positives for each
+      # predicted bounding box of this class; `fp[n] == 1 - tp[n]`
+      'fp': list[int],
+      # List of predicted scores for each bounding box of this class
+      'scores': list[float],
+      'num_gts': int,  # Number of ground truth bounding boxes of this class
+  }
+  ```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_clip_to_canvas()
+
+```python Signature
+@pxt.udf
+bboxes_clip_to_canvas(bboxes: pxt.Json[(Json, format: pxt.String, *, width: pxt.Int | None = None, height: pxt.Int | None = None, min_visibility: pxt.Float = 0.0, min_area: pxt.Float = 0.0) -> pxt.Json[(Json, ...) ]
+```
+
+Clip a list of bounding boxes to a canvas of specified size.
+
+
+**Parameters:**
+
+- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each either specified with absolute pixel coordinates (`int`) or relative
+    coordinates (`float`).
+- **`format`** (`Any`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
+- **`width`** (`Any`): Canvas width in absolute pixels. Required for absolute coordinates, must not be specified for relative.
+- **`height`** (`Any`): Canvas height in absolute pixels. Required for absolute coordinates, must not be specified for relative.
+- **`min_visibility`** (`Any`): Minimum fraction of the bounding box that must be visible after clipping. If the visibility
+    is less than this value, returns None.
+- **`min_area`** (`Any`): Minimum area of the bounding box after clipping. If the area is less than this value, returns None.
+
+**Returns:**
+
+- `pxt.Json[(Json, ...)]`: List of clipped bounding boxes in the same format as the input. Boxes that don't meet the
+  min_visibility or min_area thresholds are replaced with None.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_crop_canvas()
+
+```python Signature
+@pxt.udf
+bboxes_crop_canvas(bboxes: pxt.Json[(Json, format: pxt.String, *, canvas_region: pxt.Json[(Json, canvas_region_format: pxt.String, canvas_width: pxt.Int | None = None, canvas_height: pxt.Int | None = None) -> pxt.Json[(Json, ...) ]
+```
+
+Adjust a list of bounding boxes to account for a canvas crop.
+
+
+**Parameters:**
+
+- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each either specified with absolute pixel coordinates or relative coordinates.
+- **`format`** (`Any`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
+- **`canvas_width`** (`Any`): Canvas width.
+- **`canvas_height`** (`Any`): Canvas height.
+- **`canvas_region`** (`Any`): Canvas region that was cropped, either specified with absolute pixel coordinates or relative
+    coordinates, in the format specified by `canvas_region_format`.
+- **`canvas_region_format`** (`Any`): Format of the `canvas_region` coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
+
+**Returns:**
+
+- `pxt.Json[(Json, ...)]`: List of adjusted bounding boxes in the same format as the input. They can extend beyond the canvas boundaries.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_pad()
+
+```python Signature
+@pxt.udf
+bboxes_pad(bboxes: pxt.Json[(Json, format: pxt.String, *, top: pxt.Int | None = None, bottom: pxt.Int | None = None, left: pxt.Int | None = None, right: pxt.Int | None = None, x: pxt.Int | None = None, y: pxt.Int | None = None) -> pxt.Json[(Json, ...) ]
+```
+
+Pad a list of bounding boxes.
+
+
+**Parameters:**
+
+- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes in absolute pixel coordinates.
+- **`format`** (`Any`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
+- **`top`** (`Any`): Amount to pad at the top, in absolute pixels.
+- **`bottom`** (`Any`): Amount to pad at the bottom, in absolute pixels.
+- **`left`** (`Any`): Amount to pad at the left, in absolute pixels.
+- **`right`** (`Any`): Amount to pad at the right, in absolute pixels.
+- **`x`** (`Any`): Amount to pad at the left and right, in absolute pixels.
+- **`y`** (`Any`): Amount to pad at the top and bottom, in absolute pixels.
+
+**Returns:**
+
+- `pxt.Json[(Json, ...)]`: List of padded bounding boxes in the same format as the input.
+
+
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; bboxes_resize_canvas()
 
 ```python Signature
@@ -267,46 +307,6 @@ Re-scale a list of bounding boxes (center-anchored).
 **Returns:**
 
 - `pxt.Json[(Json, ...)]`: List of scaled bounding boxes in the same format as the input.
-
-
-## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; eval_detections()
-
-```python Signature
-@pxt.udf
-eval_detections(pred_bboxes: pxt.Json[(Json[(Int, pred_labels: pxt.Json[(Int, pred_scores: pxt.Json[(Float, gt_bboxes: pxt.Json[(Json[(Int, gt_labels: pxt.Json[(Int, min_iou: pxt.Float = 0.5) -> pxt.Json[(Json, ...) ]
-```
-
-Evaluates the performance of a set of predicted bounding boxes against a set of ground truth bounding boxes.
-
-
-**Parameters:**
-
-- **`pred_bboxes`** (`pxt.Json[(Json[(Int`): List of predicted bounding boxes, each represented as [xmin, ymin, xmax, ymax].
-- **`pred_labels`** (`Any`): List of predicted labels.
-- **`pred_scores`** (`Any`): List of predicted scores.
-- **`gt_bboxes`** (`Any`): List of ground truth bounding boxes, each represented as [xmin, ymin, xmax, ymax].
-- **`gt_labels`** (`Any`): List of ground truth labels.
-- **`min_iou`** (`Any`): Minimum intersection-over-union (IoU) threshold for a predicted bounding box to be
-    considered a true positive.
-
-**Returns:**
-
-- `pxt.Json[(Json, ...)]`: A list of dictionaries, one per label class, with the following structure:
-  ```python
-  {
-      'min_iou': float,  # The value of `min_iou` used for the detections
-      'class': int,  # The label class
-      # List of 1's and 0's indicating true positives for each
-      # predicted bounding box of this class
-      'tp': list[int],
-      # List of 1's and 0's indicating false positives for each
-      # predicted bounding box of this class; `fp[n] == 1 - tp[n]`
-      'fp': list[int],
-      # List of predicted scores for each bounding box of this class
-      'scores': list[float],
-      'num_gts': int,  # Number of ground truth bounding boxes of this class
-  }
-  ```
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; overlay_segmentation()

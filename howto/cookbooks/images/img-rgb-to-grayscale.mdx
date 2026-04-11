@@ -309,14 +309,17 @@ perceptual weighting in linear color space.
 %pip install -qU pixeltable numpy
 ```
 
-### Load images
-
 
 ```python
 import numpy as np
 import pixeltable as pxt
 from PIL import Image
+```
 
+### Load images
+
+
+```python
 # Create a fresh directory (drop existing if present)
 pxt.drop_dir('image_demo', force=True)
 pxt.create_dir('image_demo')

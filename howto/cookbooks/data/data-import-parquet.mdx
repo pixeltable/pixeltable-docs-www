@@ -358,17 +358,20 @@ schema automatically.
 %pip install -qU pixeltable pyarrow pandas
 ```
 
-### Create sample Parquet file
-
-First, create a sample Parquet file to demonstrate the import process:
-
 
 ```python
 import pandas as pd
 import pixeltable as pxt
 import tempfile
 from pathlib import Path
+```
 
+### Create sample Parquet file
+
+First, create a sample Parquet file to demonstrate the import process:
+
+
+```python
 # Create sample data
 sample_data = pd.DataFrame(
     {

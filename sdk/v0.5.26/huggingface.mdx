@@ -179,7 +179,7 @@ detr_for_object_detection(
     *,
     model_id: pxt.String,
     threshold: pxt.Float = 0.5,
-    revision: pxt.String = 'no_timm'
+    revision: pxt.String | None = None
 ) -> pxt.Json[{'scores': Json[(Float, ...)], 'labels': Json[(Int, ...)], 'label_text': Json[(String, ...)], 'boxes': Json[(Json[(Float, ...)], ...)]}]
 ```
 
@@ -194,6 +194,9 @@ __Requirements:__
 
 - **`image`** (`pxt.Image`): The image to embed.
 - **`model_id`** (`pxt.String`): The pretrained model to use for object detection.
+- **`threshold`** (`pxt.Float`): Confidence threshold for filtering detections.
+- **`revision`** (`pxt.String | None`): The specific model revision to use (e.g., a branch, tag, or git identifier). If not specified,
+    uses the default revision for the model (typically `'main'`).
 
 **Returns:**
 

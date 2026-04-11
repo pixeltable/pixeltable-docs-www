@@ -304,15 +304,18 @@ parameter. Pixeltable infers column types automatically.
 %pip install -qU pixeltable openpyxl pandas
 ```
 
-### Create sample Excel file
-
 
 ```python
 import pandas as pd
 import pixeltable as pxt
 import tempfile
 from pathlib import Path
+```
 
+### Create sample Excel file
+
+
+```python
 # Create sample Excel file for demo
 sample_data = pd.DataFrame(
     {

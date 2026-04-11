@@ -189,14 +189,17 @@ locally on your machine—no API calls needed.
 %pip install -qU pixeltable openai-whisper
 ```
 
-### Load audio files
-
 
 ```python
 import pixeltable as pxt
 from pixeltable.functions import whisper
 from pixeltable.functions.audio import audio_splitter
+```
 
+### Load audio files
+
+
+```python
 # Create a fresh directory
 pxt.drop_dir('audio_demo', force=True)
 pxt.create_dir('audio_demo')

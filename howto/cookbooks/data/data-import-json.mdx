@@ -262,17 +262,20 @@ each object becomes a row.
 %pip install -qU pixeltable
 ```
 
-### Create sample JSON file
-
-First, create a sample JSON file to demonstrate the import process:
-
 
 ```python
 import json
 import pixeltable as pxt
 import tempfile
 from pathlib import Path
+```
 
+### Create sample JSON file
+
+First, create a sample JSON file to demonstrate the import process:
+
+
+```python
 # Create sample JSON data (array of objects)
 sample_data = [
     {
