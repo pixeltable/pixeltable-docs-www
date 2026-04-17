@@ -1,0 +1,41 @@
+---
+title: "ResultCursor"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L220\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.ResultCursor
+
+
+Cursor that iterates over query results.
+
+Wraps a Query and yields Row objects one at a time,
+avoiding materializing all results into memory.
+
+A cursor transitions through three states: pending (created but not yet started), open (actively
+iterating), and closed (resources released). Iteration auto-opens and auto-closes the cursor, or you can
+use it as a context manager for explicit lifecycle control.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; close()
+
+```python Signature
+close() -> None
+```
+
+Release the underlying database transaction and query resources.
+
+Safe to call multiple times. Once closed, the cursor cannot be reopened.
+Also called automatically via the context manager protocol and on garbage collection.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; open()
+
+```python Signature
+open() -> None
+```
+
+Start the underlying query and prepare the cursor for iteration.
+
+Raises an error if the cursor is already open or has been closed.
+Called automatically when iterating if not already open.
+

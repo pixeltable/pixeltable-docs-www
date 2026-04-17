@@ -1,0 +1,131 @@
+---
+title: "FastAPIRouter"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L95\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.serving.FastAPIRouter
+
+
+A FastAPI `APIRouter` that exposes Pixeltable table operations as HTTP endpoints.
+
+TODO:
+- periodically purge _jobs
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_delete_route()
+
+```python Signature
+add_delete_route(
+    t: pxt.Table,
+    *,
+    path: str,
+    match_columns: list[str] | None = None,
+    background: bool = False
+) -> None
+```
+
+Add a POST endpoint that deletes rows from `t` matching the given match column values.
+
+The request body contains the match column values as JSON fields. The endpoint deletes every row
+where each match column equals the provided value, and returns the number of rows affected.
+
+**Parameters:**
+
+- **`t`** (`pxt.Table`): The table to delete from.
+- **`path`** (`str`): The URL path for the endpoint.
+- **`match_columns`** (`list[str] | None`): Columns to match on (AND-ed equality). Defaults to the table's primary key.
+    Must be non-empty.
+- **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run the
+    operation in a background thread. Poll `job_url` for the result.
+
+**Examples:**
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_insert_route()
+
+```python Signature
+add_insert_route(
+    t: pxt.Table,
+    *,
+    path: str,
+    inputs: list[str] | None = None,
+    uploadfile_inputs: list[str] | None = None,
+    outputs: list[str] | None = None,
+    return_fileresponse: bool = False,
+    background: bool = False
+) -> None
+```
+
+Add a POST endpoint that inserts a single row into `t` and returns the resulting row.
+
+The request body contains the input column values as JSON fields (or as
+[multipart form data](https://fastapi.tiangolo.com/tutorial/request-files/) when
+`uploadfile_inputs` is used). The response is a JSON object with the output column values,
+or a [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse)
+when `return_fileresponse=True`.
+
+**Parameters:**
+
+- **`t`** (`pxt.Table`): The table to insert into.
+- **`path`** (`str`): The URL path for the endpoint.
+- **`inputs`** (`list[str] | None`): Columns to accept as request fields. Defaults to all non-computed columns.
+- **`uploadfile_inputs`** (`list[str] | None`): Columns to accept as
+    [`UploadFile`](https://fastapi.tiangolo.com/tutorial/request-files/) fields
+    (must be media-typed). These are sent as multipart form data; all other inputs
+    become [`Form`](https://fastapi.tiangolo.com/tutorial/request-forms/) fields.
+- **`outputs`** (`list[str] | None`): Columns to include in the response. Defaults to all columns (including inputs).
+- **`return_fileresponse`** (`bool`, default: `False`): If True, return the single media-typed output column as a
+    [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse).
+    Requires exactly one media-typed output column.
+- **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
+    the insert in a background thread. Poll `job_url` for the result. Mutually
+    exclusive with `return_fileresponse`.
+
+**Examples:**
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_query_route()
+
+```python Signature
+add_query_route(
+    *,
+    path: str,
+    query: pxt.Function,
+    inputs: list[str] | None = None,
+    uploadfile_inputs: list[str] | None = None,
+    one_row: bool = False,
+    return_fileresponse: bool = False,
+    background: bool = False,
+    method: Literal['get', 'post'] = 'post'
+) -> None
+```
+
+Add an endpoint that executes a `@pxt.query` or `pxt.retrieval_udf` and returns the results.
+
+By default the endpoint accepts POST requests with a JSON
+[`Body`](https://fastapi.tiangolo.com/tutorial/body/) and returns `{"rows": [{...}, ...]}`.
+Use `method='get'` for
+[`Query`](https://fastapi.tiangolo.com/tutorial/query-params/) parameters instead.
+
+**Parameters:**
+
+- **`path`** (`str`): The URL path for the endpoint.
+- **`query`** (`pxt.Function`): The query to execute, created with `@pxt.query` or `pxt.retrieval_udf()`.
+- **`inputs`** (`list[str] | None`): Parameters to accept as request fields. Defaults to all query parameters.
+- **`uploadfile_inputs`** (`list[str] | None`): Parameters to accept as
+    [`UploadFile`](https://fastapi.tiangolo.com/tutorial/request-files/) fields
+    (must be media-typed).
+- **`one_row`** (`bool`, default: `False`): If True, expect exactly one result row and return it as a plain JSON object
+    (not wrapped in `{"rows": [...]}`). 0 rows produces a 404, >1 rows a 409.
+- **`return_fileresponse`** (`bool`, default: `False`): If True, return the single media-typed result column as a
+    [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse).
+    Requires `one_row` semantics (0 rows -> 404, >1 rows -> 409).
+    Mutually exclusive with `background`.
+- **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
+    the query in a background thread. Poll `job_url` for the result. Mutually
+    exclusive with `return_fileresponse`.
+- **`method`** (`Literal['get', 'post']`, default: `'post'`): HTTP method for the endpoint (`'get'` or `'post'`).
+
+**Examples:**
+

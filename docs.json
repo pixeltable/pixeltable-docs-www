@@ -208,6 +208,8 @@
                       "sdk/latest/table",
                       "sdk/latest/query",
                       "sdk/latest/resultset",
+                      "sdk/latest/row",
+                      "sdk/latest/resultcursor",
                       "sdk/latest/expr",
                       "sdk/latest/columnref",
                       "sdk/latest/columnmetadata",
@@ -232,7 +234,9 @@
                       "sdk/latest/net",
                       "sdk/latest/string",
                       "sdk/latest/timestamp",
-                      "sdk/latest/video"
+                      "sdk/latest/uuid",
+                      "sdk/latest/video",
+                      "sdk/latest/vision"
                     ]
                   },
                   {
@@ -259,12 +263,17 @@
                       "sdk/latest/runwayml",
                       "sdk/latest/together",
                       "sdk/latest/twelvelabs",
-                      "sdk/latest/uuid",
-                      "sdk/latest/vision",
                       "sdk/latest/voyageai",
                       "sdk/latest/whisper",
                       "sdk/latest/whisperx",
                       "sdk/latest/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/latest/serving",
+                      "sdk/latest/fastapirouter"
                     ]
                   },
                   {
@@ -278,8 +287,100 @@
             ]
           },
           {
-            "dropdown": "v0.5.27",
+            "dropdown": "v0.5.28",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.5.28/pixeltable",
+                      "sdk/v0.5.28/table",
+                      "sdk/v0.5.28/query",
+                      "sdk/v0.5.28/resultset",
+                      "sdk/v0.5.28/row",
+                      "sdk/v0.5.28/resultcursor",
+                      "sdk/v0.5.28/expr",
+                      "sdk/v0.5.28/columnref",
+                      "sdk/v0.5.28/columnmetadata",
+                      "sdk/v0.5.28/dircontents",
+                      "sdk/v0.5.28/indexmetadata",
+                      "sdk/v0.5.28/tablemetadata",
+                      "sdk/v0.5.28/updatestatus",
+                      "sdk/v0.5.28/versionmetadata",
+                      "sdk/v0.5.28/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.5.28/functions",
+                      "sdk/v0.5.28/audio",
+                      "sdk/v0.5.28/date",
+                      "sdk/v0.5.28/document",
+                      "sdk/v0.5.28/image",
+                      "sdk/v0.5.28/json",
+                      "sdk/v0.5.28/math",
+                      "sdk/v0.5.28/net",
+                      "sdk/v0.5.28/string",
+                      "sdk/v0.5.28/timestamp",
+                      "sdk/v0.5.28/uuid",
+                      "sdk/v0.5.28/video",
+                      "sdk/v0.5.28/vision"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.5.28/anthropic",
+                      "sdk/v0.5.28/bedrock",
+                      "sdk/v0.5.28/bfl",
+                      "sdk/v0.5.28/deepseek",
+                      "sdk/v0.5.28/fabric",
+                      "sdk/v0.5.28/fal",
+                      "sdk/v0.5.28/fireworks",
+                      "sdk/v0.5.28/gemini",
+                      "sdk/v0.5.28/groq",
+                      "sdk/v0.5.28/huggingface",
+                      "sdk/v0.5.28/jina",
+                      "sdk/v0.5.28/llama_cpp",
+                      "sdk/v0.5.28/mistralai",
+                      "sdk/v0.5.28/ollama",
+                      "sdk/v0.5.28/openai",
+                      "sdk/v0.5.28/openrouter",
+                      "sdk/v0.5.28/replicate",
+                      "sdk/v0.5.28/reve",
+                      "sdk/v0.5.28/runwayml",
+                      "sdk/v0.5.28/together",
+                      "sdk/v0.5.28/twelvelabs",
+                      "sdk/v0.5.28/voyageai",
+                      "sdk/v0.5.28/whisper",
+                      "sdk/v0.5.28/whisperx",
+                      "sdk/v0.5.28/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.5.28/serving",
+                      "sdk/v0.5.28/fastapirouter"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.5.28/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.27",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
