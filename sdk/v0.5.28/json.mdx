@@ -1,0 +1,85 @@
+---
+title: "json"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/json.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.json
+
+
+Pixeltable UDFs for `JsonType`.
+
+Example:
+```python
+import pixeltable as pxt
+import pixeltable.functions as pxtf
+
+t = pxt.get_table(...)
+t.select(pxtf.json.make_list(t.json_col)).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>iterator</span>&nbsp; list_iterator()
+
+```python Signature
+@pxt.iterator
+list_iterator(elements: pxt.Json[(Json = None, *, mode: pxt.String = 'strict', **kwargs)
+```
+
+Iterator over elements of a list or lists. There are two distinct call patterns: either a single positional
+argument; or one or more keyword arguments.
+
+- If a single positional argument is specified, as in `list_iterator(t.col)`, then the elements of `t.col` must
+    contain lists of dictionaries with matching signatures (identical keys and compatible value types). The
+    iterator will yield one new column for each key in the dictionaries, and one output row per element in the
+    lists.
+- If multiple keyword arguments are specified, as in `list_iterator(val_1=t.col_1, val_2=t.col_2)`, then the
+    elements of each input column must contain lists, but not necessarily lists of dictionaries. The iterator
+    will yield one new column for each keyword argument, zipping together the individual lists.
+
+All of the inputs must be *typed* `Json` expressions. Untyped Json will be rejected (the type schema is
+necessary in order for Pixeltable to determine the types of the output columns).
+
+**Parameters:**
+
+- **`elements`** (`pxt.Json[(Json`): A list of dictionaries to iterate over. The dictionary keys will be used as column names in the
+    output. Cannot be specified together with keyword arguments.
+- **`mode`** (`Any`): Only applies when called with keyword arguments. Determines how to handle lists of different lengths:
+    - `'strict'`: Raises an error if the input lists have different lengths.
+    - `'truncated'`: Iterates until the shortest input list is exhausted, ignoring any remaining elements in
+        longer lists.
+    - `'padded'`: Iterates until the longest input list is exhausted, yielding `None` for any missing
+        elements from shorter lists.
+- **`**kwargs`** (`Any`): One or more lists to iterate over. The kwarg names will be used as column names in the output.
+    Cannot be specified together with `elements`.
+
+
+## <span style={{ 'color': 'gray' }}>uda</span>&nbsp; make_list()
+
+```python Signature
+@pxt.uda
+make_list(*args, **kwargs) -> pxt.Json[(Json, ...)]
+```
+
+Collects arguments into a list.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; dumps()
+
+```python Signature
+@pxt.udf
+dumps(obj: pxt.Json) -> pxt.String
+```
+
+Serialize a JSON object to a string.
+
+Equivalent to [`json.dumps()`](https://docs.python.org/3/library/json.html#json.dumps).
+
+**Parameters:**
+
+- **`obj`** (`pxt.Json`): A JSON-serializable object (dict, list, or scalar).
+
+**Returns:**
+
+- `pxt.String`: A JSON-formatted string.
+

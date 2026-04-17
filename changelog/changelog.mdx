@@ -21,6 +21,35 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.5.28
+
+**Released:** April 17, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.5.28](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.28)
+
+#### What's Changed
+* [PXT-970 + PXT-1074] Gemini video reference images, TTS, and transcription by [@christopherpestano](https://github.com/christopherpestano) in [#1221](https://github.com/pixeltable/pixeltable/pull/1221)
+* Update Mintlify version and fix sidebar ordering in style.css by [@aaron-siegel](https://github.com/aaron-siegel) in [#1263](https://github.com/pixeltable/pixeltable/pull/1263)
+* Add `timm` dependency to notebooks by [@aaron-siegel](https://github.com/aaron-siegel) in [#1266](https://github.com/pixeltable/pixeltable/pull/1266)
+* Update README: dashboard, skill repo, restructured Quick Start by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1264](https://github.com/pixeltable/pixeltable/pull/1264)
+* Upgrade dev versions of libraries based on dependabot warnings by [@aaron-siegel](https://github.com/aaron-siegel) in [#1267](https://github.com/pixeltable/pixeltable/pull/1267)
+* More `nightly.yml` updates by [@aaron-siegel](https://github.com/aaron-siegel) in [#1271](https://github.com/pixeltable/pixeltable/pull/1271)
+* [@pxt](https://github.com/pxt).iterator() should be equivalent to [@pxt](https://github.com/pxt).iterator by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1273](https://github.com/pixeltable/pixeltable/pull/1273)
+* Hide progress tracker by default by [@aaron-siegel](https://github.com/aaron-siegel) in [#1275](https://github.com/pixeltable/pixeltable/pull/1275)
+* [PXT-477] Primary key enforcement by [@christopherpestano](https://github.com/christopherpestano) in [#1203](https://github.com/pixeltable/pixeltable/pull/1203)
+* A few more dependabot version upgrades by [@aaron-siegel](https://github.com/aaron-siegel) in [#1274](https://github.com/pixeltable/pixeltable/pull/1274)
+* SDK docs: shift vision and uuid to built-in functions section by [@apreshill](https://github.com/apreshill) in [#1270](https://github.com/pixeltable/pixeltable/pull/1270)
+* very_expensive pytest marker, and 'expensive notebooks' concept by [@aaron-siegel](https://github.com/aaron-siegel) in [#1272](https://github.com/pixeltable/pixeltable/pull/1272)
+* [PXT-1026] Streaming ResultSets via ResultCursor by [@christopherpestano](https://github.com/christopherpestano) in [#1259](https://github.com/pixeltable/pixeltable/pull/1259)
+* serving.fastapi.FastAPIRouter by [@mkornacker](https://github.com/mkornacker) in [#1268](https://github.com/pixeltable/pixeltable/pull/1268)
+* Proposal for new exception hierarchy. by [@mkornacker](https://github.com/mkornacker) in [#1278](https://github.com/pixeltable/pixeltable/pull/1278)
+* PXT-1048 Expand Bedrock API to support media input and output by [@amithadke](https://github.com/amithadke) in [#1244](https://github.com/pixeltable/pixeltable/pull/1244)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.27...v0.5.28
+
+---
+
 ### v0.5.27
 
 **Released:** April 11, 2026  
@@ -1110,31 +1139,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.3...v0.4.4
-
----
-
-### v0.4.3
-
-**Released:** July 10, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.3](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.3)
-
-#### What's Changed
-* Allow config parameters to be specified in `pxt.init()` by [@aaron-siegel](https://github.com/aaron-siegel) in [#680](https://github.com/pixeltable/pixeltable/pull/680)
-* Prepare to report more status in table.history() by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#682](https://github.com/pixeltable/pixeltable/pull/682)
-* `pxt.ls()` command for pretty-printing all contents of a Pixeltable dir by [@aaron-siegel](https://github.com/aaron-siegel) in [#681](https://github.com/pixeltable/pixeltable/pull/681)
-* Handle 429 errors in RateLimitScheduler by [@mkornacker](https://github.com/mkornacker) in [#670](https://github.com/pixeltable/pixeltable/pull/670)
-* Support dicts and Sequences of dicts in HF datasets [rough-edges PXT-640] by [@aaron-siegel](https://github.com/aaron-siegel) in [#684](https://github.com/pixeltable/pixeltable/pull/684)
-* Allow packaging of non-snapshot tables in TablePackager by [@aaron-siegel](https://github.com/aaron-siegel) in [#688](https://github.com/pixeltable/pixeltable/pull/688)
-* Use a JSON field xxx_cellmd in place of xxx_errortype and xxx_errormsg by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#685](https://github.com/pixeltable/pixeltable/pull/685)
-* Consolidate media operations in the MediaStore module by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#691](https://github.com/pixeltable/pixeltable/pull/691)
-* Enhance UpdateStatus to subsume SyncStatus. Save user and UpdateStatus in a field in TableVersionMd. by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#689](https://github.com/pixeltable/pixeltable/pull/689)
-* Refactor create_replica to conform to concurrency protocol by [@aaron-siegel](https://github.com/aaron-siegel) in [#690](https://github.com/pixeltable/pixeltable/pull/690)
-* Add additional packages & task configurations to nightly.yml by [@aaron-siegel](https://github.com/aaron-siegel) in [#693](https://github.com/pixeltable/pixeltable/pull/693)
-* Doc fixes for audio and video UDFs by [@aaron-siegel](https://github.com/aaron-siegel) in [#698](https://github.com/pixeltable/pixeltable/pull/698)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.2...v0.4.3
 
 ---
 
