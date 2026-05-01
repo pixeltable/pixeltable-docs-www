@@ -85,13 +85,6 @@ Create a view that splits all documents along sentence boundaries, including tit
 
 ```python
 pxt.create_view(
-    'chunks',
-    tbl,
-    iterator=document_splitter(
-        tbl.doc, separators='token_limit', limit=300
-    ),
-)
-pxt.create_view(
     'sentence_chunks',
     tbl,
     iterator=document_splitter(

@@ -123,17 +123,6 @@ Create a Label Studio project with the same configuration, using `media_import_m
 whose media are stored in an S3 bucket:
 
 ```python
-config = """
-<View>
-    <Video name="video_obj" value="$video_col"/>
-    <Choices name="video-category" toName="video" showInLine="true">
-        <Choice value="city"/>
-        <Choice value="food"/>
-        <Choice value="sports"/>
-    </Choices>
-</View>
-"""
-create_label_studio_project(tbl, config)
 create_label_studio_project(
     tbl,
     config,

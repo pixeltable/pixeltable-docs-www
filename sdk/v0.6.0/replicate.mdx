@@ -60,13 +60,6 @@ Add a computed column that uses the model `black-forest-labs/flux-schnell`
 to generate images from an existing Pixeltable column `tbl.prompt`:
 
 ```python
-input = {
-    'system_prompt': 'You are a helpful assistant.',
-    'prompt': tbl.prompt,
-}
-tbl.add_computed_column(
-    response=run(input, ref='meta/meta-llama-3-8b-instruct')
-)
 input = {'prompt': tbl.prompt, 'go_fast': True, 'megapixels': '1'}
 tbl.add_computed_column(
     response=run(input, ref='black-forest-labs/flux-schnell')

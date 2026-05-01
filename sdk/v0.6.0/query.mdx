@@ -50,15 +50,12 @@ results = addresses.distinct()
 Select unique cities in table `addresses`
 
 ```python
-results = addresses.distinct()
 results = addresses.city.distinct()
 ```
 
 Select unique locations (street, city) in the state of `CA`
 
 ```python
-results = addresses.distinct()
-results = addresses.city.distinct()
 results = (
     addresses.select(addresses.street, addresses.city)
     .where(addresses.state == 'CA')
@@ -101,7 +98,6 @@ book = t.select()
 Group the above Query book by the 'genre' column (referenced in table t):
 
 ```python
-book = t.select()
 query = book.group_by(t.genre)
 ```
 
@@ -109,8 +105,6 @@ Use the above Query grouped by genre to count the number of
 books for each 'genre':
 
 ```python
-book = t.select()
-query = book.group_by(t.genre)
 query = (
     book.group_by(t.genre).select(t.genre, count=count(t.genre)).show()
 )
@@ -120,11 +114,6 @@ Use the above Query grouped by genre to the total price of
 books for each 'genre':
 
 ```python
-book = t.select()
-query = book.group_by(t.genre)
-query = (
-    book.group_by(t.genre).select(t.genre, count=count(t.genre)).show()
-)
 query = book.group_by(t.genre).select(t.genre, total=sum(t.price)).show()
 ```
 
@@ -198,15 +187,12 @@ Perform a left outer join of join1 with t3, also on id (note that we can't speci
 because that would be ambiguous, since both t1 and t2 have a column named id):
 
 ```python
-join1 = t1.join(t2, on=t2.id)
 join2 = join1.join(t3, on=t2.id, how='left')
 ```
 
 Do the same, but now with an explicit join predicate:
 
 ```python
-join1 = t1.join(t2, on=t2.id)
-join2 = join1.join(t3, on=t2.id, how='left')
 join2 = join1.join(t3, on=t2.id == t3.id, how='left')
 ```
 
@@ -214,9 +200,6 @@ Join t with d, which has a composite primary key (columns pk1 and pk2, with corr
 key columns d1 and d2 in t):
 
 ```python
-join1 = t1.join(t2, on=t2.id)
-join2 = join1.join(t3, on=t2.id, how='left')
-join2 = join1.join(t3, on=t2.id == t3.id, how='left')
 query = t.join(d, on=(t.d1 == d.pk1) & (t.d2 == d.pk2), how='left')
 ```
 
@@ -248,15 +231,12 @@ query = t.select()
 Get the first 10 rows:
 
 ```python
-query = t.select()
 query.limit(10).collect()
 ```
 
 Get rows 21-30 (skip first 20, return next 10):
 
 ```python
-query = t.select()
-query.limit(10).collect()
 query.limit(10, offset=20).collect()
 ```
 
@@ -291,7 +271,6 @@ book = t.select()
 Order the above Query book by two columns (price, pages) in descending order:
 
 ```python
-book = t.select()
 query = book.order_by(t.price, t.pages, asc=False)
 ```
 
@@ -299,8 +278,6 @@ Order the above Query book by price in descending order, but order the pages
 in ascending order:
 
 ```python
-book = t.select()
-query = book.order_by(t.price, t.pages, asc=False)
 query = book.order_by(t.price, asc=False).order_by(t.pages)
 ```
 
@@ -357,34 +334,24 @@ query = person.sample(n=100)
 Sample 10% of the rows from the above Table:
 
 ```python
-query = person.sample(n=100)
 query = person.sample(fraction=0.1)
 ```
 
 Sample 10% of the rows from the above Table, stratified by the column 'age':
 
 ```python
-query = person.sample(n=100)
-query = person.sample(fraction=0.1)
 query = person.sample(fraction=0.1, stratify_by=t.age)
 ```
 
 Equal allocation sampling: Sample 2 rows from each age present in the above Table:
 
 ```python
-query = person.sample(n=100)
-query = person.sample(fraction=0.1)
-query = person.sample(fraction=0.1, stratify_by=t.age)
 query = person.sample(n_per_stratum=2, stratify_by=t.age)
 ```
 
 Sampling is compatible with the where clause, so we can also sample from a filtered Query:
 
 ```python
-query = person.sample(n=100)
-query = person.sample(fraction=0.1)
-query = person.sample(fraction=0.1, stratify_by=t.age)
-query = person.sample(n_per_stratum=2, stratify_by=t.age)
 query = person.where(t.age > 30).sample(n=100)
 ```
 
@@ -418,7 +385,6 @@ person = t.select()
 Select the columns 'name' and 'age' (referenced in table t) from the Query person:
 
 ```python
-person = t.select()
 query = person.select(t.name, t.age)
 ```
 
@@ -427,8 +393,6 @@ and a named column 'is_adult' from the expression `age >= 18` where 'age' is
 another column in table t:
 
 ```python
-person = t.select()
-query = person.select(t.name, t.age)
 query = person.select(t.name, is_adult=(t.age >= 18))
 ```
 
@@ -542,7 +506,6 @@ Filter the above Query person to only include rows where the column 'age'
 (referenced in table t) is greater than 30:
 
 ```python
-person = t.select()
 query = person.where(t.age > 30)
 ```
 

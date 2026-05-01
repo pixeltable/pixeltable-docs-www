@@ -80,34 +80,24 @@ pxt.create_dir('my_dir')
 Create a subdirectory:
 
 ```python
-pxt.create_dir('my_dir')
 pxt.create_dir('my_dir/sub_dir')
 ```
 
 Create a subdirectory only if it does not already exist, otherwise do nothing:
 
 ```python
-pxt.create_dir('my_dir')
-pxt.create_dir('my_dir/sub_dir')
 pxt.create_dir('my_dir/sub_dir', if_exists='ignore')
 ```
 
 Create a directory and replace if it already exists:
 
 ```python
-pxt.create_dir('my_dir')
-pxt.create_dir('my_dir/sub_dir')
-pxt.create_dir('my_dir/sub_dir', if_exists='ignore')
 pxt.create_dir('my_dir', if_exists='replace_force')
 ```
 
 Create a subdirectory along with its ancestors:
 
 ```python
-pxt.create_dir('my_dir')
-pxt.create_dir('my_dir/sub_dir')
-pxt.create_dir('my_dir/sub_dir', if_exists='ignore')
-pxt.create_dir('my_dir', if_exists='replace_force')
 pxt.create_dir('parent1/parent2/sub_dir', parents=True)
 ```
 
@@ -173,8 +163,6 @@ Create a snapshot `my_snapshot` of a view `my_view` with additional int column `
 if `my_snapshot` does not already exist:
 
 ```python
-tbl = pxt.get_table('my_table')
-snapshot = pxt.create_snapshot('my_snapshot', tbl)
 view = pxt.get_table('my_view')
 snapshot = pxt.create_snapshot(
     'my_snapshot',
@@ -187,15 +175,6 @@ snapshot = pxt.create_snapshot(
 Create a snapshot `my_snapshot` on a table `my_table`, and replace any existing snapshot named `my_snapshot`:
 
 ```python
-tbl = pxt.get_table('my_table')
-snapshot = pxt.create_snapshot('my_snapshot', tbl)
-view = pxt.get_table('my_view')
-snapshot = pxt.create_snapshot(
-    'my_snapshot',
-    view,
-    additional_columns={'col3': pxt.Int},
-    if_exists='ignore',
-)
 tbl = pxt.get_table('my_table')
 snapshot = pxt.create_snapshot(
     'my_snapshot', tbl, if_exists='replace_force'
@@ -289,9 +268,6 @@ Create a table from a select statement over an existing table `orig_table` (this
 containing the exact contents of the query):
 
 ```python
-tbl = pxt.create_table(
-    'my_table', schema={'col1': pxt.Int, 'col2': pxt.String}
-)
 tbl1 = pxt.get_table('orig_table')
 tbl2 = pxt.create_table(
     'new_table', tbl1.where(tbl1.col1 < 10).select(tbl1.col2)
@@ -301,13 +277,6 @@ tbl2 = pxt.create_table(
 Create a table if it does not already exist, otherwise get the existing table:
 
 ```python
-tbl = pxt.create_table(
-    'my_table', schema={'col1': pxt.Int, 'col2': pxt.String}
-)
-tbl1 = pxt.get_table('orig_table')
-tbl2 = pxt.create_table(
-    'new_table', tbl1.where(tbl1.col1 < 10).select(tbl1.col2)
-)
 tbl = pxt.create_table(
     'my_table',
     schema={'col1': pxt.Int, 'col2': pxt.String},
@@ -319,18 +288,6 @@ Create a table with an int and a float column, and replace any existing table:
 
 ```python
 tbl = pxt.create_table(
-    'my_table', schema={'col1': pxt.Int, 'col2': pxt.String}
-)
-tbl1 = pxt.get_table('orig_table')
-tbl2 = pxt.create_table(
-    'new_table', tbl1.where(tbl1.col1 < 10).select(tbl1.col2)
-)
-tbl = pxt.create_table(
-    'my_table',
-    schema={'col1': pxt.Int, 'col2': pxt.String},
-    if_exists='ignore',
-)
-tbl = pxt.create_table(
     'my_table',
     schema={'col1': pxt.Int, 'col2': pxt.Float},
     if_exists='replace',
@@ -340,47 +297,12 @@ tbl = pxt.create_table(
 Create a table from a CSV file:
 
 ```python
-tbl = pxt.create_table(
-    'my_table', schema={'col1': pxt.Int, 'col2': pxt.String}
-)
-tbl1 = pxt.get_table('orig_table')
-tbl2 = pxt.create_table(
-    'new_table', tbl1.where(tbl1.col1 < 10).select(tbl1.col2)
-)
-tbl = pxt.create_table(
-    'my_table',
-    schema={'col1': pxt.Int, 'col2': pxt.String},
-    if_exists='ignore',
-)
-tbl = pxt.create_table(
-    'my_table',
-    schema={'col1': pxt.Int, 'col2': pxt.Float},
-    if_exists='replace',
-)
 tbl = pxt.create_table('my_table', source='data.csv')
 ```
 
 Create a table with an auto-generated UUID primary key:
 
 ```python
-tbl = pxt.create_table(
-    'my_table', schema={'col1': pxt.Int, 'col2': pxt.String}
-)
-tbl1 = pxt.get_table('orig_table')
-tbl2 = pxt.create_table(
-    'new_table', tbl1.where(tbl1.col1 < 10).select(tbl1.col2)
-)
-tbl = pxt.create_table(
-    'my_table',
-    schema={'col1': pxt.Int, 'col2': pxt.String},
-    if_exists='ignore',
-)
-tbl = pxt.create_table(
-    'my_table',
-    schema={'col1': pxt.Int, 'col2': pxt.Float},
-    if_exists='replace',
-)
-tbl = pxt.create_table('my_table', source='data.csv')
 tbl = pxt.create_table(
     'my_table',
     schema={'id': pxt.functions.uuid.uuid4(), 'data': pxt.String},
@@ -458,8 +380,6 @@ and if it not already exist. Otherwise, get the existing view named `my_view`:
 
 ```python
 tbl = pxt.get_table('my_table')
-view = pxt.create_view('my_view', tbl.where(tbl.col1 > 10))
-tbl = pxt.get_table('my_table')
 view = pxt.create_view(
     'my_view', tbl.where(tbl.col1 > 10), if_exists='ignore'
 )
@@ -469,12 +389,6 @@ Create a view `my_view` of an existing table `my_table`, filtering on rows where
 and replace any existing view named `my_view`:
 
 ```python
-tbl = pxt.get_table('my_table')
-view = pxt.create_view('my_view', tbl.where(tbl.col1 > 10))
-tbl = pxt.get_table('my_table')
-view = pxt.create_view(
-    'my_view', tbl.where(tbl.col1 > 10), if_exists='ignore'
-)
 tbl = pxt.get_table('my_table')
 view = pxt.create_view(
     'my_view', tbl.where(tbl.col1 > 100), if_exists='replace_force'
@@ -516,24 +430,18 @@ pxt.drop_dir('my_dir')
 Remove a subdirectory:
 
 ```python
-pxt.drop_dir('my_dir')
 pxt.drop_dir('my_dir/sub_dir')
 ```
 
 Remove an existing directory if it is empty, but do nothing if it does not exist:
 
 ```python
-pxt.drop_dir('my_dir')
-pxt.drop_dir('my_dir/sub_dir')
 pxt.drop_dir('my_dir/sub_dir', if_not_exists='ignore')
 ```
 
 Remove an existing directory and all its contents:
 
 ```python
-pxt.drop_dir('my_dir')
-pxt.drop_dir('my_dir/sub_dir')
-pxt.drop_dir('my_dir/sub_dir', if_not_exists='ignore')
 pxt.drop_dir('my_dir', force=True)
 ```
 
@@ -571,25 +479,17 @@ pxt.drop_table('subdir/my_table')
 
 Drop a table by its handle:
 ```python
-pxt.drop_table('subdir/my_table')
 t = pxt.get_table('subdir/my_table')
 pxt.drop_table(t)
 ```
 
 Drop a table if it exists, otherwise do nothing:
 ```python
-pxt.drop_table('subdir/my_table')
-t = pxt.get_table('subdir/my_table')
-pxt.drop_table(t)
 pxt.drop_table('subdir/my_table', if_not_exists='ignore')
 ```
 
 Drop a table and all its dependents:
 ```python
-pxt.drop_table('subdir/my_table')
-t = pxt.get_table('subdir/my_table')
-pxt.drop_table(t)
-pxt.drop_table('subdir/my_table', if_not_exists='ignore')
 pxt.drop_table('subdir/my_table', force=True)
 ```
 
@@ -625,7 +525,6 @@ pxt.get_dir_contents()
 Get contents of 'dir1':
 
 ```python
-pxt.get_dir_contents()
 pxt.get_dir_contents('dir1')
 ```
 
@@ -666,24 +565,18 @@ tbl = pxt.get_table('my_table')
 For a table in a subdirectory:
 
 ```python
-tbl = pxt.get_table('my_table')
 tbl = pxt.get_table('subdir/my_table')
 ```
 
 Handles to views and snapshots are retrieved in the same way:
 
 ```python
-tbl = pxt.get_table('my_table')
-tbl = pxt.get_table('subdir/my_table')
 tbl = pxt.get_table('my_snapshot')
 ```
 
 Get a handle to a specific version of a table:
 
 ```python
-tbl = pxt.get_table('my_table')
-tbl = pxt.get_table('subdir/my_table')
-tbl = pxt.get_table('my_snapshot')
 tbl = pxt.get_table('my_table:722')
 ```
 
@@ -797,7 +690,6 @@ pxt.list_tables()
 List tables in 'dir1':
 
 ```python
-pxt.list_tables()
 pxt.list_tables('dir1')
 ```
 
@@ -865,7 +757,6 @@ pxt.move('dir1/my_table', 'dir2/my_table')
 Rename a table:
 
 ```python
-pxt.move('dir1/my_table', 'dir2/my_table')
 pxt.move('dir1/my_table', 'dir1/new_name')
 ```
 
@@ -1019,15 +910,12 @@ tools = pxt.tools(stock_price)
 Create a tools instance with several UDFs:
 
 ```python
-tools = pxt.tools(stock_price)
 tools = pxt.tools(stock_price, weather_quote)
 ```
 
 Create a tools instance, some of whose UDFs have customized metadata:
 
 ```python
-tools = pxt.tools(stock_price)
-tools = pxt.tools(stock_price, weather_quote)
 tools = pxt.tools(
     stock_price,
     pxt.tool(

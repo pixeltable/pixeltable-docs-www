@@ -79,12 +79,6 @@ Transcribe with language specification:
 ```python
 tbl.add_computed_column(
     transcription=automatic_speech_recognition(
-        tbl.audio_file,
-        model_id='openai/whisper-tiny.en',  # Recommended
-    )
-)
-tbl.add_computed_column(
-    transcription=automatic_speech_recognition(
         tbl.audio_file, model_id='facebook/mms-1b-all', language='en'
     )
 )
@@ -440,13 +434,6 @@ tbl.add_computed_column(
         tbl.source_image,
         tbl.transformation_prompt,
         model_id='stable-diffusion-v1-5/stable-diffusion-v1-5',
-    )
-)
-tbl.add_computed_column(
-    transformed=image_to_image(
-        tbl.source_image,
-        tbl.transformation_prompt,
-        model_id='stable-diffusion-v1-5/stable-diffusion-v1-5',
         model_kwargs={'strength': 0.75, 'num_inference_steps': 50},
     )
 )
@@ -645,11 +632,6 @@ Add a computed column that applies the model `facebook/s2t-medium-mustc-multilin
 Pixeltable column `audio` of the table `tbl`, translating the audio to French:
 
 ```python
-tbl.add_computed_column(
-    transcription=speech2text_for_conditional_generation(
-        tbl.audio, model_id='facebook/s2t-small-librispeech-asr'
-    )
-)
 tbl.add_computed_column(
     translation=speech2text_for_conditional_generation(
         tbl.audio,

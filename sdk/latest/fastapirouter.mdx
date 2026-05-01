@@ -130,9 +130,6 @@ File upload with `FileResponse`:
 
 ```python
 router.add_insert_route(
-    t, path='/generate', inputs=['prompt'], outputs=['result']
-)
-router.add_insert_route(
     t,
     path='/resize',
     inputs=['width', 'height'],
@@ -153,17 +150,6 @@ Export each inserted row into an external RDBMS table:
 
 ```python
 router.add_insert_route(
-    t, path='/generate', inputs=['prompt'], outputs=['result']
-)
-router.add_insert_route(
-    t,
-    path='/resize',
-    inputs=['width', 'height'],
-    uploadfile_inputs=['image'],
-    outputs=['resized'],
-    return_fileresponse=True,
-)
-router.add_insert_route(
     t,
     path='/generate',
     inputs=['prompt'],
@@ -182,28 +168,6 @@ same row (columns: `prompt`, `result`) to `public.generations` in the target dat
 Background processing:
 
 ```python
-router.add_insert_route(
-    t, path='/generate', inputs=['prompt'], outputs=['result']
-)
-router.add_insert_route(
-    t,
-    path='/resize',
-    inputs=['width', 'height'],
-    uploadfile_inputs=['image'],
-    outputs=['resized'],
-    return_fileresponse=True,
-)
-router.add_insert_route(
-    t,
-    path='/generate',
-    inputs=['prompt'],
-    outputs=['prompt', 'result'],
-    export_sql=SqlExport(
-        db_connect='postgresql+psycopg://user:pw@host/analytics',
-        table='generations',
-        db_schema='public',
-    ),
-)
 router.add_insert_route(t, path='/slow', background=True)
 ```
 
@@ -280,7 +244,6 @@ curl -X POST http://localhost:8000/search \
 Single-row lookup:
 
 ```python
-router.add_query_route(path='/search', query=search_docs)
 router.add_query_route(path='/lookup', query=lookup_by_id, one_row=True)
 ```
 
@@ -292,8 +255,6 @@ curl -X POST http://localhost:8000/lookup -d '{"id": 42}'
 GET with query-string parameters:
 
 ```python
-router.add_query_route(path='/search', query=search_docs)
-router.add_query_route(path='/lookup', query=lookup_by_id, one_row=True)
 router.add_query_route(path='/lookup', query=lookup_by_id, method='get')
 ```
 
@@ -305,9 +266,6 @@ curl 'http://localhost:8000/lookup?id=42'
 `FileResponse`:
 
 ```python
-router.add_query_route(path='/search', query=search_docs)
-router.add_query_route(path='/lookup', query=lookup_by_id, one_row=True)
-router.add_query_route(path='/lookup', query=lookup_by_id, method='get')
 router.add_query_route(
     path='/thumbnail', query=get_thumbnail, return_fileresponse=True
 )
@@ -405,9 +363,6 @@ Append every update to an external audit table:
 
 ```python
 router.add_update_route(
-    t, path='/update', inputs=['prompt'], outputs=['prompt', 'result']
-)
-router.add_update_route(
     t,
     path='/update',
     inputs=['prompt'],
@@ -422,19 +377,6 @@ router.add_update_route(
 Background processing:
 
 ```python
-router.add_update_route(
-    t, path='/update', inputs=['prompt'], outputs=['prompt', 'result']
-)
-router.add_update_route(
-    t,
-    path='/update',
-    inputs=['prompt'],
-    outputs=['id', 'prompt', 'result'],
-    export_sql=SqlExport(
-        db_connect='postgresql+psycopg://user:pw@host/analytics',
-        table='update_log',
-    ),
-)
 router.add_update_route(t, path='/slow-update', background=True)
 ```
 
@@ -538,24 +480,6 @@ curl -X POST http://localhost:8000/generate \
 Export the post-processed response into an external RDBMS table:
 
 ```python
-class GenerateResponse(pydantic.BaseModel):
-    caption: str
-    score: float
-
-
-@router.insert_route(
-    t,
-    path='/generate',
-    inputs=['prompt'],
-    outputs=['caption', 'score'],
-    background=False,
-)
-def format_response(*, caption: str, score: float) -> GenerateResponse:
-    return GenerateResponse(
-        caption=caption.strip(), score=round(score, 3)
-    )
-
-
 @router.insert_route(
     t,
     path='/generate',
@@ -667,19 +591,6 @@ curl -X POST http://localhost:8000/update \
 Append every post-processed update into an external audit table:
 
 ```python
-class ItemResponse(pydantic.BaseModel):
-    id: int
-    summary: str
-    score: float
-
-
-@router.update_route(
-    t, path='/update', inputs=['text'], outputs=['id', 'text', 'score']
-)
-def format_response(*, id: int, text: str, score: float) -> ItemResponse:
-    return ItemResponse(id=id, summary=text[:100], score=round(score, 3))
-
-
 @router.update_route(
     t,
     path='/update',
@@ -697,33 +608,6 @@ def format_response(*, id: int, text: str, score: float) -> ItemResponse:
 Background processing:
 
 ```python
-class ItemResponse(pydantic.BaseModel):
-    id: int
-    summary: str
-    score: float
-
-
-@router.update_route(
-    t, path='/update', inputs=['text'], outputs=['id', 'text', 'score']
-)
-def format_response(*, id: int, text: str, score: float) -> ItemResponse:
-    return ItemResponse(id=id, summary=text[:100], score=round(score, 3))
-
-
-@router.update_route(
-    t,
-    path='/update',
-    inputs=['text'],
-    outputs=['id', 'text', 'score'],
-    export_sql=SqlExport(
-        db_connect='postgresql+psycopg://user:pw@host/analytics',
-        table='item_log',
-    ),
-)
-def format_response(*, id: int, text: str, score: float) -> ItemResponse:
-    return ItemResponse(id=id, summary=text[:100], score=round(score, 3))
-
-
 @router.update_route(t, path='/slow-update', background=True)
 def format_response(*, id: int, result: str) -> MyResponse:
     return MyResponse(id=id, result=result.strip())

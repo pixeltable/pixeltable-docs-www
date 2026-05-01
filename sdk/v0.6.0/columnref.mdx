@@ -123,11 +123,6 @@ t.add_embedding_index(
 Do a nearest neighbor search against a string (with `k=5`):
 
 ```python
-from pixeltable.functions.huggingface import clip
-
-t.add_embedding_index(
-    t.image, clip.using(model_id='openai/clip-vit-base-patch32')
-)
 sim = t.image.similarity(string='a photograph of a cat')
 t.select(t.image, sim).order_by(sim, asc=False).head(5)
 ```
@@ -135,13 +130,6 @@ t.select(t.image, sim).order_by(sim, asc=False).head(5)
 Do a nearest neighbor search against an image:
 
 ```python
-from pixeltable.functions.huggingface import clip
-
-t.add_embedding_index(
-    t.image, clip.using(model_id='openai/clip-vit-base-patch32')
-)
-sim = t.image.similarity(string='a photograph of a cat')
-t.select(t.image, sim).order_by(sim, asc=False).head(5)
 sim = t.image.similarity(image='https://example.com/reference-cat.jpg')
 t.select(t.image, sim).order_by(sim, asc=False).head(5)
 ```

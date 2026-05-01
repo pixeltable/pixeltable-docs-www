@@ -73,9 +73,6 @@ tbl.add_computed_column(
 Add an embedding index to an existing column `text`, using the model `voyage-3.5`:
 
 ```python
-tbl.add_computed_column(
-    embed=embeddings(tbl.text, model='voyage-3.5', input_type='document')
-)
 tbl.add_embedding_index(
     'text', string_embed=embeddings.using(model='voyage-3.5')
 )
@@ -153,9 +150,6 @@ tbl.add_computed_column(
 Add an embedding index for column `description`:
 
 ```python
-tbl.add_computed_column(
-    embed=multimodal_embed(tbl.description, input_type='document')
-)
 tbl.add_embedding_index(
     'description',
     embed=multimodal_embed.using(model='voyage-multimodal-3'),
