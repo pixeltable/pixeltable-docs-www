@@ -43,7 +43,10 @@ __Outputs__:
 
 **Examples:**
 
-This example assumes an existing table `tbl` with a column `audio` of type `pxt.Audio`. Create a view that splits all audio files into segments of 30 seconds with 5 seconds overlap:
+This example assumes an existing table `tbl` with a column `audio` of type `pxt.Audio`.
+
+Create a view that splits all audio files into segments of 30 seconds with 5 seconds overlap:
+
 ```python
 pxt.create_view(
     'audio_segments',
@@ -80,7 +83,9 @@ Encodes an audio clip represented as an array into a specified audio format.
 
 **Examples:**
 
-Add a computed column with encoded FLAC audio files to a table with audio data (as arrays of floats) and sample rates:
+Add a computed column with encoded FLAC audio files to a table with audio data (as arrays of floats) and sample
+rates:
+
 ```python
 t.add_computed_column(
     audio_file=encode_audio(
@@ -135,6 +140,7 @@ Gets various metadata associated with an audio file and returns it as a dictiona
 **Examples:**
 
 Extract metadata for files in the `audio_col` column of the table `tbl`:
+
 ```python
 tbl.select(tbl.audio_col.get_metadata()).collect()
 ```

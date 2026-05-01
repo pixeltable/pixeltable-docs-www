@@ -43,6 +43,7 @@ This UDF wraps the `https://api.reve.com/v1/image/create` endpoint. For more inf
 **Examples:**
 
 Add a computed column with generated square images to a table with text prompts:
+
 ```python
 t.add_computed_column(img=reve.create(t.prompt, aspect_ratio='1:1'))
 ```
@@ -80,6 +81,7 @@ This UDF wraps the `https://api.reve.com/v1/image/edit` endpoint. For more infor
 **Examples:**
 
 Add a computed column with catalog-ready images to the table with product pictures:
+
 ```python
 t.add_computed_column(
     catalog_img=reve.edit(
@@ -122,6 +124,7 @@ This UDF wraps the `https://api.reve.com/v1/image/remix` endpoint. For more info
 **Examples:**
 
 Add a computed column with promotional collages to a table with original images:
+
 ```python
 t.add_computed_column(
     promo_img=(

@@ -54,6 +54,7 @@ This UDF wraps the BFL FLUX image editing API. For more information, refer to th
 **Examples:**
 
 Edit an image to change its background:
+
 ```python
 t.add_computed_column(
     edited=bfl.edit(
@@ -65,7 +66,15 @@ t.add_computed_column(
 ```
 
 Multi-reference editing with additional images:
+
 ```python
+t.add_computed_column(
+    edited=bfl.edit(
+        'Change the background to a sunset beach',
+        t.original_image,
+        model='flux-2-pro',
+    )
+)
 t.add_computed_column(
     edited=bfl.edit(
         'Combine the person from the first image with the background from the second',
@@ -125,6 +134,7 @@ This UDF wraps the BFL FLUX Expand API. For more information, refer to the offic
 **Examples:**
 
 Expand an image to create a wider landscape:
+
 ```python
 t.add_computed_column(
     wide=bfl.expand(
@@ -184,6 +194,7 @@ This UDF wraps the BFL FLUX Fill API. For more information, refer to the officia
 **Examples:**
 
 Fill a masked region with generated content:
+
 ```python
 t.add_computed_column(
     filled=bfl.fill(
@@ -239,12 +250,15 @@ This UDF wraps the BFL FLUX API endpoints. For more information, refer to the of
 **Examples:**
 
 Generate images using default dimensions:
+
 ```python
 t.add_computed_column(image=bfl.generate(t.prompt, model='flux-2-pro'))
 ```
 
 Generate with custom dimensions:
+
 ```python
+t.add_computed_column(image=bfl.generate(t.prompt, model='flux-2-pro'))
 t.add_computed_column(
     image=bfl.generate(
         t.prompt, model='flux-2-pro', width=1920, height=1080
@@ -253,7 +267,14 @@ t.add_computed_column(
 ```
 
 Generate with specific seed for reproducibility:
+
 ```python
+t.add_computed_column(image=bfl.generate(t.prompt, model='flux-2-pro'))
+t.add_computed_column(
+    image=bfl.generate(
+        t.prompt, model='flux-2-pro', width=1920, height=1080
+    )
+)
 t.add_computed_column(
     image=bfl.generate(t.prompt, model='flux-2-pro', seed=42)
 )

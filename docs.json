@@ -273,7 +273,8 @@
                     "group": "Serving",
                     "pages": [
                       "sdk/latest/serving",
-                      "sdk/latest/fastapirouter"
+                      "sdk/latest/fastapirouter",
+                      "sdk/latest/sqlexport"
                     ]
                   },
                   {
@@ -287,8 +288,101 @@
             ]
           },
           {
-            "dropdown": "v0.5.28",
+            "dropdown": "v0.6.0",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.6.0/pixeltable",
+                      "sdk/v0.6.0/table",
+                      "sdk/v0.6.0/query",
+                      "sdk/v0.6.0/resultset",
+                      "sdk/v0.6.0/row",
+                      "sdk/v0.6.0/resultcursor",
+                      "sdk/v0.6.0/expr",
+                      "sdk/v0.6.0/columnref",
+                      "sdk/v0.6.0/columnmetadata",
+                      "sdk/v0.6.0/dircontents",
+                      "sdk/v0.6.0/indexmetadata",
+                      "sdk/v0.6.0/tablemetadata",
+                      "sdk/v0.6.0/updatestatus",
+                      "sdk/v0.6.0/versionmetadata",
+                      "sdk/v0.6.0/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.6.0/functions",
+                      "sdk/v0.6.0/audio",
+                      "sdk/v0.6.0/date",
+                      "sdk/v0.6.0/document",
+                      "sdk/v0.6.0/image",
+                      "sdk/v0.6.0/json",
+                      "sdk/v0.6.0/math",
+                      "sdk/v0.6.0/net",
+                      "sdk/v0.6.0/string",
+                      "sdk/v0.6.0/timestamp",
+                      "sdk/v0.6.0/uuid",
+                      "sdk/v0.6.0/video",
+                      "sdk/v0.6.0/vision"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.6.0/anthropic",
+                      "sdk/v0.6.0/bedrock",
+                      "sdk/v0.6.0/bfl",
+                      "sdk/v0.6.0/deepseek",
+                      "sdk/v0.6.0/fabric",
+                      "sdk/v0.6.0/fal",
+                      "sdk/v0.6.0/fireworks",
+                      "sdk/v0.6.0/gemini",
+                      "sdk/v0.6.0/groq",
+                      "sdk/v0.6.0/huggingface",
+                      "sdk/v0.6.0/jina",
+                      "sdk/v0.6.0/llama_cpp",
+                      "sdk/v0.6.0/mistralai",
+                      "sdk/v0.6.0/ollama",
+                      "sdk/v0.6.0/openai",
+                      "sdk/v0.6.0/openrouter",
+                      "sdk/v0.6.0/replicate",
+                      "sdk/v0.6.0/reve",
+                      "sdk/v0.6.0/runwayml",
+                      "sdk/v0.6.0/together",
+                      "sdk/v0.6.0/twelvelabs",
+                      "sdk/v0.6.0/voyageai",
+                      "sdk/v0.6.0/whisper",
+                      "sdk/v0.6.0/whisperx",
+                      "sdk/v0.6.0/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.6.0/serving",
+                      "sdk/v0.6.0/fastapirouter",
+                      "sdk/v0.6.0/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.6.0/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.5.28",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",

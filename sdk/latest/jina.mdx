@@ -56,6 +56,7 @@ limit is configured, uses a default of 600 RPM.
 **Examples:**
 
 Add a computed column that applies jina-embeddings-v3 to an existing column:
+
 ```python
 tbl.add_computed_column(
     embed=jina.embeddings(
@@ -65,7 +66,13 @@ tbl.add_computed_column(
 ```
 
 Add an embedding index:
+
 ```python
+tbl.add_computed_column(
+    embed=jina.embeddings(
+        tbl.text, model='jina-embeddings-v3', task='retrieval.passage'
+    )
+)
 tbl.add_embedding_index(
     'text', string_embed=jina.embeddings.using(model='jina-embeddings-v3')
 )
@@ -111,6 +118,7 @@ limit is configured, uses a default of 600 RPM.
 **Examples:**
 
 Rerank search results for better relevance:
+
 ```python
 tbl.add_computed_column(
     reranked=jina.rerank(

@@ -56,13 +56,18 @@ One row per extracted frame, with the following columns:
 
 **Examples:**
 
-All these examples assume an existing table `tbl` with a column `video` of type `pxt.Video`. Create a view that extracts all frames from all videos:
+All these examples assume an existing table `tbl` with a column `video` of type `pxt.Video`.
+
+Create a view that extracts all frames from all videos:
+
 ```python
 pxt.create_view('all_frames', tbl, iterator=frame_iterator(tbl.video))
 ```
 
 Create a view that extracts only keyframes from all videos:
+
 ```python
+pxt.create_view('all_frames', tbl, iterator=frame_iterator(tbl.video))
 pxt.create_view(
     'keyframes',
     tbl,
@@ -71,14 +76,31 @@ pxt.create_view(
 ```
 
 Create a view that extracts frames from all videos at a rate of 1 frame per second:
+
 ```python
+pxt.create_view('all_frames', tbl, iterator=frame_iterator(tbl.video))
+pxt.create_view(
+    'keyframes',
+    tbl,
+    iterator=frame_iterator(tbl.video, keyframes_only=True),
+)
 pxt.create_view(
     'one_fps_frames', tbl, iterator=frame_iterator(tbl.video, fps=1.0)
 )
 ```
 
 Create a view that extracts exactly 10 frames from each video:
+
 ```python
+pxt.create_view('all_frames', tbl, iterator=frame_iterator(tbl.video))
+pxt.create_view(
+    'keyframes',
+    tbl,
+    iterator=frame_iterator(tbl.video, keyframes_only=True),
+)
+pxt.create_view(
+    'one_fps_frames', tbl, iterator=frame_iterator(tbl.video, fps=1.0)
+)
 pxt.create_view(
     'ten_frames', tbl, iterator=frame_iterator(tbl.video, num_frames=10)
 )
@@ -120,7 +142,10 @@ fixed duration or a list of split points.
 
 **Examples:**
 
-All these examples assume an existing table `tbl` with a column `video` of type `pxt.Video`. Create a view that splits each video into 10-second segments:
+All these examples assume an existing table `tbl` with a column `video` of type `pxt.Video`.
+
+Create a view that splits each video into 10-second segments:
+
 ```python
 pxt.create_view(
     'ten_second_segments',
@@ -130,7 +155,13 @@ pxt.create_view(
 ```
 
 Create a view that splits each video into segments at specified fixed times:
+
 ```python
+pxt.create_view(
+    'ten_second_segments',
+    tbl,
+    iterator=video_splitter(tbl.video, duration=10.0),
+)
 split_times = [5.0, 15.0, 30.0]
 pxt.create_view(
     'custom_segments',
@@ -139,8 +170,21 @@ pxt.create_view(
 )
 ```
 
-Create a view that splits each video into segments at times specified by a column `split_times` of type `pxt.Json`, containing a list of timestamps in seconds:
+Create a view that splits each video into segments at times specified by a column `split_times` of type
+`pxt.Json`, containing a list of timestamps in seconds:
+
 ```python
+pxt.create_view(
+    'ten_second_segments',
+    tbl,
+    iterator=video_splitter(tbl.video, duration=10.0),
+)
+split_times = [5.0, 15.0, 30.0]
+pxt.create_view(
+    'custom_segments',
+    tbl,
+    iterator=video_splitter(tbl.video, segment_times=split_times),
+)
 pxt.create_view(
     'custom_segments',
     tbl,
@@ -175,6 +219,7 @@ __Requirements:__
 **Examples:**
 
 Concatenate all videos in a table, ordered by timestamp:
+
 ```python
 tbl.select(concat_videos_agg(tbl.timestamp, tbl.video)).collect()
 ```
@@ -201,14 +246,21 @@ yuv420p pixel format.
 **Examples:**
 
 Combine the images in the `img` column of the table `tbl` into a video:
+
 ```python
 tbl.select(make_video(tbl.img, fps=30)).collect()
 ```
 
 Combine a sequence of rotated images into a video:
+
 ```python
+tbl.select(make_video(tbl.img, fps=30)).collect()
 tbl.select(make_video(tbl.img.rotate(45), fps=30)).collect()
 ```
+
+For a more extensive example, see the
+[Object Detection in Videos](https://docs.pixeltable.com/howto/cookbooks/video/object-detection-in-videos)
+cookbook.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; clip()
@@ -313,26 +365,42 @@ __Requirements:__
 **Examples:**
 
 Crop using default xywh format:
+
 ```python
 tbl.select(tbl.video.crop2([100, 50, 320, 240])).collect()
 ```
 
 Crop using xyxy format (common in object detection):
+
 ```python
+tbl.select(tbl.video.crop2([100, 50, 320, 240])).collect()
 tbl.select(
     tbl.video.crop2([100, 50, 420, 290], bbox_format='xyxy')
 ).collect()
 ```
 
 Crop using center format:
+
 ```python
+tbl.select(tbl.video.crop2([100, 50, 320, 240])).collect()
+tbl.select(
+    tbl.video.crop2([100, 50, 420, 290], bbox_format='xyxy')
+).collect()
 tbl.select(
     tbl.video.crop2([260, 170, 320, 240], bbox_format='cxcywh')
 ).collect()
 ```
 
 Use with yolox object detection output:
+
 ```python
+tbl.select(tbl.video.crop2([100, 50, 320, 240])).collect()
+tbl.select(
+    tbl.video.crop2([100, 50, 420, 290], bbox_format='xyxy')
+).collect()
+tbl.select(
+    tbl.video.crop2([260, 170, 320, 240], bbox_format='cxcywh')
+).collect()
 tbl.add_computed_column(
     cropped=tbl.video.crop2(tbl.detections.bboxes[0], bbox_format='xyxy')
 )
@@ -367,6 +435,7 @@ Extract an audio stream from a video.
 **Examples:**
 
 Add a computed column to a table `tbl` that extracts audio from an existing column `video_col`:
+
 ```python
 tbl.add_computed_column(
     extracted_audio=tbl.video_col.extract_audio(format='flac')
@@ -400,12 +469,15 @@ Extract a single frame from a video at a specific timestamp.
 **Examples:**
 
 Extract the first frame from each video in the `video` column of the table `tbl`:
+
 ```python
 tbl.select(tbl.video.extract_frame(0.0)).collect()
 ```
 
 Extract a frame close to the end of each video in the `video` column of the table `tbl`:
+
 ```python
+tbl.select(tbl.video.extract_frame(0.0)).collect()
 tbl.select(
     tbl.video.extract_frame(
         tbl.video.get_metadata().streams[0].duration_seconds - 0.1
@@ -450,12 +522,15 @@ __Requirements:__
 **Examples:**
 
 Apply a 1-second fade from black (default):
+
 ```python
 tbl.select(tbl.video.fade_in()).collect()
 ```
 
 Apply a 2-second fade from white:
+
 ```python
+tbl.select(tbl.video.fade_in()).collect()
 tbl.select(tbl.video.fade_in(duration=2.0, color='white')).collect()
 ```
 
@@ -496,12 +571,15 @@ __Requirements:__
 **Examples:**
 
 Apply a 1-second fade to black (default):
+
 ```python
 tbl.select(tbl.video.fade_out()).collect()
 ```
 
 Apply a 3-second fade to white:
+
 ```python
+tbl.select(tbl.video.fade_out()).collect()
 tbl.select(tbl.video.fade_out(duration=3.0, color='white')).collect()
 ```
 
@@ -580,6 +658,7 @@ Gets various metadata associated with a video file and returns it as a dictionar
 **Examples:**
 
 Extract metadata for files in the `video_col` column of the table `tbl`:
+
 ```python
 tbl.select(tbl.video_col.get_metadata()).collect()
 ```
@@ -700,6 +779,7 @@ overlay_text(
     *,
     font: pxt.String | None = None,
     font_size: pxt.Int = 24,
+    line_spacing: pxt.Int = 0,
     color: pxt.String = 'white',
     opacity: pxt.Float = 1.0,
     horizontal_align: pxt.String = 'center',
@@ -717,77 +797,76 @@ Overlay text on a video with customizable positioning and styling.
 
 __Requirements:__
 
-- `ffmpeg` needs to be installed and in PATH
+    - `ffmpeg` needs to be installed and in PATH
 
-**Parameters:**
+    Args:
+        video: Input video to overlay text on.
+        text: The text string to overlay on the video.
+        font: Font family or path to font file. If None, uses the system default.
+        font_size: Size of the text in points.
+        line_spacing: Pixels of vertical space added between lines of multi-line text (text containing
+            `
+`). Defaults to 0. Negative values pull lines closer together for tighter packing.
+            Ignored for single-line text.
+        color: Text color (e.g., `'white'`, `'red'`, `'#FF0000'`).
+        opacity: Text opacity from 0.0 (transparent) to 1.0 (opaque).
+        horizontal_align: Horizontal text alignment (`'left'`, `'center'`, `'right'`).
+        horizontal_margin: Horizontal margin in pixels from the alignment edge.
+        vertical_align: Vertical text alignment (`'top'`, `'center'`, `'bottom'`).
+        vertical_margin: Vertical margin in pixels from the alignment edge.
+        box: Whether to draw a background box behind the text.
+        box_color: Background box color as a string.
+        box_opacity: Background box opacity from 0.0 to 1.0.
+        box_border: Padding around text in the box in pixels.
 
-- **`video`** (`pxt.Video`): Input video to overlay text on.
-- **`text`** (`pxt.String`): The text string to overlay on the video.
-- **`font`** (`pxt.String | None`): Font family or path to font file. If None, uses the system default.
-- **`font_size`** (`pxt.Int`): Size of the text in points.
-- **`color`** (`pxt.String`): Text color (e.g., `'white'`, `'red'`, `'#FF0000'`).
-- **`opacity`** (`pxt.Float`): Text opacity from 0.0 (transparent) to 1.0 (opaque).
-- **`horizontal_align`** (`pxt.String`): Horizontal text alignment (`'left'`, `'center'`, `'right'`).
-- **`horizontal_margin`** (`pxt.Int`): Horizontal margin in pixels from the alignment edge.
-- **`vertical_align`** (`pxt.String`): Vertical text alignment (`'top'`, `'center'`, `'bottom'`).
-- **`vertical_margin`** (`pxt.Int`): Vertical margin in pixels from the alignment edge.
-- **`box`** (`pxt.Bool`): Whether to draw a background box behind the text.
-- **`box_color`** (`pxt.String`): Background box color as a string.
-- **`box_opacity`** (`pxt.Float`): Background box opacity from 0.0 to 1.0.
-- **`box_border`** (`pxt.Json[(Int`): Padding around text in the box in pixels.
-    - `[10]`: 10 pixels on all sides
-    - `[10, 20]`: 10 pixels on top/bottom, 20 on left/right
-    - `[10, 20, 30]`: 10 pixels on top, 20 on left/right, 30 on bottom
-    - `[10, 20, 30, 40]`: 10 pixels on top, 20 on right, 30 on bottom, 40 on left
-- **`start_time`** (`Any`): Time in seconds when the text appears. If None, the text is visible from the start.
-- **`end_time`** (`Any`): Time in seconds when the text disappears. If None, the text is visible until the end.
-- **`video_encoder`** (`Any`): Video encoder to use. If not specified, uses the default encoder.
-- **`video_encoder_args`** (`Any`): Additional arguments to pass to the video encoder.
+            - `[10]`: 10 pixels on all sides
+            - `[10, 20]`: 10 pixels on top/bottom, 20 on left/right
+            - `[10, 20, 30]`: 10 pixels on top, 20 on left/right, 30 on bottom
+            - `[10, 20, 30, 40]`: 10 pixels on top, 20 on right, 30 on bottom, 40 on left
+        start_time: Time in seconds when the text appears. If None, the text is visible from the start.
+        end_time: Time in seconds when the text disappears. If None, the text is visible until the end.
+        video_encoder: Video encoder to use. If not specified, uses the default encoder.
+        video_encoder_args: Additional arguments to pass to the video encoder.
 
-**Returns:**
+    Returns:
+        A new video with the text overlay applied.
 
-- `pxt.Video`: A new video with the text overlay applied.
+    Examples:
+        Add a simple text overlay to videos in a table:
 
-**Examples:**
+        >>> tbl.select(tbl.video.overlay_text('Sample Text')).collect()
 
-Add a simple text overlay to videos in a table:
-```python
-tbl.select(tbl.video.overlay_text('Sample Text')).collect()
-```
+        Add a YouTube-style caption:
 
-Add a YouTube-style caption:
-```python
-tbl.select(
-    tbl.video.overlay_text(
-        'Caption text',
-        font_size=32,
-        color='white',
-        opacity=1.0,
-        box=True,
-        box_color='black',
-        box_opacity=0.8,
-        box_border=[6, 14],
-        horizontal_margin=10,
-        vertical_align='bottom',
-        vertical_margin=70,
-    )
-).collect()
-```
+        >>> tbl.select(
+        ...     tbl.video.overlay_text(
+        ...         'Caption text',
+        ...         font_size=32,
+        ...         color='white',
+        ...         opacity=1.0,
+        ...         box=True,
+        ...         box_color='black',
+        ...         box_opacity=0.8,
+        ...         box_border=[6, 14],
+        ...         horizontal_margin=10,
+        ...         vertical_align='bottom',
+        ...         vertical_margin=70,
+        ...     )
+        ... ).collect()
 
-Add text with a semi-transparent background box:
-```python
-tbl.select(
-    tbl.video.overlay_text(
-        'Important Message',
-        font_size=32,
-        color='yellow',
-        box=True,
-        box_color='black',
-        box_opacity=0.6,
-        box_border=[20, 10],
-    )
-).collect()
-```
+        Add text with a semi-transparent background box:
+
+        >>> tbl.select(
+        ...     tbl.video.overlay_text(
+        ...         'Important Message',
+        ...         font_size=32,
+        ...         color='yellow',
+        ...         box=True,
+        ...         box_color='black',
+        ...         box_opacity=0.6,
+        ...         box_border=[20, 10],
+        ...     )
+        ... ).collect()
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; resize()
@@ -827,17 +906,23 @@ __Requirements:__
 **Examples:**
 
 Resize to a specific width, preserving aspect ratio:
+
 ```python
 tbl.select(tbl.video.resize(width=640)).collect()
 ```
 
 Resize to exact dimensions:
+
 ```python
+tbl.select(tbl.video.resize(width=640)).collect()
 tbl.select(tbl.video.resize(width=1280, height=720)).collect()
 ```
 
 Scale down by half:
+
 ```python
+tbl.select(tbl.video.resize(width=640)).collect()
+tbl.select(tbl.video.resize(width=1280, height=720)).collect()
 tbl.select(tbl.video.resize(scale=0.5)).collect()
 ```
 
@@ -878,12 +963,15 @@ __Requirements:__
 **Examples:**
 
 Reverse a video, dropping audio:
+
 ```python
 tbl.select(tbl.video.reverse()).collect()
 ```
 
 Reverse a video along with its audio:
+
 ```python
+tbl.select(tbl.video.reverse()).collect()
 tbl.select(tbl.video.reverse(audio='reverse')).collect()
 ```
 
@@ -926,17 +1014,23 @@ __Requirements:__
 **Examples:**
 
 Rotate 90 degrees counter-clockwise:
+
 ```python
 tbl.select(tbl.video.rotate(angle=90)).collect()
 ```
 
 Rotate 45 degrees with frame expansion to avoid cropping:
+
 ```python
+tbl.select(tbl.video.rotate(angle=90)).collect()
 tbl.select(tbl.video.rotate(angle=45, expand=True)).collect()
 ```
 
 Rotate by pi/2 radians:
+
 ```python
+tbl.select(tbl.video.rotate(angle=90)).collect()
+tbl.select(tbl.video.rotate(angle=45, expand=True)).collect()
 tbl.select(tbl.video.rotate(angle=1.5708, unit='rad')).collect()
 ```
 
@@ -1006,33 +1100,60 @@ __Requirements:__
 **Examples:**
 
 Detect scene cuts with default parameters:
+
 ```python
 tbl.select(tbl.video.scene_detect_adaptive()).collect()
 ```
 
 Detect more scenes by lowering the threshold:
+
 ```python
+tbl.select(tbl.video.scene_detect_adaptive()).collect()
 tbl.select(
     tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
 ).collect()
 ```
 
 Use luminance-only detection with a longer minimum scene length:
+
 ```python
+tbl.select(tbl.video.scene_detect_adaptive()).collect()
+tbl.select(
+    tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
+).collect()
 tbl.select(
     tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)
 ).collect()
 ```
 
 Add scene cuts as a computed column:
+
 ```python
+tbl.select(tbl.video.scene_detect_adaptive()).collect()
+tbl.select(
+    tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
+).collect()
+tbl.select(
+    tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)
+).collect()
 tbl.add_computed_column(
     scene_cuts=tbl.video.scene_detect_adaptive(adaptive_threshold=2.0)
 )
 ```
 
 Analyze at a lower frame rate for faster processing:
+
 ```python
+tbl.select(tbl.video.scene_detect_adaptive()).collect()
+tbl.select(
+    tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
+).collect()
+tbl.select(
+    tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)
+).collect()
+tbl.add_computed_column(
+    scene_cuts=tbl.video.scene_detect_adaptive(adaptive_threshold=2.0)
+)
 tbl.select(tbl.video.scene_detect_adaptive(fps=2.0)).collect()
 ```
 
@@ -1097,22 +1218,32 @@ __Requirements:__
 **Examples:**
 
 Detect scene cuts with default parameters:
+
 ```python
 tbl.select(tbl.video.scene_detect_content()).collect()
 ```
 
 Detect more scenes by lowering the threshold:
+
 ```python
+tbl.select(tbl.video.scene_detect_content()).collect()
 tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
 ```
 
 Use luminance-only detection:
+
 ```python
+tbl.select(tbl.video.scene_detect_content()).collect()
+tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
 tbl.select(tbl.video.scene_detect_content(luma_only=True)).collect()
 ```
 
 Emphasize edge detection for scenes with similar colors:
+
 ```python
+tbl.select(tbl.video.scene_detect_content()).collect()
+tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
+tbl.select(tbl.video.scene_detect_content(luma_only=True)).collect()
 tbl.select(
     tbl.video.scene_detect_content(
         delta_edges=1.0, delta_hue=0.5, delta_sat=0.5
@@ -1121,7 +1252,16 @@ tbl.select(
 ```
 
 Add scene cuts as a computed column:
+
 ```python
+tbl.select(tbl.video.scene_detect_content()).collect()
+tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
+tbl.select(tbl.video.scene_detect_content(luma_only=True)).collect()
+tbl.select(
+    tbl.video.scene_detect_content(
+        delta_edges=1.0, delta_hue=0.5, delta_sat=0.5
+    )
+).collect()
 tbl.add_computed_column(
     scene_cuts=tbl.video.scene_detect_content(threshold=20.0)
 )
@@ -1184,27 +1324,42 @@ __Requirements:__
 **Examples:**
 
 Detect scene cuts with default parameters:
+
 ```python
 tbl.select(tbl.video.scene_detect_hash()).collect()
 ```
 
 Detect more scenes by lowering the threshold:
+
 ```python
+tbl.select(tbl.video.scene_detect_hash()).collect()
 tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
 ```
 
 Use larger hash size for more precision:
+
 ```python
+tbl.select(tbl.video.scene_detect_hash()).collect()
+tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
 tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
 ```
 
 Use for fast processing with lower frame rate:
+
 ```python
+tbl.select(tbl.video.scene_detect_hash()).collect()
+tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
+tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
 tbl.select(tbl.video.scene_detect_hash(fps=1.0, threshold=0.4)).collect()
 ```
 
 Add scene cuts as a computed column:
+
 ```python
+tbl.select(tbl.video.scene_detect_hash()).collect()
+tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
+tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
+tbl.select(tbl.video.scene_detect_hash(fps=1.0, threshold=0.4)).collect()
 tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_hash())
 ```
 
@@ -1261,27 +1416,42 @@ __Requirements:__
 **Examples:**
 
 Detect scene cuts with default parameters:
+
 ```python
 tbl.select(tbl.video.scene_detect_histogram()).collect()
 ```
 
 Detect more scenes by lowering the threshold:
+
 ```python
+tbl.select(tbl.video.scene_detect_histogram()).collect()
 tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
 ```
 
 Use fewer bins for faster processing:
+
 ```python
+tbl.select(tbl.video.scene_detect_histogram()).collect()
+tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
 tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
 ```
 
 Use with a longer minimum scene length:
+
 ```python
+tbl.select(tbl.video.scene_detect_histogram()).collect()
+tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
+tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
 tbl.select(tbl.video.scene_detect_histogram(min_scene_len=30)).collect()
 ```
 
 Add scene cuts as a computed column:
+
 ```python
+tbl.select(tbl.video.scene_detect_histogram()).collect()
+tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
+tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
+tbl.select(tbl.video.scene_detect_histogram(min_scene_len=30)).collect()
 tbl.add_computed_column(
     scene_cuts=tbl.video.scene_detect_histogram(threshold=0.04)
 )
@@ -1345,29 +1515,46 @@ __Requirements:__
 **Examples:**
 
 Detect fade-to-black transitions with default parameters:
+
 ```python
 tbl.select(tbl.video.scene_detect_threshold()).collect()
 ```
 
 Use a lower threshold to detect darker fades:
+
 ```python
+tbl.select(tbl.video.scene_detect_threshold()).collect()
 tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
 ```
 
 Detect both fade-to-black and fade-to-white using absolute method:
+
 ```python
+tbl.select(tbl.video.scene_detect_threshold()).collect()
+tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
 tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
 ```
 
 Add final scene boundary:
+
 ```python
+tbl.select(tbl.video.scene_detect_threshold()).collect()
+tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
+tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
 tbl.select(
     tbl.video.scene_detect_threshold(add_final_scene=True)
 ).collect()
 ```
 
 Add fade transitions as a computed column:
+
 ```python
+tbl.select(tbl.video.scene_detect_threshold()).collect()
+tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
+tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
+tbl.select(
+    tbl.video.scene_detect_threshold(add_final_scene=True)
+).collect()
 tbl.add_computed_column(
     fade_cuts=tbl.video.scene_detect_threshold(threshold=15.0)
 )
@@ -1428,17 +1615,25 @@ __Requirements:__
 **Examples:**
 
 Pan rightward across a 1920x1080 video using a 1280-pixel-wide viewport, scrolling at 50 px/s:
+
 ```python
 tbl.select(tbl.video.scroll(w=1280, x_speed=50)).collect()
 ```
 
-Pan rightward across the full range of a 1920x1080 video in exactly its duration. The viewport is 1280 px wide, so the pan range is 1920 - 1280 = 640 px. For a 10-second video, set `x_speed = 640 / 10 = 64`:
+Pan rightward across the full range of a 1920x1080 video in exactly its duration. The viewport is
+1280 px wide, so the pan range is 1920 - 1280 = 640 px. For a 10-second video, set
+`x_speed = 640 / 10 = 64`:
+
 ```python
+tbl.select(tbl.video.scroll(w=1280, x_speed=50)).collect()
 tbl.select(tbl.video.scroll(w=1280, x_speed=64)).collect()
 ```
 
 Pan leftward across a 1920x1080 video, starting from the right edge:
+
 ```python
+tbl.select(tbl.video.scroll(w=1280, x_speed=50)).collect()
+tbl.select(tbl.video.scroll(w=1280, x_speed=64)).collect()
 tbl.select(tbl.video.scroll(w=1280, x_start=640, x_speed=-64)).collect()
 ```
 
@@ -1484,6 +1679,7 @@ __Requirements:__
 **Examples:**
 
 Split a video at 1 minute intervals using fast mode:
+
 ```python
 tbl.select
     segment_paths=tbl.video.segment_video(
@@ -1492,8 +1688,15 @@ tbl.select
 ).collect()
 ```
 
-Split video into exact 10-second segments with default accurate mode, using the libx264 encoder with a CRF of 23 and slow preset (for smaller output files):
+Split video into exact 10-second segments with default accurate mode, using the libx264 encoder with a CRF of 23
+and slow preset (for smaller output files):
+
 ```python
+tbl.select
+    segment_paths=tbl.video.segment_video(
+        duration=60, mode='fast'
+    )
+).collect()
 tbl.select(
     segment_paths=tbl.video.segment_video(
         duration=10,
@@ -1504,7 +1707,20 @@ tbl.select(
 ```
 
 Split video into two parts at the midpoint:
+
 ```python
+tbl.select
+    segment_paths=tbl.video.segment_video(
+        duration=60, mode='fast'
+    )
+).collect()
+tbl.select(
+    segment_paths=tbl.video.segment_video(
+        duration=10,
+        video_encoder='libx264',
+        video_encoder_args={'crf': 23, 'preset': 'slow'},
+    )
+).collect()
 duration = tbl.video.get_duration()
 tbl.select(
     segment_paths=tbl.video.segment_video(segment_times=[duration / 2])
@@ -1548,12 +1764,15 @@ __Requirements:__
 **Examples:**
 
 Double the speed:
+
 ```python
 tbl.select(tbl.video.speed(factor=2.0)).collect()
 ```
 
 Half speed (slow motion):
+
 ```python
+tbl.select(tbl.video.speed(factor=2.0)).collect()
 tbl.select(tbl.video.speed(factor=0.5)).collect()
 ```
 
@@ -1600,12 +1819,15 @@ __Requirements:__
 **Examples:**
 
 Add background music to a video:
+
 ```python
 tbl.select(tbl.video.with_audio(tbl.music_track)).collect()
 ```
 
 Add audio starting 5 seconds into both files:
+
 ```python
+tbl.select(tbl.video.with_audio(tbl.music_track)).collect()
 tbl.select(
     tbl.video.with_audio(
         tbl.music_track, video_start_time=5.0, audio_start_time=5.0
@@ -1614,7 +1836,14 @@ tbl.select(
 ```
 
 Use a 10-second clip from the middle of both files:
+
 ```python
+tbl.select(tbl.video.with_audio(tbl.music_track)).collect()
+tbl.select(
+    tbl.video.with_audio(
+        tbl.music_track, video_start_time=5.0, audio_start_time=5.0
+    )
+).collect()
 tbl.select(
     tbl.video.with_audio(
         tbl.music_track,
@@ -1671,22 +1900,32 @@ __Requirements:__
 **Examples:**
 
 Zoom in (default, 1.0x to 1.3x centered):
+
 ```python
 tbl.select(tbl.video.zoom()).collect()
 ```
 
 Zoom out from 2x to 1x:
+
 ```python
+tbl.select(tbl.video.zoom()).collect()
 tbl.select(tbl.video.zoom(start_scale=2.0, end_scale=1.0)).collect()
 ```
 
 Zoom in toward the upper-left quadrant:
+
 ```python
+tbl.select(tbl.video.zoom()).collect()
+tbl.select(tbl.video.zoom(start_scale=2.0, end_scale=1.0)).collect()
 tbl.select(tbl.video.zoom(end_scale=1.5, center=[0.25, 0.25])).collect()
 ```
 
 Static 1.5x zoom (no animation):
+
 ```python
+tbl.select(tbl.video.zoom()).collect()
+tbl.select(tbl.video.zoom(start_scale=2.0, end_scale=1.0)).collect()
+tbl.select(tbl.video.zoom(end_scale=1.5, center=[0.25, 0.25])).collect()
 tbl.select(tbl.video.zoom(start_scale=1.5, end_scale=1.5)).collect()
 ```
 

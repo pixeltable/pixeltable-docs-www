@@ -30,7 +30,9 @@ Applies a mapping function to each element of a list.
 
 **Examples:**
 
-Given a table `tbl` with a column `data` of type `pxt.Json` containing lists of integers, add a computed column that produces new lists with each integer doubled:
+Given a table `tbl` with a column `data` of type `pxt.Json` containing lists of integers, add a computed
+column that produces new lists with each integer doubled:
+
 ```python
 tbl.add_computed_column(
     doubled=pxt.functions.map(t.data, lambda x: x * 2)
@@ -112,12 +114,16 @@ Aggregate function that counts the number of non-null values in a column or grou
 **Examples:**
 
 Count the number of non-null values in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.count(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the count of non-null values in the `value` column for each category, assigning the name `'category_count'` to the new column:
+Group by the `category` column and compute the count of non-null values in the `value` column
+for each category, assigning the name `'category_count'` to the new column:
+
 ```python
+tbl.select(pxt.functions.count(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_count=pxt.functions.count(tbl.value)
 ).collect()
@@ -162,12 +168,16 @@ Aggregate function that computes the maximum value in a column or grouping.
 **Examples:**
 
 Compute the maximum value in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.max(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the maximum value in the `value` column for each category, assigning the name `'category_max'` to the new column:
+Group by the `category` column and compute the maximum value in the `value` column for each category,
+assigning the name `'category_max'` to the new column:
+
 ```python
+tbl.select(pxt.functions.max(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_max=pxt.functions.max(tbl.value)
 ).collect()
@@ -200,12 +210,16 @@ Aggregate function that computes the mean (average) of non-null values of a nume
 **Examples:**
 
 Compute the mean of the values in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.mean(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the mean of the `value` column for each category, assigning the name `'category_mean'` to the new column:
+Group by the `category` column and compute the mean of the `value` column for each category,
+assigning the name `'category_mean'` to the new column:
+
 ```python
+tbl.select(pxt.functions.mean(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_mean=pxt.functions.mean(tbl.value)
 ).collect()
@@ -250,12 +264,16 @@ Aggregate function that computes the minimum value in a column or grouping.
 **Examples:**
 
 Compute the minimum value in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.min(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the minimum value in the `value` column for each category, assigning the name `'category_min'` to the new column:
+Group by the `category` column and compute the minimum value in the `value` column for each category,
+assigning the name `'category_min'` to the new column:
+
 ```python
+tbl.select(pxt.functions.min(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_min=pxt.functions.min(tbl.value)
 ).collect()
@@ -288,12 +306,16 @@ Aggregate function that computes the sum of non-null values of a numeric column 
 **Examples:**
 
 Sum the values in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.sum(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the sum of the `value` column for each category, assigning the name `'category_total'` to the new column:
+Group by the `category` column and compute the sum of the `value` column for each category,
+assigning the name `'category_total'` to the new column:
+
 ```python
+tbl.select(pxt.functions.sum(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_total=pxt.functions.sum(tbl.value)
 ).collect()

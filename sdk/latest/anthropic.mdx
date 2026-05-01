@@ -59,7 +59,9 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `claude-3-5-sonnet-20241022` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+Add a computed column that applies the model `claude-3-5-sonnet-20241022`
+to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+
 ```python
 msgs = [{'role': 'user', 'content': tbl.prompt}]
 tbl.add_computed_column(

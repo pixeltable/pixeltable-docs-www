@@ -197,7 +197,7 @@ messages = [{'role': 'user', 'content': chat_t.input}]
 chat_t.add_computed_column(
     output=together.chat_completions(
         messages=messages,
-        model='meta-llama/Llama-3.3-70B-Instruct-Turbo',
+        model='Qwen/Qwen3.5-9B',
         model_kwargs={
             # Optional dict with parameters for the Together API
             'max_tokens': 300,
@@ -246,7 +246,7 @@ emb_t = pxt.create_table(
 )
 emb_t.add_computed_column(
     embedding=together.embeddings(
-        input=emb_t.input, model='BAAI/bge-base-en-v1.5'
+        input=emb_t.input, model='intfloat/multilingual-e5-large-instruct'
     )
 )
 ```

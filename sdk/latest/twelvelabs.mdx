@@ -83,6 +83,7 @@ __Requirements:__
 **Examples:**
 
 Add a computed column `embed` for an embedding of a string column `input`:
+
 ```python
 tbl.add_computed_column(
     embed=embed(model_name='marengo3.0', text=tbl.input)

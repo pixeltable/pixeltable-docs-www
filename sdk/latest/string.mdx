@@ -10,6 +10,7 @@ Pixeltable UDFs for `StringType`.
 It closely follows the Pandas `pandas.Series.str` API.
 
 Example:
+
 ```python
 import pixeltable as pxt
 
@@ -45,7 +46,10 @@ __Outputs__:
 
 **Examples:**
 
-This example assumes an existing table `tbl` with a column `text` of type `pxt.String`. Create a view that splits all strings on sentence boundaries:
+This example assumes an existing table `tbl` with a column `text` of type `pxt.String`.
+
+Create a view that splits all strings on sentence boundaries:
+
 ```python
 pxt.create_view(
     'sentence_chunks',

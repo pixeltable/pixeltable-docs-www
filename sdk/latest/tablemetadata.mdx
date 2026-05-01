@@ -72,6 +72,14 @@ is_snapshot: bool
 
 `True` if this table is a snapshot.
 
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; is_versioned
+
+```
+is_versioned: bool
+```
+
+`True` if this is a versioned table.
+
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; is_view
 
 ```
@@ -139,10 +147,10 @@ The current schema version of the table.
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; version
 
 ```
-version: int
+version: int | None
 ```
 
-The current version of the table.
+The current version of the table or None if it's not versioned.
 
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; version_created
 

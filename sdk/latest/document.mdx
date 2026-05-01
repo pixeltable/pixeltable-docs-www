@@ -67,7 +67,10 @@ __Outputs__:
 
 **Examples:**
 
-All these examples assume an existing table `tbl` with a column `doc` of type `pxt.Document`. Create a view that splits all documents into chunks of up to 300 tokens:
+All these examples assume an existing table `tbl` with a column `doc` of type `pxt.Document`.
+
+Create a view that splits all documents into chunks of up to 300 tokens:
+
 ```python
 pxt.create_view(
     'chunks',
@@ -79,7 +82,15 @@ pxt.create_view(
 ```
 
 Create a view that splits all documents along sentence boundaries, including title and heading metadata:
+
 ```python
+pxt.create_view(
+    'chunks',
+    tbl,
+    iterator=document_splitter(
+        tbl.doc, separators='token_limit', limit=300
+    ),
+)
 pxt.create_view(
     'sentence_chunks',
     tbl,
