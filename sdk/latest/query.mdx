@@ -1,7 +1,7 @@
 ---
 title: "Query"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L319\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L359\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Query
 
@@ -41,17 +41,23 @@ In the absence of a select clause, by default, all columns are selected in the g
 **Examples:**
 
 Select unique addresses from table `addresses`.
+
 ```python
 results = addresses.distinct()
 ```
 
 Select unique cities in table `addresses`
+
 ```python
+results = addresses.distinct()
 results = addresses.city.distinct()
 ```
 
 Select unique locations (street, city) in the state of `CA`
+
 ```python
+results = addresses.distinct()
+results = addresses.city.distinct()
 results = (
     addresses.select(addresses.street, addresses.city)
     .where(addresses.state == 'CA')
@@ -86,24 +92,38 @@ used with an aggregation function like sum(), count() etc.
 **Examples:**
 
 Given the Query book from a table t with all its columns and rows:
+
 ```python
 book = t.select()
 ```
 
 Group the above Query book by the 'genre' column (referenced in table t):
+
 ```python
+book = t.select()
 query = book.group_by(t.genre)
 ```
 
-Use the above Query grouped by genre to count the number of books for each 'genre':
+Use the above Query grouped by genre to count the number of
+books for each 'genre':
+
 ```python
+book = t.select()
+query = book.group_by(t.genre)
 query = (
     book.group_by(t.genre).select(t.genre, count=count(t.genre)).show()
 )
 ```
 
-Use the above Query grouped by genre to the total price of books for each 'genre':
+Use the above Query grouped by genre to the total price of
+books for each 'genre':
+
 ```python
+book = t.select()
+query = book.group_by(t.genre)
+query = (
+    book.group_by(t.genre).select(t.genre, count=count(t.genre)).show()
+)
 query = book.group_by(t.genre).select(t.genre, total=sum(t.price)).show()
 ```
 
@@ -168,22 +188,34 @@ Join this Query with a table.
 **Examples:**
 
 Perform an inner join between t1 and t2 on the column id:
+
 ```python
 join1 = t1.join(t2, on=t2.id)
 ```
 
-Perform a left outer join of join1 with t3, also on id (note that we can't specify `on=t3.id` here, because that would be ambiguous, since both t1 and t2 have a column named id):
+Perform a left outer join of join1 with t3, also on id (note that we can't specify `on=t3.id` here,
+because that would be ambiguous, since both t1 and t2 have a column named id):
+
 ```python
+join1 = t1.join(t2, on=t2.id)
 join2 = join1.join(t3, on=t2.id, how='left')
 ```
 
 Do the same, but now with an explicit join predicate:
+
 ```python
+join1 = t1.join(t2, on=t2.id)
+join2 = join1.join(t3, on=t2.id, how='left')
 join2 = join1.join(t3, on=t2.id == t3.id, how='left')
 ```
 
-Join t with d, which has a composite primary key (columns pk1 and pk2, with corresponding foreign key columns d1 and d2 in t):
+Join t with d, which has a composite primary key (columns pk1 and pk2, with corresponding foreign
+key columns d1 and d2 in t):
+
 ```python
+join1 = t1.join(t2, on=t2.id)
+join2 = join1.join(t3, on=t2.id, how='left')
+join2 = join1.join(t3, on=t2.id == t3.id, how='left')
 query = t.join(d, on=(t.d1 == d.pk1) & (t.d2 == d.pk2), how='left')
 ```
 
@@ -213,12 +245,17 @@ query = t.select()
 ```
 
 Get the first 10 rows:
+
 ```python
+query = t.select()
 query.limit(10).collect()
 ```
 
 Get rows 21-30 (skip first 20, return next 10):
+
 ```python
+query = t.select()
+query.limit(10).collect()
 query.limit(10, offset=20).collect()
 ```
 
@@ -245,17 +282,24 @@ Add an order-by clause to this Query.
 **Examples:**
 
 Given the Query book from a table t with all its columns and rows:
+
 ```python
 book = t.select()
 ```
 
 Order the above Query book by two columns (price, pages) in descending order:
+
 ```python
+book = t.select()
 query = book.order_by(t.price, t.pages, asc=False)
 ```
 
-Order the above Query book by price in descending order, but order the pages in ascending order:
+Order the above Query book by price in descending order, but order the pages
+in ascending order:
+
 ```python
+book = t.select()
+query = book.order_by(t.price, t.pages, asc=False)
 query = book.order_by(t.price, asc=False).order_by(t.pages)
 ```
 
@@ -301,28 +345,45 @@ The data is shuffled before creating the sample.
 
 **Examples:**
 
-Given the Table `person` containing the field 'age', we can create samples of the table in various ways: Sample 100 rows from the above Table:
+Given the Table `person` containing the field 'age', we can create samples of the table in various ways:
+
+Sample 100 rows from the above Table:
+
 ```python
 query = person.sample(n=100)
 ```
 
 Sample 10% of the rows from the above Table:
+
 ```python
+query = person.sample(n=100)
 query = person.sample(fraction=0.1)
 ```
 
 Sample 10% of the rows from the above Table, stratified by the column 'age':
+
 ```python
+query = person.sample(n=100)
+query = person.sample(fraction=0.1)
 query = person.sample(fraction=0.1, stratify_by=t.age)
 ```
 
 Equal allocation sampling: Sample 2 rows from each age present in the above Table:
+
 ```python
+query = person.sample(n=100)
+query = person.sample(fraction=0.1)
+query = person.sample(fraction=0.1, stratify_by=t.age)
 query = person.sample(n_per_stratum=2, stratify_by=t.age)
 ```
 
 Sampling is compatible with the where clause, so we can also sample from a filtered Query:
+
 ```python
+query = person.sample(n=100)
+query = person.sample(fraction=0.1)
+query = person.sample(fraction=0.1, stratify_by=t.age)
+query = person.sample(n_per_stratum=2, stratify_by=t.age)
 query = person.where(t.age > 30).sample(n=100)
 ```
 
@@ -348,17 +409,25 @@ Select columns or expressions from the Query.
 **Examples:**
 
 Given the Query person from a table t with all its columns and rows:
+
 ```python
 person = t.select()
 ```
 
 Select the columns 'name' and 'age' (referenced in table t) from the Query person:
+
 ```python
+person = t.select()
 query = person.select(t.name, t.age)
 ```
 
-Select the columns 'name' (referenced in table t) from the Query person, and a named column 'is_adult' from the expression `age >= 18` where 'age' is another column in table t:
+Select the columns 'name' (referenced in table t) from the Query person,
+and a named column 'is_adult' from the expression `age >= 18` where 'age' is
+another column in table t:
+
 ```python
+person = t.select()
+query = person.select(t.name, t.age)
 query = person.select(t.name, is_adult=(t.age >= 18))
 ```
 
@@ -463,12 +532,16 @@ Filter rows based on a predicate.
 **Examples:**
 
 Given the Query person from a table t with all its columns and rows:
+
 ```python
 person = t.select()
 ```
 
-Filter the above Query person to only include rows where the column 'age' (referenced in table t) is greater than 30:
+Filter the above Query person to only include rows where the column 'age'
+(referenced in table t) is greater than 30:
+
 ```python
+person = t.select()
 query = person.where(t.age > 30)
 ```
 

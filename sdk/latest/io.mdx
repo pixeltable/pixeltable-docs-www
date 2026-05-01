@@ -102,7 +102,9 @@ __Requirements:__
 
 **Examples:**
 
-Create a Label Studio project whose tasks correspond to videos stored in the `video_col` column of the table `tbl`:
+Create a Label Studio project whose tasks correspond to videos stored in the `video_col`
+column of the table `tbl`:
+
 ```python
 config = """
 <View>
@@ -117,8 +119,21 @@ config = """
 create_label_studio_project(tbl, config)
 ```
 
-Create a Label Studio project with the same configuration, using `media_import_method='url'`, whose media are stored in an S3 bucket:
+Create a Label Studio project with the same configuration, using `media_import_method='url'`,
+whose media are stored in an S3 bucket:
+
 ```python
+config = """
+<View>
+    <Video name="video_obj" value="$video_col"/>
+    <Choices name="video-category" toName="video" showInLine="true">
+        <Choice value="city"/>
+        <Choice value="food"/>
+        <Choice value="sports"/>
+    </Choices>
+</View>
+"""
+create_label_studio_project(tbl, config)
 create_label_studio_project(
     tbl,
     config,
@@ -126,6 +141,38 @@ create_label_studio_project(
     s3_configuration={'bucket': 'my-bucket', 'region_name': 'us-east-2'},
 )
 ```
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_csv()
+
+```python Signature
+export_csv(
+    table_or_query: pxt.Table | pxt.Query,
+    file_path: str | Path,
+    *,
+    delimiter: str = ',',
+    quoting: int = 0
+) -> None
+```
+
+Exports a query result or table to a CSV file.
+
+Pixeltable column types are mapped to CSV values as follows:
+
+- String, Int, Float, Bool: native CSV representation
+- Timestamp, Date: ISO 8601 string representation
+- UUID: string representation
+- Json: JSON-encoded string
+- Array: JSON-encoded string (via `tolist()`)
+- Binary: excluded from export (not representable in CSV)
+- Image, Video, Audio, Document: file path or URL string
+
+**Parameters:**
+
+- **`table_or_query`** (`pxt.Table | pxt.Query`): Table or Query to export.
+- **`file_path`** (`str | Path`): Path to the output CSV file.
+- **`delimiter`** (`str`, default: `','`): Field delimiter character. Default `','`.
+- **`quoting`** (`int`, default: `0`): CSV quoting style (a `csv.QUOTE_*` constant). Default `csv.QUOTE_MINIMAL`.
 
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_images_as_fo_dataset()
@@ -198,12 +245,48 @@ __Requirements:__
 
 **Examples:**
 
-Export the images in the `image` column of the table `tbl` as a Voxel51 dataset, using classification labels from `tbl.classifications`:
+Export the images in the `image` column of the table `tbl` as a Voxel51 dataset, using classification
+labels from `tbl.classifications`:
+
 ```python
 export_images_as_fo_dataset(
     tbl, tbl.image, classifications=tbl.classifications
 )
 ```
+
+See the [Working with Voxel51 in Pixeltable](https://docs.pixeltable.com/examples/vision/voxel51) tutorial
+for a fully worked example.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_json()
+
+```python Signature
+export_json(
+    table_or_query: pxt.Table | pxt.Query,
+    file_path: str | Path
+) -> None
+```
+
+Exports a query result or table to a JSONL file.
+
+Pixeltable column types are mapped to JSON values as follows:
+
+- String: string
+- Int: number
+- Float: number
+- Bool: boolean
+- Timestamp: ISO 8601 string
+- Date: ISO 8601 string
+- UUID: string
+- Json: native JSON value (object, array, etc.)
+- Array: nested JSON array (via `tolist()`)
+- Binary: excluded from export (not representable in JSON)
+- Image, Video, Audio, Document: file path or URL string
+
+**Parameters:**
+
+- **`table_or_query`** (`pxt.Table | pxt.Query`): Table or Query to export.
+- **`file_path`** (`str | Path`): Path to the output JSONL file.
 
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_lancedb()
@@ -291,12 +374,11 @@ Pixeltable column types are mapped to Parquet types as follows:
 import_csv(
     tbl_name: str,
     filepath_or_buffer: str | os.PathLike,
-    schema_overrides: dict[str, typing.Any] | None = None,
+    schema_overrides: dict[str, Any] | None = None,
     primary_key: str | list[str] | None = None,
-    num_retained_versions: int = 10,
-    comment: str = '',
+    comment: str | None = None,
     **kwargs: Any
-) -> pixeltable.catalog.table.Table
+) -> pxt.Table
 ```
 
 Creates a new base table from a csv file. This is a convenience method and is equivalent
@@ -306,7 +388,7 @@ for more details.
 
 **Returns:**
 
-- `pixeltable.catalog.table.Table`: A handle to the newly created [`Table`](./table).
+- `pxt.Table`: A handle to the newly created [`Table`](./table).
 
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_excel()
@@ -316,12 +398,11 @@ import_excel(
     tbl_name: str,
     io: str | os.PathLike,
     *,
-    schema_overrides: dict[str, typing.Any] | None = None,
+    schema_overrides: dict[str, Any] | None = None,
     primary_key: str | list[str] | None = None,
-    num_retained_versions: int = 10,
     comment: str = '',
     **kwargs: Any
-) -> pixeltable.catalog.table.Table
+) -> pxt.Table
 ```
 
 Creates a new base table from an Excel (.xlsx) file. This is a convenience method and is
@@ -331,7 +412,7 @@ for more details.
 
 **Returns:**
 
-- `pixeltable.catalog.table.Table`: A handle to the newly created [`Table`](./table).
+- `pxt.Table`: A handle to the newly created [`Table`](./table).
 
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_huggingface_dataset()
@@ -399,15 +480,15 @@ import_json(
     *,
     schema_overrides: dict[str, Any] | None = None,
     primary_key: str | list[str] | None = None,
-    num_retained_versions: int = 10,
-    comment: str = '',
+    comment: str | None = None,
     **kwargs: Any
 ) -> pxt.Table
 ```
 
 Creates a new base table from a JSON file. This is a convenience method and is
-equivalent to calling `import_data(table_path, json.loads(file_contents, **kwargs), ...)`, where `file_contents`
-is the contents of the specified `filepath_or_url`.
+equivalent to calling [`create_table()`](./pixeltable#func-create_table) with
+`pxt.create_table(tbl_path, source=filepath_or_url, extra_args=kwargs, ...)`.
+The contents of `filepath_or_url` are read and parsed as JSON internally (using `json.loads(**kwargs)`).
 
 **Parameters:**
 
@@ -416,9 +497,7 @@ is the contents of the specified `filepath_or_url`.
 - **`schema_overrides`** (`dict[str, Any] | None`): If specified, then columns in `schema_overrides` will be given the specified types
     (see [`import_rows()`](./io#func-import_rows)).
 - **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create_table)).
-- **`num_retained_versions`** (`int`, default: `10`): The number of retained versions of the table
-    (see [`create_table()`](./pixeltable#func-create_table)).
-- **`comment`** (`str`, default: `''`): A comment to attach to the table (see [`create_table()`](./pixeltable#func-create_table)).
+- **`comment`** (`str | None`): A comment to attach to the table (see [`create_table()`](./pixeltable#func-create_table)).
 - **`kwargs`** (`Any`): Additional keyword arguments to pass to `json.loads`.
 
 **Returns:**
@@ -431,13 +510,12 @@ is the contents of the specified `filepath_or_url`.
 ```python Signature
 import_pandas(
     tbl_name: str,
-    df: pandas.core.frame.DataFrame,
+    df: pd.DataFrame,
     *,
-    schema_overrides: dict[str, typing.Any] | None = None,
+    schema_overrides: dict[str, Any] | None = None,
     primary_key: str | list[str] | None = None,
-    num_retained_versions: int = 10,
     comment: str = ''
-) -> pixeltable.catalog.table.Table
+) -> pxt.Table
 ```
 
 Creates a new base table from a Pandas
@@ -454,15 +532,15 @@ the following procedure:
 **Parameters:**
 
 - **`tbl_name`** (`str`): The name of the table to create.
-- **`df`** (`pandas.core.frame.DataFrame`): The Pandas `DataFrame`.
-- **`schema_overrides`** (`dict[str, typing.Any] | None`): If specified, then for each (name, type) pair in `schema_overrides`, the column with
+- **`df`** (`pd.DataFrame`): The Pandas `DataFrame`.
+- **`schema_overrides`** (`dict[str, Any] | None`): If specified, then for each (name, type) pair in `schema_overrides`, the column with
     name `name` will be given type `type`, instead of being inferred from the `DataFrame`. The keys in
     `schema_overrides` should be the column names of the `DataFrame` (whether or not they are valid
     Pixeltable identifiers).
 
 **Returns:**
 
-- `pixeltable.catalog.table.Table`: A handle to the newly created [`Table`](./table).
+- `pxt.Table`: A handle to the newly created [`Table`](./table).
 
 
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_parquet()
@@ -506,7 +584,6 @@ import_rows(
     *,
     schema_overrides: dict[str, Any] | None = None,
     primary_key: str | list[str] | None = None,
-    num_retained_versions: int = 10,
     comment: str = ''
 ) -> pxt.Table
 ```
@@ -529,8 +606,6 @@ All column types of the new table will be nullable unless explicitly specified a
 - **`schema_overrides`** (`dict[str, Any] | None`): If specified, then columns in `schema_overrides` will be given the specified types
     as described above.
 - **`primary_key`** (`str | list[str] | None`): The primary key of the table (see [`create_table()`](./pixeltable#func-create_table)).
-- **`num_retained_versions`** (`int`, default: `10`): The number of retained versions of the table
-    (see [`create_table()`](./pixeltable#func-create_table)).
 - **`comment`** (`str`, default: `''`): A comment to attach to the table (see [`create_table()`](./pixeltable#func-create_table)).
 
 **Returns:**

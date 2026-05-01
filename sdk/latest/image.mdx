@@ -9,6 +9,7 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 Pixeltable UDFs for `ImageType`.
 
 Example:
+
 ```python
 import pixeltable as pxt
 
@@ -48,7 +49,10 @@ __Outputs__:
 
 **Examples:**
 
-This example assumes an existing table `tbl` with a column `img` of type `pxt.Image`. Create a view that splits all images into 256x256 tiles with 32 pixels of overlap:
+This example assumes an existing table `tbl` with a column `img` of type `pxt.Image`.
+
+Create a view that splits all images into 256x256 tiles with 32 pixels of overlap:
+
 ```python
 pxt.create_view(
     'image_tiles',
@@ -545,12 +549,15 @@ __Requirements:__
 **Examples:**
 
 Create a 5-second video from an image:
+
 ```python
 tbl.select(tbl.image.to_video(duration=5.0)).collect()
 ```
 
 Create a 10-second video at 30 fps from a rotated image:
+
 ```python
+tbl.select(tbl.image.to_video(duration=5.0)).collect()
 tbl.select(
     tbl.image.rotate(180).to_video(duration=10.0, fps=30)
 ).collect()

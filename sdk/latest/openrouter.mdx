@@ -52,6 +52,7 @@ __Requirements:__
 **Examples:**
 
 Basic chat completion:
+
 ```python
 messages = [{'role': 'user', 'content': tbl.prompt}]
 tbl.add_computed_column(
@@ -62,7 +63,14 @@ tbl.add_computed_column(
 ```
 
 With provider routing:
+
 ```python
+messages = [{'role': 'user', 'content': tbl.prompt}]
+tbl.add_computed_column(
+    response=chat_completions(
+        messages, model='anthropic/claude-3.5-sonnet'
+    )
+)
 tbl.add_computed_column(
     response=chat_completions(
         messages,
@@ -73,7 +81,21 @@ tbl.add_computed_column(
 ```
 
 With transforms:
+
 ```python
+messages = [{'role': 'user', 'content': tbl.prompt}]
+tbl.add_computed_column(
+    response=chat_completions(
+        messages, model='anthropic/claude-3.5-sonnet'
+    )
+)
+tbl.add_computed_column(
+    response=chat_completions(
+        messages,
+        model='anthropic/claude-3.5-sonnet',
+        provider={'require_parameters': True, 'order': ['Anthropic']},
+    )
+)
 tbl.add_computed_column(
     response=chat_completions(
         messages,
