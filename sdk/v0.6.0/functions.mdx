@@ -124,7 +124,6 @@ Group by the `category` column and compute the count of non-null values in the `
 for each category, assigning the name `'category_count'` to the new column:
 
 ```python
-tbl.select(pxt.functions.count(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_count=pxt.functions.count(tbl.value)
 ).collect()
@@ -178,7 +177,6 @@ Group by the `category` column and compute the maximum value in the `value` colu
 assigning the name `'category_max'` to the new column:
 
 ```python
-tbl.select(pxt.functions.max(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_max=pxt.functions.max(tbl.value)
 ).collect()
@@ -220,7 +218,6 @@ Group by the `category` column and compute the mean of the `value` column for ea
 assigning the name `'category_mean'` to the new column:
 
 ```python
-tbl.select(pxt.functions.mean(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_mean=pxt.functions.mean(tbl.value)
 ).collect()
@@ -274,7 +271,6 @@ Group by the `category` column and compute the minimum value in the `value` colu
 assigning the name `'category_min'` to the new column:
 
 ```python
-tbl.select(pxt.functions.min(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_min=pxt.functions.min(tbl.value)
 ).collect()
@@ -316,7 +312,6 @@ Group by the `category` column and compute the sum of the `value` column for eac
 assigning the name `'category_total'` to the new column:
 
 ```python
-tbl.select(pxt.functions.sum(tbl.value)).collect()
 tbl.group_by(tbl.category).select(
     tbl.category, category_total=pxt.functions.sum(tbl.value)
 ).collect()

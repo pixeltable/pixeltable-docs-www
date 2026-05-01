@@ -67,7 +67,6 @@ pxt.create_view('all_frames', tbl, iterator=frame_iterator(tbl.video))
 Create a view that extracts only keyframes from all videos:
 
 ```python
-pxt.create_view('all_frames', tbl, iterator=frame_iterator(tbl.video))
 pxt.create_view(
     'keyframes',
     tbl,
@@ -78,12 +77,6 @@ pxt.create_view(
 Create a view that extracts frames from all videos at a rate of 1 frame per second:
 
 ```python
-pxt.create_view('all_frames', tbl, iterator=frame_iterator(tbl.video))
-pxt.create_view(
-    'keyframes',
-    tbl,
-    iterator=frame_iterator(tbl.video, keyframes_only=True),
-)
 pxt.create_view(
     'one_fps_frames', tbl, iterator=frame_iterator(tbl.video, fps=1.0)
 )
@@ -92,15 +85,6 @@ pxt.create_view(
 Create a view that extracts exactly 10 frames from each video:
 
 ```python
-pxt.create_view('all_frames', tbl, iterator=frame_iterator(tbl.video))
-pxt.create_view(
-    'keyframes',
-    tbl,
-    iterator=frame_iterator(tbl.video, keyframes_only=True),
-)
-pxt.create_view(
-    'one_fps_frames', tbl, iterator=frame_iterator(tbl.video, fps=1.0)
-)
 pxt.create_view(
     'ten_frames', tbl, iterator=frame_iterator(tbl.video, num_frames=10)
 )
@@ -157,11 +141,6 @@ pxt.create_view(
 Create a view that splits each video into segments at specified fixed times:
 
 ```python
-pxt.create_view(
-    'ten_second_segments',
-    tbl,
-    iterator=video_splitter(tbl.video, duration=10.0),
-)
 split_times = [5.0, 15.0, 30.0]
 pxt.create_view(
     'custom_segments',
@@ -174,17 +153,6 @@ Create a view that splits each video into segments at times specified by a colum
 `pxt.Json`, containing a list of timestamps in seconds:
 
 ```python
-pxt.create_view(
-    'ten_second_segments',
-    tbl,
-    iterator=video_splitter(tbl.video, duration=10.0),
-)
-split_times = [5.0, 15.0, 30.0]
-pxt.create_view(
-    'custom_segments',
-    tbl,
-    iterator=video_splitter(tbl.video, segment_times=split_times),
-)
 pxt.create_view(
     'custom_segments',
     tbl,
@@ -254,7 +222,6 @@ tbl.select(make_video(tbl.img, fps=30)).collect()
 Combine a sequence of rotated images into a video:
 
 ```python
-tbl.select(make_video(tbl.img, fps=30)).collect()
 tbl.select(make_video(tbl.img.rotate(45), fps=30)).collect()
 ```
 
@@ -373,7 +340,6 @@ tbl.select(tbl.video.crop2([100, 50, 320, 240])).collect()
 Crop using xyxy format (common in object detection):
 
 ```python
-tbl.select(tbl.video.crop2([100, 50, 320, 240])).collect()
 tbl.select(
     tbl.video.crop2([100, 50, 420, 290], bbox_format='xyxy')
 ).collect()
@@ -382,10 +348,6 @@ tbl.select(
 Crop using center format:
 
 ```python
-tbl.select(tbl.video.crop2([100, 50, 320, 240])).collect()
-tbl.select(
-    tbl.video.crop2([100, 50, 420, 290], bbox_format='xyxy')
-).collect()
 tbl.select(
     tbl.video.crop2([260, 170, 320, 240], bbox_format='cxcywh')
 ).collect()
@@ -394,13 +356,6 @@ tbl.select(
 Use with yolox object detection output:
 
 ```python
-tbl.select(tbl.video.crop2([100, 50, 320, 240])).collect()
-tbl.select(
-    tbl.video.crop2([100, 50, 420, 290], bbox_format='xyxy')
-).collect()
-tbl.select(
-    tbl.video.crop2([260, 170, 320, 240], bbox_format='cxcywh')
-).collect()
 tbl.add_computed_column(
     cropped=tbl.video.crop2(tbl.detections.bboxes[0], bbox_format='xyxy')
 )
@@ -477,7 +432,6 @@ tbl.select(tbl.video.extract_frame(0.0)).collect()
 Extract a frame close to the end of each video in the `video` column of the table `tbl`:
 
 ```python
-tbl.select(tbl.video.extract_frame(0.0)).collect()
 tbl.select(
     tbl.video.extract_frame(
         tbl.video.get_metadata().streams[0].duration_seconds - 0.1
@@ -530,7 +484,6 @@ tbl.select(tbl.video.fade_in()).collect()
 Apply a 2-second fade from white:
 
 ```python
-tbl.select(tbl.video.fade_in()).collect()
 tbl.select(tbl.video.fade_in(duration=2.0, color='white')).collect()
 ```
 
@@ -579,7 +532,6 @@ tbl.select(tbl.video.fade_out()).collect()
 Apply a 3-second fade to white:
 
 ```python
-tbl.select(tbl.video.fade_out()).collect()
 tbl.select(tbl.video.fade_out(duration=3.0, color='white')).collect()
 ```
 
@@ -914,15 +866,12 @@ tbl.select(tbl.video.resize(width=640)).collect()
 Resize to exact dimensions:
 
 ```python
-tbl.select(tbl.video.resize(width=640)).collect()
 tbl.select(tbl.video.resize(width=1280, height=720)).collect()
 ```
 
 Scale down by half:
 
 ```python
-tbl.select(tbl.video.resize(width=640)).collect()
-tbl.select(tbl.video.resize(width=1280, height=720)).collect()
 tbl.select(tbl.video.resize(scale=0.5)).collect()
 ```
 
@@ -971,7 +920,6 @@ tbl.select(tbl.video.reverse()).collect()
 Reverse a video along with its audio:
 
 ```python
-tbl.select(tbl.video.reverse()).collect()
 tbl.select(tbl.video.reverse(audio='reverse')).collect()
 ```
 
@@ -1022,15 +970,12 @@ tbl.select(tbl.video.rotate(angle=90)).collect()
 Rotate 45 degrees with frame expansion to avoid cropping:
 
 ```python
-tbl.select(tbl.video.rotate(angle=90)).collect()
 tbl.select(tbl.video.rotate(angle=45, expand=True)).collect()
 ```
 
 Rotate by pi/2 radians:
 
 ```python
-tbl.select(tbl.video.rotate(angle=90)).collect()
-tbl.select(tbl.video.rotate(angle=45, expand=True)).collect()
 tbl.select(tbl.video.rotate(angle=1.5708, unit='rad')).collect()
 ```
 
@@ -1108,7 +1053,6 @@ tbl.select(tbl.video.scene_detect_adaptive()).collect()
 Detect more scenes by lowering the threshold:
 
 ```python
-tbl.select(tbl.video.scene_detect_adaptive()).collect()
 tbl.select(
     tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
 ).collect()
@@ -1117,10 +1061,6 @@ tbl.select(
 Use luminance-only detection with a longer minimum scene length:
 
 ```python
-tbl.select(tbl.video.scene_detect_adaptive()).collect()
-tbl.select(
-    tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
-).collect()
 tbl.select(
     tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)
 ).collect()
@@ -1129,13 +1069,6 @@ tbl.select(
 Add scene cuts as a computed column:
 
 ```python
-tbl.select(tbl.video.scene_detect_adaptive()).collect()
-tbl.select(
-    tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
-).collect()
-tbl.select(
-    tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)
-).collect()
 tbl.add_computed_column(
     scene_cuts=tbl.video.scene_detect_adaptive(adaptive_threshold=2.0)
 )
@@ -1144,16 +1077,6 @@ tbl.add_computed_column(
 Analyze at a lower frame rate for faster processing:
 
 ```python
-tbl.select(tbl.video.scene_detect_adaptive()).collect()
-tbl.select(
-    tbl.video.scene_detect_adaptive(adaptive_threshold=1.5)
-).collect()
-tbl.select(
-    tbl.video.scene_detect_adaptive(luma_only=True, min_scene_len=30)
-).collect()
-tbl.add_computed_column(
-    scene_cuts=tbl.video.scene_detect_adaptive(adaptive_threshold=2.0)
-)
 tbl.select(tbl.video.scene_detect_adaptive(fps=2.0)).collect()
 ```
 
@@ -1226,24 +1149,18 @@ tbl.select(tbl.video.scene_detect_content()).collect()
 Detect more scenes by lowering the threshold:
 
 ```python
-tbl.select(tbl.video.scene_detect_content()).collect()
 tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
 ```
 
 Use luminance-only detection:
 
 ```python
-tbl.select(tbl.video.scene_detect_content()).collect()
-tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
 tbl.select(tbl.video.scene_detect_content(luma_only=True)).collect()
 ```
 
 Emphasize edge detection for scenes with similar colors:
 
 ```python
-tbl.select(tbl.video.scene_detect_content()).collect()
-tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
-tbl.select(tbl.video.scene_detect_content(luma_only=True)).collect()
 tbl.select(
     tbl.video.scene_detect_content(
         delta_edges=1.0, delta_hue=0.5, delta_sat=0.5
@@ -1254,14 +1171,6 @@ tbl.select(
 Add scene cuts as a computed column:
 
 ```python
-tbl.select(tbl.video.scene_detect_content()).collect()
-tbl.select(tbl.video.scene_detect_content(threshold=15.0)).collect()
-tbl.select(tbl.video.scene_detect_content(luma_only=True)).collect()
-tbl.select(
-    tbl.video.scene_detect_content(
-        delta_edges=1.0, delta_hue=0.5, delta_sat=0.5
-    )
-).collect()
 tbl.add_computed_column(
     scene_cuts=tbl.video.scene_detect_content(threshold=20.0)
 )
@@ -1332,34 +1241,24 @@ tbl.select(tbl.video.scene_detect_hash()).collect()
 Detect more scenes by lowering the threshold:
 
 ```python
-tbl.select(tbl.video.scene_detect_hash()).collect()
 tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
 ```
 
 Use larger hash size for more precision:
 
 ```python
-tbl.select(tbl.video.scene_detect_hash()).collect()
-tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
 tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
 ```
 
 Use for fast processing with lower frame rate:
 
 ```python
-tbl.select(tbl.video.scene_detect_hash()).collect()
-tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
-tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
 tbl.select(tbl.video.scene_detect_hash(fps=1.0, threshold=0.4)).collect()
 ```
 
 Add scene cuts as a computed column:
 
 ```python
-tbl.select(tbl.video.scene_detect_hash()).collect()
-tbl.select(tbl.video.scene_detect_hash(threshold=0.3)).collect()
-tbl.select(tbl.video.scene_detect_hash(size=32)).collect()
-tbl.select(tbl.video.scene_detect_hash(fps=1.0, threshold=0.4)).collect()
 tbl.add_computed_column(scene_cuts=tbl.video.scene_detect_hash())
 ```
 
@@ -1424,34 +1323,24 @@ tbl.select(tbl.video.scene_detect_histogram()).collect()
 Detect more scenes by lowering the threshold:
 
 ```python
-tbl.select(tbl.video.scene_detect_histogram()).collect()
 tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
 ```
 
 Use fewer bins for faster processing:
 
 ```python
-tbl.select(tbl.video.scene_detect_histogram()).collect()
-tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
 tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
 ```
 
 Use with a longer minimum scene length:
 
 ```python
-tbl.select(tbl.video.scene_detect_histogram()).collect()
-tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
-tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
 tbl.select(tbl.video.scene_detect_histogram(min_scene_len=30)).collect()
 ```
 
 Add scene cuts as a computed column:
 
 ```python
-tbl.select(tbl.video.scene_detect_histogram()).collect()
-tbl.select(tbl.video.scene_detect_histogram(threshold=0.03)).collect()
-tbl.select(tbl.video.scene_detect_histogram(bins=64)).collect()
-tbl.select(tbl.video.scene_detect_histogram(min_scene_len=30)).collect()
 tbl.add_computed_column(
     scene_cuts=tbl.video.scene_detect_histogram(threshold=0.04)
 )
@@ -1523,24 +1412,18 @@ tbl.select(tbl.video.scene_detect_threshold()).collect()
 Use a lower threshold to detect darker fades:
 
 ```python
-tbl.select(tbl.video.scene_detect_threshold()).collect()
 tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
 ```
 
 Detect both fade-to-black and fade-to-white using absolute method:
 
 ```python
-tbl.select(tbl.video.scene_detect_threshold()).collect()
-tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
 tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
 ```
 
 Add final scene boundary:
 
 ```python
-tbl.select(tbl.video.scene_detect_threshold()).collect()
-tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
-tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
 tbl.select(
     tbl.video.scene_detect_threshold(add_final_scene=True)
 ).collect()
@@ -1549,12 +1432,6 @@ tbl.select(
 Add fade transitions as a computed column:
 
 ```python
-tbl.select(tbl.video.scene_detect_threshold()).collect()
-tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
-tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
-tbl.select(
-    tbl.video.scene_detect_threshold(add_final_scene=True)
-).collect()
 tbl.add_computed_column(
     fade_cuts=tbl.video.scene_detect_threshold(threshold=15.0)
 )
@@ -1625,15 +1502,12 @@ Pan rightward across the full range of a 1920x1080 video in exactly its duration
 `x_speed = 640 / 10 = 64`:
 
 ```python
-tbl.select(tbl.video.scroll(w=1280, x_speed=50)).collect()
 tbl.select(tbl.video.scroll(w=1280, x_speed=64)).collect()
 ```
 
 Pan leftward across a 1920x1080 video, starting from the right edge:
 
 ```python
-tbl.select(tbl.video.scroll(w=1280, x_speed=50)).collect()
-tbl.select(tbl.video.scroll(w=1280, x_speed=64)).collect()
 tbl.select(tbl.video.scroll(w=1280, x_start=640, x_speed=-64)).collect()
 ```
 
@@ -1692,11 +1566,6 @@ Split video into exact 10-second segments with default accurate mode, using the 
 and slow preset (for smaller output files):
 
 ```python
-tbl.select
-    segment_paths=tbl.video.segment_video(
-        duration=60, mode='fast'
-    )
-).collect()
 tbl.select(
     segment_paths=tbl.video.segment_video(
         duration=10,
@@ -1709,18 +1578,6 @@ tbl.select(
 Split video into two parts at the midpoint:
 
 ```python
-tbl.select
-    segment_paths=tbl.video.segment_video(
-        duration=60, mode='fast'
-    )
-).collect()
-tbl.select(
-    segment_paths=tbl.video.segment_video(
-        duration=10,
-        video_encoder='libx264',
-        video_encoder_args={'crf': 23, 'preset': 'slow'},
-    )
-).collect()
 duration = tbl.video.get_duration()
 tbl.select(
     segment_paths=tbl.video.segment_video(segment_times=[duration / 2])
@@ -1772,7 +1629,6 @@ tbl.select(tbl.video.speed(factor=2.0)).collect()
 Half speed (slow motion):
 
 ```python
-tbl.select(tbl.video.speed(factor=2.0)).collect()
 tbl.select(tbl.video.speed(factor=0.5)).collect()
 ```
 
@@ -1827,7 +1683,6 @@ tbl.select(tbl.video.with_audio(tbl.music_track)).collect()
 Add audio starting 5 seconds into both files:
 
 ```python
-tbl.select(tbl.video.with_audio(tbl.music_track)).collect()
 tbl.select(
     tbl.video.with_audio(
         tbl.music_track, video_start_time=5.0, audio_start_time=5.0
@@ -1838,12 +1693,6 @@ tbl.select(
 Use a 10-second clip from the middle of both files:
 
 ```python
-tbl.select(tbl.video.with_audio(tbl.music_track)).collect()
-tbl.select(
-    tbl.video.with_audio(
-        tbl.music_track, video_start_time=5.0, audio_start_time=5.0
-    )
-).collect()
 tbl.select(
     tbl.video.with_audio(
         tbl.music_track,
@@ -1908,24 +1757,18 @@ tbl.select(tbl.video.zoom()).collect()
 Zoom out from 2x to 1x:
 
 ```python
-tbl.select(tbl.video.zoom()).collect()
 tbl.select(tbl.video.zoom(start_scale=2.0, end_scale=1.0)).collect()
 ```
 
 Zoom in toward the upper-left quadrant:
 
 ```python
-tbl.select(tbl.video.zoom()).collect()
-tbl.select(tbl.video.zoom(start_scale=2.0, end_scale=1.0)).collect()
 tbl.select(tbl.video.zoom(end_scale=1.5, center=[0.25, 0.25])).collect()
 ```
 
 Static 1.5x zoom (no animation):
 
 ```python
-tbl.select(tbl.video.zoom()).collect()
-tbl.select(tbl.video.zoom(start_scale=2.0, end_scale=1.0)).collect()
-tbl.select(tbl.video.zoom(end_scale=1.5, center=[0.25, 0.25])).collect()
 tbl.select(tbl.video.zoom(start_scale=1.5, end_scale=1.5)).collect()
 ```
 

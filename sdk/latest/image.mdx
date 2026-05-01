@@ -557,7 +557,6 @@ tbl.select(tbl.image.to_video(duration=5.0)).collect()
 Create a 10-second video at 30 fps from a rotated image:
 
 ```python
-tbl.select(tbl.image.to_video(duration=5.0)).collect()
 tbl.select(
     tbl.image.rotate(180).to_video(duration=10.0, fps=30)
 ).collect()

@@ -108,9 +108,6 @@ t.add_computed_column(
 Add an embedding index on `text` column:
 
 ```python
-t.add_computed_column(
-    embedding=embed_content(t.text, model='gemini-embedding-001')
-)
 t.add_embedding_index(
     t.text, embedding=embed_content.using(model='gemini-embedding-001')
 )
@@ -344,9 +341,6 @@ tbl.add_computed_column(
 Use reference images with Veo 3.1 to guide video generation:
 
 ```python
-tbl.add_computed_column(
-    response=generate_videos(tbl.prompt, model='veo-3.0-generate-001')
-)
 tbl.add_computed_column(
     response=generate_videos(
         tbl.prompt,

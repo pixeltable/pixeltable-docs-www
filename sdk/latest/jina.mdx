@@ -68,11 +68,6 @@ tbl.add_computed_column(
 Add an embedding index:
 
 ```python
-tbl.add_computed_column(
-    embed=jina.embeddings(
-        tbl.text, model='jina-embeddings-v3', task='retrieval.passage'
-    )
-)
 tbl.add_embedding_index(
     'text', string_embed=jina.embeddings.using(model='jina-embeddings-v3')
 )

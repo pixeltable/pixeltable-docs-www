@@ -85,15 +85,6 @@ tbl.add_computed_column(
 Using a reasoning model (gpt-5):
 
 ```python
-from pixeltable.functions import fabric
-
-messages = [
-    {'role': 'system', 'content': 'You are a helpful assistant.'},
-    {'role': 'user', 'content': tbl.prompt},
-]
-tbl.add_computed_column(
-    response=fabric.chat_completions(messages, model='gpt-4.1')
-)
 tbl.add_computed_column(
     reasoning_response=fabric.chat_completions(
         messages,
@@ -166,9 +157,6 @@ tbl.add_computed_column(embed=fabric.embeddings(tbl.text))
 Add an embedding index to an existing column `text`:
 
 ```python
-from pixeltable.functions import fabric
-
-tbl.add_computed_column(embed=fabric.embeddings(tbl.text))
 tbl.add_embedding_index(
     'text',
     embedding=fabric.embeddings.using(model='text-embedding-ada-002'),
