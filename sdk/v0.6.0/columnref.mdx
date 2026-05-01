@@ -45,15 +45,19 @@ Examples:
     Add an embedding index to `t.image` using the `clip()`
     embedding (this only needs to be done once):
 
-    >>> from pixeltable.functions.huggingface import clip
-    ...
-    ... t.add_embedding_index(
-    ...     t.image, clip.using(model_id='openai/clip-vit-base-patch32')
-    ... )
+```python
+from pixeltable.functions.huggingface import clip
+
+t.add_embedding_index(
+    t.image, clip.using(model_id='openai/clip-vit-base-patch32')
+)
+```
 
     Reference the embedding index values directly:
 
-    >>> t.select(t.image, t.image.embedding())
+```python
+t.select(t.image, t.image.embedding())
+```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; similarity()

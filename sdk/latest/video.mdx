@@ -786,39 +786,45 @@ __Requirements:__
     Examples:
         Add a simple text overlay to videos in a table:
 
-        >>> tbl.select(tbl.video.overlay_text('Sample Text')).collect()
+```python
+tbl.select(tbl.video.overlay_text('Sample Text')).collect()
+```
 
         Add a YouTube-style caption:
 
-        >>> tbl.select(
-        ...     tbl.video.overlay_text(
-        ...         'Caption text',
-        ...         font_size=32,
-        ...         color='white',
-        ...         opacity=1.0,
-        ...         box=True,
-        ...         box_color='black',
-        ...         box_opacity=0.8,
-        ...         box_border=[6, 14],
-        ...         horizontal_margin=10,
-        ...         vertical_align='bottom',
-        ...         vertical_margin=70,
-        ...     )
-        ... ).collect()
+```python
+tbl.select(
+    tbl.video.overlay_text(
+        'Caption text',
+        font_size=32,
+        color='white',
+        opacity=1.0,
+        box=True,
+        box_color='black',
+        box_opacity=0.8,
+        box_border=[6, 14],
+        horizontal_margin=10,
+        vertical_align='bottom',
+        vertical_margin=70,
+    )
+).collect()
+```
 
         Add text with a semi-transparent background box:
 
-        >>> tbl.select(
-        ...     tbl.video.overlay_text(
-        ...         'Important Message',
-        ...         font_size=32,
-        ...         color='yellow',
-        ...         box=True,
-        ...         box_color='black',
-        ...         box_opacity=0.6,
-        ...         box_border=[20, 10],
-        ...     )
-        ... ).collect()
+```python
+tbl.select(
+    tbl.video.overlay_text(
+        'Important Message',
+        font_size=32,
+        color='yellow',
+        box=True,
+        box_color='black',
+        box_opacity=0.6,
+        box_border=[20, 10],
+    )
+).collect()
+```
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; resize()
