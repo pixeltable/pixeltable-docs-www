@@ -1,0 +1,316 @@
+---
+title: "bedrock"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/bedrock.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.bedrock
+
+
+Pixeltable UDFs for AWS Bedrock AI models.
+In order to use them, you must
+first `pip install boto3` and configure your AWS credentials, as described in
+the [Working with Bedrock](https://docs.pixeltable.com/howto/providers/working-with-bedrock) tutorial.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; invoke_tools()
+
+```python Signature
+invoke_tools(
+    tools: pixeltable.func.tools.Tools,
+    response: pixeltable.exprs.expr.Expr
+) -> pixeltable.exprs.inline_expr.InlineDict
+```
+
+Converts a Bedrock response dict to Pixeltable tool invocation format and calls `tools._invoke()`.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; converse()
+
+```python Signature
+@pxt.udf
+converse(messages: pxt.Json[(Json, *, model_id: pxt.String, system: pxt.Json[(Json = None, inference_config: pxt.Json | None = None, additional_model_request_fields: pxt.Json | None = None, tool_config: pxt.Json[(Json = None) -> pxt.Json
+```
+
+Generate a conversation response.
+
+Equivalent to the AWS Bedrock `converse` API endpoint.
+For additional details, see:
+[https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock-runtime/client/converse.html](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock-runtime/client/converse.html)
+
+PIL images and media file paths in `messages[*].content[*].(image|video|audio).source.bytes`
+are converted to raw bytes automatically.
+
+__Requirements:__
+
+- `pip install boto3`
+
+**Parameters:**
+
+- **`messages`** (`pxt.Json[(Json`): Input messages.
+- **`model_id`** (`Any`): The model that will complete your prompt.
+- **`system`** (`Any`): An optional system prompt.
+- **`inference_config`** (`Any`): Base inference parameters to use.
+- **`additional_model_request_fields`** (`Any`): Additional inference parameters to use.
+- **`tool_config`** (`Any`): An optional list of Pixeltable tools to use.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the response and other metadata.
+
+**Examples:**
+
+Add a computed column that applies the model `anthropic.claude-3-haiku-20240307-v1:0`
+to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+
+```python
+msgs = [{'role': 'user', 'content': [{'text': tbl.prompt}]}]
+tbl.add_computed_column(
+    response=converse(
+        msgs, model_id='anthropic.claude-3-haiku-20240307-v1:0'
+    )
+)
+```
+
+Pass an image via the Converse API:
+
+```python
+msgs = [
+    {
+        'role': 'user',
+        'content': [
+            {'image': {'format': 'jpeg', 'source': {'bytes': tbl.image}}},
+            {'text': "What's in this image?"},
+        ],
+    }
+]
+tbl.add_computed_column(
+    response=converse(msgs, model_id='amazon.nova-lite-v1:0')
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embed()
+
+```python Signatures
+# Signature 1:
+@pxt.udf
+embed(
+    text: pxt.String,
+    model_id: pxt.String,
+    dimensions: pxt.Int | None
+) -> pxt.Array[(None,), float32]
+
+# Signature 2:
+@pxt.udf
+embed(
+    image: pxt.Image,
+    model_id: pxt.String,
+    dimensions: pxt.Int | None
+) -> pxt.Array[(None,), float32]
+```
+
+Generate text or image embeddings using Amazon Titan, Amazon Nova, or Cohere embedding models.
+
+Calls the AWS Bedrock `invoke_model` API for embedding models.
+For additional details, see:
+[https://docs.aws.amazon.com/bedrock/latest/userguide/titan-embedding-models.html](https://docs.aws.amazon.com/bedrock/latest/userguide/titan-embedding-models.html)
+[https://docs.aws.amazon.com/nova/latest/userguide/modality-embedding.html](https://docs.aws.amazon.com/nova/latest/userguide/modality-embedding.html)
+[https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-embed.html](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-embed.html)
+
+__Requirements:__
+
+- `pip install boto3`
+
+**Parameters:**
+
+- **`text`** (`String`): Input text to embed.
+- **`model_id`** (`String`): The embedding model identifier. Supported models:
+    - `amazon.titan-embed-text-v1`
+    - `amazon.titan-embed-text-v2:0` (supports `dimensions`: 256, 512, 1024)
+    - `amazon.nova-2-multimodal-embeddings-v1:0` (supports `dimensions`: 256, 512, 1024, 3072)
+    - `cohere.embed-english-v3`
+    - `cohere.embed-multilingual-v3`
+    - `cohere.embed-v4:0` (supports `dimensions`: 256, 512, 1024, 1536)
+- **`dimensions`** (`Int | None`, default: `Literal(None)`): Output embedding dimensions (model-dependent, optional).
+
+**Returns:**
+
+- `pxt.Array[(None,), float32]`: Embedding vector.
+
+**Examples:**
+
+Create an embedding index on a column `description` with Nova embeddings and custom dimensions:
+
+```python
+tbl.add_embedding_index(
+    tbl.description,
+    string_embed=embed.using(
+        model_id='amazon.nova-2-multimodal-embeddings-v1:0',
+        dimensions=1024,
+    ),
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; invoke_model()
+
+```python Signature
+@pxt.udf
+invoke_model(body: pxt.Json, *, model_id: pxt.String) -> pxt.Json
+```
+
+Invoke a Bedrock model.
+
+Equivalent to the AWS Bedrock `invoke_model` API endpoint, with automatic routing to
+`StartAsyncInvoke` for models that require it (e.g. video generation, audio/video embeddings).
+
+For additional details, see:
+[https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock-runtime/client/invoke_model.html](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock-runtime/client/invoke_model.html)
+
+PIL images and media file paths anywhere in the request body are converted automatically
+to the encoding expected by the target model. For image-generation models, base64-encoded
+images in the response are automatically decoded into `PIL.Image` objects.
+
+For models that require async invocation, `bedrock.temp_location` must be configured
+(set environment variable `BEDROCK_TEMP_LOCATION` or add `temp_location` to the `[bedrock]` section of
+your Pixeltable configuration file).
+
+__Requirements:__
+
+- `pip install boto3`
+
+**Parameters:**
+
+- **`body`** (`pxt.Json`): The prompt and inference parameters as a dictionary.
+- **`model_id`** (`pxt.String`): The model identifier to invoke.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the model response. For image-generation models,
+  image fields are decoded to `PIL.Image` objects. For video-generation models,
+  returns a `pxt.Video` path.
+
+**Examples:**
+
+Invoke Amazon Titan text embeddings:
+
+```python
+body = {'inputText': tbl.text, 'dimensions': 512, 'normalize': True}
+tbl.add_computed_column(
+    response=invoke_model(body, model_id='amazon.titan-embed-text-v2:0')
+)
+```
+
+Invoke TwelveLabs Marengo with an image column (note that the image can be included directly
+in the invoke body, and will be automatically base64-encoded by Pixeltable):
+
+```python
+body = {
+    'inputType': 'image',
+    'image': {'mediaSource': {'base64String': tbl.image}},
+}
+tbl.add_computed_column(
+    response=invoke_model(
+        body, model_id='twelvelabs.marengo-embed-3-0-v1:0'
+    )
+)
+```
+
+Invoke TwelveLabs Marengo with audio (auto-routes to async via StartAsyncInvoke;
+requires `bedrock.temp_location` to be configured):
+
+```python
+body = {
+    'inputType': 'audio',
+    'audio': {'mediaSource': {'base64String': tbl.audio}},
+}
+tbl.add_computed_column(
+    response=invoke_model(
+        body, model_id='twelvelabs.marengo-embed-3-0-v1:0'
+    )
+)
+```
+
+Invoke Anthropic Claude with an image:
+
+```python
+body = {
+    'anthropic_version': 'bedrock-2023-05-31',
+    'max_tokens': 1024,
+    'messages': [
+        {
+            'role': 'user',
+            'content': [
+                {
+                    'type': 'image',
+                    'source': {
+                        'type': 'base64',
+                        'media_type': 'image/jpeg',
+                        'data': tbl.image,
+                    },
+                },
+                {'type': 'text', 'text': "What's in this image?"},
+            ],
+        }
+    ],
+}
+tbl.add_computed_column(
+    response=invoke_model(
+        body, model_id='anthropic.claude-3-haiku-20240307-v1:0'
+    )
+)
+```
+
+Invoke Amazon Nova Lite with a video column:
+
+```python
+body = {
+    'messages': [
+        {
+            'role': 'user',
+            'content': [
+                {
+                    'video': {
+                        'format': 'mp4',
+                        'source': {'bytes': tbl.video},
+                    }
+                },
+                {'text': 'What happens in this video?'},
+            ],
+        }
+    ]
+}
+tbl.add_computed_column(
+    response=invoke_model(body, model_id='amazon.nova-lite-v1:0')
+)
+```
+
+Invoke Stability AI for image generation:
+
+```python
+body = {
+    'prompt': tbl.prompt,
+    'mode': 'text-to-image',
+    'aspect_ratio': '1:1',
+    'output_format': 'jpeg',
+}
+tbl.add_computed_column(
+    response=invoke_model(body, model_id='stability.sd3-5-large-v1:0')
+)
+tbl.add_computed_column(image=tbl.response['images'][0])
+```
+
+Invoke Amazon Nova Reel for video generation (auto-routes to async; requires `bedrock.temp_location`):
+
+```python
+body = {
+    'taskType': 'TEXT_VIDEO',
+    'textToVideoParams': {'text': tbl.prompt},
+    'videoGenerationConfig': {'durationSeconds': 6, 'fps': 24},
+}
+tbl.add_computed_column(
+    video=invoke_model(body, model_id='amazon.nova-reel-v1:1')
+)
+```
+
