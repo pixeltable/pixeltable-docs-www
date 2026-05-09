@@ -1,0 +1,1035 @@
+---
+title: "'Pixeltable: Your Backend for Multimodal AI Applications'"
+sidebarTitle: "'Pixeltable: Your Backend for Multimodal AI Applications'"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/multimodal_backend.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/core/multimodal_backend.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/core/multimodal_backend.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>What you need</th>
+<th>Without Pixeltable</th>
+<th>With Pixeltable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Store video, images, docs</td>
+<td style="vertical-align: middle;">S3 + Postgres + custom loaders</td>
+<td style="vertical-align: middle;"><code>pxt.create_table()</code> with native media types</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Run AI on every insert</td>
+<td style="vertical-align: middle;">Airflow/Prefect DAGs, retry logic</td>
+<td style="vertical-align: middle;"><code>add_computed_column()</code>, automatic</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Vector search</td>
+<td style="vertical-align: middle;">Pinecone/Weaviate, sync pipelines</td>
+<td style="vertical-align: middle;"><code>add_embedding_index()</code>, always in sync</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">HTTP endpoints</td>
+<td style="vertical-align: middle;">Hand-written FastAPI + Pydantic</td>
+<td style="vertical-align: middle;"><code>FastAPIRouter</code> or <code>pxt serve</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Versioning &amp; rollback</td>
+<td style="vertical-align: middle;">Custom migration scripts</td>
+<td style="vertical-align: middle;">Built-in <code>history()</code>, <code>revert()</code></td>
+</tr>
+</tbody>
+</table>
+`,`<style type="text/css">
+#T_7a1cf_row0_col0 {
+  white-space: pre-wrap;
+  text-align: left;
+  font-weight: bold;
+}
+</style>
+`,`
+<table id="T_7a1cf" data-quarto-postprocess="true">
+<tbody>
+<tr>
+<td id="T_7a1cf_row0_col0" class="data row0 col0">table
+'demo/videos'</td>
+</tr>
+</tbody>
+</table>
+`,`
+<style type="text/css">
+#T_9fbbd th {
+  text-align: left;
+  border-bottom: 2px solid #666;
+}
+#T_9fbbd_row0_col0, #T_9fbbd_row0_col1, #T_9fbbd_row0_col2, #T_9fbbd_row0_col3, #T_9fbbd_row0_col4, #T_9fbbd_row1_col0, #T_9fbbd_row1_col1, #T_9fbbd_row1_col2, #T_9fbbd_row1_col3, #T_9fbbd_row1_col4, #T_9fbbd_row2_col0, #T_9fbbd_row2_col1, #T_9fbbd_row2_col2, #T_9fbbd_row2_col3, #T_9fbbd_row2_col4 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+</style>
+`,`
+<table id="T_9fbbd" data-quarto-postprocess="true">
+<thead>
+<tr>
+<th id="T_9fbbd_level0_col0" class="col_heading level0 col0"
+data-quarto-table-cell-role="th">Column Name</th>
+<th id="T_9fbbd_level0_col1" class="col_heading level0 col1"
+data-quarto-table-cell-role="th">Type</th>
+<th id="T_9fbbd_level0_col2" class="col_heading level0 col2"
+data-quarto-table-cell-role="th">Source</th>
+<th id="T_9fbbd_level0_col3" class="col_heading level0 col3"
+data-quarto-table-cell-role="th">Computed With</th>
+<th id="T_9fbbd_level0_col4" class="col_heading level0 col4"
+data-quarto-table-cell-role="th">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="T_9fbbd_row0_col0" class="data row0 col0">id</td>
+<td id="T_9fbbd_row0_col1" class="data row0 col1">Required[UUID]</td>
+<td id="T_9fbbd_row0_col2" class="data row0 col2">videos</td>
+<td id="T_9fbbd_row0_col3" class="data row0 col3">uuid7()</td>
+<td id="T_9fbbd_row0_col4" class="data row0 col4"></td>
+</tr>
+<tr>
+<td id="T_9fbbd_row1_col0" class="data row1 col0">video</td>
+<td id="T_9fbbd_row1_col1" class="data row1 col1">Video</td>
+<td id="T_9fbbd_row1_col2" class="data row1 col2">videos</td>
+<td id="T_9fbbd_row1_col3" class="data row1 col3"></td>
+<td id="T_9fbbd_row1_col4" class="data row1 col4"></td>
+</tr>
+<tr>
+<td id="T_9fbbd_row2_col0" class="data row2 col0">title</td>
+<td id="T_9fbbd_row2_col1" class="data row2 col1">String</td>
+<td id="T_9fbbd_row2_col2" class="data row2 col2">videos</td>
+<td id="T_9fbbd_row2_col3" class="data row2 col3"></td>
+<td id="T_9fbbd_row2_col4" class="data row2 col4"></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Bangkok Street Tour</td>
+<td style="vertical-align: middle;">The video is a static, high-angle shot overlooking a busy multi-lane
+city street in what appears to be Bangkok, Thailand, indicated by the
+presence of tuk-tuks and brightly colored taxis. The scene captures the
+constant flow of traffic throughout the entire clip. In the foreground
+on the left, a blue hatchback and a traditional three-wheeled tuk-tuk
+with a pink delivery bag on its back are either stationary or moving
+very slowly. Throughout the video, various vehicles, including white
+sedan ...... owards it. On the left side of the street, large
+multi-story buildings feature several prominent billboards, one of which
+displays a woman’s face. On the right, a row of trees lines the
+sidewalk, behind which several large, white-roofed structures with pink
+accents are visible. In the background, a pedestrian overpass crosses
+the busy road, and taller city buildings can be seen in the distance
+under a bright, overcast sky. The overall atmosphere is one of a
+typical, bustling urban afternoon.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">The Pursuit of Happiness</td>
+<td style="vertical-align: middle;">In this clip from the movie "The Pursuit of Happyness," Chris
+Gardner (played by Will Smith) has just finished an interview for a
+competitive internship at a brokerage firm. Despite his disheveled
+appearance—wearing a grey work jacket and looking tired—he is approached
+by Jay Twistle, a senior manager at the firm. **Detailed Scene
+Breakdown:** * **The Approach:** The scene opens with Chris looking
+down, appearing stressed or emotional. A voice calls out "Chris...", and
+he turns to see Mr. ...... u soon." He gives Chris a friendly pat on the
+shoulder before walking away. * **Gardner's Reaction:** Chris is left
+standing in the hallway, a look of immense relief and quiet triumph
+washing over his face. The scene highlights a pivotal moment where his
+intelligence and determination overcame his difficult circumstances. The
+video features the "Binge Society" logo in the top left corner and
+copyright information at the bottom for Columbia Pictures Industries,
+Inc. and GH One LLC from 2006.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">description</th>
+<th data-quarto-table-cell-role="th">similarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">The Pursuit of Happiness</td>
+<td style="vertical-align: middle;">In this clip from the movie "The Pursuit of Happyness," Chris
+Gardner (played by Will Smith) has just finished an interview for a
+competitive internship at a brokerage firm. Despite his disheveled
+appearance—wearing a grey work jacket and looking tired—he is approached
+by Jay Twistle, a senior manager at the firm. **Detailed Scene
+Breakdown:** * **The Approach:** The scene opens with Chris looking
+down, appearing stressed or emotional. A voice calls out "Chris...", and
+he turns to see Mr. ...... u soon." He gives Chris a friendly pat on the
+shoulder before walking away. * **Gardner's Reaction:** Chris is left
+standing in the hallway, a look of immense relief and quiet triumph
+washing over his face. The scene highlights a pivotal moment where his
+intelligence and determination overcame his difficult circumstances. The
+video features the "Binge Society" logo in the top left corner and
+copyright information at the bottom for Columbia Pictures Industries,
+Inc. and GH One LLC from 2006.</td>
+<td style="vertical-align: middle;">0.449</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Bangkok Street Tour</td>
+<td style="vertical-align: middle;">The video is a static, high-angle shot overlooking a busy multi-lane
+city street in what appears to be Bangkok, Thailand, indicated by the
+presence of tuk-tuks and brightly colored taxis. The scene captures the
+constant flow of traffic throughout the entire clip. In the foreground
+on the left, a blue hatchback and a traditional three-wheeled tuk-tuk
+with a pink delivery bag on its back are either stationary or moving
+very slowly. Throughout the video, various vehicles, including white
+sedan ...... owards it. On the left side of the street, large
+multi-story buildings feature several prominent billboards, one of which
+displays a woman’s face. On the right, a row of trees lines the
+sidewalk, behind which several large, white-roofed structures with pink
+accents are visible. In the background, a pedestrian overpass crosses
+the busy road, and taller city buildings can be seen in the distance
+under a bright, overcast sky. The overall atmosphere is one of a
+typical, bustling urban afternoon.</td>
+<td style="vertical-align: middle;">0.132</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">annotated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Bangkok Street Tour</td>
+<td style="vertical-align: middle;"><div class="pxt_image" style="width:240px;">
+<img
+src="data:image/webp;base64,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"
+width="240" />
+</div></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">The Pursuit of Happiness</td>
+<td style="vertical-align: middle;"><div class="pxt_image" style="width:240px;">
+<img
+src="data:image/webp;base64,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"
+width="240" />
+</div></td>
+</tr>
+</tbody>
+</table>
+`,`<style type="text/css">
+#T_6179f_row0_col0 {
+  white-space: pre-wrap;
+  text-align: left;
+  font-weight: bold;
+}
+</style>
+`,`
+<table id="T_6179f" data-quarto-postprocess="true">
+<tbody>
+<tr>
+<td id="T_6179f_row0_col0" class="data row0 col0">table
+'demo/videos'</td>
+</tr>
+</tbody>
+</table>
+`,`
+<style type="text/css">
+#T_34212 th {
+  text-align: left;
+  border-bottom: 2px solid #666;
+}
+#T_34212_row0_col0, #T_34212_row0_col1, #T_34212_row0_col2, #T_34212_row0_col3, #T_34212_row0_col4, #T_34212_row1_col0, #T_34212_row1_col1, #T_34212_row1_col2, #T_34212_row1_col3, #T_34212_row1_col4, #T_34212_row2_col0, #T_34212_row2_col1, #T_34212_row2_col2, #T_34212_row2_col3, #T_34212_row2_col4, #T_34212_row3_col0, #T_34212_row3_col1, #T_34212_row3_col2, #T_34212_row3_col3, #T_34212_row3_col4, #T_34212_row4_col0, #T_34212_row4_col1, #T_34212_row4_col2, #T_34212_row4_col3, #T_34212_row4_col4 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+</style>
+`,`
+<table id="T_34212" data-quarto-postprocess="true">
+<thead>
+<tr>
+<th id="T_34212_level0_col0" class="col_heading level0 col0"
+data-quarto-table-cell-role="th">Column Name</th>
+<th id="T_34212_level0_col1" class="col_heading level0 col1"
+data-quarto-table-cell-role="th">Type</th>
+<th id="T_34212_level0_col2" class="col_heading level0 col2"
+data-quarto-table-cell-role="th">Source</th>
+<th id="T_34212_level0_col3" class="col_heading level0 col3"
+data-quarto-table-cell-role="th">Computed With</th>
+<th id="T_34212_level0_col4" class="col_heading level0 col4"
+data-quarto-table-cell-role="th">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="T_34212_row0_col0" class="data row0 col0">id</td>
+<td id="T_34212_row0_col1" class="data row0 col1">Required[UUID]</td>
+<td id="T_34212_row0_col2" class="data row0 col2">videos</td>
+<td id="T_34212_row0_col3" class="data row0 col3">uuid7()</td>
+<td id="T_34212_row0_col4" class="data row0 col4"></td>
+</tr>
+<tr>
+<td id="T_34212_row1_col0" class="data row1 col0">video</td>
+<td id="T_34212_row1_col1" class="data row1 col1">Video</td>
+<td id="T_34212_row1_col2" class="data row1 col2">videos</td>
+<td id="T_34212_row1_col3" class="data row1 col3"></td>
+<td id="T_34212_row1_col4" class="data row1 col4"></td>
+</tr>
+<tr>
+<td id="T_34212_row2_col0" class="data row2 col0">title</td>
+<td id="T_34212_row2_col1" class="data row2 col1">String</td>
+<td id="T_34212_row2_col2" class="data row2 col2">videos</td>
+<td id="T_34212_row2_col3" class="data row2 col3"></td>
+<td id="T_34212_row2_col4" class="data row2 col4"></td>
+</tr>
+<tr>
+<td id="T_34212_row3_col0" class="data row3 col0">response</td>
+<td id="T_34212_row3_col1" class="data row3 col1">Required[Json]</td>
+<td id="T_34212_row3_col2" class="data row3 col2">videos</td>
+<td id="T_34212_row3_col3"
+class="data row3 col3">generate_content([video, 'Describe this video in
+detail.'], model='gemini-3-flash-preview')</td>
+<td id="T_34212_row3_col4" class="data row3 col4"></td>
+</tr>
+<tr>
+<td id="T_34212_row4_col0" class="data row4 col0">description</td>
+<td id="T_34212_row4_col1" class="data row4 col1">String</td>
+<td id="T_34212_row4_col2" class="data row4 col2">videos</td>
+<td id="T_34212_row4_col3"
+class="data row4 col3">response.candidates[0].content.parts[0].text.astype(String)</td>
+<td id="T_34212_row4_col4" class="data row4 col4"></td>
+</tr>
+</tbody>
+</table>
+`,`
+<style type="text/css">
+#T_e60aa th {
+  text-align: left;
+  border-bottom: 2px solid #666;
+}
+#T_e60aa_row0_col0, #T_e60aa_row0_col1, #T_e60aa_row0_col2, #T_e60aa_row0_col3 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+</style>
+`,`
+<table id="T_e60aa" data-quarto-postprocess="true">
+<thead>
+<tr>
+<th id="T_e60aa_level0_col0" class="col_heading level0 col0"
+data-quarto-table-cell-role="th">Index Name</th>
+<th id="T_e60aa_level0_col1" class="col_heading level0 col1"
+data-quarto-table-cell-role="th">Column</th>
+<th id="T_e60aa_level0_col2" class="col_heading level0 col2"
+data-quarto-table-cell-role="th">Metric</th>
+<th id="T_e60aa_level0_col3" class="col_heading level0 col3"
+data-quarto-table-cell-role="th">Embedding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="T_e60aa_row0_col0" class="data row0 col0">idx4</td>
+<td id="T_e60aa_row0_col1" class="data row0 col1">description</td>
+<td id="T_e60aa_row0_col2" class="data row0 col2">cosine</td>
+<td id="T_e60aa_row0_col3"
+class="data row0 col3">embed_content(description,
+model='gemini-embedding-2-preview', config=None)</td>
+</tr>
+</tbody>
+</table>
+`,`<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">version</th>
+<th data-quarto-table-cell-role="th">created_at</th>
+<th data-quarto-table-cell-role="th">user</th>
+<th data-quarto-table-cell-role="th">change_type</th>
+<th data-quarto-table-cell-role="th">inserts</th>
+<th data-quarto-table-cell-role="th">updates</th>
+<th data-quarto-table-cell-role="th">deletes</th>
+<th data-quarto-table-cell-role="th">errors</th>
+<th data-quarto-table-cell-role="th">schema_change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">2026-05-07 18:59:22.949188+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">data</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">2026-05-07 18:59:22.900838+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">data</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">None</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">2</td>
+<td style="vertical-align: middle;">2026-05-07 18:59:22.857320+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">schema</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">Added: description</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">3</td>
+<td style="vertical-align: middle;">1</td>
+<td style="vertical-align: middle;">2026-05-07 18:59:22.848174+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">schema</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">Added: response</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">4</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">2026-05-07 18:59:22.794381+00:00</td>
+<td style="vertical-align: middle;">None</td>
+<td style="vertical-align: middle;">schema</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">0</td>
+<td style="vertical-align: middle;">Initial Version</td>
+</tr>
+</tbody>
+</table>
+`,`
+</div>`,`<style type="text/css">
+#T_c118e_row0_col0 {
+  white-space: pre-wrap;
+  text-align: left;
+  font-weight: bold;
+}
+</style>
+`,`
+<table id="T_c118e" data-quarto-postprocess="true">
+<tbody>
+<tr>
+<td id="T_c118e_row0_col0" class="data row0 col0">table
+'demo/agent'</td>
+</tr>
+</tbody>
+</table>
+`,`
+<style type="text/css">
+#T_852cb th {
+  text-align: left;
+  border-bottom: 2px solid #666;
+}
+#T_852cb_row0_col0, #T_852cb_row0_col1, #T_852cb_row0_col2, #T_852cb_row0_col3, #T_852cb_row0_col4, #T_852cb_row1_col0, #T_852cb_row1_col1, #T_852cb_row1_col2, #T_852cb_row1_col3, #T_852cb_row1_col4, #T_852cb_row2_col0, #T_852cb_row2_col1, #T_852cb_row2_col2, #T_852cb_row2_col3, #T_852cb_row2_col4, #T_852cb_row3_col0, #T_852cb_row3_col1, #T_852cb_row3_col2, #T_852cb_row3_col3, #T_852cb_row3_col4, #T_852cb_row4_col0, #T_852cb_row4_col1, #T_852cb_row4_col2, #T_852cb_row4_col3, #T_852cb_row4_col4 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+</style>
+`,`
+<table id="T_852cb" data-quarto-postprocess="true">
+<thead>
+<tr>
+<th id="T_852cb_level0_col0" class="col_heading level0 col0"
+data-quarto-table-cell-role="th">Column Name</th>
+<th id="T_852cb_level0_col1" class="col_heading level0 col1"
+data-quarto-table-cell-role="th">Type</th>
+<th id="T_852cb_level0_col2" class="col_heading level0 col2"
+data-quarto-table-cell-role="th">Source</th>
+<th id="T_852cb_level0_col3" class="col_heading level0 col3"
+data-quarto-table-cell-role="th">Computed With</th>
+<th id="T_852cb_level0_col4" class="col_heading level0 col4"
+data-quarto-table-cell-role="th">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="T_852cb_row0_col0" class="data row0 col0">prompt</td>
+<td id="T_852cb_row0_col1" class="data row0 col1">String</td>
+<td id="T_852cb_row0_col2" class="data row0 col2">agent</td>
+<td id="T_852cb_row0_col3" class="data row0 col3"></td>
+<td id="T_852cb_row0_col4" class="data row0 col4"></td>
+</tr>
+<tr>
+<td id="T_852cb_row1_col0" class="data row1 col0">system_prompt</td>
+<td id="T_852cb_row1_col1" class="data row1 col1">String</td>
+<td id="T_852cb_row1_col2" class="data row1 col2">agent</td>
+<td id="T_852cb_row1_col3" class="data row1 col3"></td>
+<td id="T_852cb_row1_col4" class="data row1 col4"></td>
+</tr>
+<tr>
+<td id="T_852cb_row2_col0" class="data row2 col0">initial_response</td>
+<td id="T_852cb_row2_col1" class="data row2 col1">Required[Json]</td>
+<td id="T_852cb_row2_col2" class="data row2 col2">agent</td>
+<td id="T_852cb_row2_col3"
+class="data row2 col3">messages(model='claude-sonnet-4-20250514',
+messages=[{'role': 'user', 'content': prompt}], tools=[{'name':
+'search_videos', 'description': None, 'parameters': {'type': 'object',
+'properties': {'query_text': {'type': 'string'}, 'limit': {'type':
+'integer'}}}, 'required': ['query_text', 'limit'],
+'additionalProperties': False}], tool_choice={'auto': False, 'required':
+True, 'tool': None, 'parallel_tool_calls': True}, max_tokens=4096)</td>
+<td id="T_852cb_row2_col4" class="data row2 col4"></td>
+</tr>
+<tr>
+<td id="T_852cb_row3_col0" class="data row3 col0">tool_output</td>
+<td id="T_852cb_row3_col1"
+class="data row3 col1">Required[Json[{'search_videos': Json}]]</td>
+<td id="T_852cb_row3_col2" class="data row3 col2">agent</td>
+<td id="T_852cb_row3_col3" class="data row3 col3">{'search_videos':
+map(_anthropic_response_to_pxt_tool_calls(initial_response).search_videos[*],
+lambda R:
+search_videos(query_text=_extract_str_tool_arg(ObjectRef(JsonMapperDispatch(),
+2519910325342871032, 221275831444018227).args, param_name='query_text'),
+limit=_extract_int_tool_arg(ObjectRef(JsonMapperDispatch(),
+2519910325342871032, 221275831444018227).args,
+param_name='limit')))}</td>
+<td id="T_852cb_row3_col4" class="data row3 col4"></td>
+</tr>
+<tr>
+<td id="T_852cb_row4_col0" class="data row4 col0">response</td>
+<td id="T_852cb_row4_col1" class="data row4 col1">Required[Json]</td>
+<td id="T_852cb_row4_col2" class="data row4 col2">agent</td>
+<td id="T_852cb_row4_col3"
+class="data row4 col3">messages(model='claude-sonnet-4-20250514',
+messages=[{'role': 'user', 'content': prompt}], tools=[{'name':
+'search_videos', 'description': None, 'parameters': {'type': 'object',
+'properties': {'query_text': {'type': 'string'}, 'limit': {'type':
+'integer'}}}, 'required': ['query_text', 'limit'],
+'additionalProperties': False}], tool_choice={'auto': False, 'required':
+True, 'tool': None, 'parallel_tool_calls': True}, max_tokens=4096)</td>
+<td id="T_852cb_row4_col4" class="data row4 col4"></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Primitive</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><strong>Store</strong></td>
+<td style="vertical-align: middle;"><code>Image</code>, <code>Video</code>, <code>Audio</code>,
+<code>Document</code> column types</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Orchestrate</strong></td>
+<td style="vertical-align: middle;">AI providers as computed columns</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Iterate</strong></td>
+<td style="vertical-align: middle;">Views with iterators (frames, chunks, segments)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Index</strong></td>
+<td style="vertical-align: middle;">Embedding indexes, always in sync</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Extend</strong></td>
+<td style="vertical-align: middle;"><code>@pxt.udf</code>, any Python library</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Agents</strong></td>
+<td style="vertical-align: middle;"><code>@pxt.tools</code> + <code>invoke_tools()</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Query</strong></td>
+<td style="vertical-align: middle;"><code>.sample()</code>, <code>.select()</code>, on-the-fly
+expressions</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Serve</strong></td>
+<td style="vertical-align: middle;"><code>FastAPIRouter</code> or <code>pxt serve</code></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Version</strong></td>
+<td style="vertical-align: middle;"><code>history()</code>, <code>revert()</code>, time-travel</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><strong>Import/Export</strong></td>
+<td style="vertical-align: middle;">CSV, JSON, Parquet, PyTorch, COCO, LanceDB, SQL, HuggingFace</td>
+</tr>
+</tbody>
+</table>
+`];
+
+### Why Pixeltable
+
+Every multimodal AI app needs the same five things: store media, run
+models, index embeddings, serve endpoints, version everything. Most
+teams glue together 5-8 services (Postgres + Pinecone + S3 + Airflow +
+LangChain + …) and spend more time on infrastructure than on the
+product.
+
+**Pixeltable is a single system that handles all five.** One
+`pip install`, one Python API, one place to store, transform, index,
+retrieve, serve, version, observe, and debug.
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+**For developers and vibe coders:** Pixeltable’s declarative API means
+AI assistants generate correct, production-grade code. No glue logic, no
+orchestrator configs, no serialization code. Experimenting on multimodal
+data (extract a frame, run a model, draw bounding boxes) is one
+expression, not a pipeline. Install the [Pixeltable
+Skill](https://github.com/pixeltable/pixeltable-skill) and prompt.
+
+**For teams evaluating infrastructure:** Transaction integrity, async
+execution, parallelization, caching, retries, and observability are
+built in. One system to operate, monitor, and maintain. Schema changes
+are one line. Model upgrades are zero-downtime.
+
+Extensible via `@pxt.udf`, `@pxt.uda`, `@pxt.query`. [20+ AI
+providers](/integrations/frameworks) built
+in. [Skill](https://github.com/pixeltable/pixeltable-skill) \| [MCP
+Server](https://github.com/pixeltable/mcp-server-pixeltable-developer)
+\| [Starter Kit](https://github.com/pixeltable/pixeltable-starter-kit)
+\| `llms.txt`: docs.pixeltable.com/llms.txt
+
+
+```python
+%pip install -qU pixeltable google-genai 'fastapi[standard]'
+%pip install -qU torch torchvision transformers  # optional, for object detection
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
+Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
+</pre>
+
+
+```python
+import getpass
+import logging
+import os
+import warnings
+
+warnings.filterwarnings('ignore')
+logging.getLogger('asyncio').setLevel(logging.CRITICAL)
+logging.getLogger('huggingface_hub').setLevel(logging.CRITICAL)
+
+if (
+    'GEMINI_API_KEY' not in os.environ
+    and 'GOOGLE_API_KEY' not in os.environ
+):
+    os.environ['GEMINI_API_KEY'] = getpass.getpass('Gemini API Key: ')
+
+import pixeltable as pxt
+from pixeltable.functions import gemini
+
+BASE_URL = 'https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources'
+```
+
+## 1. Store: Multimodal Tables {#store-multimodal-tables}
+
+Video, audio, images, and documents are first-class column types.
+`pip install pixeltable` is all you need.
+
+
+```python
+from pixeltable.functions.uuid import uuid7
+
+pxt.drop_dir('demo', force=True, if_not_exists='ignore')
+pxt.create_dir('demo')
+
+videos = pxt.create_table(
+    'demo/videos',
+    {'id': uuid7(), 'video': pxt.Video, 'title': pxt.String},
+    primary_key='id',
+)
+videos
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;demo&#x27;.
+Created&nbsp;table&nbsp;&#x27;videos&#x27;.
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+## 2. Orchestrate: AI as Computed Columns {#orchestrate-ai-as-computed-columns}
+
+Add a computed column; Pixeltable calls Gemini on every insert, caches
+results, retries failures, keeps embeddings in sync.
+
+
+```python
+videos.add_computed_column(
+    response=gemini.generate_content(
+        [videos.video, 'Describe this video in detail.'],
+        model='gemini-3-flash-preview',
+    )
+)
+
+videos.add_computed_column(
+    description=videos.response.candidates[0]
+    .content.parts[0]
+    .text.astype(pxt.String)
+)
+
+videos.add_embedding_index(
+    'description',
+    embedding=gemini.embed_content.using(
+        model='gemini-embedding-2-preview'
+    ),
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.03&nbsp;s
+</pre>
+
+## 3. Insert: One Call Triggers the Full Pipeline {#insert-one-call-triggers-the-full-pipeline}
+
+`insert()` downloads videos, runs Gemini, extracts text, computes
+embeddings. Open the **Dashboard** to watch in real time.
+
+
+```python
+videos.insert(
+    [
+        {
+            'video': f'{BASE_URL}/bangkok.mp4',
+            'title': 'Bangkok Street Tour',
+        },
+        {
+            'video': f'{BASE_URL}/The-Pursuit-of-Happiness-Video-Extract.mp4',
+            'title': 'The Pursuit of Happiness',
+        },
+    ]
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;22.85&nbsp;s&nbsp;(0.09&nbsp;rows/s)
+2&nbsp;rows&nbsp;inserted.
+</pre>
+
+
+```python
+videos = pxt.get_table('demo/videos')
+videos.select(videos.title, videos.description).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+## 4. Retrieve: Semantic Search {#retrieve-semantic-search}
+
+Embedding index stays in sync automatically. No separate vector DB.
+
+
+```python
+sim = videos.description.similarity(string='street food')
+
+# Filter + rank in one expression
+videos.where(videos.description != None).order_by(sim, asc=False).limit(
+    5
+).select(videos.title, videos.description, sim).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+
+## 5. Experiment on Media Data {#experiment-on-media-data}
+
+Extract a frame, run DETR object detection, draw bounding boxes, all in
+one expression. Change `timestamp` and re-run to explore different
+frames.
+
+
+```python
+from pixeltable.functions import huggingface
+from pixeltable.functions.vision import bboxes_draw
+
+frame = videos.video.extract_frame(timestamp=2.0)
+detections = huggingface.detr_for_object_detection(
+    frame, model_id='facebook/detr-resnet-50'
+)
+
+videos.select(
+    videos.title,
+    annotated=bboxes_draw(
+        frame,
+        boxes=detections.boxes,
+        labels=detections.label_text,
+        fill=True,
+        fill_alpha=0.15,
+        width=2,
+        font_size=14,
+    ),
+).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
+
+
+```python
+videos.describe()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[8] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[9] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[10] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[11] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[12] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[13] }} />
+
+## 6. Serve: Queries Become API Endpoints {#serve-queries-become-api-endpoints}
+
+`@pxt.query` becomes an HTTP endpoint via `FastAPIRouter`. In
+production, use `pxt serve service.toml`. See [HTTP
+Serving](/howto/deployment/serving).
+
+
+```python
+import fastapi
+from fastapi.testclient import TestClient
+from pixeltable.serving import FastAPIRouter
+
+
+@pxt.query
+def search_videos(query_text: str, limit: int = 5):
+    sim = videos.description.similarity(string=query_text)
+    return (
+        videos.order_by(sim, asc=False)
+        .limit(limit)
+        .select(videos.title, videos.description, sim)
+    )
+
+
+app = fastapi.FastAPI()
+router = FastAPIRouter()
+router.add_query_route(path='/search', query=search_videos)
+router.add_insert_route(
+    videos,
+    path='/ingest',
+    inputs=['video', 'title'],
+    outputs=['id', 'title', 'description'],
+)
+router.add_delete_route(videos, path='/delete')
+app.include_router(router)
+
+client = TestClient(app)
+```
+
+
+```python
+resp = client.post(
+    '/search', json={'query_text': 'street food', 'limit': 2}
+)
+resp.json()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+\{&#x27;rows&#x27;:&nbsp;\[\{&#x27;title&#x27;:&nbsp;&#x27;The&nbsp;Pursuit&nbsp;of&nbsp;Happiness&#x27;,
+&nbsp;&nbsp;&nbsp;&#x27;description&#x27;:&nbsp;&#x27;In&nbsp;this&nbsp;clip&nbsp;from&nbsp;the&nbsp;movie&nbsp;&quot;The&nbsp;Pursuit&nbsp;of&nbsp;Happyness,&quot;&nbsp;Chris&nbsp;Gardner&nbsp;(played&nbsp;by&nbsp;Will&nbsp;Smith)&nbsp;has&nbsp;just&nbsp;finished&nbsp;an&nbsp;interview&nbsp;for&nbsp;a&nbsp;competitive&nbsp;internship&nbsp;at&nbsp;a&nbsp;brokerage&nbsp;firm.&nbsp;Despite&nbsp;his&nbsp;disheveled&nbsp;appearance—wearing&nbsp;a&nbsp;grey&nbsp;work&nbsp;jacket&nbsp;and&nbsp;looking&nbsp;tired—he&nbsp;is&nbsp;approached&nbsp;by&nbsp;Jay&nbsp;Twistle,&nbsp;a&nbsp;senior&nbsp;manager&nbsp;at&nbsp;the&nbsp;firm.\n\n**Detailed&nbsp;Scene&nbsp;Breakdown:**\n\n*&nbsp;**The&nbsp;Approach:**&nbsp;The&nbsp;scene&nbsp;opens&nbsp;with&nbsp;Chris&nbsp;looking&nbsp;down,&nbsp;appearing&nbsp;stressed&nbsp;or&nbsp;emotional.&nbsp;A&nbsp;voice&nbsp;calls&nbsp;out&nbsp;&quot;Chris...&quot;,&nbsp;and&nbsp;he&nbsp;turns&nbsp;to&nbsp;see&nbsp;Mr.&nbsp;Twistle&nbsp;walking&nbsp;toward&nbsp;him&nbsp;with&nbsp;a&nbsp;wide,&nbsp;congratulatory&nbsp;smile.&nbsp;They&nbsp;are&nbsp;in&nbsp;a&nbsp;professional&nbsp;office&nbsp;lobby&nbsp;with&nbsp;people&nbsp;moving&nbsp;in&nbsp;the&nbsp;background&nbsp;and&nbsp;a&nbsp;reception&nbsp;desk&nbsp;visible.\n*&nbsp;**The&nbsp;Interaction:**&nbsp;Mr.&nbsp;Twistle&nbsp;expresses&nbsp;his&nbsp;admiration,&nbsp;saying,&nbsp;&quot;I&nbsp;don\&#x27;t&nbsp;know&nbsp;how&nbsp;you&nbsp;did&nbsp;it&nbsp;dressed&nbsp;as&nbsp;a&nbsp;garbage&nbsp;man,&nbsp;but&nbsp;you&nbsp;really&nbsp;pulled&nbsp;it&nbsp;off&nbsp;in&nbsp;there.&quot;&nbsp;This&nbsp;refers&nbsp;to&nbsp;Chris\&#x27;s&nbsp;impressive&nbsp;performance&nbsp;during&nbsp;the&nbsp;interview&nbsp;despite&nbsp;his&nbsp;unconventional&nbsp;attire&nbsp;(having&nbsp;come&nbsp;straight&nbsp;from&nbsp;a&nbsp;night&nbsp;in&nbsp;a&nbsp;jail&nbsp;cell&nbsp;due&nbsp;to&nbsp;unpaid&nbsp;parking&nbsp;tickets).\n*&nbsp;**Building&nbsp;Rapport:**&nbsp;Chris&nbsp;politely&nbsp;thanks&nbsp;him,&nbsp;addressing&nbsp;him&nbsp;as&nbsp;&quot;Mr.&nbsp;Twistle.&quot;&nbsp;In&nbsp;a&nbsp;sign&nbsp;of&nbsp;newfound&nbsp;respect&nbsp;and&nbsp;a&nbsp;positive&nbsp;result,&nbsp;Twistle&nbsp;insists,&nbsp;&quot;Hey,&nbsp;now&nbsp;you&nbsp;can&nbsp;call&nbsp;me&nbsp;Jay.&nbsp;We\&#x27;ll&nbsp;talk&nbsp;to&nbsp;you&nbsp;soon.&quot;&nbsp;He&nbsp;gives&nbsp;Chris&nbsp;a&nbsp;friendly&nbsp;pat&nbsp;on&nbsp;the&nbsp;shoulder&nbsp;before&nbsp;walking&nbsp;away.\n*&nbsp;**Gardner\&#x27;s&nbsp;Reaction:**&nbsp;Chris&nbsp;is&nbsp;left&nbsp;standing&nbsp;in&nbsp;the&nbsp;hallway,&nbsp;a&nbsp;look&nbsp;of&nbsp;immense&nbsp;relief&nbsp;and&nbsp;quiet&nbsp;triumph&nbsp;washing&nbsp;over&nbsp;his&nbsp;face.&nbsp;The&nbsp;scene&nbsp;highlights&nbsp;a&nbsp;pivotal&nbsp;moment&nbsp;where&nbsp;his&nbsp;intelligence&nbsp;and&nbsp;determination&nbsp;overcame&nbsp;his&nbsp;difficult&nbsp;circumstances.\n\nThe&nbsp;video&nbsp;features&nbsp;the&nbsp;&quot;Binge&nbsp;Society&quot;&nbsp;logo&nbsp;in&nbsp;the&nbsp;top&nbsp;left&nbsp;corner&nbsp;and&nbsp;copyright&nbsp;information&nbsp;at&nbsp;the&nbsp;bottom&nbsp;for&nbsp;Columbia&nbsp;Pictures&nbsp;Industries,&nbsp;Inc.&nbsp;and&nbsp;GH&nbsp;One&nbsp;LLC&nbsp;from&nbsp;2006.&#x27;,
+&nbsp;&nbsp;&nbsp;&#x27;similarity&#x27;:&nbsp;0.4487778141613705\},
+&nbsp;&nbsp;\{&#x27;title&#x27;:&nbsp;&#x27;Bangkok&nbsp;Street&nbsp;Tour&#x27;,
+&nbsp;&nbsp;&nbsp;&#x27;description&#x27;:&nbsp;&quot;The&nbsp;video&nbsp;is&nbsp;a&nbsp;static,&nbsp;high-angle&nbsp;shot&nbsp;overlooking&nbsp;a&nbsp;busy&nbsp;multi-lane&nbsp;city&nbsp;street&nbsp;in&nbsp;what&nbsp;appears&nbsp;to&nbsp;be&nbsp;Bangkok,&nbsp;Thailand,&nbsp;indicated&nbsp;by&nbsp;the&nbsp;presence&nbsp;of&nbsp;tuk-tuks&nbsp;and&nbsp;brightly&nbsp;colored&nbsp;taxis.&nbsp;The&nbsp;scene&nbsp;captures&nbsp;the&nbsp;constant&nbsp;flow&nbsp;of&nbsp;traffic&nbsp;throughout&nbsp;the&nbsp;entire&nbsp;clip.\n\nIn&nbsp;the&nbsp;foreground&nbsp;on&nbsp;the&nbsp;left,&nbsp;a&nbsp;blue&nbsp;hatchback&nbsp;and&nbsp;a&nbsp;traditional&nbsp;three-wheeled&nbsp;tuk-tuk&nbsp;with&nbsp;a&nbsp;pink&nbsp;delivery&nbsp;bag&nbsp;on&nbsp;its&nbsp;back&nbsp;are&nbsp;either&nbsp;stationary&nbsp;or&nbsp;moving&nbsp;very&nbsp;slowly.&nbsp;Throughout&nbsp;the&nbsp;video,&nbsp;various&nbsp;vehicles,&nbsp;including&nbsp;white&nbsp;sedans,&nbsp;silver&nbsp;SUVs,&nbsp;motorcycles,&nbsp;and&nbsp;the&nbsp;city&#x27;s&nbsp;signature&nbsp;pink&nbsp;and&nbsp;green-yellow&nbsp;taxis,&nbsp;navigate&nbsp;the&nbsp;lanes.&nbsp;\n\nThe&nbsp;road&nbsp;is&nbsp;divided&nbsp;by&nbsp;a&nbsp;narrow&nbsp;median&nbsp;with&nbsp;small&nbsp;green&nbsp;bushes.&nbsp;Traffic&nbsp;moves&nbsp;in&nbsp;both&nbsp;directions,&nbsp;with&nbsp;vehicles&nbsp;heading&nbsp;away&nbsp;from&nbsp;the&nbsp;camera&nbsp;and&nbsp;towards&nbsp;it.&nbsp;On&nbsp;the&nbsp;left&nbsp;side&nbsp;of&nbsp;the&nbsp;street,&nbsp;large&nbsp;multi-story&nbsp;buildings&nbsp;feature&nbsp;several&nbsp;prominent&nbsp;billboards,&nbsp;one&nbsp;of&nbsp;which&nbsp;displays&nbsp;a&nbsp;woman’s&nbsp;face.&nbsp;On&nbsp;the&nbsp;right,&nbsp;a&nbsp;row&nbsp;of&nbsp;trees&nbsp;lines&nbsp;the&nbsp;sidewalk,&nbsp;behind&nbsp;which&nbsp;several&nbsp;large,&nbsp;white-roofed&nbsp;structures&nbsp;with&nbsp;pink&nbsp;accents&nbsp;are&nbsp;visible.&nbsp;In&nbsp;the&nbsp;background,&nbsp;a&nbsp;pedestrian&nbsp;overpass&nbsp;crosses&nbsp;the&nbsp;busy&nbsp;road,&nbsp;and&nbsp;taller&nbsp;city&nbsp;buildings&nbsp;can&nbsp;be&nbsp;seen&nbsp;in&nbsp;the&nbsp;distance&nbsp;under&nbsp;a&nbsp;bright,&nbsp;overcast&nbsp;sky.&nbsp;The&nbsp;overall&nbsp;atmosphere&nbsp;is&nbsp;one&nbsp;of&nbsp;a&nbsp;typical,&nbsp;bustling&nbsp;urban&nbsp;afternoon.&quot;,
+&nbsp;&nbsp;&nbsp;&#x27;similarity&#x27;:&nbsp;0.13178936719516832\}\]\}
+</pre>
+
+## 7. Version: Automatic History {#version-automatic-history}
+
+Every insert, update, and delete is versioned. `history()` returns the
+full changelog.
+
+
+```python
+videos.history()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[14] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[15] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[16] }} />
+
+## 8. Agents: Tool Calling and Memory as Computed Columns {#agents-tool-calling-and-memory-as-computed-columns}
+
+An agent is just more computed columns. Define tools from `@pxt.query`
+functions, wire tool calling and context assembly as a chain of columns,
+and every insert triggers the full reasoning pipeline. Memory is a table
+with an embedding index.
+
+This pattern scales to production. See the [Starter
+Kit](https://github.com/pixeltable/pixeltable-starter-kit) for a
+complete implementation with documents, images, video, and cross-modal
+search.
+
+
+```python
+from pixeltable.functions.anthropic import invoke_tools, messages
+
+# 1. Define tools from existing @pxt.query functions
+tools = pxt.tools(search_videos)
+
+# 2. Memory: chat history with embedding index
+chat = pxt.create_table(
+    'demo/chat',
+    {
+        'role': pxt.String,
+        'content': pxt.String,
+        'conversation_id': pxt.String,
+    },
+    if_exists='ignore',
+)
+chat.add_embedding_index(
+    'content',
+    string_embed=gemini.embed_content.using(
+        model='gemini-embedding-2-preview'
+    ),
+    if_exists='ignore',
+)
+
+# 3. Agent pipeline: each step is a computed column
+agent = pxt.create_table(
+    'demo/agent', {'prompt': pxt.String}, if_exists='ignore'
+)
+
+# Step 1: LLM decides which tools to call
+agent.add_computed_column(
+    response=messages(
+        model='claude-sonnet-4-20250514',
+        messages=[{'role': 'user', 'content': agent.prompt}],
+        tools=tools,
+        tool_choice=tools.choice(required=True),
+        max_tokens=4096,
+    ),
+    if_exists='ignore',
+)
+
+# Step 2: Pixeltable executes the tool calls (runs search_videos)
+agent.add_computed_column(
+    tool_output=invoke_tools(tools, agent.response), if_exists='ignore'
+)
+
+# In production, add more steps: assemble context, call LLM again with results.
+# See the Starter Kit for the full multi-step agent pipeline.
+agent.describe()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
+Created&nbsp;table&nbsp;&#x27;agent&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[17] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[18] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[19] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[20] }} />
+
+## Bonus: Cloud Storage (Optional)
+
+Free managed bucket with Pixeltable Cloud. Set two config values;
+computed media flows to cloud. See [Cloud
+Services](/use-cases/services).
+
+
+```toml
+# ~/.pixeltable/config.toml
+[pixeltable]
+api_key = "your-pixeltable-cloud-api-key"
+output_media_dest = "pxtfs://yourorg:yourdb/home"
+```
+
+## Summary
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[21] }} />
+
+### Links
+
+-   [10-Minute
+    Tour](/overview/ten-minute-tour)
+-   [Starter Kit](https://github.com/pixeltable/pixeltable-starter-kit)
+    (FastAPI + React reference app)
+-   [Cookbooks](/howto/cookbooks) (50+
+    recipes)
+-   [Docs](/)
+-   [GitHub](https://github.com/pixeltable/pixeltable) (Apache 2.0)

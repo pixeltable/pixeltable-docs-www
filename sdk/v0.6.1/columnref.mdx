@@ -1,7 +1,7 @@
 ---
 title: "ColumnRef"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/exprs/column_ref.py#L31\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/exprs/column_ref.py#L32\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 noindex: true
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.exprs.ColumnRef
@@ -9,6 +9,8 @@ noindex: true
 
 A Pixeltable expression that references a column of a table. A `ColumnRef` is created by column access
 on a [`Table`](./table), such as `t.col`.
+
+Not thread-safe.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; embedding()
