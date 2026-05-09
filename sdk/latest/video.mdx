@@ -721,6 +721,181 @@ tbl.select(tbl.video.mirror_y()).collect()
 ```
 
 
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; mix_audio()
+
+```python Signature
+@pxt.udf
+mix_audio(
+    video: pxt.Video,
+    audio: pxt.Audio,
+    *,
+    audio_volume: pxt.Float = 1.0,
+    original_volume: pxt.Float = 1.0,
+    audio_start_time: pxt.Float = 0.0,
+    mix_duration: pxt.String = 'longest',
+    normalize: pxt.Bool = False,
+    dropout_transition: pxt.Float = 2.0,
+    align_to_video: pxt.String = 'trim',
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
+) -> pxt.Video
+```
+
+Mix an audio track into a video's existing audio, blending both tracks together. Volume levels for each track can
+be controlled independently.
+
+__Requirements:__
+- `ffmpeg` needs to be installed and in PATH
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): Input video (must have an existing audio stream).
+- **`audio`** (`pxt.Audio`): Audio track to mix in.
+- **`audio_volume`** (`pxt.Float`): Volume multiplier for the added audio track. 1.0 is original volume.
+- **`original_volume`** (`pxt.Float`): Volume multiplier for the video's existing audio track. 1.0 is original volume.
+- **`audio_start_time`** (`pxt.Float`): Time in seconds at which the added audio begins playing in the output.
+- **`mix_duration`** (`pxt.String`): Controls which input determines the length of the mixed audio stream.
+    - `"longest"`: the mix runs until the longer of the two audio inputs ends. Use
+      this when the added audio (e.g. a music bed) is longer than the video's original audio.
+    - `"first"`: the mix ends when the video's original audio track ends. Useful when the
+      original audio and video streams are the same length.
+    - `"shortest"`: the mix ends when the shorter input ends, truncating whichever track is longer.
+- **`normalize`** (`pxt.Bool`): If `True`, ffmpeg scales the mixed output to prevent clipping by dividing each track's
+    contribution by the number of inputs. Defaults to `False` so that `audio_volume` and
+    `original_volume` mean what they say; flip on if you are not setting volumes explicitly and
+    want automatic clip protection.
+- **`dropout_transition`** (`pxt.Float`): Duration in seconds over which a track's contribution fades to zero after
+    it ends, preventing audible clicks at hard boundaries. Defaults to 2.0 seconds, matching
+    ffmpeg's own default. Set to 0.0 to disable. Relevant whenever one input ends before
+    the mixed output ends, regardless of which `mix_duration` mode is selected.
+- **`align_to_video`** (`pxt.String`): Post-mix adjustment to align the output audio stream with the video stream duration.
+    Applied after `amix`, so it is independent of `mix_duration`.
+
+    - `"trim"`: if the mixed audio is longer than the video stream, truncate it to
+      match. Pairs naturally with `mix_duration="longest"` for music-bed workflows.
+    - `"none"`: no adjustment; output audio duration is whatever `amix` produces.
+    - `"pad"`: if the mixed audio is shorter than the video stream, extend it with silence. Also
+      trims to the video duration if the mix runs long.
+- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder.
+- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder.
+
+**Returns:**
+
+- `pxt.Video`: A new video with both audio tracks mixed together.
+
+**Examples:**
+
+Add background music at 30% volume. With the defaults, this lays the music as a bed under the
+video: `mix_duration="longest"` keeps the music playing past the end of the original audio,
+`align_to_video="trim"` caps the result at the video stream duration, and `normalize=False`
+means the `audio_volume=0.3` setting is taken at face value rather than halved by `amix`:
+
+```python
+tbl.select(tbl.video.mix_audio(tbl.music, audio_volume=0.3)).collect()
+```
+
+Mix audio starting at second 5, with the original audio reduced:
+
+```python
+tbl.select(
+    tbl.video.mix_audio(
+        tbl.music,
+        audio_volume=0.5,
+        original_volume=0.7,
+        audio_start_time=5.0,
+    )
+).collect()
+```
+
+Pad a short ambient track with silence so the audio stream matches the full video length:
+
+```python
+tbl.select(
+    tbl.video.mix_audio(
+        tbl.ambient, audio_volume=0.6, align_to_video='pad'
+    )
+).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; overlay_image()
+
+```python Signature
+@pxt.udf
+overlay_image(
+    video: pxt.Video,
+    image: pxt.Image,
+    *,
+    horizontal_align: pxt.String = 'center',
+    horizontal_margin: pxt.Int = 0,
+    vertical_align: pxt.String = 'center',
+    vertical_margin: pxt.Int = 0,
+    scale: pxt.Float | None = None,
+    opacity: pxt.Float = 1.0,
+    start_time: pxt.Float | None = None,
+    end_time: pxt.Float | None = None,
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
+) -> pxt.Video
+```
+
+Overlay an image on a video with customizable positioning, scaling, opacity, and timing.
+
+__Requirements:__
+
+- `ffmpeg` needs to be installed and in PATH
+
+**Parameters:**
+
+- **`video`** (`pxt.Video`): Input video to overlay the image on.
+- **`image`** (`pxt.Image`): Image to overlay.
+- **`horizontal_align`** (`pxt.String`): Horizontal alignment of the overlay (`'left'`, `'center'`, `'right'`).
+- **`horizontal_margin`** (`pxt.Int`): Horizontal margin in pixels from the alignment edge.
+- **`vertical_align`** (`pxt.String`): Vertical alignment of the overlay (`'top'`, `'center'`, `'bottom'`).
+- **`vertical_margin`** (`pxt.Int`): Vertical margin in pixels from the alignment edge.
+- **`scale`** (`pxt.Float | None`): Scale factor for the overlay image relative to the video height. For example, 0.1 scales the
+    image to 10% of the video height while preserving aspect ratio. If None, uses the original size.
+- **`opacity`** (`pxt.Float`): Overlay opacity from 0.0 (transparent) to 1.0 (opaque).
+- **`start_time`** (`pxt.Float | None`): Time in seconds when the overlay appears. If None, the overlay is visible from the start.
+- **`end_time`** (`pxt.Float | None`): Time in seconds when the overlay disappears. If None, the overlay is visible until the end.
+- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder.
+- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder.
+
+**Returns:**
+
+- `pxt.Video`: A new video with the image overlay applied.
+
+**Examples:**
+
+Add a logo to the top-right corner:
+
+```python
+tbl.select(
+    tbl.video.overlay_image(
+        tbl.logo_img, horizontal_align='right', vertical_align='top'
+    )
+).collect()
+```
+
+Add a watermark at 50% opacity, scaled to 10% of video height:
+
+```python
+tbl.select(
+    tbl.video.overlay_image(tbl.watermark_img, scale=0.1, opacity=0.5)
+).collect()
+```
+
+Show an image only between seconds 2 and 8:
+
+```python
+tbl.select(
+    tbl.video.overlay_image(
+        tbl.img, start_time=2.0, end_time=8.0, horizontal_align='right'
+    )
+).collect()
+```
+
+
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; overlay_text()
 
 ```python Signature
@@ -825,6 +1000,16 @@ tbl.select(
     )
 ).collect()
 ```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; pan()
+
+```python Signature
+@pxt.udf
+pan(*args, **kwargs) -> pxt.Video | None
+```
+
+A parameterized expression from which an executable Expr is created with a function call.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; resize()

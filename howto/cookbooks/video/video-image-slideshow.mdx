@@ -165,7 +165,6 @@ Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp
 
 ```python
 import pixeltable as pxt
-import pixeltable.functions.math as pxtmath
 from pixeltable.functions.video import concat_videos_agg, with_audio
 
 pxt.drop_dir('slideshow_demo', force=True)
@@ -202,7 +201,7 @@ t = pxt.create_table(
         'seq': pxt.Int,
         'caption': pxt.String,
         'logo': pxt.Image,
-        'pan_sign': pxt.Float,
+        'pan_sign': pxt.Int,
     },
 )
 
@@ -213,35 +212,35 @@ t.insert(
             'seq': 0,
             'caption': 'DISCOVER NATURE',
             'logo': LOGO_URL,
-            'pan_sign': 1.0,
+            'pan_sign': 1,
         },
         {
             'image': 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1920&q=80',
             'seq': 1,
             'caption': 'WILD FORESTS',
             'logo': LOGO_URL,
-            'pan_sign': -1.0,
+            'pan_sign': -1,
         },
         {
             'image': 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1920&q=80',
             'seq': 2,
             'caption': 'SUNLIT CANOPY',
             'logo': LOGO_URL,
-            'pan_sign': 1.0,
+            'pan_sign': 1,
         },
         {
             'image': 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80',
             'seq': 3,
             'caption': 'OCEAN BREEZE',
             'logo': LOGO_URL,
-            'pan_sign': -1.0,
+            'pan_sign': -1,
         },
         {
             'image': 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80',
             'seq': 4,
             'caption': 'EXPLORE MORE',
             'logo': LOGO_URL,
-            'pan_sign': 1.0,
+            'pan_sign': 1,
         },
     ]
 )
@@ -260,14 +259,15 @@ One computed column chains the entire transformation:
 image&nbsp;→&nbsp;static&nbsp;video&nbsp;→&nbsp;resize&nbsp;→&nbsp;pan&nbsp;effect&nbsp;→&nbsp;resize&nbsp;→&nbsp;logo&nbsp;overlay&nbsp;→&nbsp;text&nbsp;overlay
 </pre>
 
-The pan direction alternates per row via `scroll()`, which accepts
-Pixeltable expressions. `pan()` is a convenience wrapper that only takes
-literal direction strings, so for per-row control we use `scroll()`
-directly with a `pan_sign` column:
+`pan()` is a convenience wrapper around `scroll()` that computes
+viewport size, start position, and speed automatically. It accepts
+column expressions for per-row direction:
 
--   `pan_sign = +1.0` → `x_speed` positive, `x_start = 0` (pans right)
--   `pan_sign = -1.0` → `x_speed` negative, `x_start = pan_range` (pans
-    left)
+-   `pan_sign = +1` → pans right
+-   `pan_sign = -1` → pans left
+
+For lower-level control (custom speed, diagonal pans, asymmetric crops),
+use `scroll()` directly.
 
 
 ```python
@@ -278,19 +278,10 @@ t.add_computed_column(
     base=t.image.to_video(duration=DUR).resize(width=W, height=H)
 )
 
-# Compute pan parameters from video metadata + pan_sign column
-md = t.base.get_metadata()
-vid_w = md.streams[0].width
-viewport_w = pxtmath.floor(vid_w * (1 - CROP)).to_int()
-pan_range = vid_w - viewport_w
-speed = pan_range / t.base.get_duration()
-x_start = pxtmath.floor(pan_range * ((1 - t.pan_sign) / 2)).to_int()
-
 # Full pipeline: pan → resize → logo → caption
+# pan() accepts column expressions for per-row direction
 t.add_computed_column(
-    clip=t.base.scroll(
-        w=viewport_w, x_speed=speed * t.pan_sign, x_start=x_start
-    )
+    clip=t.base.pan(x_sign=t.pan_sign, crop_pct=CROP)
     .resize(width=W, height=H)
     .overlay_image(
         t.logo,
@@ -392,9 +383,20 @@ t.add_computed_column(clip=t.base.fade_in(duration=0.5).fade_out(duration=0.5))
 
 # Combine: pan + fade
 t.add_computed_column(
-    clip=pan(t.base, direction='right')
+    clip=t.base.pan(x_sign=1)
     .resize(width=1280, height=720)
     .fade_in(duration=0.5)
     .fade_out(duration=0.5)
 )
+```
+
+### Audio
+
+This recipe uses `with_audio()` to replace the soundtrack. To **blend**
+a second audio track into a video that already has audio (e.g. add
+background music under narration), use `mix_audio()`:
+
+
+```python
+t.video.mix_audio(t.music, audio_volume=0.3, original_volume=1.0)
 ```

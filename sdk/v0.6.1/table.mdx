@@ -1,7 +1,7 @@
 ---
 title: "Table"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L54\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L55\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 noindex: true
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Table
@@ -9,6 +9,9 @@ noindex: true
 
 A handle to a table, view, or snapshot. This class is the primary interface through which table operations
 (queries, insertions, updates, etc.) are performed in Pixeltable.
+
+Table instances are not thread-safe. A thread that needs to perform table operations must get its own handle
+(e.g., via get_table)
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_column()
