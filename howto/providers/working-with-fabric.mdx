@@ -198,7 +198,7 @@ knowledge_base = pxt.create_table(
 # Add embeddings column
 knowledge_base.add_computed_column(
     embedding=fabric.embeddings(
-        knowledge_base.content, model='text-embedding-ada-002'
+        knowledge_base.content, model='text-embedding-3-small'
     )
 )
 
@@ -229,7 +229,7 @@ knowledge_base.insert(
 # Add an embedding index for fast similarity search
 knowledge_base.add_embedding_index(
     'content',
-    embedding=fabric.embeddings.using(model='text-embedding-ada-002'),
+    embedding=fabric.embeddings.using(model='text-embedding-3-small'),
 )
 ```
 

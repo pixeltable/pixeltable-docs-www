@@ -120,7 +120,8 @@ data-quarto-table-cell-role="th">Comment</th>
 <td id="T_05ebf_row1_col1" class="data row1 col1">Json</td>
 <td id="T_05ebf_row1_col2" class="data row1 col2">images</td>
 <td id="T_05ebf_row1_col3"
-class="data row1 col3">image_generations(input, model='dall-e-2')</td>
+class="data row1 col3">image_generations(input,
+model='gpt-image-2')</td>
 <td id="T_05ebf_row1_col4" class="data row1 col4"></td>
 </tr>
 </tbody>
@@ -364,7 +365,7 @@ emb_t.head()
 ```python
 image_t = pxt.create_table('openai_demo/images', {'input': pxt.String})
 image_t.add_computed_column(
-    img=openai.image_generations(image_t.input, model='dall-e-2')
+    img=openai.image_generations(image_t.input, model='gpt-image-2')
 )
 ```
 
