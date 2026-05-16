@@ -145,6 +145,8 @@ add_computed_column(
     *,
     stored: bool | None = None,
     destination: str | Path | None = None,
+    custom_metadata: Any = None,
+    comment: str = '',
     print_stats: bool = False,
     on_error: Literal['abort', 'ignore'] = 'abort',
     if_exists: Literal['error', 'ignore', 'replace'] = 'error',
@@ -160,6 +162,9 @@ Adds a computed column to the table.
 - **`kwargs`** (`exprs.Expr`): Exactly one keyword argument of the form `col_name=expression`.
 - **`stored`** (`bool | None`): Whether the column is materialized and stored or computed on demand.
 - **`destination`** (`str | Path | None`): An object store reference for persisting computed files.
+- **`custom_metadata`** (`Any`): Optional user-defined metadata to associate with the column. Must be a valid
+    JSON-serializable object.
+- **`comment`** (`str`, default: `''`): An optional comment; its meaning is user-defined.
 - **`print_stats`** (`bool`, default: `False`): If `True`, print execution metrics during evaluation.
 - **`on_error`** (`Literal['abort', 'ignore']`, default: `'abort'`): Determines the behavior if an error occurs while evaluating the column expression for at least one
     row.

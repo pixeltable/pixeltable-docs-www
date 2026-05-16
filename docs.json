@@ -19,8 +19,15 @@
             "pages": [
               "overview/pixeltable",
               "overview/quick-start",
-              "overview/ten-minute-tour",
-              "overview/building-pixeltable-with-llms"
+              "overview/ten-minute-tour"
+            ]
+          },
+          {
+            "group": "Tools",
+            "pages": [
+              "overview/building-pixeltable-with-llms",
+              "platform/dashboard",
+              "platform/cli"
             ]
           },
           {
@@ -294,8 +301,104 @@
             ]
           },
           {
-            "dropdown": "v0.6.1",
+            "dropdown": "v0.6.2",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.6.2/pixeltable",
+                      "sdk/v0.6.2/table",
+                      "sdk/v0.6.2/query",
+                      "sdk/v0.6.2/resultset",
+                      "sdk/v0.6.2/row",
+                      "sdk/v0.6.2/resultcursor",
+                      "sdk/v0.6.2/expr",
+                      "sdk/v0.6.2/columnref",
+                      "sdk/v0.6.2/columnmetadata",
+                      "sdk/v0.6.2/dircontents",
+                      "sdk/v0.6.2/directorynode",
+                      "sdk/v0.6.2/indexmetadata",
+                      "sdk/v0.6.2/tablemetadata",
+                      "sdk/v0.6.2/tablenode",
+                      "sdk/v0.6.2/treenode",
+                      "sdk/v0.6.2/updatestatus",
+                      "sdk/v0.6.2/versionmetadata",
+                      "sdk/v0.6.2/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.6.2/functions",
+                      "sdk/v0.6.2/audio",
+                      "sdk/v0.6.2/date",
+                      "sdk/v0.6.2/document",
+                      "sdk/v0.6.2/image",
+                      "sdk/v0.6.2/json",
+                      "sdk/v0.6.2/math",
+                      "sdk/v0.6.2/net",
+                      "sdk/v0.6.2/string",
+                      "sdk/v0.6.2/timestamp",
+                      "sdk/v0.6.2/uuid",
+                      "sdk/v0.6.2/video",
+                      "sdk/v0.6.2/vision"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.6.2/anthropic",
+                      "sdk/v0.6.2/bedrock",
+                      "sdk/v0.6.2/bfl",
+                      "sdk/v0.6.2/deepseek",
+                      "sdk/v0.6.2/fabric",
+                      "sdk/v0.6.2/fal",
+                      "sdk/v0.6.2/fireworks",
+                      "sdk/v0.6.2/gemini",
+                      "sdk/v0.6.2/groq",
+                      "sdk/v0.6.2/huggingface",
+                      "sdk/v0.6.2/jina",
+                      "sdk/v0.6.2/llama_cpp",
+                      "sdk/v0.6.2/mistralai",
+                      "sdk/v0.6.2/ollama",
+                      "sdk/v0.6.2/openai",
+                      "sdk/v0.6.2/openrouter",
+                      "sdk/v0.6.2/replicate",
+                      "sdk/v0.6.2/reve",
+                      "sdk/v0.6.2/runwayml",
+                      "sdk/v0.6.2/together",
+                      "sdk/v0.6.2/twelvelabs",
+                      "sdk/v0.6.2/voyageai",
+                      "sdk/v0.6.2/whisper",
+                      "sdk/v0.6.2/whisperx",
+                      "sdk/v0.6.2/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.6.2/serving",
+                      "sdk/v0.6.2/fastapirouter",
+                      "sdk/v0.6.2/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.6.2/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.6.1",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -2308,6 +2411,10 @@
   },
   "navbar": {
     "links": [
+      {
+        "label": "AI Skill",
+        "href": "https://github.com/pixeltable/pixeltable-skill"
+      },
       {
         "label": "Discord",
         "href": "https://discord.com/invite/QPyqFYx2UN"
