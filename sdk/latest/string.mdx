@@ -441,7 +441,10 @@ Equivalent to [`str.isupper()`](https://docs.python.org/3/library/stdtypes.html#
 
 ```python Signature
 @pxt.udf
-join(sep: pxt.String, elements: pxt.Json[(Json) -> pxt.String
+join(
+    sep: pxt.String,
+    elements: pxt.Json[(Json, ...)]
+) -> pxt.String
 ```
 
 Return a string which is the concatenation of the strings in `elements`.

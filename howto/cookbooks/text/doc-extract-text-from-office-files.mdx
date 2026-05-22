@@ -211,9 +211,9 @@ Transform office documents into searchable, analyzable text data.
 
 **What’s in this recipe:**
 
--   Extract text from PPTX, DOCX, and XLSX files
--   Split documents by headings, paragraphs, or custom limits
--   Preserve document structure and metadata for analysis
+- Extract text from PPTX, DOCX, and XLSX files
+- Split documents by headings, paragraphs, or custom limits
+- Preserve document structure and metadata for analysis
 
 ## Problem
 
@@ -398,26 +398,26 @@ by_tokens.where(by_tokens.text.contains('Python')).select(
 
 **Supported formats:**
 
--   PowerPoint: `.pptx`, `.ppt`
--   Word: `.docx`, `.doc`
--   Excel: `.xlsx`, `.xls`
+- PowerPoint: `.pptx`, `.ppt`
+- Word: `.docx`, `.doc`
+- Excel: `.xlsx`, `.xls`
 
 **Separator options:**
 
--   `heading` - Split by document headings (preserves structure)
--   `paragraph` - Split by paragraphs
--   `sentence` - Split by sentences
--   `token_limit` - Split by token count (requires `limit` parameter)
--   `char_limit` - Split by character count (requires `limit` parameter)
--   Multiple separators work together: `'heading,token_limit'` splits by
-    heading first, then ensures no chunk exceeds token limit
+- `heading` - Split by document headings (preserves structure)
+- `paragraph` - Split by paragraphs
+- `sentence` - Split by sentences
+- `token_limit` - Split by token count (requires `limit` parameter)
+- `char_limit` - Split by character count (requires `limit` parameter)
+- Multiple separators work together: `'heading,token_limit'` splits by
+  heading first, then ensures no chunk exceeds token limit
 
 **Metadata fields:**
 
--   `heading` - Hierarchical heading structure (e.g.,
-    `{'h1': 'Introduction', 'h2': 'Overview'}`)
--   `title` - Document title
--   `sourceline` - Source line number (HTML and Markdown documents)
+- `heading` - Hierarchical heading structure (e.g.,
+  `{'h1': 'Introduction', 'h2': 'Overview'}`)
+- `title` - Document title
+- `sourceline` - Source line number (HTML and Markdown documents)
 
 **Token overlap:** The `overlap` parameter ensures chunks share context
 at boundaries. This prevents sentences from being split mid-thought when
@@ -425,7 +425,7 @@ feeding chunks to AI models.
 
 ## See also
 
--   [Get fast feedback on
-    transformations](/howto/cookbooks/core/dev-iterative-workflow)
--   [Pixeltable Document
-    API](/sdk/latest/document)
+- [Get fast feedback on
+  transformations](/howto/cookbooks/core/dev-iterative-workflow)
+- [Pixeltable Document
+  API](/sdk/latest/document)

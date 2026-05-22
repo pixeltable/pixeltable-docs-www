@@ -272,9 +272,9 @@ choose the right approach for your use case.
 
 **What’s in this recipe:**
 
--   Simple conversion with PIL
--   Perceptually accurate grayscale (weighted RGB channels)
--   Custom UDF for advanced conversion
+- Simple conversion with PIL
+- Perceptually accurate grayscale (weighted RGB channels)
+- Custom UDF for advanced conversion
 
 You convert RGB images to grayscale in your table using either
 Pixeltable’s built-in `.convert()` method for standard conversion, or a
@@ -355,7 +355,9 @@ t.insert(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`gray\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`gray\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;617.66&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`gray\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`gray\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;617.66&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
@@ -469,11 +471,11 @@ t.collect()
 2.  **Gamma-corrected (custom UDF):** Not built into PIL. Requires a
     custom UDF that:
 
-    -   Gamma-decompresses to linear space
-    -   Applies perceptual weights: 0.2126 × R + 0.7152 × G + 0.0722 × B
-    -   Gamma-compresses back for display
-    -   Slower but most perceptually accurate
-    -   Use for scientific imaging, professional photography
+    - Gamma-decompresses to linear space
+    - Applies perceptual weights: 0.2126 × R + 0.7152 × G + 0.0722 × B
+    - Gamma-compresses back for display
+    - Slower but most perceptually accurate
+    - Use for scientific imaging, professional photography
 
 **Why gamma matters:** Displays aren’t linear—doubling a pixel value
 doesn’t double perceived brightness. Gamma correction accounts for this.
@@ -504,7 +506,7 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
--   [Transform images with PIL
-    operations](/howto/cookbooks/images/img-pil-transforms)
--   [Test transformations with fast feedback
-    loops](/howto/cookbooks/core/dev-iterative-workflow)
+- [Transform images with PIL
+  operations](/howto/cookbooks/images/img-pil-transforms)
+- [Test transformations with fast feedback
+  loops](/howto/cookbooks/core/dev-iterative-workflow)

@@ -142,10 +142,10 @@ or a complex ffmpeg scripting pipeline.
 
 **What’s in this recipe:**
 
--   Convert still images into animated video clips with pan effects
--   Control pan direction per image from table data (no Python loops)
--   Add per-image captions and a logo overlay
--   Concatenate all clips and add background music
+- Convert still images into animated video clips with pan effects
+- Control pan direction per image from table data (no Python loops)
+- Add per-image captions and a logo overlay
+- Concatenate all clips and add background music
 
 The key insight: store per-clip metadata (caption text, pan direction,
 logo) as **table columns**. One chained computed column expression
@@ -183,9 +183,9 @@ Created&nbsp;directory&nbsp;&#x27;slideshow_demo&#x27;.
 Each row is one clip in the final video. Per-clip variation comes from
 table columns:
 
--   `caption`: text overlay for each clip
--   `pan_sign`: `+1.0` for pan-right, `-1.0` for pan-left
--   `logo`: image to overlay in the corner
+- `caption`: text overlay for each clip
+- `pan_sign`: `+1.0` for pan-right, `-1.0` for pan-left
+- `logo`: image to overlay in the corner
 
 This is what makes the pipeline fully declarative — no Python loops, no
 conditional logic.
@@ -263,8 +263,8 @@ image&nbsp;→&nbsp;static&nbsp;video&nbsp;→&nbsp;resize&nbsp;→&nbsp;pan&nbs
 viewport size, start position, and speed automatically. It accepts
 column expressions for per-row direction:
 
--   `pan_sign = +1` → pans right
--   `pan_sign = -1` → pans left
+- `pan_sign = +1` → pans right
+- `pan_sign = -1` → pans left
 
 For lower-level control (custom speed, diagonal pans, asymmetric crops),
 use `scroll()` directly.

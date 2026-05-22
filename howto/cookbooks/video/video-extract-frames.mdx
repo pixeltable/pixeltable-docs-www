@@ -149,10 +149,10 @@ thumbnails, or training data.
 
 You have video files and need to extract frames for:
 
--   Object detection on video content
--   Creating thumbnails or previews
--   Building training datasets
--   Scene analysis and classification
+- Object detection on video content
+- Creating thumbnails or previews
+- Building training datasets
+- Scene analysis and classification
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
@@ -160,9 +160,9 @@ You have video files and need to extract frames for:
 
 **What’s in this recipe:**
 
--   Extract frames at a fixed rate (FPS)
--   Extract a specific number of frames
--   Extract only keyframes for efficiency
+- Extract frames at a fixed rate (FPS)
+- Extract a specific number of frames
+- Extract only keyframes for efficiency
 
 You create a view with a `frame_iterator` that automatically extracts
 frames from each video. New videos are processed without extra code.
@@ -280,21 +280,21 @@ Only one of `fps`, `num_frames`, or `keyframes_only` can be specified.
 
 **When to use keyframes:**
 
--   Quick video scanning and thumbnails
--   Initial content classification
--   Processing very long videos
+- Quick video scanning and thumbnails
+- Initial content classification
+- Processing very long videos
 
 **Frame metadata:**
 
 Each frame includes:
 
--   `frame`: The extracted image
--   `pos`: Frame position in the video
--   `pts`: Presentation timestamp
+- `frame`: The extracted image
+- `pos`: Frame position in the video
+- `pts`: Presentation timestamp
 
 ## See also
 
--   [Iterators
-    documentation](/platform/iterators)
--   [Analyze images in
-    batch](/howto/cookbooks/images/vision-batch-analysis)
+- [Iterators
+  documentation](/platform/iterators)
+- [Analyze images in
+  batch](/howto/cookbooks/images/vision-batch-analysis)

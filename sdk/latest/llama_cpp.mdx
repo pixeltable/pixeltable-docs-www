@@ -16,7 +16,17 @@ supporting chat completions and embeddings with GGUF format models.
 
 ```python Signature
 @pxt.udf
-create_chat_completion(messages: pxt.Json[(Json, *, model_path: pxt.String | None = None, repo_id: pxt.String | None = None, repo_filename: pxt.String | None = None, chat_format: pxt.String | None = None, tools: pxt.Json[(Json = None, tool_choice: pxt.Json | None = None, model_kwargs: pxt.Json | None = None) -> pxt.Json
+create_chat_completion(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model_path: pxt.String | None = None,
+    repo_id: pxt.String | None = None,
+    repo_filename: pxt.String | None = None,
+    chat_format: pxt.String | None = None,
+    tools: pxt.Json[(Json, ...)] | None = None,
+    tool_choice: pxt.Json | None = None,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
 ```
 
 Generate a chat completion from a list of messages.

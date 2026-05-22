@@ -37,13 +37,13 @@ the Fireworks platform.
 
 ### Prerequisites
 
--   A Fireworks account with an API key (https://fireworks.ai/api-keys)
+- A Fireworks account with an API key (https://fireworks.ai/api-keys)
 
 ### Important notes
 
--   Fireworks usage may incur costs based on your Fireworks plan.
--   Be mindful of sensitive data and consider security measures when
-    integrating with external services.
+- Fireworks usage may incur costs based on your Fireworks plan.
+- Be mindful of sensitive data and consider security measures when
+  integrating with external services.
 
 First you’ll need to install required libraries and enter a Fireworks
 API key.
@@ -99,7 +99,7 @@ messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(
     output=chat_completions(
         messages=messages,
-        model='accounts/fireworks/models/llama-v3p3-70b-instruct',
+        model='accounts/fireworks/models/gpt-oss-20b',
         model_kwargs={
             # Optional dict with parameters for the Fireworks API
             'max_tokens': 300,

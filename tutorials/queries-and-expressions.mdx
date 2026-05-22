@@ -982,25 +982,25 @@ class="data row5 col2">image.getchannel(1)</td>
 Expressions are the basic building blocks of Pixeltable. This guide
 explores how to use queries and expressions, including:
 
--   Different types of Pixeltable expressions
--   Column references and arithmetic operations
--   Function calls and media operations
--   The Pixeltable type system
+- Different types of Pixeltable expressions
+- Column references and arithmetic operations
+- Function calls and media operations
+- The Pixeltable type system
 
 ## Prerequisites
 
 This guide assumes you’re familiar with:
 
--   Creating and managing tables
--   Basic table operations and queries
--   Computed columns
+- Creating and managing tables
+- Basic table operations and queries
+- Computed columns
 
 If you’re new to these concepts, start with:
 
--   [Tables and Data
-    Operations](/tutorials/tables-and-data-operations)
--   [Computed
-    Columns](/tutorials/computed-columns)
+- [Tables and Data
+  Operations](/tutorials/tables-and-data-operations)
+- [Computed
+  Columns](/tutorials/computed-columns)
 
 ## Understanding Expressions
 
@@ -1556,9 +1556,9 @@ Some `ColumnRef` expressions have additional useful properties. A media
 column (image, video, audio, or document) has the following two
 properties:
 
--   `localpath`: the media location on the local filesystem
--   `fileurl`: the original URL where the media resides (could be the
-    same as `localpath`)
+- `localpath`: the media location on the local filesystem
+- `fileurl`: the original URL where the media resides (could be the same
+  as `localpath`)
 
 
 ```python
@@ -1698,17 +1698,16 @@ original URL, use <code>t.video_col.fileurl</code> instead.
 Several types can be **specialized** to constrain the allowable data in
 a column.
 
--   `pxt.Image` can be specialized with a resolution and/or an image
-    mode:
-    -   `pxt.Image[(300,200)]` - images with width 300 and height 200
-    -   `pxt.Image['RGB']` - images with mode `'RGB'`; see the [PIL
-        Documentation](https://pillow.readthedocs.io/en/stable/handbook/concepts.html)
-        for the full list
-    -   `pxt.Image[(300,200), 'RGB']` - combines the above constraints
--   `pxt.Array` can be specialized with a shape and/or a dtype:
-    -   `pxt.Array[pxt.Float]` - arrays with dtype `pxt.Float`
-    -   `pxt.Array[(64,64,3), pxt.Float]` - 3-dimensional arrays with
-        dtype `pxt.Float` and 64x64x3 shape
+- `pxt.Image` can be specialized with a resolution and/or an image mode:
+  - `pxt.Image[(300,200)]` - images with width 300 and height 200
+  - `pxt.Image['RGB']` - images with mode `'RGB'`; see the [PIL
+    Documentation](https://pillow.readthedocs.io/en/stable/handbook/concepts.html)
+    for the full list
+  - `pxt.Image[(300,200), 'RGB']` - combines the above constraints
+- `pxt.Array` can be specialized with a shape and/or a dtype:
+  - `pxt.Array[pxt.Float]` - arrays with dtype `pxt.Float`
+  - `pxt.Array[(64,64,3), pxt.Float]` - 3-dimensional arrays with dtype
+    `pxt.Float` and 64x64x3 shape
 
 If we look at the structure of our table now, we see examples of
 specialized image and array types.

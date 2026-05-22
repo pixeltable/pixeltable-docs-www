@@ -315,10 +315,10 @@ from the cloud to your local environment.
 
 Pixeltable Cloud enables you to:
 
--   **Publish** your datasets for sharing with teams or the public
--   **Replicate** datasets from the cloud to your local environment
--   Share multimodal AI datasets (images, videos, audio, documents)
-    without managing infrastructure
+- **Publish** your datasets for sharing with teams or the public
+- **Replicate** datasets from the cloud to your local environment
+- Share multimodal AI datasets (images, videos, audio, documents)
+  without managing infrastructure
 
 This guide demonstrates both publishing and replicating datasets.
 
@@ -346,12 +346,12 @@ datasets](https://www.pixeltable.com/data-products).
 
 When calling `replicate()`:
 
--   **`remote_uri`** (required): The URI of the cloud dataset you want
-    to replicate
--   **`local_path`** (your choice): The local directory/table name where
-    you want to store the replica
--   **Variable name** (your choice): The Python variable in your
-    session/script to reference the table (e.g., `coco_copy`)
+- **`remote_uri`** (required): The URI of the cloud dataset you want to
+  replicate
+- **`local_path`** (your choice): The local directory/table name where
+  you want to store the replica
+- **Variable name** (your choice): The Python variable in your
+  session/script to reference the table (e.g., `coco_copy`)
 
 See the [replicate() SDK
 reference](/sdk/latest/pixeltable#func-replicate)
@@ -546,10 +546,10 @@ dataset.
 
 **Requirements:**
 
--   A Pixeltable Cloud account (Community Edition includes 1TB storage -
-    see [pricing](https://www.pixeltable.com/pricing))
--   Your API key from the [account
-    dashboard](https://pixeltable.com/dashboard)
+- A Pixeltable Cloud account (Community Edition includes 1TB storage -
+  see [pricing](https://www.pixeltable.com/pricing))
+- Your API key from the [account
+  dashboard](https://pixeltable.com/dashboard)
 
 Publishing allows you to share your datasets with your team or make them
 publicly available.
@@ -643,20 +643,19 @@ Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.02&nbsp;s&
 
 Publish your table to Pixeltable Cloud. When calling `publish()`:
 
--   **`source`** (required): An existing local table - either a table
-    path string (e.g., `'sample-images.photos'`) or table handle (e.g.,
-    `t`)
+- **`source`** (required): An existing local table - either a table path
+  string (e.g., `'sample-images.photos'`) or table handle (e.g., `t`)
 
-    -   If you use a local table path string, it must match a table in
-        your local database (you can verify with `pxt.list_tables()`)
+  - If you use a local table path string, it must match a table in your
+    local database (you can verify with `pxt.list_tables()`)
 
--   **`destination_uri`** (required): The cloud URI where you want to
-    publish, in the format `pxt://orgname/dataset`
+- **`destination_uri`** (required): The cloud URI where you want to
+  publish, in the format `pxt://orgname/dataset`
 
-    -   Pixeltable automatically creates any directory structure in the
-        cloud based on this URI
-    -   Your local directory structure doesn’t need to match the cloud
-        structure
+  - Pixeltable automatically creates any directory structure in the
+    cloud based on this URI
+  - Your local directory structure doesn’t need to match the cloud
+    structure
 
 See the [publish() SDK
 reference](/sdk/latest/pixeltable#func-publish)
@@ -684,24 +683,24 @@ The `destination_uri` in `publish()` uses the format:
 
 **URI components:**
 
--   **`org`** (required): Your organization name
--   **`database`** (optional): Database name - defaults to `main` if
-    omitted
--   **`path`** (required): Directory and table path in the cloud
+- **`org`** (required): Your organization name
+- **`database`** (optional): Database name - defaults to `main` if
+  omitted
+- **`path`** (required): Directory and table path in the cloud
 
 **Examples:**
 
--   `pxt://orgname/my-dataset` → Uses the default `main` database
--   `pxt://orgname:main/my-dataset` → Explicitly specifies the `main`
-    database
--   `pxt://orgname:analytics/my-dataset` → Uses the `analytics` database
+- `pxt://orgname/my-dataset` → Uses the default `main` database
+- `pxt://orgname:main/my-dataset` → Explicitly specifies the `main`
+  database
+- `pxt://orgname:analytics/my-dataset` → Uses the `analytics` database
 
 **About databases:**
 
--   Every Pixeltable Cloud account includes a `main` database by default
--   Each database has its own storage bucket
--   You can create additional databases in your [Pixeltable
-    dashboard](https://pixeltable.com/dashboard)
+- Every Pixeltable Cloud account includes a `main` database by default
+- Each database has its own storage bucket
+- You can create additional databases in your [Pixeltable
+  dashboard](https://pixeltable.com/dashboard)
 
 ### Updating published datasets with push
 
@@ -750,9 +749,9 @@ environment.
 The `access` parameter in `publish()` controls who can replicate your
 dataset:
 
--   **`access='private'`** (default): Only your team members can access
-    the dataset
--   **`access='public'`**: Anyone can replicate your dataset
+- **`access='private'`** (default): Only your team members can access
+  the dataset
+- **`access='public'`**: Anyone can replicate your dataset
 
 You can set access control either at the time of publish using the
 `access` parameter, or change it later in the [Pixeltable Cloud
@@ -783,18 +782,16 @@ the UI.
 
 Have questions or need support? Join our community:
 
--   **[Discord Community](https://discord.com/invite/QPyqFYx2UN)**: Ask
-    questions, get community support, and share what you build with
-    Pixeltable
--   **[YouTube](https://www.youtube.com/@PixeltableHQ)**: Watch
-    tutorials, demos, and feature walkthroughs
--   **[GitHub
-    Issues](https://github.com/pixeltable/pixeltable/issues)**: Report
-    bugs or request features
+- **[Discord Community](https://discord.com/invite/QPyqFYx2UN)**: Ask
+  questions, get community support, and share what you build with
+  Pixeltable
+- **[YouTube](https://www.youtube.com/@PixeltableHQ)**: Watch tutorials,
+  demos, and feature walkthroughs
+- **[GitHub Issues](https://github.com/pixeltable/pixeltable/issues)**:
+  Report bugs or request features
 
 ## Resources
 
--   [Pixeltable Cloud Dashboard](https://www.pixeltable.com/dashboard)
--   [Pixeltable Public
-    Datasets](https://www.pixeltable.com/data-products)
--   [Pixeltable SDK Reference](/sdk/latest/)
+- [Pixeltable Cloud Dashboard](https://www.pixeltable.com/dashboard)
+- [Pixeltable Public Datasets](https://www.pixeltable.com/data-products)
+- [Pixeltable SDK Reference](/sdk/latest/)

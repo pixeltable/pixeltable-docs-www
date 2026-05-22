@@ -17,7 +17,16 @@ document_splitter(
     document: pxt.Document,
     separators: pxt.String,
     *,
-    elements: pxt.Json[(String = None, limit: pxt.Int | None = None, overlap: pxt.Int | None = None, metadata: pxt.String = '', skip_tags: pxt.Json[(String = None, spacy_model: pxt.String = 'en_core_web_sm', tiktoken_encoding: pxt.String | None = 'cl100k_base', tiktoken_target_model: pxt.String | None = None, image_dpi: pxt.Int = 300, image_format: pxt.String = 'png'
+    elements: pxt.Json[(String, ...)] | None = None,
+    limit: pxt.Int | None = None,
+    overlap: pxt.Int | None = None,
+    metadata: pxt.String = '',
+    skip_tags: pxt.Json[(String, ...)] | None = None,
+    spacy_model: pxt.String = 'en_core_web_sm',
+    tiktoken_encoding: pxt.String | None = 'cl100k_base',
+    tiktoken_target_model: pxt.String | None = None,
+    image_dpi: pxt.Int = 300,
+    image_format: pxt.String = 'png'
 )
 ```
 

@@ -101,7 +101,10 @@ video_splitter(
     duration: pxt.Float | None = None,
     overlap: pxt.Float | None = None,
     min_segment_duration: pxt.Float | None = None,
-    segment_times: pxt.Json[(Float = None, mode: pxt.String = 'accurate', video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None
+    segment_times: pxt.Json[(Float, ...)] | None = None,
+    mode: pxt.String = 'accurate',
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
 )
 ```
 
@@ -278,7 +281,12 @@ __Requirements:__
 
 ```python Signature
 @pxt.udf
-concat_videos(videos: pxt.Json[(Video, *, video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None) -> pxt.Video | None
+concat_videos(
+    videos: pxt.Json[(Video, ...)],
+    *,
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
+) -> pxt.Video | None
 ```
 
 Merge multiple videos into a single video.
@@ -304,7 +312,11 @@ __Requirements:__
 @pxt.udf
 crop(
     video: pxt.Video,
-    bbox: pxt.Json[(Int, *, bbox_format: pxt.String = 'xywh', video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None
+    bbox: pxt.Json[(Int, ...)],
+    *,
+    bbox_format: pxt.String = 'xywh',
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
 ) -> pxt.Video
 ```
 
@@ -916,7 +928,11 @@ overlay_text(
     box: pxt.Bool = False,
     box_color: pxt.String = 'black',
     box_opacity: pxt.Float = 1.0,
-    box_border: pxt.Json[(Int = None, start_time: pxt.Float | None = None, end_time: pxt.Float | None = None, video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None
+    box_border: pxt.Json[(Int, ...)] | None = None,
+    start_time: pxt.Float | None = None,
+    end_time: pxt.Float | None = None,
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
 ) -> pxt.Video
 ```
 
@@ -1711,8 +1727,11 @@ segment_video(
     video: pxt.Video,
     *,
     duration: pxt.Float | None = None,
-    segment_times: pxt.Json[(Float = None, mode: pxt.String = 'accurate', video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None) -> pxt.Json[(String, ...
-) ]
+    segment_times: pxt.Json[(Float, ...)] | None = None,
+    mode: pxt.String = 'accurate',
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
+) -> pxt.Json[(String, ...)]
 ```
 
 Split a video into segments.
@@ -1905,7 +1924,9 @@ zoom(
     *,
     start_scale: pxt.Float = 1.0,
     end_scale: pxt.Float = 1.3,
-    center: pxt.Json[(Float = None, video_encoder: pxt.String | None = None, video_encoder_args: pxt.Json | None = None
+    center: pxt.Json[(Float, ...)] | None = None,
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
 ) -> pxt.Video
 ```
 

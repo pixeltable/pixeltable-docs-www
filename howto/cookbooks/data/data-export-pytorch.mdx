@@ -119,9 +119,9 @@ training.
 
 **What’s in this recipe:**
 
--   Convert query results to PyTorch Dataset
--   Use with DataLoader for batch training
--   Export to Parquet for external tools
+- Convert query results to PyTorch Dataset
+- Use with DataLoader for batch training
+- Export to Parquet for external tools
 
 You use `query.to_pytorch_dataset()` to create an iterable dataset
 compatible with PyTorch DataLoader.
@@ -246,15 +246,15 @@ pxt.io.export_parquet(
 
 **DataLoader tips:**
 
--   Data is cached to disk for efficient repeated loading
--   Use `num_workers > 0` for parallel data loading
--   Filter/transform data before export to reduce size
+- Data is cached to disk for efficient repeated loading
+- Use `num_workers > 0` for parallel data loading
+- Filter/transform data before export to reduce size
 
 ## See also
 
--   [Sample data for
-    training](/howto/cookbooks/data/data-sampling) -
-    Stratified sampling
--   [Import Parquet
-    files](/howto/cookbooks/data/data-import-parquet) -
-    Parquet import/export
+- [Sample data for
+  training](/howto/cookbooks/data/data-sampling) -
+  Stratified sampling
+- [Import Parquet
+  files](/howto/cookbooks/data/data-import-parquet) -
+  Parquet import/export

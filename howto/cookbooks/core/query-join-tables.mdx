@@ -434,11 +434,11 @@ metadata.
 
 **What’s in this recipe:**
 
--   Inner join to match rows from both tables
--   Left join to keep all rows from the first table
--   Cross join for Cartesian product (all combinations)
--   Join with filtering, aggregation, and saving results
--   Paginate results with `limit()` and `offset`
+- Inner join to match rows from both tables
+- Left join to keep all rows from the first table
+- Cross join for Cartesian product (all combinations)
+- Join with filtering, aggregation, and saving results
+- Paginate results with `limit()` and `offset`
 
 Use `table1.join(table2, on=..., how=...)` to combine tables based on
 matching columns.
@@ -752,19 +752,19 @@ query.order_by(t.id).limit(10, offset=10) # rows 10-19
 
 **Tips:**
 
--   Use explicit predicates (`t1.col == t2.col`) for clarity
--   Chain `.where()` after join to filter results
--   Chain `.group_by()` for aggregations
--   Use `'left'` join when the first table is your “main” table
--   Use named columns in `.select(name=col)` for clean column names
--   Always use `.order_by()` with pagination to get deterministic page
-    ordering
+- Use explicit predicates (`t1.col == t2.col`) for clarity
+- Chain `.where()` after join to filter results
+- Chain `.group_by()` for aggregations
+- Use `'left'` join when the first table is your “main” table
+- Use named columns in `.select(name=col)` for clean column names
+- Always use `.order_by()` with pagination to get deterministic page
+  ordering
 
 ## See also
 
--   [Look up structured
-    data](/howto/cookbooks/agents/pattern-data-lookup) -
-    Use retrieval UDFs for lookups
--   [Sample data for
-    training](/howto/cookbooks/data/data-sampling) -
-    Sample from joined results
+- [Look up structured
+  data](/howto/cookbooks/agents/pattern-data-lookup) -
+  Use retrieval UDFs for lookups
+- [Sample data for
+  training](/howto/cookbooks/data/data-sampling) -
+  Sample from joined results

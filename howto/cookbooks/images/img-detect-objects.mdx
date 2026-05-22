@@ -226,9 +226,9 @@ expensive.
 
 **What’s in this recipe:**
 
--   Detect objects using YOLOX models (runs locally, no API needed)
--   Get bounding boxes and class labels
--   Filter detections by confidence threshold
+- Detect objects using YOLOX models (runs locally, no API needed)
+- Get bounding boxes and class labels
+- Filter detections by confidence threshold
 
 You add a computed column that runs YOLOX on each image. Detection
 happens automatically when you insert new images.
@@ -380,24 +380,24 @@ images.select(
 
 The `detections` dictionary contains:
 
--   `labels`: List of class names (e.g., “person”, “car”, “dog”)
--   `boxes`: Bounding box coordinates \[x1, y1, x2, y2\]
--   `scores`: Confidence scores (0-1)
+- `labels`: List of class names (e.g., “person”, “car”, “dog”)
+- `boxes`: Bounding box coordinates \[x1, y1, x2, y2\]
+- `scores`: Confidence scores (0-1)
 
 **Adjusting threshold:**
 
--   Higher threshold (0.7-0.9): Fewer detections, higher confidence
--   Lower threshold (0.3-0.5): More detections, may include false
-    positives
+- Higher threshold (0.7-0.9): Fewer detections, higher confidence
+- Lower threshold (0.3-0.5): More detections, may include false
+  positives
 
 ## See also
 
--   [Extract frames from
-    videos](/howto/cookbooks/video/video-extract-frames) -
-    Detect objects in video frames
--   [Analyze images in
-    batch](/howto/cookbooks/images/vision-batch-analysis) -
-    AI vision analysis
--   [Find similar
-    images](/howto/cookbooks/search/search-similar-images) -
-    Visual similarity search
+- [Extract frames from
+  videos](/howto/cookbooks/video/video-extract-frames) -
+  Detect objects in video frames
+- [Analyze images in
+  batch](/howto/cookbooks/images/vision-batch-analysis) -
+  AI vision analysis
+- [Find similar
+  images](/howto/cookbooks/search/search-similar-images) -
+  Visual similarity search

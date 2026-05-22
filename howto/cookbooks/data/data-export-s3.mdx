@@ -351,10 +351,10 @@ B2, and Tigris.
 
 **Key features:**
 
--   Computed media (AI-generated outputs) automatically uploads to your
-    bucket
--   Input media can optionally be persisted for durability
--   Files are cached locally and downloaded on-demand
+- Computed media (AI-generated outputs) automatically uploads to your
+  bucket
+- Input media can optionally be persisted for durability
+- Files are cached locally and downloaded on-demand
 
 **Configuration options:**
 
@@ -382,10 +382,10 @@ destinations for your media files.
 
 ## What you’ll learn
 
--   Where Pixeltable stores files by default
--   How to specify destinations for individual columns
--   How to configure global destinations for all columns
--   How destination precedence works
+- Where Pixeltable stores files by default
+- How to specify destinations for individual columns
+- How to configure global destinations for all columns
+- How destination precedence works
 
 ## How it works
 
@@ -402,9 +402,9 @@ Pixeltable decides where to store media files using this priority:
 
 For this notebook, you’ll need:
 
--   `pixeltable` and `boto3` installed
--   (Optional) Cloud storage credentials if you want to use a cloud
-    provider
+- `pixeltable` and `boto3` installed
+- (Optional) Cloud storage credentials if you want to use a cloud
+  provider
 
 
 ```python
@@ -489,12 +489,12 @@ t.collect()
 By default, Pixeltable stores all media files in local storage under
 `~/.pixeltable/media`:
 
--   **Input files** (files you insert) — If you insert a URL, Pixeltable
-    stores the URL and downloads it to cache on access. If you insert a
-    local file path, Pixeltable just stores the path reference (the file
-    stays where it is).
--   **Output files** (files Pixeltable generates) — Stored in
-    `~/.pixeltable/media`
+- **Input files** (files you insert) — If you insert a URL, Pixeltable
+  stores the URL and downloads it to cache on access. If you insert a
+  local file path, Pixeltable just stores the path reference (the file
+  stays where it is).
+- **Output files** (files Pixeltable generates) — Stored in
+  `~/.pixeltable/media`
 
 This works out of the box with no configuration. You can change these
 defaults, which we’ll cover in the rest of this notebook.
@@ -608,10 +608,10 @@ global default for ALL columns.
 
 You can configure two types of global destinations:
 
--   **`output_media_dest`** — Changes the default for files Pixeltable
-    generates (computed columns)
--   **`input_media_dest`** — Changes the default for files you insert
-    into tables
+- **`output_media_dest`** — Changes the default for files Pixeltable
+  generates (computed columns)
+- **`input_media_dest`** — Changes the default for files you insert into
+  tables
 
 You can set them to the same bucket or different buckets depending on
 your needs.
@@ -724,10 +724,10 @@ credentials.
 
 Presigned URLs are particularly useful for:
 
--   Sharing files from private buckets without making them public
--   Creating temporary download links with expiration
--   Serving media in web applications without exposing credentials
--   Providing time-limited access to sensitive content
+- Sharing files from private buckets without making them public
+- Creating temporary download links with expiration
+- Serving media in web applications without exposing credentials
+- Providing time-limited access to sensitive content
 
 Use the `presigned_url` function from `pixeltable.functions.net`:
 
@@ -878,33 +878,32 @@ and cache—avoiding wasteful upload→download cycles.
 
 ## What you learned
 
--   Pixeltable uses local storage by default for all media files
--   You can override the default for specific columns with the
-    `destination` parameter
--   You can change the global default with `input_media_dest` and
-    `output_media_dest`
--   Precedence: column destination \> global config \> Pixeltable’s
-    default local storage
--   Use `.fileurl` to get URLs for your stored files
--   Use `net.presigned_url()` to generate time-limited, authenticated
-    HTTP URLs for cloud storage files
--   Pixeltable handles caching intelligently to avoid wasteful
-    operations
+- Pixeltable uses local storage by default for all media files
+- You can override the default for specific columns with the
+  `destination` parameter
+- You can change the global default with `input_media_dest` and
+  `output_media_dest`
+- Precedence: column destination \> global config \> Pixeltable’s
+  default local storage
+- Use `.fileurl` to get URLs for your stored files
+- Use `net.presigned_url()` to generate time-limited, authenticated HTTP
+  URLs for cloud storage files
+- Pixeltable handles caching intelligently to avoid wasteful operations
 
 ## See also
 
--   [Load from S3](../../../howto/cookbooks/data/data-import-s3) -
-    Import media from cloud storage
--   [Cloud Storage Integration](../../../integrations/cloud-storage) -
-    Provider setup
+- [Load from S3](../../../howto/cookbooks/data/data-import-s3) - Import
+  media from cloud storage
+- [Cloud Storage Integration](../../../integrations/cloud-storage) -
+  Provider setup
 
 ## Next steps
 
--   See the [Cloud Storage
-    documentation](/integrations/cloud-storage)
-    for complete provider setup and authentication details
--   Check out [Pixeltable
-    Configuration](/platform/configuration)
-    for all config options
--   Join our [Discord community](https://pixeltable.com/discord) if you
-    have questions
+- See the [Cloud Storage
+  documentation](/integrations/cloud-storage)
+  for complete provider setup and authentication details
+- Check out [Pixeltable
+  Configuration](/platform/configuration) for
+  all config options
+- Join our [Discord community](https://pixeltable.com/discord) if you
+  have questions

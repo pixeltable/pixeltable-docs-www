@@ -489,9 +489,9 @@ track of all the transformed versions.
 
 **What’s in this recipe:**
 
--   Basic image operations (resize, rotate, flip, crop)
--   Track image properties
--   Iterate on transformations before adding to your table
+- Basic image operations (resize, rotate, flip, crop)
+- Track image properties
+- Iterate on transformations before adding to your table
 
 You apply PIL transformations (resize, rotate, flip, crop) to images in
 your table using Pixeltable’s built-in image functions—common operations
@@ -574,9 +574,9 @@ table.
 
 Pixeltable includes these built-in functions for image properties:
 
--   `.height` - Get image height in pixels
--   `.width` - Get image width in pixels
--   `.mode` - Get color mode (RGB, RGBA, L for grayscale, etc.)
+- `.height` - Get image height in pixels
+- `.width` - Get image width in pixels
+- `.mode` - Get color mode (RGB, RGBA, L for grayscale, etc.)
 
 
 ```python
@@ -621,7 +621,7 @@ table.
 Pixeltable includes a built-in function for resizing image files with
 PIL:
 
--   `.resize(width, height)` - Change image dimensions
+- `.resize(width, height)` - Change image dimensions
 
 
 ```python
@@ -666,7 +666,7 @@ table.
 Pixeltable includes a built-in function for rotating image files with
 PIL:
 
--   `.rotate(degrees)` - Rotate image by specified degrees
+- `.rotate(degrees)` - Rotate image by specified degrees
 
 
 ```python
@@ -712,8 +712,8 @@ Pixeltable includes a built-in function for transposing image files with
 PIL (note that for this transform you will need import PIL to access the
 `FLIP_*` constants):
 
--   `.transpose(Image.FLIP_TOP_BOTTOM)` - Flip image vertically
--   `.transpose(Image.FLIP_LEFT_RIGHT)` - Mirror image horizontally
+- `.transpose(Image.FLIP_TOP_BOTTOM)` - Flip image vertically
+- `.transpose(Image.FLIP_LEFT_RIGHT)` - Mirror image horizontally
 
 
 ```python
@@ -769,8 +769,8 @@ table.
 Pixeltable includes a built-in function for cropping image files with
 PIL:
 
--   `.crop(box)` - Extract a rectangular region from the image (box
-    format: `(left, top, right, bottom)`)
+- `.crop(box)` - Extract a rectangular region from the image (box
+  format: `(left, top, right, bottom)`)
 
 
 ```python
@@ -842,16 +842,16 @@ documentation](https://pillow.readthedocs.io/).
 
 **To customize transformations:**
 
--   **Resize**: Change dimensions with `.resize((width, height))` -
-    specify target size in pixels
--   **Rotate**: Rotate counterclockwise with `.rotate(degrees)` - use
-    negative values for clockwise rotation
--   **Flip**: Use `.transpose(Image.FLIP_LEFT_RIGHT)` for horizontal
-    mirror or `.transpose(Image.FLIP_TOP_BOTTOM)` for vertical flip
--   **Crop**: Extract regions with `.crop((left, top, right, bottom))` -
-    coordinates are in pixels from top-left origin
--   **Properties**: Access `.width`, `.height`, and `.mode` to get image
-    dimensions and color mode
+- **Resize**: Change dimensions with `.resize((width, height))` -
+  specify target size in pixels
+- **Rotate**: Rotate counterclockwise with `.rotate(degrees)` - use
+  negative values for clockwise rotation
+- **Flip**: Use `.transpose(Image.FLIP_LEFT_RIGHT)` for horizontal
+  mirror or `.transpose(Image.FLIP_TOP_BOTTOM)` for vertical flip
+- **Crop**: Extract regions with `.crop((left, top, right, bottom))` -
+  coordinates are in pixels from top-left origin
+- **Properties**: Access `.width`, `.height`, and `.mode` to get image
+  dimensions and color mode
 
 **The Pixeltable workflow:**
 
@@ -873,9 +873,9 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
--   [Convert RGB images to
-    grayscale](/howto/cookbooks/images/img-rgb-to-grayscale)
--   [Apply filters to
-    images](/howto/cookbooks/images/img-apply-filters)
--   [Test transformations with fast feedback
-    loops](/howto/cookbooks/core/dev-iterative-workflow)
+- [Convert RGB images to
+  grayscale](/howto/cookbooks/images/img-rgb-to-grayscale)
+- [Apply filters to
+  images](/howto/cookbooks/images/img-apply-filters)
+- [Test transformations with fast feedback
+  loops](/howto/cookbooks/core/dev-iterative-workflow)

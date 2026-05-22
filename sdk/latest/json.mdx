@@ -23,7 +23,12 @@ t.select(pxtf.json.make_list(t.json_col)).collect()
 
 ```python Signature
 @pxt.iterator
-list_iterator(elements: pxt.Json[(Json = None, *, mode: pxt.String = 'strict', **kwargs)
+list_iterator(
+    elements: pxt.Json[(Json, ...)] | None = None,
+    *,
+    mode: pxt.String = 'strict',
+    **kwargs
+)
 ```
 
 Iterator over elements of a list or lists. There are two distinct call patterns: either a single positional

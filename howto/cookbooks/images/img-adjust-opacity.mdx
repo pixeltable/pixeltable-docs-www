@@ -116,9 +116,9 @@ overlays, or watermarks.
 
 **What’s in this recipe:**
 
--   Set image opacity (transparency level)
--   Test transformations before applying
--   Apply to multiple images automatically
+- Set image opacity (transparency level)
+- Test transformations before applying
+- Apply to multiple images automatically
 
 You adjust image transparency using a custom UDF that modifies alpha
 channels (relies on PIL/Pillow). This gives you precise control over
@@ -186,7 +186,9 @@ t.insert(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`opacity\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`opacity\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;545.05&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`opacity\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`opacity\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;545.05&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
@@ -200,14 +202,14 @@ your function to every row in your table.
 
 **How it works:**
 
--   All image manipulation (`.convert()`, `.split()`, `.point()`,
-    `.putalpha()`) comes from the PIL/Pillow library
--   These are standard Python image operations—see [Pillow
-    docs](https://pillow.readthedocs.io/) for reference
--   The `@pxt.udf` decorator lets Pixeltable apply your function to
-    table rows
--   The opacity parameter (0.0 = fully transparent, 1.0 = fully opaque)
-    controls the alpha scaling
+- All image manipulation (`.convert()`, `.split()`, `.point()`,
+  `.putalpha()`) comes from the PIL/Pillow library
+- These are standard Python image operations—see [Pillow
+  docs](https://pillow.readthedocs.io/) for reference
+- The `@pxt.udf` decorator lets Pixeltable apply your function to table
+  rows
+- The opacity parameter (0.0 = fully transparent, 1.0 = fully opaque)
+  controls the alpha scaling
 
 
 ```python
@@ -269,12 +271,12 @@ the transparency level.
 
 **To customize the UDF:**
 
--   **Opacity levels**: Use 0.25 for very faint backgrounds, 0.5 for
-    standard transparency, 0.75 for subtle effects
--   **Selective transparency**: Modify the lambda function in `.point()`
-    to apply different transparency to different pixel values
--   **Preserve regions**: Add conditional logic to keep certain areas
-    fully opaque
+- **Opacity levels**: Use 0.25 for very faint backgrounds, 0.5 for
+  standard transparency, 0.75 for subtle effects
+- **Selective transparency**: Modify the lambda function in `.point()`
+  to apply different transparency to different pixel values
+- **Preserve regions**: Add conditional logic to keep certain areas
+  fully opaque
 
 **The Pixeltable workflow:**
 
@@ -296,9 +298,9 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
--   [Test transformations with fast feedback
-    loops](/howto/cookbooks/core/dev-iterative-workflow)
--   [Add watermarks to
-    images](/howto/cookbooks/images/img-add-watermarks)
--   [Transform images with PIL
-    operations](/howto/cookbooks/images/img-pil-transforms)
+- [Test transformations with fast feedback
+  loops](/howto/cookbooks/core/dev-iterative-workflow)
+- [Add watermarks to
+  images](/howto/cookbooks/images/img-add-watermarks)
+- [Transform images with PIL
+  operations](/howto/cookbooks/images/img-pil-transforms)

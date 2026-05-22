@@ -22,7 +22,13 @@ For more information on Fabric AI services, see:
 
 ```python Signature
 @pxt.udf
-chat_completions(messages: pxt.Json[(Json, *, model: pxt.String, api_version: pxt.String | None = None, model_kwargs: pxt.Json | None = None) -> pxt.Json
+chat_completions(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model: pxt.String,
+    api_version: pxt.String | None = None,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
 ```
 
 Creates a model response for the given chat conversation using Azure OpenAI in Fabric.

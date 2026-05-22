@@ -183,14 +183,14 @@ referred to as the Crystal period.</td>
 
 Main takeaways:
 
--   Indexing in Pixeltable is declarative
-    -   you create an index on a column and supply the embedding
-        functions you want to use (for inserting data into the index as
-        well as lookups)
-    -   Pixeltable maintains the index in response to any kind of update
-        of the indexed table (i.e., `insert()`/`update()`/`delete()`)
--   Perform index lookups with the `similarity()` pseudo-function, in
-    combination with the `order_by()` and `limit()` clauses
+- Indexing in Pixeltable is declarative
+  - you create an index on a column and supply the embedding functions
+    you want to use (for inserting data into the index as well as
+    lookups)
+  - Pixeltable maintains the index in response to any kind of update of
+    the indexed table (i.e., `insert()`/`update()`/`delete()`)
+- Perform index lookups with the `similarity()` pseudo-function, in
+  combination with the `order_by()` and `limit()` clauses
 
 To make this concrete, let’s create a table of images with the
 [`create_table()`](/sdk/latest/pixeltable#func-create_table)
@@ -317,14 +317,13 @@ operator.
 
 `add_embedding_index()` provides a few other optional parameters:
 
--   `idx_name`: optional name for the index, which needs to be unique
-    for the table; a default name is created if this isn’t provided
-    explicitly
--   `metric`: the metric to use to compute the similarity of two
-    embedding vectors; one of:
-    -   `'cosine'`: cosine distance (default)
-    -   `'ip'`: inner product
-    -   `'l2'`: L2 distance
+- `idx_name`: optional name for the index, which needs to be unique for
+  the table; a default name is created if this isn’t provided explicitly
+- `metric`: the metric to use to compute the similarity of two embedding
+  vectors; one of:
+  - `'cosine'`: cosine distance (default)
+  - `'ip'`: inner product
+  - `'l2'`: L2 distance
 
 If desired, you can create multiple indexes on the same column, using
 different embedding functions. This can be useful to evaluate the
@@ -696,14 +695,14 @@ Our example UDF is very simple, but it would perform poorly in a
 production setting. To make our UDF production-ready, we’d want to do
 two things:
 
--   Cache the model: the current version calls `hub.load()` on every UDF
-    invocation. In a real application, we’d want to instantiate the
-    model just once, then reuse it on subsequent UDF calls.
--   Batch our inputs: we’d use Pixeltable’s batching capability to
-    ensure we’re making efficient use of the model. Batched UDFs are
-    described in depth in the [User-Defined
-    Functions](/platform/udfs-in-pixeltable)
-    how-to guide.
+- Cache the model: the current version calls `hub.load()` on every UDF
+  invocation. In a real application, we’d want to instantiate the model
+  just once, then reuse it on subsequent UDF calls.
+- Batch our inputs: we’d use Pixeltable’s batching capability to ensure
+  we’re making efficient use of the model. Batched UDFs are described in
+  depth in the [User-Defined
+  Functions](/platform/udfs-in-pixeltable)
+  how-to guide.
 
 You might have noticed that the updates to `bert_idx` seem sluggish;
 that’s why!
@@ -713,8 +712,8 @@ that’s why!
 To delete an index, call
 [`Table.drop_embedding_index()`](/sdk/latest/table#method-drop_embedding_index):
 
--   specify the `idx_name` parameter if you have multiple indices
--   otherwise the `column_name` parameter is sufficient
+- specify the `idx_name` parameter if you have multiple indices
+- otherwise the `column_name` parameter is sufficient
 
 Given that we have several embedding indices, we’ll specify which index
 to drop:

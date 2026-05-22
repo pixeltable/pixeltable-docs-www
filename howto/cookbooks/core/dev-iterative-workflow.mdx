@@ -339,13 +339,12 @@ model inference.
 
 **What’s in this recipe:**
 
--   Test transformations on sample rows before applying to your full
-    dataset
--   Save expressions as variables to guarantee consistent logic
--   Apply the iterate-then-add workflow with built-in functions,
-    expressions, and custom UDFs
--   Annotate columns with comments and custom metadata using
-    `ColumnSpec`
+- Test transformations on sample rows before applying to your full
+  dataset
+- Save expressions as variables to guarantee consistent logic
+- Apply the iterate-then-add workflow with built-in functions,
+  expressions, and custom UDFs
+- Annotate columns with comments and custom metadata using `ColumnSpec`
 
 You test transformation logic on sample rows before processing your
 entire dataset using the iterate-then-add workflow. This lets you
@@ -501,16 +500,16 @@ t.collect()
 
 This pattern works with any expression:
 
--   Built-in functions: `resize_expr = t.image.resize((224, 224))`
--   UDFs: `watermark_expr = add_watermark(t.image, '© 2024')`
--   Chained operations:
-    `processed_expr = t.image.resize((224, 224)).rotate(90)`
+- Built-in functions: `resize_expr = t.image.resize((224, 224))`
+- UDFs: `watermark_expr = add_watermark(t.image, '© 2024')`
+- Chained operations:
+  `processed_expr = t.image.resize((224, 224)).rotate(90)`
 
 Benefits:
 
--   Write the expression once, use it twice
--   No copy-paste—reuse the same logic
--   Easy to iterate: change in one place, test again
+- Write the expression once, use it twice
+- No copy-paste—reuse the same logic
+- Easy to iterate: change in one place, test again
 
 ### Example 3: custom UDF
 
@@ -606,17 +605,17 @@ errors early, then commit once.
 
 **To customize this workflow:**
 
--   **Sample size**: Use `.head(n)` to collect only the first n
-    rows—`.head(1)` for single-row testing, `.head(10)` for broader
-    validation, or `.collect()` to collect all rows
--   **Save expressions**: Store transformations as variables (Example 2)
-    to guarantee identical logic in both iterate and add steps
--   **Chain transformations**: Test multiple operations
-    together—`.select(t.text.upper().split())` works just like single
-    operations
--   **Use with any data type**: This pattern works with images, videos,
-    audio, documents—not just text. For multimodal data, visual
-    inspection during iteration is especially valuable
+- **Sample size**: Use `.head(n)` to collect only the first n
+  rows—`.head(1)` for single-row testing, `.head(10)` for broader
+  validation, or `.collect()` to collect all rows
+- **Save expressions**: Store transformations as variables (Example 2)
+  to guarantee identical logic in both iterate and add steps
+- **Chain transformations**: Test multiple operations
+  together—`.select(t.text.upper().split())` works just like single
+  operations
+- **Use with any data type**: This pattern works with images, videos,
+  audio, documents—not just text. For multimodal data, visual inspection
+  during iteration is especially valuable
 
 **The Pixeltable workflow:**
 
@@ -655,9 +654,9 @@ runs on all rows and results are stored permanently.
 
 ## See also
 
--   [Transform images with PIL
-    operations](/howto/cookbooks/images/img-pil-transforms)
--   [Convert RGB images to
-    grayscale](/howto/cookbooks/images/img-rgb-to-grayscale)
--   [Apply filters to
-    images](/howto/cookbooks/images/img-apply-filters)
+- [Transform images with PIL
+  operations](/howto/cookbooks/images/img-pil-transforms)
+- [Convert RGB images to
+  grayscale](/howto/cookbooks/images/img-rgb-to-grayscale)
+- [Apply filters to
+  images](/howto/cookbooks/images/img-apply-filters)

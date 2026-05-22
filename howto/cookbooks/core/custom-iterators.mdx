@@ -1056,10 +1056,10 @@ frame images.
 To mark an iterator output as unstored, use the `unstored_cols`
 decorator parameter. There is one important caveat:
 
--   If you use unstored columns, you *must* implement your iterator as a
-    class-based iterator; and
--   You *must* implement a `seek()` method in your class, as in the
-    example below.
+- If you use unstored columns, you *must* implement your iterator as a
+  class-based iterator; and
+- You *must* implement a `seek()` method in your class, as in the
+  example below.
 
 This is to ensure Pixeltable has efficient random access to the iterator
 outputs, to facilitate downstream queries against the iterator view.

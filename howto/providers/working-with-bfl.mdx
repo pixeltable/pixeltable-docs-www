@@ -188,11 +188,11 @@ models for image generation and editing through Pixeltable.
 [BFL FLUX](https://docs.bfl.ai/) offers state-of-the-art text-to-image
 generation with models like FLUX.2 and FLUX 1.1, featuring:
 
--   High-fidelity image generation with accurate hands, faces, and
-    textures
--   Multi-reference image editing
--   Precise hex color control
--   Typography and text rendering
+- High-fidelity image generation with accurate hands, faces, and
+  textures
+- Multi-reference image editing
+- Precise hex color control
+- Typography and text rendering
 
 ## Prerequisites
 
@@ -300,10 +300,10 @@ prompts_t.select(prompts_t.prompt, prompts_t.image).show()
 Edit existing images with text prompts using FLUX models. This is
 powerful for:
 
--   Changing backgrounds
--   Adding or removing objects
--   Style transfer
--   Multi-reference editing
+- Changing backgrounds
+- Adding or removing objects
+- Style transfer
+- Multi-reference editing
 
 
 ```python
@@ -411,9 +411,9 @@ seed_t.collect()
 Expand an image beyond its original boundaries using `bfl.expand()`.
 This is perfect for:
 
--   Making images wider or taller
--   Adapting content for different aspect ratios
--   Extending scenes naturally
+- Making images wider or taller
+- Adapting content for different aspect ratios
+- Extending scenes naturally
 
 
 ```python
@@ -469,8 +469,8 @@ expand_t.select(expand_t.image, expand_t.wide).show()
 `bfl.fill()` allows you to inpaint specific regions of an image using a
 mask:
 
--   **Black areas** in the mask are preserved
--   **White areas** in the mask are inpainted based on the prompt
+- **Black areas** in the mask are preserved
+- **White areas** in the mask are inpainted based on the prompt
 
 Use cases: remove unwanted objects, replace backgrounds, edit text in
 images, restore damaged areas.
@@ -540,8 +540,8 @@ fill_t.select(fill_t.image, fill_t.mask, fill_t.filled).show()
 
 ## Learn More
 
--   [BFL Documentation](https://docs.bfl.ai/)
--   [FLUX.2 Overview](https://docs.bfl.ai/flux_2/flux2_overview)
--   [Text-to-Image API](https://docs.bfl.ai/flux_2/flux2_text_to_image)
--   [Image Editing API](https://docs.bfl.ai/flux_2/flux2_image_editing)
--   [Pricing](https://docs.bfl.ai/quick_start/pricing)
+- [BFL Documentation](https://docs.bfl.ai/)
+- [FLUX.2 Overview](https://docs.bfl.ai/flux_2/flux2_overview)
+- [Text-to-Image API](https://docs.bfl.ai/flux_2/flux2_text_to_image)
+- [Image Editing API](https://docs.bfl.ai/flux_2/flux2_image_editing)
+- [Pricing](https://docs.bfl.ai/quick_start/pricing)

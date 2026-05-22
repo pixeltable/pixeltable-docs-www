@@ -76,7 +76,12 @@ tbl.add_computed_column(video=tbl.response['output'].astype(pxt.Video))
 @pxt.udf
 text_to_image(
     prompt_text: pxt.String,
-    reference_images: pxt.Json[(Image, model: pxt.String, ratio: pxt.String, *, seed: pxt.Int | None = None, model_kwargs: pxt.Json | None = None
+    reference_images: pxt.Json[(Image, ...)],
+    model: pxt.String,
+    ratio: pxt.String,
+    *,
+    seed: pxt.Int | None = None,
+    model_kwargs: pxt.Json | None = None
 ) -> pxt.Json
 ```
 

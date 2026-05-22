@@ -204,9 +204,9 @@ computing custom statistics.
 
 **What’s in this recipe:**
 
--   Define a UDA (User-Defined Aggregate) with the `@pxt.uda` decorator
--   Use UDAs in `group_by` queries
--   Create UDAs with multiple inputs
+- Define a UDA (User-Defined Aggregate) with the `@pxt.uda` decorator
+- Use UDAs in `group_by` queries
+- Create UDAs with multiple inputs
 
 ### Setup
 
@@ -491,15 +491,15 @@ class my_aggregate(pxt.Aggregator):
 
 **Key points:**
 
--   Always handle `None` values in `update()`
--   Multiple parameters in `update()` enable multi-column aggregations
-    (like `weighted_avg`)
--   Return type annotation on `value()` determines output column type
+- Always handle `None` values in `update()`
+- Multiple parameters in `update()` enable multi-column aggregations
+  (like `weighted_avg`)
+- Return type annotation on `value()` determines output column type
 
 ## See also
 
--   [UDFs in Pixeltable](../../../platform/udfs-in-pixeltable) -
-    Complete guide to custom functions
--   [Join
-    tables](/howto/cookbooks/core/query-join-tables) -
-    Combine data before aggregating
+- [UDFs in Pixeltable](../../../platform/udfs-in-pixeltable) - Complete
+  guide to custom functions
+- [Join
+  tables](/howto/cookbooks/core/query-join-tables) -
+  Combine data before aggregating

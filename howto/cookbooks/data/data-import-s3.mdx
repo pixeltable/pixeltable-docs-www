@@ -266,9 +266,9 @@ downloading them all upfront.
 
 **What’s in this recipe:**
 
--   Reference media files by URL (S3, HTTP, local paths)
--   Automatic caching of remote files on access
--   Process files lazily without bulk downloads
+- Reference media files by URL (S3, HTTP, local paths)
+- Automatic caching of remote files on access
+- Process files lazily without bulk downloads
 
 You insert media URLs as references. Pixeltable stores the URLs and
 automatically downloads/caches files when you access them through
@@ -439,9 +439,9 @@ Added&nbsp;2&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 **Use cases for presigned URLs:**
 
--   Serve private media in web applications without exposing credentials
--   Generate download links for end users
--   Integrate with CDNs or video players that require HTTP URLs
+- Serve private media in web applications without exposing credentials
+- Generate download links for end users
+- Integrate with CDNs or video players that require HTTP URLs
 
 **Provider limitations:**
 
@@ -470,31 +470,31 @@ files.
 
 **Benefits of URL-based storage:**
 
--   **Lazy loading** - Only download files when needed
--   **Deduplication** - Same URL is cached once
--   **Incremental processing** - Add files without bulk downloads
--   **Cloud-native** - Works directly with object storage
+- **Lazy loading** - Only download files when needed
+- **Deduplication** - Same URL is cached once
+- **Incremental processing** - Add files without bulk downloads
+- **Cloud-native** - Works directly with object storage
 
 **For private S3 buckets:**
 
 Configure AWS credentials using standard methods:
 
--   Environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`)
--   AWS credentials file (`~/.aws/credentials`)
--   IAM roles (when running on EC2/ECS)
+- Environment variables (`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`)
+- AWS credentials file (`~/.aws/credentials`)
+- IAM roles (when running on EC2/ECS)
 
 ## See also
 
--   [Upload to S3](../../../howto/cookbooks/data/data-export-s3) - Store
-    generated media in S3/GCS
--   [Import from CSV](../../../howto/cookbooks/data/data-import-csv) -
-    Load structured data
--   [Extract frames from
-    videos](/howto/cookbooks/video/video-extract-frames) -
-    Process video files
--   [Analyze images in
-    batch](/howto/cookbooks/images/vision-batch-analysis) -
-    AI vision on images
--   [Configure API
-    keys](/howto/cookbooks/core/workflow-api-keys) -
-    Set up credentials
+- [Upload to S3](../../../howto/cookbooks/data/data-export-s3) - Store
+  generated media in S3/GCS
+- [Import from CSV](../../../howto/cookbooks/data/data-import-csv) -
+  Load structured data
+- [Extract frames from
+  videos](/howto/cookbooks/video/video-extract-frames) -
+  Process video files
+- [Analyze images in
+  batch](/howto/cookbooks/images/vision-batch-analysis) -
+  AI vision on images
+- [Configure API
+  keys](/howto/cookbooks/core/workflow-api-keys) -
+  Set up credentials

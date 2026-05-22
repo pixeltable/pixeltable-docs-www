@@ -284,10 +284,10 @@ succeeded or failed.
 
 **What’s in this recipe:**
 
--   Analyze multiple images with a single prompt using
-    `openai.chat_completions()`
--   Get all results at once, stored in your table
--   No loops or manual API calls
+- Analyze multiple images with a single prompt using
+  `openai.chat_completions()`
+- Get all results at once, stored in your table
+- No loops or manual API calls
 
 You add a computed column that applies `openai.chat_completions()` with
 multimodal messages to every image in your table. Pixeltable handles the
@@ -470,16 +470,16 @@ t.add_computed_column(
 
 Replace `openai.chat_completions` with:
 
--   `anthropic.messages` for Claude
--   `gemini.generate_content` for Gemini
--   `together.chat_completions` for Together AI
+- `anthropic.messages` for Claude
+- `gemini.generate_content` for Gemini
+- `together.chat_completions` for Together AI
 
 ## See also
 
--   [Configure API
-    keys](/howto/cookbooks/core/workflow-api-keys)
--   [Working with
-    OpenAI](/howto/providers/working-with-openai)
+- [Configure API
+  keys](/howto/cookbooks/core/workflow-api-keys)
+- [Working with
+  OpenAI](/howto/providers/working-with-openai)
 
 ### New images are analyzed automatically
 
