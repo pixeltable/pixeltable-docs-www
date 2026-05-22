@@ -87,9 +87,9 @@ processing.
 
 **What’s in this recipe:**
 
--   Extract text content from chat completions
--   Access nested JSON fields
--   Create separate columns for different fields
+- Extract text content from chat completions
+- Access nested JSON fields
+- Create separate columns for different fields
 
 You use JSON path notation to extract specific fields from API responses
 and store them in computed columns.
@@ -203,9 +203,9 @@ t.select(t.prompt, t.text, t.tokens).collect()
 
 **Accessing JSON fields:**
 
--   Use dot notation for object properties: `response.usage`
--   Use brackets for array elements: `choices[0]`
--   Chain them: `response.choices[0].message.content`
+- Use dot notation for object properties: `response.usage`
+- Use brackets for array elements: `choices[0]`
+- Chain them: `response.choices[0].message.content`
 
 **Extracted columns are computed:**
 
@@ -213,7 +213,7 @@ Changes to the source data automatically update all extracted fields.
 
 ## See also
 
--   [Configure API
-    keys](/howto/cookbooks/core/workflow-api-keys)
--   [Extract structured data from
-    images](/howto/cookbooks/images/vision-structured-output)
+- [Configure API
+  keys](/howto/cookbooks/core/workflow-api-keys)
+- [Extract structured data from
+  images](/howto/cookbooks/images/vision-structured-output)

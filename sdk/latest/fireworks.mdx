@@ -16,7 +16,12 @@ the [Working with Fireworks](https://docs.pixeltable.com/notebooks/integrations/
 
 ```python Signature
 @pxt.udf
-chat_completions(messages: pxt.Json[(Json, *, model: pxt.String, model_kwargs: pxt.Json | None = None) -> pxt.Json
+chat_completions(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
 ```
 
 Creates a model response for the given chat conversation.

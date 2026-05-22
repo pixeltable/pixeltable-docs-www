@@ -454,10 +454,10 @@ modifications, or preserve a specific state for reproducibility.
 
 **What’s in this recipe:**
 
--   View version history with `history()` and `get_versions()`
--   Access specific versions with `pxt.get_table('table:N')`
--   Undo changes with `revert()`
--   Create point-in-time snapshots with `pxt.create_snapshot()`
+- View version history with `history()` and `get_versions()`
+- Access specific versions with `pxt.get_table('table:N')`
+- Undo changes with `revert()`
+- Create point-in-time snapshots with `pxt.create_snapshot()`
 
 ### Setup
 
@@ -510,7 +510,9 @@ products.insert(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;432.95&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;432.95&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
@@ -533,7 +535,9 @@ products.update({'price': 19.99}, where=products.name == 'Widget')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;297.47&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;297.47&nbsp;rows/s\]
 1&nbsp;row&nbsp;updated,&nbsp;3&nbsp;values&nbsp;computed.
 </pre>
 
@@ -546,7 +550,9 @@ products.insert(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;661.46&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;661.46&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
 1&nbsp;row&nbsp;inserted,&nbsp;3&nbsp;values&nbsp;computed.
 </pre>
@@ -700,9 +706,13 @@ products.collect()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;535.67&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;535.67&nbsp;rows/s\]
 Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors.
-Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;558.05&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`products\`:&nbsp;1&nbsp;rows&nbsp;\[00:00,&nbsp;558.05&nbsp;rows/s\]
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[13] }} />
@@ -719,43 +729,43 @@ snapshot_v1.collect()
 
 **What creates a new version:**
 
--   `insert()` - adding rows
--   `update()` - modifying rows
--   `delete()` - removing rows
--   `add_column()` / `add_computed_column()` - schema changes
--   `drop_column()` - schema changes
--   `rename_column()` - schema changes
+- `insert()` - adding rows
+- `update()` - modifying rows
+- `delete()` - removing rows
+- `add_column()` / `add_computed_column()` - schema changes
+- `drop_column()` - schema changes
+- `rename_column()` - schema changes
 
 **Version history methods:**
 
--   `history()` - Human-readable DataFrame showing all changes
--   `get_versions()` - List of dictionaries for programmatic access
+- `history()` - Human-readable DataFrame showing all changes
+- `get_versions()` - List of dictionaries for programmatic access
 
 **Accessing specific versions:**
 
--   `pxt.get_table('table_name:N')` - Get read-only handle to version N
--   Useful for comparing data across versions, auditing changes, or
-    recovering specific values
--   Version handles are read-only—you cannot modify historical versions
+- `pxt.get_table('table_name:N')` - Get read-only handle to version N
+- Useful for comparing data across versions, auditing changes, or
+  recovering specific values
+- Version handles are read-only—you cannot modify historical versions
 
 **Reverting:**
 
--   `revert()` undoes the most recent version
--   Can call multiple times to go back further
--   Cannot revert past version 0
--   Cannot revert if a snapshot references that version
+- `revert()` undoes the most recent version
+- Can call multiple times to go back further
+- Cannot revert past version 0
+- Cannot revert if a snapshot references that version
 
 **Snapshots vs revert:**
 
--   Snapshots are persistent, named, point-in-time copies
--   `revert()` permanently removes the latest version
--   Use snapshots when you need to preserve state for reproducibility
--   Use `revert()` to undo mistakes
+- Snapshots are persistent, named, point-in-time copies
+- `revert()` permanently removes the latest version
+- Use snapshots when you need to preserve state for reproducibility
+- Use `revert()` to undo mistakes
 
 ## See also
 
--   [Data sharing](../../../platform/data-sharing) - Share tables
-    between environments
--   [Iterative
-    development](/howto/cookbooks/core/dev-iterative-workflow) -
-    Fast feedback during development
+- [Data sharing](../../../platform/data-sharing) - Share tables between
+  environments
+- [Iterative
+  development](/howto/cookbooks/core/dev-iterative-workflow) -
+  Fast feedback during development

@@ -233,10 +233,10 @@ content based on text prompts.
 
 **What’s in this recipe:**
 
--   Transform images using text prompts with Hugging Face Stable
-    Diffusion models
--   Control transformation strength and quality settings
--   Process batches of images automatically
+- Transform images using text prompts with Hugging Face Stable Diffusion
+  models
+- Control transformation strength and quality settings
+- Process batches of images automatically
 
 You can iterate on transformations before adding them to your table. Use
 `.select()` with `.collect()` to preview results on sample
@@ -327,10 +327,10 @@ results on a subset of images. Nothing is stored in your table.
 
 The `image_to_image` function requires:
 
--   `image`: The source image to transform
--   `prompt`: Text describing the desired output
--   `model_id`: A Hugging Face model ID that supports image-to-image
-    (e.g., `stable-diffusion-v1-5/stable-diffusion-v1-5`)
+- `image`: The source image to transform
+- `prompt`: Text describing the desired output
+- `model_id`: A Hugging Face model ID that supports image-to-image
+  (e.g., `stable-diffusion-v1-5/stable-diffusion-v1-5`)
 
 
 ```python
@@ -353,9 +353,9 @@ t.select(
 You control how much the model modifies the original image using
 `strength` (0.0-1.0):
 
--   **Lower values** (0.3-0.5): Subtle changes, preserves more of the
-    original
--   **Higher values** (0.7-1.0): Dramatic changes, more creative freedom
+- **Lower values** (0.3-0.5): Subtle changes, preserves more of the
+  original
+- **Higher values** (0.7-1.0): Dramatic changes, more creative freedom
 
 You pass additional parameters through `model_kwargs`. For example,
 `negative_prompt` text describing what you don’t want the output to be.
@@ -469,26 +469,26 @@ The `image_to_image` UDF uses `AutoPipelineForImage2Image` from the
 diffusers library, which automatically detects the model type and
 selects the appropriate pipeline. You use any compatible model:
 
--   `stable-diffusion-v1-5/stable-diffusion-v1-5` - General-purpose,
-    runs on most hardware
--   `stabilityai/stable-diffusion-xl-base-1.0` - Higher quality, needs
-    more VRAM
+- `stable-diffusion-v1-5/stable-diffusion-v1-5` - General-purpose, runs
+  on most hardware
+- `stabilityai/stable-diffusion-xl-base-1.0` - Higher quality, needs
+  more VRAM
 
 **Key parameters:**
 
--   `strength` (0.0-1.0): How much to transform the image
--   `negative_prompt`: Text describing what to avoid in the generated
-    image (e.g., “blurry, low quality”).
--   `num_inference_steps`: Quality vs speed tradeoff (more steps =
-    better quality)
--   `guidance_scale`: How closely to follow the prompt (7-8 is typical)
--   `seed`: For reproducible results
+- `strength` (0.0-1.0): How much to transform the image
+- `negative_prompt`: Text describing what to avoid in the generated
+  image (e.g., “blurry, low quality”).
+- `num_inference_steps`: Quality vs speed tradeoff (more steps = better
+  quality)
+- `guidance_scale`: How closely to follow the prompt (7-8 is typical)
+- `seed`: For reproducible results
 
 ## See also
 
--   [Apply filters to
-    images](/howto/cookbooks/images/img-apply-filters)
--   [Generate captions for
-    images](/howto/cookbooks/images/img-generate-captions)
--   [Hugging Face image-to-image
-    models](https://huggingface.co/models?pipeline_tag=image-to-image)
+- [Apply filters to
+  images](/howto/cookbooks/images/img-apply-filters)
+- [Generate captions for
+  images](/howto/cookbooks/images/img-generate-captions)
+- [Hugging Face image-to-image
+  models](https://huggingface.co/models?pipeline_tag=image-to-image)

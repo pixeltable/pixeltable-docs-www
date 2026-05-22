@@ -485,18 +485,18 @@ and computed columns *before* executing them - these types need to be
 known in advance. That’s the reasoning behind a fundamental principle of
 Pixeltable UDFs:
 
--   Type hints are *required*.
+- Type hints are *required*.
 
 You can turn almost any Python function into a Pixeltable UDF, provided
 that it has type hints, and provided that Pixeltable supports the types
 that it uses. The most familiar types that you’ll use in UDFs are:
 
--   `int`
--   `float`
--   `str`
--   `list` (can optionally be parameterized, e.g., `list[str]`)
--   `dict` (can optionally be parameterized, e.g., `dict[str, int]`)
--   `PIL.Image.Image`
+- `int`
+- `float`
+- `str`
+- `list` (can optionally be parameterized, e.g., `list[str]`)
+- `dict` (can optionally be parameterized, e.g., `dict[str, int]`)
+- `PIL.Image.Image`
 
 In addition to these standard Python types, Pixeltable also recognizes
 various kinds of arrays, audio and video media, and documents.
@@ -621,12 +621,12 @@ def longest_word(
 
 There are several changes:
 
--   The parameter `batch_size=16` has been added to the `@pxt.udf`
-    decorator, specifying the batch size;
--   The `sentences` parameter has changed from `str` to `Batch[str]`;
--   The return type has also changed from `str` to `Batch[str]`; and
--   Instead of processing a single sentence, the UDF is processing a
-    `Batch` of sentences and returning the result `Batch`.
+- The parameter `batch_size=16` has been added to the `@pxt.udf`
+  decorator, specifying the batch size;
+- The `sentences` parameter has changed from `str` to `Batch[str]`;
+- The return type has also changed from `str` to `Batch[str]`; and
+- Instead of processing a single sentence, the UDF is processing a
+  `Batch` of sentences and returning the result `Batch`.
 
 What exactly is a `Batch[str]`? Functionally, it’s simply a `list[str]`,
 and you can use it exactly like a `list[str]` in any Python code. The
@@ -723,11 +723,11 @@ of numbers. To define an aggregate, we implement a subclass of the
 decorator, similar to what we did for UDFs. The subclass must implement
 three methods:
 
--   `__init__()` - initializes the aggregator; can be used to
-    parameterize aggregator behavior
--   `update()` - updates the internal state of the aggregator with a new
-    value
--   `value()` - retrieves the current value held by the aggregator
+- `__init__()` - initializes the aggregator; can be used to parameterize
+  aggregator behavior
+- `update()` - updates the internal state of the aggregator with a new
+  value
+- `value()` - retrieves the current value held by the aggregator
 
 In our example, the class will have a single member `cur_sum`, which
 holds a running total of the squares of all the values we’ve seen.

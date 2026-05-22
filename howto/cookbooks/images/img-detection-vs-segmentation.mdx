@@ -338,9 +338,9 @@ analysis.
 
 **What’s in this recipe:**
 
--   Run object detection to get bounding boxes and labels
--   Run panoptic segmentation to get pixel-level masks
--   Visualize and compare outputs side-by-side
+- Run object detection to get bounding boxes and labels
+- Run panoptic segmentation to get pixel-level masks
+- Visualize and compare outputs side-by-side
 
 ## Problem
 
@@ -411,10 +411,10 @@ and confidence scores.
 
 **Parameters:**
 
--   `model_id`: DETR variant (`facebook/detr-resnet-50` or
-    `facebook/detr-resnet-101`)
--   `threshold`: Confidence threshold (0.0-1.0). Higher = fewer but more
-    confident detections
+- `model_id`: DETR variant (`facebook/detr-resnet-50` or
+  `facebook/detr-resnet-101`)
+- `threshold`: Confidence threshold (0.0-1.0). Higher = fewer but more
+  confident detections
 
 **Output:**
 
@@ -482,8 +482,8 @@ segment metadata.
 
 **Parameters:**
 
--   `model_id`: Segmentation model (`facebook/detr-resnet-50-panoptic`)
--   `threshold`: Confidence threshold for filtering segments
+- `model_id`: Segmentation model (`facebook/detr-resnet-50-panoptic`)
+- `threshold`: Confidence threshold for filtering segments
 
 **Output:**
 
@@ -611,25 +611,25 @@ but precise boundaries.
 
 **Choose detection when:**
 
--   You need to know *what* objects are present and *where*
-    (approximately)
--   Speed matters (detection is 2x faster)
--   You need search, filtering, or counting
--   Bounding boxes suffice for visualization
+- You need to know *what* objects are present and *where*
+  (approximately)
+- Speed matters (detection is 2x faster)
+- You need search, filtering, or counting
+- Bounding boxes suffice for visualization
 
 **Choose segmentation when:**
 
--   You need *exact* object boundaries (pixel-perfect masks)
--   You’re doing image editing, compositing, or AR
--   You need to measure actual object area/coverage
--   You want scene composition analysis (what % is sky vs buildings)
+- You need *exact* object boundaries (pixel-perfect masks)
+- You’re doing image editing, compositing, or AR
+- You need to measure actual object area/coverage
+- You want scene composition analysis (what % is sky vs buildings)
 
 ## See also
 
--   [Detect objects in images](./img-detect-objects) - Object detection
-    with YOLOX
--   [Visualize detections](./img-visualize-detections) - Draw bounding
-    boxes and labels
--   [DETR
-    documentation](https://huggingface.co/docs/transformers/model_doc/detr) -
-    Hugging Face model docs
+- [Detect objects in images](./img-detect-objects) - Object detection
+  with YOLOX
+- [Visualize detections](./img-visualize-detections) - Draw bounding
+  boxes and labels
+- [DETR
+  documentation](https://huggingface.co/docs/transformers/model_doc/detr) -
+  Hugging Face model docs

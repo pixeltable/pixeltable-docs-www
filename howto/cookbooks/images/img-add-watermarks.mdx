@@ -102,9 +102,9 @@ copyright, add branding, or mark drafts.
 
 **What’s in this recipe:**
 
--   Create simple text watermarks
--   Test transformations before applying
--   Apply to multiple images automatically
+- Create simple text watermarks
+- Test transformations before applying
+- Apply to multiple images automatically
 
 You add watermarks to images using a custom UDF that wraps Pillow’s
 `ImageDraw` (relies on PIL/Pillow). This gives you full control over
@@ -172,7 +172,9 @@ t.insert(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserting&nbsp;rows&nbsp;into&nbsp;\`watermarks\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]Inserting&nbsp;rows&nbsp;into&nbsp;\`watermarks\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;532.86&nbsp;rows/s\]
+
+Inserting&nbsp;rows&nbsp;into&nbsp;\`watermarks\`:&nbsp;0&nbsp;rows&nbsp;\[00:00,&nbsp;?&nbsp;rows/s\]
+Inserting&nbsp;rows&nbsp;into&nbsp;\`watermarks\`:&nbsp;3&nbsp;rows&nbsp;\[00:00,&nbsp;532.86&nbsp;rows/s\]
 Inserted&nbsp;3&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors.
 3&nbsp;rows&nbsp;inserted,&nbsp;6&nbsp;values&nbsp;computed.
 </pre>
@@ -241,12 +243,12 @@ formats don’t support transparency.
 
 **To customize the UDF:**
 
--   Position: Change the `(x, y)` coordinates in the `position` variable
--   Color: Modify the `(R, G, B, Alpha)` fill value (0-255 for each)
--   Size: Adjust the font size parameter in
-    `ImageFont.load_default(size=40)`
--   Font: Use `ImageFont.truetype('path/to/font.ttf', size)` for custom
-    fonts
+- Position: Change the `(x, y)` coordinates in the `position` variable
+- Color: Modify the `(R, G, B, Alpha)` fill value (0-255 for each)
+- Size: Adjust the font size parameter in
+  `ImageFont.load_default(size=40)`
+- Font: Use `ImageFont.truetype('path/to/font.ttf', size)` for custom
+  fonts
 
 **The Pixeltable workflow:**
 
@@ -268,10 +270,10 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 
 ## See also
 
--   [Test transformations with fast feedback
-    loops](/howto/cookbooks/core/dev-iterative-workflow)
--   [Transform images with PIL
-    operations](/howto/cookbooks/images/img-pil-transforms)
--   *Pillow techniques from [Real Python: Image Processing With the
-    Python Pillow
-    Library](https://realpython.com/image-processing-with-the-python-pillow-library/)*
+- [Test transformations with fast feedback
+  loops](/howto/cookbooks/core/dev-iterative-workflow)
+- [Transform images with PIL
+  operations](/howto/cookbooks/images/img-pil-transforms)
+- *Pillow techniques from [Real Python: Image Processing With the Python
+  Pillow
+  Library](https://realpython.com/image-processing-with-the-python-pillow-library/)*

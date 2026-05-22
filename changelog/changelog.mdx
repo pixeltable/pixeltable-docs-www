@@ -21,6 +21,32 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.6.3
+
+**Released:** May 22, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.6.3](https://github.com/pixeltable/pixeltable/releases/tag/v0.6.3)
+
+#### What's Changed
+* [PXT-1160] skip working-with-fireworks.ipynb in ci by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1350](https://github.com/pixeltable/pixeltable/pull/1350)
+* docs: relocate submodules, README updates, and nav fixes by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1348](https://github.com/pixeltable/pixeltable/pull/1348)
+* [PXT-1159] simplify GroqTest::test_tool_invocations to make it more reliable by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1346](https://github.com/pixeltable/pixeltable/pull/1346)
+* Improve run_tool_invocations_test by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1347](https://github.com/pixeltable/pixeltable/pull/1347)
+* Support UDFs defined in modules with `from __future__ import annotations` by [@aaron-siegel](https://github.com/aaron-siegel) in [#1344](https://github.com/pixeltable/pixeltable/pull/1344)
+* Update model used as an example in working with fireworks by [@aaron-siegel](https://github.com/aaron-siegel) in [#1356](https://github.com/pixeltable/pixeltable/pull/1356)
+* explicitly prohibit the unsupported pk col operations by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1349](https://github.com/pixeltable/pixeltable/pull/1349)
+* [PXT-1002] double the current random-ops duration in ci to 6 minutes by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1359](https://github.com/pixeltable/pixeltable/pull/1359)
+* [PXT-1147] Hugging Face datasets integration breaks with `datasets` 4.8.5 by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1361](https://github.com/pixeltable/pixeltable/pull/1361)
+* docs: fix deployment staleness and add application templates by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1362](https://github.com/pixeltable/pixeltable/pull/1362)
+* [PXT-1155] random_ops fix for: ValueError: sleep length must be non-n… by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1360](https://github.com/pixeltable/pixeltable/pull/1360)
+* [PXT-1138] Fault injection framework for testing by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1326](https://github.com/pixeltable/pixeltable/pull/1326)
+* Twelvelabs async file uploads by [@aaron-siegel](https://github.com/aaron-siegel) in [#1358](https://github.com/pixeltable/pixeltable/pull/1358)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.6.2...v0.6.3
+
+---
+
 ### v0.6.2
 
 **Released:** May 15, 2026  
@@ -1151,35 +1177,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.7...v0.4.8
-
----
-
-### v0.4.7
-
-**Released:** August 04, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.7](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.7)
-
-#### What's Changed
-* Consolidate ColumnMd operations into from_md() and to_md(). {media_5} by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#715](https://github.com/pixeltable/pixeltable/pull/715)
-* Update README.md + Changelog by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#727](https://github.com/pixeltable/pixeltable/pull/727)
-* Consolidate all store_table row prep into DataRow.create_store_table_row. by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#723](https://github.com/pixeltable/pixeltable/pull/723)
-* More rigor in UDF evolution tests by [@aaron-siegel](https://github.com/aaron-siegel) in [#728](https://github.com/pixeltable/pixeltable/pull/728)
-* Rerun tests that fail due to concurrency conflicts by [@aaron-siegel](https://github.com/aaron-siegel) in [#737](https://github.com/pixeltable/pixeltable/pull/737)
-* Replace most uses of `Union[]` with Python 3.10-style unions by [@aaron-siegel](https://github.com/aaron-siegel) in [#735](https://github.com/pixeltable/pixeltable/pull/735)
-* Extend FrameIterator to output all available frame attributes by [@mkornacker](https://github.com/mkornacker) in [#716](https://github.com/pixeltable/pixeltable/pull/716)
-* Clean up pytest output by [@aaron-siegel](https://github.com/aaron-siegel) in [#740](https://github.com/pixeltable/pixeltable/pull/740)
-* Introduce `TypedDict`s for user-facing table, dir, column, and index metadata by [@aaron-siegel](https://github.com/aaron-siegel) in [#739](https://github.com/pixeltable/pixeltable/pull/739)
-* get_dir_contents(), a more structured replacement for list_tables() / list_dirs() by [@aaron-siegel](https://github.com/aaron-siegel) in [#742](https://github.com/pixeltable/pixeltable/pull/742)
-* Test cleanup by [@aaron-siegel](https://github.com/aaron-siegel) in [#743](https://github.com/pixeltable/pixeltable/pull/743)
-* Prefer public API in tests by [@aaron-siegel](https://github.com/aaron-siegel) in [#744](https://github.com/pixeltable/pixeltable/pull/744)
-* Catching missing sqlalchemy transaction-related exceptions by [@mkornacker](https://github.com/mkornacker) in [#745](https://github.com/pixeltable/pixeltable/pull/745)
-* PXT-668: Remove unneeded test_sample_md5_fraction. by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#750](https://github.com/pixeltable/pixeltable/pull/750)
-* PXT-671: fixes to RateLimitsScheduler by [@mkornacker](https://github.com/mkornacker) in [#741](https://github.com/pixeltable/pixeltable/pull/741)
-* make_video API Doc by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#736](https://github.com/pixeltable/pixeltable/pull/736)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.6...v0.4.7
 
 ---
 

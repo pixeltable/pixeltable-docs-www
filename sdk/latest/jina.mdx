@@ -80,7 +80,11 @@ tbl.add_embedding_index(
 @pxt.udf
 rerank(
     query: pxt.String,
-    documents: pxt.Json[(String, *, model: pxt.String, top_n: pxt.Int | None = None, return_documents: pxt.Bool | None = None
+    documents: pxt.Json[(String, ...)],
+    *,
+    model: pxt.String,
+    top_n: pxt.Int | None = None,
+    return_documents: pxt.Bool | None = None
 ) -> pxt.Json
 ```
 

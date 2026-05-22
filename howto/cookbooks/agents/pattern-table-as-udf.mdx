@@ -114,10 +114,10 @@ to maintain.
 
 **What’s in this recipe:**
 
--   Create an “agent” table with computed columns
--   Convert the table to a callable UDF with
-    `pxt.udf(table, return_value=...)`
--   Use the table UDF in other tables’ computed columns
+- Create an “agent” table with computed columns
+- Convert the table to a callable UDF with
+  `pxt.udf(table, return_value=...)`
+- Use the table UDF in other tables’ computed columns
 
 You wrap an entire table pipeline as a function. When you call this
 function from another table, it inserts a row into the agent table, runs
@@ -292,21 +292,21 @@ Computed&nbsp;columns&nbsp;run&nbsp;→&nbsp;Return&nbsp;value&nbsp;extracted&nb
 
 **Key benefits:**
 
--   **Encapsulation**: Hide complex pipeline details behind a simple
-    function call
--   **Reusability**: Use the same agent from multiple consumer tables
--   **Persistence**: All intermediate results are stored in the agent
-    table for debugging
--   **Composition**: Chain agents together for multi-stage workflows
+- **Encapsulation**: Hide complex pipeline details behind a simple
+  function call
+- **Reusability**: Use the same agent from multiple consumer tables
+- **Persistence**: All intermediate results are stored in the agent
+  table for debugging
+- **Composition**: Chain agents together for multi-stage workflows
 
 ## See also
 
--   [Look up structured
-    data](/howto/cookbooks/agents/pattern-data-lookup) -
-    Simple key-based lookups with `retrieval_udf`
--   [Build a RAG
-    pipeline](/howto/cookbooks/agents/pattern-rag-pipeline) -
-    Retrieval with `@pxt.query`
--   [Use tool calling with
-    LLMs](/howto/cookbooks/agents/llm-tool-calling) -
-    Add tools to agent tables
+- [Look up structured
+  data](/howto/cookbooks/agents/pattern-data-lookup) -
+  Simple key-based lookups with `retrieval_udf`
+- [Build a RAG
+  pipeline](/howto/cookbooks/agents/pattern-rag-pipeline) -
+  Retrieval with `@pxt.query`
+- [Use tool calling with
+  LLMs](/howto/cookbooks/agents/llm-tool-calling) -
+  Add tools to agent tables

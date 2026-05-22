@@ -124,9 +124,9 @@ status across systems, or joining data from multiple sources.
 
 **What’s in this recipe:**
 
--   Create tables with auto-generated UUID primary keys
--   Add UUID columns to existing tables
--   Generate UUIDs with `uuid7()`
+- Create tables with auto-generated UUID primary keys
+- Add UUID columns to existing tables
+- Generate UUIDs with `uuid7()`
 
 You use `uuid7()` to generate UUIDs for each row. Define it in the
 schema with `{'column_name': uuid7()}` syntax, or add it to existing
@@ -257,15 +257,15 @@ orders.collect()
 
 Both use `uuid7()` which generates UUIDv7 (time-based) identifiers:
 
--   128-bit values
--   Formatted as 32 hex digits with hyphens:
-    `018e65c5-35e5-7c5d-8f37-f1c5b9c8a7b2`
--   Time-ordered for better database performance
--   Virtually guaranteed unique (collision probability is negligible)
+- 128-bit values
+- Formatted as 32 hex digits with hyphens:
+  `018e65c5-35e5-7c5d-8f37-f1c5b9c8a7b2`
+- Time-ordered for better database performance
+- Virtually guaranteed unique (collision probability is negligible)
 
 ## See also
 
--   [Tables and
-    operations](/tutorials/tables-and-data-operations)
--   [Computed
-    columns](/tutorials/computed-columns)
+- [Tables and
+  operations](/tutorials/tables-and-data-operations)
+- [Computed
+  columns](/tutorials/computed-columns)

@@ -98,7 +98,11 @@ t.add_computed_column(
 @pxt.udf
 remix(
     prompt: pxt.String,
-    images: pxt.Json[(Image, *, aspect_ratio: pxt.String | None = None, version: pxt.String | None = None, model_kwargs: pxt.Json | None = None
+    images: pxt.Json[(Image, ...)],
+    *,
+    aspect_ratio: pxt.String | None = None,
+    version: pxt.String | None = None,
+    model_kwargs: pxt.Json | None = None
 ) -> pxt.Image
 ```
 

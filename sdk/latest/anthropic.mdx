@@ -28,7 +28,15 @@ Converts an Anthropic response dict to Pixeltable tool invocation format and cal
 
 ```python Signature
 @pxt.udf
-messages(messages: pxt.Json[(Json, *, model: pxt.String, max_tokens: pxt.Int, model_kwargs: pxt.Json | None = None, tools: pxt.Json[(Json = None, tool_choice: pxt.Json | None = None) -> pxt.Json
+messages(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model: pxt.String,
+    max_tokens: pxt.Int,
+    model_kwargs: pxt.Json | None = None,
+    tools: pxt.Json[(Json, ...)] | None = None,
+    tool_choice: pxt.Json | None = None
+) -> pxt.Json
 ```
 
 Create a Message.

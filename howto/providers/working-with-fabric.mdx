@@ -18,16 +18,16 @@ automatic authentication.
 
 ## Prerequisites
 
--   A Microsoft Fabric workspace with access to AI services
--   Running in a Microsoft Fabric notebook environment
+- A Microsoft Fabric workspace with access to AI services
+- Running in a Microsoft Fabric notebook environment
 
 ## Important notes
 
--   This integration only works within Microsoft Fabric notebook
-    environments
--   Authentication is handled automatically - no API keys required
--   Azure OpenAI usage in Fabric is subject to your organization’s
-    Fabric capacity and policies
+- This integration only works within Microsoft Fabric notebook
+  environments
+- Authentication is handled automatically - no API keys required
+- Azure OpenAI usage in Fabric is subject to your organization’s Fabric
+  capacity and policies
 
 For more information about Fabric AI services, see the [Microsoft Fabric
 AI Services
@@ -136,8 +136,8 @@ for complex reasoning tasks.
 
 **Note:** Reasoning models have different parameter requirements:
 
--   Use `max_completion_tokens` instead of `max_tokens`
--   Don’t support the `temperature` parameter
+- Use `max_completion_tokens` instead of `max_tokens`
+- Don’t support the `temperature` parameter
 
 
 ```python
@@ -319,15 +319,15 @@ The following models are currently available in Microsoft Fabric:
 
 **Chat Models:**
 
--   `gpt-5` (reasoning model)
--   `gpt-4.1`
--   `gpt-4.1-mini`
+- `gpt-5` (reasoning model)
+- `gpt-4.1`
+- `gpt-4.1-mini`
 
 **Embedding Models:**
 
--   `text-embedding-ada-002`
--   `text-embedding-3-small`
--   `text-embedding-3-large`
+- `text-embedding-ada-002`
+- `text-embedding-3-small`
+- `text-embedding-3-large`
 
 For the latest information on available models, see the [Fabric AI
 Services
@@ -335,27 +335,27 @@ documentation](https://learn.microsoft.com/en-us/fabric/data-science/ai-services
 
 ## Key Features
 
--   **Automatic Authentication**: No API keys required - authentication
-    is handled by Fabric
--   **Rate Limiting**: Pixeltable automatically handles rate limiting
-    based on Azure OpenAI response headers
--   **Batching**: Embedding requests are automatically batched for
-    efficiency (up to 32 inputs per request)
--   **Incremental Processing**: Computed columns only run on new or
-    updated data
--   **Versioning**: All data and transformations are automatically
-    versioned
+- **Automatic Authentication**: No API keys required - authentication is
+  handled by Fabric
+- **Rate Limiting**: Pixeltable automatically handles rate limiting
+  based on Azure OpenAI response headers
+- **Batching**: Embedding requests are automatically batched for
+  efficiency (up to 32 inputs per request)
+- **Incremental Processing**: Computed columns only run on new or
+  updated data
+- **Versioning**: All data and transformations are automatically
+  versioned
 
 ### Learn More
 
 To learn more about advanced techniques in Pixeltable:
 
--   [RAG Operations in
-    Pixeltable](/howto/use-cases/rag-operations)
--   [Working with
-    Embeddings](/platform/embedding-indexes)
--   [Microsoft Fabric AI
-    Services](https://learn.microsoft.com/en-us/fabric/data-science/ai-services/ai-services-overview)
+- [RAG Operations in
+  Pixeltable](/howto/use-cases/rag-operations)
+- [Working with
+  Embeddings](/platform/embedding-indexes)
+- [Microsoft Fabric AI
+  Services](https://learn.microsoft.com/en-us/fabric/data-science/ai-services/ai-services-overview)
 
 If you have any questions, don’t hesitate to reach out on our [Discord
 community](https://discord.gg/QPyqFYx2UN).

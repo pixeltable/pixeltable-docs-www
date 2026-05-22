@@ -490,20 +490,20 @@ without leaving your data workflows.
 
 Reve is an image generation/editing service with three API endpoints:
 
--   **`create`**: Generate new images from text prompts
--   **`edit`**: Edit existing images with natural language instructions
--   **`remix`**: Blend multiple images together
+- **`create`**: Generate new images from text prompts
+- **`edit`**: Edit existing images with natural language instructions
+- **`remix`**: Blend multiple images together
 
 ### Documentation
 
--   [Pixeltable Reve
-    Functions](/sdk/latest/reve#module-pixeltable-functions-reve)
--   [Reve API Reference](https://api.reve.com/console/docs)
+- [Pixeltable Reve
+  Functions](/sdk/latest/reve#module-pixeltable-functions-reve)
+- [Reve API Reference](https://api.reve.com/console/docs)
 
 ## Prerequisites
 
--   A Reve account with an API key (see
-    [https://api.reve.com/](https://api.reve.com/) for instructions)
+- A Reve account with an API key (see
+  [https://api.reve.com/](https://api.reve.com/) for instructions)
 
 **Important:** Reve API calls consume credits based on your plan—monitor
 your usage to avoid unexpected charges. Images sent to Reve are
@@ -675,11 +675,11 @@ spunk_t.select(spunk_t.new_image.fileurl).collect()
 
 All Reve functions accept optional parameters to customize the output:
 
--   `aspect_ratio`: desired image aspect ratio, e.g. ‘3:2’, ‘16:9’,
-    ‘1:1’, etc. (available for `reve.create()` and `reve.remix()`)
--   `version`: specific model version to use (optional; defaults to
-    latest if not specified). Available for all Reve functions
-    (`reve.create()`, `reve.edit()`, and `reve.remix()`)
+- `aspect_ratio`: desired image aspect ratio, e.g. ‘3:2’, ‘16:9’, ‘1:1’,
+  etc. (available for `reve.create()` and `reve.remix()`)
+- `version`: specific model version to use (optional; defaults to latest
+  if not specified). Available for all Reve functions (`reve.create()`,
+  `reve.edit()`, and `reve.remix()`)
 
 This adds a second image column using the same prompt that renders in a
 square frame.
@@ -769,9 +769,9 @@ spunk_t.select(spunk_t.source_image, spunk_t.edited_subject).collect()
 `reve.remix()` blends multiple reference images. Inside the prompt
 string, you reference each image with a numbered placeholder:
 
--   `<img>0</img>` refers to `images[0]`
--   `<img>1</img>` refers to `images[1]`
--   etc.
+- `<img>0</img>` refers to `images[0]`
+- `<img>1</img>` refers to `images[1]`
+- etc.
 
 You can optionally specify `aspect_ratio` and `version` parameters (both
 default to latest/auto if not specified).
@@ -883,7 +883,7 @@ writes its results into computed columns.
 
 ### Reve Create
 
--   **Input parameter:** A prompt inserted as a row inside a Pixeltable
+- **Input parameter:** A prompt inserted as a row inside a Pixeltable
 
 
 ```python
@@ -896,9 +896,9 @@ spunk_t.select(
 
 ### Reve Edit
 
--   **Input parameter:** A source image of type `pxt.Image`
--   **Usage reminder:** The edit instructions live inline inside the
-    `add_computed_column()` call
+- **Input parameter:** A source image of type `pxt.Image`
+- **Usage reminder:** The edit instructions live inline inside the
+  `add_computed_column()` call
 
 
 ```python
@@ -909,14 +909,14 @@ spunk_t.select(spunk_t.source_image, spunk_t.edited_subject).collect()
 
 ### Reve Remix
 
--   **Input parameters:** We started with two image columns
--   **How the prompt references them:**
-    -   `images=[my_table.image00, my_table.image01]`
-    -   Inside the prompt, `<img>0</img>` points at `images[0]` and
-        `<img>1</img>` points at `images[1]`
--   **Usage reminder:** Always keep the placeholders and the order of
-    the `images` list in sync; add more `<img>n</img>` tags if you pass
-    more reference images.
+- **Input parameters:** We started with two image columns
+- **How the prompt references them:**
+  - `images=[my_table.image00, my_table.image01]`
+  - Inside the prompt, `<img>0</img>` points at `images[0]` and
+    `<img>1</img>` points at `images[1]`
+- **Usage reminder:** Always keep the placeholders and the order of the
+  `images` list in sync; add more `<img>n</img>` tags if you pass more
+  reference images.
 
 
 ```python
@@ -929,9 +929,9 @@ spunk_t.select(
 
 ## Learn more
 
--   Reve API reference:
-    [https://api.reve.com/console/docs](https://api.reve.com/console/docs)
--   Pixeltable documentation:
-    [https://docs.pixeltable.com/sdk/latest/reve#module-pixeltable-functions-reve](/sdk/latest/reve#module-pixeltable-functions-reve)
+- Reve API reference:
+  [https://api.reve.com/console/docs](https://api.reve.com/console/docs)
+- Pixeltable documentation:
+  [https://docs.pixeltable.com/sdk/latest/reve#module-pixeltable-functions-reve](/sdk/latest/reve#module-pixeltable-functions-reve)
 
 If you build something with Reve, let us know!

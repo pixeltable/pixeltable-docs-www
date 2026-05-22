@@ -1261,13 +1261,12 @@ chunks_t
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[9] }} />
 
--   `text` is the chunk text produced by the `document_splitter`
--   `pos` is a system-generated integer column, starting at 0, that
-    provides a sequence number for each row
--   `document`, which is simply the `document` column from the base
-    table `documents`. We won’t need it here, but having access to the
-    base table’s columns (in effect a parent-child join) can be quite
-    useful.
+- `text` is the chunk text produced by the `document_splitter`
+- `pos` is a system-generated integer column, starting at 0, that
+  provides a sequence number for each row
+- `document`, which is simply the `document` column from the base table
+  `documents`. We won’t need it here, but having access to the base
+  table’s columns (in effect a parent-child join) can be quite useful.
 
 Notice that as soon as we created it, `chunks` was automatically
 populated with data from the existing documents in our base table. We

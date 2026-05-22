@@ -232,10 +232,10 @@ rows for granular processing.
 
 **What’s in this recipe:**
 
--   Split documents into text chunks for RAG
--   Extract frames or segments from videos
--   Tile images for high-resolution analysis
--   Chunk audio files for transcription
+- Split documents into text chunks for RAG
+- Extract frames or segments from videos
+- Tile images for high-resolution analysis
+- Chunk audio files for transcription
 
 ## Problem
 
@@ -305,11 +305,11 @@ chunks.select(chunks.text).limit(3).collect()
 
 **Available separators:**
 
--   `heading` — Split on HTML/Markdown headings
--   `sentence` — Split on sentence boundaries (requires spacy)
--   `token_limit` — Split by token count (requires tiktoken)
--   `char_limit` — Split by character count
--   `page` — Split by page (PDF only)
+- `heading` — Split on HTML/Markdown headings
+- `sentence` — Split on sentence boundaries (requires spacy)
+- `token_limit` — Split by token count (requires tiktoken)
+- `char_limit` — Split by character count
+- `page` — Split by page (PDF only)
 
 [SDK Reference:
 document_splitter](/sdk/latest/document)
@@ -351,9 +351,9 @@ frames.select(frames.frame, frames.frame_attrs).limit(3).collect()
 
 **frame_iterator options:**
 
--   `fps` — Frames per second to extract
--   `num_frames` — Extract exact number of frames (evenly spaced)
--   `keyframes_only` — Extract only keyframes
+- `fps` — Frames per second to extract
+- `num_frames` — Extract exact number of frames (evenly spaced)
+- `keyframes_only` — Extract only keyframes
 
 [SDK Reference:
 frame_iterator](/sdk/latest/video)
@@ -382,9 +382,9 @@ segments.select(
 
 **video_splitter options:**
 
--   `duration` — Duration of each segment in seconds
--   `overlap` — Overlap between segments in seconds
--   `min_segment_duration` — Drop last segment if shorter than this
+- `duration` — Duration of each segment in seconds
+- `overlap` — Overlap between segments in seconds
+- `min_segment_duration` — Drop last segment if shorter than this
 
 [SDK Reference:
 video_splitter](/sdk/latest/video)
@@ -464,8 +464,8 @@ tiles = pxt.create_view(
 
 **tile_iterator options:**
 
--   `tile_size` — Size of each tile as `(width, height)`
--   `overlap` — Overlap between adjacent tiles as `(width, height)`
+- `tile_size` — Size of each tile as `(width, height)`
+- `overlap` — Overlap between adjacent tiles as `(width, height)`
 
 [SDK Reference:
 tile_iterator](/sdk/latest/image)
@@ -517,18 +517,18 @@ audio_segments.select(
 
 **audio_splitter options:**
 
--   `duration` — Duration of each chunk in seconds
--   `overlap` — Overlap between chunks in seconds
--   `min_segment_duration` — Drop last chunk if shorter than this
+- `duration` — Duration of each chunk in seconds
+- `overlap` — Overlap between chunks in seconds
+- `min_segment_duration` — Drop last chunk if shorter than this
 
 [SDK Reference:
 audio_splitter](/sdk/latest/audio)
 
 ## See also
 
--   [Split documents for
-    RAG](/howto/cookbooks/text/doc-chunk-for-rag)
--   [Extract frames from
-    videos](/howto/cookbooks/video/video-extract-frames)
--   [Transcribe audio
-    files](/howto/cookbooks/audio/audio-transcribe)
+- [Split documents for
+  RAG](/howto/cookbooks/text/doc-chunk-for-rag)
+- [Extract frames from
+  videos](/howto/cookbooks/video/video-extract-frames)
+- [Transcribe audio
+  files](/howto/cookbooks/audio/audio-transcribe)

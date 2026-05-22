@@ -16,7 +16,14 @@ and other AI capabilities.
 
 ```python Signature
 @pxt.udf
-chat_completions(messages: pxt.Json[(Json, *, model: pxt.String, model_kwargs: pxt.Json | None = None, tools: pxt.Json[(Json = None, tool_choice: pxt.Json | None = None) -> pxt.Json
+chat_completions(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None,
+    tools: pxt.Json[(Json, ...)] | None = None,
+    tool_choice: pxt.Json | None = None
+) -> pxt.Json
 ```
 
 Creates a model response for the given chat conversation.

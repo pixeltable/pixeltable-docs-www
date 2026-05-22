@@ -28,7 +28,15 @@ Converts a Bedrock response dict to Pixeltable tool invocation format and calls 
 
 ```python Signature
 @pxt.udf
-converse(messages: pxt.Json[(Json, *, model_id: pxt.String, system: pxt.Json[(Json = None, inference_config: pxt.Json | None = None, additional_model_request_fields: pxt.Json | None = None, tool_config: pxt.Json[(Json = None) -> pxt.Json
+converse(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model_id: pxt.String,
+    system: pxt.Json[(Json, ...)] | None = None,
+    inference_config: pxt.Json | None = None,
+    additional_model_request_fields: pxt.Json | None = None,
+    tool_config: pxt.Json[(Json, ...)] | None = None
+) -> pxt.Json
 ```
 
 Generate a conversation response.

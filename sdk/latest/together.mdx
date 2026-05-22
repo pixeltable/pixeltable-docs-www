@@ -16,7 +16,12 @@ the [Working with Together AI](https://docs.pixeltable.com/notebooks/integration
 
 ```python Signature
 @pxt.udf
-chat_completions(messages: pxt.Json[(Json, *, model: pxt.String, model_kwargs: pxt.Json | None = None) -> pxt.Json
+chat_completions(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
 ```
 
 Generate chat completions based on a given prompt using a specified model.

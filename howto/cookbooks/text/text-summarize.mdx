@@ -233,9 +233,9 @@ inconsistent.
 
 **What’s in this recipe:**
 
--   Summarize text using OpenAI GPT models
--   Customize summary style with prompts
--   Process multiple documents automatically
+- Summarize text using OpenAI GPT models
+- Customize summary style with prompts
+- Process multiple documents automatically
 
 You add a computed column that calls an LLM to generate summaries. When
 you insert new text, summaries are generated automatically.
@@ -471,19 +471,19 @@ articles.select(articles.title, articles.summary).collect()
 
 **Cost optimization:**
 
--   Use `gpt-4o-mini` for most summarization tasks (fast and affordable)
--   Use `gpt-4o` for complex documents requiring deeper understanding
--   Summaries are cached—you only pay once per article and stuand toofor
-    trL para
+- Use `gpt-4o-mini` for most summarization tasks (fast and affordable)
+- Use `gpt-4o` for complex documents requiring deeper understanding
+- Summaries are cached—you only pay once per article and stuand toofor
+  trL para
 
 ## See also
 
--   [Split documents for
-    RAG](/howto/cookbooks/text/doc-chunk-for-rag) -
-    Process long documents
--   [Extract fields from
-    JSON](/howto/cookbooks/core/workflow-json-extraction) -
-    Parse structured LLM output
--   [Configure API
-    keys](/howto/cookbooks/core/workflow-api-keys) -
-    Set up OpenAI credentials
+- [Split documents for
+  RAG](/howto/cookbooks/text/doc-chunk-for-rag) -
+  Process long documents
+- [Extract fields from
+  JSON](/howto/cookbooks/core/workflow-json-extraction) -
+  Parse structured LLM output
+- [Configure API
+  keys](/howto/cookbooks/core/workflow-api-keys) -
+  Set up OpenAI credentials

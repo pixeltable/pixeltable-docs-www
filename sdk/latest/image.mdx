@@ -24,7 +24,9 @@ t.select(t.img_col.convert('L')).collect()
 @pxt.iterator
 tile_iterator(
     image: pxt.Image,
-    tile_size: pxt.Json[(Int, *, overlap: pxt.Json[(Int = (0, 0)
+    tile_size: pxt.Json[(Int, Int)],
+    *,
+    overlap: pxt.Json[(Int, Int)] = (0, 0)
 )
 ```
 
@@ -150,7 +152,10 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-crop(self: pxt.Image, box: pxt.Json[(Int) -> pxt.Image
+crop(
+    self: pxt.Image,
+    box: pxt.Json[(Int, Int, Int, Int)]
+) -> pxt.Image
 ```
 
 Return a rectangular region from the image. The box is a 4-tuple defining the left, upper, right, and lower pixel
@@ -184,7 +189,7 @@ Equivalent to
 entropy(
     self: pxt.Image,
     mask: pxt.Image | None = None,
-    extrema: pxt.Json[(Json = None
+    extrema: pxt.Json[(Json, ...)] | None = None
 ) -> pxt.Float
 ```
 
@@ -317,7 +322,10 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-getpixel(self: pxt.Image, xy: pxt.Json[(Json) -> pxt.Json[(Int,)]
+getpixel(
+    self: pxt.Image,
+    xy: pxt.Json[(Json, ...)]
+) -> pxt.Json[(Int,)]
 ```
 
 Return the pixel value at the given position. The position `xy` is a tuple containing the x and y coordinates.
@@ -360,8 +368,8 @@ Return the height of the image.
 histogram(
     self: pxt.Image,
     mask: pxt.Image | None = None,
-    extrema: pxt.Json[(Json = None) -> pxt.Json[(Int, ...
-) ]
+    extrema: pxt.Json[(Json, ...)] | None = None
+) -> pxt.Json[(Int, ...)]
 ```
 
 Return a histogram for the image.
@@ -391,7 +399,8 @@ Return the image mode.
 @pxt.udf
 point(
     self: pxt.Image,
-    lut: pxt.Json[(Int, mode: pxt.String | None = None
+    lut: pxt.Json[(Int, ...)],
+    mode: pxt.String | None = None
 ) -> pxt.Image
 ```
 
@@ -444,7 +453,7 @@ Equivalent to
 reduce(
     self: pxt.Image,
     factor: pxt.Int,
-    box: pxt.Json[(Int = None
+    box: pxt.Json[(Int, Int, Int, Int)] | None = None
 ) -> pxt.Image
 ```
 
@@ -464,7 +473,7 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-resize(self: pxt.Image, size: pxt.Json[(Int) -> pxt.Image
+resize(self: pxt.Image, size: pxt.Json[(Int, Int)]) -> pxt.Image
 ```
 
 Return a resized copy of the image. The size parameter is a tuple containing the width and height of the new image.
@@ -496,7 +505,9 @@ Equivalent to
 @pxt.udf
 thumbnail(
     self: pxt.Image,
-    size: pxt.Json[(Int, resample: pxt.Int = <Resampling.LANCZOS: 1>, reducing_gap: pxt.Float | None = 2.0
+    size: pxt.Json[(Int, Int)],
+    resample: pxt.Int = <Resampling.LANCZOS: 1>,
+    reducing_gap: pxt.Float | None = 2.0
 ) -> pxt.Image
 ```
 

@@ -25,7 +25,15 @@ t.select(
 
 ```python Signature
 @pxt.udf
-bboxes_clip_to_canvas(bboxes: pxt.Json[(Json, format: pxt.String, *, width: pxt.Int | None = None, height: pxt.Int | None = None, min_visibility: pxt.Float = 0.0, min_area: pxt.Float = 0.0) -> pxt.Json[(Json, ...) ]
+bboxes_clip_to_canvas(
+    bboxes: pxt.Json[(Json, ...)],
+    format: pxt.String,
+    *,
+    width: pxt.Int | None = None,
+    height: pxt.Int | None = None,
+    min_visibility: pxt.Float = 0.0,
+    min_area: pxt.Float = 0.0
+) -> pxt.Json[(Json, ...)]
 ```
 
 Clip a list of bounding boxes to a canvas of specified size.
@@ -52,7 +60,12 @@ Clip a list of bounding boxes to a canvas of specified size.
 
 ```python Signature
 @pxt.udf
-bboxes_convert(bboxes: pxt.Json[(Json, *, src_format: pxt.String, dst_format: pxt.String) -> pxt.Json[(Json, ...) ]
+bboxes_convert(
+    bboxes: pxt.Json[(Json, ...)],
+    *,
+    src_format: pxt.String,
+    dst_format: pxt.String
+) -> pxt.Json[(Json, ...)]
 ```
 
 Convert a list of bounding boxes from src_format to dst_format.
@@ -74,7 +87,15 @@ Convert a list of bounding boxes from src_format to dst_format.
 
 ```python Signature
 @pxt.udf
-bboxes_crop_canvas(bboxes: pxt.Json[(Json, format: pxt.String, *, canvas_region: pxt.Json[(Json, canvas_region_format: pxt.String, canvas_width: pxt.Int | None = None, canvas_height: pxt.Int | None = None) -> pxt.Json[(Json, ...) ]
+bboxes_crop_canvas(
+    bboxes: pxt.Json[(Json, ...)],
+    format: pxt.String,
+    *,
+    canvas_region: pxt.Json[(Json, ...)],
+    canvas_region_format: pxt.String,
+    canvas_width: pxt.Int | None = None,
+    canvas_height: pxt.Int | None = None
+) -> pxt.Json[(Json, ...)]
 ```
 
 Adjust a list of bounding boxes to account for a canvas crop.
@@ -101,7 +122,17 @@ Adjust a list of bounding boxes to account for a canvas crop.
 @pxt.udf
 bboxes_draw(
     img: pxt.Image,
-    boxes: pxt.Json[(Json[(Int, *, labels: pxt.Json[(Json = None, color: pxt.String | None = None, box_colors: pxt.Json[(String = None, alpha: pxt.Float | None = None, fill: pxt.Bool = False, fill_alpha: pxt.Float | None = None, width: pxt.Int = 1, font: pxt.String | None = None, font_size: pxt.Int | None = None
+    boxes: pxt.Json[(Json[(Int, ...)], ...)],
+    *,
+    labels: pxt.Json[(Json, ...)] | None = None,
+    color: pxt.String | None = None,
+    box_colors: pxt.Json[(String, ...)] | None = None,
+    alpha: pxt.Float | None = None,
+    fill: pxt.Bool = False,
+    fill_alpha: pxt.Float | None = None,
+    width: pxt.Int = 1,
+    font: pxt.String | None = None,
+    font_size: pxt.Int | None = None
 ) -> pxt.Image
 ```
 
@@ -144,7 +175,17 @@ If no colors are specified, this function randomly assigns each label a specific
 
 ```python Signature
 @pxt.udf
-bboxes_pad(bboxes: pxt.Json[(Json, format: pxt.String, *, top: pxt.Int | None = None, bottom: pxt.Int | None = None, left: pxt.Int | None = None, right: pxt.Int | None = None, x: pxt.Int | None = None, y: pxt.Int | None = None) -> pxt.Json[(Json, ...) ]
+bboxes_pad(
+    bboxes: pxt.Json[(Json, ...)],
+    format: pxt.String,
+    *,
+    top: pxt.Int | None = None,
+    bottom: pxt.Int | None = None,
+    left: pxt.Int | None = None,
+    right: pxt.Int | None = None,
+    x: pxt.Int | None = None,
+    y: pxt.Int | None = None
+) -> pxt.Json[(Json, ...)]
 ```
 
 Pad a list of bounding boxes.
@@ -221,7 +262,18 @@ Only one of `width`, `height`, or `aspect` can be specified.
 
 ```python Signature
 @pxt.udf
-bboxes_resize_canvas(bboxes: pxt.Json[(Json, format: pxt.String, *, canvas_width: pxt.Int | None = None, canvas_height: pxt.Int | None = None, new_canvas_width: pxt.Int | None = None, new_canvas_height: pxt.Int | None = None, canvas_scale: pxt.Float | None = None, canvas_scale_x: pxt.Float | None = None, canvas_scale_y: pxt.Float | None = None) -> pxt.Json[(Json, ...) ]
+bboxes_resize_canvas(
+    bboxes: pxt.Json[(Json, ...)],
+    format: pxt.String,
+    *,
+    canvas_width: pxt.Int | None = None,
+    canvas_height: pxt.Int | None = None,
+    new_canvas_width: pxt.Int | None = None,
+    new_canvas_height: pxt.Int | None = None,
+    canvas_scale: pxt.Float | None = None,
+    canvas_scale_x: pxt.Float | None = None,
+    canvas_scale_y: pxt.Float | None = None
+) -> pxt.Json[(Json, ...)]
 ```
 
 Adjust a list of bounding boxes to account for a canvas resize. The resize operation can be expressed
@@ -250,7 +302,14 @@ Adjust a list of bounding boxes to account for a canvas resize. The resize opera
 
 ```python Signature
 @pxt.udf
-bboxes_scale(bboxes: pxt.Json[(Json, format: pxt.String, *, factor: pxt.Float | None = None, x_factor: pxt.Float | None = None, y_factor: pxt.Float | None = None) -> pxt.Json[(Json, ...) ]
+bboxes_scale(
+    bboxes: pxt.Json[(Json, ...)],
+    format: pxt.String,
+    *,
+    factor: pxt.Float | None = None,
+    x_factor: pxt.Float | None = None,
+    y_factor: pxt.Float | None = None
+) -> pxt.Json[(Json, ...)]
 ```
 
 Re-scale a list of bounding boxes (center-anchored).
@@ -274,7 +333,14 @@ Re-scale a list of bounding boxes (center-anchored).
 
 ```python Signature
 @pxt.udf
-eval_detections(pred_bboxes: pxt.Json[(Json[(Int, pred_labels: pxt.Json[(Int, pred_scores: pxt.Json[(Float, gt_bboxes: pxt.Json[(Json[(Int, gt_labels: pxt.Json[(Int, min_iou: pxt.Float = 0.5) -> pxt.Json[(Json, ...) ]
+eval_detections(
+    pred_bboxes: pxt.Json[(Json[(Int, ...)], ...)],
+    pred_labels: pxt.Json[(Int, ...)],
+    pred_scores: pxt.Json[(Float, ...)],
+    gt_bboxes: pxt.Json[(Json[(Int, ...)], ...)],
+    gt_labels: pxt.Json[(Int, ...)],
+    min_iou: pxt.Float = 0.5
+) -> pxt.Json[(Json, ...)]
 ```
 
 Evaluates the performance of a set of predicted bounding boxes against a set of ground truth bounding boxes.
@@ -316,7 +382,13 @@ Evaluates the performance of a set of predicted bounding boxes against a set of 
 @pxt.udf
 overlay_segmentation(
     img: pxt.Image,
-    segmentation: pxt.Array[(None, *, alpha: pxt.Float = 0.5, background: pxt.Int = 0, segment_colors: pxt.Json[(String = None, draw_contours: pxt.Bool = True, contour_thickness: pxt.Int = 1
+    segmentation: pxt.Array[(None, None), int32],
+    *,
+    alpha: pxt.Float = 0.5,
+    background: pxt.Int = 0,
+    segment_colors: pxt.Json[(String, ...)] | None = None,
+    draw_contours: pxt.Bool = True,
+    contour_thickness: pxt.Int = 1
 ) -> pxt.Image
 ```
 

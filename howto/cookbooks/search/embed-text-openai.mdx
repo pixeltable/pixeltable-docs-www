@@ -129,9 +129,9 @@ similarity matching.
 
 You need to convert text into vector embeddings for:
 
--   Semantic search (find similar documents)
--   RAG pipelines (retrieve relevant context)
--   Clustering and classification
+- Semantic search (find similar documents)
+- RAG pipelines (retrieve relevant context)
+- Clustering and classification
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
@@ -139,9 +139,9 @@ You need to convert text into vector embeddings for:
 
 **What’s in this recipe:**
 
--   Generate embeddings with OpenAI’s models
--   Store embeddings as computed columns
--   Use embeddings for similarity queries
+- Generate embeddings with OpenAI’s models
+- Store embeddings as computed columns
+- Use embeddings for similarity queries
 
 You add an embedding column that automatically generates vectors for new
 rows. The embeddings are cached and only recomputed when the source text
@@ -291,15 +291,15 @@ results.collect()
 
 **Key benefits of computed embedding columns:**
 
--   Embeddings are generated automatically on insert
--   Results are cached—no re-computation on subsequent queries
--   Index enables fast similarity search at scale
+- Embeddings are generated automatically on insert
+- Results are cached—no re-computation on subsequent queries
+- Index enables fast similarity search at scale
 
 ## See also
 
--   [Semantic text
-    search](/howto/cookbooks/search/search-semantic-text) -
-    Full semantic search patterns
--   [Chunk documents for
-    RAG](/howto/cookbooks/text/doc-chunk-for-rag) -
-    Prepare documents for retrieval
+- [Semantic text
+  search](/howto/cookbooks/search/search-semantic-text) -
+  Full semantic search patterns
+- [Chunk documents for
+  RAG](/howto/cookbooks/text/doc-chunk-for-rag) -
+  Prepare documents for retrieval

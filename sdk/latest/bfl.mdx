@@ -23,7 +23,14 @@ edit(
     image: pxt.Image,
     *,
     model: pxt.String,
-    reference_images: pxt.Json[(Image = None, width: pxt.Int | None = None, height: pxt.Int | None = None, seed: pxt.Int | None = None, safety_tolerance: pxt.Int | None = None, output_format: pxt.String | None = None, steps: pxt.Int | None = None, guidance: pxt.Float | None = None
+    reference_images: pxt.Json[(Image, ...)] | None = None,
+    width: pxt.Int | None = None,
+    height: pxt.Int | None = None,
+    seed: pxt.Int | None = None,
+    safety_tolerance: pxt.Int | None = None,
+    output_format: pxt.String | None = None,
+    steps: pxt.Int | None = None,
+    guidance: pxt.Float | None = None
 ) -> pxt.Image
 ```
 
