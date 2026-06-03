@@ -1,0 +1,53 @@
+---
+title: "ContainerMetadata"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/util.py#L86\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.functions.ContainerMetadata
+
+
+Metadata for a media container, as returned by
+[`audio.get_metadata()`](./audio#func-get_metadata)
+or [`video.get_metadata()`](./video#func-get_metadata).
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; bit_exact
+
+```
+bit_exact: bool
+```
+
+Whether the container was opened in bit-exact mode.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; bit_rate
+
+```
+bit_rate: int | None
+```
+
+Overall bit rate of the container in bits per second, or `None` if unknown.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; metadata
+
+```
+metadata: dict[str, str]
+```
+
+Additional container-level metadata tags (e.g. title, encoder).
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; size
+
+```
+size: int | None
+```
+
+Size of the container in bytes, or `None` if unknown.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; streams
+
+```
+streams: list[StreamMetadata]
+```
+
+Per-stream metadata for each stream in the container.
+
