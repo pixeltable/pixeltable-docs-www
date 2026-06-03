@@ -21,6 +21,35 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.6.4
+
+**Released:** June 03, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.6.4](https://github.com/pixeltable/pixeltable/releases/tag/v0.6.4)
+
+#### What's Changed
+* [PXT-1158][PXT-1162] Fix retargeting to stop creating ghost columns by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1345](https://github.com/pixeltable/pixeltable/pull/1345)
+* Catalog bug: create view failed to mark base table as modified by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1370](https://github.com/pixeltable/pixeltable/pull/1370)
+* Rename one of two 'test_uuid.py's by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1369](https://github.com/pixeltable/pixeltable/pull/1369)
+* Fix an error in test_finalize_pending_ops_non_retriable_error that oc… by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1374](https://github.com/pixeltable/pixeltable/pull/1374)
+* Reimplement Random ops stats collection and reporting by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1367](https://github.com/pixeltable/pixeltable/pull/1367)
+* Fix tests that depend on non-deterministic order by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1363](https://github.com/pixeltable/pixeltable/pull/1363)
+* Cross reference HTTP serving page from SDK page on FastAPIRouter by [@apreshill](https://github.com/apreshill) in [#1377](https://github.com/pixeltable/pixeltable/pull/1377)
+* Fix future warning from huggingface by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1380](https://github.com/pixeltable/pixeltable/pull/1380)
+* [PXT-1172] Table load can raise AssertionError if the table is dropped concurrently by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1375](https://github.com/pixeltable/pixeltable/pull/1375)
+* PXT-1153: FastAPIRouter prevents duplicate routes by [@mkornacker](https://github.com/mkornacker) in [#1371](https://github.com/pixeltable/pixeltable/pull/1371)
+* PXT-1149: thread-safe Table by [@mkornacker](https://github.com/mkornacker) in [#1372](https://github.com/pixeltable/pixeltable/pull/1372)
+* PXT-1068: recompile SELECT * query by [@mkornacker](https://github.com/mkornacker) in [#1357](https://github.com/pixeltable/pixeltable/pull/1357)
+* Typed JSON return values for audio.get_metadata() and video.get_metadata() by [@aaron-siegel](https://github.com/aaron-siegel) in [#1368](https://github.com/pixeltable/pixeltable/pull/1368)
+* Add fp32 embedding to db dump for migration testing by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1383](https://github.com/pixeltable/pixeltable/pull/1383)
+* Ollama updates by [@aaron-siegel](https://github.com/aaron-siegel) in [#1386](https://github.com/pixeltable/pixeltable/pull/1386)
+* Lancedb updates by [@aaron-siegel](https://github.com/aaron-siegel) in [#1387](https://github.com/pixeltable/pixeltable/pull/1387)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.6.3...v0.6.4
+
+---
+
 ### v0.6.3
 
 **Released:** May 22, 2026  
@@ -1150,33 +1179,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.8...v0.4.9
-
----
-
-### v0.4.8
-
-**Released:** August 20, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.8](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.8)
-
-#### What's Changed
-* Performance test for chat completion integrations by [@mkornacker](https://github.com/mkornacker) in [#746](https://github.com/pixeltable/pixeltable/pull/746)
-* Bugfixes related to missing dependencies by [@aaron-siegel](https://github.com/aaron-siegel) in [#747](https://github.com/pixeltable/pixeltable/pull/747)
-* Makefile and pytest improvements by [@aaron-siegel](https://github.com/aaron-siegel) in [#753](https://github.com/pixeltable/pixeltable/pull/753)
-* Update dev version of onnx by [@aaron-siegel](https://github.com/aaron-siegel) in [#755](https://github.com/pixeltable/pixeltable/pull/755)
-* Pytest configuration fix by [@aaron-siegel](https://github.com/aaron-siegel) in [#756](https://github.com/pixeltable/pixeltable/pull/756)
-* RequestRateScheduler improvements by [@mkornacker](https://github.com/mkornacker) in [#752](https://github.com/pixeltable/pixeltable/pull/752)
-* Update README.md by [@aaron-siegel](https://github.com/aaron-siegel) in [#754](https://github.com/pixeltable/pixeltable/pull/754)
-* Updating tutorial notebook to use Table.recompute_columns(). by [@mkornacker](https://github.com/mkornacker) in [#757](https://github.com/pixeltable/pixeltable/pull/757)
-* Changes to pixeltable shared client for R2 support. by [@amithadke](https://github.com/amithadke) in [#653](https://github.com/pixeltable/pixeltable/pull/653)
-* Fix README spacing and linting issues by [@aaron-siegel](https://github.com/aaron-siegel) in [#759](https://github.com/pixeltable/pixeltable/pull/759)
-* Move stored_img_cols from ExecNode To RowBuilder, add stored_media_cols by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#749](https://github.com/pixeltable/pixeltable/pull/749)
-* Group local media file operations into a MediaStore or TempStore class by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#748](https://github.com/pixeltable/pixeltable/pull/748)
-* Correct construction of two row_builder members. by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#761](https://github.com/pixeltable/pixeltable/pull/761)
-* PXT-661 PXT-662 Adding checks for dropping column used by view predicates by [@amithadke](https://github.com/amithadke) in [#751](https://github.com/pixeltable/pixeltable/pull/751)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.7...v0.4.8
 
 ---
 
