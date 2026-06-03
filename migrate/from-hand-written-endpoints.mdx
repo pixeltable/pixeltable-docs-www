@@ -1,7 +1,7 @@
 ---
 title: 'Hand-Written FastAPI Endpoints'
 sidebarTitle: 'Hand-Written Endpoints'
-description: 'Replace hand-written FastAPI endpoints with declarative FastAPIRouter routes'
+description: "Migrate hand-written FastAPI endpoints into declarative Pixeltable FastAPIRouter routes that serve tables and queries with typed schemas."
 ---
 
 If your Pixeltable app has hand-written FastAPI endpoints that call `pxt.get_table()`, run queries, and manually serialize results, you can replace most of them with [`FastAPIRouter`](/howto/deployment/serving) routes. The result: fewer lines of code, automatic request/response schemas, built-in media serving, and background job support.
