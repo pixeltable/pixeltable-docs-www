@@ -1,0 +1,38 @@
+---
+title: "array"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/array.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.array
+
+
+Pixeltable UDFs for `ArrayType`.
+
+Example:
+
+```python
+import pixeltable as pxt
+
+t = pxt.get_table(...)
+t.select(t.array_col.to_list()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; to_list()
+
+```python Signature
+@pxt.udf
+to_list(self: pxt.Array) -> pxt.Json
+```
+
+Convert an array to a nested Python list.
+
+Equivalent to numpy's [`ndarray.tolist()`](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.tolist.html).
+Useful for exporting to systems that lack a fixed-shape tensor type (e.g. Iceberg).
+
+**Examples:**
+
+```python
+t.select(t.array_col.to_list()).collect()
+```
+
