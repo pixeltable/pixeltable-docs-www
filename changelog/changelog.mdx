@@ -1,6 +1,6 @@
 ---
 title: "Changelog"
-description: "Release notes for Pixeltable covering new features, performance improvements, bug fixes, and breaking changes across SDK versions."
+description: "Release history and updates for Pixeltable"
 ---
 
 ## Contributors
@@ -18,6 +18,44 @@ Pixeltable is built by a vibrant community of contributors. We're grateful for e
 View the complete release history for Pixeltable below. Each release includes detailed information about new features, bug fixes, and improvements.
 
 For the latest release information, visit our [GitHub Releases page](https://github.com/pixeltable/pixeltable/releases).
+
+---
+
+### v0.6.5
+
+**Released:** June 12, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.6.5](https://github.com/pixeltable/pixeltable/releases/tag/v0.6.5)
+
+#### What's Changed
+* random ops: disable stdout buffering on workers by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1389](https://github.com/pixeltable/pixeltable/pull/1389)
+* [PXT-326] Add segmentation notebook images by [@christopherpestano](https://github.com/christopherpestano) in [#1394](https://github.com/pixeltable/pixeltable/pull/1394)
+* Cleanup Pixeltable's logging infrastructure by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1379](https://github.com/pixeltable/pixeltable/pull/1379)
+* [PXT-1073] Add export_iceberg by [@christopherpestano](https://github.com/christopherpestano) in [#1301](https://github.com/pixeltable/pixeltable/pull/1301)
+* TypedDict for image get_metadata() by [@aaron-siegel](https://github.com/aaron-siegel) in [#1393](https://github.com/pixeltable/pixeltable/pull/1393)
+* PXT-1183: race in Catalog.create_user() by [@mkornacker](https://github.com/mkornacker) in [#1384](https://github.com/pixeltable/pixeltable/pull/1384)
+* OpenAI image/audio/moderation UDFs: typed JSON return schema by [@mkornacker](https://github.com/mkornacker) in [#1295](https://github.com/pixeltable/pixeltable/pull/1295)
+* Dependabot security updates 2026-06-02; remove mkdocs dependency by [@aaron-siegel](https://github.com/aaron-siegel) in [#1388](https://github.com/pixeltable/pixeltable/pull/1388)
+* Agent-friendly CLI by [@mkornacker](https://github.com/mkornacker) in [#1333](https://github.com/pixeltable/pixeltable/pull/1333)
+* Skip HF-dependent notebooks and unit tests in pull requests by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1398](https://github.com/pixeltable/pixeltable/pull/1398)
+* Fix Catalog lock ordering by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1399](https://github.com/pixeltable/pixeltable/pull/1399)
+* remove autouse from fault_injection fixture by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1382](https://github.com/pixeltable/pixeltable/pull/1382)
+* fix(share): pass filter='data' to tarfile.extractall on table restore by [@elfrost](https://github.com/elfrost) in [#1378](https://github.com/pixeltable/pixeltable/pull/1378)
+* Verify all necessary locks on retry_loop re-entry by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1391](https://github.com/pixeltable/pixeltable/pull/1391)
+* Rename HF_AUTH_TOKEN to HF_TOKEN: the huggingface library looks for the latter by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1396](https://github.com/pixeltable/pixeltable/pull/1396)
+* Update HF cache clearing after tests by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1401](https://github.com/pixeltable/pixeltable/pull/1401)
+* new pull_request action should cancel the previous test run on the pr by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1403](https://github.com/pixeltable/pixeltable/pull/1403)
+* Catalog.mark_modified_tvs is never passed more than one TV handle by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1404](https://github.com/pixeltable/pixeltable/pull/1404)
+* Makefile fix by [@aaron-siegel](https://github.com/aaron-siegel) in [#1407](https://github.com/pixeltable/pixeltable/pull/1407)
+* Keep HuggingFace out of PR and merge CI by [@mkornacker](https://github.com/mkornacker) in [#1402](https://github.com/pixeltable/pixeltable/pull/1402)
+* [PXT-1169] rename FastAPIRouter._shutdown by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1409](https://github.com/pixeltable/pixeltable/pull/1409)
+* Add a convenience function to MultiThreadedScenario for fault injection by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1411](https://github.com/pixeltable/pixeltable/pull/1411)
+* vLLM integration by [@aaron-siegel](https://github.com/aaron-siegel) in [#1385](https://github.com/pixeltable/pixeltable/pull/1385)
+
+#### New Contributors
+* [@elfrost](https://github.com/elfrost) made their first contribution in [#1378](https://github.com/pixeltable/pixeltable/pull/1378)
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.6.4...v0.6.5
 
 ---
 
@@ -1159,26 +1197,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.9...v0.4.10
-
----
-
-### v0.4.9
-
-**Released:** August 27, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.9](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.9)
-
-#### What's Changed
-* WhisperX Speaker Diarization by [@aaron-siegel](https://github.com/aaron-siegel) in [#770](https://github.com/pixeltable/pixeltable/pull/770)
-* Basic support for concurrent pixeltable metadata creation/upgrade by [@amithadke](https://github.com/amithadke) in [#769](https://github.com/pixeltable/pixeltable/pull/769)
-* Support for pydantic models in Table.insert() by [@mkornacker](https://github.com/mkornacker) in [#760](https://github.com/pixeltable/pixeltable/pull/760)
-* Add comments for concurrent pixeltable initialization changes by [@amithadke](https://github.com/amithadke) in [#772](https://github.com/pixeltable/pixeltable/pull/772)
-* Disable notebook tests that are failing in CI for unknown reasons by [@aaron-siegel](https://github.com/aaron-siegel) in [#777](https://github.com/pixeltable/pixeltable/pull/777)
-* Publish the existing mypy plugin under `pixeltable.mypy` module to make it accessible for external use. by [@amithadke](https://github.com/amithadke) in [#776](https://github.com/pixeltable/pixeltable/pull/776)
-* Remove `ext` package and fold contents into `functions` by [@aaron-siegel](https://github.com/aaron-siegel) in [#775](https://github.com/pixeltable/pixeltable/pull/775)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.8...v0.4.9
 
 ---
 

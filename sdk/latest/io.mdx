@@ -164,6 +164,46 @@ Pixeltable column types are mapped to CSV values as follows:
 - **`quoting`** (`int`, default: `0`): CSV quoting style (a `csv.QUOTE_*` constant). Default `csv.QUOTE_MINIMAL`.
 
 
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_iceberg()
+
+```python Signature
+export_iceberg(
+    table_or_query: pxt.Table | pxt.Query,
+    catalog: Catalog,
+    table_name: str,
+    *,
+    batch_size_bytes: int = 134217728,
+    if_exists: Literal['error', 'replace', 'append'] = 'error',
+    schema_overrides: Mapping[str, pa.DataType] | None = None
+) -> None
+```
+
+Exports a query result or table to an Apache Iceberg table.
+
+Data is streamed into the Iceberg table via pyarrow
+[`RecordBatches`](https://arrow.apache.org/docs/python/generated/pyarrow.RecordBatch.html), the size of
+which can be controlled with the `batch_size_bytes` parameter.
+
+__Requirements:__
+
+- `pip install pyiceberg`
+
+**Parameters:**
+
+- **`table_or_query`** (`pxt.Table | pxt.Query`): Pixeltable `Table` or `Query` to export.
+- **`catalog`** (`Catalog`): An Iceberg `Catalog` instance to write the table into.
+- **`table_name`** (`str`): Fully-qualified Iceberg table identifier (e.g. `'my_namespace.my_table'`). If the namespace
+    does not exist, it will be created.
+- **`batch_size_bytes`** (`int`, default: `134217728`): Maximum size in bytes for each in-memory pyarrow batch.
+- **`if_exists`** (`Literal['error', 'replace', 'append']`, default: `'error'`): Determines the behavior if the table already exists. Must be one of the following:
+    - `'error'`: raise an error
+    - `'replace'`: drop the existing table and create a new one
+    - `'append'`: append to the existing table (source schema must be compatible)
+- **`schema_overrides`** (`Mapping[str, pa.DataType] | None`): If specified, then for each (name, type) pair in `schema_overrides`, the column with
+    name `name` will be given type `type`, instead of being inferred from the Pixeltable schema. The keys in
+    `schema_overrides` should be the column names of the Pixeltable schema.
+
+
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_images_as_fo_dataset()
 
 ```python Signature

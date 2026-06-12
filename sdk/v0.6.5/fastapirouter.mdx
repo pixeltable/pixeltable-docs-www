@@ -1,0 +1,632 @@
+---
+title: "FastAPIRouter"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L157\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.serving.FastAPIRouter
+
+
+A FastAPI `APIRouter` that exposes Pixeltable table operations as HTTP endpoints.
+
+`FastAPIRouter` is for apps that already have a FastAPI server. If you do
+not have one, use `pxt serve` from the CLI; Pixeltable creates and runs the
+FastAPI app for you. Learn more here: [HTTP Serving](https://docs.pixeltable.com/howto/deployment/serving).
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_delete_route()
+
+```python Signature
+add_delete_route(
+    t: pxt.Table,
+    *,
+    path: str,
+    match_columns: list[str] | None = None,
+    background: bool = False
+) -> None
+```
+
+Add a POST endpoint that deletes rows from `t` matching the given match column values.
+
+The request body contains the match column values as JSON fields. The endpoint deletes every row
+where each match column equals the provided value, and returns the number of rows affected.
+
+**Parameters:**
+
+- **`t`** (`pxt.Table`): The table to delete from.
+- **`path`** (`str`): The URL path for the endpoint.
+- **`match_columns`** (`list[str] | None`): Columns to match on (AND-ed equality). Defaults to the table's primary key.
+    Must be non-empty.
+- **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run the
+    operation in a background thread. Poll `job_url` for the result.
+
+**Examples:**
+
+```python
+router.add_delete_route(t, path='/delete')
+```
+
+```bash
+curl -X POST http://localhost:8000/delete \
+  -H 'Content-Type: application/json' \
+  -d '{"id": 42}'
+# {"num_rows": 1}
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_insert_route()
+
+```python Signature
+add_insert_route(
+    t: pxt.Table,
+    *,
+    path: str,
+    inputs: list[str] | None = None,
+    uploadfile_inputs: list[str] | None = None,
+    outputs: list[str] | None = None,
+    return_fileresponse: bool = False,
+    export_sql: SqlExport | None = None,
+    background: bool = False
+) -> None
+```
+
+Add a POST endpoint that inserts a single row into `t` and returns the resulting row.
+
+The request body contains the input column values as JSON fields (or as
+[multipart form data](https://fastapi.tiangolo.com/tutorial/request-files/) when
+`uploadfile_inputs` is used). The response is a JSON object with the output column values,
+or a [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse)
+when `return_fileresponse=True`.
+
+**Parameters:**
+
+- **`t`** (`pxt.Table`): The table to insert into.
+- **`path`** (`str`): The URL path for the endpoint.
+- **`inputs`** (`list[str] | None`): Columns to accept as request fields. Defaults to all non-computed columns.
+- **`uploadfile_inputs`** (`list[str] | None`): Columns to accept as
+    [`UploadFile`](https://fastapi.tiangolo.com/tutorial/request-files/) fields
+    (must be media-typed). These are sent as multipart form data; all other inputs
+    become [`Form`](https://fastapi.tiangolo.com/tutorial/request-forms/) fields.
+- **`outputs`** (`list[str] | None`): Columns to include in the response. Defaults to all columns (including inputs).
+- **`return_fileresponse`** (`bool`, default: `False`): If True, return the single media-typed output column as a
+    [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse).
+    Requires exactly one media-typed output column.
+- **`export_sql`** (`SqlExport | None`): If set, export each inserted row into an external RDBMS table after the
+    Pixeltable insert succeeds. See [`SqlExport`](./sqlexport) for
+    the target specification and supported `method` values.
+
+    The row written is the response body: same columns as `outputs`, with media-typed
+    columns rendered as URL strings (so the corresponding target columns must be
+    string-typed).
+
+    Schema compatibility against the response columns is validated once at
+    registration time; the target table must already exist or registration fails.
+    Mutually exclusive with `return_fileresponse`. Compatible with `background=True`
+    (the SQL write runs in the worker thread).
+
+    Note: when paired with `method='update'`, a Pixeltable insert triggers a
+    target-side update -- this is intentional, supporting the append-only-source /
+    current-state-view pattern.
+
+    If the external write fails after the Pixeltable insert has already succeeded,
+    the request fails with HTTP 500; no rollback is performed.
+- **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
+    the insert in a background thread. Poll `job_url` for the result. Mutually
+    exclusive with `return_fileresponse`.
+
+**Examples:**
+
+JSON request/response:
+
+```python
+router.add_insert_route(
+    t, path='/generate', inputs=['prompt'], outputs=['result']
+)
+```
+
+```bash
+curl -X POST http://localhost:8000/generate \
+  -H 'Content-Type: application/json' \
+  -d '{"prompt": "a sunset over the ocean"}'
+# {"prompt": "a sunset over the ocean", "result": "..."}
+```
+
+File upload with `FileResponse`:
+
+```python
+router.add_insert_route(
+    t,
+    path='/resize',
+    inputs=['width', 'height'],
+    uploadfile_inputs=['image'],
+    outputs=['resized'],
+    return_fileresponse=True,
+)
+```
+
+```bash
+curl -X POST http://localhost:8000/resize \
+  -F image=@photo.jpg -F width=640 -F height=480 \
+  --output resized.jpg
+# saves the resized image to resized.jpg
+```
+
+Export each inserted row into an external RDBMS table:
+
+```python
+router.add_insert_route(
+    t,
+    path='/generate',
+    inputs=['prompt'],
+    outputs=['prompt', 'result'],
+    export_sql=SqlExport(
+        db_connect='postgresql+psycopg://user:pw@host/analytics',
+        table='generations',
+        db_schema='public',
+    ),
+)
+```
+
+Each successful POST inserts a row into the Pixeltable table and then inserts the
+same row (columns: `prompt`, `result`) to `public.generations` in the target database.
+
+Background processing:
+
+```python
+router.add_insert_route(t, path='/slow', background=True)
+```
+
+```bash
+# submit
+curl -X POST http://localhost:8000/slow -d '{"prompt": "hello"}'
+# {"id": "abc123", "job_url": "http://localhost:8000/jobs/abc123"}
+```
+
+```bash
+# poll
+curl http://localhost:8000/jobs/abc123
+# {"status": "done", "result": {...}}
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_query_route()
+
+```python Signature
+add_query_route(
+    *,
+    path: str,
+    query: pxt.Function,
+    inputs: list[str] | None = None,
+    uploadfile_inputs: list[str] | None = None,
+    one_row: bool = False,
+    return_fileresponse: bool = False,
+    background: bool = False,
+    method: Literal['get', 'post'] = 'post'
+) -> None
+```
+
+Add an endpoint that executes a `@pxt.query` or `pxt.retrieval_udf` and returns the results.
+
+By default the endpoint accepts POST requests with a JSON
+[`Body`](https://fastapi.tiangolo.com/tutorial/body/) and returns `{"rows": [{...}, ...]}`.
+Use `method='get'` for
+[`Query`](https://fastapi.tiangolo.com/tutorial/query-params/) parameters instead.
+
+**Parameters:**
+
+- **`path`** (`str`): The URL path for the endpoint.
+- **`query`** (`pxt.Function`): The query to execute, created with `@pxt.query` or `pxt.retrieval_udf()`.
+- **`inputs`** (`list[str] | None`): Parameters to accept as request fields. Defaults to all query parameters.
+- **`uploadfile_inputs`** (`list[str] | None`): Parameters to accept as
+    [`UploadFile`](https://fastapi.tiangolo.com/tutorial/request-files/) fields
+    (must be media-typed).
+- **`one_row`** (`bool`, default: `False`): If True, expect exactly one result row and return it as a plain JSON object
+    (not wrapped in `{"rows": [...]}`). 0 rows produces a 404, >1 rows a 409.
+- **`return_fileresponse`** (`bool`, default: `False`): If True, return the single media-typed result column as a
+    [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse).
+    Requires `one_row` semantics (0 rows -> 404, >1 rows -> 409).
+    Mutually exclusive with `background`.
+- **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
+    the query in a background thread. Poll `job_url` for the result. Mutually
+    exclusive with `return_fileresponse`.
+- **`method`** (`Literal['get', 'post']`, default: `'post'`): HTTP method for the endpoint (`'get'` or `'post'`).
+
+**Examples:**
+
+Multi-row JSON response:
+
+```python
+router.add_query_route(path='/search', query=search_docs)
+```
+
+```bash
+curl -X POST http://localhost:8000/search \
+  -H 'Content-Type: application/json' \
+  -d '{"query_text": "hello"}'
+# {"rows": [{"id": 1, "text": "hello world", "score": 0.95}, ...]}
+```
+
+Single-row lookup:
+
+```python
+router.add_query_route(path='/lookup', query=lookup_by_id, one_row=True)
+```
+
+```bash
+curl -X POST http://localhost:8000/lookup -d '{"id": 42}'
+# {"id": 42, "name": "Alice", "email": "alice@example.com"}
+```
+
+GET with query-string parameters:
+
+```python
+router.add_query_route(path='/lookup', query=lookup_by_id, method='get')
+```
+
+```bash
+curl 'http://localhost:8000/lookup?id=42'
+# {"id": 42, "name": "Alice", "email": "alice@example.com"}
+```
+
+`FileResponse`:
+
+```python
+router.add_query_route(
+    path='/thumbnail', query=get_thumbnail, return_fileresponse=True
+)
+```
+
+```bash
+curl -X POST http://localhost:8000/thumbnail -d '{"id": 1}' --output thumb.jpg
+# saves the thumbnail image to thumb.jpg
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_update_route()
+
+```python Signature
+add_update_route(
+    t: pxt.Table,
+    *,
+    path: str,
+    inputs: list[str] | None = None,
+    outputs: list[str] | None = None,
+    return_fileresponse: bool = False,
+    export_sql: SqlExport | None = None,
+    background: bool = False
+) -> None
+```
+
+Add a POST endpoint that updates a single row in `t` and returns the updated row.
+The row to update is identified by its primary key, which must be included in the
+request body alongside the input column values. The update is performed via a
+single-row [`batch_update()`](./table#method-batch_update) call, using the primary
+key columns to identify the row and the columns referenced in `inputs` as the values
+to set.
+
+The request body contains values for the primary key columns plus the input columns
+as JSON fields. The response is a JSON object with the output column values, or a
+[`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse)
+when `return_fileresponse=True`.
+
+Note: media-typed columns (image, video, audio, document) are excluded from `inputs`
+and from the default input set.
+
+**Parameters:**
+
+- **`t`** (`pxt.Table`): The table to update.
+- **`path`** (`str`): The URL path for the endpoint.
+- **`inputs`** (`list[str] | None`): Columns to accept as request fields, excluding primary key and media-typed
+    columns (which cannot be updated). Defaults to all non-computed, non-primary-key,
+    non-media columns.
+- **`outputs`** (`list[str] | None`): Columns to include in the response. Defaults to all columns (including
+    inputs).
+- **`return_fileresponse`** (`bool`, default: `False`): If True, return the single media-typed output column as a
+    [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse).
+    Requires exactly one media-typed output column.
+- **`export_sql`** (`SqlExport | None`): If set, export each updated row into an external RDBMS table after the
+    Pixeltable update succeeds. See [`SqlExport`](./sqlexport) for
+    the target specification and supported `method` values.
+
+    The row written is the response body: same columns as `outputs`, with media-typed
+    columns rendered as URL strings (so the corresponding target columns must be
+    string-typed).
+
+    Schema compatibility is validated once at registration time; the target table
+    must already exist or registration fails. Mutually exclusive with
+    `return_fileresponse`. Compatible with `background=True`.
+
+    Note: with `method='insert'` (the default), every update appends a new row to the
+    target table -- the target acts as an audit log, not a current-state view. Use
+    `method='update'` to keep the target as a current-state view keyed on the
+    target's primary key.
+
+    If the external write fails after the Pixeltable update has already succeeded,
+    the request fails with HTTP 500; no rollback is performed.
+- **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
+    the update in a background thread. Poll `job_url` for the result. Mutually
+    exclusive with `return_fileresponse`.
+
+**Examples:**
+
+JSON request/response (table has primary key `id`):
+
+```python
+router.add_update_route(
+    t, path='/update', inputs=['prompt'], outputs=['prompt', 'result']
+)
+```
+
+```bash
+curl -X POST http://localhost:8000/update \
+  -H 'Content-Type: application/json' \
+  -d '{"id": 1, "prompt": "a sunset over the ocean"}'
+# {"prompt": "a sunset over the ocean", "result": "..."}
+```
+
+Append every update to an external audit table:
+
+```python
+router.add_update_route(
+    t,
+    path='/update',
+    inputs=['prompt'],
+    outputs=['id', 'prompt', 'result'],
+    export_sql=SqlExport(
+        db_connect='postgresql+psycopg://user:pw@host/analytics',
+        table='update_log',
+    ),
+)
+```
+
+Background processing:
+
+```python
+router.add_update_route(t, path='/slow-update', background=True)
+```
+
+```bash
+# submit
+curl -X POST http://localhost:8000/slow-update \
+  -H 'Content-Type: application/json' \
+  -d '{"id": 1, "prompt": "hello"}'
+# {"id": "abc123", "job_url": "http://localhost:8000/jobs/abc123"}
+
+# poll
+curl http://localhost:8000/jobs/abc123
+# {"status": "done", "result": {...}}
+```
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; insert_route()
+
+```python Signature
+insert_route(
+    t: pxt.Table,
+    *,
+    path: str,
+    inputs: list[str] | None = None,
+    uploadfile_inputs: list[str] | None = None,
+    outputs: list[str] | None = None,
+    export_sql: SqlExport | None = None,
+    background: bool = False
+) -> Callable[[Callable[..., pydantic.BaseModel]], Callable[..., pydantic.BaseModel]]
+```
+
+Decorator that registers a POST endpoint performing a `Table.insert()` followed by user-defined post-processing.
+
+The request body carries the input column values (JSON, or multipart form data when `uploadfile_inputs` is
+used). After inserting the row, the decorated function is called with the requested output columns as
+keyword arguments (parameter names and Pixeltable types must match `outputs`). Its return value must be a
+Pydantic model and is returned as the HTTP response body.
+
+Media-typed outputs (image, video, audio, document) are delivered to the function as `/media/` URL
+strings -- annotate those parameters as `str` (or `str | None` if the column is nullable), not as
+`pxt.Image` / `pxt.Video` / etc.
+
+**Parameters:**
+
+- **`t`** (`pxt.Table`): The table to insert into.
+- **`path`** (`str`): The URL path for the endpoint.
+- **`inputs`** (`list[str] | None`): Columns to accept as request fields. Defaults to all non-computed columns.
+- **`uploadfile_inputs`** (`list[str] | None`): Columns to accept as
+    [`UploadFile`](https://fastapi.tiangolo.com/tutorial/request-files/) fields
+    (must be media-typed). These are sent as multipart form data; all other inputs
+    become [`Form`](https://fastapi.tiangolo.com/tutorial/request-forms/) fields.
+- **`outputs`** (`list[str] | None`): Columns from the inserted row to pass to the decorated function as keyword
+    arguments. Defaults to all columns.
+- **`export_sql`** (`SqlExport | None`): If set, export the decorated function's return value into an external
+    RDBMS table after the Pixeltable insert succeeds. See
+    [`SqlExport`](./sqlexport) for the target specification and
+    supported `method` values.
+
+    The row written is the user function's pydantic return value (its fields, not the
+    source columns), so the target table schema must match those fields. Media-typed
+    fields are modeled as strings (URL form).
+
+    Schema compatibility is validated once at registration time; the target table
+    must already exist or registration fails. Compatible with `background=True` (the
+    SQL write runs in the worker thread).
+
+    If the external write fails after the Pixeltable insert has already succeeded,
+    the request fails with HTTP 500; no rollback is performed.
+- **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
+    the insert plus post-processing in a background thread. Poll `job_url` for the
+    result; the decorated function's return value is delivered as the job result.
+
+**Examples:**
+
+```python
+class GenerateResponse(pydantic.BaseModel):
+    caption: str
+    score: float
+
+
+@router.insert_route(
+    t,
+    path='/generate',
+    inputs=['prompt'],
+    outputs=['caption', 'score'],
+    background=False,
+)
+def format_response(*, caption: str, score: float) -> GenerateResponse:
+    return GenerateResponse(
+        caption=caption.strip(), score=round(score, 3)
+    )
+```
+
+```bash
+curl -X POST http://localhost:8000/generate \
+  -H 'Content-Type: application/json' \
+  -d '{"prompt": "a sunset over the ocean"}'
+# {"caption": "orange sky above calm water", "score": 0.932}
+```
+
+Export the post-processed response into an external RDBMS table:
+
+```python
+@router.insert_route(
+    t,
+    path='/generate',
+    inputs=['prompt'],
+    outputs=['caption', 'score'],
+    export_sql=SqlExport(
+        db_connect='postgresql+psycopg://user:pw@host/analytics',
+        table='captions',
+    ),
+)
+def format_response(*, caption: str, score: float) -> GenerateResponse:
+    return GenerateResponse(
+        caption=caption.strip(), score=round(score, 3)
+    )
+```
+
+Each successful POST inserts a row into the Pixeltable table and then appends a row
+with columns `caption`, `score` (the response model fields) to `captions`.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; update_route()
+
+```python Signature
+update_route(
+    t: pxt.Table,
+    *,
+    path: str,
+    inputs: list[str] | None = None,
+    outputs: list[str] | None = None,
+    export_sql: SqlExport | None = None,
+    background: bool = False
+) -> Callable[[Callable[..., pydantic.BaseModel]], Callable[..., pydantic.BaseModel]]
+```
+
+Decorator that registers a POST endpoint performing a `Table.batch_update()` followed by
+user-defined post-processing.
+
+The request body carries values for the primary key columns (to identify the row) plus the
+input column values as JSON fields. After updating the row, the decorated function is called
+with the requested output columns as keyword arguments (parameter names and Pixeltable types
+must match `outputs`). Its return value must be a Pydantic model and is returned as the HTTP
+response body.
+
+Media-typed outputs (image, video, audio, document) are delivered to the function as `/media/` URL
+strings -- annotate those parameters as `str` (or `str | None` if the column is nullable), not as
+`pxt.Image` / `pxt.Video` / etc.
+
+If the row does not exist, the endpoint returns HTTP 404 without calling the decorated
+function.
+
+Note: media-typed columns (image, video, audio, document) and primary key columns cannot be
+used as `inputs`. Primary key columns are always part of the request body for row
+identification.
+
+**Parameters:**
+
+- **`t`** (`pxt.Table`): The table to update.
+- **`path`** (`str`): The URL path for the endpoint.
+- **`inputs`** (`list[str] | None`): Columns to accept as update fields. Defaults to all non-computed, non-primary-key,
+    non-media columns.
+- **`outputs`** (`list[str] | None`): Columns from the updated row to pass to the decorated function as keyword
+    arguments. Defaults to all columns.
+- **`export_sql`** (`SqlExport | None`): If set, export the decorated function's return value into an external
+    RDBMS table after the Pixeltable update succeeds. See
+    [`SqlExport`](./sqlexport) for the target specification and
+    supported `method` values.
+
+    The row written is the user function's pydantic return value (its fields, not the
+    source columns), so the target table schema must match those fields. Media-typed
+    fields are modeled as strings (URL form).
+
+    Schema compatibility is validated once at registration time; the target table
+    must already exist or registration fails. Compatible with `background=True`.
+
+    Note: with `method='insert'` (the default), every update appends a new row to the
+    target table -- the target acts as an audit log, not a current-state view. Use
+    `method='update'` to keep the target as a current-state view keyed on the
+    target's primary key.
+
+    If the external write fails after the Pixeltable update has already succeeded,
+    the request fails with HTTP 500; no rollback is performed.
+- **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run the
+    update plus post-processing in a background thread. Poll `job_url` for the result;
+    the decorated function's return value is delivered as the job result.
+
+**Examples:**
+
+```python
+class ItemResponse(pydantic.BaseModel):
+    id: int
+    summary: str
+    score: float
+
+
+@router.update_route(
+    t, path='/update', inputs=['text'], outputs=['id', 'text', 'score']
+)
+def format_response(*, id: int, text: str, score: float) -> ItemResponse:
+    return ItemResponse(id=id, summary=text[:100], score=round(score, 3))
+```
+
+```bash
+curl -X POST http://localhost:8000/update \
+  -H 'Content-Type: application/json' \
+  -d '{"id": 42, "text": "new content"}'
+# {"id": 42, "summary": "new content", "score": 0.871}
+```
+
+Append every post-processed update into an external audit table:
+
+```python
+@router.update_route(
+    t,
+    path='/update',
+    inputs=['text'],
+    outputs=['id', 'text', 'score'],
+    export_sql=SqlExport(
+        db_connect='postgresql+psycopg://user:pw@host/analytics',
+        table='item_log',
+    ),
+)
+def format_response(*, id: int, text: str, score: float) -> ItemResponse:
+    return ItemResponse(id=id, summary=text[:100], score=round(score, 3))
+```
+
+Background processing:
+
+```python
+@router.update_route(t, path='/slow-update', background=True)
+def format_response(*, id: int, result: str) -> MyResponse:
+    return MyResponse(id=id, result=result.strip())
+```
+
+```bash
+# submit
+curl -X POST http://localhost:8000/slow-update \
+  -H 'Content-Type: application/json' \
+  -d '{"id": 1, "text": "hello"}'
+# {"id": "abc123", "job_url": "http://localhost:8000/jobs/abc123"}
+
+# poll
+curl http://localhost:8000/jobs/abc123
+# {"status": "done", "result": {"id": 1, "result": "hello"}}
+```
+
