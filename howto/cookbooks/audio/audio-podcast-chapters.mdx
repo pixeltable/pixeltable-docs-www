@@ -1,0 +1,841 @@
+---
+title: "Generate Podcast Chapters"
+sidebarTitle: "Generate Podcast Chapters"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-podcast-chapters.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/cookbooks/audio/audio-podcast-chapters.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/cookbooks/audio/audio-podcast-chapters.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">title</th>
+<th data-quarto-table-cell-role="th">audio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Lex Fridman Podcast Excerpt</td>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+            &#10;<audio controls>
+                &#10;<source src="http://127.0.0.1:54041/Users/alison-pxt/.pixeltable/file_cache/467ad43bd7a741f4989130617f63a0c3_1_8d63977c52df1ae33b7edb36df88c9cecfc3bfa1ceafc29d36af44b3596bc06b.mp4" type="video/mp4">
+</source>
+            &#10;</audio>
+        &#10;</div></td>
+</tr>
+</tbody>
+</table>
+`,`<style type="text/css">
+#T_738c4_row0_col0 {
+  white-space: pre-wrap;
+  text-align: left;
+  font-weight: bold;
+}
+</style>
+`,`
+<table id="T_738c4" data-quarto-postprocess="true">
+<tbody>
+<tr>
+<td id="T_738c4_row0_col0" class="data row0 col0">table
+'podcast_demo/episodes'</td>
+</tr>
+</tbody>
+</table>
+`,`
+<style type="text/css">
+#T_fa306 th {
+  text-align: left;
+  border-bottom: 2px solid #666;
+}
+#T_fa306_row0_col0, #T_fa306_row0_col1, #T_fa306_row0_col2, #T_fa306_row0_col3, #T_fa306_row0_col4, #T_fa306_row1_col0, #T_fa306_row1_col1, #T_fa306_row1_col2, #T_fa306_row1_col3, #T_fa306_row1_col4 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+</style>
+`,`
+<table id="T_fa306" data-quarto-postprocess="true">
+<thead>
+<tr>
+<th id="T_fa306_level0_col0" class="col_heading level0 col0"
+data-quarto-table-cell-role="th">Column Name</th>
+<th id="T_fa306_level0_col1" class="col_heading level0 col1"
+data-quarto-table-cell-role="th">Type</th>
+<th id="T_fa306_level0_col2" class="col_heading level0 col2"
+data-quarto-table-cell-role="th">Source</th>
+<th id="T_fa306_level0_col3" class="col_heading level0 col3"
+data-quarto-table-cell-role="th">Computed With</th>
+<th id="T_fa306_level0_col4" class="col_heading level0 col4"
+data-quarto-table-cell-role="th">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="T_fa306_row0_col0" class="data row0 col0">title</td>
+<td id="T_fa306_row0_col1" class="data row0 col1">String</td>
+<td id="T_fa306_row0_col2" class="data row0 col2">episodes</td>
+<td id="T_fa306_row0_col3" class="data row0 col3"></td>
+<td id="T_fa306_row0_col4" class="data row0 col4"></td>
+</tr>
+<tr>
+<td id="T_fa306_row1_col0" class="data row1 col0">audio</td>
+<td id="T_fa306_row1_col1" class="data row1 col1">Audio</td>
+<td id="T_fa306_row1_col2" class="data row1 col2">episodes</td>
+<td id="T_fa306_row1_col3" class="data row1 col3"></td>
+<td id="T_fa306_row1_col4" class="data row1 col4"></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">first_segment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">{"end": 10.443, "text": " of experiencing self versus remembering
+self. I was hoping you can give a simple answer of how we should live
+life.", "start": 0.908, "avg_logprob": -0.063}</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">segment_starts</th>
+<th data-quarto-table-cell-role="th">segment_ends</th>
+<th data-quarto-table-cell-role="th">segment_text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">[0.908, 10.73, 36.312]</td>
+<td style="vertical-align: middle;">[10.443, 36.194, 58.891]</td>
+<td style="vertical-align: middle;">[" of experiencing self versus remembering self. I was hoping you
+can give a simple answer of how we should live life.", " Based on the
+fact that our memories could be a source of happiness or could be the
+primary source of happiness that an event when experienced bea ......
+it's remembered over and over and over and over and maybe there is some
+wisdom and the fact that we can control to some degree how we remember
+it.", " how we evolve our memory of it, such that it can maximize the
+long-term happiness of that repeated experience. Okay, well, first, I'll
+say, I wis ...... an I be your opening actor? Oh, my God. No, I've got
+to hope it for you, dude. Otherwise, it's like, you know, everybody
+leaves after you're done."]</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">start</th>
+<th data-quarto-table-cell-role="th">end</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0.908</td>
+<td style="vertical-align: middle;">10.443</td>
+<td style="vertical-align: middle;">of experiencing self versus remembering self. I was hoping you can
+give a simple answer of how we should live life.</td>
+</tr>
+</tbody>
+</table>
+`,`<style type="text/css">
+#T_e0c6c_row0_col0 {
+  white-space: pre-wrap;
+  text-align: left;
+  font-weight: bold;
+}
+</style>
+`,`
+<table id="T_e0c6c" data-quarto-postprocess="true">
+<tbody>
+<tr>
+<td id="T_e0c6c_row0_col0" class="data row0 col0">view
+'podcast_demo/segments' (of 'podcast_demo/episodes')</td>
+</tr>
+</tbody>
+</table>
+`,`
+<style type="text/css">
+#T_7cfcd th {
+  text-align: left;
+  border-bottom: 2px solid #666;
+}
+#T_7cfcd_row0_col0, #T_7cfcd_row0_col1, #T_7cfcd_row0_col2, #T_7cfcd_row0_col3, #T_7cfcd_row0_col4, #T_7cfcd_row1_col0, #T_7cfcd_row1_col1, #T_7cfcd_row1_col2, #T_7cfcd_row1_col3, #T_7cfcd_row1_col4, #T_7cfcd_row2_col0, #T_7cfcd_row2_col1, #T_7cfcd_row2_col2, #T_7cfcd_row2_col3, #T_7cfcd_row2_col4, #T_7cfcd_row4_col0, #T_7cfcd_row4_col1, #T_7cfcd_row4_col2, #T_7cfcd_row4_col3, #T_7cfcd_row4_col4, #T_7cfcd_row5_col0, #T_7cfcd_row5_col1, #T_7cfcd_row5_col2, #T_7cfcd_row5_col3, #T_7cfcd_row5_col4, #T_7cfcd_row6_col0, #T_7cfcd_row6_col1, #T_7cfcd_row6_col2, #T_7cfcd_row6_col3, #T_7cfcd_row6_col4 {
+  white-space: pre-wrap;
+  text-align: left;
+}
+#T_7cfcd_row3_col0, #T_7cfcd_row3_col1, #T_7cfcd_row3_col2, #T_7cfcd_row3_col3, #T_7cfcd_row3_col4 {
+  white-space: pre-wrap;
+  text-align: left;
+  border-bottom: 1px solid #bbb;
+}
+</style>
+`,`
+<table id="T_7cfcd" data-quarto-postprocess="true">
+<thead>
+<tr>
+<th id="T_7cfcd_level0_col0" class="col_heading level0 col0"
+data-quarto-table-cell-role="th">Column Name</th>
+<th id="T_7cfcd_level0_col1" class="col_heading level0 col1"
+data-quarto-table-cell-role="th">Type</th>
+<th id="T_7cfcd_level0_col2" class="col_heading level0 col2"
+data-quarto-table-cell-role="th">Source</th>
+<th id="T_7cfcd_level0_col3" class="col_heading level0 col3"
+data-quarto-table-cell-role="th">Computed With</th>
+<th id="T_7cfcd_level0_col4" class="col_heading level0 col4"
+data-quarto-table-cell-role="th">Comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td id="T_7cfcd_row0_col0" class="data row0 col0">pos</td>
+<td id="T_7cfcd_row0_col1" class="data row0 col1">Required[Int]</td>
+<td id="T_7cfcd_row0_col2" class="data row0 col2">segments</td>
+<td id="T_7cfcd_row0_col3" class="data row0 col3">list_iterator</td>
+<td id="T_7cfcd_row0_col4" class="data row0 col4"></td>
+</tr>
+<tr>
+<td id="T_7cfcd_row1_col0" class="data row1 col0">start</td>
+<td id="T_7cfcd_row1_col1" class="data row1 col1">Required[Float]</td>
+<td id="T_7cfcd_row1_col2" class="data row1 col2">segments</td>
+<td id="T_7cfcd_row1_col3" class="data row1 col3">list_iterator</td>
+<td id="T_7cfcd_row1_col4" class="data row1 col4"></td>
+</tr>
+<tr>
+<td id="T_7cfcd_row2_col0" class="data row2 col0">end</td>
+<td id="T_7cfcd_row2_col1" class="data row2 col1">Required[Float]</td>
+<td id="T_7cfcd_row2_col2" class="data row2 col2">segments</td>
+<td id="T_7cfcd_row2_col3" class="data row2 col3">list_iterator</td>
+<td id="T_7cfcd_row2_col4" class="data row2 col4"></td>
+</tr>
+<tr>
+<td id="T_7cfcd_row3_col0" class="data row3 col0">text</td>
+<td id="T_7cfcd_row3_col1" class="data row3 col1">Required[String]</td>
+<td id="T_7cfcd_row3_col2" class="data row3 col2">segments</td>
+<td id="T_7cfcd_row3_col3" class="data row3 col3">list_iterator</td>
+<td id="T_7cfcd_row3_col4" class="data row3 col4"></td>
+</tr>
+<tr>
+<td id="T_7cfcd_row4_col0" class="data row4 col0">title</td>
+<td id="T_7cfcd_row4_col1" class="data row4 col1">String</td>
+<td id="T_7cfcd_row4_col2" class="data row4 col2">episodes</td>
+<td id="T_7cfcd_row4_col3" class="data row4 col3"></td>
+<td id="T_7cfcd_row4_col4" class="data row4 col4"></td>
+</tr>
+<tr>
+<td id="T_7cfcd_row5_col0" class="data row5 col0">audio</td>
+<td id="T_7cfcd_row5_col1" class="data row5 col1">Audio</td>
+<td id="T_7cfcd_row5_col2" class="data row5 col2">episodes</td>
+<td id="T_7cfcd_row5_col3" class="data row5 col3"></td>
+<td id="T_7cfcd_row5_col4" class="data row5 col4"></td>
+</tr>
+<tr>
+<td id="T_7cfcd_row6_col0" class="data row6 col0">transcription</td>
+<td id="T_7cfcd_row6_col1" class="data row6 col1">Json</td>
+<td id="T_7cfcd_row6_col2" class="data row6 col2">episodes</td>
+<td id="T_7cfcd_row6_col3" class="data row6 col3">transcribe(audio,
+model='tiny.en')</td>
+<td id="T_7cfcd_row6_col4" class="data row6 col4"></td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">start</th>
+<th data-quarto-table-cell-role="th">end</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0.908</td>
+<td style="vertical-align: middle;">10.443</td>
+<td style="vertical-align: middle;">of experiencing self versus remembering self. I was hoping you can
+give a simple answer of how we should live life.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">10.73</td>
+<td style="vertical-align: middle;">36.194</td>
+<td style="vertical-align: middle;">Based on the fact that our memories could be a source of happiness
+or could be the primary source of happiness that an event when
+experienced bears its fruits the most when it's remembered over and over
+and over and over and maybe there is some wisdom and the fact that we
+can control to some degree how we remember it.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">36.312</td>
+<td style="vertical-align: middle;">58.891</td>
+<td style="vertical-align: middle;">how we evolve our memory of it, such that it can maximize the
+long-term happiness of that repeated experience. Okay, well, first, I'll
+say, I wish I could take you on the road with me. That was such a great
+description. Can I be your opening actor? Oh, my God. No, I've got to
+hope it for you, dude. Otherwise, it's like, you know, everybody leaves
+after you're done.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">text</th>
+<th data-quarto-table-cell-role="th">chapter_title</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">of experiencing self versus remembering self. I was hoping you can
+give a simple answer of how we should live life.</td>
+<td style="vertical-align: middle;">Living in the Moment vs. Reflecting on the Past</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Based on the fact that our memories could be a source of happiness
+or could be the primary source of happiness that an event when
+experienced bears its fruits the most when it's remembered over and over
+and over and over and maybe there is some wisdom and the fact that we
+can control to some degree how we remember it.</td>
+<td style="vertical-align: middle;">The Power of Memory in Shaping Happiness</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">how we evolve our memory of it, such that it can maximize the
+long-term happiness of that repeated experience. Okay, well, first, I'll
+say, I wish I could take you on the road with me. That was such a great
+description. Can I be your opening actor? Oh, my God. No, I've got to
+hope it for you, dude. Otherwise, it's like, you know, everybody leaves
+after you're done.</td>
+<td style="vertical-align: middle;">Evolving Memories for Lasting Happiness</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">timestamp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0:00 - Living in the Moment vs. Reflecting on the Past</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">0:10 - The Power of Memory in Shaping Happiness</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">0:36 - Evolving Memories for Lasting Happiness</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">timestamp</th>
+<th data-quarto-table-cell-role="th">audio_clip</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">0:00 - Living in the Moment vs. Reflecting on the Past</td>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+            &#10;<audio controls>
+                &#10;<source src="http://127.0.0.1:54041/var/folders/zz/d4wytf2s44996j3sr4zgthw80000gn/T/tmpneug90di.mp4" type="video/mp4">
+</source>
+            &#10;</audio>
+        &#10;</div></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">0:10 - The Power of Memory in Shaping Happiness</td>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+            &#10;<audio controls>
+                &#10;<source src="http://127.0.0.1:54041/var/folders/zz/d4wytf2s44996j3sr4zgthw80000gn/T/tmphv5yngwf.mp4" type="video/mp4">
+</source>
+            &#10;</audio>
+        &#10;</div></td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">0:36 - Evolving Memories for Lasting Happiness</td>
+<td style="vertical-align: middle;"><div class="pxt_audio">
+            &#10;<audio controls>
+                &#10;<source src="http://127.0.0.1:54041/var/folders/zz/d4wytf2s44996j3sr4zgthw80000gn/T/tmpzqxa0et4.mp4" type="video/mp4">
+</source>
+            &#10;</audio>
+        &#10;</div></td>
+</tr>
+</tbody>
+</table>
+`];
+
+Generate YouTube-style chapter timestamps for podcast episodes. WhisperX
+detects where speech starts and stops, then an LLM summarizes each
+segment into a chapter title.
+
+The end result looks like this:
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+0:00&nbsp;-&nbsp;Experiencing&nbsp;self&nbsp;vs&nbsp;remembering&nbsp;self
+0:10&nbsp;-&nbsp;Whether&nbsp;memories&nbsp;are&nbsp;the&nbsp;primary&nbsp;source&nbsp;of&nbsp;happiness
+0:36&nbsp;-&nbsp;Controlling&nbsp;how&nbsp;we&nbsp;remember&nbsp;experiences
+</pre>
+
+## Problem
+
+You have podcast episodes and want to generate chapter markers — the
+kind you see in YouTube descriptions or podcast apps. Each chapter needs
+a timestamp and a short description of what’s being discussed.
+
+## Solution
+
+**What’s in this recipe:**
+
+1.  **WhisperX** transcribes the audio and detects speech boundaries via
+    VAD (Voice Activity Detection)
+2.  `json.list_iterator` creates a **view** with one row per speech
+    segment
+3.  **GPT-4o-mini** generates a chapter title for each segment as a
+    computed column
+4.  The result is formatted as YouTube-style timestamps
+
+### Setup
+
+
+```python
+%pip install -qU pixeltable whisperx openai
+```
+
+
+```python
+import getpass
+import os
+
+if 'OPENAI_API_KEY' not in os.environ:
+    os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
+```
+
+
+```python
+import pixeltable as pxt
+import pixeltable.functions as pxtf
+
+pxt.drop_dir('podcast_demo', force=True, if_not_exists='ignore')
+pxt.create_dir('podcast_demo')
+```
+
+### Load a podcast episode
+
+
+```python
+episodes = pxt.create_table(
+    'podcast_demo/episodes', {'title': pxt.String, 'audio': pxt.Audio}
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;episodes&#x27;.
+</pre>
+
+
+```python
+episodes.insert(
+    [
+        {
+            'title': 'Lex Fridman Podcast Excerpt',
+            'audio': 'https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/audio-transcription-demo/Lex-Fridman-Podcast-430-Excerpt-0.mp4',
+        }
+    ]
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.82&nbsp;s&nbsp;(1.22&nbsp;rows/s)
+1&nbsp;row&nbsp;inserted.
+</pre>
+
+View the data:
+
+
+```python
+episodes.collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+And the table schema so far:
+
+
+```python
+episodes
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+### Step 1: Transcribe with WhisperX
+
+WhisperX does two things at once: it runs Voice Activity Detection (VAD)
+to find where speech occurs, then transcribes each speech region. The
+output is a list of segments — each with a start time, end time, and the
+text that was spoken.
+
+These segments are the raw material for our chapter markers. Each
+segment boundary corresponds to a natural pause or transition in the
+conversation.
+
+> **Note:** You may see verbose warnings from `torchcodec` or `pyannote`
+> when this cell runs — they’re harmless and can be ignored.
+
+
+```python
+episodes.add_computed_column(
+    transcription=pxtf.whisperx.transcribe(
+        episodes.audio, model='tiny.en'
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;9.81&nbsp;s&nbsp;(0.10&nbsp;rows/s)
+1&nbsp;row&nbsp;updated.
+</pre>
+
+
+```python
+episodes.select(
+    first_segment=episodes.transcription.segments[0]
+).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
+
+Each segment is a dict with `start`, `end`, and `text` fields. We can
+use the `['*']` path expression to extract a field from every segment at
+once — this returns a list of values:
+
+
+```python
+episodes.select(
+    segment_starts=episodes.transcription.segments['*'].start,
+    segment_ends=episodes.transcription.segments['*'].end,
+    segment_text=episodes.transcription.segments['*'].text,
+).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+
+That’s useful for peeking at the data, but the result is still one row
+with parallel lists — not one row per segment. Here’s what a single
+segment looks like as a proper row:
+
+
+```python
+episodes.select(
+    start=episodes.transcription.segments[0].start,
+    end=episodes.transcription.segments[0].end,
+    text=episodes.transcription.segments[0].text,
+).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[7] }} />
+
+We want every segment as its own row like this — not just the first one.
+That’s what `list_iterator` does.
+
+### Step 2: Create a segments view with `list_iterator`
+
+To work with individual segments as rows, we create a **view** using
+`pxtf.json.list_iterator`. This iterator takes parallel lists and zips
+them into one row per element — like converting columns of arrays into a
+proper table.
+
+The keyword argument names (`start`, `end`, `text`) become the column
+names in the view. Each argument is a Pixeltable expression that
+evaluates to a JSON list.
+
+**Why `astype`?** WhisperX returns an untyped `dict`, so Pixeltable
+doesn’t know what types are inside the segments. `list_iterator`
+requires typed JSON so it can define the view’s schema. We use `astype`
+to declare that `.start` and `.end` are lists of floats, and `.text` is
+a list of strings:
+
+
+```python
+segments = pxt.create_view(
+    'podcast_demo/segments',
+    episodes,
+    iterator=pxtf.json.list_iterator(
+        start=episodes.transcription.segments['*'].start.astype(
+            pxt.Json[[float]]
+        ),
+        end=episodes.transcription.segments['*'].end.astype(
+            pxt.Json[[float]]
+        ),
+        text=episodes.transcription.segments['*'].text.astype(
+            pxt.Json[[str]]
+        ),
+    ),
+)
+```
+
+Here is the schema of this view - you can see the four columns added by
+the `list_iterator`, and the other columns that came from the `episodes`
+table we started with:
+
+
+```python
+segments
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[8] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[9] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[10] }} />
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[11] }} />
+
+One row per segment, with typed columns. From here we can add computed
+columns that operate on individual segments — no manual JSON wrangling
+needed.
+
+
+```python
+segments.select(segments.start, segments.end, segments.text).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[12] }} />
+
+### Step 3: Generate chapter titles
+
+Each segment now has its own row. We add a computed column that sends
+the segment text to GPT-4o-mini for a short chapter title:
+
+
+```python
+segments.add_computed_column(
+    title_response=pxtf.openai.chat_completions(
+        messages=[
+            {
+                'role': 'user',
+                'content': pxtf.string.format(
+                    'Write a short chapter title (5-10 words) for this podcast segment. '
+                    'Return only the title, no quotes or extra punctuation.\n\n{0}',
+                    segments.text,
+                ),
+            }
+        ],
+        model='gpt-4o-mini',
+    ),
+    if_exists='replace',
+)
+
+segments.add_computed_column(
+    chapter_title=segments.title_response.choices[0].message.content,
+    if_exists='replace',
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;2.64&nbsp;s&nbsp;(1.14&nbsp;rows/s)
+Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.02&nbsp;s&nbsp;(142.43&nbsp;rows/s)
+3&nbsp;rows&nbsp;updated.
+</pre>
+
+
+```python
+segments.select(segments.text, segments.chapter_title).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[13] }} />
+
+### Step 4: YouTube-style timestamps
+
+Format each segment’s start time with its LLM-generated title:
+
+
+```python
+@pxt.udf
+def format_timestamp(start: float, chapter_title: str) -> str:
+    mins, secs = divmod(int(start), 60)
+    title = chapter_title.strip('"')
+    return f'{mins}:{secs:02d} - {title}'
+
+
+segments.add_computed_column(
+    timestamp=format_timestamp(segments.start, segments.chapter_title),
+    if_exists='replace',
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.04&nbsp;s&nbsp;(69.92&nbsp;rows/s)
+3&nbsp;rows&nbsp;updated.
+</pre>
+
+
+```python
+segments.select(segments.timestamp).order_by(segments.start).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[14] }} />
+
+Here is a formatted version you can copy/paste directly into your
+YouTube video description field:
+
+
+```python
+print('\n'.join(segments.order_by(segments.start).collect()['timestamp']))
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+0:00&nbsp;-&nbsp;Living&nbsp;in&nbsp;the&nbsp;Moment&nbsp;vs.&nbsp;Reflecting&nbsp;on&nbsp;the&nbsp;Past
+0:10&nbsp;-&nbsp;The&nbsp;Power&nbsp;of&nbsp;Memory&nbsp;in&nbsp;Shaping&nbsp;Happiness
+0:36&nbsp;-&nbsp;Evolving&nbsp;Memories&nbsp;for&nbsp;Lasting&nbsp;Happiness
+</pre>
+
+### Step 5: Listen to each segment
+
+The segments view inherits the `audio` column from the base `episodes`
+table. We can add a computed column that slices out each segment’s audio
+clip using its `start` and `end` times — useful for spot-checking the
+transcription.
+
+In Jupyter, the `audio_clip` column renders as an inline audio player
+you can click to listen:
+
+
+```python
+import os
+import subprocess
+import tempfile
+
+
+@pxt.udf
+def slice_audio(audio: pxt.Audio, start: float, end: float) -> pxt.Audio:
+    """Extract a time range from an audio file using ffmpeg."""
+    fd, output_path = tempfile.mkstemp(suffix='.mp4')
+    os.close(fd)
+    subprocess.run(
+        [
+            'ffmpeg',
+            '-y',
+            '-i',
+            str(audio),
+            '-ss',
+            str(start),
+            '-to',
+            str(end),
+            '-c',
+            'copy',
+            output_path,
+        ],
+        capture_output=True,
+        check=True,
+    )
+    return output_path
+
+
+segments.add_computed_column(
+    audio_clip=slice_audio(segments.audio, segments.start, segments.end),
+    if_exists='replace',
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.28&nbsp;s&nbsp;(10.85&nbsp;rows/s)
+3&nbsp;rows&nbsp;updated.
+</pre>
+
+
+```python
+segments.select(segments.timestamp, segments.audio_clip).order_by(
+    segments.start
+).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[15] }} />
+
+## Explanation
+
+**Pipeline:**
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Audio&nbsp;→&nbsp;WhisperX&nbsp;(VAD&nbsp;+&nbsp;transcription)&nbsp;→&nbsp;list_iterator&nbsp;view&nbsp;(1&nbsp;row&nbsp;per&nbsp;segment)&nbsp;→&nbsp;GPT-4o-mini&nbsp;per&nbsp;row&nbsp;→&nbsp;timestamps
+</pre>
+
+The `episodes` table holds the raw audio and transcription. The
+`segments` view fans out the transcription’s segment list into
+individual rows using `json.list_iterator`. Each segment row then gets
+its own LLM call and timestamp — all as computed columns.
+
+Insert a new episode and the entire pipeline runs automatically:
+transcription, segment extraction, chapter titling, and timestamp
+formatting.
+
+**How WhisperX finds the chapter boundaries:**
+
+WhisperX uses PyAnnote VAD to detect where speech occurs in the audio.
+Pauses, silence, and transitions between speakers create natural segment
+boundaries. These boundaries become the chapter start times.
+
+**Why `list_iterator`?**
+
+Without `list_iterator`, you’d write custom UDFs to extract segments
+from the JSON, batch them into a single LLM prompt, and parse the
+response back apart. The view-based approach is more idiomatic — each
+segment is its own row, and computed columns operate on one row at a
+time.
+
+**Trade-offs:**
+
+- One LLM call per segment instead of one batched call — fine for short
+  podcasts, but consider batching for episodes with 50+ segments
+- This approach requires running a full transcription model just to find
+  where the pauses are
+- For longer episodes, WhisperX’s `chunk_size` parameter controls how
+  the audio is batched internally
+- The chapter titles depend on LLM quality — `gpt-4o-mini` is fast and
+  cheap, use `gpt-4o` for higher quality
+
+## See also
+
+- [`json.list_iterator`](/sdk/latest/json#iterator-list_iterator)
+  — Iterator for flattening JSON lists into view rows
+- [Transcribe
+  audio](/howto/cookbooks/audio/audio-transcribe)
+  — Fixed-interval splitting with local Whisper
+- [Summarize
+  podcasts](/howto/cookbooks/audio/audio-summarize-podcast)
+  — Transcription + LLM summarization
+- [Video scene
+  detection](/howto/cookbooks/video/video-scene-detection)
+  — Content-aware detection for video

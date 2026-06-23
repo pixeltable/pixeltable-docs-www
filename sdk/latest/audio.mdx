@@ -15,17 +15,22 @@ Pixeltable UDFs for `AudioType`.
 @pxt.iterator
 audio_splitter(
     audio: pxt.Audio,
-    duration: pxt.Float,
     *,
+    duration: pxt.Float | None = None,
+    max_size: pxt.Int | None = None,
     overlap: pxt.Float = 0.0,
-    min_segment_duration: pxt.Float = 0.0
+    min_segment_duration: pxt.Float = 0.0,
+    min_silence_len: pxt.Float | None = None,
+    silence_thresh: pxt.Float = -40.0,
+    trim_leading_silence: pxt.Bool = False
 )
 ```
 
-Iterator over segments of an audio file. The audio file is split into smaller segments,
-where the duration of each segment is determined by `duration`.
+Iterator over segments of an audio file. The audio file is split into smaller segments, sized either by
+`duration` (seconds) or by `max_size` (bytes). Exactly one of the two must be specified.
 
-If the input contains no audio, no segments are yielded.
+- With `max_size`, every emitted segment is guaranteed not to exceed the given number of bytes.
+- With `duration`, each segment is approximately that long (a segment may run over by up to one packet).
 
 __Outputs__:
 
@@ -35,11 +40,21 @@ __Outputs__:
     - `segment_end` (`pxt.Float`): End time of the audio segment in seconds
     - `audio_segment` (`pxt.Audio | None`): The audio content of the segment
 
+When `min_silence_len` is set, segment boundaries are snapped to silences so that segments do not end in the
+middle of speech: each segment ends at the latest silence at or before its `duration` or `max_size` budget.
+`trim_leading_silence` additionally drops silence from the start of every segment.
+
 **Parameters:**
 
-- **`duration`** (`pxt.Float`): Audio segment duration in seconds
+- **`duration`** (`pxt.Float | None`): Audio segment duration in seconds. Mutually exclusive with `max_size`.
+- **`max_size`** (`pxt.Int | None`): Maximum audio segment size in bytes. Mutually exclusive with `duration`.
 - **`overlap`** (`pxt.Float`): Overlap between consecutive segments in seconds
-- **`min_segment_duration`** (`pxt.Float`): Drop the last segment if it is smaller than `min_segment_duration`
+- **`min_segment_duration`** (`pxt.Float`): Drop the last segment if it is smaller than `min_segment_duration` (in seconds).
+- **`min_silence_len`** (`pxt.Float | None`): If set, enables silence-aware boundaries; the minimum length in seconds of a quiet stretch
+    that counts as a usable cut point.
+- **`silence_thresh`** (`pxt.Float`): Level in dBFS at or below which audio is considered silent. Used when `min_silence_len` is set
+    or `trim_leading_silence` is true.
+- **`trim_leading_silence`** (`pxt.Bool`): If true, drop leading silence from each segment so it starts at audible content.
 
 **Examples:**
 
@@ -52,6 +67,16 @@ pxt.create_view(
     'audio_segments',
     tbl,
     iterator=audio_splitter(tbl.audio, duration=30.0, overlap=5.0),
+)
+```
+
+Create a view that splits all audio files into segments of at most 24 MB, for transcription:
+
+```python
+pxt.create_view(
+    'audio_segments',
+    tbl,
+    iterator=audio_splitter(tbl.audio, max_size=24 * 1024 * 1024),
 )
 ```
 

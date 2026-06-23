@@ -1,7 +1,7 @@
 ---
 title: "Query"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L368\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L369\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Query
 
@@ -144,7 +144,7 @@ head() is not supported for joins.
 join(
     other: catalog.Table,
     on: exprs.Expr | Sequence[exprs.ColumnRef] | None = None,
-    how: plan.JoinType.LiteralType = 'inner'
+    how: JoinType.LiteralType = 'inner'
 ) -> Query
 ```
 
@@ -165,7 +165,7 @@ Join this Query with a table.
         - column in this Query: A column with that same name must be present in `other`.
 
     - boolean expression: The expressions must be valid in the context of the joined tables.
-- **`how`** (`plan.JoinType.LiteralType`, default: `'inner'`): the type of join to perform.
+- **`how`** (`JoinType.LiteralType`, default: `'inner'`): the type of join to perform.
     - `'inner'`: only keep rows that have a match in both
     - `'left'`: keep all rows from this Query and only matching rows from the other table
     - `'right'`: keep all rows from the other table and only matching rows from this Query

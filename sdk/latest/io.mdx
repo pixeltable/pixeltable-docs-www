@@ -397,6 +397,38 @@ Pixeltable column types are mapped to Parquet types as follows:
     Default False.
 
 
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; export_sql()
+
+```python Signature
+export_sql(
+    table_or_query: pixeltable.catalog.table.Table | pixeltable._query.Query,
+    target_table_name: str,
+    *,
+    db_connect_str: str,
+    target_schema_name: str | None = None,
+    if_exists: Literal['error', 'replace', 'insert'] = 'error',
+    if_not_exists: Literal['error', 'create'] = 'create'
+) -> None
+```
+
+Exports a query result or table to an RDBMS table.
+
+
+**Parameters:**
+
+- **`table_or_query `** (`Any`): Table or Query to export.
+- **`target_table_name `** (`Any`): Name of the target table.
+- **`db_connect_str `** (`Any`): Connection string to the target database.
+- **`target_schema_name `** (`Any`): Optional name of the target schema.
+- **`if_exists `** (`Any`): What to do if the target table already exists.
+    - 'error': raise an error
+    - 'replace': drop the existing table and create a new one
+    - 'insert': insert new rows into the existing table
+- **`if_not_exists `** (`Any`): What to do if the target table does not exist.
+    - 'error': raise an error
+    - 'create': create the table from the source schema
+
+
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_csv()
 
 ```python Signature
@@ -640,4 +672,60 @@ All column types of the new table will be nullable unless explicitly specified a
 **Returns:**
 
 - `pxt.Table`: A handle to the newly created [`Table`](./table).
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; import_sql()
+
+```python Signature
+import_sql(
+    selectable: sqlalchemy.sql.selectable.Selectable,
+    conn: sqlalchemy.engine.base.Engine | sqlalchemy.engine.base.Connection,
+    tbl_name: str,
+    *,
+    schema_overrides: dict[str, typing.Any] | None = None,
+    primary_key: str | list[str] | None = None,
+    comment: str | None = None,
+    custom_metadata: Any = None,
+    if_exists: Literal['error', 'append'] = 'error',
+    on_error: Literal['abort', 'ignore'] = 'abort'
+) -> pixeltable.catalog.table.Table
+```
+
+Import a SQL source into a Pixeltable table.
+
+Rows are streamed from the source via a server-side cursor and inserted in batches.
+
+**Parameters:**
+
+- **`selectable`** (`sqlalchemy.sql.selectable.Selectable`): A SQLAlchemy `Selectable` (a `Table`, a `select()` statement, or `text(...).columns(...)`)
+    describing the source rows.
+- **`conn`** (`sqlalchemy.engine.base.Engine | sqlalchemy.engine.base.Connection`): A SQLAlchemy `Engine` or `Connection` to execute `selectable` against. If a `Connection` is
+    passed, it must remain open and untouched (no commits, rollbacks, or other statements) for the
+    duration of the import; rows are streamed directly from the server-side cursor.
+- **`tbl_name`** (`str`): Pixeltable path of the destination table.
+- **`schema_overrides`** (`dict[str, typing.Any] | None`): Optional per-column overrides applied on top of the inferred schema. Keys are column
+    names; values accept any Pixeltable type spec recognized by `pxt.create_table` (eg, `pxt.Image`,
+    `pxt.Required[pxt.String]`).
+- **`primary_key`** (`str | list[str] | None`): An optional column name or list of column names to use as the primary key(s) of the
+    table. Only applies when a new table is created; ignored when appending to an existing table.
+- **`comment`** (`str | None`): An optional comment; its meaning is user-defined. Only applies when a new table is created;
+    ignored when appending to an existing table.
+- **`custom_metadata`** (`typing.Any`): Optional user-defined metadata to associate with the table. Must be a valid
+    JSON-serializable object [str, int, float, bool, dict, list]. Only applies when a new table is
+    created; ignored when appending to an existing table.
+- **`if_exists`** (`typing.Literal['error', 'append']`, default: `'error'`): How to handle the destination table.
+    - `'error'`: create the table; fail if it already exists.
+    - `'append'`: append into the table if it already exists (verifying the source schema is
+      compatible); otherwise create it.
+- **`on_error`** (`typing.Literal['abort', 'ignore']`, default: `'abort'`): Determines the behavior if an error occurs while evaluating a computed column or detecting an
+    invalid media file (such as a corrupt image) for one of the inserted rows.
+
+    - If `on_error='abort'`, then an exception will be raised and the rows will not be inserted.
+    - If `on_error='ignore'`, then execution will continue and the rows will be inserted. Any cells
+      with errors will have a `None` value for that cell, with information about the error stored in the
+      corresponding `tbl.col_name.errortype` and `tbl.col_name.errormsg` fields.
+
+**Returns:**
+
+- `pixeltable.catalog.table.Table`: The destination `Table`.
 
