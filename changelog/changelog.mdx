@@ -1,6 +1,6 @@
 ---
 title: "Changelog"
-description: "Release notes and version history for Pixeltable, covering new features, model integrations, bug fixes, and breaking changes across all versions."
+description: "Release history and updates for Pixeltable"
 ---
 
 ## Contributors
@@ -18,6 +18,38 @@ Pixeltable is built by a vibrant community of contributors. We're grateful for e
 View the complete release history for Pixeltable below. Each release includes detailed information about new features, bug fixes, and improvements.
 
 For the latest release information, visit our [GitHub Releases page](https://github.com/pixeltable/pixeltable/releases).
+
+---
+
+### v0.6.6
+
+**Released:** June 23, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.6.6](https://github.com/pixeltable/pixeltable/releases/tag/v0.6.6)
+
+#### What's Changed
+* Local CockroachDB environment and CockroachDB compatibility fixes by [@christopherpestano](https://github.com/christopherpestano) in [#1306](https://github.com/pixeltable/pixeltable/pull/1306)
+* Dependabot updates, week of 2026-06-08 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1410](https://github.com/pixeltable/pixeltable/pull/1410)
+* Add cookbook: Generate Podcast Chapters by [@apreshill](https://github.com/apreshill) in [#1232](https://github.com/pixeltable/pixeltable/pull/1232)
+* Refresh README and modernize sample apps by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1413](https://github.com/pixeltable/pixeltable/pull/1413)
+* Remove data sharing and replica support by [@mkornacker](https://github.com/mkornacker) in [#1414](https://github.com/pixeltable/pixeltable/pull/1414)
+* Add missing base table lock acquisition when a mutable view is being replaced by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1405](https://github.com/pixeltable/pixeltable/pull/1405)
+* Generalization of TableVersionPath by [@mkornacker](https://github.com/mkornacker) in [#1400](https://github.com/pixeltable/pixeltable/pull/1400)
+* [PXT-1094] Import RDBMS sources into Pixeltable tables by [@christopherpestano](https://github.com/christopherpestano) in [#1324](https://github.com/pixeltable/pixeltable/pull/1324)
+* mark another HF-dependent test as expensive by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1420](https://github.com/pixeltable/pixeltable/pull/1420)
+* [PXT-1212] Remove all cockroach tests in merge queue by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1422](https://github.com/pixeltable/pixeltable/pull/1422)
+* suppress browser when TestDashboardCommand runs on a dev machine by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1412](https://github.com/pixeltable/pixeltable/pull/1412)
+* Fix two related issues in Catalog by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1408](https://github.com/pixeltable/pixeltable/pull/1408)
+* dashboard-related cli fixes by [@mkornacker](https://github.com/mkornacker) in [#1415](https://github.com/pixeltable/pixeltable/pull/1415)
+* Add data export for analytics cookbook (csv, json, iceberg) by [@apreshill](https://github.com/apreshill) in [#1418](https://github.com/pixeltable/pixeltable/pull/1418)
+* PXT-1199: audio_splitter with max_size and silence awareness by [@mkornacker](https://github.com/mkornacker) in [#1416](https://github.com/pixeltable/pixeltable/pull/1416)
+* [PXT-969] Support for versioning of column metadata by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1090](https://github.com/pixeltable/pixeltable/pull/1090)
+* PXT-1150/1151: Table.compute()/FastAPIRouter.add_compute_route() by [@mkornacker](https://github.com/mkornacker) in [#1366](https://github.com/pixeltable/pixeltable/pull/1366)
+* Refactor of Table and Catalog by [@mkornacker](https://github.com/mkornacker) in [#1419](https://github.com/pixeltable/pixeltable/pull/1419)
+* [PXT-1169] various improvements to pxt serve output by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1421](https://github.com/pixeltable/pixeltable/pull/1421)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.6.5...v0.6.6
 
 ---
 
@@ -1180,23 +1212,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.10...v0.4.11
-
----
-
-### v0.4.10
-
-**Released:** August 28, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.10](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.10)
-
-#### What's Changed
-* Fix local_public_names() to properly exclude private functions by [@goodlux](https://github.com/goodlux) in [#778](https://github.com/pixeltable/pixeltable/pull/778)
-* Add .DS_Store to .gitignore by [@goodlux](https://github.com/goodlux) in [#779](https://github.com/pixeltable/pixeltable/pull/779)
-* More video built-ins by [@mkornacker](https://github.com/mkornacker) in [#768](https://github.com/pixeltable/pixeltable/pull/768)
-* Add missing __all__ to gemini and whisper modules by [@aaron-siegel](https://github.com/aaron-siegel) in [#781](https://github.com/pixeltable/pixeltable/pull/781)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.9...v0.4.10
 
 ---
 

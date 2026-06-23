@@ -1,7 +1,7 @@
 ---
 title: "Table"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L51\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L31\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Table
 
@@ -205,9 +205,9 @@ add_embedding_index(
     column: str | ColumnRef,
     *,
     idx_name: str | None = None,
-    embedding: pxt.Function | None = None,
-    string_embed: pxt.Function | None = None,
-    image_embed: pxt.Function | None = None,
+    embedding: Function | None = None,
+    string_embed: Function | None = None,
+    image_embed: Function | None = None,
     metric: Literal['cosine', 'ip', 'l2'] = 'cosine',
     precision: Literal['fp16', 'fp32'] = 'fp16',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
@@ -229,13 +229,13 @@ if provided, it will be used to convert query values into embeddings for similar
     `Array` column.
 - **`idx_name`** (`str | None`): An optional name for the index. If not specified, a name such as `'idx0'` will be generated
     automatically. If specified, the name must be unique for this table and a valid pixeltable column name.
-- **`embedding`** (`pxt.Function | None`): The UDF to use for the embedding. Must be a UDF that accepts a single argument of type `String`
+- **`embedding`** (`Function | None`): The UDF to use for the embedding. Must be a UDF that accepts a single argument of type `String`
     or `Image` (as appropriate for the column being indexed) and returns a fixed-size 1-dimensional
     array of floats.
-- **`string_embed`** (`pxt.Function | None`): An optional UDF to use for the string embedding component of this index.
+- **`string_embed`** (`Function | None`): An optional UDF to use for the string embedding component of this index.
     Can be used in conjunction with `image_embed` to construct multimodal embeddings manually, by
     specifying different embedding functions for different data types.
-- **`image_embed`** (`pxt.Function | None`): An optional UDF to use for the image embedding component of this index.
+- **`image_embed`** (`Function | None`): An optional UDF to use for the image embedding component of this index.
     Can be used in conjunction with `string_embed` to construct multimodal embeddings manually, by
     specifying different embedding functions for different data types.
 - **`metric`** (`Literal['cosine', 'ip', 'l2']`, default: `'cosine'`): Distance metric to use for the index; one of `'cosine'`, `'ip'`, or `'l2'`.
@@ -367,7 +367,7 @@ tbl.batch_update(
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; collect()
 
 ```python Signature
-collect() -> pxt._query.ResultSet
+collect() -> ResultSet
 ```
 
 Return rows from this table.
@@ -394,7 +394,7 @@ Return the number of rows in this table.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; cursor()
 
 ```python Signature
-cursor() -> pxt._query.ResultCursor
+cursor() -> ResultCursor
 ```
 
 Return a [`ResultCursor`](./resultcursor) that iterates over this table's rows.
@@ -442,7 +442,7 @@ Print the table schema.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; distinct()
 
 ```python Signature
-distinct() -> pxt.Query
+distinct() -> Query
 ```
 
 Remove duplicate rows from table.
@@ -657,7 +657,7 @@ tbl.get_versions(n=5)
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; group_by()
 
 ```python Signature
-group_by(*items: exprs.Expr) -> pxt.Query
+group_by(*items: exprs.Expr) -> Query
 ```
 
 Group the rows of this table based on the expression.
@@ -668,7 +668,7 @@ See [`Query.group_by`](./query#method-group_by) for more details.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; head()
 
 ```python Signature
-head(*args: Any, **kwargs: Any) -> pxt._query.ResultSet
+head(n: int = 10) -> ResultSet
 ```
 
 Return the first n rows inserted into this table.
@@ -843,8 +843,8 @@ join(
     other: Table,
     *,
     on: exprs.Expr | None = None,
-    how: pixeltable.plan.JoinType.LiteralType = 'inner'
-) -> pxt.Query
+    how: JoinType.LiteralType = 'inner'
+) -> Query
 ```
 
 Join this table with another table.
@@ -853,7 +853,7 @@ Join this table with another table.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; limit()
 
 ```python Signature
-limit(n: int, offset: int | None = None) -> pxt.Query
+limit(n: int, offset: int | None = None) -> Query
 ```
 
 Select a limited number of rows from the Table, optionally skipping rows for pagination.
@@ -866,7 +866,7 @@ Select a limited number of rows from the Table, optionally skipping rows for pag
 
 **Returns:**
 
-- `'pxt.Query'`: A Query with the specified limited rows.
+- `'Query'`: A Query with the specified limited rows.
 
 **Examples:**
 
@@ -905,26 +905,12 @@ Returns a list of all views and snapshots of this `Table`.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; order_by()
 
 ```python Signature
-order_by(*items: exprs.Expr, asc: bool = True) -> pxt.Query
+order_by(*items: exprs.Expr, asc: bool = True) -> Query
 ```
 
 Order the rows of this table based on the expression.
 
 See [`Query.order_by`](./query#method-order_by) for more details.
-
-
-## <span style={{ 'color': 'gray' }}>method</span>&nbsp; pull()
-
-```python Signature
-pull() -> None
-```
-
-
-## <span style={{ 'color': 'gray' }}>method</span>&nbsp; push()
-
-```python Signature
-push() -> None
-```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; recompute_columns()
@@ -1023,7 +1009,7 @@ sample(
     fraction: float | None = None,
     seed: int | None = None,
     stratify_by: Any = None
-) -> pxt.Query
+) -> Query
 ```
 
 Choose a shuffled sample of rows
@@ -1034,7 +1020,7 @@ See [`Query.sample`](./query#method-sample) for more details.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; select()
 
 ```python Signature
-select(*items: Any, **named_items: Any) -> pxt.Query
+select(*items: Any, **named_items: Any) -> Query
 ```
 
 Select columns or expressions from this table.
@@ -1045,10 +1031,10 @@ See [`Query.select`](./query#method-select) for more details.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; show()
 
 ```python Signature
-show(*args: Any, **kwargs: Any) -> pxt._query.ResultSet
+show(n: int = 20) -> ResultSet
 ```
 
-Return rows from this table.
+Return the first n rows from this table.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; sync()
@@ -1076,7 +1062,7 @@ Synchronizes this table with its linked external stores.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; tail()
 
 ```python Signature
-tail(*args: Any, **kwargs: Any) -> pxt._query.ResultSet
+tail(n: int = 10) -> ResultSet
 ```
 
 Return the last n rows inserted into this table.
@@ -1162,7 +1148,7 @@ tbl.update({'int_col': tbl.int_col + 1}, where=tbl.int_col == 0)
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; where()
 
 ```python Signature
-where(pred: exprs.Expr) -> pxt.Query
+where(pred: exprs.Expr) -> Query
 ```
 
 Filter rows from this table based on the expression.

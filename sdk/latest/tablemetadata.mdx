@@ -56,14 +56,6 @@ indices: dict[str, IndexMetadata]
 
 Index metadata for all of the indices of the table.
 
-## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; is_replica
-
-```
-is_replica: bool
-```
-
-`True` if this table is a replica of another (shared) table.
-
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; is_snapshot
 
 ```
@@ -99,10 +91,10 @@ The iterator call for views that use an iterator; otherwise `None`.
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; kind
 
 ```
-kind: Literal['table', 'view', 'snapshot', 'replica']
+kind: Literal['table', 'view', 'snapshot']
 ```
 
-The kind of table: `'table'`, `'view'`, `'snapshot'`, or `'replica'`.
+The kind of table: `'table'`, `'view'`, or `'snapshot'`.
 
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; media_validation
 

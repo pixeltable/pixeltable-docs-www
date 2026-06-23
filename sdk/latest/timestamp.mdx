@@ -225,6 +225,18 @@ Equivalent to [`datetime.strftime()`](https://docs.python.org/3/library/datetime
     [`strftime()` and `strptime()` Behavior](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
 
 
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; strip_timezone()
+
+```python Signature
+@pxt.udf
+strip_timezone(self: pxt.Timestamp) -> pxt.Timestamp
+```
+
+Return a naive datetime with the same wall-clock as `self` and no `tzinfo`.
+
+Equivalent to [`datetime.replace(tzinfo=None)`](https://docs.python.org/3/library/datetime.html#datetime.datetime.replace).
+
+
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; toordinal()
 
 ```python Signature
