@@ -378,17 +378,29 @@ Evaluates the performance of a set of predicted bounding boxes against a set of 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; overlay_segmentation()
 
-```python Signature
+```python Signatures
+# Signature 1:
 @pxt.udf
 overlay_segmentation(
     img: pxt.Image,
     segmentation: pxt.Array[(None, None), int32],
-    *,
-    alpha: pxt.Float = 0.5,
-    background: pxt.Int = 0,
-    segment_colors: pxt.Json[(String, ...)] | None = None,
-    draw_contours: pxt.Bool = True,
-    contour_thickness: pxt.Int = 1
+    alpha: pxt.Float,
+    background: pxt.Int,
+    segment_colors: pxt.Json[(String, ...)] | None,
+    draw_contours: pxt.Bool,
+    contour_thickness: pxt.Int
+) -> pxt.Image
+
+# Signature 2:
+@pxt.udf
+overlay_segmentation(
+    img: pxt.Image,
+    segmentation: pxt.Array[(None, None, None), bool],
+    ids: pxt.Array[(None,), int64] | None,
+    alpha: pxt.Float,
+    segment_colors: pxt.Json[(String, ...)] | None,
+    draw_contours: pxt.Bool,
+    contour_thickness: pxt.Int
 ) -> pxt.Image
 ```
 
@@ -400,17 +412,26 @@ RGB hex codes (e.g., '#FF0000').
 
 If no colors are specified, this function randomly assigns each segment a specific color based on a hash of its id.
 
+Two input formats are supported:
+
+- A 2D `(H, W)` int32 id-map where each pixel value is a segment id. This matches the panoptic
+    output of [`detr_for_segmentation()`](./huggingface#func-detr_for_segmentation).
+- A 3D `(num_instances, H, W)` boolean stack with one binary mask per instance. This matches the
+    per-instance mask output of [`sam_for_segmentation()`](./huggingface#func-sam_for_segmentation).
+    Instances are assigned ids `1..num_instances` in order; where masks overlap the highest id wins.
+
 **Parameters:**
 
-- **`img`** (`pxt.Image`): Input image.
-- **`segmentation`** (`pxt.Array[(None`): 2D array of the same shape as `img` where each pixel value is a segment id.
-- **`alpha`** (`Any`): Blend factor for the overlay (0.0 = only original image, 1.0 = only segmentation colors).
-- **`background`** (`Any`): Segment id to treat as background (not overlaid with color, showing the original
-    image through).
-- **`segment_colors`** (`Any`): List of colors, one per segment id. If the list is shorter than the number of segments, the
+- **`img`** (`Image`): Input image.
+- **`segmentation`** (`Array[(None, None), int32]`): Either a 2D `(H, W)` int32 array of segment ids, or a 3D `(num_instances, H, W)`
+    boolean array of per-instance masks.
+- **`alpha`** (`Float`, default: `Literal(0.5)`): Blend factor for the overlay (0.0 = only original image, 1.0 = only segmentation colors).
+- **`background`** (`Int`, default: `Literal(0)`): Segment id to treat as background (not overlaid with color, showing the original
+    image through). Only meaningful for the 2D id-map form.
+- **`segment_colors`** (`Json[(String, ...)] | None`, default: `Literal(None)`): List of colors, one per segment id. If the list is shorter than the number of segments, the
     remaining segments will be assigned colors automatically.
-- **`draw_contours`** (`Any`): If True, draw contours around each segment with full opacity.
-- **`contour_thickness`** (`Any`): Thickness of the contour lines in pixels.
+- **`draw_contours`** (`Bool`, default: `Literal(True)`): If True, draw contours around each segment with full opacity.
+- **`contour_thickness`** (`Int`, default: `Literal(1)`): Thickness of the contour lines in pixels.
 
 **Returns:**
 

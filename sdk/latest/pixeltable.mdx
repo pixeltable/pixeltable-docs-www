@@ -507,11 +507,15 @@ pxt.get_dir_contents('dir1')
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; get_dir_tree()
 
 ```python Signature
-get_dir_tree() -> list['TreeNode']
+get_dir_tree(path: str = '') -> list['TreeNode']
 ```
 
 Get a tree representation of the Pixeltable directory structure.
 
+
+**Parameters:**
+
+- **`path`** (`str`, default: `''`): Path to the directory to start from. Defaults to the root directory.
 
 **Returns:**
 

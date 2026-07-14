@@ -1,12 +1,12 @@
 ---
 title: "video"
 icon: "square-m"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/video.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/video/__init__.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.video
 
 
-Pixeltable UDFs for `VideoType`.
+Pixeltable UDFs for VideoType.
 
 
 ## <span style={{ 'color': 'gray' }}>iterator</span>&nbsp; frame_iterator()
@@ -346,14 +346,14 @@ __Requirements:__
 Crop using default xywh format:
 
 ```python
-tbl.select(tbl.video.crop2([100, 50, 320, 240])).collect()
+tbl.select(tbl.video.crop([100, 50, 320, 240])).collect()
 ```
 
 Crop using xyxy format (common in object detection):
 
 ```python
 tbl.select(
-    tbl.video.crop2([100, 50, 420, 290], bbox_format='xyxy')
+    tbl.video.crop([100, 50, 420, 290], bbox_format='xyxy')
 ).collect()
 ```
 
@@ -361,7 +361,7 @@ Crop using center format:
 
 ```python
 tbl.select(
-    tbl.video.crop2([260, 170, 320, 240], bbox_format='cxcywh')
+    tbl.video.crop([260, 170, 320, 240], bbox_format='cxcywh')
 ).collect()
 ```
 
@@ -369,7 +369,7 @@ Use with yolox object detection output:
 
 ```python
 tbl.add_computed_column(
-    cropped=tbl.video.crop2(tbl.detections.bboxes[0], bbox_format='xyxy')
+    cropped=tbl.video.crop(tbl.detections.bboxes[0], bbox_format='xyxy')
 )
 ```
 
@@ -383,7 +383,7 @@ extract_audio(
     stream_idx: pxt.Int = 0,
     format: pxt.String = 'wav',
     codec: pxt.String | None = None
-) -> pxt.Audio
+) -> pxt.Audio | None
 ```
 
 Extract an audio stream from a video.
@@ -397,7 +397,7 @@ Extract an audio stream from a video.
 
 **Returns:**
 
-- `pxt.Audio`: The extracted audio.
+- `pxt.Audio | None`: The extracted audio, or None if the video has no audio stream at `stream_idx`.
 
 **Examples:**
 
@@ -1205,7 +1205,7 @@ scene_detect_adaptive(
     delta_edges: pxt.Float = 0.0,
     luma_only: pxt.Bool = False,
     kernel_size: pxt.Int | None = None
-) -> pxt.Json[(Json, ...)]
+) -> pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]
 ```
 
 Detect scene cuts in a video using PySceneDetect's
@@ -1241,7 +1241,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -1305,7 +1305,7 @@ scene_detect_content(
     luma_only: pxt.Bool = False,
     kernel_size: pxt.Int | None = None,
     filter_mode: pxt.String = 'merge'
-) -> pxt.Json[(Json, ...)]
+) -> pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]
 ```
 
 Detect scene cuts in a video using PySceneDetect's
@@ -1337,7 +1337,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -1396,7 +1396,7 @@ scene_detect_hash(
     size: pxt.Int = 16,
     lowpass: pxt.Int = 2,
     min_scene_len: pxt.Int = 15
-) -> pxt.Json[(Json, ...)]
+) -> pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]
 ```
 
 Detect scene cuts in a video using PySceneDetect's
@@ -1429,7 +1429,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -1481,7 +1481,7 @@ scene_detect_histogram(
     threshold: pxt.Float = 0.05,
     bins: pxt.Int = 256,
     min_scene_len: pxt.Int = 15
-) -> pxt.Json[(Json, ...)]
+) -> pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]
 ```
 
 Detect scene cuts in a video using PySceneDetect's
@@ -1511,7 +1511,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -1567,7 +1567,7 @@ scene_detect_threshold(
     fade_bias: pxt.Float = 0.0,
     add_final_scene: pxt.Bool = False,
     method: pxt.String = 'floor'
-) -> pxt.Json[(Json, ...)]
+) -> pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]
 ```
 
 Detect fade-in and fade-out transitions in a video using PySceneDetect's
@@ -1600,7 +1600,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json[(Json, ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
+- `pxt.Json[(Json[{'start_time': Float, 'start_pts': Int, 'duration': Float}], ...)]`: A list of dictionaries, one for each detected scene, with the following keys:
 
   - `start_time` (float): The start time of the scene in seconds.
   - `start_pts` (int): The pts of the start of the scene.
@@ -1622,10 +1622,10 @@ Use a lower threshold to detect darker fades:
 tbl.select(tbl.video.scene_detect_threshold(threshold=8.0)).collect()
 ```
 
-Detect both fade-to-black and fade-to-white using absolute method:
+Detect fade-to-white transitions using the 'ceiling' method:
 
 ```python
-tbl.select(tbl.video.scene_detect_threshold(method='absolute')).collect()
+tbl.select(tbl.video.scene_detect_threshold(method='ceiling')).collect()
 ```
 
 Add final scene boundary:
@@ -1731,7 +1731,7 @@ segment_video(
     mode: pxt.String = 'accurate',
     video_encoder: pxt.String | None = None,
     video_encoder_args: pxt.Json | None = None
-) -> pxt.Json[(String, ...)]
+) -> pxt.Json[(Json[{'segment_start': Float | None, 'segment_start_pts': Int | None, 'segment_end': Float | None, 'segment_end_pts': Int | None, 'video_segment': Video}], ...)]
 ```
 
 Split a video into segments.
@@ -1758,17 +1758,15 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json[(String, ...)]`: List of file paths for the generated video segments.
+- `pxt.Json[(Json[{'segment_start': Float | None, 'segment_start_pts': Int | None, 'segment_end': Float | None, 'segment_end_pts': Int | None, 'video_segment': Video}], ...)]`: A list of [`VideoSegment`](./videosegment) records, one per generated segment.
 
 **Examples:**
 
 Split a video at 1 minute intervals using fast mode:
 
 ```python
-tbl.select
-    segment_paths=tbl.video.segment_video(
-        duration=60, mode='fast'
-    )
+tbl.select(
+    segments=tbl.video.segment_video(duration=60, mode='fast')
 ).collect()
 ```
 
@@ -1777,7 +1775,7 @@ and slow preset (for smaller output files):
 
 ```python
 tbl.select(
-    segment_paths=tbl.video.segment_video(
+    segments=tbl.video.segment_video(
         duration=10,
         video_encoder='libx264',
         video_encoder_args={'crf': 23, 'preset': 'slow'},
@@ -1790,7 +1788,7 @@ Split video into two parts at the midpoint:
 ```python
 duration = tbl.video.get_duration()
 tbl.select(
-    segment_paths=tbl.video.segment_video(segment_times=[duration / 2])
+    segments=tbl.video.segment_video(segment_times=[duration / 2])
 ).collect()
 ```
 
