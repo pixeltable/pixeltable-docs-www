@@ -84,8 +84,8 @@
                   "howto/providers/working-with-tigris",
                   "howto/providers/working-with-together",
                   "howto/providers/working-with-twelvelabs",
+                  "howto/providers/working-with-vllm",
                   "howto/providers/working-with-voyageai",
-                  "howto/using-label-studio-with-pixeltable",
                   "howto/working-with-fiftyone"
                 ]
               },
@@ -255,7 +255,9 @@
                       "sdk/latest/vision",
                       "sdk/latest/codeccontextmetadata",
                       "sdk/latest/containermetadata",
-                      "sdk/latest/streammetadata"
+                      "sdk/latest/streammetadata",
+                      "sdk/latest/sceneinfo",
+                      "sdk/latest/videosegment"
                     ]
                   },
                   {
@@ -308,8 +310,111 @@
             ]
           },
           {
-            "dropdown": "v0.6.6",
+            "dropdown": "v0.6.7",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.6.7/pixeltable",
+                      "sdk/v0.6.7/table",
+                      "sdk/v0.6.7/query",
+                      "sdk/v0.6.7/resultset",
+                      "sdk/v0.6.7/row",
+                      "sdk/v0.6.7/resultcursor",
+                      "sdk/v0.6.7/expr",
+                      "sdk/v0.6.7/columnref",
+                      "sdk/v0.6.7/columnmetadata",
+                      "sdk/v0.6.7/dircontents",
+                      "sdk/v0.6.7/directorynode",
+                      "sdk/v0.6.7/indexmetadata",
+                      "sdk/v0.6.7/tablemetadata",
+                      "sdk/v0.6.7/tablenode",
+                      "sdk/v0.6.7/treenode",
+                      "sdk/v0.6.7/updatestatus",
+                      "sdk/v0.6.7/versionmetadata",
+                      "sdk/v0.6.7/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.6.7/functions",
+                      "sdk/v0.6.7/array",
+                      "sdk/v0.6.7/audio",
+                      "sdk/v0.6.7/date",
+                      "sdk/v0.6.7/document",
+                      "sdk/v0.6.7/image",
+                      "sdk/v0.6.7/json",
+                      "sdk/v0.6.7/math",
+                      "sdk/v0.6.7/net",
+                      "sdk/v0.6.7/string",
+                      "sdk/v0.6.7/timestamp",
+                      "sdk/v0.6.7/uuid",
+                      "sdk/v0.6.7/video",
+                      "sdk/v0.6.7/vision",
+                      "sdk/v0.6.7/codeccontextmetadata",
+                      "sdk/v0.6.7/containermetadata",
+                      "sdk/v0.6.7/streammetadata",
+                      "sdk/v0.6.7/sceneinfo",
+                      "sdk/v0.6.7/videosegment"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.6.7/anthropic",
+                      "sdk/v0.6.7/bedrock",
+                      "sdk/v0.6.7/bfl",
+                      "sdk/v0.6.7/deepseek",
+                      "sdk/v0.6.7/fabric",
+                      "sdk/v0.6.7/fal",
+                      "sdk/v0.6.7/fireworks",
+                      "sdk/v0.6.7/gemini",
+                      "sdk/v0.6.7/groq",
+                      "sdk/v0.6.7/huggingface",
+                      "sdk/v0.6.7/jina",
+                      "sdk/v0.6.7/llama_cpp",
+                      "sdk/v0.6.7/mistralai",
+                      "sdk/v0.6.7/ollama",
+                      "sdk/v0.6.7/openai",
+                      "sdk/v0.6.7/openrouter",
+                      "sdk/v0.6.7/replicate",
+                      "sdk/v0.6.7/reve",
+                      "sdk/v0.6.7/runwayml",
+                      "sdk/v0.6.7/together",
+                      "sdk/v0.6.7/twelvelabs",
+                      "sdk/v0.6.7/vllm",
+                      "sdk/v0.6.7/voyageai",
+                      "sdk/v0.6.7/whisper",
+                      "sdk/v0.6.7/whisperx",
+                      "sdk/v0.6.7/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.6.7/serving",
+                      "sdk/v0.6.7/fastapirouter",
+                      "sdk/v0.6.7/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.6.7/io"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.6.6",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -2977,10 +3082,6 @@
     {
       "source": "/examples/vision/yolox",
       "destination": "/howto/cookbooks/images/img-detect-objects"
-    },
-    {
-      "source": "/examples/vision/label-studio",
-      "destination": "/howto/using-label-studio-with-pixeltable"
     },
     {
       "source": "/examples/vision/object-detection",

@@ -1,7 +1,7 @@
 ---
 title: "Query"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L369\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L447\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Query
 
@@ -68,7 +68,7 @@ results = (
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; group_by()
 
 ```python Signature
-group_by(*grouping_items: Any) -> Query
+group_by(*grouping_items: exprs.Expr | catalog.Table) -> Query
 ```
 
 Add a group-by clause to this Query.
@@ -82,7 +82,7 @@ used with an aggregation function like sum(), count() etc.
 
 **Parameters:**
 
-- **`grouping_items`** (`Any`): expressions to group by
+- **`grouping_items`** (`exprs.Expr | catalog.Table`): expressions to group by
 
 **Returns:**
 

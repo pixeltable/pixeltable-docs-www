@@ -1,7 +1,7 @@
 ---
 title: "Table"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L31\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L34\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Table
 
@@ -208,6 +208,9 @@ add_embedding_index(
     embedding: Function | None = None,
     string_embed: Function | None = None,
     image_embed: Function | None = None,
+    audio_embed: Function | None = None,
+    video_embed: Function | None = None,
+    document_embed: Function | None = None,
     metric: Literal['cosine', 'ip', 'l2'] = 'cosine',
     precision: Literal['fp16', 'fp32'] = 'fp16',
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
@@ -218,32 +221,43 @@ Add an embedding index to the table. Once the index is created, it will be autom
 rows are inserted into the table.
 
 To add an embedding index, specify the column to be indexed and, if the column is not an `Array` column, an
-embedding UDF. `String`, `Image`, `Video`, `Audio` and `Array` columns are currently supported.
+embedding UDF. `String`, `Image`, `Audio`, `Video`, `Document`, and `Array` columns are currently supported.
+
+Multimodal embeddings can be specified in one of two ways: via a single `embedding` argument with a
+multi-signature UDF (one signature per modality), or via separate modality-specific arguments (`string_embed`,
+`image_embed`, etc.). If both are provided, the modality-specific arguments will supersede the corresponding
+signatures of the `embedding` UDF.
 
 For `Array` columns, which are assumed to contain precomputed embeddings, an embedding function is optional;
 if provided, it will be used to convert query values into embeddings for similarity search.
 
 **Parameters:**
 
-- **`column`** (`str | ColumnRef`): The name of, or reference to, the column to be indexed; must be a `String`, `Image` or
-    `Array` column.
+- **`column`** (`str | ColumnRef`): The name of, or reference to, the column to be indexed; must be a `String`, `Image`, `Audio`,
+    `Video`, `Document`, or `Array` column.
 - **`idx_name`** (`str | None`): An optional name for the index. If not specified, a name such as `'idx0'` will be generated
     automatically. If specified, the name must be unique for this table and a valid pixeltable column name.
+    When `idx_name` is omitted, duplicates are detected by the index definition (the embedding
+    function(s), `metric`, and `precision`) on the column: re-adding an index with an identical
+    definition is governed by `if_exists`.
 - **`embedding`** (`Function | None`): The UDF to use for the embedding. Must be a UDF that accepts a single argument of type `String`
     or `Image` (as appropriate for the column being indexed) and returns a fixed-size 1-dimensional
-    array of floats.
+    array of floats. If omitted, then at least one of the modality-specific `*_embed` arguments must be
+    supplied.
 - **`string_embed`** (`Function | None`): An optional UDF to use for the string embedding component of this index.
-    Can be used in conjunction with `image_embed` to construct multimodal embeddings manually, by
-    specifying different embedding functions for different data types.
 - **`image_embed`** (`Function | None`): An optional UDF to use for the image embedding component of this index.
-    Can be used in conjunction with `string_embed` to construct multimodal embeddings manually, by
-    specifying different embedding functions for different data types.
+- **`audio_embed`** (`Function | None`): An optional UDF to use for the audio embedding component of this index.
+- **`video_embed`** (`Function | None`): An optional UDF to use for the video embedding component of this index.
+- **`document_embed`** (`Function | None`): An optional UDF to use for the document embedding component of this index.
 - **`metric`** (`Literal['cosine', 'ip', 'l2']`, default: `'cosine'`): Distance metric to use for the index; one of `'cosine'`, `'ip'`, or `'l2'`.
     The default is `'cosine'`.
 - **`precision`** (`Literal['fp16', 'fp32']`, default: `'fp16'`): level of precision for the embeddings; one of `'fp16'` or `'fp32'`.
-- **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Directive for handling an existing index with the same name. Must be one of the following:
-    - `'error'`: raise an error if an index with the same name already exists.
-    - `'ignore'`: do nothing if an index with the same name already exists.
+- **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Directive for handling an existing index. The existing index is the one with the same name
+    (if `idx_name` is given), or one with an identical definition on the same column (if `idx_name` is
+    omitted). Must be one of the following:
+
+    - `'error'`: raise an error if such an index already exists.
+    - `'ignore'`: do nothing if such an index already exists.
     - `'replace'` or `'replace_force'`: replace the existing index with the new one.
 
 **Examples:**
@@ -656,8 +670,12 @@ tbl.get_versions(n=5)
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; group_by()
 
-```python Signature
-group_by(*items: exprs.Expr) -> Query
+```python Signatures
+# Signature 1:
+group_by(grouping_tbl: Table, /) -> Query
+
+# Signature 2:
+group_by(*grouping_items: exprs.Expr) -> Query
 ```
 
 Group the rows of this table based on the expression.
@@ -1037,28 +1055,6 @@ show(n: int = 20) -> ResultSet
 Return the first n rows from this table.
 
 
-## <span style={{ 'color': 'gray' }}>method</span>&nbsp; sync()
-
-```python Signature
-sync(
-    stores: str | list[str] | None = None,
-    *,
-    export_data: bool = True,
-    import_data: bool = True
-) -> UpdateStatus
-```
-
-Synchronizes this table with its linked external stores.
-
-
-**Parameters:**
-
-- **`stores`** (`str | list[str] | None`): If specified, will synchronize only the specified named store or list of stores. If not specified,
-    will synchronize all of this table's external stores.
-- **`export_data`** (`bool`, default: `True`): If `True`, data from this table will be exported to the external stores during synchronization.
-- **`import_data`** (`bool`, default: `True`): If `True`, data from the external stores will be imported to this table during synchronization.
-
-
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; tail()
 
 ```python Signature
@@ -1066,30 +1062,6 @@ tail(n: int = 10) -> ResultSet
 ```
 
 Return the last n rows inserted into this table.
-
-
-## <span style={{ 'color': 'gray' }}>method</span>&nbsp; unlink_external_stores()
-
-```python Signature
-unlink_external_stores(
-    stores: str | list[str] | None = None,
-    *,
-    delete_external_data: bool = False,
-    ignore_errors: bool = False
-) -> None
-```
-
-Unlinks this table's external stores.
-
-
-**Parameters:**
-
-- **`stores`** (`str | list[str] | None`): If specified, will unlink only the specified named store or list of stores. If not specified,
-    will unlink all of this table's external stores.
-- **`ignore_errors`** (`bool`, default: `False`): If `True`, no exception will be thrown if a specified store is not linked
-    to this table.
-- **`delete_external_data`** (`bool`, default: `False`): If `True`, then the external data store will also be deleted. WARNING: This
-    is a destructive operation that will delete data outside Pixeltable, and cannot be undone.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; update()

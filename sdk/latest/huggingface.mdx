@@ -537,6 +537,166 @@ tbl.add_computed_column(
 ```
 
 
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; sam3_for_segmentation()
+
+```python Signature
+@pxt.udf
+sam3_for_segmentation(
+    image: pxt.Image,
+    *,
+    model_id: pxt.String = 'facebook/sam3',
+    text: pxt.String | None = None,
+    input_boxes: pxt.Json[(Json[(Float, ...)], ...)] | None = None,
+    input_boxes_labels: pxt.Json[(Int, ...)] | None = None,
+    threshold: pxt.Float = 0.5,
+    mask_threshold: pxt.Float = 0.5,
+    revision: pxt.String | None = None
+) -> SamForSegmentationResponse
+```
+
+Computes SAM 3 (Segment Anything Model 3) Promptable Concept Segmentation for the specified image.
+`model_id` should be a reference to a pretrained
+[SAM 3 Model](https://huggingface.co/docs/transformers/model_doc/sam3) such as `facebook/sam3`.
+
+SAM 3 performs Promptable Concept Segmentation (PCS): given a concept prompt (a short text noun phrase,
+a set of bounding boxes, or both), it detects and segments every object instance in the image that
+matches the concept.
+
+__Requirements:__
+
+- `pip install torch transformers`
+- `facebook/sam3` is a gated repository. Request access on its
+    [model page](https://huggingface.co/facebook/sam3), then authenticate with
+    `huggingface-cli login` (or set the `HF_TOKEN` environment variable) before calling this UDF.
+
+**Parameters:**
+
+- **`image`** (`pxt.Image`): The image to segment.
+- **`model_id`** (`pxt.String`): The pretrained SAM 3 model to use.
+- **`text`** (`pxt.String | None`): Optional concept prompt as a short noun phrase (e.g., `'yellow school bus'`).
+- **`input_boxes`** (`pxt.Json[(Json[(Float`): Optional list of bounding boxes in `[x1, y1, x2, y2]` pixel coordinates that
+    constrain the concept (e.g., `[[100, 150, 500, 450]]`).
+- **`input_boxes_labels`** (`Any`): Optional list of integer labels for each box: `1` for positive
+    (include this region), `0` for negative (exclude this region). If `input_boxes` is
+    provided and this is `None`, all boxes default to positive.
+- **`threshold`** (`Any`): Confidence threshold for filtering detections.
+- **`mask_threshold`** (`Any`): Threshold applied to mask logits to produce binary masks.
+- **`revision`** (`Any`): The specific model revision to use (e.g., a branch, tag, or git identifier). If not
+    specified, uses the default revision for the model.
+
+**Returns:**
+
+- `SamForSegmentationResponse`: A `SamForSegmentationResponse` containing:
+
+  - `scores`: confidence score per detected instance, shape `(num_instances,)`.
+  - `boxes`: bounding box `[x1, y1, x2, y2]` per detected instance in absolute pixel coordinates, shape
+      `(num_instances, 4)`.
+  - `masks`: binary mask per detected instance, shape `(num_instances, H, W)`.
+
+**Examples:**
+
+Add a computed column that segments every "cat" in an existing Pixeltable column `image` of the
+table `tbl`:
+
+```python
+tbl.add_computed_column(seg=sam3_for_segmentation(tbl.image, text='cat'))
+```
+
+Use a bounding-box prompt to segment a specific object:
+
+```python
+tbl.add_computed_column(
+    seg=sam3_for_segmentation(
+        tbl.image, input_boxes=[[100, 150, 500, 450]]
+    )
+)
+```
+
+Combine a text prompt with a negative box to exclude a region:
+
+```python
+tbl.add_computed_column(
+    seg=sam3_for_segmentation(
+        tbl.image,
+        text='handle',
+        input_boxes=[[40, 183, 318, 204]],
+        input_boxes_labels=[0],
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; sam_automatic_mask_generation()
+
+```python Signature
+@pxt.udf
+sam_automatic_mask_generation(
+    image: pxt.Image,
+    *,
+    model_id: pxt.String = 'facebook/sam3',
+    points_per_batch: pxt.Int = 64,
+    points_per_crop: pxt.Int = 32,
+    pred_iou_thresh: pxt.Float = 0.7,
+    stability_score_thresh: pxt.Float = 0.95,
+    crops_n_layers: pxt.Int = 0,
+    revision: pxt.String | None = None
+) -> SamForSegmentationResponse
+```
+
+Segments every object in an image with SAM (Segment Anything Model), with no prompt. `model_id` should
+be a reference to a pretrained
+[SAM Model](https://huggingface.co/docs/transformers/model_doc/sam3) such as `facebook/sam3` or
+`facebook/sam2-hiera-large`. This UDF is not tied to a specific SAM version; it works with any SAM model
+that supports automatic mask generation.
+
+Works by sampling a grid of points across the image and returns a binary mask for every distinct object it
+finds (the "segment everything" mode of SAM 1 and SAM 2). Masks are filtered by predicted quality and
+de-duplicated. The masks are class-agnostic: no labels or persistent object ids are produced, since the model
+is not told what to look for.
+
+__Requirements:__
+
+- `pip install torch transformers`
+- `facebook/sam3` is a gated repository. Request access on its
+    [model page](https://huggingface.co/facebook/sam3), then authenticate with
+    `huggingface-cli login` (or set the `HF_TOKEN` environment variable) before calling this UDF.
+
+**Parameters:**
+
+- **`image`** (`pxt.Image`): The image to segment.
+- **`model_id`** (`pxt.String`): The pretrained SAM model to use.
+- **`points_per_batch`** (`pxt.Int`): Number of grid points run through the model at once. Higher values are faster but
+    use more memory.
+- **`points_per_crop`** (`pxt.Int`): Number of grid points sampled along each side of the image. Higher values find more
+    (and smaller) objects at the cost of speed.
+- **`pred_iou_thresh`** (`pxt.Float`): Quality threshold on the model's predicted mask IoU; masks scoring below it are
+    discarded.
+- **`stability_score_thresh`** (`pxt.Float`): Quality threshold on mask stability under mask-logit threshold changes; masks
+    scoring below it are discarded.
+- **`crops_n_layers`** (`pxt.Int`): Number of additional image-crop layers to run. Values above `0` improve recall on
+    small objects at the cost of speed.
+- **`revision`** (`pxt.String | None`): The specific model revision to use (e.g., a branch, tag, or git identifier). If not
+    specified, uses the default revision for the model.
+
+**Returns:**
+
+- `SamForSegmentationResponse`: A `SamForSegmentationResponse` containing:
+
+  - `scores`: predicted quality score per mask, shape `(num_masks,)`.
+  - `boxes`: bounding box `[x1, y1, x2, y2]` per mask in absolute pixel coordinates, shape
+      `(num_masks, 4)`.
+  - `masks`: binary mask per detected object, shape `(num_masks, H, W)`.
+
+**Examples:**
+
+Add a computed column that segments every object in an existing Pixeltable column `image` of the
+table `tbl`:
+
+```python
+tbl.add_computed_column(seg=sam_automatic_mask_generation(tbl.image))
+```
+
+
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; sentence_transformer()
 
 ```python Signature

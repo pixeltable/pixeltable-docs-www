@@ -136,6 +136,10 @@ Otherwise it's like, you know, everybody leaves.</td>
 </table>
 `,`
 <table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 54%" />
+</colgroup>
 <thead>
 <tr>
 <th>Parameter</th>
@@ -145,15 +149,35 @@ Otherwise it's like, you know, everybody leaves.</td>
 <tbody>
 <tr>
 <td style="vertical-align: middle;"><code>duration</code></td>
-<td style="vertical-align: middle;">Duration of each segment in seconds</td>
+<td style="vertical-align: middle;">Segment length in seconds (mutually exclusive with
+<code>max_size</code>)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>max_size</code></td>
+<td style="vertical-align: middle;">Max segment size in bytes — useful for API upload limits (mutually
+exclusive with <code>duration</code>)</td>
 </tr>
 <tr>
 <td style="vertical-align: middle;"><code>overlap</code></td>
-<td style="vertical-align: middle;">Overlap between segments (helps with word boundaries)</td>
+<td style="vertical-align: middle;">Overlap between segments in seconds (helps with word
+boundaries)</td>
 </tr>
 <tr>
 <td style="vertical-align: middle;"><code>min_segment_duration</code></td>
 <td style="vertical-align: middle;">Drop the last segment if shorter than this</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>min_silence_len</code></td>
+<td style="vertical-align: middle;">If set, snap cuts to quiet stretches of at least this length
+(seconds)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>silence_thresh</code></td>
+<td style="vertical-align: middle;">dBFS threshold for silence (default <code>-40.0</code>)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>trim_leading_silence</code></td>
+<td style="vertical-align: middle;">Drop leading silence so each segment starts at audible content</td>
 </tr>
 </tbody>
 </table>
@@ -315,7 +339,29 @@ multilingual support.
 
 **audio_splitter parameters:**
 
+Exactly one of `duration` or `max_size` must be specified.
+
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
+
+**Tips:**
+
+
+```python
+# Byte-budget splits (e.g. 24 MB Whisper upload limit)
+audio_splitter(audio.audio, max_size=24 * 1024 * 1024)
+
+# Silence-aware duration splits
+audio_splitter(
+    audio.audio,
+    duration=30.0,
+    min_silence_len=0.3,
+    silence_thresh=-40.0,
+    trim_leading_silence=True,
+)
+```
+
+Full API:
+[audio_splitter](/sdk/latest/audio#iterator-audio_splitter).
 
 **Video files work too:**
 
