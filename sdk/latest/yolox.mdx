@@ -13,7 +13,7 @@ YOLOX object detection functions.
 
 ```python Signature
 @pxt.udf
-yolo_to_coco(detections: pxt.Json) -> pxt.Json[(Json, ...)]
+yolo_to_coco(detections: pxt.Json) -> pxt.Json[(Json[{'bbox': Json[(Int, ...)], 'category': Int}], ...)]
 ```
 
 Converts the output of a YOLOX object detection model to COCO format.
@@ -25,7 +25,7 @@ Converts the output of a YOLOX object detection model to COCO format.
 
 **Returns:**
 
-- `pxt.Json[(Json, ...)]`: A dictionary containing the data from `detections`, converted to COCO format.
+- `pxt.Json[(Json[{'bbox': Json[(Int, ...)], 'category': Int}], ...)]`: A dictionary containing the data from `detections`, converted to COCO format.
 
 **Examples:**
 
@@ -49,7 +49,7 @@ yolox(
     *,
     model_id: pxt.String,
     threshold: pxt.Float = 0.5
-) -> pxt.Json
+) -> YoloxResponse
 ```
 
 Computes YOLOX object detections for the specified image. `model_id` should reference one of the models
@@ -66,7 +66,7 @@ __Requirements__:
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing the output of the object detection model.
+- `YoloxResponse`: A dictionary containing the output of the object detection model.
 
 **Examples:**
 

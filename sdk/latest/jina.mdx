@@ -85,7 +85,7 @@ rerank(
     model: pxt.String,
     top_n: pxt.Int | None = None,
     return_documents: pxt.Bool | None = None
-) -> pxt.Json
+) -> JinaRerankResponse
 ```
 
 Reranks documents based on their relevance to a query using Jina AI reranker models.
@@ -108,7 +108,7 @@ limit is configured, uses a default of 600 RPM.
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing:
+- `JinaRerankResponse`: A dictionary containing:
 
   - `results`: List of reranking results with `index` and `relevance_score`
       (and `document` if `return_documents=True`)

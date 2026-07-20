@@ -168,7 +168,7 @@ rerank(
     model: pxt.String,
     top_k: pxt.Int | None = None,
     truncation: pxt.Bool = True
-) -> pxt.Json
+) -> VoyageRerankResponse
 ```
 
 Reranks documents based on their relevance to a query.
@@ -195,7 +195,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing:
+- `VoyageRerankResponse`: A dictionary containing:
   - `results`: List of reranking results with `index`, `document`, and `relevance_score`
   - `total_tokens`: The total number of tokens used
 

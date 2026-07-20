@@ -69,6 +69,58 @@ make_list(*args, **kwargs) -> pxt.Json[(Json, ...)]
 Collects arguments into a list.
 
 
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; concat()
+
+```python Signature
+@pxt.udf
+concat(self: pxt.Json | None, other: pxt.Json | None) -> pxt.Json
+```
+
+Concatenate two JSON arrays into a new array.
+
+Returns `null` if either operand is `null`. Raises if either operand is a non-null, non-array value.
+
+**Examples:**
+
+```python
+t.select(t.tags.concat(t.more_tags)).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; contains()
+
+```python Signature
+@pxt.udf
+contains(self: pxt.Json, value: pxt.Json) -> pxt.Bool
+```
+
+Return `True` if `value` is an element of a JSON array or a key of a JSON object; `False` otherwise.
+
+
+**Examples:**
+
+```python
+t.where(t.detections.labels.contains('person')).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; count()
+
+```python Signature
+@pxt.udf
+count(self: pxt.Json, value: pxt.Json) -> pxt.Int
+```
+
+Return the number of times `value` occurs in a JSON array.
+
+
+**Examples:**
+
+```python
+t.select(t.detections.labels.count('person')).collect()
+```
+
+
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; dumps()
 
 ```python Signature
@@ -87,4 +139,214 @@ Equivalent to [`json.dumps()`](https://docs.python.org/3/library/json.html#json.
 **Returns:**
 
 - `pxt.String`: A JSON-formatted string.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; flatten()
+
+```python Signature
+@pxt.udf
+flatten(self: pxt.Json) -> pxt.Json
+```
+
+Concatenate the elements of a JSON array one level deep; non-array elements are kept as-is.
+
+
+**Examples:**
+
+```python
+t.select(t.chunks.flatten()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get()
+
+```python Signature
+@pxt.udf
+get(
+    self: pxt.Json | None,
+    key: pxt.String,
+    default: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Return the value of `key` if the value is a JSON object containing it, otherwise `default`.
+
+
+**Examples:**
+
+```python
+t.select(t.metadata.get('author', default='unknown')).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; is_empty()
+
+```python Signature
+@pxt.udf
+is_empty(self: pxt.Json | None) -> pxt.Bool
+```
+
+Return `True` if the value is `null`, an empty array, an empty object, or an empty string; `False` otherwise
+(including for numbers and booleans).
+
+**Examples:**
+
+```python
+t.where(~t.detections.bboxes.is_empty()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; items()
+
+```python Signature
+@pxt.udf
+items(self: pxt.Json) -> pxt.Json
+```
+
+Return the `[key, value]` pairs of a JSON object as a list. `keys()`, `values()`, and `items()` share the
+same ordering.
+
+**Examples:**
+
+```python
+t.select(t.metadata.items()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; keys()
+
+```python Signature
+@pxt.udf
+keys(self: pxt.Json) -> pxt.Json[(String, ...)]
+```
+
+Return the keys of a JSON object. `keys()`, `values()`, and `items()` share the same ordering.
+
+
+**Examples:**
+
+```python
+t.select(t.metadata.keys()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; len()
+
+```python Signature
+@pxt.udf
+len(self: pxt.Json) -> pxt.Int
+```
+
+Return the number of elements in a JSON array, keys in a JSON object, or characters in a JSON string.
+
+Not defined for numbers or booleans. A `null` value (or missing path) yields `null`.
+
+**Examples:**
+
+```python
+t.select(t.detections.bboxes.len()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; max()
+
+```python Signature
+@pxt.udf
+max(self: pxt.Json) -> pxt.Float | None
+```
+
+Return the largest number in a JSON array, or `null` if the array is empty.
+
+
+**Examples:**
+
+```python
+t.select(t.detections.scores.max()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; mean()
+
+```python Signature
+@pxt.udf
+mean(self: pxt.Json) -> pxt.Float | None
+```
+
+Return the arithmetic mean of the numbers in a JSON array, or `null` if the array is empty.
+
+
+**Examples:**
+
+```python
+t.select(t.detections.scores.mean()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; merge()
+
+```python Signature
+@pxt.udf
+merge(self: pxt.Json | None, other: pxt.Json | None) -> pxt.Json
+```
+
+Merge two JSON objects into a new object; on a key conflict the value from `other` wins.
+
+Returns `null` if either operand is `null`. Raises if either operand is a non-null, non-object value.
+
+**Examples:**
+
+```python
+t.select(t.defaults.merge(t.overrides)).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; min()
+
+```python Signature
+@pxt.udf
+min(self: pxt.Json) -> pxt.Float | None
+```
+
+Return the smallest number in a JSON array, or `null` if the array is empty.
+
+
+**Examples:**
+
+```python
+t.select(t.detections.scores.min()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; sum()
+
+```python Signature
+@pxt.udf
+sum(self: pxt.Json) -> pxt.Float
+```
+
+Return the sum of the numbers in a JSON array (0 for an empty array).
+
+
+**Examples:**
+
+```python
+t.select(t.detections.scores.sum()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; values()
+
+```python Signature
+@pxt.udf
+values(self: pxt.Json) -> pxt.Json
+```
+
+Return the values of a JSON object. `keys()`, `values()`, and `items()` share the same ordering.
+
+
+**Examples:**
+
+```python
+t.select(t.metadata.values()).collect()
+```
 

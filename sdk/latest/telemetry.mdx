@@ -1,0 +1,84 @@
+---
+title: "telemetry"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/telemetry.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.telemetry
+
+
+Dependency-free instrumentation hooks.
+
+Core pixeltable reports spans (timed, nested units of work) and discrete events through this module;
+subscribers (e.g. the bridge in `opentelemetry-instrumentation-pixeltable`) translate them into a
+telemetry backend. With no subscribers registered every call is a near-free no-op, but hot loops should
+still guard with `if telemetry.active():` before building attribute dicts (or pass `attrs` as a
+callable).
+
+Spans should cover contiguous units of real computation (a UDF call, a DB insert batch, model loading) or
+serve as structural containers (operation and exec-node spans). A CPU work span must not contain a
+`yield`/`await`, which would let it cover unrelated interleaved work; awaiting an external call inside a
+span is fine (the request really is in flight).
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; emit()
+
+```python Signature
+emit(name: str, attrs: HookAttrs = None) -> None
+```
+
+Report a discrete event (e.g. a counter increment) to all subscribers.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; span()
+
+```python Signature
+span(
+    name: str,
+    *,
+    level: int = 20,
+    parent: SpanHandle | None = None,
+    set_current: bool = False,
+    **attrs: Any
+) -> Iterator[SpanHandle | None]
+```
+
+Context-manager sugar for a lexical-block span.
+
+Keyword attrs get a 'pxt.' prefix; None values are skipped.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; span_end()
+
+```python Signature
+span_end(
+    handle: SpanHandle | None,
+    *,
+    exc: BaseException | None = None,
+    attrs: HookAttrs = None
+) -> None
+```
+
+End a span started with span_start(); a no-op for None handles.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; span_start()
+
+```python Signature
+span_start(
+    name: str,
+    *,
+    level: int = 20,
+    parent: SpanHandle | None = None,
+    set_current: bool = False,
+    attrs: HookAttrs = None
+) -> SpanHandle | None
+```
+
+Start a span and return its handle; None if no subscribers are registered or the span is suppressed.
+
+Spans below the level threshold are suppressed, as are non-set_current spans with no ambient ancestor;
+descendants of a suppressed span parent to the ambient span. set_current=True makes the span the
+ambient parent (a ContextVar, so it propagates into asyncio tasks) and requires that span_end() runs
+on the same thread/context; use capture_context()/restore_context()/exit_context() for explicit
+thread handoffs.
+
