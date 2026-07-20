@@ -44,10 +44,6 @@ every flag.
 %pip install -qU 'pixeltable[serve]'
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Note:&nbsp;you&nbsp;may&nbsp;need&nbsp;to&nbsp;restart&nbsp;the&nbsp;kernel&nbsp;to&nbsp;use&nbsp;updated&nbsp;packages.
-</pre>
-
 
 ```python
 import json
@@ -81,16 +77,7 @@ frames.add_computed_column(thumb=frames.frame.thumbnail((320, 180)))
 videos.insert([{'video': SAMPLE_VIDEO, 'title': 'Bangkok'}])
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/private/var/folders/s4/0zdx499s6sv3_0jll6ccdbh00000gn/T/tmp.8rYgq6oxHN/.pxt-home/pgdata
-Created&nbsp;directory&nbsp;&#x27;cli_demo&#x27;.
-Created&nbsp;table&nbsp;&#x27;videos&#x27;.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
-Inserted&nbsp;20&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.89&nbsp;s&nbsp;(22.39&nbsp;rows/s)
-20&nbsp;rows&nbsp;inserted.
-</pre>
-
-### 1. Inspect the catalog {#inspect-the-catalog}
+### Step 1: Inspect the catalog
 
 List directories and tables, then drill into schema and computed
 columns. Flag letters in `pxt ls -l`: `c` = computed column, `i` =
@@ -104,20 +91,7 @@ index.
 !pxt idxs cli_demo/frames
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-path&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kind&nbsp;&nbsp;&nbsp;cols&nbsp;&nbsp;version&nbsp;&nbsp;flags
-cli_demo/frames&nbsp;&nbsp;view&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;c
-cli_demo/videos&nbsp;&nbsp;table&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;i
-table&nbsp;&#x27;cli_demo/videos&#x27;
-
-&nbsp;Column&nbsp;Name&nbsp;&nbsp;&nbsp;&nbsp;Type&nbsp;&nbsp;Source&nbsp;Computed&nbsp;With&nbsp;Comment
---------------------------------------------------
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;video&nbsp;&nbsp;&nbsp;Video&nbsp;&nbsp;videos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;&nbsp;String&nbsp;&nbsp;videos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-cli_demo/frames&nbsp;thumb&nbsp;&nbsp;&nbsp;Required\[Image\]&nbsp;computed&nbsp;&nbsp;&nbsp;&nbsp;frame.thumbnail(\[320,&nbsp;180\])
-</pre>
-
-### 2. Query rows {#query-rows}
+### Step 2: Query rows
 
 Peek at stored data from the terminal. Pass computed columns explicitly
 with `--cols`; unstored computed columns are skipped by default.
@@ -129,19 +103,14 @@ Thumbnails may take a moment to compute after insert.
 !pxt rows cli_demo/frames -n 1 --cols pos,thumb
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-19
-pos&nbsp;thumb
-0&nbsp;&nbsp;&nbsp;&lt;Image&nbsp;320x180&nbsp;RGB&gt;
-</pre>
-
-### 3. Debug computed-column failures {#debug-computed-column-failures}
+### Step 3: Debug computed-column failures
 
 When a stored computed column fails, `pxt errors` lists the failing rows
 by primary key.
 
 
 ```python
+
 @pxt.udf
 def boom_if_zero(x: int) -> int:
     if x == 0:
@@ -160,14 +129,7 @@ failures.insert([{'k': 0}, {'k': 1}], on_error='ignore')
 !pxt errors cli_demo/failures
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;&#x27;failures&#x27;.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
-Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;2&nbsp;errors&nbsp;across&nbsp;2&nbsp;columns&nbsp;(failures.result,&nbsp;failures.None)&nbsp;in&nbsp;0.00&nbsp;s&nbsp;(400.31&nbsp;rows/s)
-\{k:&nbsp;0\}&nbsp;&nbsp;result&nbsp;&nbsp;ValueError&nbsp;&nbsp;boom
-</pre>
-
-### 4. Version control {#version-control}
+### Step 4: Version control
 
 Every insert and schema change creates a new table version. Inspect the
 timeline, then roll back if needed. See [Track changes and
@@ -183,19 +145,7 @@ videos.add_computed_column(label=videos.title.upper())
 !pxt history cli_demo/videos -n 3
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;1&nbsp;column&nbsp;value&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.02&nbsp;s&nbsp;(51.20&nbsp;rows/s)
-version&nbsp;created_at&nbsp;&nbsp;change_type&nbsp;inserts&nbsp;updates&nbsp;deletes&nbsp;errors&nbsp;&nbsp;schema_change
-2&nbsp;&nbsp;&nbsp;2026-06-12T23:39:11.848683Z&nbsp;schema&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;Added:&nbsp;label
-1&nbsp;&nbsp;&nbsp;2026-06-12T23:39:08.810158Z&nbsp;data&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;
-0&nbsp;&nbsp;&nbsp;2026-06-12T23:39:08.490587Z&nbsp;schema&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;Initial&nbsp;Version
-reverted&nbsp;cli_demo/videos:&nbsp;v2&nbsp;-&gt;&nbsp;v1
-version&nbsp;created_at&nbsp;&nbsp;change_type&nbsp;inserts&nbsp;updates&nbsp;deletes&nbsp;errors&nbsp;&nbsp;schema_change
-1&nbsp;&nbsp;&nbsp;2026-06-12T23:39:08.810158Z&nbsp;data&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;
-0&nbsp;&nbsp;&nbsp;2026-06-12T23:39:08.490587Z&nbsp;schema&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;0&nbsp;&nbsp;&nbsp;Initial&nbsp;Version
-</pre>
-
-### 5. Agent-friendly scripting {#agent-friendly-scripting}
+### Step 5: Agent-friendly scripting
 
 Most catalog commands accept `--json` for stable, machine-readable
 output. Use `-f` to skip confirmation prompts in non-interactive
@@ -225,12 +175,7 @@ print(
 )
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-tables:&nbsp;\[&#x27;cli_demo/failures&#x27;,&nbsp;&#x27;cli_demo/videos&#x27;\]
-frame&nbsp;count:&nbsp;0
-</pre>
-
-### 6. Config and health {#config-and-health}
+### Step 6: Config and health
 
 Check daemon health, runtime status, and resolved configuration (API
 keys show as `<redacted>` when set). See [Configure API
@@ -244,36 +189,7 @@ setup.
 !pxt config --section openai
 ```
 
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-\{
-&nbsp;&nbsp;&quot;ok&quot;:&nbsp;true,
-&nbsp;&nbsp;&quot;service&quot;:&nbsp;&quot;pxt&quot;,
-&nbsp;&nbsp;&quot;pxt_version&quot;:&nbsp;&quot;0.6.5&quot;,
-&nbsp;&nbsp;&quot;pid&quot;:&nbsp;52061,
-&nbsp;&nbsp;&quot;started_at&quot;:&nbsp;&quot;2026-06-12T23:09:23.075920+00:00&quot;,
-&nbsp;&nbsp;&quot;pxt_install_dir&quot;:&nbsp;&quot;/opt/miniconda3/envs/pxt/lib/python3.10/site-packages/pixeltable&quot;,
-&nbsp;&nbsp;&quot;python_executable&quot;:&nbsp;&quot;/opt/miniconda3/envs/pxt/bin/python&quot;,
-&nbsp;&nbsp;&quot;pixeltable_home&quot;:&nbsp;&quot;/private/var/folders/s4/0zdx499s6sv3_0jll6ccdbh00000gn/T/tmp.8rYgq6oxHN/.pxt-home&quot;,
-&nbsp;&nbsp;&quot;pixeltable_pgdata&quot;:&nbsp;&quot;/private/var/folders/s4/0zdx499s6sv3_0jll6ccdbh00000gn/T/tmp.8rYgq6oxHN/.pxt-home/pgdata&quot;,
-&nbsp;&nbsp;&quot;pixeltable_config_file&quot;:&nbsp;&quot;/private/var/folders/s4/0zdx499s6sv3_0jll6ccdbh00000gn/T/tmp.8rYgq6oxHN/.pxt-home/config.toml&quot;,
-&nbsp;&nbsp;&quot;pixeltable_env&quot;:&nbsp;\{
-&nbsp;&nbsp;&nbsp;&nbsp;&quot;PIXELTABLE_HOME&quot;:&nbsp;&quot;/var/folders/s4/0zdx499s6sv3_0jll6ccdbh00000gn/T/tmp.8rYgq6oxHN/.pxt-home&quot;
-&nbsp;&nbsp;\}
-\}
-pxt_version&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.6.5.dev24+8a39208c
-daemon_pid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;52061
-daemon_started&nbsp;&nbsp;2026-06-12T23:09:23.075920+00:00
-home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/var/folders/s4/0zdx499s6sv3_0jll6ccdbh00000gn/T/tmp.8rYgq6oxHN/.pxt-home
-db_url&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;postgresql+psycopg://postgres:***@/pixeltable?host=%2Fprivate%2Fvar%2Ffolders%2Fs4%2F0zdx499s6sv3_0jll6ccdbh00000gn%2FT%2Ftmp.8rYgq6oxHN%2F.pxt-home%2Fpgdata
-media_dir&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/var/folders/s4/0zdx499s6sv3_0jll6ccdbh00000gn/T/tmp.8rYgq6oxHN/.pxt-home/media
-file_cache_dir&nbsp;&nbsp;/var/folders/s4/0zdx499s6sv3_0jll6ccdbh00000gn/T/tmp.8rYgq6oxHN/.pxt-home/file_cache
-total_tables&nbsp;&nbsp;&nbsp;&nbsp;7
-total_errors&nbsp;&nbsp;&nbsp;&nbsp;2
-config_file&nbsp;&nbsp;/var/folders/s4/0zdx499s6sv3_0jll6ccdbh00000gn/T/tmp.8rYgq6oxHN/.pxt-home/config.toml
-not&nbsp;set:&nbsp;openai.api_key,&nbsp;openai.base_url,&nbsp;openai.api_version,&nbsp;openai.rate_limits,&nbsp;openai.max_connections,&nbsp;openai.max_keepalive_connections,&nbsp;openai.read_timeout,&nbsp;openai.write_timeout
-</pre>
-
-### 7. Serve without application code {#serve-without-application-code}
+### Step 7: Serve without application code
 
 Validate an insert endpoint with `--dry-run --json` (no server started).
 For production, declare routes in `pyproject.toml` — see [HTTP
@@ -293,33 +209,6 @@ pxt rows cli_demo/frames -n 1 --cols pos,thumb
 ```python
 !pxt serve insert --table cli_demo/videos --path /videos --inputs video title --outputs title --dry-run --json
 ```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-\{
-&nbsp;&nbsp;&quot;name&quot;:&nbsp;&quot;pxt-serve&quot;,
-&nbsp;&nbsp;&quot;prefix&quot;:&nbsp;&quot;&quot;,
-&nbsp;&nbsp;&quot;host&quot;:&nbsp;&quot;0.0.0.0&quot;,
-&nbsp;&nbsp;&quot;port&quot;:&nbsp;8000,
-&nbsp;&nbsp;&quot;routes&quot;:&nbsp;\[
-&nbsp;&nbsp;&nbsp;&nbsp;\{
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;path&quot;:&nbsp;&quot;/videos&quot;,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;background&quot;:&nbsp;false,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;type&quot;:&nbsp;&quot;insert&quot;,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;table&quot;:&nbsp;&quot;cli_demo/videos&quot;,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;inputs&quot;:&nbsp;\[
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;video&quot;,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;title&quot;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\],
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;uploadfile_inputs&quot;:&nbsp;null,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;outputs&quot;:&nbsp;\[
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;title&quot;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\],
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;return_fileresponse&quot;:&nbsp;false,
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;export_sql&quot;:&nbsp;null
-&nbsp;&nbsp;&nbsp;&nbsp;\}
-&nbsp;&nbsp;\]
-\}
-</pre>
 
 ### Next steps
 

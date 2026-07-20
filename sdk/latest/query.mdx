@@ -51,7 +51,7 @@ results = addresses.distinct()
 Select unique cities in table `addresses`
 
 ```python
-results = addresses.city.distinct()
+results = addresses.select(addresses.city).distinct()
 ```
 
 Select unique locations (street, city) in the state of `CA`

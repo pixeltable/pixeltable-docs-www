@@ -103,12 +103,12 @@ Pixeltable generalizes the Python operator and is chosen to align with the SQL s
 
 ```python Signature
 @pxt.udf
-pow(self: pxt.Int, other: pxt.Int) -> pxt.Float
+pow(self: pxt.Float, other: pxt.Float) -> pxt.Float
 ```
 
 Raise `self` to the power of `other`.
 
-Equivalent to Python [`self ** other`](https://docs.python.org/3/library/functions.html#pow).
+Equivalent to Python [`builtins.pow()`](https://docs.python.org/3/library/functions.html#pow).
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; round()

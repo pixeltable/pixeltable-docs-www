@@ -41,11 +41,12 @@ Clip a list of bounding boxes to a canvas of specified size.
 
 **Parameters:**
 
-- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each either specified with absolute pixel coordinates (`int`) or relative
-    coordinates (`float`).
+- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, specified with absolute pixel coordinates if `width`/`height` are given,
+    with relative coordinates otherwise. All-integer boxes are always treated as absolute and require
+    `width`/`height`.
 - **`format`** (`Any`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
-- **`width`** (`Any`): Canvas width in absolute pixels. Required for absolute coordinates, must not be specified for relative.
-- **`height`** (`Any`): Canvas height in absolute pixels. Required for absolute coordinates, must not be specified for relative.
+- **`width`** (`Any`): Canvas width in absolute pixels. Required for absolute coordinates, omit for relative.
+- **`height`** (`Any`): Canvas height in absolute pixels. Required for absolute coordinates, omit for relative.
 - **`min_visibility`** (`Any`): Minimum fraction of the bounding box that must be visible after clipping. If the visibility
     is less than this value, returns None.
 - **`min_area`** (`Any`): Minimum area of the bounding box after clipping. If the area is less than this value, returns None.
@@ -73,8 +74,9 @@ Convert a list of bounding boxes from src_format to dst_format.
 
 **Parameters:**
 
-- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each either specified with absolute pixel coordinates or relative
-    coordinates in [0, 1].
+- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each with absolute pixel coordinates or relative coordinates in [0, 1].
+    Coordinates may be int or float; relative vs absolute is inferred (relative only when every coordinate
+    is within [0, 1]), so absolute float coordinates such as 10.5 are supported.
 - **`src_format`** (`Any`): Source format, one of 'xyxy', 'xywh', 'cxcywh'.
 - **`dst_format`** (`Any`): Destination format, one of 'xyxy', 'xywh', 'cxcywh'.
 
@@ -103,10 +105,12 @@ Adjust a list of bounding boxes to account for a canvas crop.
 
 **Parameters:**
 
-- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each either specified with absolute pixel coordinates or relative coordinates.
+- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, specified with absolute pixel coordinates if `canvas_width`/`canvas_height`
+    are given, with relative coordinates otherwise. All-integer boxes are always treated as absolute and
+    require `canvas_width`/`canvas_height`.
 - **`format`** (`Any`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
-- **`canvas_width`** (`Any`): Canvas width.
-- **`canvas_height`** (`Any`): Canvas height.
+- **`canvas_width`** (`Any`): Canvas width in absolute pixels. Required for absolute coordinates, omit for relative.
+- **`canvas_height`** (`Any`): Canvas height in absolute pixels. Required for absolute coordinates, omit for relative.
 - **`canvas_region`** (`Any`): Canvas region that was cropped, either specified with absolute pixel coordinates or relative
     coordinates, in the format specified by `canvas_region_format`.
 - **`canvas_region_format`** (`Any`): Format of the `canvas_region` coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
@@ -242,8 +246,9 @@ Only one of `width`, `height`, or `aspect` can be specified.
 
 **Parameters:**
 
-- **`bboxes`** (`Json[(Json, ...)]`): List of bounding boxes, each either specified with absolute pixel coordinates or relative
-    coordinates in [0, 1].
+- **`bboxes`** (`Json[(Json, ...)]`): List of bounding boxes, each with absolute pixel coordinates or relative coordinates in [0, 1].
+    Coordinates may be int or float; relative vs absolute is inferred (relative only when every coordinate
+    is within [0, 1]), so absolute float coordinates such as 10.5 are supported.
 - **`format`** (`String`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
 - **`width`** (`Int | None`, default: `Literal(None)`): Target width. Pass an `int` for absolute pixels or a `float` for relative coordinates.
 - **`height`** (`Int | None`, default: `Literal(None)`): Target height. Pass an `int` for absolute pixels or a `float` for relative coordinates.
@@ -317,8 +322,9 @@ Re-scale a list of bounding boxes (center-anchored).
 
 **Parameters:**
 
-- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each either specified with absolute pixel coordinates or relative
-    coordinates in [0, 1].
+- **`bboxes`** (`pxt.Json[(Json`): List of bounding boxes, each with absolute pixel coordinates or relative coordinates in [0, 1].
+    Coordinates may be int or float; relative vs absolute is inferred (relative only when every coordinate
+    is within [0, 1]), so absolute float coordinates such as 10.5 are supported.
 - **`format`** (`Any`): Format of the bounding box coordinates, one of 'xyxy', 'xywh', 'cxcywh'.
 - **`factor`** (`Any`): Scale factor to apply to both box dimensions.
 - **`x_factor`** (`Any`): Scale factor to apply to the box width.
@@ -340,7 +346,7 @@ eval_detections(
     gt_bboxes: pxt.Json[(Json[(Int, ...)], ...)],
     gt_labels: pxt.Json[(Int, ...)],
     min_iou: pxt.Float = 0.5
-) -> pxt.Json[(Json, ...)]
+) -> pxt.Json[(Json[{'min_iou': Float, 'category': Int, 'tp': Json[(Int, ...)], 'fp': Json[(Int, ...)], 'scores': Json[(Float, ...)], 'num_gts': Int}], ...)]
 ```
 
 Evaluates the performance of a set of predicted bounding boxes against a set of ground truth bounding boxes.
@@ -358,22 +364,14 @@ Evaluates the performance of a set of predicted bounding boxes against a set of 
 
 **Returns:**
 
-- `pxt.Json[(Json, ...)]`: A list of dictionaries, one per label class, with the following structure:
-  ```python
-  {
-      'min_iou': float,  # The value of `min_iou` used for the detections
-      'class': int,  # The label class
-      # List of 1's and 0's indicating true positives for each
-      # predicted bounding box of this class
-      'tp': list[int],
-      # List of 1's and 0's indicating false positives for each
-      # predicted bounding box of this class; `fp[n] == 1 - tp[n]`
-      'fp': list[int],
-      # List of predicted scores for each bounding box of this class
-      'scores': list[float],
-      'num_gts': int,  # Number of ground truth bounding boxes of this class
-  }
-  ```
+- `pxt.Json[(Json[{'min_iou': Float, 'category': Int, 'tp': Json[(Int, ...)], 'fp': Json[(Int, ...)], 'scores': Json[(Float, ...)], 'num_gts': Int}], ...)]`: A list of dictionaries, one per label class, with the following entries:
+
+  - `min_iou` (`float`): the value of `min_iou` used for the detections
+  - `category` (`int`): the label class
+  - `tp` (`list[int]`): 1 or 0 for each predicted bounding box of this class, indicating a true positive
+  - `fp` (`list[int]`): 1 or 0 for each predicted bounding box of this class; `fp[n] == 1 - tp[n]`
+  - `scores` (`list[float]`): the predicted scores for each bounding box of this class
+  - `num_gts` (`int`): the number of ground truth bounding boxes of this class
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; overlay_segmentation()

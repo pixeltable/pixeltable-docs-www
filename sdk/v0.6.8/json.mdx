@@ -1,0 +1,353 @@
+---
+title: "json"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/json.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.json
+
+
+Pixeltable UDFs for `JsonType`.
+
+Example:
+
+```python
+import pixeltable as pxt
+import pixeltable.functions as pxtf
+
+t = pxt.get_table(...)
+t.select(pxtf.json.make_list(t.json_col)).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>iterator</span>&nbsp; list_iterator()
+
+```python Signature
+@pxt.iterator
+list_iterator(
+    elements: pxt.Json[(Json, ...)] | None = None,
+    *,
+    mode: pxt.String = 'strict',
+    **kwargs
+)
+```
+
+Iterator over elements of a list or lists. There are two distinct call patterns: either a single positional
+argument; or one or more keyword arguments.
+
+- If a single positional argument is specified, as in `list_iterator(t.col)`, then the elements of `t.col` must
+    contain lists of dictionaries with matching signatures (identical keys and compatible value types). The
+    iterator will yield one new column for each key in the dictionaries, and one output row per element in the
+    lists.
+- If multiple keyword arguments are specified, as in `list_iterator(val_1=t.col_1, val_2=t.col_2)`, then the
+    elements of each input column must contain lists, but not necessarily lists of dictionaries. The iterator
+    will yield one new column for each keyword argument, zipping together the individual lists.
+
+All of the inputs must be *typed* `Json` expressions. Untyped Json will be rejected (the type schema is
+necessary in order for Pixeltable to determine the types of the output columns).
+
+**Parameters:**
+
+- **`elements`** (`pxt.Json[(Json`): A list of dictionaries to iterate over. The dictionary keys will be used as column names in the
+    output. Cannot be specified together with keyword arguments.
+- **`mode`** (`Any`): Only applies when called with keyword arguments. Determines how to handle lists of different lengths:
+    - `'strict'`: Raises an error if the input lists have different lengths.
+    - `'truncated'`: Iterates until the shortest input list is exhausted, ignoring any remaining elements in
+        longer lists.
+    - `'padded'`: Iterates until the longest input list is exhausted, yielding `None` for any missing
+        elements from shorter lists.
+- **`**kwargs`** (`Any`): One or more lists to iterate over. The kwarg names will be used as column names in the output.
+    Cannot be specified together with `elements`.
+
+
+## <span style={{ 'color': 'gray' }}>uda</span>&nbsp; make_list()
+
+```python Signature
+@pxt.uda
+make_list(*args, **kwargs) -> pxt.Json[(Json, ...)]
+```
+
+Collects arguments into a list.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; concat()
+
+```python Signature
+@pxt.udf
+concat(self: pxt.Json | None, other: pxt.Json | None) -> pxt.Json
+```
+
+Concatenate two JSON arrays into a new array.
+
+Returns `null` if either operand is `null`. Raises if either operand is a non-null, non-array value.
+
+**Examples:**
+
+```python
+t.select(t.tags.concat(t.more_tags)).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; contains()
+
+```python Signature
+@pxt.udf
+contains(self: pxt.Json, value: pxt.Json) -> pxt.Bool
+```
+
+Return `True` if `value` is an element of a JSON array or a key of a JSON object; `False` otherwise.
+
+
+**Examples:**
+
+```python
+t.where(t.detections.labels.contains('person')).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; count()
+
+```python Signature
+@pxt.udf
+count(self: pxt.Json, value: pxt.Json) -> pxt.Int
+```
+
+Return the number of times `value` occurs in a JSON array.
+
+
+**Examples:**
+
+```python
+t.select(t.detections.labels.count('person')).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; dumps()
+
+```python Signature
+@pxt.udf
+dumps(obj: pxt.Json) -> pxt.String
+```
+
+Serialize a JSON object to a string.
+
+Equivalent to [`json.dumps()`](https://docs.python.org/3/library/json.html#json.dumps).
+
+**Parameters:**
+
+- **`obj`** (`pxt.Json`): A JSON-serializable object (dict, list, or scalar).
+
+**Returns:**
+
+- `pxt.String`: A JSON-formatted string.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; flatten()
+
+```python Signature
+@pxt.udf
+flatten(self: pxt.Json) -> pxt.Json
+```
+
+Concatenate the elements of a JSON array one level deep; non-array elements are kept as-is.
+
+
+**Examples:**
+
+```python
+t.select(t.chunks.flatten()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get()
+
+```python Signature
+@pxt.udf
+get(
+    self: pxt.Json | None,
+    key: pxt.String,
+    default: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Return the value of `key` if the value is a JSON object containing it, otherwise `default`.
+
+
+**Examples:**
+
+```python
+t.select(t.metadata.get('author', default='unknown')).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; is_empty()
+
+```python Signature
+@pxt.udf
+is_empty(self: pxt.Json | None) -> pxt.Bool
+```
+
+Return `True` if the value is `null`, an empty array, an empty object, or an empty string; `False` otherwise
+(including for numbers and booleans).
+
+**Examples:**
+
+```python
+t.where(~t.detections.bboxes.is_empty()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; items()
+
+```python Signature
+@pxt.udf
+items(self: pxt.Json) -> pxt.Json
+```
+
+Return the `[key, value]` pairs of a JSON object as a list. `keys()`, `values()`, and `items()` share the
+same ordering.
+
+**Examples:**
+
+```python
+t.select(t.metadata.items()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; keys()
+
+```python Signature
+@pxt.udf
+keys(self: pxt.Json) -> pxt.Json[(String, ...)]
+```
+
+Return the keys of a JSON object. `keys()`, `values()`, and `items()` share the same ordering.
+
+
+**Examples:**
+
+```python
+t.select(t.metadata.keys()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; len()
+
+```python Signature
+@pxt.udf
+len(self: pxt.Json) -> pxt.Int
+```
+
+Return the number of elements in a JSON array, keys in a JSON object, or characters in a JSON string.
+
+Not defined for numbers or booleans. A `null` value (or missing path) yields `null`.
+
+**Examples:**
+
+```python
+t.select(t.detections.bboxes.len()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; max()
+
+```python Signature
+@pxt.udf
+max(self: pxt.Json) -> pxt.Float | None
+```
+
+Return the largest number in a JSON array, or `null` if the array is empty.
+
+
+**Examples:**
+
+```python
+t.select(t.detections.scores.max()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; mean()
+
+```python Signature
+@pxt.udf
+mean(self: pxt.Json) -> pxt.Float | None
+```
+
+Return the arithmetic mean of the numbers in a JSON array, or `null` if the array is empty.
+
+
+**Examples:**
+
+```python
+t.select(t.detections.scores.mean()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; merge()
+
+```python Signature
+@pxt.udf
+merge(self: pxt.Json | None, other: pxt.Json | None) -> pxt.Json
+```
+
+Merge two JSON objects into a new object; on a key conflict the value from `other` wins.
+
+Returns `null` if either operand is `null`. Raises if either operand is a non-null, non-object value.
+
+**Examples:**
+
+```python
+t.select(t.defaults.merge(t.overrides)).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; min()
+
+```python Signature
+@pxt.udf
+min(self: pxt.Json) -> pxt.Float | None
+```
+
+Return the smallest number in a JSON array, or `null` if the array is empty.
+
+
+**Examples:**
+
+```python
+t.select(t.detections.scores.min()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; sum()
+
+```python Signature
+@pxt.udf
+sum(self: pxt.Json) -> pxt.Float
+```
+
+Return the sum of the numbers in a JSON array (0 for an empty array).
+
+
+**Examples:**
+
+```python
+t.select(t.detections.scores.sum()).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; values()
+
+```python Signature
+@pxt.udf
+values(self: pxt.Json) -> pxt.Json
+```
+
+Return the values of a JSON object. `keys()`, `values()`, and `items()` share the same ordering.
+
+
+**Examples:**
+
+```python
+t.select(t.metadata.values()).collect()
+```
+
