@@ -384,12 +384,12 @@ mm_t = pxt.create_table(
 # multimodal_embed can embed either images or text independently
 mm_t.add_computed_column(
     image_embedding=voyageai.multimodal_embed(
-        mm_t.image, input_type='document'
+        mm_t.image, model='voyage-multimodal-3.5', input_type='document'
     )
 )
 mm_t.add_computed_column(
     text_embedding=voyageai.multimodal_embed(
-        mm_t.caption, input_type='document'
+        mm_t.caption, model='voyage-multimodal-3.5', input_type='document'
     )
 )
 ```

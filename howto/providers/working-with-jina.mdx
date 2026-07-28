@@ -121,8 +121,8 @@ First you’ll need to install Pixeltable and set up your Jina AI API key.
 
 
 ```python
-import os
 import getpass
+import os
 
 if 'JINA_API_KEY' not in os.environ:
     os.environ['JINA_API_KEY'] = getpass.getpass(

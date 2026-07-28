@@ -1,5 +1,5 @@
 ---
-title: 'What is Pixeltable?'
+title: 'Why Pixeltable?'
 description: 'Data Infrastructure providing a declarative, incremental approach for multimodal AI'
 ---
 
@@ -48,7 +48,7 @@ This creates high engineering cost, slow iteration, and production risk.
 ## Get started
 
 <CardGroup cols={2}>
-  <Card title="Quick Start" icon="bolt" iconType="duotone" href="/overview/quick-start">
+  <Card title="Quickstart" icon="bolt" iconType="duotone" href="/overview/quick-start">
     Install Pixeltable and run your first pipeline in 5 minutes.
   </Card>
   <Card title="10-Minute Tour" icon="play" iconType="duotone" href="/overview/ten-minute-tour">
@@ -106,8 +106,14 @@ Pixeltable provides a small set of primitives that compose into any multimodal A
     # Local model inference
     t.add_computed_column(objects=yolox(t.image, model_id='yolox_s'))
     
-    # Vision analysis
-    t.add_computed_column(desc=openai.vision(prompt="Describe", image=t.image))
+    # Vision analysis (multimodal)
+    t.add_computed_column(desc=openai.chat_completions(
+        messages=[{'role': 'user', 'content': [
+            {'type': 'text', 'text': 'Describe this image'},
+            {'type': 'image_url', 'image_url': t.image},
+        ]}],
+        model='gpt-4o-mini'
+    ))
     ```
     
     <CardGroup cols={2}>
@@ -125,10 +131,10 @@ Pixeltable provides a small set of primitives that compose into any multimodal A
     
     ```python
     # Extract frames from video at 1 fps
-    frames = pxt.create_view('myapp.frames', t, iterator=FrameIterator(t.video, fps=1))
+    frames = pxt.create_view('myapp.frames', t, iterator=frame_iterator(t.video, fps=1))
     
     # Chunk documents for RAG
-    chunks = pxt.create_view('myapp.chunks', t, iterator=DocumentSplitter(t.document))
+    chunks = pxt.create_view('myapp.chunks', t, iterator=document_splitter(t.document))
     ```
     
     <CardGroup cols={2}>
@@ -201,6 +207,33 @@ Pixeltable provides a small set of primitives that compose into any multimodal A
     </CardGroup>
   </Accordion>
   
+  <Accordion title="Serve" icon="globe">
+    **Expose tables and queries as HTTP endpoints**
+
+    ```toml
+    # pyproject.toml
+    [[tool.pixeltable.service]]
+    name = "my-service"
+    prefix = "/api"
+    modules = ["schema"]
+
+    [[tool.pixeltable.service.routes]]
+    type = "insert"
+    table = "myapp.docs"
+    path = "/ingest"
+    inputs = ["document"]
+    outputs = ["document", "summary"]
+    ```
+
+    ```bash
+    pxt serve my-service
+    ```
+
+    <Card title="HTTP Serving" icon="globe" href="/howto/deployment/serving">
+      TOML config, CLI, Python API, background jobs
+    </Card>
+  </Accordion>
+  
   <Accordion title="Query & Experiment" icon="flask">
     **SQL-like queries + test transformations before committing**
     
@@ -241,14 +274,18 @@ Pixeltable provides a small set of primitives that compose into any multimodal A
     **Load from any source, export to ML formats**
     
     ```python
-    # Import from files, URLs, S3, Hugging Face
-    t.insert(pxt.io.import_csv('data.csv'))
-    t.insert(pxt.io.import_huggingface_dataset(dataset))
+    # Create a table from a file, URL, or Hugging Face dataset
+    pxt.create_table('app/data', source='data.csv')
+    pxt.create_table('app/reviews', source=hf_dataset)
     
-    # Export to ML/analytics formats
+    # Append rows into an existing table from a path or URL
+    t.insert('s3://my-bucket/new_rows.parquet')
+    
+    # Export to files or ML formats
+    pxt.io.export_csv(t, 'output.csv')
+    pxt.io.export_json(t, 'output.json')
     pxt.io.export_parquet(t, 'output.parquet')
     loader = DataLoader(t.to_pytorch_dataset(), batch_size=32)
-    coco_path = t.to_coco_dataset()
     ```
 
 <CardGroup cols={2}>
@@ -256,22 +293,9 @@ Pixeltable provides a small set of primitives that compose into any multimodal A
         CSV, JSON, Parquet, S3, HF
       </Card>
       <Card title="Data Export" icon="upload" href="/howto/cookbooks/data/data-export-pytorch">
-        PyTorch, Parquet, COCO, LanceDB
+        CSV, JSON, Parquet, PyTorch, COCO, LanceDB
   </Card>
     </CardGroup>
-  </Accordion>
-  
-  <Accordion title="Share" icon="cloud-arrow-up">
-    **Publish and replicate datasets via Pixeltable Cloud**
-    
-    ```python
-    pxt.publish(t, 'my-dataset')              # Share publicly
-    pxt.replicate('user/dataset', 'local')   # Pull to local
-    ```
-    
-    <Card title="Data Sharing" icon="share-nodes" href="/platform/data-sharing">
-      Publish, replicate, collaborate
-  </Card>
   </Accordion>
 </AccordionGroup>
 
@@ -281,7 +305,7 @@ Pixeltable's primitives are **use-case agnostic**. They compose into any multimo
 
 <CardGroup cols={2}>
   <Card title="Data Wrangling for ML" icon="flask" href="/use-cases/ml-data-wrangling">
-    Curate, augment, export training datasets. Pre-annotate with models, integrate Label Studio, export PyTorch.
+    Curate, augment, export training datasets. Pre-annotate with models, export to FiftyOne and PyTorch.
   </Card>
   <Card title="Backend for AI Apps" icon="microchip-ai" href="/use-cases/ai-applications">
     Build RAG systems, semantic search, and multimodal APIs. Pixeltable handles storage, retrieval, and orchestration.
@@ -293,7 +317,7 @@ Pixeltable's primitives are **use-case agnostic**. They compose into any multimo
 </Card>
 
 <Tip>
-Start with the **[Quick Start](/overview/quick-start)** to get running in 5 minutes, or explore **[Cookbooks](/howto/cookbooks/agents/pattern-rag-pipeline)** for hands-on examples covering RAG, video analysis, audio transcription, and more.
+Start with the **[Quickstart](/overview/quick-start)** to get running in 5 minutes, or explore **[Cookbooks](/howto/cookbooks/agents/pattern-rag-pipeline)** for hands-on examples covering RAG, video analysis, audio transcription, and more.
 </Tip>
 
 ## Choose How You Run Pixeltable
@@ -303,7 +327,7 @@ Start with the **[Quick Start](/overview/quick-start)** to get running in 5 minu
     Open-source Python library. Install with `pip install pixeltable` and run locally. Same APIs scale to production.
   </Card>
   <Card title="Pixeltable Cloud" icon="cloud" iconType="duotone" href="/use-cases/services">
-    Data sharing available now. Managed endpoints and live tables coming soon.
+    Managed endpoints and live tables coming soon.
   </Card>
 </CardGroup>
 

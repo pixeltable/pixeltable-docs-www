@@ -99,7 +99,7 @@ messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(
     output=chat_completions(
         messages=messages,
-        model='accounts/fireworks/models/llama-v3p3-70b-instruct',
+        model='accounts/fireworks/models/gpt-oss-20b',
         model_kwargs={
             # Optional dict with parameters for the Fireworks API
             'max_tokens': 300,

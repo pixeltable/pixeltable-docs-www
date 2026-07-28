@@ -1,48 +1,55 @@
 ---
 title: 'Cloud Offering'
-description: 'Data sharing, endpoints, and collaboration via Pixeltable Cloud'
+description: 'Endpoints, storage, and collaboration via Pixeltable Cloud'
 ---
 
 Pixeltable Cloud extends the local SDK with team collaboration and production deployment capabilities.
 
 ---
 
-## Publish & Replicate ✅ Available Now
+## 1. Endpoints
 
-| Feature | API |
-|---------|-----|
-| Publish datasets | [`pxt.publish(source, destination_uri)`](/platform/data-sharing) |
-| Replicate datasets | [`pxt.replicate(remote_uri, local_path)`](/platform/data-sharing) |
-| Sync updates | `push()`, `pull()` |
-| Access control | `access='public'` or `'private'` |
+Self-hosted HTTP serving is available now. Cloud deployment with managed hosting is coming soon.
 
-```python
-# Publish your curated dataset
-pxt.publish(source='my-table', destination_uri='pxt://myorg/my-dataset')
+| Feature | Status | What |
+|---------|--------|------|
+| [`pxt serve`](/howto/deployment/serving) | ✅ Available | TOML-configured HTTP endpoints with CLI |
+| [`FastAPIRouter`](/howto/deployment/serving#quickstart-python) | ✅ Available | Declarative routes in Python, drop-in `APIRouter` subclass |
+| Background jobs | ✅ Available | `background=True` on any route |
+| `pxt deploy` | 🔜 Coming Soon | Cloud deployment with auto-scaling |
+| Pre-signed URLs | 🔜 Coming Soon | Media access without proxying |
 
-# Anyone can replicate public datasets (no account required)
-coco = pxt.replicate(remote_uri='pxt://pixeltable:fiftyone/coco_mini_2017', local_path='coco-copy')
-```
-
-<Card title="Data Sharing Guide" icon="share" href="/platform/data-sharing">
-  Full documentation on publish, replicate, push, and pull
+<Card title="HTTP Serving Guide" icon="globe" href="/howto/deployment/serving">
+  TOML config, CLI, Python API, and background jobs for self-hosted deployments
 </Card>
+
+<Info>
+[Join the waitlist](https://www.pixeltable.com/waitlist) to get early access to cloud-managed Endpoints.
+</Info>
 
 ---
 
-## 2. Endpoints 🔜 Coming Soon
+## 2. Cloud Storage ✅ Available Now
 
-One-command API deployment with managed hosting.
+Every Pixeltable Cloud account includes a free managed storage bucket for media files. No cloud provider account or bucket configuration required.
 
 | Feature | What |
 |---------|------|
-| `pxt serve` | Local development server |
-| `pxt deploy` | Cloud deployment with auto-scaling |
-| Pre-signed URLs | Media access without proxying |
+| Home bucket | Free R2-backed storage for computed and input media |
+| Auto credentials | Temporary credentials fetched and refreshed automatically |
+| Quota management | Built-in storage limits with clear error messages |
 
-<Info>
-[Join the waitlist](https://www.pixeltable.com/waitlist) to get early access to Endpoints.
-</Info>
+```python
+# Use your free cloud bucket as a media destination
+t.add_computed_column(
+    thumbnail=t.photo.resize((256, 256)),
+    destination='pxtfs://myorg:mydb/home'
+)
+```
+
+<Card title="Cloud Storage Setup" icon="cloud" href="/integrations/cloud-storage#pixeltable-cloud-home-bucket">
+  Configuration guide for the free managed bucket
+</Card>
 
 ---
 

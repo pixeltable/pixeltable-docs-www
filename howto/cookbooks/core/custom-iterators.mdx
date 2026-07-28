@@ -461,9 +461,9 @@ width="240" />
 
 An **iterator** in Pixeltable is a function that expands a single input
 row into multiple output rows. Built-in Pixeltable iterators include
-[frame_iterator](/sdk/latest/video#iterator-frame-iterator),
+[frame_iterator](/sdk/latest/video#iterator-frame_iterator),
 which iterates over the frames of a video;
-[tile_iterator](/sdk/latest/image#iterator-tile-iterator),
+[tile_iterator](/sdk/latest/image#iterator-tile_iterator),
 which iterates over tiles of an image; and
 [document_splitter](/sdk/latest/document#iterator-document_splitter),
 which iterates over chunks (such as sentences or pages) of a document.
@@ -488,6 +488,11 @@ and
 <a href="https://docs.pixeltable.com/platform/udfs-in-pixeltable">UDFs</a>
 tutorial sections. 
 </Note>
+
+
+```python
+%pip install -qU pixeltable
+```
 
 
 ```python
@@ -528,9 +533,9 @@ decorating it with `@pxt.iterator`.
 
 
 ```python
-from typing import Iterator, TypedDict
 from PIL.Image import Image
 from PIL.ImageEnhance import Brightness
+from typing import Iterator, TypedDict
 
 
 class GrayscaleOutput(TypedDict):
@@ -676,7 +681,6 @@ Created&nbsp;table&nbsp;&#x27;images&#x27;.
 
 
 ```python
-
 v = pxt.create_view(
     'iterators_demo/grayscale',
     t,

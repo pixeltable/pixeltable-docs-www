@@ -288,16 +288,13 @@ transformations](/howto/cookbooks/core/dev-iterative-workflow).
 %pip install -qU pixeltable
 ```
 
-
-```python
-import pixeltable as pxt
-from PIL import ImageEnhance
-```
-
 ### Load images
 
 
 ```python
+import pixeltable as pxt
+from PIL import ImageEnhance
+
 # Create a fresh directory (drop existing if present)
 pxt.drop_dir('image_demo', force=True)
 pxt.create_dir('image_demo')

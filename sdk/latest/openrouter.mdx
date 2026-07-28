@@ -18,14 +18,14 @@ as described in the Working with OpenRouter tutorial.
 ```python Signature
 @pxt.udf
 chat_completions(
-    messages: pxt.Json,
+    messages: pxt.Json[(Json, ...)],
     *,
     model: pxt.String,
     model_kwargs: pxt.Json | None = None,
-    tools: pxt.Json | None = None,
+    tools: pxt.Json[(Json, ...)] | None = None,
     tool_choice: pxt.Json | None = None,
     provider: pxt.Json | None = None,
-    transforms: pxt.Json | None = None
+    transforms: pxt.Json[(String, ...)] | None = None
 ) -> pxt.Json
 ```
 
@@ -46,13 +46,13 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`pxt.Json`): A list of messages comprising the conversation so far.
-- **`model`** (`pxt.String`): ID of the model to use (e.g., `'anthropic/claude-3.5-sonnet'`, `'openai/gpt-4'`).
-- **`model_kwargs`** (`pxt.Json | None`): Additional OpenAI-compatible parameters.
-- **`tools`** (`pxt.Json | None`): List of tools available to the model.
-- **`tool_choice`** (`pxt.Json | None`): Controls which (if any) tool is called by the model.
-- **`provider`** (`pxt.Json | None`): OpenRouter-specific provider preferences (e.g., `{'order': ['Anthropic', 'OpenAI']}`).
-- **`transforms`** (`pxt.Json | None`): List of message transforms to apply (e.g., `['middle-out']`).
+- **`messages`** (`pxt.Json[(Json`): A list of messages comprising the conversation so far.
+- **`model`** (`Any`): ID of the model to use (e.g., `'anthropic/claude-3.5-sonnet'`, `'openai/gpt-4'`).
+- **`model_kwargs`** (`Any`): Additional OpenAI-compatible parameters.
+- **`tools`** (`Any`): List of tools available to the model.
+- **`tool_choice`** (`Any`): Controls which (if any) tool is called by the model.
+- **`provider`** (`Any`): OpenRouter-specific provider preferences (e.g., `{'order': ['Anthropic', 'OpenAI']}`).
+- **`transforms`** (`Any`): List of message transforms to apply (e.g., `['middle-out']`).
 
 **Returns:**
 
@@ -61,6 +61,7 @@ __Requirements:__
 **Examples:**
 
 Basic chat completion:
+
 ```python
 messages = [{'role': 'user', 'content': tbl.prompt}]
 tbl.add_computed_column(
@@ -71,6 +72,7 @@ tbl.add_computed_column(
 ```
 
 With provider routing:
+
 ```python
 tbl.add_computed_column(
     response=chat_completions(
@@ -82,6 +84,7 @@ tbl.add_computed_column(
 ```
 
 With transforms:
+
 ```python
 tbl.add_computed_column(
     response=chat_completions(

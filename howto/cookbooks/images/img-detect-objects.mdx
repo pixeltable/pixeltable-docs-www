@@ -240,16 +240,13 @@ happens automatically when you insert new images.
 %pip install -qU pixeltable pixeltable-yolox
 ```
 
-
-```python
-import pixeltable as pxt
-from pixeltable.functions.yolox import yolox
-```
-
 ### Load images
 
 
 ```python
+import pixeltable as pxt
+from pixeltable.functions.yolox import yolox
+
 # Create a fresh directory
 pxt.drop_dir('detection_demo', force=True)
 pxt.create_dir('detection_demo')

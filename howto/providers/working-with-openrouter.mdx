@@ -12,6 +12,115 @@ above links.</Tip>
 
 
 
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Can you make me a coffee?</td>
+<td style="vertical-align: middle;">I can't physically make you a coffee since I'm an AI assistant
+without a physical form, but I'd be happy to help in other ways! I
+could: - Share a great coffee recipe or brewing tips - Help you find
+nearby coffee shops - Suggest coffee alternatives if you're out of beans
+- Walk you through different brewing methods What kind of coffee help
+would be most useful for you right now?</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">How many species of felids have been classified?</td>
+<td style="vertical-align: middle;">There are **38-40 species** of felids (cats) currently recognized by
+most taxonomic authorities, though the exact number varies slightly
+depending on the classification system used. The family Felidae is
+divided into two subfamilies: **Pantherinae** (big cats) - about 7
+species: - Lion, tiger, leopard, jaguar, snow leopard, clouded leopard,
+and Sunda clouded leopard **Felinae** (small cats) - about 31-33
+species: - Including domestic cats, lynx species, pumas, cheetahs,
+ocelots, servals,  ...... iation in total count (38-40) comes from
+ongoing taxonomic research and debates about whether certain populations
+should be classified as separate species or subspecies. For example,
+some authorities recognize the Sunda clouded leopard as distinct from
+the clouded leopard, and there are ongoing discussions about the
+classification of various small cat populations. This number represents
+currently living species and doesn't include the many extinct felid
+species known from the fossil record.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">prompt</th>
+<th data-quarto-table-cell-role="th">claude</th>
+<th data-quarto-table-cell-role="th">gpt4</th>
+<th data-quarto-table-cell-role="th">llama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Explain quantum entanglement in one sentence.</td>
+<td style="vertical-align: middle;">Quantum entanglement is a phenomenon where two or more particles
+become mysteriously connected such that measuring one particle instantly
+affects the others, regardless of the distance separating them.</td>
+<td style="vertical-align: middle;">Quantum entanglement is a phenomenon in quantum physics where two or
+more particles become linked in such a way that the state of one
+particle instantly influences the state of the other, regardless of the
+distance separating them.</td>
+<td style="vertical-align: middle;">Quantum entanglement is a phenomenon in which two or more particles
+become connected in such a way that their properties, such as spin or
+energy, are correlated regardless of the distance between them, allowing
+for instantaneous and non-local interaction.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What are the primary colors?</td>
+<td style="vertical-align: middle;">The primary colors are **red, blue, and yellow**. These are
+considered primary because they cannot be created by mixing other colors
+together, and they serve as the foundation for creating all other colors
+through various combinations. It's worth noting that there are different
+color systems: - **Traditional/artistic primaries**: Red, blue, yellow -
+**Light primaries (RGB)**: Red, green, blue (used in digital displays) -
+**Print primaries (CMYK)**: Cyan, magenta, yellow (plus black for
+printing) The red-blue-yellow system is what's most commonly taught and
+referenced when people ask about primary colors.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">The main AI developments mentioned are: 1. **Machine Learning
+Algorithms** - These can detect patterns in data that humans might miss.
+2. **Deep Learning** - This has revolutionized computer vision and
+natural language processing. 3. **Reinforcement Learning** - An area of
+development for the future of AI. 4. **Generative Models** - Another
+area of promising future development in AI.</td>
+</tr>
+</tbody>
+</table>
+`];
+
 Pixeltable’s OpenRouter integration enables you to access multiple LLM
 providers through a unified API via OpenRouter.
 
@@ -56,6 +165,12 @@ pxt.drop_dir('openrouter_demo', force=True)
 pxt.create_dir('openrouter_demo')
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/pjlb/.pixeltable/pgdata
+Created&nbsp;directory&nbsp;&#x27;openrouter_demo&#x27;.
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x12e2fb710&gt;
+</pre>
+
 ## Chat completions
 
 Create a Table: In Pixeltable, create a table with columns to represent
@@ -84,11 +199,22 @@ t.add_computed_column(
 )
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
 
 ```python
 # Parse the response into a new column
 t.add_computed_column(response=t.output.choices[0].message.content)
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
 
 
 ```python
@@ -101,6 +227,12 @@ t.insert(
 )
 t.select(t.input, t.response).head()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;7.59&nbsp;s&nbsp;(0.26&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
 ## Using different models
 
@@ -149,6 +281,14 @@ compare_t.add_computed_column(
 )
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;compare_models&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
 
 ```python
 # Insert a prompt and compare responses
@@ -159,6 +299,12 @@ compare_t.select(
     compare_t.prompt, compare_t.claude, compare_t.gpt4, compare_t.llama
 ).head()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;1.27&nbsp;s&nbsp;(0.79&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
 
 ## Advanced features: provider routing
 
@@ -194,11 +340,24 @@ routing_t.add_computed_column(
 )
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;routing&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
 
 ```python
 routing_t.insert([{'input': 'What are the primary colors?'}])
 routing_t.select(routing_t.input, routing_t.response).head()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;3.97&nbsp;s&nbsp;(0.25&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 ## Advanced Features: Context Window Optimization
 
@@ -228,6 +387,13 @@ transform_t.add_computed_column(
 )
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;transforms&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
 
 ```python
 # Example with longer context
@@ -243,6 +409,12 @@ Question: What are the main AI developments mentioned?
 transform_t.insert([{'long_context': long_text}])
 transform_t.select(transform_t.response).head()
 ```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;1.82&nbsp;s&nbsp;(0.55&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 ### Learn more
 

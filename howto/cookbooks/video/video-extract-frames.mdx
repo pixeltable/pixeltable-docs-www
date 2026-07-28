@@ -174,16 +174,13 @@ frames from each video. New videos are processed without extra code.
 %pip install -qU pixeltable
 ```
 
-
-```python
-import pixeltable as pxt
-from pixeltable.functions.video import frame_iterator
-```
-
 ### Load videos
 
 
 ```python
+import pixeltable as pxt
+from pixeltable.functions.video import frame_iterator
+
 # Create a fresh directory
 pxt.drop_dir('video_demo', force=True)
 pxt.create_dir('video_demo')

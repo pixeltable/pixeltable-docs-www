@@ -39,7 +39,7 @@ specific models, consider specialized functions like `whisper.transcribe()` or
 
 __Requirements:__
 
-- `pip install torch transformers torchaudio`
+- `pip install torch transformers torchaudio torchcodec`
 
 __Recommended Models:__
 
@@ -63,6 +63,7 @@ __Recommended Models:__
 **Examples:**
 
 Add a computed column that transcribes audio files:
+
 ```python
 tbl.add_computed_column(
     transcription=automatic_speech_recognition(
@@ -73,6 +74,7 @@ tbl.add_computed_column(
 ```
 
 Transcribe with language specification:
+
 ```python
 tbl.add_computed_column(
     transcription=automatic_speech_recognition(
@@ -118,12 +120,16 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `openai/clip-vit-base-patch32` to an existing Pixeltable column `tbl.text` of the table `tbl`:
+Add a computed column that applies the model `openai/clip-vit-base-patch32` to an existing
+Pixeltable column `tbl.text` of the table `tbl`:
+
 ```python
 tbl.add_computed_column(
     result=clip(tbl.text, model_id='openai/clip-vit-base-patch32')
 )
 ```
+
+The same would work with an image column `tbl.image` in place of `tbl.text`.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; cross_encoder()
@@ -159,7 +165,9 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `ms-marco-MiniLM-L-4-v2` to the sentences in columns `tbl.sentence1` and `tbl.sentence2`:
+Add a computed column that applies the model `ms-marco-MiniLM-L-4-v2` to the sentences in
+columns `tbl.sentence1` and `tbl.sentence2`:
+
 ```python
 tbl.add_computed_column(
     result=sentence_transformer(
@@ -178,8 +186,8 @@ detr_for_object_detection(
     *,
     model_id: pxt.String,
     threshold: pxt.Float = 0.5,
-    revision: pxt.String = 'no_timm'
-) -> pxt.Json
+    revision: pxt.String | None = None
+) -> DetrForObjectDetectionResponse
 ```
 
 Computes DETR object detections for the specified image. `model_id` should be a reference to a pretrained
@@ -193,23 +201,34 @@ __Requirements:__
 
 - **`image`** (`pxt.Image`): The image to embed.
 - **`model_id`** (`pxt.String`): The pretrained model to use for object detection.
+- **`threshold`** (`pxt.Float`): Confidence threshold for filtering detections.
+- **`revision`** (`pxt.String | None`): The specific model revision to use (e.g., a branch, tag, or git identifier). If not specified,
+    uses the default revision for the model (typically `'main'`).
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing the output of the object detection model, in the following format:
+- `DetrForObjectDetectionResponse`: A dictionary containing the output of the object detection model, in the following format:
   ```python
   {
-      'scores': [0.99, 0.999],  # list of confidence scores for each detected object
-      'labels': [25, 25],  # list of COCO class labels for each detected object
-      'label_text': ['giraffe', 'giraffe'],  # corresponding text names of class labels
-      'boxes': [[51.942, 356.174, 181.481, 413.975], [383.225, 58.66, 605.64, 361.346]]
-          # list of bounding boxes for each detected object, as [x1, y1, x2, y2]
+      # list of confidence scores for each detected object
+      'scores': [0.99, 0.999],
+      # list of COCO class labels for each detected object
+      'labels': [25, 25],
+      # corresponding text names of class labels
+      'label_text': ['giraffe', 'giraffe'],
+      # list of bounding boxes for each detected object, as [x1, y1, x2, y2]
+      'boxes': [
+          [51.942, 356.174, 181.481, 413.975],
+          [383.225, 58.66, 605.64, 361.346],
+      ],
   }
   ```
 
 **Examples:**
 
-Add a computed column that applies the model `facebook/detr-resnet-50` to an existing Pixeltable column `image` of the table `tbl`:
+Add a computed column that applies the model `facebook/detr-resnet-50` to an existing
+Pixeltable column `image` of the table `tbl`:
+
 ```python
 tbl.add_computed_column(
     detections=detr_for_object_detection(
@@ -228,7 +247,7 @@ detr_for_segmentation(
     *,
     model_id: pxt.String,
     threshold: pxt.Float = 0.5
-) -> pxt.Json
+) -> DetrForSegmentationResponse
 ```
 
 Computes DETR panoptic segmentation for the specified image. `model_id` should be a reference to a pretrained
@@ -246,7 +265,7 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing the output of the segmentation model, in the following format:
+- `DetrForSegmentationResponse`: A dictionary containing the output of the segmentation model, in the following format:
   ```python
   {
       'segmentation': np.ndarray,  # (H, W) array where each pixel value is a segment ID
@@ -256,16 +275,18 @@ __Requirements:__
               'label_id': 0,  # class label index
               'label_text': 'person',  # human-readable class name
               'score': 0.98,  # confidence score
-              'was_fused': False  # whether segment was fused from multiple instances
+              'was_fused': False,  # whether segment was fused from multiple instances
           },
-          ...
-      ]
+          ...,
+      ],
   }
   ```
 
 **Examples:**
 
-Add a computed column that applies the model `facebook/detr-resnet-50-panoptic` to an existing Pixeltable column `image` of the table `tbl`:
+Add a computed column that applies the model `facebook/detr-resnet-50-panoptic` to an existing
+Pixeltable column `image` of the table `tbl`:
+
 ```python
 tbl.add_computed_column(
     segmentation=detr_for_segmentation(
@@ -281,7 +302,7 @@ tbl.add_computed_column(
 
 ```python Signature
 @pxt.udf
-detr_to_coco(image: pxt.Image, detr_info: pxt.Json) -> pxt.Json
+detr_to_coco(image: pxt.Image, detr_info: pxt.Json) -> CocoResponse
 ```
 
 Converts the output of a DETR object detection model to COCO format.
@@ -294,11 +315,13 @@ Converts the output of a DETR object detection model to COCO format.
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing the data from `detr_info`, converted to COCO format.
+- `CocoResponse`: A dictionary containing the data from `detr_info`, converted to COCO format.
 
 **Examples:**
 
-Add a computed column that converts the output `tbl.detections` to COCO format, where `tbl.image` is the image for which detections were computed:
+Add a computed column that converts the output `tbl.detections` to COCO format, where `tbl.image`
+is the image for which detections were computed:
+
 ```python
 tbl.add_computed_column(
     detections_coco=detr_to_coco(tbl.image, tbl.detections)
@@ -338,7 +361,9 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column `caption` to an existing table `tbl` that generates captions using the `Salesforce/blip-image-captioning-base` model:
+Add a computed column `caption` to an existing table `tbl` that generates captions using the
+`Salesforce/blip-image-captioning-base` model:
+
 ```python
 tbl.add_computed_column(
     caption=image_captioning(
@@ -389,6 +414,7 @@ __Requirements:__
 **Examples:**
 
 Add a computed column that transforms images based on prompts:
+
 ```python
 tbl.add_computed_column(
     transformed=image_to_image(
@@ -400,6 +426,7 @@ tbl.add_computed_column(
 ```
 
 With custom transformation strength:
+
 ```python
 tbl.add_computed_column(
     transformed=image_to_image(
@@ -452,6 +479,7 @@ __Requirements:__
 **Examples:**
 
 Add a computed column that creates videos from images:
+
 ```python
 tbl.add_computed_column(
     video=image_to_video(
@@ -473,7 +501,7 @@ question_answering(
     question: pxt.String,
     *,
     model_id: pxt.String
-) -> pxt.Json
+) -> QuestionAnsweringResponse
 ```
 
 Answers questions based on provided context using a pretrained QA model. `model_id` should be a reference to a
@@ -492,11 +520,12 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing the answer, confidence score, and start/end positions.
+- `QuestionAnsweringResponse`: A dictionary containing the answer, confidence score, and start/end positions.
 
 **Examples:**
 
 Add a computed column that answers questions based on document context:
+
 ```python
 tbl.add_computed_column(
     answer=question_answering(
@@ -505,6 +534,166 @@ tbl.add_computed_column(
         model_id='deepset/roberta-base-squad2',
     )
 )
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; sam3_for_segmentation()
+
+```python Signature
+@pxt.udf
+sam3_for_segmentation(
+    image: pxt.Image,
+    *,
+    model_id: pxt.String = 'facebook/sam3',
+    text: pxt.String | None = None,
+    input_boxes: pxt.Json[(Json[(Float, ...)], ...)] | None = None,
+    input_boxes_labels: pxt.Json[(Int, ...)] | None = None,
+    threshold: pxt.Float = 0.5,
+    mask_threshold: pxt.Float = 0.5,
+    revision: pxt.String | None = None
+) -> SamForSegmentationResponse
+```
+
+Computes SAM 3 (Segment Anything Model 3) Promptable Concept Segmentation for the specified image.
+`model_id` should be a reference to a pretrained
+[SAM 3 Model](https://huggingface.co/docs/transformers/model_doc/sam3) such as `facebook/sam3`.
+
+SAM 3 performs Promptable Concept Segmentation (PCS): given a concept prompt (a short text noun phrase,
+a set of bounding boxes, or both), it detects and segments every object instance in the image that
+matches the concept.
+
+__Requirements:__
+
+- `pip install torch transformers`
+- `facebook/sam3` is a gated repository. Request access on its
+    [model page](https://huggingface.co/facebook/sam3), then authenticate with
+    `huggingface-cli login` (or set the `HF_TOKEN` environment variable) before calling this UDF.
+
+**Parameters:**
+
+- **`image`** (`pxt.Image`): The image to segment.
+- **`model_id`** (`pxt.String`): The pretrained SAM 3 model to use.
+- **`text`** (`pxt.String | None`): Optional concept prompt as a short noun phrase (e.g., `'yellow school bus'`).
+- **`input_boxes`** (`pxt.Json[(Json[(Float`): Optional list of bounding boxes in `[x1, y1, x2, y2]` pixel coordinates that
+    constrain the concept (e.g., `[[100, 150, 500, 450]]`).
+- **`input_boxes_labels`** (`Any`): Optional list of integer labels for each box: `1` for positive
+    (include this region), `0` for negative (exclude this region). If `input_boxes` is
+    provided and this is `None`, all boxes default to positive.
+- **`threshold`** (`Any`): Confidence threshold for filtering detections.
+- **`mask_threshold`** (`Any`): Threshold applied to mask logits to produce binary masks.
+- **`revision`** (`Any`): The specific model revision to use (e.g., a branch, tag, or git identifier). If not
+    specified, uses the default revision for the model.
+
+**Returns:**
+
+- `SamForSegmentationResponse`: A `SamForSegmentationResponse` containing:
+
+  - `scores`: confidence score per detected instance, shape `(num_instances,)`.
+  - `boxes`: bounding box `[x1, y1, x2, y2]` per detected instance in absolute pixel coordinates, shape
+      `(num_instances, 4)`.
+  - `masks`: binary mask per detected instance, shape `(num_instances, H, W)`.
+
+**Examples:**
+
+Add a computed column that segments every "cat" in an existing Pixeltable column `image` of the
+table `tbl`:
+
+```python
+tbl.add_computed_column(seg=sam3_for_segmentation(tbl.image, text='cat'))
+```
+
+Use a bounding-box prompt to segment a specific object:
+
+```python
+tbl.add_computed_column(
+    seg=sam3_for_segmentation(
+        tbl.image, input_boxes=[[100, 150, 500, 450]]
+    )
+)
+```
+
+Combine a text prompt with a negative box to exclude a region:
+
+```python
+tbl.add_computed_column(
+    seg=sam3_for_segmentation(
+        tbl.image,
+        text='handle',
+        input_boxes=[[40, 183, 318, 204]],
+        input_boxes_labels=[0],
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; sam_automatic_mask_generation()
+
+```python Signature
+@pxt.udf
+sam_automatic_mask_generation(
+    image: pxt.Image,
+    *,
+    model_id: pxt.String = 'facebook/sam3',
+    points_per_batch: pxt.Int = 64,
+    points_per_crop: pxt.Int = 32,
+    pred_iou_thresh: pxt.Float = 0.7,
+    stability_score_thresh: pxt.Float = 0.95,
+    crops_n_layers: pxt.Int = 0,
+    revision: pxt.String | None = None
+) -> SamForSegmentationResponse
+```
+
+Segments every object in an image with SAM (Segment Anything Model), with no prompt. `model_id` should
+be a reference to a pretrained
+[SAM Model](https://huggingface.co/docs/transformers/model_doc/sam3) such as `facebook/sam3` or
+`facebook/sam2-hiera-large`. This UDF is not tied to a specific SAM version; it works with any SAM model
+that supports automatic mask generation.
+
+Works by sampling a grid of points across the image and returns a binary mask for every distinct object it
+finds (the "segment everything" mode of SAM 1 and SAM 2). Masks are filtered by predicted quality and
+de-duplicated. The masks are class-agnostic: no labels or persistent object ids are produced, since the model
+is not told what to look for.
+
+__Requirements:__
+
+- `pip install torch transformers`
+- `facebook/sam3` is a gated repository. Request access on its
+    [model page](https://huggingface.co/facebook/sam3), then authenticate with
+    `huggingface-cli login` (or set the `HF_TOKEN` environment variable) before calling this UDF.
+
+**Parameters:**
+
+- **`image`** (`pxt.Image`): The image to segment.
+- **`model_id`** (`pxt.String`): The pretrained SAM model to use.
+- **`points_per_batch`** (`pxt.Int`): Number of grid points run through the model at once. Higher values are faster but
+    use more memory.
+- **`points_per_crop`** (`pxt.Int`): Number of grid points sampled along each side of the image. Higher values find more
+    (and smaller) objects at the cost of speed.
+- **`pred_iou_thresh`** (`pxt.Float`): Quality threshold on the model's predicted mask IoU; masks scoring below it are
+    discarded.
+- **`stability_score_thresh`** (`pxt.Float`): Quality threshold on mask stability under mask-logit threshold changes; masks
+    scoring below it are discarded.
+- **`crops_n_layers`** (`pxt.Int`): Number of additional image-crop layers to run. Values above `0` improve recall on
+    small objects at the cost of speed.
+- **`revision`** (`pxt.String | None`): The specific model revision to use (e.g., a branch, tag, or git identifier). If not
+    specified, uses the default revision for the model.
+
+**Returns:**
+
+- `SamForSegmentationResponse`: A `SamForSegmentationResponse` containing:
+
+  - `scores`: predicted quality score per mask, shape `(num_masks,)`.
+  - `boxes`: bounding box `[x1, y1, x2, y2]` per mask in absolute pixel coordinates, shape
+      `(num_masks, 4)`.
+  - `masks`: binary mask per detected object, shape `(num_masks, H, W)`.
+
+**Examples:**
+
+Add a computed column that segments every object in an existing Pixeltable column `image` of the
+table `tbl`:
+
+```python
+tbl.add_computed_column(seg=sam_automatic_mask_generation(tbl.image))
 ```
 
 
@@ -542,7 +731,9 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `all-mpnet-base-2` to an existing Pixeltable column `tbl.sentence` of the table `tbl`:
+Add a computed column that applies the model `all-mpnet-base-2` to an existing Pixeltable column `tbl.sentence`
+of the table `tbl`:
+
 ```python
 tbl.add_computed_column(
     result=sentence_transformer(
@@ -585,7 +776,9 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `facebook/s2t-small-librispeech-asr` to an existing Pixeltable column `audio` of the table `tbl`:
+Add a computed column that applies the model `facebook/s2t-small-librispeech-asr` to an existing
+Pixeltable column `audio` of the table `tbl`:
+
 ```python
 tbl.add_computed_column(
     transcription=speech2text_for_conditional_generation(
@@ -594,7 +787,9 @@ tbl.add_computed_column(
 )
 ```
 
-Add a computed column that applies the model `facebook/s2t-medium-mustc-multilingual-st` to an existing Pixeltable column `audio` of the table `tbl`, translating the audio to French:
+Add a computed column that applies the model `facebook/s2t-medium-mustc-multilingual-st` to an existing
+Pixeltable column `audio` of the table `tbl`, translating the audio to French:
+
 ```python
 tbl.add_computed_column(
     translation=speech2text_for_conditional_generation(
@@ -638,6 +833,7 @@ __Requirements:__
 **Examples:**
 
 Add a computed column that summarizes documents:
+
 ```python
 tbl.add_computed_column(
     summary=text_summarization(
@@ -658,7 +854,7 @@ text_classification(
     *,
     model_id: pxt.String,
     top_k: pxt.Int = 5
-) -> pxt.Json
+) -> pxt.Json[(Json[{'label': Int, 'label_text': String, 'score': Float}], ...)]
 ```
 
 Classifies text using a pretrained classification model. `model_id` should be a reference to a pretrained
@@ -677,11 +873,12 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing classification results with scores, labels, and label text.
+- `pxt.Json[(Json[{'label': Int, 'label_text': String, 'score': Float}], ...)]`: A dictionary containing classification results with scores, labels, and label text.
 
 **Examples:**
 
 Add a computed column for sentiment analysis:
+
 ```python
 tbl.add_computed_column(
     sentiment=text_classification(
@@ -727,6 +924,7 @@ __Requirements:__
 **Examples:**
 
 Add a computed column that generates text completions using the `Qwen/Qwen3-0.6B` model:
+
 ```python
 tbl.add_computed_column(
     completion=text_generation(
@@ -778,6 +976,7 @@ __Requirements:__
 **Examples:**
 
 Add a computed column that generates images from text prompts:
+
 ```python
 tbl.add_computed_column(
     generated_image=text_to_image(
@@ -825,6 +1024,7 @@ __Requirements:__
 **Examples:**
 
 Add a computed column that converts text to speech:
+
 ```python
 tbl.add_computed_column(
     audio=text_to_speech(
@@ -843,7 +1043,7 @@ token_classification(
     *,
     model_id: pxt.String,
     aggregation_strategy: pxt.String = 'simple'
-) -> pxt.Json
+) -> pxt.Json[(Json[{'word': String, 'entity_group': String, 'score': Float, 'start': Int, 'end': Int}], ...)]
 ```
 
 Extracts named entities from text using a pretrained named entity recognition (NER) model.
@@ -862,11 +1062,12 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A list of dictionaries containing entity information (text, label, confidence, start, end).
+- `pxt.Json[(Json[{'word': String, 'entity_group': String, 'score': Float, 'start': Int, 'end': Int}], ...)]`: A list of dictionaries containing entity information (text, label, confidence, start, end).
 
 **Examples:**
 
 Add a computed column that extracts named entities:
+
 ```python
 tbl.add_computed_column(
     entities=token_classification(
@@ -911,6 +1112,7 @@ __Requirements:__
 **Examples:**
 
 Add a computed column that translates text:
+
 ```python
 tbl.add_computed_column(
     french_text=translation(
@@ -932,7 +1134,7 @@ vit_for_image_classification(
     *,
     model_id: pxt.String,
     top_k: pxt.Int = 5
-) -> pxt.Json
+) -> VitForImageClassificationResponse
 ```
 
 Computes image classifications for the specified image using a Vision Transformer (ViT) model.
@@ -956,18 +1158,27 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing the output of the image classification model, in the following format:
+- `VitForImageClassificationResponse`: A dictionary containing the output of the image classification model, in the following format:
   ```python
   {
-      'scores': [0.325, 0.198, 0.105],  # list of probabilities of the top-k most likely classes
-      'labels': [340, 353, 386],  # list of class IDs for the top-k most likely classes
-      'label_text': ['zebra', 'gazelle', 'African elephant, Loxodonta africana'],
-          # corresponding text names of the top-k most likely classes
+      # list of probabilities of the top-k most likely classes
+      'scores': [0.325, 0.198, 0.105],
+      # list of class IDs for the top-k most likely classes
+      'labels': [340, 353, 386],
+      # corresponding text names of the top-k most likely classes
+      'label_text': [
+          'zebra',
+          'gazelle',
+          'African elephant, Loxodonta africana',
+      ],
+  }
   ```
 
 **Examples:**
 
-Add a computed column that applies the model `google/vit-base-patch16-224` to an existing Pixeltable column `image` of the table `tbl`, returning the 10 most likely classes for each image:
+Add a computed column that applies the model `google/vit-base-patch16-224` to an existing
+Pixeltable column `image` of the table `tbl`, returning the 10 most likely classes for each image:
+
 ```python
 tbl.add_computed_column(
     image_class=vit_for_image_classification(

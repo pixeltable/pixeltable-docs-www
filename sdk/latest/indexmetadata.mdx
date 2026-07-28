@@ -1,12 +1,12 @@
 ---
 title: "IndexMetadata"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table_metadata.py#L37\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table_metadata.py#L52\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.IndexMetadata
 
 
-Metadata for a column of a Pixeltable table.
+Metadata for an index on a Pixeltable table.
 
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; columns
 
@@ -19,10 +19,10 @@ The table columns that are indexed.
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; index_type
 
 ```
-index_type: Literal['embedding']
+index_type: Literal['embedding', 'btree']
 ```
 
-The type of index (currently only `'embedding'` is supported, but others will be added in the future).
+The type of index. New types may be added in the future.
 
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; name
 
@@ -35,8 +35,8 @@ The name of the index.
 ## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; parameters
 
 ```
-parameters: EmbeddingIndexParams
+parameters: EmbeddingIndexParams | None
 ```
 
-Parameters specific to the index type.
+Parameters specific to the index type. `None` for index types without parameters.
 

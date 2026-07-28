@@ -9,7 +9,7 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 Pixeltable UDFs
 that wrap various endpoints from the TwelveLabs API. In order to use them, you must
 first `pip install twelvelabs` and configure your TwelveLabs credentials, as described in
-the [Working with TwelveLabs](https://docs.pixeltable.com/notebooks/integrations/working-with-twelvelabs) tutorial.
+the [Working with TwelveLabs](https://docs.pixeltable.com/howto/providers/working-with-twelvelabs) tutorial.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embed()
@@ -37,7 +37,7 @@ embed(
     model_name: pxt.String,
     start_sec: pxt.Float | None,
     end_sec: pxt.Float | None,
-    embedding_option: pxt.Json | None
+    embedding_option: pxt.Json[(String, ...)] | None
 ) -> pxt.Array[float32] | None
 
 # Signature 4:
@@ -47,7 +47,7 @@ embed(
     model_name: pxt.String,
     start_sec: pxt.Float | None,
     end_sec: pxt.Float | None,
-    embedding_option: pxt.Json | None
+    embedding_option: pxt.Json[(String, ...)] | None
 ) -> pxt.Array[float32] | None
 ```
 
@@ -71,7 +71,7 @@ __Requirements:__
 **Parameters:**
 
 - **`model_name`** (`String`): The name of the model to use. Check
-    [the TwelveLabs documentation](https://docs.twelvelabs.io/v1.3/sdk-reference/python/create-text-image-and-audio-embeddings)
+    [the TwelveLabs documentation](https://docs.twelvelabs.io/v1.3/sdk-reference/python/create-embeddings-v-1/create-text-image-and-audio-embeddings)
     for available models.
 - **`text`** (`String`): The text to embed.
 - **`image`** (`Image | None`, default: `Literal(None)`): If specified, the embedding will be created from both the text and the image.
@@ -83,6 +83,7 @@ __Requirements:__
 **Examples:**
 
 Add a computed column `embed` for an embedding of a string column `input`:
+
 ```python
 tbl.add_computed_column(
     embed=embed(model_name='marengo3.0', text=tbl.input)

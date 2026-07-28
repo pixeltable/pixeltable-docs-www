@@ -117,16 +117,13 @@ description.
 %pip install -qU pixeltable sentence-transformers torch
 ```
 
-
-```python
-import pixeltable as pxt
-from pixeltable.functions.huggingface import clip
-```
-
 ### Load images
 
 
 ```python
+import pixeltable as pxt
+from pixeltable.functions.huggingface import clip
+
 # Create a fresh directory
 pxt.drop_dir('image_search_demo', force=True)
 pxt.create_dir('image_search_demo')

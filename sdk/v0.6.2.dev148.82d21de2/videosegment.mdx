@@ -1,0 +1,51 @@
+---
+title: "VideoSegment"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/video/iterators.py#L345\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.functions.video.VideoSegment
+
+
+One segment of a video: the segment's video plus where it falls in the source video.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; segment_end
+
+```
+segment_end: float | None
+```
+
+Segment end, in seconds from the start of the source video; None if the source stream does not report it.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; segment_end_pts
+
+```
+segment_end_pts: int | None
+```
+
+Segment end, as a presentation timestamp (in the source stream's time base); None if unavailable.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; segment_start
+
+```
+segment_start: float | None
+```
+
+Segment start, in seconds from the start of the source video; None if the source stream does not report it.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; segment_start_pts
+
+```
+segment_start_pts: int | None
+```
+
+Segment start, as a presentation timestamp (in the source stream's time base); None if unavailable.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; video_segment
+
+```
+video_segment: pxt.Video
+```
+
+The segment's video.
+

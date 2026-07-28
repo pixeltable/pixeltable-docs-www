@@ -9,7 +9,7 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 Pixeltable UDFs
 that wrap various endpoints from the Fireworks AI API. In order to use them, you must
 first `pip install fireworks-ai` and configure your Fireworks AI credentials, as described in
-the [Working with Fireworks](https://docs.pixeltable.com/notebooks/integrations/working-with-fireworks) tutorial.
+the [Working with Fireworks](https://docs.pixeltable.com/howto/providers/working-with-fireworks) tutorial.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat_completions()
@@ -17,7 +17,7 @@ the [Working with Fireworks](https://docs.pixeltable.com/notebooks/integrations/
 ```python Signature
 @pxt.udf
 chat_completions(
-    messages: pxt.Json,
+    messages: pxt.Json[(Json, ...)],
     *,
     model: pxt.String,
     model_kwargs: pxt.Json | None = None
@@ -39,9 +39,9 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`pxt.Json`): A list of messages comprising the conversation so far.
-- **`model`** (`pxt.String`): The name of the model to use.
-- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Fireworks `chat_completions` API. For details on the available
+- **`messages`** (`pxt.Json[(Json`): A list of messages comprising the conversation so far.
+- **`model`** (`Any`): The name of the model to use.
+- **`model_kwargs`** (`Any`): Additional keyword args for the Fireworks `chat_completions` API. For details on the available
     parameters, see: [https://docs.fireworks.ai/api-reference/post-chatcompletions](https://docs.fireworks.ai/api-reference/post-chatcompletions)
 
 **Returns:**
@@ -50,7 +50,9 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `accounts/fireworks/models/mixtral-8x22b-instruct` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+Add a computed column that applies the model `accounts/fireworks/models/mixtral-8x22b-instruct`
+to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+
 ```python
 messages = [{'role': 'user', 'content': tbl.prompt}]
 tbl.add_computed_column(

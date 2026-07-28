@@ -17,11 +17,11 @@ and other AI capabilities.
 ```python Signature
 @pxt.udf
 chat_completions(
-    messages: pxt.Json,
+    messages: pxt.Json[(Json, ...)],
     *,
     model: pxt.String,
     model_kwargs: pxt.Json | None = None,
-    tools: pxt.Json | None = None,
+    tools: pxt.Json[(Json, ...)] | None = None,
     tool_choice: pxt.Json | None = None
 ) -> pxt.Json
 ```
@@ -43,12 +43,12 @@ __Requirements:__
 
 **Parameters:**
 
-- **`messages`** (`pxt.Json`): A list of messages to use for chat completion, as described in the Deepseek API documentation.
-- **`model`** (`pxt.String`): The model to use for chat completion.
-- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Deepseek `chat/completions` API.
+- **`messages`** (`pxt.Json[(Json`): A list of messages to use for chat completion, as described in the Deepseek API documentation.
+- **`model`** (`Any`): The model to use for chat completion.
+- **`model_kwargs`** (`Any`): Additional keyword args for the Deepseek `chat/completions` API.
     For details on the available parameters, see: [https://api-docs.deepseek.com/api/create-chat-completion](https://api-docs.deepseek.com/api/create-chat-completion)
-- **`tools`** (`pxt.Json | None`): An optional list of Pixeltable tools to use for the request.
-- **`tool_choice`** (`pxt.Json | None`): An optional tool choice configuration.
+- **`tools`** (`Any`): An optional list of Pixeltable tools to use for the request.
+- **`tool_choice`** (`Any`): An optional tool choice configuration.
 
 **Returns:**
 
@@ -56,14 +56,16 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `deepseek-chat` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+Add a computed column that applies the model `deepseek-v4-flash` to an existing Pixeltable column `tbl.prompt`
+of the table `tbl`:
+
 ```python
 messages = [
     {'role': 'system', 'content': 'You are a helpful assistant.'},
     {'role': 'user', 'content': tbl.prompt},
 ]
 tbl.add_computed_column(
-    response=chat_completions(messages, model='deepseek-chat')
+    response=chat_completions(messages, model='deepseek-v4-flash')
 )
 ```
 

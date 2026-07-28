@@ -11,6 +11,55 @@ General Pixeltable UDFs.
 This parent module contains general-purpose UDFs that apply to multiple data types.
 
 
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; filter()
+
+```python Signature
+filter(
+    expr: pixeltable.exprs.expr.Expr,
+    predicate: Callable[[pixeltable.exprs.expr.Expr], Any]
+) -> pixeltable.exprs.expr.Expr
+```
+
+Keeps the elements of a JSON array for which a predicate holds, producing a new array.
+
+`filter()` is used like a UDF, for example in `select()` or `add_computed_column()`.
+
+**Parameters:**
+
+- **`expr`** (`pixeltable.exprs.expr.Expr`): The array to filter; an expression of type `pxt.Json` that resolves to a JSON array. Its element
+    type is preserved in the result.
+- **`predicate`** (`typing.Callable[[pixeltable.exprs.expr.Expr], typing.Any]`): A Python function (typically a lambda) that decides which elements to keep. It receives `x`, a
+    stand-in for a single array element, and returns a boolean condition; the element is kept when it is
+    true. Operate on `x` exactly as you would on a column: comparisons, indexing (`x[0]`), field access
+    (`x.field`), and JSON methods all work. Combine multiple conditions with `&` and `|`, and negate with
+    `~` (not Python `and`/`or`/`not`). Example: `lambda x: (x > 0) & (x < 10)`.
+
+**Returns:**
+
+- `pixeltable.exprs.expr.Expr`: A new array containing the elements of `expr` for which `predicate` is true, unchanged. If `expr` is
+  `null` or does not resolve to a JSON array, the result is `null`.
+
+**Examples:**
+
+Given a table `tbl` with a `pxt.Json` column `data` holding lists of numbers, add a column that keeps only
+the positive numbers:
+
+```python
+tbl.add_computed_column(
+    positives=pxt.functions.filter(tbl.data, lambda x: x > 0)
+)
+```
+
+When `data` holds lists of objects such as `{'score': 0.9, 'label': 'cat'}`, keep only the high-confidence
+ones:
+
+```python
+tbl.select(
+    confident=pxt.functions.filter(tbl.data, lambda x: x.score >= 0.9)
+).collect()
+```
+
+
 ## <span style={{ 'color': 'gray' }}>func</span>&nbsp; map()
 
 ```python Signature
@@ -20,21 +69,93 @@ map(
 ) -> pixeltable.exprs.expr.Expr
 ```
 
-Applies a mapping function to each element of a list.
+Applies a function to each element of a JSON array, producing a new array.
 
+`map()` is used like a UDF, for example in `select()` or `add_computed_column()`.
 
 **Parameters:**
 
-- **`expr`** (`pixeltable.exprs.expr.Expr`): The list expression to map over; must be an expression of type `pxt.Json`.
-- **`fn`** (`typing.Callable[[pixeltable.exprs.expr.Expr], typing.Any]`): An operation on Pixeltable expressions that will be applied to each element of the JSON array.
+- **`expr`** (`pixeltable.exprs.expr.Expr`): The array to map over; an expression of type `pxt.Json` that resolves to a JSON array. If its
+    elements have a known type (e.g. the column is declared `pxt.Json[[int]]`), that type is available to
+    `fn` and carries through to the result.
+- **`fn`** (`typing.Callable[[pixeltable.exprs.expr.Expr], typing.Any]`): A Python function (typically a lambda) applied to each element to produce its replacement. It receives
+    `x`, a stand-in for a single array element, and returns the value to store in its place. Operate on
+    `x` exactly as you would on a column: arithmetic, indexing (`x[0]`), field access (`x.field`), and
+    JSON methods (`x.len()`, `x.sum()`, etc.) all work.
+
+**Returns:**
+
+- `pixeltable.exprs.expr.Expr`: A new array holding `fn(x)` for each element `x` of `expr`. If `expr` is `null` or does not resolve to a
+  JSON array, the result is `null`.
 
 **Examples:**
 
-Given a table `tbl` with a column `data` of type `pxt.Json` containing lists of integers, add a computed column that produces new lists with each integer doubled:
+Given a table `tbl` with a `pxt.Json` column `data` holding lists of numbers, add a column that doubles
+each number:
+
 ```python
 tbl.add_computed_column(
-    doubled=pxt.functions.map(t.data, lambda x: x * 2)
+    doubled=pxt.functions.map(tbl.data, lambda x: x * 2)
 )
+```
+
+When `data` holds lists of objects such as `{'score': 0.9, 'label': 'cat'}`, extract each score:
+
+```python
+tbl.select(
+    scores=pxt.functions.map(tbl.data, lambda x: x.score)
+).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; sort()
+
+```python Signature
+sort(
+    expr: pixeltable.exprs.expr.Expr,
+    key: Optional[Callable[[pixeltable.exprs.expr.Expr], Any]] = None,
+    *,
+    asc: bool = True
+) -> pixeltable.exprs.expr.Expr
+```
+
+Sorts the elements of a JSON array, producing a new array.
+
+`sort()` is used like a UDF, for example in `select()` or `add_computed_column()`.
+
+**Parameters:**
+
+- **`expr`** (`pixeltable.exprs.expr.Expr`): The array to sort; an expression of type `pxt.Json` that resolves to a JSON array. Its element type
+    is preserved in the result.
+- **`key`** (`typing.Optional[typing.Callable[[pixeltable.exprs.expr.Expr], typing.Any]]`): An optional Python function (typically a lambda) that produces the value each element is ordered by.
+    It receives `x`, a stand-in for a single array element, and returns the sort key. Operate on `x`
+    exactly as you would on a column: arithmetic, indexing (`x[0]`), field access (`x.field`), and JSON
+    methods all work. When `key` is omitted, the elements are ordered by their own natural ordering.
+- **`asc`** (`bool`, default: `True`): Whether to sort in ascending (the default) or descending order.
+
+**Returns:**
+
+- `pixeltable.exprs.expr.Expr`: A new array with the elements of `expr` in sorted order. If `expr` is `null` or does not resolve to a JSON
+  array, the result is `null`. Sorting a list of scalars without a `key`, or by non-orderable keys, raises if
+  the values are not mutually comparable (matching Python's `sorted()`).
+
+**Examples:**
+
+Given a table `tbl` with a `pxt.Json` column `data` holding lists of numbers, add a column that sorts each
+list in descending order:
+
+```python
+tbl.add_computed_column(ranked=pxt.functions.sort(tbl.data, asc=False))
+```
+
+When `data` holds lists of objects such as `{'score': 0.9, 'label': 'cat'}`, sort each list by score:
+
+```python
+tbl.select(
+    by_score=pxt.functions.sort(
+        tbl.data, key=lambda x: x.score, asc=False
+    )
+).collect()
 ```
 
 
@@ -112,11 +233,14 @@ Aggregate function that counts the number of non-null values in a column or grou
 **Examples:**
 
 Count the number of non-null values in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.count(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the count of non-null values in the `value` column for each category, assigning the name `'category_count'` to the new column:
+Group by the `category` column and compute the count of non-null values in the `value` column
+for each category, assigning the name `'category_count'` to the new column:
+
 ```python
 tbl.group_by(tbl.category).select(
     tbl.category, category_count=pxt.functions.count(tbl.value)
@@ -162,11 +286,14 @@ Aggregate function that computes the maximum value in a column or grouping.
 **Examples:**
 
 Compute the maximum value in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.max(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the maximum value in the `value` column for each category, assigning the name `'category_max'` to the new column:
+Group by the `category` column and compute the maximum value in the `value` column for each category,
+assigning the name `'category_max'` to the new column:
+
 ```python
 tbl.group_by(tbl.category).select(
     tbl.category, category_max=pxt.functions.max(tbl.value)
@@ -200,11 +327,14 @@ Aggregate function that computes the mean (average) of non-null values of a nume
 **Examples:**
 
 Compute the mean of the values in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.mean(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the mean of the `value` column for each category, assigning the name `'category_mean'` to the new column:
+Group by the `category` column and compute the mean of the `value` column for each category,
+assigning the name `'category_mean'` to the new column:
+
 ```python
 tbl.group_by(tbl.category).select(
     tbl.category, category_mean=pxt.functions.mean(tbl.value)
@@ -250,11 +380,14 @@ Aggregate function that computes the minimum value in a column or grouping.
 **Examples:**
 
 Compute the minimum value in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.min(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the minimum value in the `value` column for each category, assigning the name `'category_min'` to the new column:
+Group by the `category` column and compute the minimum value in the `value` column for each category,
+assigning the name `'category_min'` to the new column:
+
 ```python
 tbl.group_by(tbl.category).select(
     tbl.category, category_min=pxt.functions.min(tbl.value)
@@ -288,11 +421,14 @@ Aggregate function that computes the sum of non-null values of a numeric column 
 **Examples:**
 
 Sum the values in the `value` column of the table `tbl`:
+
 ```python
 tbl.select(pxt.functions.sum(tbl.value)).collect()
 ```
 
-Group by the `category` column and compute the sum of the `value` column for each category, assigning the name `'category_total'` to the new column:
+Group by the `category` column and compute the sum of the `value` column for each category,
+assigning the name `'category_total'` to the new column:
+
 ```python
 tbl.group_by(tbl.category).select(
     tbl.category, category_total=pxt.functions.sum(tbl.value)

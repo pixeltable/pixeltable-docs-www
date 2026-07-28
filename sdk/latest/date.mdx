@@ -9,6 +9,7 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 Pixeltable UDFs for `DateType`.
 
 Usage example:
+
 ```python
 import pixeltable as pxt
 
@@ -45,7 +46,7 @@ Equivalent to [`date.day`](https://docs.python.org/3/library/datetime.html#datet
 
 ```python Signature
 @pxt.udf
-isocalendar(self: pxt.Date) -> pxt.Json
+isocalendar(self: pxt.Date) -> IsoCalendar
 ```
 
 Return a dictionary with three entries: `'year'`, `'week'`, and `'weekday'`.

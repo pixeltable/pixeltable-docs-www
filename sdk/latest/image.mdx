@@ -9,6 +9,7 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 Pixeltable UDFs for `ImageType`.
 
 Example:
+
 ```python
 import pixeltable as pxt
 
@@ -23,9 +24,9 @@ t.select(t.img_col.convert('L')).collect()
 @pxt.iterator
 tile_iterator(
     image: pxt.Image,
-    tile_size: pxt.Json,
+    tile_size: pxt.Json[(Int, Int)],
     *,
-    overlap: pxt.Json = (0, 0)
+    overlap: pxt.Json[(Int, Int)] = (0, 0)
 )
 ```
 
@@ -45,12 +46,15 @@ __Outputs__:
 **Parameters:**
 
 - **`image`** (`pxt.Image`): Image to split into tiles.
-- **`tile_size`** (`pxt.Json`): Size of each tile, as a pair of integers `(width, height)`.
-- **`overlap`** (`pxt.Json`): Amount of overlap between adjacent tiles, as a pair of integers `(width, height)`.
+- **`tile_size`** (`pxt.Json[(Int`): Size of each tile, as a pair of integers `(width, height)`.
+- **`overlap`** (`Any`): Amount of overlap between adjacent tiles, as a pair of integers `(width, height)`.
 
 **Examples:**
 
-This example assumes an existing table `tbl` with a column `img` of type `pxt.Image`. Create a view that splits all images into 256x256 tiles with 32 pixels of overlap:
+This example assumes an existing table `tbl` with a column `img` of type `pxt.Image`.
+
+Create a view that splits all images into 256x256 tiles with 32 pixels of overlap:
+
 ```python
 pxt.create_view(
     'image_tiles',
@@ -59,6 +63,53 @@ pxt.create_view(
         tbl.img, tile_size=(256, 256), overlap=(32, 32)
     ),
 )
+```
+
+
+## <span style={{ 'color': 'gray' }}>uda</span>&nbsp; stitch_tiles()
+
+```python Signature
+@pxt.uda
+stitch_tiles(*args, **kwargs) -> pxt.Image | None
+```
+
+Reconstructs a single image from the tiles produced by [`tile_iterator`](./image#iterator-tile_iterator),
+pasting each tile back at its original position. This is the inverse of
+[`tile_iterator`](./image#iterator-tile_iterator):  aggregate the tiles of an image (grouped by a column
+that identifies the source image) to obtain the full image, optionally after transforming each tile first
+(e.g., drawing a segmentation overlay on it).
+
+The reconstruction is naive: tiles are pasted in the order they arrive, so where tiles overlap, later tiles
+overwrite earlier ones. It composites pixels and does not merge or deduplicate detections across tile seams.
+
+Args:
+    tile: The image tile to paste, the same size as the tiles emitted by
+    [`tile_iterator`](./image#iterator-tile_iterator). All tiles in a group must have the same mode
+        (and palette, for palette images).
+    tile_box: The `(x1, y1, x2, y2)` pixel coordinates of the tile in the original image, as emitted by
+        `tile_iterator`.
+    width: The width of the original image, in pixels.
+    height: The height of the original image, in pixels.
+
+Returns:
+    The reconstructed image, of size `(width, height)` and in the mode of the tiles, or `None` if there
+    are no non-null tiles.
+
+Examples:
+    Split each image into tiles, draw a segmentation overlay on every tile, then stitch the overlaid tiles
+    back into a single full-resolution image, one per source image. Assumes a view `tiles` created with
+    [`tile_iterator`](./image#iterator-tile_iterator), with an `overlay` column computed per tile:
+
+```python
+tiles.group_by(tiles.image).select(
+    stitched=stitch_tiles(
+        tiles.pos,
+        tiles.overlay,
+        tiles.tile_box,
+        tiles.image.width,
+        tiles.image.height,
+    )
+).collect()
 ```
 
 
@@ -148,7 +199,10 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-crop(self: pxt.Image, box: pxt.Json) -> pxt.Image
+crop(
+    self: pxt.Image,
+    box: pxt.Json[(Int, Int, Int, Int)]
+) -> pxt.Image
 ```
 
 Return a rectangular region from the image. The box is a 4-tuple defining the left, upper, right, and lower pixel
@@ -182,7 +236,7 @@ Equivalent to
 entropy(
     self: pxt.Image,
     mask: pxt.Image | None = None,
-    extrema: pxt.Json | None = None
+    extrema: pxt.Json[(Json, ...)] | None = None
 ) -> pxt.Float
 ```
 
@@ -194,14 +248,14 @@ Equivalent to
 **Parameters:**
 
 - **`mask`** (`pxt.Image | None`): An optional mask image.
-- **`extrema`** (`pxt.Json | None`): An optional list of extrema.
+- **`extrema`** (`pxt.Json[(Json`): An optional list of extrema.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; get_metadata()
 
 ```python Signature
 @pxt.udf
-get_metadata(self: pxt.Image) -> pxt.Json
+get_metadata(self: pxt.Image) -> ImageMetadata
 ```
 
 Return metadata for the image.
@@ -211,7 +265,7 @@ Return metadata for the image.
 
 ```python Signature
 @pxt.udf
-getbands(self: pxt.Image) -> pxt.Json
+getbands(self: pxt.Image) -> pxt.Json[(String, ...)]
 ```
 
 Return a tuple containing the names of the image bands.
@@ -228,7 +282,7 @@ getbbox(
     self: pxt.Image,
     *,
     alpha_only: pxt.Bool = True
-) -> pxt.Json | None
+) -> pxt.Json[(Int, Int, Int, Int)] | None
 ```
 
 Return a bounding box for the non-zero regions of the image.
@@ -262,7 +316,10 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-getcolors(self: pxt.Image, maxcolors: pxt.Int = 256) -> pxt.Json
+getcolors(
+    self: pxt.Image,
+    maxcolors: pxt.Int = 256
+) -> pxt.Json[(Json[(Int, Int)], ...)]
 ```
 
 Return a list of colors used in the image, up to a maximum of `maxcolors`.
@@ -279,7 +336,7 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-getextrema(self: pxt.Image) -> pxt.Json
+getextrema(self: pxt.Image) -> pxt.Json[(Int, Int)]
 ```
 
 Return a 2-tuple containing the minimum and maximum pixel values of the image.
@@ -295,7 +352,7 @@ Equivalent to
 getpalette(
     self: pxt.Image,
     mode: pxt.String | None = None
-) -> pxt.Json | None
+) -> pxt.Json[(Int, ...)] | None
 ```
 
 Return the palette of the image, optionally converting it to a different mode.
@@ -312,7 +369,10 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-getpixel(self: pxt.Image, xy: pxt.Json) -> pxt.Json
+getpixel(
+    self: pxt.Image,
+    xy: pxt.Json[(Json, ...)]
+) -> pxt.Json[(Int,)]
 ```
 
 Return the pixel value at the given position. The position `xy` is a tuple containing the x and y coordinates.
@@ -322,14 +382,14 @@ Equivalent to
 
 **Parameters:**
 
-- **`xy`** (`pxt.Json`): The coordinates, given as (x, y).
+- **`xy`** (`pxt.Json[(Json`): The coordinates, given as (x, y).
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; getprojection()
 
 ```python Signature
 @pxt.udf
-getprojection(self: pxt.Image) -> pxt.Json
+getprojection(self: pxt.Image) -> pxt.Json[(Json[(Int, ...)], Json[(Int, ...)])]
 ```
 
 Return two sequences representing the horizontal and vertical projection of the image.
@@ -355,8 +415,8 @@ Return the height of the image.
 histogram(
     self: pxt.Image,
     mask: pxt.Image | None = None,
-    extrema: pxt.Json | None = None
-) -> pxt.Json
+    extrema: pxt.Json[(Json, ...)] | None = None
+) -> pxt.Json[(Int, ...)]
 ```
 
 Return a histogram for the image.
@@ -367,7 +427,7 @@ Equivalent to
 **Parameters:**
 
 - **`mask`** (`pxt.Image | None`): An optional mask image.
-- **`extrema`** (`pxt.Json | None`): An optional list of extrema.
+- **`extrema`** (`pxt.Json[(Json`): An optional list of extrema.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; mode()
@@ -386,7 +446,7 @@ Return the image mode.
 @pxt.udf
 point(
     self: pxt.Image,
-    lut: pxt.Json,
+    lut: pxt.Json[(Int, ...)],
     mode: pxt.String | None = None
 ) -> pxt.Image
 ```
@@ -398,7 +458,7 @@ Equivalent to
 
 **Parameters:**
 
-- **`lut`** (`pxt.Json`): A lookup table.
+- **`lut`** (`pxt.Json[(Int`): A lookup table.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; quantize()
@@ -440,7 +500,7 @@ Equivalent to
 reduce(
     self: pxt.Image,
     factor: pxt.Int,
-    box: pxt.Json | None = None
+    box: pxt.Json[(Int, Int, Int, Int)] | None = None
 ) -> pxt.Image
 ```
 
@@ -452,7 +512,7 @@ Equivalent to
 **Parameters:**
 
 - **`factor`** (`pxt.Int`): The reduction factor.
-- **`box`** (`pxt.Json | None`): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within
+- **`box`** (`pxt.Json[(Int`): An optional 4-tuple of ints providing the source image region to be reduced. The values must be within
     (0, 0, width, height) rectangle. If omitted or None, the entire source is used.
 
 
@@ -460,7 +520,7 @@ Equivalent to
 
 ```python Signature
 @pxt.udf
-resize(self: pxt.Image, size: pxt.Json) -> pxt.Image
+resize(self: pxt.Image, size: pxt.Json[(Int, Int)]) -> pxt.Image
 ```
 
 Return a resized copy of the image. The size parameter is a tuple containing the width and height of the new image.
@@ -492,7 +552,7 @@ Equivalent to
 @pxt.udf
 thumbnail(
     self: pxt.Image,
-    size: pxt.Json,
+    size: pxt.Json[(Int, Int)],
     resample: pxt.Int = <Resampling.LANCZOS: 1>,
     reducing_gap: pxt.Float | None = 2.0
 ) -> pxt.Image
@@ -505,11 +565,60 @@ Equivalent to
 
 **Parameters:**
 
-- **`size`** (`pxt.Json`): The size of the thumbnail, as a tuple of (width, height).
-- **`resample`** (`pxt.Int`): The resampling filter to use. See the
+- **`size`** (`pxt.Json[(Int`): The size of the thumbnail, as a tuple of (width, height).
+- **`resample`** (`Any`): The resampling filter to use. See the
     [Pillow documentation](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.thumbnail)
     for a list of supported filters.
-- **`reducing_gap`** (`pxt.Float | None`): The reducing gap to use.
+- **`reducing_gap`** (`Any`): The reducing gap to use.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; to_video()
+
+```python Signature
+@pxt.udf
+to_video(
+    image: pxt.Image,
+    *,
+    duration: pxt.Float,
+    fps: pxt.Int = 24,
+    video_encoder: pxt.String | None = None,
+    video_encoder_args: pxt.Json | None = None
+) -> pxt.Video
+```
+
+Convert a still image into a video of a specified duration with ffmpeg's `-loop` option.
+
+__Requirements:__
+
+- `ffmpeg` needs to be installed and in PATH
+
+**Parameters:**
+
+- **`image`** (`pxt.Image`): Input image to convert to video.
+- **`duration`** (`pxt.Float`): Duration of the output video in seconds.
+- **`fps`** (`pxt.Int`): Frames per second for the output video.
+- **`video_encoder`** (`pxt.String | None`): Video encoder to use. If not specified, uses the default encoder.
+- **`video_encoder_args`** (`pxt.Json | None`): Additional arguments to pass to the video encoder.
+
+**Returns:**
+
+- `pxt.Video`: A video displaying the input image for the specified duration.
+
+**Examples:**
+
+Create a 5-second video from an image:
+
+```python
+tbl.select(tbl.image.to_video(duration=5.0)).collect()
+```
+
+Create a 10-second video at 30 fps from a rotated image:
+
+```python
+tbl.select(
+    tbl.image.rotate(180).to_video(duration=10.0, fps=30)
+).collect()
+```
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; transpose()

@@ -9,6 +9,7 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 Pixeltable UDFs for `TimestampType`.
 
 Usage example:
+
 ```python
 import pixeltable as pxt
 
@@ -61,7 +62,7 @@ Equivalent to [`datetime.hour`](https://docs.python.org/3/library/datetime.html#
 
 ```python Signature
 @pxt.udf
-isocalendar(self: pxt.Timestamp) -> pxt.Json
+isocalendar(self: pxt.Timestamp) -> IsoCalendar
 ```
 
 Return a dictionary with three entries: `'year'`, `'week'`, and `'weekday'`.
@@ -222,6 +223,18 @@ Equivalent to [`datetime.strftime()`](https://docs.python.org/3/library/datetime
 
 - **`format`** (`pxt.String`): The format string to control the output. For a complete list of formatting directives, see
     [`strftime()` and `strptime()` Behavior](https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; strip_timezone()
+
+```python Signature
+@pxt.udf
+strip_timezone(self: pxt.Timestamp) -> pxt.Timestamp
+```
+
+Return a naive datetime with the same wall-clock as `self` and no `tzinfo`.
+
+Equivalent to [`datetime.replace(tzinfo=None)`](https://docs.python.org/3/library/datetime.html#datetime.datetime.replace).
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; toordinal()

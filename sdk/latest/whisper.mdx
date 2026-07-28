@@ -21,7 +21,7 @@ transcribe(
     audio: pxt.Audio,
     *,
     model: pxt.String,
-    temperature: pxt.Json | None = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
+    temperature: pxt.Json[(Float, ...)] | None = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0),
     compression_ratio_threshold: pxt.Float | None = 2.4,
     logprob_threshold: pxt.Float | None = -1.0,
     no_speech_threshold: pxt.Float | None = 0.6,
@@ -55,7 +55,9 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `base.en` to an existing Pixeltable column `tbl.audio` of the table `tbl`:
+Add a computed column that applies the model `base.en` to an existing Pixeltable column `tbl.audio`
+of the table `tbl`:
+
 ```python
 tbl.add_computed_column(result=transcribe(tbl.audio, model='base.en'))
 ```

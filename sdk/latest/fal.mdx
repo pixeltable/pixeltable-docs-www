@@ -9,7 +9,7 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 Pixeltable UDFs
 that wrap various endpoints from the fal.ai API. In order to use them, you must
 first `pip install fal-client` and configure your fal.ai credentials, as described in
-the [Working with fal.ai](https://docs.pixeltable.com/notebooks/integrations/working-with-fal) tutorial.
+the [Working with fal.ai](https://docs.pixeltable.com/howto/providers/working-with-fal) tutorial.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; run()
@@ -43,13 +43,17 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `fal-ai/flux/schnell` to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+Add a computed column that applies the model `fal-ai/flux/schnell`
+to an existing Pixeltable column `tbl.prompt` of the table `tbl`:
+
 ```python
 input = {'prompt': tbl.prompt}
 tbl.add_computed_column(response=run(input, app='fal-ai/flux/schnell'))
 ```
 
-Add a computed column that uses the model `fal-ai/fast-sdxl` to generate images from an existing Pixeltable column `tbl.prompt`:
+Add a computed column that uses the model `fal-ai/fast-sdxl`
+to generate images from an existing Pixeltable column `tbl.prompt`:
+
 ```python
 input = {
     'prompt': tbl.prompt,

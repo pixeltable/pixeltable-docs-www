@@ -619,9 +619,7 @@ articles = pxt.create_table(
 
 # Add a computed column
 articles.add_computed_column(
-    word_count=articles.content.apply(
-        lambda x: len(x.split()), col_type=pxt.Int
-    )
+    word_count=pxt.functions.string.count(articles.content, r'\S+')
 )
 ```
 

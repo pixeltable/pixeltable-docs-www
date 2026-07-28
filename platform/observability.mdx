@@ -1,0 +1,231 @@
+---
+title: "Observability with OpenTelemetry"
+sidebarTitle: "Observability with OpenTelemetry"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/platform/observability.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/platform/observability.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/platform/observability.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>Environment variable</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>OTEL_EXPORTER_OTLP_ENDPOINT</code></td>
+<td style="vertical-align: middle;">Your OTLP endpoint,
+e.g. <code>https://otlp-gateway-&lt;zone&gt;.grafana.net/otlp</code> for
+Grafana Cloud</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>OTEL_EXPORTER_OTLP_HEADERS</code></td>
+<td style="vertical-align: middle;"><code>Authorization=Basic &lt;token&gt;</code>, where
+<code>&lt;token&gt;</code> is the base64 encoding of
+<code>&lt;instance-id&gt;:&lt;service-account-token&gt;</code></td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable can export its internal telemetry as OpenTelemetry (OTel)
+spans, so you can watch operations in any OTel backend. This notebook
+wires the OTel bridge to **Grafana Cloud** and traces a single
+`insert()` that exercises the full span set: source preparation, lock
+acquisition, planning, external media downloads, UDF evaluation, media
+persistence, the store write path, and view propagation.
+
+The insert emits one nested span tree:
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+pixeltable.insert&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(operation&nbsp;span,&nbsp;root)
+├─&nbsp;pixeltable.data_source.prepare&nbsp;&nbsp;&nbsp;&nbsp;(source&nbsp;resolution&nbsp;+&nbsp;schema&nbsp;validation)
+├─&nbsp;pixeltable.catalog.begin_xact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(connection&nbsp;+&nbsp;lock&nbsp;acquisition,&nbsp;one&nbsp;per&nbsp;attempt)
+├─&nbsp;pixeltable.plan.create&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(insert&nbsp;plan&nbsp;construction,&nbsp;DEBUG&nbsp;level)
+├─&nbsp;pixeltable.media.fetch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;external&nbsp;file&nbsp;downloaded,&nbsp;DEBUG&nbsp;level)
+├─&nbsp;pixeltable.row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;inserted&nbsp;row,&nbsp;DEBUG&nbsp;level)
+│&nbsp;&nbsp;└─&nbsp;pixeltable.udf.&lt;name&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(each&nbsp;UDF&nbsp;call,&nbsp;nested&nbsp;under&nbsp;its&nbsp;row)
+├─&nbsp;pixeltable.media.save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;generated&nbsp;media&nbsp;file&nbsp;persisted,&nbsp;DEBUG&nbsp;level)
+├─&nbsp;pixeltable.store.build_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(row&nbsp;-&gt;&nbsp;store-row&nbsp;conversion,&nbsp;DEBUG&nbsp;level)
+├─&nbsp;pixeltable.sa.insert_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(the&nbsp;SQL&nbsp;INSERT)
+└─&nbsp;pixeltable.view_load&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;mutable&nbsp;view,&nbsp;containing&nbsp;its&nbsp;own&nbsp;row/store&nbsp;spans)
+</pre>
+
+Traces land in Grafana Cloud Traces (Tempo).
+
+
+```python
+%pip install -qU 'pixeltable[otel]'
+```
+
+## Turn on the OpenTelemetry bridge
+
+Telemetry is opt-in: call `pxt_otel.init()` once per process, before the
+first table operation. It configures itself from environment variables
+or from the `[otel]` section of `~/.pixeltable/config.toml` (env vars
+take precedence).
+
+**Option 1: environment variables.** Set these **before starting the
+Jupyter kernel** (the kernel inherits them):
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+For Grafana Cloud, the OpenTelemetry connection page (Connections -\>
+Add new connection -\> OpenTelemetry) shows your `<zone>`,
+`<instance-id>`, and lets you create a `<service-account-token>`. Then
+run these in the terminal, substituting your values, and start Jupyter
+from that same terminal:
+
+
+```bash
+export OTEL_EXPORTER_OTLP_ENDPOINT='https://otlp-gateway-<zone>.grafana.net/otlp'
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Basic $(echo -n '<instance-id>:<service-account-token>' | base64 | tr -d '\n')"
+```
+
+**Option 2: `~/.pixeltable/config.toml`.** Generate the token first
+(`echo -n '<instance-id>:<service-account-token>' | base64 | tr -d '\n'`),
+then add:
+
+
+```toml
+[otel]
+exporter_otlp_endpoint = 'https://otlp-gateway-<zone>.grafana.net/otlp'
+exporter_otlp_headers = 'Authorization=Basic <token>'
+```
+
+`init()` runs **once per process**. If it ran without an endpoint
+earlier in this kernel it can’t be reconfigured, so fix the
+configuration, restart the kernel, and run this cell first.
+
+
+```python
+import opentelemetry.instrumentation.pixeltable as pxt_otel
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+
+pxt_otel.init(
+    span_level='debug'
+)  # 'debug' emits per-row + per-UDF spans (default 'info' = operation span only)
+
+
+# fail loud instead of silently dropping every span: a no-op ProxyTracerProvider means the SDK never came up
+assert isinstance(trace.get_tracer_provider(), TracerProvider), (
+    'OpenTelemetry is INERT: no OTLP endpoint was configured. '
+    'Set the env vars (or config.toml) above, restart the kernel, and run this cell first.'
+)
+print('OTel bridge active')
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+OTel&nbsp;bridge&nbsp;active
+</pre>
+
+## A pipeline that exercises every span type
+
+One table with an image column and two computed columns, plus a view:
+
+-   inserting external image URLs triggers `pixeltable.media.fetch` (one
+    download span per file, on worker threads)
+-   the `add_one` UDF produces a `pixeltable.udf.add_one` span under
+    each `pixeltable.row`
+-   the stored `thumb` column generates thumbnails whose persistence
+    produces `pixeltable.media.save` spans
+-   the view is recomputed as part of the same insert, producing the
+    nested `pixeltable.view_load` subtree
+
+`if_exists='replace_force'` also drops the dependent view on re-runs.
+
+
+```python
+import pixeltable as pxt
+
+t = pxt.create_table(
+    'otel_demo1',
+    {'c': pxt.Int, 'img': pxt.Image},
+    if_exists='replace_force',
+)
+
+# Simple expression (span not reported since no UDF is invoked)
+t.add_computed_column(inc=t.c + 1)
+# Complex expression (span reported since UDF is invoked)
+t.add_computed_column(thumb=t.img.resize((64, 64)))
+
+v = pxt.create_view(
+    'otel_demo_view',
+    t,
+    additional_columns={'inc2': t.inc + 2},
+    if_exists='replace',
+)
+```
+
+## Insert
+
+This is the traced operation: 4 rows referencing external images (well
+under the 100-span-per-operation cap, so every row gets a span). The
+whole pipeline, downloads, UDFs, thumbnails, store writes, and the view
+reload, lands under one `pixeltable.insert` trace.
+
+Note: `pixeltable.media.fetch` spans only appear when the files are not
+yet in the local file cache; on a re-run of this cell the downloads are
+skipped.
+
+
+```python
+base = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
+images = [
+    '000000000001.jpg',
+    '000000000016.jpg',
+    '000000000019.jpg',
+    '000000000025.jpg',
+]
+status = t.insert(
+    [{'c': i, 'img': f'{base}/{name}'} for i, name in enumerate(images)]
+)
+status
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;8&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.04&nbsp;s&nbsp;(224.62&nbsp;rows/s)
+8&nbsp;rows&nbsp;inserted.
+</pre>
+
+## Wait a few seconds for export
+
+`init()` sets up a `BatchSpanProcessor`, which ships queued spans
+automatically about every 5 seconds while the kernel stays alive, so no
+manual flush is needed. Give it a few seconds after the insert, then
+check Grafana.
+
+(In a short-lived script that exits immediately you would call
+`trace.get_tracer_provider().force_flush()` before exit, but in a live
+notebook kernel the timer handles it.)
+
+## View it in Grafana
+
+-   **Traces**: Explore -\> your Traces (Tempo) data source -\> search
+    Service Name `pixeltable`, or span name `pixeltable.insert`. Expand
+    the trace to see the full hierarchy: `pixeltable.media.fetch`
+    downloads running in parallel, `pixeltable.row` -\>
+    `pixeltable.udf.add_one`/`pixeltable.udf.resize` nesting,
+    `pixeltable.media.save` persistence, the
+    `pixeltable.store.build_rows`/`pixeltable.sa.insert_rows` write
+    path, and the `pixeltable.view_load` subtree with its own rows and
+    store writes.
+
+For more detail use `span_level='trace'`; to reduce volume on a large
+insert, use the default `'info'` (operation, `data_source.prepare`,
+`begin_xact`, `sa.insert_rows`, and `view_load` spans only).

@@ -1,0 +1,41 @@
+---
+title: "PixeltableInstrumentor"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/opentelemetry/instrumentation/pixeltable/__init__.py#L100\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; opentelemetry.instrumentation.pixeltable.PixeltableInstrumentor
+
+
+Enables OpenTelemetry instrumentation of pixeltable against the given (or global) providers.
+
+`instrument()` accepts `tracer_provider`, `meter_provider`, and `span_level` (span emission
+threshold: `info` (default), `debug`, or `trace`).
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; instrument()
+
+```python Signature
+instrument(**kwargs: Any)
+```
+
+Instrument the library
+
+This method will be called without any optional arguments by the
+``opentelemetry-instrument`` command.
+
+This means that calling this method directly without passing any
+optional values should do the very same thing that the
+``opentelemetry-instrument`` command does.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; uninstrument()
+
+```python Signature
+uninstrument(**kwargs: Any)
+```
+
+Uninstrument the library
+
+See ``BaseInstrumentor.instrument`` for more information regarding the
+usage of ``kwargs``.
+

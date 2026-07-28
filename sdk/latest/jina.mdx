@@ -56,6 +56,7 @@ limit is configured, uses a default of 600 RPM.
 **Examples:**
 
 Add a computed column that applies jina-embeddings-v3 to an existing column:
+
 ```python
 tbl.add_computed_column(
     embed=jina.embeddings(
@@ -65,6 +66,7 @@ tbl.add_computed_column(
 ```
 
 Add an embedding index:
+
 ```python
 tbl.add_embedding_index(
     'text', string_embed=jina.embeddings.using(model='jina-embeddings-v3')
@@ -78,12 +80,12 @@ tbl.add_embedding_index(
 @pxt.udf
 rerank(
     query: pxt.String,
-    documents: pxt.Json,
+    documents: pxt.Json[(String, ...)],
     *,
     model: pxt.String,
     top_n: pxt.Int | None = None,
     return_documents: pxt.Bool | None = None
-) -> pxt.Json
+) -> JinaRerankResponse
 ```
 
 Reranks documents based on their relevance to a query using Jina AI reranker models.
@@ -98,15 +100,15 @@ limit is configured, uses a default of 600 RPM.
 **Parameters:**
 
 - **`query`** (`pxt.String`): The query string to rank documents against.
-- **`documents`** (`pxt.Json`): The list of documents to rerank.
-- **`model`** (`pxt.String`): The Jina reranker model to use. See available models at
+- **`documents`** (`pxt.Json[(String`): The list of documents to rerank.
+- **`model`** (`Any`): The Jina reranker model to use. See available models at
     [https://jina.ai/reranker/](https://jina.ai/reranker/).
-- **`top_n`** (`pxt.Int | None`): Number of top results to return. If not specified, returns all documents.
-- **`return_documents`** (`pxt.Bool | None`): Whether to include the original document text in results.
+- **`top_n`** (`Any`): Number of top results to return. If not specified, returns all documents.
+- **`return_documents`** (`Any`): Whether to include the original document text in results.
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing:
+- `JinaRerankResponse`: A dictionary containing:
 
   - `results`: List of reranking results with `index` and `relevance_score`
       (and `document` if `return_documents=True`)
@@ -115,6 +117,7 @@ limit is configured, uses a default of 600 RPM.
 **Examples:**
 
 Rerank search results for better relevance:
+
 ```python
 tbl.add_computed_column(
     reranked=jina.rerank(

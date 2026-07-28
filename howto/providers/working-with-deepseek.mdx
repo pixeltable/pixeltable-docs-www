@@ -24,21 +24,12 @@ export const quartoRawHtml =
 <tbody>
 <tr>
 <td style="vertical-align: middle;">What was the outcome of the 1904 US Presidential election?</td>
-<td style="vertical-align: middle;">The **1904 U.S. presidential election** resulted in a decisive
-victory for the **incumbent Republican President Theodore Roosevelt**,
-who was seeking a full term in his own right after succeeding the
-assassinated William McKinley in 1901. Here are the key details of the
-outcome: --- ### **Results at a Glance** - **Winner:** **Theodore
-Roosevelt** (Republican) - **Opponent:** **Alton B. Parker** (Democrat)
-- **Electoral Vote:** - Roosevelt: **336** electoral votes - Parker:
-**140** ...... t by supporting William Howard Taft’s candidacy (though
-he later ran again in 1912 with the Bull Moose Party). - The election
-solidified Roosevelt’s control of the Republican Party and marked the
-continued dominance of Republicans in national politics (they had won
-every presidential election since 1896 except 1912). In short, the 1904
-election was a **major personal triumph for Theodore Roosevelt**,
-affirming his progressive leadership and giving him a powerful mandate
-for his second term.</td>
+<td style="vertical-align: middle;">The 1904 United States presidential election resulted in a decisive
+victory for the incumbent Republican President Theodore Roosevelt. He
+defeated the Democratic nominee, Alton B. Parker, by a wide margin in
+both the popular vote (56.4% to 37.6%) and the Electoral College (336 to
+140). Roosevelt's win marked his first full term in office after
+succeeding the assassinated William McKinley in 1901.</td>
 </tr>
 </tbody>
 </table>
@@ -75,6 +66,10 @@ if 'DEEPSEEK_API_KEY' not in os.environ:
     os.environ['DEEPSEEK_API_KEY'] = getpass.getpass('Deepseek API Key:')
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Deepseek&nbsp;API&nbsp;Key:&nbsp;········
+</pre>
+
 Now let’s create a Pixeltable directory to hold the tables for our demo.
 
 
@@ -87,9 +82,9 @@ pxt.create_dir('deepseek_demo')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/asiegel/.pixeltable/pgdata
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/Users/sergeymkhitaryan/.pixeltable/pgdata
 Created&nbsp;directory&nbsp;&#x27;deepseek_demo&#x27;.
-&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x14c339cc0&gt;
+&lt;pixeltable.catalog.dir.Dir&nbsp;at&nbsp;0x31342ada0&gt;
 </pre>
 
 ## Messages
@@ -108,13 +103,15 @@ t = pxt.create_table('deepseek_demo/chat', {'input': pxt.String})
 
 msgs = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(
-    output=deepseek.chat_completions(messages=msgs, model='deepseek-chat')
+    output=deepseek.chat_completions(
+        messages=msgs, model='deepseek-v4-flash'
+    )
 )
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 Created&nbsp;table&nbsp;&#x27;chat&#x27;.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
 No&nbsp;rows&nbsp;affected.
 </pre>
 
@@ -143,7 +140,7 @@ t.select(t.input, t.response).show()
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;18.72&nbsp;s&nbsp;(0.05&nbsp;rows/s)
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;3.99&nbsp;s&nbsp;(0.25&nbsp;rows/s)
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />

@@ -156,12 +156,6 @@ variables or config files—no code changes needed.
 %pip install -qU pixeltable
 ```
 
-
-```python
-import os
-import pixeltable as pxt
-```
-
 ### Option 1: environment variables
 
 **Use when:** CI/CD pipelines, Docker containers, production deployments
@@ -181,6 +175,9 @@ You can also set it in Python (useful for testing):
 
 
 ```python
+import os
+import pixeltable as pxt
+
 # Set in Python (current process only)
 # os.environ['OPENAI_API_KEY'] = 'sk-...'
 
@@ -234,6 +231,10 @@ True
 
 Prompt for the key at runtime—it won’t be saved anywhere:
 
+### Verify your configuration
+
+Test that Pixeltable can access your credentials by checking the config:
+
 
 ```python
 import getpass
@@ -241,14 +242,7 @@ import getpass
 # Uncomment to use interactively:
 # if 'OPENAI_API_KEY' not in os.environ:
 #     os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key: ')
-```
 
-### Verify your configuration
-
-Test that Pixeltable can access your credentials by checking the config:
-
-
-```python
 # Check which API keys are available
 services = [
     'OPENAI_API_KEY',
