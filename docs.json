@@ -95,6 +95,8 @@
                       "sdk/latest/query",
                       "sdk/latest/resultset",
                       "sdk/latest/row",
+                      "sdk/latest/rowbatch",
+                      "sdk/latest/cellerror",
                       "sdk/latest/resultcursor",
                       "sdk/latest/expr",
                       "sdk/latest/columnref",
@@ -197,7 +199,7 @@
             ]
           },
           {
-            "dropdown": "v0.6.2.dev148.82d21de2",
+            "dropdown": "v0.6.9.dev16.0468da95",
             "icon": "rocket",
             "groups": [
               {
@@ -206,102 +208,104 @@
                   {
                     "group": "Core API",
                     "pages": [
-                      "sdk/v0.6.2.dev148.82d21de2/pixeltable",
-                      "sdk/v0.6.2.dev148.82d21de2/table",
-                      "sdk/v0.6.2.dev148.82d21de2/query",
-                      "sdk/v0.6.2.dev148.82d21de2/resultset",
-                      "sdk/v0.6.2.dev148.82d21de2/row",
-                      "sdk/v0.6.2.dev148.82d21de2/resultcursor",
-                      "sdk/v0.6.2.dev148.82d21de2/expr",
-                      "sdk/v0.6.2.dev148.82d21de2/columnref",
-                      "sdk/v0.6.2.dev148.82d21de2/columnmetadata",
-                      "sdk/v0.6.2.dev148.82d21de2/dircontents",
-                      "sdk/v0.6.2.dev148.82d21de2/directorynode",
-                      "sdk/v0.6.2.dev148.82d21de2/indexmetadata",
-                      "sdk/v0.6.2.dev148.82d21de2/tablemetadata",
-                      "sdk/v0.6.2.dev148.82d21de2/tablenode",
-                      "sdk/v0.6.2.dev148.82d21de2/treenode",
-                      "sdk/v0.6.2.dev148.82d21de2/updatestatus",
-                      "sdk/v0.6.2.dev148.82d21de2/versionmetadata",
-                      "sdk/v0.6.2.dev148.82d21de2/columnspec"
+                      "sdk/v0.6.9.dev16.0468da95/pixeltable",
+                      "sdk/v0.6.9.dev16.0468da95/table",
+                      "sdk/v0.6.9.dev16.0468da95/query",
+                      "sdk/v0.6.9.dev16.0468da95/resultset",
+                      "sdk/v0.6.9.dev16.0468da95/row",
+                      "sdk/v0.6.9.dev16.0468da95/rowbatch",
+                      "sdk/v0.6.9.dev16.0468da95/cellerror",
+                      "sdk/v0.6.9.dev16.0468da95/resultcursor",
+                      "sdk/v0.6.9.dev16.0468da95/expr",
+                      "sdk/v0.6.9.dev16.0468da95/columnref",
+                      "sdk/v0.6.9.dev16.0468da95/columnmetadata",
+                      "sdk/v0.6.9.dev16.0468da95/dircontents",
+                      "sdk/v0.6.9.dev16.0468da95/directorynode",
+                      "sdk/v0.6.9.dev16.0468da95/indexmetadata",
+                      "sdk/v0.6.9.dev16.0468da95/tablemetadata",
+                      "sdk/v0.6.9.dev16.0468da95/tablenode",
+                      "sdk/v0.6.9.dev16.0468da95/treenode",
+                      "sdk/v0.6.9.dev16.0468da95/updatestatus",
+                      "sdk/v0.6.9.dev16.0468da95/versionmetadata",
+                      "sdk/v0.6.9.dev16.0468da95/columnspec"
                     ]
                   },
                   {
                     "group": "Built-in Functions and Operators",
                     "pages": [
-                      "sdk/v0.6.2.dev148.82d21de2/functions",
-                      "sdk/v0.6.2.dev148.82d21de2/array",
-                      "sdk/v0.6.2.dev148.82d21de2/audio",
-                      "sdk/v0.6.2.dev148.82d21de2/date",
-                      "sdk/v0.6.2.dev148.82d21de2/document",
-                      "sdk/v0.6.2.dev148.82d21de2/image",
-                      "sdk/v0.6.2.dev148.82d21de2/json",
-                      "sdk/v0.6.2.dev148.82d21de2/math",
-                      "sdk/v0.6.2.dev148.82d21de2/net",
-                      "sdk/v0.6.2.dev148.82d21de2/string",
-                      "sdk/v0.6.2.dev148.82d21de2/timestamp",
-                      "sdk/v0.6.2.dev148.82d21de2/uuid",
-                      "sdk/v0.6.2.dev148.82d21de2/video",
-                      "sdk/v0.6.2.dev148.82d21de2/vision",
-                      "sdk/v0.6.2.dev148.82d21de2/codeccontextmetadata",
-                      "sdk/v0.6.2.dev148.82d21de2/containermetadata",
-                      "sdk/v0.6.2.dev148.82d21de2/streammetadata",
-                      "sdk/v0.6.2.dev148.82d21de2/sceneinfo",
-                      "sdk/v0.6.2.dev148.82d21de2/videosegment"
+                      "sdk/v0.6.9.dev16.0468da95/functions",
+                      "sdk/v0.6.9.dev16.0468da95/array",
+                      "sdk/v0.6.9.dev16.0468da95/audio",
+                      "sdk/v0.6.9.dev16.0468da95/date",
+                      "sdk/v0.6.9.dev16.0468da95/document",
+                      "sdk/v0.6.9.dev16.0468da95/image",
+                      "sdk/v0.6.9.dev16.0468da95/json",
+                      "sdk/v0.6.9.dev16.0468da95/math",
+                      "sdk/v0.6.9.dev16.0468da95/net",
+                      "sdk/v0.6.9.dev16.0468da95/string",
+                      "sdk/v0.6.9.dev16.0468da95/timestamp",
+                      "sdk/v0.6.9.dev16.0468da95/uuid",
+                      "sdk/v0.6.9.dev16.0468da95/video",
+                      "sdk/v0.6.9.dev16.0468da95/vision",
+                      "sdk/v0.6.9.dev16.0468da95/codeccontextmetadata",
+                      "sdk/v0.6.9.dev16.0468da95/containermetadata",
+                      "sdk/v0.6.9.dev16.0468da95/streammetadata",
+                      "sdk/v0.6.9.dev16.0468da95/sceneinfo",
+                      "sdk/v0.6.9.dev16.0468da95/videosegment"
                     ]
                   },
                   {
                     "group": "AI Integrations",
                     "pages": [
-                      "sdk/v0.6.2.dev148.82d21de2/anthropic",
-                      "sdk/v0.6.2.dev148.82d21de2/bedrock",
-                      "sdk/v0.6.2.dev148.82d21de2/bfl",
-                      "sdk/v0.6.2.dev148.82d21de2/deepseek",
-                      "sdk/v0.6.2.dev148.82d21de2/fabric",
-                      "sdk/v0.6.2.dev148.82d21de2/fal",
-                      "sdk/v0.6.2.dev148.82d21de2/fireworks",
-                      "sdk/v0.6.2.dev148.82d21de2/gemini",
-                      "sdk/v0.6.2.dev148.82d21de2/groq",
-                      "sdk/v0.6.2.dev148.82d21de2/huggingface",
-                      "sdk/v0.6.2.dev148.82d21de2/jina",
-                      "sdk/v0.6.2.dev148.82d21de2/llama_cpp",
-                      "sdk/v0.6.2.dev148.82d21de2/mistralai",
-                      "sdk/v0.6.2.dev148.82d21de2/nebius",
-                      "sdk/v0.6.2.dev148.82d21de2/ollama",
-                      "sdk/v0.6.2.dev148.82d21de2/openai",
-                      "sdk/v0.6.2.dev148.82d21de2/openrouter",
-                      "sdk/v0.6.2.dev148.82d21de2/replicate",
-                      "sdk/v0.6.2.dev148.82d21de2/reve",
-                      "sdk/v0.6.2.dev148.82d21de2/runwayml",
-                      "sdk/v0.6.2.dev148.82d21de2/together",
-                      "sdk/v0.6.2.dev148.82d21de2/twelvelabs",
-                      "sdk/v0.6.2.dev148.82d21de2/vllm",
-                      "sdk/v0.6.2.dev148.82d21de2/voyageai",
-                      "sdk/v0.6.2.dev148.82d21de2/whisper",
-                      "sdk/v0.6.2.dev148.82d21de2/whisperx",
-                      "sdk/v0.6.2.dev148.82d21de2/yolox"
+                      "sdk/v0.6.9.dev16.0468da95/anthropic",
+                      "sdk/v0.6.9.dev16.0468da95/bedrock",
+                      "sdk/v0.6.9.dev16.0468da95/bfl",
+                      "sdk/v0.6.9.dev16.0468da95/deepseek",
+                      "sdk/v0.6.9.dev16.0468da95/fabric",
+                      "sdk/v0.6.9.dev16.0468da95/fal",
+                      "sdk/v0.6.9.dev16.0468da95/fireworks",
+                      "sdk/v0.6.9.dev16.0468da95/gemini",
+                      "sdk/v0.6.9.dev16.0468da95/groq",
+                      "sdk/v0.6.9.dev16.0468da95/huggingface",
+                      "sdk/v0.6.9.dev16.0468da95/jina",
+                      "sdk/v0.6.9.dev16.0468da95/llama_cpp",
+                      "sdk/v0.6.9.dev16.0468da95/mistralai",
+                      "sdk/v0.6.9.dev16.0468da95/nebius",
+                      "sdk/v0.6.9.dev16.0468da95/ollama",
+                      "sdk/v0.6.9.dev16.0468da95/openai",
+                      "sdk/v0.6.9.dev16.0468da95/openrouter",
+                      "sdk/v0.6.9.dev16.0468da95/replicate",
+                      "sdk/v0.6.9.dev16.0468da95/reve",
+                      "sdk/v0.6.9.dev16.0468da95/runwayml",
+                      "sdk/v0.6.9.dev16.0468da95/together",
+                      "sdk/v0.6.9.dev16.0468da95/twelvelabs",
+                      "sdk/v0.6.9.dev16.0468da95/vllm",
+                      "sdk/v0.6.9.dev16.0468da95/voyageai",
+                      "sdk/v0.6.9.dev16.0468da95/whisper",
+                      "sdk/v0.6.9.dev16.0468da95/whisperx",
+                      "sdk/v0.6.9.dev16.0468da95/yolox"
                     ]
                   },
                   {
                     "group": "Serving",
                     "pages": [
-                      "sdk/v0.6.2.dev148.82d21de2/serving",
-                      "sdk/v0.6.2.dev148.82d21de2/fastapirouter",
-                      "sdk/v0.6.2.dev148.82d21de2/sqlexport"
+                      "sdk/v0.6.9.dev16.0468da95/serving",
+                      "sdk/v0.6.9.dev16.0468da95/fastapirouter",
+                      "sdk/v0.6.9.dev16.0468da95/sqlexport"
                     ]
                   },
                   {
                     "group": "Import/Export",
                     "pages": [
-                      "sdk/v0.6.2.dev148.82d21de2/io"
+                      "sdk/v0.6.9.dev16.0468da95/io"
                     ]
                   },
                   {
                     "group": "Observability",
                     "pages": [
-                      "sdk/v0.6.2.dev148.82d21de2/telemetry",
-                      "sdk/v0.6.2.dev148.82d21de2/pixeltable",
-                      "sdk/v0.6.2.dev148.82d21de2/pixeltableinstrumentor",
+                      "sdk/v0.6.9.dev16.0468da95/telemetry",
+                      "sdk/v0.6.9.dev16.0468da95/pixeltable",
+                      "sdk/v0.6.9.dev16.0468da95/pixeltableinstrumentor",
                       {
                         "group": "Application Instrumentation",
                         "pages": []
@@ -320,9 +324,9 @@
           {
             "group": "Use Cases",
             "pages": [
-              "use-cases/ml-data-wrangling",
-              "use-cases/ai-applications",
-              "use-cases/agents-mcp"
+              "use-cases/multimodal-backend",
+              "use-cases/agentic-workflows",
+              "use-cases/media-processing"
             ]
           },
           {
@@ -473,8 +477,7 @@
           {
             "group": "Built-in Integrations",
             "pages": [
-              "integrations/frameworks",
-              "integrations/models"
+              "integrations/frameworks"
             ]
           },
           {
@@ -796,19 +799,31 @@
     },
     {
       "source": "/cloud/use-cases",
-      "destination": "/use-cases/ml-data-wrangling"
+      "destination": "/use-cases/media-processing"
     },
     {
       "source": "/cloud/ml-data-wrangling",
-      "destination": "/use-cases/ml-data-wrangling"
+      "destination": "/use-cases/media-processing"
     },
     {
       "source": "/cloud/ai-applications",
-      "destination": "/use-cases/ai-applications"
+      "destination": "/use-cases/multimodal-backend"
     },
     {
       "source": "/cloud/agents-mcp",
-      "destination": "/use-cases/agents-mcp"
+      "destination": "/use-cases/agentic-workflows"
+    },
+    {
+      "source": "/use-cases/ml-data-wrangling",
+      "destination": "/use-cases/media-processing"
+    },
+    {
+      "source": "/use-cases/ai-applications",
+      "destination": "/use-cases/multimodal-backend"
+    },
+    {
+      "source": "/use-cases/agents-mcp",
+      "destination": "/use-cases/agentic-workflows"
     },
     {
       "source": "/cloud/services",
@@ -925,6 +940,10 @@
     {
       "source": "/overview/resources",
       "destination": "/resources/starter-kit"
+    },
+    {
+      "source": "/integrations/models",
+      "destination": "/integrations/frameworks"
     }
   ]
 }
