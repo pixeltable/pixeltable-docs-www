@@ -944,6 +944,14 @@
     {
       "source": "/integrations/models",
       "destination": "/integrations/frameworks"
+    },
+    {
+      "source": "/overview/python-sdk",
+      "destination": "/sdk/latest/pixeltable"
+    },
+    {
+      "source": "/resources/ai-skills",
+      "destination": "/overview/building-pixeltable-with-llms#set-up-your-ai-tool"
     }
   ]
 }

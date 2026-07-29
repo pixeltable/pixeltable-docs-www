@@ -2,5 +2,15 @@
 title: 'AI Skills'
 sidebarTitle: 'AI Skills'
 description: 'Teach AI coding assistants to write correct Pixeltable code'
-url: '/overview/building-pixeltable-with-llms#set-up-your-ai-tool'
 ---
+
+export const Redirect = ({ to }) => {
+  if (typeof window !== 'undefined') {
+    window.location.replace(to);
+  }
+  return null;
+};
+
+<Redirect to="/overview/building-pixeltable-with-llms#set-up-your-ai-tool" />
+
+[Set Up Your AI Tool](/overview/building-pixeltable-with-llms#set-up-your-ai-tool)
