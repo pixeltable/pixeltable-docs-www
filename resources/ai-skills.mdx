@@ -6,7 +6,8 @@ description: 'Teach AI coding assistants to write correct Pixeltable code'
 
 export const Redirect = ({ to }) => {
   if (typeof window !== 'undefined') {
-    window.location.replace(to);
+    // Hard navigation so the browser applies the hash after the page loads.
+    window.location.assign(to);
   }
   return null;
 };
