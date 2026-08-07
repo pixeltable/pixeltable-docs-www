@@ -1,7 +1,7 @@
 ---
 title: "Table"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L34\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/catalog/table.py#L35\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Table
 
@@ -394,6 +394,89 @@ columns() -> list[str]
 ```
 
 Return the names of the columns in this table.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; compute()
+
+```python Signature
+compute(
+    source: Sequence[dict[str, Any]] | Sequence[pydantic.BaseModel],
+    /,
+    *,
+    on_error: Literal['abort', 'ignore'] = 'abort'
+) -> RowBatch
+```
+
+Materialize the computed columns of this table for the given input rows and return the resulting rows
+without persisting them.
+
+If this table is a view, the input rows are applied to the view's insertable base table (i.e., the root of the
+view hierarchy) and the output rows are the resulting rows of the view, as if the input had been inserted into
+the base:
+- rows that don't satisfy the view's filter are dropped
+- an iterator view can produce multiple output rows per input row
+
+**Parameters:**
+
+- **`source`** (`Sequence[dict[str, Any]] | Sequence[pydantic.BaseModel]`): Rows to compute, as a sequence of dictionaries or Pydantic model instances. Rows contain
+    values for the base table's columns (for a view) or this table's columns; each row must supply
+    values for every required (non-nullable, non-computed) column; the same rules as
+    [`insert()`](./table#method-insert) apply.
+- **`on_error`** (`Literal['abort', 'ignore']`, default: `'abort'`): Determines the behavior if an error occurs while evaluating a computed column or detecting an
+    invalid media file (such as a corrupt image).
+
+    - If `on_error='abort'`, an exception will be raised.
+    - If `on_error='ignore'`, execution will continue and the (possibly partially) completed rows will be
+        returned. Any cells with errors will have a `None` value for that cell, with information about the
+        error recorded in the row's [`errors`](./row). A row whose view filter fails to
+        evaluate is dropped.
+
+**Returns:**
+
+- `RowBatch`: A [`RowBatch`](./rowbatch) of output rows, in input row order (with an iterator's output
+  rows in iteration order). Each [`Row`](./row) contains a value for every column of the
+  table. [`Row.errors`](./row) holds `{'errortype': ..., 'errormsg': ...}` for each cell that raised,
+  keyed by column or index name (only with `on_error='ignore'`).
+
+**Examples:**
+
+Compute output rows for a table with int columns `a`, `b` and a computed column `c = a + b`:
+
+```python
+tbl = pxt.get_table('my_table')
+rows = tbl.compute([{'a': 1, 'b': 1}, {'a': 2, 'b': 2}])
+# rows == [{'a': 1, 'b': 1, 'c': 2}, {'a': 2, 'b': 2, 'c': 4}]
+```
+
+Same with Pydantic model inputs:
+
+```python
+class MyModel(pydantic.BaseModel):
+    a: int
+    b: int
+
+
+rows = tbl.compute([MyModel(a=1, b=2), MyModel(a=3, b=4)])
+```
+
+Continue past per-row failures and inspect the per-cell error info:
+
+```python
+rows = tbl.compute(
+    [{'a': 0, 'b': 1}, {'a': 2, 'b': 2}], on_error='ignore'
+)
+# If `c` raised on row 0, rows[0]['c'] is None and rows[0].errors['c']
+# contains {'errortype': ..., 'errormsg': ...}.
+```
+
+Compute view rows from base table input, for a view `my_view` defined over `my_table` with a
+filter `a > 0`:
+
+```python
+v = pxt.get_table('my_view')
+rows = v.compute([{'a': 0, 'b': 1}, {'a': 2, 'b': 2}])
+# only the second input row satisfies the filter; rows contains its view row
+```
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; count()
