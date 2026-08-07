@@ -21,6 +21,40 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.0
+
+**Released:** August 01, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.0](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.0)
+
+#### What's Changed
+* [PXT-1246] exclude ollama nb test from merge queue by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1471](https://github.com/pixeltable/pixeltable/pull/1471)
+* mark more network-dependent tests for retry by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1476](https://github.com/pixeltable/pixeltable/pull/1476)
+* [PXT-1247] Fix SAM3 segmentation with no detections by [@christopherpestano](https://github.com/christopherpestano) in [#1478](https://github.com/pixeltable/pixeltable/pull/1478)
+* [PXT-1236] get rid of caching in TableVersionHandle by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1464](https://github.com/pixeltable/pixeltable/pull/1464)
+* nightly github action uploads test reports as github artifacts by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1477](https://github.com/pixeltable/pixeltable/pull/1477)
+* update ci lint coverage by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1482](https://github.com/pixeltable/pixeltable/pull/1482)
+* Fix test_db_migration + more by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1484](https://github.com/pixeltable/pixeltable/pull/1484)
+* [PXT-960] alter column to change non-nullable type to nullable by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1450](https://github.com/pixeltable/pixeltable/pull/1450)
+* TableModel.diff_all() and TableModel.update_all() by [@aaron-siegel](https://github.com/aaron-siegel) in [#1479](https://github.com/pixeltable/pixeltable/pull/1479)
+* Handling pg server termination in xact retry logic. by [@mkornacker](https://github.com/mkornacker) in [#1473](https://github.com/pixeltable/pixeltable/pull/1473)
+* Update models used by deepseek test by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1489](https://github.com/pixeltable/pixeltable/pull/1489)
+* [PXT-1243] Migrate to pgvector 0.5.0 by [@christopherpestano](https://github.com/christopherpestano) in [#1488](https://github.com/pixeltable/pixeltable/pull/1488)
+* [PXT-1195] Parallelize CI test runs by [@christopherpestano](https://github.com/christopherpestano) in [#1395](https://github.com/pixeltable/pixeltable/pull/1395)
+* PXT-1227: View.compute() by [@mkornacker](https://github.com/mkornacker) in [#1475](https://github.com/pixeltable/pixeltable/pull/1475)
+* TableModes.update_all() bug fixes by [@mkornacker](https://github.com/mkornacker) in [#1490](https://github.com/pixeltable/pixeltable/pull/1490)
+* CLI commands: cwd/pwd by [@mkornacker](https://github.com/mkornacker) in [#1474](https://github.com/pixeltable/pixeltable/pull/1474)
+* Proxy mode test infra improvements by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1483](https://github.com/pixeltable/pixeltable/pull/1483)
+* [PXT-1236] Evict LRU entries from Catalog cache by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1481](https://github.com/pixeltable/pixeltable/pull/1481)
+* pxt schema commands by [@mkornacker](https://github.com/mkornacker) in [#1491](https://github.com/pixeltable/pixeltable/pull/1491)
+* Cloud-hosted databases: client SDK and CLI  by [@mkornacker](https://github.com/mkornacker) in [#1493](https://github.com/pixeltable/pixeltable/pull/1493)
+* Dashboard - multi-catalog browsing, pipeline inspector, table detail by [@mkornacker](https://github.com/mkornacker) in [#1494](https://github.com/pixeltable/pixeltable/pull/1494)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.6.8...v0.7.0
+
+---
+
 ### v0.6.8
 
 **Released:** July 20, 2026  
@@ -1219,26 +1253,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.13...v0.4.14
-
----
-
-### v0.4.13
-
-**Released:** September 19, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.13](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.13)
-
-#### What's Changed
-* Added pxt.io.export_lancedb() by [@mkornacker](https://github.com/mkornacker) in [#795](https://github.com/pixeltable/pixeltable/pull/795)
-* Update README.md by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#801](https://github.com/pixeltable/pixeltable/pull/801)
-* Use raw.githubusercontent.com instead of raw.github.com in tests by [@aaron-siegel](https://github.com/aaron-siegel) in [#806](https://github.com/pixeltable/pixeltable/pull/806)
-* Simplify & generalize TableDataSource types by [@aaron-siegel](https://github.com/aaron-siegel) in [#804](https://github.com/pixeltable/pixeltable/pull/804)
-* Short Sample App: CLI Media Toolkit for Multimodal Data Processing by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#802](https://github.com/pixeltable/pixeltable/pull/802)
-* Table.get_versions() by [@aaron-siegel](https://github.com/aaron-siegel) in [#800](https://github.com/pixeltable/pixeltable/pull/800)
-* Fixes for nightly CI by [@aaron-siegel](https://github.com/aaron-siegel) in [#807](https://github.com/pixeltable/pixeltable/pull/807)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.12...v0.4.13
 
 ---
 

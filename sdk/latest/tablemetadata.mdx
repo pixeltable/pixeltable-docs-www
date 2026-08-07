@@ -152,3 +152,19 @@ version_created: datetime.datetime
 
 The timestamp when this table version was created.
 
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; view_filter
+
+```
+view_filter: str | None
+```
+
+A display string of a view's filter (`where`) predicate; `None` if this is not a view or has no filter.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; view_sample
+
+```
+view_sample: str | None
+```
+
+A display string of a view's `sample` clause; `None` if this is not a view or has no sample clause.
+
