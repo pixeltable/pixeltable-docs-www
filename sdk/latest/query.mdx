@@ -67,8 +67,12 @@ results = (
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; group_by()
 
-```python Signature
-group_by(*grouping_items: exprs.Expr | catalog.Table) -> Query
+```python Signatures
+# Signature 1:
+group_by(grouping_tbl: catalog.Table, /) -> Query
+
+# Signature 2:
+group_by(*grouping_items: exprs.Expr) -> Query
 ```
 
 Add a group-by clause to this Query.

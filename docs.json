@@ -147,7 +147,6 @@
                       "sdk/latest/openai",
                       "sdk/latest/openrouter",
                       "sdk/latest/replicate",
-                      "sdk/latest/reve",
                       "sdk/latest/runwayml",
                       "sdk/latest/together",
                       "sdk/latest/twelvelabs",
@@ -189,8 +188,125 @@
             ]
           },
           {
-            "dropdown": "v0.7.1",
+            "dropdown": "v0.7.2",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.7.2/pixeltable",
+                      "sdk/v0.7.2/table",
+                      "sdk/v0.7.2/query",
+                      "sdk/v0.7.2/resultset",
+                      "sdk/v0.7.2/row",
+                      "sdk/v0.7.2/rowbatch",
+                      "sdk/v0.7.2/cellerror",
+                      "sdk/v0.7.2/resultcursor",
+                      "sdk/v0.7.2/expr",
+                      "sdk/v0.7.2/columnref",
+                      "sdk/v0.7.2/columnmetadata",
+                      "sdk/v0.7.2/dircontents",
+                      "sdk/v0.7.2/directorynode",
+                      "sdk/v0.7.2/indexmetadata",
+                      "sdk/v0.7.2/tablemetadata",
+                      "sdk/v0.7.2/tablenode",
+                      "sdk/v0.7.2/treenode",
+                      "sdk/v0.7.2/updatestatus",
+                      "sdk/v0.7.2/versionmetadata",
+                      "sdk/v0.7.2/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.7.2/functions",
+                      "sdk/v0.7.2/array",
+                      "sdk/v0.7.2/audio",
+                      "sdk/v0.7.2/date",
+                      "sdk/v0.7.2/document",
+                      "sdk/v0.7.2/image",
+                      "sdk/v0.7.2/json",
+                      "sdk/v0.7.2/math",
+                      "sdk/v0.7.2/net",
+                      "sdk/v0.7.2/string",
+                      "sdk/v0.7.2/timestamp",
+                      "sdk/v0.7.2/uuid",
+                      "sdk/v0.7.2/video",
+                      "sdk/v0.7.2/vision",
+                      "sdk/v0.7.2/codeccontextmetadata",
+                      "sdk/v0.7.2/containermetadata",
+                      "sdk/v0.7.2/streammetadata",
+                      "sdk/v0.7.2/sceneinfo",
+                      "sdk/v0.7.2/videosegment"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.7.2/anthropic",
+                      "sdk/v0.7.2/bedrock",
+                      "sdk/v0.7.2/bfl",
+                      "sdk/v0.7.2/deepseek",
+                      "sdk/v0.7.2/fabric",
+                      "sdk/v0.7.2/fal",
+                      "sdk/v0.7.2/fireworks",
+                      "sdk/v0.7.2/gemini",
+                      "sdk/v0.7.2/groq",
+                      "sdk/v0.7.2/huggingface",
+                      "sdk/v0.7.2/jina",
+                      "sdk/v0.7.2/llama_cpp",
+                      "sdk/v0.7.2/mistralai",
+                      "sdk/v0.7.2/nebius",
+                      "sdk/v0.7.2/ollama",
+                      "sdk/v0.7.2/openai",
+                      "sdk/v0.7.2/openrouter",
+                      "sdk/v0.7.2/replicate",
+                      "sdk/v0.7.2/runwayml",
+                      "sdk/v0.7.2/together",
+                      "sdk/v0.7.2/twelvelabs",
+                      "sdk/v0.7.2/vllm",
+                      "sdk/v0.7.2/voyageai",
+                      "sdk/v0.7.2/whisper",
+                      "sdk/v0.7.2/whisperx",
+                      "sdk/v0.7.2/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.7.2/serving",
+                      "sdk/v0.7.2/fastapirouter",
+                      "sdk/v0.7.2/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.7.2/io"
+                    ]
+                  },
+                  {
+                    "group": "Observability",
+                    "pages": [
+                      "sdk/v0.7.2/telemetry",
+                      "sdk/v0.7.2/pixeltable",
+                      "sdk/v0.7.2/pixeltableinstrumentor",
+                      {
+                        "group": "Application Instrumentation",
+                        "pages": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.7.1",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -3250,7 +3366,6 @@
               "howto/providers/working-with-openrouter",
               "howto/providers/working-with-pydantic",
               "howto/providers/working-with-replicate",
-              "howto/providers/working-with-reve",
               "howto/providers/working-with-runwayml",
               "howto/providers/working-with-tigris",
               "howto/providers/working-with-together",
@@ -3629,10 +3744,6 @@
     {
       "source": "/notebooks/integrations/working-with-replicate",
       "destination": "/howto/providers/working-with-replicate"
-    },
-    {
-      "source": "/notebooks/integrations/working-with-reve",
-      "destination": "/howto/providers/working-with-reve"
     },
     {
       "source": "/notebooks/integrations/working-with-runwayml",

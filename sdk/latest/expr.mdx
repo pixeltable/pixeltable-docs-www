@@ -1,7 +1,7 @@
 ---
 title: "Expr"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/exprs/expr.py#L49\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/exprs/expr.py#L48\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.exprs.Expr
 
@@ -17,7 +17,7 @@ Not thread-safe: Expr and subclasses contain execution state and are never threa
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; astype()
 
 ```python Signature
-astype(new_type: ts.ColumnType | type | _AnnotatedAlias) -> exprs.TypeCast
+astype(new_type: ts.ColumnType | type) -> exprs.TypeCast
 ```
 
 Return a new expression that casts this expression to a different type.
@@ -27,7 +27,7 @@ changes the static type given by the expression.
 
 **Parameters:**
 
-- **`new_type`** (`ts.ColumnType | type | _AnnotatedAlias`): The type to cast to.
+- **`new_type`** (`ts.ColumnType | type`): The type to cast to.
 
 **Examples:**
 
