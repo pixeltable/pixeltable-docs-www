@@ -66,7 +66,7 @@ tbl.add_btree_index(tbl.name, idx_name='name_idx')
 add_column(
     *,
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error',
-    **kwargs: type | ColumnSpec
+    **kwargs: TypeForm | ColumnSpec
 ) -> UpdateStatus
 ```
 
@@ -75,7 +75,7 @@ Adds an ordinary (non-computed) column to the table.
 
 **Parameters:**
 
-- **`kwargs`** (`type | ColumnSpec`): Exactly one keyword argument of the form `col_name=type` or `col_name=col_spec_dict`,
+- **`kwargs`** (`TypeForm | ColumnSpec`): Exactly one keyword argument of the form `col_name=type` or `col_name=col_spec_dict`,
     where `col_spec_dict` is a [`ColumnSpec`](./columnspec) dict.
 - **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Determines the behavior if the column already exists. Must be one of the following:
     - `'error'`: an exception will be raised.
@@ -92,7 +92,7 @@ Adds an ordinary (non-computed) column to the table.
 Add an int column:
 
 ```python
-tbl.add_column(new_col=pxt.Int)
+tbl.add_column(new_col=pxt.Int | None)
 ```
 
 Add a column with column metadata using a dict:
@@ -100,7 +100,7 @@ Add a column with column metadata using a dict:
 ```python
 tbl.add_column(
     img_col={
-        'type': pxt.Image,
+        'type': pxt.Image | None,
         'stored': True,
         'media_validation': 'on_write',
     }
@@ -110,7 +110,7 @@ tbl.add_column(
 Alternatively, adding a column can also be expressed using `add_columns`:
 
 ```python
-tbl.add_columns({'new_col': pxt.Int})
+tbl.add_columns({'new_col': pxt.Int | None})
 ```
 
 As well as with column metadata:
@@ -119,7 +119,7 @@ As well as with column metadata:
 tbl.add_columns(
     {
         'img_col': {
-            'type': pxt.Image,
+            'type': pxt.Image | None,
             'stored': True,
             'media_validation': 'on_write',
         }
@@ -132,7 +132,7 @@ tbl.add_columns(
 
 ```python Signature
 add_columns(
-    schema: Mapping[str, type | ColumnSpec],
+    schema: Mapping[str, TypeForm | ColumnSpec],
     if_exists: Literal['error', 'ignore', 'replace', 'replace_force'] = 'error'
 ) -> UpdateStatus
 ```
@@ -140,11 +140,13 @@ add_columns(
 Adds multiple columns to the table. The columns must be concrete (non-computed) columns; to add computed
 columns, use [`add_computed_column()`](./table#method-add_computed_column) instead.
 
-The format of the `schema` argument is a dict mapping column names to their types.
+The format of the `schema` argument is a dict mapping column names to their types. A bare type such as
+`pxt.Int` declares a non-nullable column; use `pxt.Int | None` to allow nulls. Note that a column added
+to a table that already has rows must be nullable.
 
 **Parameters:**
 
-- **`schema`** (`Mapping[str, type | ColumnSpec]`): A dictionary mapping column names to a `type` or a [`ColumnSpec`](./columnspec) dict.
+- **`schema`** (`Mapping[str, TypeForm | ColumnSpec]`): A dictionary mapping column names to a `type` or a [`ColumnSpec`](./columnspec) dict.
 - **`if_exists`** (`Literal['error', 'ignore', 'replace', 'replace_force']`, default: `'error'`): Determines the behavior if a column already exists. Must be one of the following:
     - `'error'`: an exception will be raised.
     - `'ignore'`: do nothing and return.
@@ -165,7 +167,7 @@ Add multiple columns to the table `my_table`:
 
 ```python
 tbl = pxt.get_table('my_table')
-schema = {'new_col_1': pxt.Int, 'new_col_2': pxt.String}
+schema = {'new_col_1': pxt.Int | None, 'new_col_2': pxt.String | None}
 tbl.add_columns(schema)
 ```
 
@@ -175,11 +177,11 @@ It is also possible to specify column metadata using a dict:
 tbl = pxt.get_table('my_table')
 schema = {
     'new_col_1': {
-        'type': pxt.Image,
+        'type': pxt.Image | None,
         'stored': True,
         'media_validation': 'on_write',
     },
-    'new_col_2': pxt.String,
+    'new_col_2': pxt.String | None,
 }
 tbl.add_columns(schema)
 ```

@@ -1,7 +1,7 @@
 ---
 title: "ColumnRef"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/exprs/column_ref.py#L28\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/exprs/column_ref.py#L27\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.exprs.ColumnRef
 
@@ -73,7 +73,8 @@ similarity(
     video: str | None = None,
     document: str | None = None,
     vector: np.ndarray | None = None,
-    idx: str | None = None
+    idx: str | None = None,
+    _tbl_path: catalog.TablePath | None = None
 ) -> Expr
 ```
 

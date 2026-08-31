@@ -46,7 +46,7 @@ export const quartoRawHtml =
 <tr>
 <td style="vertical-align: middle;">HTTP endpoints</td>
 <td style="vertical-align: middle;">Hand-written FastAPI + Pydantic</td>
-<td style="vertical-align: middle;"><code>FastAPIRouter</code> or <code>pxt serve</code></td>
+<td style="vertical-align: middle;"><code>FastAPIRouter</code> or <code>pxt service</code></td>
 </tr>
 <tr>
 <td style="vertical-align: middle;">Versioning &amp; rollback</td>
@@ -610,7 +610,7 @@ expressions</td>
 </tr>
 <tr>
 <td style="vertical-align: middle;"><strong>Serve</strong></td>
-<td style="vertical-align: middle;"><code>FastAPIRouter</code> or <code>pxt serve</code></td>
+<td style="vertical-align: middle;"><code>FastAPIRouter</code> or <code>pxt service</code></td>
 </tr>
 <tr>
 <td style="vertical-align: middle;"><strong>Version</strong></td>
@@ -859,7 +859,8 @@ videos.describe()
 ## 6. Serve: Queries Become API Endpoints {#serve-queries-become-api-endpoints}
 
 `@pxt.query` becomes an HTTP endpoint via `FastAPIRouter`. In
-production, use `pxt serve service.toml`. See [HTTP
+production, declare the service in an application file and run
+`pxt service update`. See [HTTP
 Serving](/howto/deployment/serving).
 
 

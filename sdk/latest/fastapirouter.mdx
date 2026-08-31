@@ -1,7 +1,7 @@
 ---
 title: "FastAPIRouter"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L314\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L400\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.serving.FastAPIRouter
 
@@ -9,7 +9,7 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 A FastAPI `APIRouter` that exposes Pixeltable table operations as HTTP endpoints.
 
 `FastAPIRouter` is for apps that already have a FastAPI server. If you do
-not have one, use `pxt serve` from the CLI; Pixeltable creates and runs the
+not have one, use `pxt service` from the CLI; Pixeltable creates and runs the
 FastAPI app for you. Learn more here: [HTTP Serving](https://docs.pixeltable.com/howto/deployment/serving).
 
 
@@ -17,10 +17,10 @@ FastAPI app for you. Learn more here: [HTTP Serving](https://docs.pixeltable.com
 
 ```python Signature
 add_delete_route(
-    t: pxt.Table,
+    t: RouteTarget,
     *,
     path: str,
-    match_columns: list[str] | None = None,
+    match_columns: ColumnsParam | None = None,
     background: bool = False
 ) -> None
 ```
@@ -32,9 +32,9 @@ where each match column equals the provided value, and returns the number of row
 
 **Parameters:**
 
-- **`t`** (`pxt.Table`): The table to delete from.
+- **`t`** (`RouteTarget`): The table to delete from, or the model that declares it.
 - **`path`** (`str`): The URL path for the endpoint.
-- **`match_columns`** (`list[str] | None`): Columns to match on (AND-ed equality). Defaults to the table's primary key.
+- **`match_columns`** (`ColumnsParam | None`): Columns to match on (AND-ed equality). Defaults to the table's primary key.
     Must be non-empty.
 - **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run the
     operation in a background thread. Poll `job_url` for the result.
@@ -57,12 +57,12 @@ curl -X POST http://localhost:8000/delete \
 
 ```python Signature
 add_insert_route(
-    t: pxt.Table,
+    t: RouteTarget,
     *,
     path: str,
-    inputs: list[str] | None = None,
-    uploadfile_inputs: list[str] | None = None,
-    outputs: list[str] | None = None,
+    inputs: ColumnsParam | None = None,
+    uploadfile_inputs: ColumnsParam | None = None,
+    outputs: ColumnsParam | None = None,
     return_fileresponse: bool = False,
     export_sql: SqlExport | None = None,
     background: bool = False
@@ -79,14 +79,14 @@ when `return_fileresponse=True`.
 
 **Parameters:**
 
-- **`t`** (`pxt.Table`): The table to insert into.
+- **`t`** (`RouteTarget`): The table to insert into, or the model that declares it.
 - **`path`** (`str`): The URL path for the endpoint.
-- **`inputs`** (`list[str] | None`): Columns to accept as request fields. Defaults to all non-computed columns.
-- **`uploadfile_inputs`** (`list[str] | None`): Columns to accept as
+- **`inputs`** (`ColumnsParam | None`): Columns to accept as request fields. Defaults to all non-computed columns.
+- **`uploadfile_inputs`** (`ColumnsParam | None`): Columns to accept as
     [`UploadFile`](https://fastapi.tiangolo.com/tutorial/request-files/) fields
     (must be media-typed). These are sent as multipart form data; all other inputs
     become [`Form`](https://fastapi.tiangolo.com/tutorial/request-forms/) fields.
-- **`outputs`** (`list[str] | None`): Columns to include in the response. Defaults to all columns (including inputs).
+- **`outputs`** (`ColumnsParam | None`): Columns to include in the response. Defaults to all columns (including inputs).
 - **`return_fileresponse`** (`bool`, default: `False`): If True, return the single media-typed output column as a
     [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse).
     Requires exactly one media-typed output column.
@@ -195,8 +195,8 @@ add_query_route(
     *,
     path: str,
     query: pxt.Function,
-    inputs: list[str] | None = None,
-    uploadfile_inputs: list[str] | None = None,
+    inputs: ColumnsParam | None = None,
+    uploadfile_inputs: ColumnsParam | None = None,
     one_row: bool = False,
     return_fileresponse: bool = False,
     background: bool = False,
@@ -215,8 +215,8 @@ Use `method='get'` for
 
 - **`path`** (`str`): The URL path for the endpoint.
 - **`query`** (`pxt.Function`): The query to execute, created with `@pxt.query` or `pxt.retrieval_udf()`.
-- **`inputs`** (`list[str] | None`): Parameters to accept as request fields. Defaults to all query parameters.
-- **`uploadfile_inputs`** (`list[str] | None`): Parameters to accept as
+- **`inputs`** (`ColumnsParam | None`): Parameters to accept as request fields. Defaults to all query parameters.
+- **`uploadfile_inputs`** (`ColumnsParam | None`): Parameters to accept as
     [`UploadFile`](https://fastapi.tiangolo.com/tutorial/request-files/) fields
     (must be media-typed).
 - **`one_row`** (`bool`, default: `False`): If True, expect exactly one result row and return it as a plain JSON object
@@ -285,11 +285,11 @@ curl -X POST http://localhost:8000/thumbnail -d '{"id": 1}' --output thumb.jpg
 
 ```python Signature
 add_update_route(
-    t: pxt.Table,
+    t: RouteTarget,
     *,
     path: str,
-    inputs: list[str] | None = None,
-    outputs: list[str] | None = None,
+    inputs: ColumnsParam | None = None,
+    outputs: ColumnsParam | None = None,
     return_fileresponse: bool = False,
     export_sql: SqlExport | None = None,
     background: bool = False
@@ -313,12 +313,12 @@ and from the default input set.
 
 **Parameters:**
 
-- **`t`** (`pxt.Table`): The table to update.
+- **`t`** (`RouteTarget`): The table to update, or the model that declares it.
 - **`path`** (`str`): The URL path for the endpoint.
-- **`inputs`** (`list[str] | None`): Columns to accept as request fields, excluding primary key and media-typed
+- **`inputs`** (`ColumnsParam | None`): Columns to accept as request fields, excluding primary key and media-typed
     columns (which cannot be updated). Defaults to all non-computed, non-primary-key,
     non-media columns.
-- **`outputs`** (`list[str] | None`): Columns to include in the response. Defaults to all columns (including
+- **`outputs`** (`ColumnsParam | None`): Columns to include in the response. Defaults to all columns (including
     inputs).
 - **`return_fileresponse`** (`bool`, default: `False`): If True, return the single media-typed output column as a
     [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse).
@@ -401,12 +401,12 @@ curl http://localhost:8000/jobs/abc123
 
 ```python Signature
 insert_route(
-    t: pxt.Table,
+    t: RouteTarget,
     *,
     path: str,
-    inputs: list[str] | None = None,
-    uploadfile_inputs: list[str] | None = None,
-    outputs: list[str] | None = None,
+    inputs: ColumnsParam | None = None,
+    uploadfile_inputs: ColumnsParam | None = None,
+    outputs: ColumnsParam | None = None,
     export_sql: SqlExport | None = None,
     background: bool = False
 ) -> Callable[[Callable[..., pydantic.BaseModel]], Callable[..., pydantic.BaseModel]]
@@ -425,14 +425,14 @@ strings -- annotate those parameters as `str` (or `str | None` if the column is 
 
 **Parameters:**
 
-- **`t`** (`pxt.Table`): The table to insert into.
+- **`t`** (`RouteTarget`): The table to insert into, or the model that declares it.
 - **`path`** (`str`): The URL path for the endpoint.
-- **`inputs`** (`list[str] | None`): Columns to accept as request fields. Defaults to all non-computed columns.
-- **`uploadfile_inputs`** (`list[str] | None`): Columns to accept as
+- **`inputs`** (`ColumnsParam | None`): Columns to accept as request fields. Defaults to all non-computed columns.
+- **`uploadfile_inputs`** (`ColumnsParam | None`): Columns to accept as
     [`UploadFile`](https://fastapi.tiangolo.com/tutorial/request-files/) fields
     (must be media-typed). These are sent as multipart form data; all other inputs
     become [`Form`](https://fastapi.tiangolo.com/tutorial/request-forms/) fields.
-- **`outputs`** (`list[str] | None`): Columns from the inserted row to pass to the decorated function as keyword
+- **`outputs`** (`ColumnsParam | None`): Columns from the inserted row to pass to the decorated function as keyword
     arguments. Defaults to all columns.
 - **`export_sql`** (`SqlExport | None`): If set, export the decorated function's return value into an external
     RDBMS table after the Pixeltable insert succeeds. See
@@ -508,11 +508,11 @@ with columns `caption`, `score` (the response model fields) to `captions`.
 
 ```python Signature
 update_route(
-    t: pxt.Table,
+    t: RouteTarget,
     *,
     path: str,
-    inputs: list[str] | None = None,
-    outputs: list[str] | None = None,
+    inputs: ColumnsParam | None = None,
+    outputs: ColumnsParam | None = None,
     export_sql: SqlExport | None = None,
     background: bool = False
 ) -> Callable[[Callable[..., pydantic.BaseModel]], Callable[..., pydantic.BaseModel]]
@@ -540,11 +540,11 @@ identification.
 
 **Parameters:**
 
-- **`t`** (`pxt.Table`): The table to update.
+- **`t`** (`RouteTarget`): The table to update, or the model that declares it.
 - **`path`** (`str`): The URL path for the endpoint.
-- **`inputs`** (`list[str] | None`): Columns to accept as update fields. Defaults to all non-computed, non-primary-key,
+- **`inputs`** (`ColumnsParam | None`): Columns to accept as update fields. Defaults to all non-computed, non-primary-key,
     non-media columns.
-- **`outputs`** (`list[str] | None`): Columns from the updated row to pass to the decorated function as keyword
+- **`outputs`** (`ColumnsParam | None`): Columns from the updated row to pass to the decorated function as keyword
     arguments. Defaults to all columns.
 - **`export_sql`** (`SqlExport | None`): If set, export the decorated function's return value into an external
     RDBMS table after the Pixeltable update succeeds. See

@@ -584,7 +584,7 @@ Rows are streamed from the source via a server-side cursor and inserted in batch
 - **`tbl_name`** (`str`): Pixeltable path of the destination table.
 - **`schema_overrides`** (`dict[str, typing.Any] | None`): Optional per-column overrides applied on top of the inferred schema. Keys are column
     names; values accept any Pixeltable type spec recognized by `pxt.create_table` (eg, `pxt.Image`,
-    `pxt.Required[pxt.String]`).
+    `pxt.String | None`).
 - **`primary_key`** (`str | list[str] | None`): An optional column name or list of column names to use as the primary key(s) of the
     table. Only applies when a new table is created; ignored when appending to an existing table.
 - **`comment`** (`str | None`): An optional comment; its meaning is user-defined. Only applies when a new table is created;

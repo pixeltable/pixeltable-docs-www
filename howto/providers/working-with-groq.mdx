@@ -110,7 +110,7 @@ messages = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(
     output=groq.chat_completions(
         messages=messages,
-        model='llama-3.3-70b-versatile',
+        model='openai/gpt-oss-20b',
         model_kwargs={
             # Optional dict with parameters for the Groq API
             'max_tokens': 300,

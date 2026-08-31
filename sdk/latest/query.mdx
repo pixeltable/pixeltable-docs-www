@@ -1,12 +1,12 @@
 ---
 title: "Query"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L374\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/_query.py#L368\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Query
 
 
-Represents a query for retrieving and transforming data from Pixeltable tables.
+A query over tables in a catalog: it can be executed, and its rows updated or deleted.
 
 Thread-safe.
 
@@ -32,7 +32,7 @@ See [`ResultCursor`](./resultcursor) for usage examples and lifecycle details.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; distinct()
 
 ```python Signature
-distinct() -> Query
+distinct() -> Self
 ```
 
 Remove duplicate rows from this Query.
@@ -69,10 +69,10 @@ results = (
 
 ```python Signatures
 # Signature 1:
-group_by(grouping_tbl: catalog.Table, /) -> Query
+group_by(grouping_tbl: catalog.Table, /) -> Self
 
 # Signature 2:
-group_by(*grouping_items: exprs.Expr) -> Query
+group_by(*grouping_items: exprs.Expr) -> Self
 ```
 
 Add a group-by clause to this Query.
@@ -90,7 +90,7 @@ used with an aggregation function like sum(), count() etc.
 
 **Returns:**
 
-- `Query`: A new Query with the specified group-by clause.
+- `Self`: A new query with the specified group-by clause.
 
 **Examples:**
 
@@ -149,7 +149,7 @@ join(
     other: catalog.Table,
     on: exprs.Expr | Sequence[exprs.ColumnRef] | None = None,
     how: JoinType.LiteralType = 'inner'
-) -> Query
+) -> Self
 ```
 
 Join this Query with a table.
@@ -178,7 +178,7 @@ Join this Query with a table.
 
 **Returns:**
 
-- `Query`: A new Query.
+- `Self`: A new query.
 
 **Examples:**
 
@@ -212,7 +212,7 @@ query = t.join(d, on=(t.d1 == d.pk1) & (t.d2 == d.pk2), how='left')
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; limit()
 
 ```python Signature
-limit(n: int, offset: int | None = None) -> Query
+limit(n: int, offset: int | None = None) -> Self
 ```
 
 Limit the number of rows in the Query, optionally skipping rows for pagination.
@@ -225,7 +225,7 @@ Limit the number of rows in the Query, optionally skipping rows for pagination.
 
 **Returns:**
 
-- `Query`: A new Query with the specified limited rows.
+- `Self`: A new query with the specified limited rows.
 
 **Examples:**
 
@@ -249,7 +249,7 @@ query.limit(10, offset=20).collect()
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; order_by()
 
 ```python Signature
-order_by(*expr_list: exprs.Expr, asc: bool = True) -> Query
+order_by(*expr_list: exprs.Expr, asc: bool = True) -> Self
 ```
 
 Add an order-by clause to this Query.
@@ -263,7 +263,7 @@ Add an order-by clause to this Query.
 
 **Returns:**
 
-- `Query`: A new Query with the specified order-by clause.
+- `Self`: A new query with the specified order-by clause.
 
 **Examples:**
 
@@ -296,10 +296,10 @@ sample(
     fraction: float | None = None,
     seed: int | None = None,
     stratify_by: Any = None
-) -> Query
+) -> Self
 ```
 
-Return a new Query specifying a sample of rows from the Query, considered in a shuffled order.
+Return a new query specifying a sample of rows from this query, considered in a shuffled order.
 
 The size of the sample can be specified in three ways:
 
@@ -324,7 +324,7 @@ The data is shuffled before creating the sample.
 
 **Returns:**
 
-- `Query`: A new Query which specifies the sampled rows
+- `Self`: A new query which specifies the sampled rows
 
 **Examples:**
 
@@ -364,7 +364,7 @@ query = person.where(t.age > 30).sample(n=100)
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; select()
 
 ```python Signature
-select(*items: Any, **named_items: Any) -> Query
+select(*items: Any, **named_items: Any) -> Self
 ```
 
 Select columns or expressions from the Query.
@@ -377,7 +377,7 @@ Select columns or expressions from the Query.
 
 **Returns:**
 
-- `Query`: A new Query with the specified select list.
+- `Self`: A new query with the specified select list.
 
 **Examples:**
 
@@ -485,7 +485,7 @@ re-executing the query. This data is cached to disk for future re-use.
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; where()
 
 ```python Signature
-where(pred: exprs.Expr) -> Query
+where(pred: exprs.Expr) -> Self
 ```
 
 Filter rows based on a predicate.
@@ -497,7 +497,7 @@ Filter rows based on a predicate.
 
 **Returns:**
 
-- `Query`: A new Query with the specified predicates replacing the where-clause.
+- `Self`: A new query with the specified predicates replacing the where-clause.
 
 **Examples:**
 
