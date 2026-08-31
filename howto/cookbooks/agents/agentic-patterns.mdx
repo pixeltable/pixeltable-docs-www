@@ -1345,7 +1345,7 @@ react_steps.add_computed_column(
 )
 react_steps.add_computed_column(
     answer=react_steps.response.choices[0].message.content.astype(
-        pxt.String
+        pxt.String | None
     )
 )
 react_steps.add_computed_column(

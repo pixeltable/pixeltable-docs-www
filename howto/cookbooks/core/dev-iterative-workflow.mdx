@@ -572,7 +572,7 @@ from pixeltable.types import ColumnSpec
 # Add a column with a comment and custom metadata
 t.add_column(
     source=ColumnSpec(
-        type=pxt.String,
+        type=(pxt.String | None),
         comment='Original source URL or file path',
         custom_metadata={'added_by': 'data_team', 'version': 2},
     )

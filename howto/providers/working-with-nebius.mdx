@@ -1,0 +1,255 @@
+---
+title: "Working with Nebius"
+sidebarTitle: "Nebius"
+icon: "notebook"
+---
+<a href="https://kaggle.com/kernels/welcome?src=https://github.com/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-nebius.ipynb" id="openKaggle" target="_blank" rel="noopener noreferrer"><img src="https://kaggle.com/static/images/open-in-kaggle.svg" alt="Open in Kaggle" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://colab.research.google.com/github/pixeltable/pixeltable/blob/release/docs/release/howto/providers/working-with-nebius.ipynb" id="openColab" target="_blank" rel="noopener noreferrer"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open in Colab" style={{ display: 'inline', margin: '0px' }} noZoom /></a>&nbsp;&nbsp;<a href="https://raw.githubusercontent.com/pixeltable/pixeltable/refs/tags/release/docs/release/howto/providers/working-with-nebius.ipynb" id="downloadNotebook" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/%E2%AC%87-Download%20Notebook-blue" alt="Download Notebook" style={{ display: 'inline', margin: '0px' }} noZoom /></a>
+
+<Tip>This documentation page is also available as an interactive notebook. You can launch the notebook in
+Kaggle or Colab, or download it for use with an IDE or local Jupyter installation, by clicking one of the
+above links.</Tip>
+
+
+
+
+export const quartoRawHtml =
+[`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">response</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">What is the capital of France?</td>
+<td style="vertical-align: middle;">The capital of France is Paris.</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Explain quantum computing in one sentence.</td>
+<td style="vertical-align: middle;">Quantum computing is a type of computing that uses the principles of
+quantum mechanics, such as superposition and entanglement, to process
+information in ways that classical computers cannot, potentially solving
+certain complex problems much faster.</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">embedding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Nebius Token Factory provides language and embedding models.</td>
+<td style="vertical-align: middle;">[ 0.001 0.004 -0.008 -0.036 0.012 -0.021 ... -0.003 0.004 0.014
+-0.004 0.008 -0.015]</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">input</th>
+<th data-quarto-table-cell-role="th">sim</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">Another sentence for you to index.</td>
+<td style="vertical-align: middle;">0.811</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">Nebius Token Factory provides language and embedding models.</td>
+<td style="vertical-align: middle;">0.573</td>
+</tr>
+</tbody>
+</table>
+`];
+
+Pixeltable’s Nebius Token Factory integration enables you to access
+Nebius language and embedding models via an OpenAI-compatible API.
+
+### Prerequisites
+
+- A Nebius Token Factory account with an API key
+  (https://tokenfactory.nebius.com/)
+
+### Important notes
+
+- Nebius usage may incur costs based on your Nebius plan.
+- Be mindful of sensitive data and consider security measures when
+  integrating with external services.
+
+First you’ll need to install the required libraries and enter a Nebius
+API key. Nebius uses the OpenAI SDK as its Python API, so we need to
+install it in addition to Pixeltable.
+
+
+```python
+%pip install -qU pixeltable openai
+```
+
+
+```python
+import getpass
+import os
+
+if 'NEBIUS_API_KEY' not in os.environ:
+    os.environ['NEBIUS_API_KEY'] = getpass.getpass('Nebius API Key:')
+```
+
+Now let’s create a Pixeltable directory to hold the tables for our demo.
+
+
+```python
+import pixeltable as pxt
+
+# Remove the 'nebius_demo' directory and its contents, if it exists
+pxt.drop_dir('nebius_demo', force=True)
+pxt.create_dir('nebius_demo')
+```
+
+## Chat completions
+
+Create a Table: In Pixeltable, create a table with columns to represent
+your input data and the columns where you want to store the results from
+Nebius.
+
+
+```python
+from pixeltable.functions import nebius
+
+chat_t = pxt.create_table('nebius_demo/chat', {'input': pxt.String})
+
+messages = [{'role': 'user', 'content': chat_t.input}]
+
+chat_t.add_computed_column(
+    output=nebius.chat_completions(
+        messages=messages,
+        model='Qwen/Qwen3-30B-A3B-Instruct-2507',
+        model_kwargs={
+            # Optional dict with parameters for the Nebius API
+            'max_tokens': 300,
+            'temperature': 0.7,
+        },
+    )
+)
+chat_t.add_computed_column(
+    response=chat_t.output.choices[0].message.content
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;chat&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+# Start a conversation
+chat_t.insert(
+    [
+        {'input': 'What is the capital of France?'},
+        {'input': 'Explain quantum computing in one sentence.'},
+    ]
+)
+chat_t.select(chat_t.input, chat_t.response).head()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;4.43&nbsp;s&nbsp;(0.45&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
+
+## Embeddings
+
+Nebius currently serves the embedding model `Qwen/Qwen3-Embedding-8B`.
+By default it produces 4096-dimensional embeddings, which exceed
+Pixeltable’s embedding-index limit of 4000 dimensions. Request a smaller
+size via `model_kwargs` when you need an indexable embedding.
+
+
+```python
+emb_t = pxt.create_table('nebius_demo/embeddings', {'input': pxt.String})
+emb_t.add_computed_column(
+    embedding=nebius.embeddings(
+        input=emb_t.input, model='Qwen/Qwen3-Embedding-8B'
+    )
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;table&nbsp;&#x27;embeddings&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+No&nbsp;rows&nbsp;affected.
+</pre>
+
+
+```python
+emb_t.insert(
+    [
+        {
+            'input': 'Nebius Token Factory provides language and embedding models.'
+        }
+    ]
+)
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;8.15&nbsp;s&nbsp;(0.12&nbsp;rows/s)
+1&nbsp;row&nbsp;inserted.
+</pre>
+
+
+```python
+emb_t.head()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+To build an embedding index, truncate to an indexable size (for example
+1024) with `model_kwargs`:
+
+
+```python
+indexed = nebius.embeddings.using(
+    model='Qwen/Qwen3-Embedding-8B', model_kwargs={'dimensions': 1024}
+)
+emb_t.add_embedding_index('input', embedding=indexed)
+```
+
+
+```python
+emb_t.insert([{'input': 'Another sentence for you to index.'}])
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;3.62&nbsp;s&nbsp;(0.28&nbsp;rows/s)
+1&nbsp;row&nbsp;inserted.
+</pre>
+
+
+```python
+sim = emb_t.input.similarity(string='Indexing sentences is fun.')
+emb_t.select(emb_t.input, sim=sim).order_by(sim, asc=False).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+### Learn more
+
+To learn more about advanced techniques like RAG operations in
+Pixeltable, check out the [RAG Operations in
+Pixeltable](/howto/use-cases/rag-operations)
+tutorial.
+
+If you have any questions, don’t hesitate to reach out.

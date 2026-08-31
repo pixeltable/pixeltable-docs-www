@@ -382,13 +382,13 @@ class Product(pydantic.BaseModel):
 products = pxt.create_table(
     'pydantic_demo/products',
     {
-        'name': pxt.Required[pxt.String],
-        'price': pxt.Required[pxt.Float],
-        'in_stock': pxt.Required[pxt.Bool],
-        'category': pxt.Required[pxt.Int],  # Enum values are integers
-        'rating': pxt.Required[pxt.String],  # Literal values
-        'created_at': pxt.Required[pxt.Timestamp],
-        'description': pxt.String,  # Nullable
+        'name': pxt.String,
+        'price': pxt.Float,
+        'in_stock': pxt.Bool,
+        'category': pxt.Int,  # Enum values are integers
+        'rating': pxt.String,  # Literal values
+        'created_at': pxt.Timestamp,
+        'description': pxt.String | None,  # Nullable
     },
 )
 ```
@@ -475,9 +475,9 @@ class Customer(pydantic.BaseModel):
 customers = pxt.create_table(
     'pydantic_demo/customers',
     {
-        'customer_id': pxt.Required[pxt.String],
-        'name': pxt.Required[pxt.String],
-        'contact': pxt.Required[pxt.Json],  # Nested model stored as JSON
+        'customer_id': pxt.String,
+        'name': pxt.String,
+        'contact': pxt.Json,  # Nested model stored as JSON
     },
 )
 ```
@@ -561,9 +561,9 @@ class ImageRecord(pydantic.BaseModel):
 images = pxt.create_table(
     'pydantic_demo/images',
     {
-        'title': pxt.Required[pxt.String],
-        'image_url': pxt.Required[pxt.Image],  # Media column
-        'tags': pxt.Required[pxt.Json],
+        'title': pxt.String,
+        'image_url': pxt.Image,  # Media column
+        'tags': pxt.Json,
     },
 )
 ```
@@ -610,11 +610,7 @@ class Article(pydantic.BaseModel):
 
 # Create table with computed column
 articles = pxt.create_table(
-    'pydantic_demo/articles',
-    {
-        'title': pxt.Required[pxt.String],
-        'content': pxt.Required[pxt.String],
-    },
+    'pydantic_demo/articles', {'title': pxt.String, 'content': pxt.String}
 )
 
 # Add a computed column
@@ -670,10 +666,10 @@ class Task(pydantic.BaseModel):
 tasks = pxt.create_table(
     'pydantic_demo/tasks',
     {
-        'title': pxt.Required[pxt.String],
-        'priority': pxt.Required[pxt.Int],
-        'due_date': pxt.Timestamp,  # Nullable
-        'notes': pxt.String,  # Nullable
+        'title': pxt.String,
+        'priority': pxt.Int,
+        'due_date': pxt.Timestamp | None,  # Nullable
+        'notes': pxt.String | None,  # Nullable
     },
 )
 

@@ -28,7 +28,8 @@ when AI agents need stable, machine-readable output.
 - Query and debug rows with `pxt rows`, `count`, `get`, and `errors`
 - Manage versions with `pxt history` and `pxt revert`
 - Script and automate with `--json`, `-f`, and `pxt shell`
-- Validate declarative HTTP serving with `pxt serve --dry-run`
+- Declare HTTP services and see what serving them would change, with
+  `pxt service`
 
 The `pxt` CLI ships with Pixeltable (v0.6.5+). Catalog commands talk to
 a local daemon (~40 ms per call after the first invocation). Use Python
@@ -110,7 +111,6 @@ by primary key.
 
 
 ```python
-
 @pxt.udf
 def boom_if_zero(x: int) -> int:
     if x == 0:
@@ -119,7 +119,7 @@ def boom_if_zero(x: int) -> int:
 
 
 failures = pxt.create_table(
-    'cli_demo/failures', {'k': pxt.Required[pxt.Int]}, primary_key='k'
+    'cli_demo/failures', {'k': pxt.Int}, primary_key='k'
 )
 failures.add_computed_column(
     result=boom_if_zero(failures.k), on_error='ignore'
@@ -189,25 +189,29 @@ setup.
 !pxt config --section openai
 ```
 
-### Step 7: Serve without application code
+### Step 7: Serve without writing a web app
 
-Validate an insert endpoint with `--dry-run --json` (no server started).
-For production, declare routes in `pyproject.toml` — see [HTTP
+One file declares the models that name the tables and the services that
+serve routes over them. `pxt service example` writes one to start from;
+`pxt service diff` reports what serving it would change, without
+starting anything. See [HTTP
 Serving](/howto/deployment/serving).
 
 Full live flow:
 
 
 ```bash
-pxt serve insert --table cli_demo/videos --path /videos --inputs video title --outputs title
-curl -X POST localhost:8000/videos -H 'Content-Type: application/json' \
+pxt service update app.py cli_demo          # start the services in the background
+pxt service list                            # the address, endpoint and pid of each service
+curl -X POST http://127.0.0.1:49213/videos -H 'Content-Type: application/json' \
   -d '{"video": "https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/bangkok.mp4", "title": "Bangkok"}'
 pxt rows cli_demo/frames -n 1 --cols pos,thumb
+pxt service stop videos                     # take it down again
 ```
 
 
 ```python
-!pxt serve insert --table cli_demo/videos --path /videos --inputs video title --outputs title --dry-run --json
+!pxt service example | head -20
 ```
 
 ### Next steps

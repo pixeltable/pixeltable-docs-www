@@ -2128,7 +2128,7 @@ can do this with the `add_column()` method:
 
 
 ```python
-eq_t.add_column(note=pxt.String)
+eq_t.add_column(note=(pxt.String | None))
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -2136,12 +2136,14 @@ Added&nbsp;1823&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 1823&nbsp;rows&nbsp;updated,&nbsp;1823&nbsp;values&nbsp;computed.
 </pre>
 
-Here, `note` is the column name, and `pxt.String` specifies the type of
-the new column.
+Here, `note` is the column name, and `pxt.String | None` specifies the
+type of the new column. Note that the new column *must* be nullable
+(`| None`) so that Pixeltable can fill in empty values for existing
+rows.
 
 
 ```python
-eq_t.add_column(contact_email=pxt.String)
+eq_t.add_column(contact_email=(pxt.String | None))
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
@@ -2384,7 +2386,7 @@ lives side-by-side with structured data in Pixeltable.
 
 ```python
 # Add a new column of type `Image`
-eq_t.add_column(map_image=pxt.Image)
+eq_t.add_column(map_image=(pxt.Image | None))
 eq_t.describe()
 ```
 

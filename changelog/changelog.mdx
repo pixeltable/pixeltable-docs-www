@@ -21,6 +21,55 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.3
+
+**Released:** August 31, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.3](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.3)
+
+#### What's Changed
+* Schema types are now non-nullable by default, following standard type conventions by [@aaron-siegel](https://github.com/aaron-siegel) in [#1528](https://github.com/pixeltable/pixeltable/pull/1528)
+* Reduce the pr (i.e. on push) test coverage to only static checks + slimtest by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1522](https://github.com/pixeltable/pixeltable/pull/1522)
+* fix(dashboard): show API error reason, not just HTTP 403 by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1524](https://github.com/pixeltable/pixeltable/pull/1524)
+* retry network transport errors by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1529](https://github.com/pixeltable/pixeltable/pull/1529)
+* Drive pixeltable log levels from config, so spawned processes inherit them by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1530](https://github.com/pixeltable/pixeltable/pull/1530)
+* fix(dashboard): read TableMetadata.indexes after #1518 rename by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1531](https://github.com/pixeltable/pixeltable/pull/1531)
+* Detailed error reporting from daemon in tests by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1533](https://github.com/pixeltable/pixeltable/pull/1533)
+* docs: Add Nebius Token Factory provider notebook by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1462](https://github.com/pixeltable/pixeltable/pull/1462)
+* [PXT-1269] Direct b-tree and embedding index support for operational tables by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1515](https://github.com/pixeltable/pixeltable/pull/1515)
+* Update Groq examples to openai/gpt-oss-20b by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1541](https://github.com/pixeltable/pixeltable/pull/1541)
+* Test harness for Pixeltable cloud by [@aaron-siegel](https://github.com/aaron-siegel) in [#1539](https://github.com/pixeltable/pixeltable/pull/1539)
+* [ docs ] Fix parsing error for AI skills page by [@apreshill](https://github.com/apreshill) in [#1509](https://github.com/pixeltable/pixeltable/pull/1509)
+* Avoid going on network in tests when possible by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1527](https://github.com/pixeltable/pixeltable/pull/1527)
+* slimtest target extended to include more core tests by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1540](https://github.com/pixeltable/pixeltable/pull/1540)
+* ConfigVar + FastAPIRouter for models by [@mkornacker](https://github.com/mkornacker) in [#1510](https://github.com/pixeltable/pixeltable/pull/1510)
+* retry ollama installation in CI by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1543](https://github.com/pixeltable/pixeltable/pull/1543)
+* Add cli for pxt secret  by [@amithadke](https://github.com/amithadke) in [#1544](https://github.com/pixeltable/pixeltable/pull/1544)
+* Fix merge queue by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1548](https://github.com/pixeltable/pixeltable/pull/1548)
+* include ubuntu + python 3.14 in pr checks by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1547](https://github.com/pixeltable/pixeltable/pull/1547)
+* PXT-1297: fix async teardown by [@mkornacker](https://github.com/mkornacker) in [#1535](https://github.com/pixeltable/pixeltable/pull/1535)
+* CI improvements by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1550](https://github.com/pixeltable/pixeltable/pull/1550)
+* Replace deprecated Nebius models by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1546](https://github.com/pixeltable/pixeltable/pull/1546)
+* Local file insertion for cloud hosted tables by [@aaron-siegel](https://github.com/aaron-siegel) in [#1545](https://github.com/pixeltable/pixeltable/pull/1545)
+* ci tool unit tests by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1534](https://github.com/pixeltable/pixeltable/pull/1534)
+* Various test fixes to run on cloud-hosted tables by [@aaron-siegel](https://github.com/aaron-siegel) in [#1553](https://github.com/pixeltable/pixeltable/pull/1553)
+* constraint the preshed version by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1554](https://github.com/pixeltable/pixeltable/pull/1554)
+* Operational tables: new schema features and better testing by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1538](https://github.com/pixeltable/pixeltable/pull/1538)
+* Allow iterators to be defined in modules with `from __future__ import annotations` [PXT-1179] by [@aaron-siegel](https://github.com/aaron-siegel) in [#1556](https://github.com/pixeltable/pixeltable/pull/1556)
+* More fixes for [cloud] tests by [@aaron-siegel](https://github.com/aaron-siegel) in [#1555](https://github.com/pixeltable/pixeltable/pull/1555)
+* pxt service by [@mkornacker](https://github.com/mkornacker) in [#1542](https://github.com/pixeltable/pixeltable/pull/1542)
+* Use aware timestamps as inputs to test_timestamp_btree by [@aaron-siegel](https://github.com/aaron-siegel) in [#1560](https://github.com/pixeltable/pixeltable/pull/1560)
+* Refactor fixtures for local/proxy/cloud test selection by [@aaron-siegel](https://github.com/aaron-siegel) in [#1563](https://github.com/pixeltable/pixeltable/pull/1563)
+* Enable `TableModelMeta` to work on Python 3.14+ without `from __future__ import annotations` by [@aaron-siegel](https://github.com/aaron-siegel) in [#1564](https://github.com/pixeltable/pixeltable/pull/1564)
+* Show reasonable error messages if a UDF or iterator can't be resolved on the cloud db by [@aaron-siegel](https://github.com/aaron-siegel) in [#1559](https://github.com/pixeltable/pixeltable/pull/1559)
+* Add uv_options to DatabaseConfig & refactor metadata.json by [@aaron-siegel](https://github.com/aaron-siegel) in [#1565](https://github.com/pixeltable/pixeltable/pull/1565)
+* [PXT-880] Add mixed-case schema objects to the test db dump by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1566](https://github.com/pixeltable/pixeltable/pull/1566)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.2...v0.7.3
+
+---
+
 ### v0.7.2
 
 **Released:** August 14, 2026  
@@ -1242,26 +1291,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 * [@kamir](https://github.com/kamir) made their first contribution in [#850](https://github.com/pixeltable/pixeltable/pull/850)
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.16...v0.4.17
-
----
-
-### v0.4.16
-
-**Released:** October 08, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.16](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.16)
-
-#### What's Changed
-* Openrouter Integration by [@aaron-siegel](https://github.com/aaron-siegel) in [#825](https://github.com/pixeltable/pixeltable/pull/825)
-* Concurrency fixes & random_tbl_ops v2 by [@aaron-siegel](https://github.com/aaron-siegel) in [#814](https://github.com/pixeltable/pixeltable/pull/814)
-* Images and arrays in json structures, plus improved storage of array columns by [@mkornacker](https://github.com/mkornacker) in [#812](https://github.com/pixeltable/pixeltable/pull/812)
-* Minimal edits to docstrings. by [@goodlux](https://github.com/goodlux) in [#813](https://github.com/pixeltable/pixeltable/pull/813)
-* Add SDK documentation for Mintlify by [@goodlux](https://github.com/goodlux) in [#835](https://github.com/pixeltable/pixeltable/pull/835)
-* Fix for performance problem when importing HF datasets by [@mkornacker](https://github.com/mkornacker) in [#833](https://github.com/pixeltable/pixeltable/pull/833)
-* cockroachDB: div, mod operations SQL changed. Timestamp propagated through client stack by [@jpeterson-pxt](https://github.com/jpeterson-pxt) in [#823](https://github.com/pixeltable/pixeltable/pull/823)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.15...v0.4.16
 
 ---
 

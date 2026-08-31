@@ -1,0 +1,43 @@
+---
+title: "ConfigVar"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/config.py#L169\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.ConfigVar
+
+
+A reference to a database variable or secret, declared at module scope.
+
+A declaration names the variable; the target it is applied to supplies the value.
+
+Declare a variable and apply it to a column:
+
+>>> MEDIA_DEST = pxt.ConfigVar('media_dest', pxt.URI)
+...
+...
+... class Videos(TableModel, name='videos'):
+...     clip = pxt.Column(value=..., destination=MEDIA_DEST)
+
+Code that runs on the target reads the bound value with `value()`.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; value()
+
+```python Signature
+value() -> ConfVarT
+```
+
+The bound value, converted to the declared type. Raises if the target has no binding for it.
+
+
+**Examples:**
+
+Read a secret from a udf, which runs on the target:
+
+```python
+@pxt.udf
+def summarize(text: str) -> str:
+    return _call(text, key=API_KEY.value())
+```
+
