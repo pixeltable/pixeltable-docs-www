@@ -626,6 +626,10 @@ expressions</td>
 
 ### Why Pixeltable
 
+This notebook uses `pxt.create_table()` so you can run cells without a
+project. An app puts the same columns on a `TableModel` in `app.py` and
+creates the tables with `pxt schema update`.
+
 Every multimodal AI app needs the same five things: store media, run
 models, index embeddings, serve endpoints, version everything. Most
 teams glue together 5-8 services (Postgres + Pinecone + S3 + Airflow +
@@ -1009,8 +1013,8 @@ Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0
 ## Bonus: Cloud Storage (Optional)
 
 Free managed bucket with Pixeltable Cloud. Set two config values;
-computed media flows to cloud. See [Cloud
-Services](/use-cases/services).
+computed media flows to cloud. See [Deploy to Pixeltable
+Cloud](/howto/deployment/cloud).
 
 
 ```toml

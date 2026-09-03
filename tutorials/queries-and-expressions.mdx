@@ -979,6 +979,11 @@ class="data row5 col2">image.getchannel(1)</td>
 </table>
 `];
 
+This notebook uses `pxt.create_table()` so you can run cells without a
+project. An app puts the same columns on a `TableModel` in `app.py` and
+creates the tables with `pxt schema update`. Once the table exists,
+`select()` is the same in an app.
+
 Expressions are the basic building blocks of Pixeltable. This guide
 explores how to use queries and expressions, including:
 
@@ -1745,3 +1750,26 @@ integer to indicate an unconstrained size for that dimension, as in
 dimensions), or simply <code>(None,)</code> (unconstrained 1-dimensional
 array). 
 </Note>
+
+## Ship it as an app
+
+Once the table exists, `select()` is the same in an app. To create this
+table from a file, put the columns on a `TableModel` (CSV/HF import
+stays `create_table(..., source=)` in notebooks):
+
+
+```python
+import pixeltable as pxt
+
+TableModel = pxt.model_base()
+
+
+class Mnist(TableModel, name='mnist'):
+    image: pxt.Image
+    label: pxt.Int
+```
+
+
+```bash
+pxt schema update app.py demo
+```

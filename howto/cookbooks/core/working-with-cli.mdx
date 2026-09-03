@@ -28,12 +28,12 @@ when AI agents need stable, machine-readable output.
 - Query and debug rows with `pxt rows`, `count`, `get`, and `errors`
 - Manage versions with `pxt history` and `pxt revert`
 - Script and automate with `--json`, `-f`, and `pxt shell`
-- Declare HTTP services and see what serving them would change, with
-  `pxt service`
+- Write tables and routes in `app.py`. `pxt schema update` creates the
+  tables; `pxt service diff` / `update` starts HTTP
 
-The `pxt` CLI ships with Pixeltable (v0.6.5+). Catalog commands talk to
-a local daemon (~40 ms per call after the first invocation). Use Python
-to define schema once, then operate the catalog from the terminal.
+The `pxt` CLI ships with Pixeltable (v0.7.4+). Catalog commands talk to
+a local daemon (~40 ms per call after the first invocation). Write
+tables in Python, then inspect and serve them from the terminal.
 
 See the [CLI reference](/platform/cli) for
 every flag.
@@ -191,19 +191,21 @@ setup.
 
 ### Step 7: Serve without writing a web app
 
-One file declares the models that name the tables and the services that
-serve routes over them. `pxt service example` writes one to start from;
-`pxt service diff` reports what serving it would change, without
-starting anything. See [HTTP
-Serving](/howto/deployment/serving).
+Write tables and routes in `app.py`. `pxt schema update` creates the
+tables. `pxt service example` writes a starting file; `pxt service diff`
+reports what serving it would change, without starting anything. See
+[HTTP Serving](/howto/deployment/serving).
 
-Full live flow:
+Full live flow. Use `pxt service list` for the URL; do not hard-code a
+port:
 
 
 ```bash
+pxt init
+pxt schema update app.py cli_demo           # create the tables
 pxt service update app.py cli_demo          # start the services in the background
 pxt service list                            # the address, endpoint and pid of each service
-curl -X POST http://127.0.0.1:49213/videos -H 'Content-Type: application/json' \
+curl -X POST http://127.0.0.1:<port>/videos -H 'Content-Type: application/json' \
   -d '{"video": "https://raw.githubusercontent.com/pixeltable/pixeltable/release/docs/resources/bangkok.mp4", "title": "Bangkok"}'
 pxt rows cli_demo/frames -n 1 --cols pos,thumb
 pxt service stop videos                     # take it down again
@@ -221,7 +223,7 @@ pxt service stop videos                     # take it down again
 - [Dashboard](/platform/dashboard): browse
   tables and preview media in the browser
 - [HTTP Serving](/howto/deployment/serving):
-  production TOML and `FastAPIRouter`
+  `FastAPIRouter` routes
 - [AI coding
   agents](/overview/building-pixeltable-with-llms):
   agent skills, MCP, and `pxt --json` workflows

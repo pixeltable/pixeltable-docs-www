@@ -139,12 +139,16 @@ external files, and Pixeltable stores references to those. The files can
 be local or remote (e.g., in S3). For the latter, Pixeltable
 automatically caches the files locally on access.
 
+This notebook uses `pxt.create_table()` so you can run cells without a
+project. An app puts the same columns on a `TableModel` in `app.py` and
+creates the tables with `pxt schema update`.
+
 When interacting with media data via Pixeltable, either through queries
 or UDFs, the user sees the following Python types:
 
-- `ImageType`: `PIL.Image.Image`
-- `VideoType`: `string` (local path)
-- `AudioType`: `string` (local path)
+- `pxt.Image` (Python value: `PIL.Image.Image`)
+- `pxt.Video` (Python value: a local path string)
+- `pxt.Audio` (Python value: a local path string)
 
 Let’s create a table and load some data to see what that looks like:
 
@@ -506,3 +510,23 @@ v.select(v.video.fileurl, v.video.localpath).collect()
 
 Note that for local media files, the `fileurl` property still returns a
 parsable URL.
+
+## Ship it as an app
+
+Media columns on a `TableModel` are the same types as in this notebook:
+
+
+```python
+import pixeltable as pxt
+
+TableModel = pxt.model_base()
+
+
+class Videos(TableModel, name='videos'):
+    video: pxt.Video
+```
+
+
+```bash
+pxt schema update app.py external_data
+```

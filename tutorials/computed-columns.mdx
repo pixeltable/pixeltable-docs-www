@@ -1108,6 +1108,11 @@ width="240" />
 </table>
 `];
 
+This notebook uses `pxt.create_table()` and `add_computed_column()` so
+you can run cells without a project. An app puts the same columns on a
+`TableModel` in `app.py` and creates the tables with
+`pxt schema update`.
+
 This guide introduces one of Pixeltable’s most essential and powerful
 concepts: computed columns. You’ll learn how to:
 
@@ -1659,3 +1664,28 @@ Learn more about working with Pixeltable:
   Expressions](/tutorials/queries-and-expressions)
 - [Tables and Data
   Operations](/tutorials/tables-and-data-operations)
+
+## Ship it as an app
+
+This notebook used `create_table` and `add_computed_column`. On a
+`TableModel`, a computed column is an `=` on the class, not
+`add_computed_column()`:
+
+
+```python
+import pixeltable as pxt
+
+TableModel = pxt.model_base()
+
+
+class Population(TableModel, name='population'):
+    country: pxt.String
+    year_2022: pxt.Int
+    year_2023: pxt.Int
+    yoy_change = year_2023 - year_2022
+```
+
+
+```bash
+pxt schema update app.py fundamentals
+```

@@ -600,6 +600,10 @@ Welcome to Pixeltable! In this tutorial, we’ll survey how to create
 tables, populate them with data, and enhance them with built-in and
 user-defined transformations and AI operations.
 
+This notebook uses `pxt.create_table()` so you can run cells without a
+project. An app puts the same columns on a `TableModel` in `app.py` and
+creates the tables with `pxt schema update`.
+
 ## Install Python packages
 
 First run the following command to install Pixeltable and related
@@ -712,7 +716,7 @@ account with a service provider in order to use them.
 
 This is our first example of a **computed column**, a key concept in
 Pixeltable. Recall that when we created the `input_image` column, we
-specified a type, `ImageType`, indicating our intent to populate it with
+specified a type, `pxt.Image`, indicating our intent to populate it with
 data in the future. When we create a *computed* column, we instead
 specify a function that operates on other columns of the table. By
 default, when we add the new computed column, Pixeltable immediately
@@ -1025,3 +1029,30 @@ other tutorials, depending on your interests:
   Pixeltable](/howto/use-cases/rag-operations)
 - [Working with OpenAI in
   Pixeltable](/howto/providers/working-with-openai)
+
+## Ship it as an app
+
+This notebook used `create_table` so you can run cells without a
+project. A `:` field is stored (you insert it). An `=` field is
+computed. After `pxt init`, create the tables with `pxt schema update`:
+
+
+```python
+import pixeltable as pxt
+import pixeltable.functions as pxtf
+
+TableModel = pxt.model_base()
+
+
+class First(TableModel, name='first'):
+    input_image: pxt.Image
+    detections = pxtf.huggingface.detr_for_object_detection(input_image)
+```
+
+
+```bash
+pxt init
+pxt schema update app.py demo
+```
+
+See the [Quickstart](/overview/quick-start).

@@ -308,6 +308,10 @@ expressions and computed columns. In this how-to guide, we’ll show how
 to define UDFs, extend their capabilities, and use them in computed
 columns.
 
+This notebook uses `pxt.create_table()` so you can run cells without a
+project. An app puts the same columns on a `TableModel` in `app.py` and
+creates the tables with `pxt schema update`.
+
 To start, we’ll install the necessary dependencies, create a Pixeltable
 directory and table to experiment with, and add some sample data.
 
@@ -764,3 +768,30 @@ t.group_by(t.val // 10).order_by(t.val // 10).select(
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[10] }} />
+
+## Ship it as an app
+
+A UDF used as a column must be defined in this file (or another module
+under the project root):
+
+
+```python
+import pixeltable as pxt
+
+TableModel = pxt.model_base()
+
+
+@pxt.udf
+def reverse(s: str) -> str:
+    return s[::-1]
+
+
+class Strings(TableModel, name='strings'):
+    input: pxt.String
+    reversed = reverse(input)
+```
+
+
+```bash
+pxt schema update app.py udf_demo
+```

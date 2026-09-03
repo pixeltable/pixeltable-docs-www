@@ -206,6 +206,9 @@ make_video(*args, **kwargs) -> pxt.Video
 Aggregate function that creates a video from a sequence of images, using the default video encoder and
 yuv420p pixel format.
 
+Call as `make_video(order_expr, frame, *, fps=25)`. `order_expr` is a frame index or timestamp.
+`order_by=` is invalid.
+
 **Parameters:**
 
 - **`fps`** (`pxt.Int`): Frames per second for the output video.
@@ -216,16 +219,16 @@ yuv420p pixel format.
 
 **Examples:**
 
-Combine the images in the `img` column of the table `tbl` into a video:
+Combine the frames in `tbl.frame`, ordered by `tbl.pos`:
 
 ```python
-tbl.select(make_video(tbl.img, fps=30)).collect()
+tbl.select(make_video(tbl.pos, tbl.frame, fps=30)).collect()
 ```
 
-Combine a sequence of rotated images into a video:
+Combine a sequence of rotated frames:
 
 ```python
-tbl.select(make_video(tbl.img.rotate(45), fps=30)).collect()
+tbl.select(make_video(tbl.pos, tbl.frame.rotate(45), fps=30)).collect()
 ```
 
 For a more extensive example, see the

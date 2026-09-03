@@ -1517,6 +1517,10 @@ data-quarto-table-cell-role="th">Computed With</th>
 </table>
 `];
 
+This notebook uses `pxt.create_table()` so you can run cells without a
+project. An app puts the same columns on a `TableModel` in `app.py` and
+creates the tables with `pxt schema update`.
+
 This guide shows you how to:
 
 - Create and manage tables: Understand Pixeltable’s table structure,
@@ -2516,3 +2520,27 @@ Learn more about working with Pixeltable:
   Columns](/tutorials/computed-columns)
 - [Queries and
   Expressions](/tutorials/queries-and-expressions)
+
+## Ship it as an app
+
+This notebook used `create_table` so you can run cells without a
+project. Columns you added later with `add_column` belong on the class
+only after you write those fields. Starting schema in `app.py`:
+
+
+```python
+import pixeltable as pxt
+
+TableModel = pxt.model_base()
+
+
+class Films(TableModel, name='films'):
+    film_name: pxt.String
+    year: pxt.Int
+    revenue: pxt.Float
+```
+
+
+```bash
+pxt schema update app.py fundamentals
+```
