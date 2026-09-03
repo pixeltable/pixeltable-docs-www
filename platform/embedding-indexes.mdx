@@ -181,7 +181,14 @@ referred to as the Crystal period.</td>
 </table>
 `];
 
-Main takeaways:
+This notebook is about vector (embedding) indexes. B-tree indexes are
+separate and opt-in: `pxt.BtreeIndex(col)` on a `TableModel`, or
+`t.add_btree_index('col')` in a notebook.
+
+This notebook uses `pxt.create_table()` and `add_embedding_index()` so
+you can run cells without a project. In an app, list embedding indexes
+on the model in `__indexes__` and create the tables with
+`pxt schema update`.
 
 - Indexing in Pixeltable is declarative
   - you create an index on a column and supply the embedding functions
@@ -721,4 +728,29 @@ to drop:
 
 ```python
 txts.drop_embedding_index(idx_name='e5_idx')
+```
+
+## Ship it as an app
+
+This notebook used `add_embedding_index`. On a `TableModel`, indexes
+live in `__indexes__`:
+
+
+```python
+import pixeltable as pxt
+from pixeltable.functions.huggingface import clip
+
+TableModel = pxt.model_base()
+
+
+class ImgTbl(TableModel, name='img_tbl'):
+    img: pxt.Image
+    __indexes__ = [
+        pxt.EmbeddingIndex(img, embedding=clip.using(model_id='openai/clip-vit-base-patch32'), name='img_idx'),
+    ]
+```
+
+
+```bash
+pxt schema update app.py indices_demo
 ```
