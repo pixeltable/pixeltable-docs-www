@@ -201,7 +201,7 @@ Generates images based on a text description and configuration. For additional d
 
 Note: This function is for Imagen models only. For Gemini image-generation models (Nano Banana,
 e.g. `gemini-3.1-flash-image-preview`), use [`generate_content`](./gemini#func-generate_content)
-instead.
+instead. Imagen requires Vertex AI mode; `google-genai` 2.x no longer reaches it through the Developer API.
 
 Request throttling:
 Applies the rate limit set in the config (section `imagen.rate_limits`; use the model id as the key). If no rate

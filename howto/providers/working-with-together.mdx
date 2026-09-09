@@ -105,7 +105,7 @@ data-quarto-table-cell-role="th">Computed With</th>
 <td id="T_79260_row1_col1" class="data row1 col1">Image</td>
 <td id="T_79260_row1_col2"
 class="data row1 col2">image_generations(input,
-model='black-forest-labs/FLUX.1-schnell', model_kwargs={'steps':
+model='Rundiffusion/Juggernaut-Lightning-Flux', model_kwargs={'steps':
 5})</td>
 </tr>
 </tbody>
@@ -284,7 +284,7 @@ image_t = pxt.create_table('together_demo/images', {'input': pxt.String})
 image_t.add_computed_column(
     img=together.image_generations(
         image_t.input,
-        model='black-forest-labs/FLUX.1-schnell',
+        model='Rundiffusion/Juggernaut-Lightning-Flux',
         model_kwargs={'steps': 5},
     )
 )
