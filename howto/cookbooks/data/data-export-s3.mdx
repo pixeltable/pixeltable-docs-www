@@ -345,9 +345,9 @@ locally.</td>
 When Pixeltable generates media files (thumbnails, extracted frames,
 processed images), by default it stores them locally. For production
 workflows, you can configure Pixeltable to upload these files directly
-to cloud blob storage including Amazon S3, Google Cloud Storage, Azure
-Blob Storage, and S3-compatible services like Cloudflare R2, Backblaze
-B2, and Tigris.
+to object storage including Amazon S3, Google Cloud Storage, Azure Blob
+Storage, and S3-compatible services like Cloudflare R2, Backblaze B2,
+and Tigris.
 
 **Key features:**
 
@@ -377,7 +377,7 @@ B2, and Tigris.
     )
     ```
 
-In this notebook, you’ll learn how to configure blob storage
+In this notebook, you’ll learn how to configure object storage
 destinations for your media files.
 
 ## What you’ll learn
@@ -687,7 +687,7 @@ t.select(t.thumbnail, t.thumbnail.fileurl).collect()
 
 ## Getting URLs for your files
 
-When your files are in blob storage, you can get URLs that point
+When your files are in object storage, you can get URLs that point
 directly to them. These URLs work in HTML, APIs, or any application you
 need to serve media with.
 

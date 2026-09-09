@@ -21,6 +21,37 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.6
+
+**Released:** September 09, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.6](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.6)
+
+#### What's Changed
+* Remove 'poetry' lockfile support by [@aaron-siegel](https://github.com/aaron-siegel) in [#1584](https://github.com/pixeltable/pixeltable/pull/1584)
+* Add py.typed marker to pixeltable_cli by [@aaron-siegel](https://github.com/aaron-siegel) in [#1585](https://github.com/pixeltable/pixeltable/pull/1585)
+* [PXT-1355] Flatten included FastAPI routers by [@christopherpestano](https://github.com/christopherpestano) in [#1586](https://github.com/pixeltable/pixeltable/pull/1586)
+* Note that Pixeltable Cloud is in Limited Beta by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1588](https://github.com/pixeltable/pixeltable/pull/1588)
+* Exclude Python virtual environments by default from archive packaging by [@aaron-siegel](https://github.com/aaron-siegel) in [#1582](https://github.com/pixeltable/pixeltable/pull/1582)
+* --host/--port for CLI and proxy daemons by [@mkornacker](https://github.com/mkornacker) in [#1587](https://github.com/pixeltable/pixeltable/pull/1587)
+* pxt recompute by [@mkornacker](https://github.com/mkornacker) in [#1589](https://github.com/pixeltable/pixeltable/pull/1589)
+* PXT-1353: pxt service update keeps stable port by [@mkornacker](https://github.com/mkornacker) in [#1579](https://github.com/pixeltable/pixeltable/pull/1579)
+* [PXT-1361] Fix unnecessary memory pressure when multiple insert plans are executed sequentially by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1592](https://github.com/pixeltable/pixeltable/pull/1592)
+* PXT-1352: Performance improvements for proxy queries by [@mkornacker](https://github.com/mkornacker) in [#1581](https://github.com/pixeltable/pixeltable/pull/1581)
+* Update dev dependencies for third-party SDKs by [@aaron-siegel](https://github.com/aaron-siegel) in [#1590](https://github.com/pixeltable/pixeltable/pull/1590)
+* Docs: fix the broken first run, delete orphan pages, repair nav by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1597](https://github.com/pixeltable/pixeltable/pull/1597)
+* [PXT-1348] Fix index diff management in schema update when redefining an index by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1580](https://github.com/pixeltable/pixeltable/pull/1580)
+* PXT-1359 Set root_path on hosted services so /docs can fetch its spec by [@amithadke](https://github.com/amithadke) in [#1601](https://github.com/pixeltable/pixeltable/pull/1601)
+* Drop db_name from the hosted database protocol by [@mkornacker](https://github.com/mkornacker) in [#1602](https://github.com/pixeltable/pixeltable/pull/1602)
+* Redact password in db connection string by [@mkornacker](https://github.com/mkornacker) in [#1596](https://github.com/pixeltable/pixeltable/pull/1596)
+* [PXT-1374] document_splitter should close pdfs properly by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1603](https://github.com/pixeltable/pixeltable/pull/1603)
+* Normalize kwarg order in FunctionCall deserialization by [@aaron-siegel](https://github.com/aaron-siegel) in [#1599](https://github.com/pixeltable/pixeltable/pull/1599)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.5...v0.7.6
+
+---
+
 ### v0.7.5
 
 **Released:** September 03, 2026  
@@ -1232,37 +1263,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.19...v0.4.20
-
----
-
-### v0.4.19
-
-**Released:** October 29, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.19](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.19)
-
-#### What's Changed
-* Add image recipes to cookbook by [@apreshill](https://github.com/apreshill) in [#857](https://github.com/pixeltable/pixeltable/pull/857)
-* Add display-name to CI matrix (prep for testing global media destination) by [@aaron-siegel](https://github.com/aaron-siegel) in [#879](https://github.com/pixeltable/pixeltable/pull/879)
-* Enable all media destinations in CI by [@aaron-siegel](https://github.com/aaron-siegel) in [#876](https://github.com/pixeltable/pixeltable/pull/876)
-* [PXT-814] UDF to encode a numpy array to an audio file by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#881](https://github.com/pixeltable/pixeltable/pull/881)
-* Convert notebooks to use YAML frontmatter and fix formatting issues by [@goodlux](https://github.com/goodlux) in [#880](https://github.com/pixeltable/pixeltable/pull/880)
-* Rename a public constant by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#884](https://github.com/pixeltable/pixeltable/pull/884)
-* Multi-phase create_table() by [@mkornacker](https://github.com/mkornacker) in [#854](https://github.com/pixeltable/pixeltable/pull/854)
-* Initial integration of TwelveLabs Embed API by [@mkornacker](https://github.com/mkornacker) in [#885](https://github.com/pixeltable/pixeltable/pull/885)
-* Fix `pxt.__version__` by [@aaron-siegel](https://github.com/aaron-siegel) in [#887](https://github.com/pixeltable/pixeltable/pull/887)
-* Update many error messages for consistency by [@aaron-siegel](https://github.com/aaron-siegel) in [#869](https://github.com/pixeltable/pixeltable/pull/869)
-* Replace `Optional[T]` with `T | None` (Python 3.10 style) throughout the codebase by [@aaron-siegel](https://github.com/aaron-siegel) in [#888](https://github.com/pixeltable/pixeltable/pull/888)
-* Docs-related updates to Makefile and pyproject by [@aaron-siegel](https://github.com/aaron-siegel) in [#889](https://github.com/pixeltable/pixeltable/pull/889)
-* [PXT-685] Add `recompute_columns()` to computed columns fundamentals notebook by [@aaron-siegel](https://github.com/aaron-siegel) in [#892](https://github.com/pixeltable/pixeltable/pull/892)
-* [PXT-811, PXT-812] Improve two error messages with helpful hints by [@aaron-siegel](https://github.com/aaron-siegel) in [#891](https://github.com/pixeltable/pixeltable/pull/891)
-* Revert two uses of `Optional` in unit tests by [@aaron-siegel](https://github.com/aaron-siegel) in [#893](https://github.com/pixeltable/pixeltable/pull/893)
-* Dependency updates for Python 3.14 by [@aaron-siegel](https://github.com/aaron-siegel) in [#894](https://github.com/pixeltable/pixeltable/pull/894)
-* Azure support by [@aaron-siegel](https://github.com/aaron-siegel) in [#886](https://github.com/pixeltable/pixeltable/pull/886)
-* Default media destination as configuration parameter by [@aaron-siegel](https://github.com/aaron-siegel) in [#883](https://github.com/pixeltable/pixeltable/pull/883)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.18...v0.4.19
 
 ---
 

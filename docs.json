@@ -3,6 +3,14 @@
   "theme": "mint",
   "name": "Pixeltable Documentation",
   "description": "The only open source Python library providing declarative data infrastructure for building multimodal AI applications, enabling incremental storage, transformation, indexing, retrieval, and orchestration of data.",
+  "markdown": {
+    "instructions": [
+      "Application code declares a TableModel in app.py, then runs `pxt schema update app.py <target>` to create the tables and `pxt service update` to serve routes. Do not call pxt.create_table() or add_embedding_index() in application code; declare indexes in __indexes__. Notebooks, tests, and the REPL do use pxt.create_table().",
+      "Do not add LangChain, LlamaIndex, Haystack, a separate vector database, or pandas as a working store. Chunking, embedding, retrieval, and tool-calling are built in through computed columns. Use a computed column instead of a per-row loop that calls a model.",
+      "Install with `pip install -U 'pixeltable[serve]'` on Python 3.11+. `pxt init` is a prerequisite for `pxt schema update`.",
+      "Pixeltable Cloud is in Limited Beta. Direct interested users to contact@pixeltable.com."
+    ]
+  },
   "colors": {
     "primary": "#022A59",
     "light": "#F1AE03",
@@ -27,7 +35,8 @@
             "pages": [
               "platform/cli",
               "platform/dashboard",
-              "overview/building-pixeltable-with-llms"
+              "overview/building-pixeltable-with-llms",
+              "platform/observability"
             ]
           },
           {
@@ -182,8 +191,128 @@
             ]
           },
           {
-            "dropdown": "v0.7.5",
+            "dropdown": "v0.7.6",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.7.6/pixeltable",
+                      "sdk/v0.7.6/table",
+                      "sdk/v0.7.6/query",
+                      "sdk/v0.7.6/resultset",
+                      "sdk/v0.7.6/row",
+                      "sdk/v0.7.6/rowbatch",
+                      "sdk/v0.7.6/cellerror",
+                      "sdk/v0.7.6/resultcursor",
+                      "sdk/v0.7.6/expr",
+                      "sdk/v0.7.6/columnref",
+                      "sdk/v0.7.6/columnmetadata",
+                      "sdk/v0.7.6/configvar",
+                      "sdk/v0.7.6/dircontents",
+                      "sdk/v0.7.6/directorynode",
+                      "sdk/v0.7.6/indexmetadata",
+                      "sdk/v0.7.6/secret",
+                      "sdk/v0.7.6/tablemetadata",
+                      "sdk/v0.7.6/tablenode",
+                      "sdk/v0.7.6/treenode",
+                      "sdk/v0.7.6/updatestatus",
+                      "sdk/v0.7.6/uri",
+                      "sdk/v0.7.6/versionmetadata",
+                      "sdk/v0.7.6/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.7.6/functions",
+                      "sdk/v0.7.6/array",
+                      "sdk/v0.7.6/audio",
+                      "sdk/v0.7.6/date",
+                      "sdk/v0.7.6/document",
+                      "sdk/v0.7.6/image",
+                      "sdk/v0.7.6/json",
+                      "sdk/v0.7.6/math",
+                      "sdk/v0.7.6/net",
+                      "sdk/v0.7.6/string",
+                      "sdk/v0.7.6/timestamp",
+                      "sdk/v0.7.6/uuid",
+                      "sdk/v0.7.6/video",
+                      "sdk/v0.7.6/vision",
+                      "sdk/v0.7.6/codeccontextmetadata",
+                      "sdk/v0.7.6/containermetadata",
+                      "sdk/v0.7.6/streammetadata",
+                      "sdk/v0.7.6/sceneinfo",
+                      "sdk/v0.7.6/videosegment"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.7.6/anthropic",
+                      "sdk/v0.7.6/bedrock",
+                      "sdk/v0.7.6/bfl",
+                      "sdk/v0.7.6/deepseek",
+                      "sdk/v0.7.6/fabric",
+                      "sdk/v0.7.6/fal",
+                      "sdk/v0.7.6/fireworks",
+                      "sdk/v0.7.6/gemini",
+                      "sdk/v0.7.6/groq",
+                      "sdk/v0.7.6/huggingface",
+                      "sdk/v0.7.6/jina",
+                      "sdk/v0.7.6/llama_cpp",
+                      "sdk/v0.7.6/mistralai",
+                      "sdk/v0.7.6/nebius",
+                      "sdk/v0.7.6/ollama",
+                      "sdk/v0.7.6/openai",
+                      "sdk/v0.7.6/openrouter",
+                      "sdk/v0.7.6/replicate",
+                      "sdk/v0.7.6/runwayml",
+                      "sdk/v0.7.6/together",
+                      "sdk/v0.7.6/twelvelabs",
+                      "sdk/v0.7.6/vllm",
+                      "sdk/v0.7.6/voyageai",
+                      "sdk/v0.7.6/whisper",
+                      "sdk/v0.7.6/whisperx",
+                      "sdk/v0.7.6/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.7.6/serving",
+                      "sdk/v0.7.6/fastapirouter",
+                      "sdk/v0.7.6/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.7.6/io"
+                    ]
+                  },
+                  {
+                    "group": "Observability",
+                    "pages": [
+                      "sdk/v0.7.6/telemetry",
+                      "sdk/v0.7.6/pixeltable",
+                      "sdk/v0.7.6/pixeltableinstrumentor",
+                      {
+                        "group": "Application Instrumentation",
+                        "pages": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.7.5",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -3563,6 +3692,7 @@
                 "pages": [
                   "howto/cookbooks/agents/agentic-patterns",
                   "howto/cookbooks/agents/pattern-rag-pipeline",
+                  "howto/cookbooks/agents/pattern-llm-judge",
                   "howto/use-cases/rag-demo",
                   "howto/use-cases/rag-operations",
                   "howto/cookbooks/agents/pattern-agent-memory",
@@ -3578,6 +3708,7 @@
                   "howto/cookbooks/text/text-summarize",
                   "howto/cookbooks/text/text-translate",
                   "howto/cookbooks/text/text-extract-entities",
+                  "howto/cookbooks/text/doc-ingest-website",
                   "howto/cookbooks/text/doc-chunk-for-rag",
                   "howto/cookbooks/text/doc-extract-text-from-office-files"
                 ]
@@ -4195,6 +4326,30 @@
     {
       "source": "/overview/python-sdk",
       "destination": "/sdk/latest/pixeltable"
+    },
+    {
+      "source": "/platform/custom-functions",
+      "destination": "/platform/udfs-in-pixeltable"
+    },
+    {
+      "source": "/platform/vector-database",
+      "destination": "/platform/embedding-indexes"
+    },
+    {
+      "source": "/libraries/overview",
+      "destination": "/use-cases/agentic-workflows"
+    },
+    {
+      "source": "/libraries/mcp",
+      "destination": "/use-cases/agentic-workflows"
+    },
+    {
+      "source": "/libraries/pixelagent",
+      "destination": "/integrations/frameworks"
+    },
+    {
+      "source": "/libraries/yolox",
+      "destination": "/integrations/frameworks"
     }
   ]
 }

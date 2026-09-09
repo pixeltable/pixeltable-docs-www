@@ -1,7 +1,7 @@
 ---
 title: "FastAPIRouter"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L401\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L400\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.serving.FastAPIRouter
 
@@ -32,7 +32,7 @@ where each match column equals the provided value, and returns the number of row
 
 **Parameters:**
 
-- **`t`** (`RouteTarget`): The table to delete from, or the model that declares it.
+- **`t`** (`RouteTarget`): The table to delete from, or the model that defines it.
 - **`path`** (`str`): The URL path for the endpoint.
 - **`match_columns`** (`ColumnsParam | None`): Columns to match on (AND-ed equality). Defaults to the table's primary key.
     Must be non-empty.
@@ -79,7 +79,7 @@ when `return_fileresponse=True`.
 
 **Parameters:**
 
-- **`t`** (`RouteTarget`): The table to insert into, or the model that declares it.
+- **`t`** (`RouteTarget`): The table to insert into, or the model that defines it.
 - **`path`** (`str`): The URL path for the endpoint.
 - **`inputs`** (`ColumnsParam | None`): Columns to accept as request fields. Defaults to all non-computed columns.
 - **`uploadfile_inputs`** (`ColumnsParam | None`): Columns to accept as
@@ -313,7 +313,7 @@ and from the default input set.
 
 **Parameters:**
 
-- **`t`** (`RouteTarget`): The table to update, or the model that declares it.
+- **`t`** (`RouteTarget`): The table to update, or the model that defines it.
 - **`path`** (`str`): The URL path for the endpoint.
 - **`inputs`** (`ColumnsParam | None`): Columns to accept as request fields, excluding primary key and media-typed
     columns (which cannot be updated). Defaults to all non-computed, non-primary-key,
@@ -425,7 +425,7 @@ strings -- annotate those parameters as `str` (or `str | None` if the column is 
 
 **Parameters:**
 
-- **`t`** (`RouteTarget`): The table to insert into, or the model that declares it.
+- **`t`** (`RouteTarget`): The table to insert into, or the model that defines it.
 - **`path`** (`str`): The URL path for the endpoint.
 - **`inputs`** (`ColumnsParam | None`): Columns to accept as request fields. Defaults to all non-computed columns.
 - **`uploadfile_inputs`** (`ColumnsParam | None`): Columns to accept as
@@ -540,7 +540,7 @@ identification.
 
 **Parameters:**
 
-- **`t`** (`RouteTarget`): The table to update, or the model that declares it.
+- **`t`** (`RouteTarget`): The table to update, or the model that defines it.
 - **`path`** (`str`): The URL path for the endpoint.
 - **`inputs`** (`ColumnsParam | None`): Columns to accept as update fields. Defaults to all non-computed, non-primary-key,
     non-media columns.

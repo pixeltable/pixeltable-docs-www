@@ -1,0 +1,128 @@
+---
+title: "vllm"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/vllm.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.vllm
+
+
+Pixeltable UDFs for vLLM models.
+
+Provides integration with vLLM for high-throughput inference with large language models,
+supporting chat completions and text generation with HuggingFace models.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat_completions()
+
+```python Signature
+@pxt.udf
+chat_completions(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model: pxt.String,
+    engine_args: pxt.Json | None = None,
+    sampling_params: pxt.Json | None = None
+) -> VllmRequestOutput
+```
+
+Generate a chat completion from a list of messages using vLLM.
+
+For additional details, see the
+[vLLM documentation](https://docs.vllm.ai/en/stable/).
+
+__Requirements:__
+
+- `pip install vllm`
+
+**Parameters:**
+
+- **`messages`** (`pxt.Json[(Json`): A list of messages to generate a response for. Each message should be a dict
+    with `role` and `content` keys, following the OpenAI chat format.
+- **`model`** (`Any`): The HuggingFace model identifier (e.g., `'Qwen/Qwen2.5-0.5B-Instruct'`).
+- **`engine_args`** (`Any`): Additional keyword args for the vLLM `LLM` constructor, such as `dtype`,
+    `max_model_len`, `gpu_memory_utilization`, `tensor_parallel_size`. For details, see the
+    [vLLM engine args documentation](https://docs.vllm.ai/en/stable/configuration/engine_args/).
+- **`sampling_params`** (`Any`): Keyword args for vLLM `SamplingParams`, such as `max_tokens`,
+    `temperature`, `top_p`, `top_k`. For details, see the
+    [vLLM sampling params documentation](https://docs.vllm.ai/en/stable/api/vllm/sampling_params.html).
+
+**Returns:**
+
+- `VllmRequestOutput`: A dict containing the vLLM `RequestOutput` in its native format.
+
+**Examples:**
+
+Add a computed column that generates chat completions:
+
+```python
+t.add_computed_column(
+    result=chat_completions(
+        t.messages, model='Qwen/Qwen2.5-0.5B-Instruct'
+    )
+)
+```
+
+With custom sampling parameters:
+
+```python
+t.add_computed_column(
+    result=chat_completions(
+        t.messages,
+        model='Qwen/Qwen2.5-0.5B-Instruct',
+        sampling_params={'max_tokens': 256, 'temperature': 0.7},
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate()
+
+```python Signature
+@pxt.udf
+generate(
+    prompt: pxt.String,
+    *,
+    model: pxt.String,
+    engine_args: pxt.Json | None = None,
+    sampling_params: pxt.Json | None = None
+) -> VllmRequestOutput
+```
+
+Generate text completion for a given prompt using vLLM.
+
+Uses vLLM's high-throughput inference engine for efficient local LLM serving.
+Models are loaded from HuggingFace and cached for reuse across calls.
+
+For additional details, see the
+[vLLM documentation](https://docs.vllm.ai/en/stable/).
+
+__Requirements:__
+
+- `pip install vllm`
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): The text prompt to generate a completion for.
+- **`model`** (`pxt.String`): The HuggingFace model identifier (e.g., `'Qwen/Qwen2.5-0.5B-Instruct'`).
+- **`engine_args`** (`pxt.Json | None`): Additional keyword args for the vLLM `LLM` constructor, such as `dtype`,
+    `max_model_len`, `gpu_memory_utilization`, `tensor_parallel_size`. For details, see the
+    [vLLM engine args documentation](https://docs.vllm.ai/en/stable/configuration/engine_args/).
+- **`sampling_params`** (`pxt.Json | None`): Keyword args for vLLM `SamplingParams`, such as `max_tokens`,
+    `temperature`, `top_p`, `top_k`. For details, see the
+    [vLLM sampling params documentation](https://docs.vllm.ai/en/stable/api/vllm/sampling_params.html).
+
+**Returns:**
+
+- `VllmRequestOutput`: A dict containing the vLLM `RequestOutput` in its native format.
+
+**Examples:**
+
+Add a computed column that generates text completions:
+
+```python
+t.add_computed_column(
+    result=generate(t.prompt, model='Qwen/Qwen2.5-0.5B-Instruct')
+)
+```
+

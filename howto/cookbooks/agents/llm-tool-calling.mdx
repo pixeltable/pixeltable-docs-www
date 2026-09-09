@@ -508,7 +508,7 @@ Run the server: `python mcp_server.py` (it will listen on
 ```python
 # Connect to the MCP server using pxt.mcp_udfs()
 # This creates a Pixeltable UDF for each tool exposed by the server
-# See: https://docs.pixeltable.com/platform/custom-functions#5-mcp-udfs
+# See: https://docs.pixeltable.com/platform/udfs-in-pixeltable
 mcp_tools = pxt.mcp_udfs('https://docs.pixeltable.com/mcp')
 
 # View available tools - each is now a callable Pixeltable function
@@ -624,8 +624,9 @@ callable UDFs that can be bundled with `pxt.tools()` for LLM use.
 - [Run local
   LLMs](/howto/providers/working-with-ollama) -
   Local model inference
-- [Multimodal MCP Servers](/libraries/mcp) -
+- [Multimodal MCP
+  Servers](/use-cases/agentic-workflows) -
   Pixeltable’s MCP server collection
 - [Custom
-  Functions](/platform/custom-functions) -
+  Functions](/platform/udfs-in-pixeltable) -
   More about UDFs and MCP integration

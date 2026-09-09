@@ -165,7 +165,7 @@ No&nbsp;rows&nbsp;affected.
 i2v.insert(
     [
         {
-            'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/640px-Camponotus_flavomarginatus_ant.jpg',
+            'image': 'https://upload.wikimedia.org/wikipedia/commons/a/a7/Camponotus_flavomarginatus_ant.jpg',
             'prompt': 'The ant slowly walks across the leaf',
         }
     ]
@@ -217,7 +217,7 @@ t2i.insert(
     [
         {
             'prompt': 'A photorealistic painting in the same style as the reference',
-            'ref_image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg',
+            'ref_image': 'https://upload.wikimedia.org/wikipedia/commons/6/6a/Mona_Lisa.jpg',
         }
     ]
 )
@@ -248,10 +248,7 @@ v2v = pxt.create_table(
 
 v2v.add_computed_column(
     response=runwayml.video_to_video(
-        v2v.video_url,
-        v2v.style_prompt,
-        model='gen4_aleph',
-        ratio='1280:720',
+        v2v.video_url, v2v.style_prompt, model='aleph2', ratio='1280:720'
     )
 )
 
