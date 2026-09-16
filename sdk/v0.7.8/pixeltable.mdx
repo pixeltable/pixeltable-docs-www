@@ -1,0 +1,68 @@
+---
+title: "pixeltable"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/opentelemetry/instrumentation/pixeltable/__init__.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; opentelemetry.instrumentation.pixeltable
+
+
+OpenTelemetry instrumentation for Pixeltable.
+
+Translates Pixeltable's instrumentation hooks into OpenTelemetry spans and metrics. Instrumentation is
+opt-in: either attach to an existing OpenTelemetry SDK with
+[PixeltableInstrumentor](./pixeltableinstrumentor), or let
+[init](./pixeltable#func-init) build providers from Pixeltable's `[otel]` config.
+
+
+## <span style={{ 'color': 'gray' }}>func</span>&nbsp; init()
+
+```python Signature
+init(
+    *,
+    endpoint: str | None = None,
+    protocol: str | None = None,
+    service_name: str | None = None,
+    headers: str | None = None,
+    span_level: Literal['info', 'debug', 'trace'] | None = None,
+    metrics: bool | None = None,
+    logs: bool | None = None,
+    tracer_provider: Any = None,
+    meter_provider: Any = None
+) -> None
+```
+
+Configure pixeltable's OpenTelemetry instrumentation and start emitting telemetry.
+
+Call once, before the first Pixeltable operation. Each argument overrides the matching `[otel]`
+config setting and its standard `OTEL_*` environment variable; when an argument is left as None the
+value resolves from that env var (highest priority) then the `[otel]` config section. Pass
+`tracer_provider`/`meter_provider` to instrument against an SDK your application owns instead.
+
+**Parameters:**
+
+- **`endpoint`** (`str | None`): OTLP collector endpoint (eg `http://localhost:4318`); resolves from
+    `otel.exporter_otlp_endpoint` / `OTEL_EXPORTER_OTLP_ENDPOINT`. With no endpoint configured
+    and no application-owned provider, instrumentation stays inert and exports nothing.
+- **`protocol`** (`str | None`): OTLP transport, `http/protobuf` (default) or `grpc`; resolves from
+    `otel.exporter_otlp_protocol` / `OTEL_EXPORTER_OTLP_PROTOCOL`.
+- **`service_name`** (`str | None`): `service.name` resource attribute (default `pixeltable`); resolves from
+    `otel.service_name` / `OTEL_SERVICE_NAME`.
+- **`headers`** (`str | None`): OTLP headers as comma-separated `key=value` pairs; resolves from
+    `otel.exporter_otlp_headers` / `OTEL_EXPORTER_OTLP_HEADERS`.
+- **`span_level`** (`Literal['info', 'debug', 'trace'] | None`): span emission threshold: `info` (default; operation-level spans only), `debug`
+    (adds per-row and per-UDF spans), or `trace`.
+- **`metrics`** (`bool | None`): force metric export on/off (by default metrics are exported only when an OTLP endpoint
+    is configured).
+- **`logs`** (`bool | None`): force log export on/off (default off; must be explicitly enabled).
+- **`tracer_provider`** (`Any`): an existing TracerProvider to instrument against.
+- **`meter_provider`** (`Any`): an existing MeterProvider to instrument against.
+
+**Examples:**
+
+```python
+import opentelemetry.instrumentation.pixeltable as pxt_otel
+
+pxt_otel.init(endpoint='http://localhost:4318')
+```
+

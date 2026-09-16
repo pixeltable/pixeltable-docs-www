@@ -21,6 +21,41 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.8
+
+**Released:** September 16, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.8](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.8)
+
+#### What's Changed
+* Docs Updates: Name first-run commands so a pip 0.7.6 reader types pxt schema update. by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1611](https://github.com/pixeltable/pixeltable/pull/1611)
+* Drop the org URI from the commands where it is the only argument by [@amithadke](https://github.com/amithadke) in [#1613](https://github.com/pixeltable/pixeltable/pull/1613)
+* Fail a request immediately (no retries) if the pod becomes unresponsive waiting for a response by [@aaron-siegel](https://github.com/aaron-siegel) in [#1607](https://github.com/pixeltable/pixeltable/pull/1607)
+* Upload `bytes` and `ndarray`s out of band during insertion [PXT-1314, PXT-1318, PXT-1319, PXT-1320] by [@aaron-siegel](https://github.com/aaron-siegel) in [#1609](https://github.com/pixeltable/pixeltable/pull/1609)
+* pxt.Array slice fixes [PXT-1372] by [@aaron-siegel](https://github.com/aaron-siegel) in [#1612](https://github.com/pixeltable/pixeltable/pull/1612)
+* Require `sentence_transformers \>= 5.4` by [@aaron-siegel](https://github.com/aaron-siegel) in [#1620](https://github.com/pixeltable/pixeltable/pull/1620)
+* Fixes for test_fastapi.py in cloud by [@aaron-siegel](https://github.com/aaron-siegel) in [#1619](https://github.com/pixeltable/pixeltable/pull/1619)
+* Add the missing verbs to the pxt schema and pxt service help text by [@dajiaohuang](https://github.com/dajiaohuang) in [#1618](https://github.com/pixeltable/pixeltable/pull/1618)
+* PXT-1393: add_update_route and batch_update reject a computed uuid7 by [@mkornacker](https://github.com/mkornacker) in [#1623](https://github.com/pixeltable/pixeltable/pull/1623)
+* Docs: hosted Media Store is the default; PIXELTABLE_API_KEY is the env name by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1625](https://github.com/pixeltable/pixeltable/pull/1625)
+* PXT-1412: config.toml cannot set any int option by [@mkornacker](https://github.com/mkornacker) in [#1626](https://github.com/pixeltable/pixeltable/pull/1626)
+* Docs: unify agent instructions, and encode review rules mined from 100 PRs by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1628](https://github.com/pixeltable/pixeltable/pull/1628)
+* Upgrade specs on test db by [@aaron-siegel](https://github.com/aaron-siegel) in [#1630](https://github.com/pixeltable/pixeltable/pull/1630)
+* [PXT-1407] Presign media that hosted compute and query routes make on the fly by [@christopherpestano](https://github.com/christopherpestano) in [#1624](https://github.com/pixeltable/pixeltable/pull/1624)
+* Docs: match the three app.py mirrors to what `pxt service example` writes by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1632](https://github.com/pixeltable/pixeltable/pull/1632)
+* Image/archive split by [@mkornacker](https://github.com/mkornacker) in [#1610](https://github.com/pixeltable/pixeltable/pull/1610)
+* Don't generate changelog in CI by [@aaron-siegel](https://github.com/aaron-siegel) in [#1635](https://github.com/pixeltable/pixeltable/pull/1635)
+* Docs: Cloud page, #1610 and #205 follow-through, one positioning line, and an agent block by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1634](https://github.com/pixeltable/pixeltable/pull/1634)
+* [PXT-1378] insert(Query) / create_table(source=Query) crashes with AssertionError on any join by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1606](https://github.com/pixeltable/pixeltable/pull/1606)
+* Fix LLM tells in CLI output. by [@mkornacker](https://github.com/mkornacker) in [#1636](https://github.com/pixeltable/pixeltable/pull/1636)
+
+#### New Contributors
+* [@dajiaohuang](https://github.com/dajiaohuang) made their first contribution in [#1618](https://github.com/pixeltable/pixeltable/pull/1618)
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.7...v0.7.8
+
+---
+
 ### v0.7.7
 
 **Released:** September 10, 2026  
@@ -1240,20 +1275,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.21...v0.4.22
-
----
-
-### v0.4.21
-
-**Released:** November 03, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.4.21](https://github.com/pixeltable/pixeltable/releases/tag/v0.4.21)
-
-#### What's Changed
-* Hotfix for bug when publishing older versions of a table by [@aaron-siegel](https://github.com/aaron-siegel) in [#910](https://github.com/pixeltable/pixeltable/pull/910)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.20...v0.4.21
 
 ---
 
