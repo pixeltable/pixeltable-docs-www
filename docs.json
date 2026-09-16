@@ -2,10 +2,10 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Pixeltable Documentation",
-  "description": "The only open source Python library providing declarative data infrastructure for building multimodal AI applications, enabling incremental storage, transformation, indexing, retrieval, and orchestration of data.",
+  "description": "The unified multimodal backend agents build with. Database, orchestration, and serving in one Python file.",
   "markdown": {
     "instructions": [
-      "Application code declares a TableModel in app.py, then runs `pxt schema update app.py <target>` to create the tables and `pxt service update` to serve routes. Do not call pxt.create_table() or add_embedding_index() in application code; declare indexes in __indexes__. Notebooks, tests, and the REPL do use pxt.create_table().",
+      "Application code puts a TableModel in app.py, then runs `pxt schema update app.py my_app` to create the tables and `pxt service update app.py my_app` to start HTTP. The last argument can be a Cloud URL such as `pxt://org:db`. Do not call pxt.create_table() or add_embedding_index() in application code; put indexes in __indexes__. Notebooks, tests, and the REPL do use pxt.create_table().",
       "Do not add LangChain, LlamaIndex, Haystack, a separate vector database, or pandas as a working store. Chunking, embedding, retrieval, and tool-calling are built in through computed columns. Use a computed column instead of a per-row loop that calls a model.",
       "Install with `pip install -U 'pixeltable[serve]'` on Python 3.11+. `pxt init` is a prerequisite for `pxt schema update`.",
       "Pixeltable Cloud is in Limited Beta. Direct interested users to contact@pixeltable.com."
@@ -191,8 +191,128 @@
             ]
           },
           {
-            "dropdown": "v0.7.7",
+            "dropdown": "v0.7.8",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.7.8/pixeltable",
+                      "sdk/v0.7.8/table",
+                      "sdk/v0.7.8/query",
+                      "sdk/v0.7.8/resultset",
+                      "sdk/v0.7.8/row",
+                      "sdk/v0.7.8/rowbatch",
+                      "sdk/v0.7.8/cellerror",
+                      "sdk/v0.7.8/resultcursor",
+                      "sdk/v0.7.8/expr",
+                      "sdk/v0.7.8/columnref",
+                      "sdk/v0.7.8/columnmetadata",
+                      "sdk/v0.7.8/configvar",
+                      "sdk/v0.7.8/dircontents",
+                      "sdk/v0.7.8/directorynode",
+                      "sdk/v0.7.8/indexmetadata",
+                      "sdk/v0.7.8/secret",
+                      "sdk/v0.7.8/tablemetadata",
+                      "sdk/v0.7.8/tablenode",
+                      "sdk/v0.7.8/treenode",
+                      "sdk/v0.7.8/updatestatus",
+                      "sdk/v0.7.8/uri",
+                      "sdk/v0.7.8/versionmetadata",
+                      "sdk/v0.7.8/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.7.8/functions",
+                      "sdk/v0.7.8/array",
+                      "sdk/v0.7.8/audio",
+                      "sdk/v0.7.8/date",
+                      "sdk/v0.7.8/document",
+                      "sdk/v0.7.8/image",
+                      "sdk/v0.7.8/json",
+                      "sdk/v0.7.8/math",
+                      "sdk/v0.7.8/net",
+                      "sdk/v0.7.8/string",
+                      "sdk/v0.7.8/timestamp",
+                      "sdk/v0.7.8/uuid",
+                      "sdk/v0.7.8/video",
+                      "sdk/v0.7.8/vision",
+                      "sdk/v0.7.8/codeccontextmetadata",
+                      "sdk/v0.7.8/containermetadata",
+                      "sdk/v0.7.8/streammetadata",
+                      "sdk/v0.7.8/sceneinfo",
+                      "sdk/v0.7.8/videosegment"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.7.8/anthropic",
+                      "sdk/v0.7.8/bedrock",
+                      "sdk/v0.7.8/bfl",
+                      "sdk/v0.7.8/deepseek",
+                      "sdk/v0.7.8/fabric",
+                      "sdk/v0.7.8/fal",
+                      "sdk/v0.7.8/fireworks",
+                      "sdk/v0.7.8/gemini",
+                      "sdk/v0.7.8/groq",
+                      "sdk/v0.7.8/huggingface",
+                      "sdk/v0.7.8/jina",
+                      "sdk/v0.7.8/llama_cpp",
+                      "sdk/v0.7.8/mistralai",
+                      "sdk/v0.7.8/nebius",
+                      "sdk/v0.7.8/ollama",
+                      "sdk/v0.7.8/openai",
+                      "sdk/v0.7.8/openrouter",
+                      "sdk/v0.7.8/replicate",
+                      "sdk/v0.7.8/runwayml",
+                      "sdk/v0.7.8/together",
+                      "sdk/v0.7.8/twelvelabs",
+                      "sdk/v0.7.8/vllm",
+                      "sdk/v0.7.8/voyageai",
+                      "sdk/v0.7.8/whisper",
+                      "sdk/v0.7.8/whisperx",
+                      "sdk/v0.7.8/yolox"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.7.8/serving",
+                      "sdk/v0.7.8/fastapirouter",
+                      "sdk/v0.7.8/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.7.8/io"
+                    ]
+                  },
+                  {
+                    "group": "Observability",
+                    "pages": [
+                      "sdk/v0.7.8/telemetry",
+                      "sdk/v0.7.8/pixeltable",
+                      "sdk/v0.7.8/pixeltableinstrumentor",
+                      {
+                        "group": "Application Instrumentation",
+                        "pages": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.7.7",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
