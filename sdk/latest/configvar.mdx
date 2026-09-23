@@ -1,12 +1,12 @@
 ---
 title: "ConfigVar"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/config.py#L175\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/config.py#L160\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.ConfigVar
 
 
-A reference to a database variable or secret, defined at module scope.
+A reference to a database variable, defined at module scope.
 
 A definition names the variable; the target it is applied to supplies the value.
 
@@ -32,11 +32,11 @@ The bound value, converted to the declared type. Raises if the target has no bin
 
 **Examples:**
 
-Read a secret from a udf, which runs on the target:
+Read a var from a udf, which runs on the target:
 
 ```python
 @pxt.udf
 def summarize(text: str) -> str:
-    return _call(text, key=API_KEY.value())
+    return _call(text, dest=MEDIA_DEST.value())
 ```
 
