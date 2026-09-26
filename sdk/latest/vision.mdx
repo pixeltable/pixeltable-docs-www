@@ -219,6 +219,7 @@ Pad a list of bounding boxes.
 bboxes_resize(
     bboxes: pxt.Json[(Json, ...)],
     format: pxt.String,
+    *,
     width: pxt.Int | None,
     height: pxt.Int | None,
     aspect: pxt.String | None,
@@ -230,6 +231,7 @@ bboxes_resize(
 bboxes_resize(
     bboxes: pxt.Json[(Json, ...)],
     format: pxt.String,
+    *,
     width: pxt.Float | None,
     height: pxt.Float | None,
     aspect: pxt.Float | None,
@@ -382,6 +384,7 @@ Evaluates the performance of a set of predicted bounding boxes against a set of 
 overlay_segmentation(
     img: pxt.Image,
     segmentation: pxt.Array[(None, None), int32],
+    *,
     alpha: pxt.Float,
     background: pxt.Int,
     segment_colors: pxt.Json[(String, ...)] | None,
@@ -394,6 +397,7 @@ overlay_segmentation(
 overlay_segmentation(
     img: pxt.Image,
     segmentation: pxt.Array[(None, None, None), bool],
+    *,
     ids: pxt.Array[(None,), int64] | None,
     alpha: pxt.Float,
     segment_colors: pxt.Json[(String, ...)] | None,

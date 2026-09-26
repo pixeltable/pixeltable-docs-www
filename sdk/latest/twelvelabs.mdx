@@ -20,6 +20,7 @@ the [Working with TwelveLabs](https://docs.pixeltable.com/howto/providers/workin
 embed(
     text: pxt.String,
     image: pxt.Image | None,
+    *,
     model_name: pxt.String
 ) -> pxt.Array[float32] | None
 
@@ -27,6 +28,7 @@ embed(
 @pxt.udf
 embed(
     image: pxt.Image,
+    *,
     model_name: pxt.String
 ) -> pxt.Array[float32] | None
 
@@ -34,6 +36,7 @@ embed(
 @pxt.udf
 embed(
     audio: pxt.Audio,
+    *,
     model_name: pxt.String,
     start_sec: pxt.Float | None,
     end_sec: pxt.Float | None,
@@ -44,6 +47,7 @@ embed(
 @pxt.udf
 embed(
     video: pxt.Video,
+    *,
     model_name: pxt.String,
     start_sec: pxt.Float | None,
     end_sec: pxt.Float | None,

@@ -91,6 +91,7 @@ tbl.add_computed_column(
 @pxt.udf
 clip(
     text: pxt.String,
+    *,
     model_id: pxt.String
 ) -> pxt.Array[(None,), float32]
 
@@ -98,6 +99,7 @@ clip(
 @pxt.udf
 clip(
     image: pxt.Image,
+    *,
     model_id: pxt.String
 ) -> pxt.Array[(None,), float32]
 ```

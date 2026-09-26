@@ -104,6 +104,7 @@ tbl.add_computed_column(
 @pxt.udf
 embed(
     text: pxt.String,
+    *,
     model_id: pxt.String,
     dimensions: pxt.Int | None
 ) -> pxt.Array[(None,), float32]
@@ -112,6 +113,7 @@ embed(
 @pxt.udf
 embed(
     image: pxt.Image,
+    *,
     model_id: pxt.String,
     dimensions: pxt.Int | None
 ) -> pxt.Array[(None,), float32]

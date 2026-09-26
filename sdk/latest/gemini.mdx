@@ -39,6 +39,7 @@ Converts an OpenAI response dict to Pixeltable tool invocation format and calls 
 @pxt.udf
 embed_content(
     contents: pxt.String,
+    *,
     model: pxt.String,
     config: pxt.Json | None
 ) -> pxt.Array[(None,), float32]
@@ -47,6 +48,7 @@ embed_content(
 @pxt.udf
 embed_content(
     contents: pxt.Image,
+    *,
     model: pxt.String,
     config: pxt.Json | None
 ) -> pxt.Array[(None,), float32]
@@ -55,6 +57,7 @@ embed_content(
 @pxt.udf
 embed_content(
     contents: pxt.Audio,
+    *,
     model: pxt.String,
     config: pxt.Json | None
 ) -> pxt.Array[(None,), float32]
@@ -63,6 +66,7 @@ embed_content(
 @pxt.udf
 embed_content(
     contents: pxt.Video,
+    *,
     model: pxt.String,
     config: pxt.Json | None
 ) -> pxt.Array[(None,), float32]
@@ -71,6 +75,7 @@ embed_content(
 @pxt.udf
 embed_content(
     contents: pxt.Document,
+    *,
     model: pxt.String,
     config: pxt.Json | None
 ) -> pxt.Array[(None,), float32]
@@ -242,6 +247,7 @@ tbl.add_computed_column(
 @pxt.udf
 generate_speech(
     text: pxt.String,
+    *,
     model: pxt.String,
     voice: pxt.String,
     config: pxt.Json | None
@@ -251,6 +257,7 @@ generate_speech(
 @pxt.udf
 generate_speech(
     text: pxt.String,
+    *,
     model: pxt.String,
     voices: pxt.Json,
     config: pxt.Json | None
@@ -307,6 +314,7 @@ tbl.add_computed_column(
 generate_videos(
     prompt: pxt.String | None,
     image: pxt.Image | None,
+    *,
     model: pxt.String,
     config: pxt.Json | None
 ) -> pxt.Video
@@ -316,6 +324,7 @@ generate_videos(
 generate_videos(
     prompt: pxt.String | None,
     images: pxt.Json[(Image, ...)] | None,
+    *,
     model: pxt.String,
     config: pxt.Json | None,
     reference_types: pxt.Json[(String, ...)] | None
