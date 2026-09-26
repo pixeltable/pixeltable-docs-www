@@ -464,6 +464,7 @@ tiles.add_computed_column(
 
 tiles.group_by(tiles.image).select(
     stitched=stitch_tiles(
+        tiles.pos,
         tiles.segmented_tile,
         tiles.tile_box,
         tiles.image.width,

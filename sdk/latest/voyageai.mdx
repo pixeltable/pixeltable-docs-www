@@ -86,6 +86,7 @@ tbl.add_embedding_index(
 @pxt.udf
 multimodal_embed(
     text: pxt.String,
+    *,
     model: pxt.String,
     input_type: pxt.String | None,
     truncation: pxt.Bool
@@ -95,6 +96,7 @@ multimodal_embed(
 @pxt.udf
 multimodal_embed(
     image: pxt.Image,
+    *,
     model: pxt.String,
     input_type: pxt.String | None,
     truncation: pxt.Bool
@@ -104,6 +106,7 @@ multimodal_embed(
 @pxt.udf
 multimodal_embed(
     video: pxt.Video,
+    *,
     model: pxt.String,
     input_type: pxt.String | None,
     truncation: pxt.Bool
