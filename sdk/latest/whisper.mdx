@@ -31,7 +31,7 @@ transcribe(
     prepend_punctuations: pxt.String = '"\'“¿([{-',
     append_punctuations: pxt.String = '"\'.。,，!！?？:：”)]}、',
     decode_options: pxt.Json | None = None
-) -> pxt.Json
+) -> WhisperTranscription
 ```
 
 Transcribe an audio file using Whisper.
@@ -51,7 +51,8 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing the transcription and various other metadata.
+- `WhisperTranscription`: A [`WhisperTranscription`](./whispertranscription) dictionary with the
+  transcription's text, segments, and language.
 
 **Examples:**
 
@@ -60,5 +61,11 @@ of the table `tbl`:
 
 ```python
 tbl.add_computed_column(result=transcribe(tbl.audio, model='base.en'))
+```
+
+Add a `String` column with the transcription's text:
+
+```python
+tbl.add_computed_column(text=tbl.result.text)
 ```
 

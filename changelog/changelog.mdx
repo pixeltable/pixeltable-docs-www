@@ -21,6 +21,32 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.12
+
+**Released:** September 30, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.12](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.12)
+
+#### What's Changed
+* Restore the Cloud guide at /cloud by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1680](https://github.com/pixeltable/pixeltable/pull/1680)
+* [PXT-1462] Give a "missing API key" error that's appropriate for the CLI by [@aaron-siegel](https://github.com/aaron-siegel) in [#1668](https://github.com/pixeltable/pixeltable/pull/1668)
+* [PXT-1382] Document how pxt get parses primary key values by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1675](https://github.com/pixeltable/pixeltable/pull/1675)
+* run hosted_environment fixture before others by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1671](https://github.com/pixeltable/pixeltable/pull/1671)
+* [PXT-1438] pxt cli changes that implement a better pxt secret list experience by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1684](https://github.com/pixeltable/pixeltable/pull/1684)
+* [PXT-1431] App-load errors name the exception type by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1673](https://github.com/pixeltable/pixeltable/pull/1673)
+* [PXT-1432] improve pxt service stop by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1676](https://github.com/pixeltable/pixeltable/pull/1676)
+* [PXT-1475] Require OpenAI SDK version \>= 3 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1692](https://github.com/pixeltable/pixeltable/pull/1692)
+* [PXT-1405] Give whisper.transcribe() a TypedDict return type by [@aaron-siegel](https://github.com/aaron-siegel) in [#1693](https://github.com/pixeltable/pixeltable/pull/1693)
+* Coalesce media, array, and binary files on insertion by [@aaron-siegel](https://github.com/aaron-siegel) in [#1661](https://github.com/pixeltable/pixeltable/pull/1661)
+* [PXT-1446] Fix Variable handling in aggregate queries by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1689](https://github.com/pixeltable/pixeltable/pull/1689)
+* [PXT-1413] Fix for serving routes with [@pxt](https://github.com/pxt).query by [@aaron-siegel](https://github.com/aaron-siegel) in [#1694](https://github.com/pixeltable/pixeltable/pull/1694)
+* pxt login scopes the session to the user's only organization by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1695](https://github.com/pixeltable/pixeltable/pull/1695)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.11...v0.7.12
+
+---
+
 ### v0.7.11
 
 **Released:** September 26, 2026  
@@ -1253,36 +1279,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.0...v0.5.1
-
----
-
-### v0.5.0
-
-**Released:** November 18, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.5.0](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.0)
-
-#### What's Changed
-* Data sharing docs by [@apreshill](https://github.com/apreshill) in [#931](https://github.com/pixeltable/pixeltable/pull/931)
-* Numerous documentation fixes by [@aaron-siegel](https://github.com/aaron-siegel) in [#933](https://github.com/pixeltable/pixeltable/pull/933)
-* PXT-846: FrameIterator(keyframes_only: bool) by [@mkornacker](https://github.com/mkornacker) in [#934](https://github.com/pixeltable/pixeltable/pull/934)
-* [PXT-809] Improve OpenAI rate limiting by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#912](https://github.com/pixeltable/pixeltable/pull/912)
-* Multi-phase drop_table() by [@mkornacker](https://github.com/mkornacker) in [#932](https://github.com/pixeltable/pixeltable/pull/932)
-* Streamline Makefile by [@aaron-siegel](https://github.com/aaron-siegel) in [#937](https://github.com/pixeltable/pixeltable/pull/937)
-* Changes to protocol to handle publishing existing version           by [@amithadke](https://github.com/amithadke) in [#938](https://github.com/pixeltable/pixeltable/pull/938)
-* PXT-871: == None filter doesn't work correctly on an array column by [@mkornacker](https://github.com/mkornacker) in [#941](https://github.com/pixeltable/pixeltable/pull/941)
-* More documentation improvements by [@aaron-siegel](https://github.com/aaron-siegel) in [#936](https://github.com/pixeltable/pixeltable/pull/936)
-* Circularity detection in view creation with if_exists='replace' by [@aaron-siegel](https://github.com/aaron-siegel) in [#942](https://github.com/pixeltable/pixeltable/pull/942)
-* Add Tigris integration by [@Xe](https://github.com/Xe) in [#935](https://github.com/pixeltable/pixeltable/pull/935)
-* Improvements to notebook documentation by [@aaron-siegel](https://github.com/aaron-siegel) in [#943](https://github.com/pixeltable/pixeltable/pull/943)
-* Improvements to retriable errors detection in RequestRateScheduler by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#922](https://github.com/pixeltable/pixeltable/pull/922)
-* Rename `DataFrame` to `Query` and `DataFrameResultSet` to `ResultSet` by [@aaron-siegel](https://github.com/aaron-siegel) in [#902](https://github.com/pixeltable/pixeltable/pull/902)
-* PXT-873: t.sample() fails on externalized array data by [@mkornacker](https://github.com/mkornacker) in [#945](https://github.com/pixeltable/pixeltable/pull/945)
-
-#### New Contributors
-* [@Xe](https://github.com/Xe) made their first contribution in [#935](https://github.com/pixeltable/pixeltable/pull/935)
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.4.24...v0.5.0
 
 ---
 
