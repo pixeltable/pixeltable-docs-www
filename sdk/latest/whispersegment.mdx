@@ -1,0 +1,98 @@
+---
+title: "WhisperSegment"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/whisper.py#L33\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.functions.whisper.WhisperSegment
+
+
+One segment of a transcription, with its timing and decoding statistics.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; avg_logprob
+
+```
+avg_logprob: float
+```
+
+Average log probability of the tokens in the segment's decoding window.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; compression_ratio
+
+```
+compression_ratio: float
+```
+
+Compression ratio of the text in the segment's decoding window; a high value indicates repetitive output.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; end
+
+```
+end: float
+```
+
+Segment end, in seconds from the start of the audio.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; id
+
+```
+id: int
+```
+
+Index of the segment in the transcription's `segments` list.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; no_speech_prob
+
+```
+no_speech_prob: float
+```
+
+Probability that the segment's decoding window contains no speech.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; seek
+
+```
+seek: int
+```
+
+Start of the segment's decoding window, in 10 ms frames.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; start
+
+```
+start: float
+```
+
+Segment start, in seconds from the start of the audio.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; temperature
+
+```
+temperature: float
+```
+
+Sampling temperature of the segment's decoding window.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; text
+
+```
+text: str
+```
+
+The segment's text.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; tokens
+
+```
+tokens: list[int]
+```
+
+Token IDs of the segment; can include timestamp tokens.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; words
+
+```
+words: NotRequired[list[WhisperWord]]
+```
+
+Timings of the segment's words; empty or absent unless `word_timestamps=True`.
+

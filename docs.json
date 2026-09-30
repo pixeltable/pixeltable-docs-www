@@ -54,7 +54,7 @@
                   "howto/deployment/security"
                 ]
               },
-              "howto/deployment/cloud"
+              "cloud"
             ]
           },
           {
@@ -157,7 +157,10 @@
                       "sdk/latest/voyageai",
                       "sdk/latest/whisper",
                       "sdk/latest/whisperx",
-                      "sdk/latest/yolox"
+                      "sdk/latest/yolox",
+                      "sdk/latest/whispersegment",
+                      "sdk/latest/whispertranscription",
+                      "sdk/latest/whisperword"
                     ]
                   },
                   {
@@ -191,8 +194,131 @@
             ]
           },
           {
-            "dropdown": "v0.7.11",
+            "dropdown": "v0.7.12",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.7.12/pixeltable",
+                      "sdk/v0.7.12/table",
+                      "sdk/v0.7.12/query",
+                      "sdk/v0.7.12/resultset",
+                      "sdk/v0.7.12/row",
+                      "sdk/v0.7.12/rowbatch",
+                      "sdk/v0.7.12/cellerror",
+                      "sdk/v0.7.12/resultcursor",
+                      "sdk/v0.7.12/expr",
+                      "sdk/v0.7.12/columnref",
+                      "sdk/v0.7.12/columnmetadata",
+                      "sdk/v0.7.12/configvar",
+                      "sdk/v0.7.12/dircontents",
+                      "sdk/v0.7.12/directorynode",
+                      "sdk/v0.7.12/indexmetadata",
+                      "sdk/v0.7.12/secret",
+                      "sdk/v0.7.12/tablemetadata",
+                      "sdk/v0.7.12/tablenode",
+                      "sdk/v0.7.12/treenode",
+                      "sdk/v0.7.12/updatestatus",
+                      "sdk/v0.7.12/uri",
+                      "sdk/v0.7.12/versionmetadata",
+                      "sdk/v0.7.12/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.7.12/functions",
+                      "sdk/v0.7.12/array",
+                      "sdk/v0.7.12/audio",
+                      "sdk/v0.7.12/date",
+                      "sdk/v0.7.12/document",
+                      "sdk/v0.7.12/image",
+                      "sdk/v0.7.12/json",
+                      "sdk/v0.7.12/math",
+                      "sdk/v0.7.12/net",
+                      "sdk/v0.7.12/string",
+                      "sdk/v0.7.12/timestamp",
+                      "sdk/v0.7.12/uuid",
+                      "sdk/v0.7.12/video",
+                      "sdk/v0.7.12/vision",
+                      "sdk/v0.7.12/codeccontextmetadata",
+                      "sdk/v0.7.12/containermetadata",
+                      "sdk/v0.7.12/streammetadata",
+                      "sdk/v0.7.12/sceneinfo",
+                      "sdk/v0.7.12/videosegment"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.7.12/anthropic",
+                      "sdk/v0.7.12/bedrock",
+                      "sdk/v0.7.12/bfl",
+                      "sdk/v0.7.12/deepseek",
+                      "sdk/v0.7.12/fabric",
+                      "sdk/v0.7.12/fal",
+                      "sdk/v0.7.12/fireworks",
+                      "sdk/v0.7.12/gemini",
+                      "sdk/v0.7.12/groq",
+                      "sdk/v0.7.12/huggingface",
+                      "sdk/v0.7.12/jina",
+                      "sdk/v0.7.12/llama_cpp",
+                      "sdk/v0.7.12/mistralai",
+                      "sdk/v0.7.12/nebius",
+                      "sdk/v0.7.12/ollama",
+                      "sdk/v0.7.12/openai",
+                      "sdk/v0.7.12/openrouter",
+                      "sdk/v0.7.12/replicate",
+                      "sdk/v0.7.12/runwayml",
+                      "sdk/v0.7.12/together",
+                      "sdk/v0.7.12/twelvelabs",
+                      "sdk/v0.7.12/vllm",
+                      "sdk/v0.7.12/voyageai",
+                      "sdk/v0.7.12/whisper",
+                      "sdk/v0.7.12/whisperx",
+                      "sdk/v0.7.12/yolox",
+                      "sdk/v0.7.12/whispersegment",
+                      "sdk/v0.7.12/whispertranscription",
+                      "sdk/v0.7.12/whisperword"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.7.12/serving",
+                      "sdk/v0.7.12/fastapirouter",
+                      "sdk/v0.7.12/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.7.12/io"
+                    ]
+                  },
+                  {
+                    "group": "Observability",
+                    "pages": [
+                      "sdk/v0.7.12/telemetry",
+                      "sdk/v0.7.12/pixeltable",
+                      "sdk/v0.7.12/pixeltableinstrumentor",
+                      {
+                        "group": "Application Instrumentation",
+                        "pages": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.7.11",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -4681,23 +4807,23 @@
     },
     {
       "source": "/cloud/services",
-      "destination": "/howto/deployment/cloud"
+      "destination": "/cloud"
     },
     {
-      "source": "/cloud",
-      "destination": "/howto/deployment/cloud"
+      "source": "/howto/deployment/cloud",
+      "destination": "/cloud"
     },
     {
       "source": "/docs/cloud",
-      "destination": "/howto/deployment/cloud"
+      "destination": "/cloud"
     },
     {
       "source": "/use-cases/services",
-      "destination": "/howto/deployment/cloud"
+      "destination": "/cloud"
     },
     {
       "source": "/use-cases/cloud",
-      "destination": "/howto/deployment/cloud"
+      "destination": "/cloud"
     },
     {
       "source": "/notebooks/integrations/working-with-bedrock",

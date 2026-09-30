@@ -1,0 +1,37 @@
+---
+title: "Row"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/row.py#L17\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.Row
+
+
+A dict-like wrapper over a single result row.
+
+Supports key access (`row['col']`), membership (`'col' in row`), iteration over keys, and the standard `get()`,
+`keys()`, `values()`, and `items()` methods.
+
+The `errors` property holds error info (`{'errortype': ..., 'errormsg': ...}`) for each cell whose
+evaluation failed; the `index_values` property holds the values of embedding indexes defined on the
+row's table. Both are keyed by column or index name.
+
+Keys are case-sensitive: every name is the folded (lower-case) spelling stored in the catalog.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; to_json()
+
+```python Signature
+to_json() -> dict[str, Any]
+```
+
+Return a JSON-serializable dict of this row's values.
+
+- `None`: preserved as `None`
+- Timestamp, Date: ISO 8601 string
+- UUID: string
+- Array: Python list (via `tolist()`)
+- Json: validated for serializability, kept as native Python
+- Binary: omitted (not representable in JSON)
+- All others: unchanged
+
