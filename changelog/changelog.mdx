@@ -21,6 +21,28 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.13
+
+**Released:** October 02, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.13](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.13)
+
+#### What's Changed
+* [PXT-1402] Stop requiring unused inputs in compute routes by [@christopherpestano](https://github.com/christopherpestano) in [#1665](https://github.com/pixeltable/pixeltable/pull/1665)
+* Document hosted Cloud MCP and existing Pixeltable plugins by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1683](https://github.com/pixeltable/pixeltable/pull/1683)
+* Update running hosted services in place instead of stopping them by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1677](https://github.com/pixeltable/pixeltable/pull/1677)
+* Add pxt new: a free Pixeltable Cloud database, no account needed by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1679](https://github.com/pixeltable/pixeltable/pull/1679)
+* Fix parameterized comparison not using B-tree index by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1686](https://github.com/pixeltable/pixeltable/pull/1686)
+* Reject non-constant seed parameters in select query by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1690](https://github.com/pixeltable/pixeltable/pull/1690)
+* [PXT-1470] Model diff takes into account changes to a [@pxt](https://github.com/pxt).query function's body by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1691](https://github.com/pixeltable/pixeltable/pull/1691)
+* Fix pxtfs:// store building a boto3 session for nearly every media read by [@aaron-siegel](https://github.com/aaron-siegel) in [#1698](https://github.com/pixeltable/pixeltable/pull/1698)
+* Tell users how to recover from a proxy protocol mismatch by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1697](https://github.com/pixeltable/pixeltable/pull/1697)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.12...v0.7.13
+
+---
+
 ### v0.7.12
 
 **Released:** September 30, 2026  
@@ -1262,23 +1284,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.1...v0.5.2
-
----
-
-### v0.5.1
-
-**Released:** November 19, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.5.1](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.1)
-
-#### What's Changed
-* Add TableVersionMd.from_dict and update publish to use objects instead of dicts by [@amithadke](https://github.com/amithadke) in [#944](https://github.com/pixeltable/pixeltable/pull/944)
-* Publishing existing version returns 201, 204 does not allow any content to be sent back in body. by [@amithadke](https://github.com/amithadke) in [#948](https://github.com/pixeltable/pixeltable/pull/948)
-* Replace StorageDestination with StorageTarget by [@amithadke](https://github.com/amithadke) in [#947](https://github.com/pixeltable/pixeltable/pull/947)
-* Missing converter for schema change in PR 932 by [@mkornacker](https://github.com/mkornacker) in [#949](https://github.com/pixeltable/pixeltable/pull/949)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.0...v0.5.1
 
 ---
 
