@@ -331,7 +331,9 @@ nano_t.select(nano_t.prompt, nano_t.generated_image).collect()
 ## Generate images with Imagen
 
 Use `pxtf.gemini.generate_images` with an Imagen model name such as
-`imagen-4.0-generate-001`.
+`imagen-4.0-generate-001`. Imagen is available only through Vertex AI,
+so these cells require `GOOGLE_GENAI_USE_VERTEXAI=true` (see the setup
+cell above).
 
 This returns a `pxt.Image` directly, so you can use it in computed
 columns without JSON subscripting.
@@ -384,7 +386,7 @@ videos_t = pxt.create_table('gemini_demo/videos', {'prompt': pxt.String})
 
 videos_t.add_computed_column(
     generated_video=pxtf.gemini.generate_videos(
-        videos_t.prompt, model='veo-2.0-generate-001'
+        videos_t.prompt, model='veo-3.1-fast-generate-preview'
     )
 )
 ```
@@ -429,7 +431,8 @@ section above the same way.
 ```python
 nano_t.add_computed_column(
     generated_video=pxtf.gemini.generate_videos(
-        image=nano_t.generated_image, model='veo-2.0-generate-001'
+        image=nano_t.generated_image,
+        model='veo-3.1-fast-generate-preview',
     )
 )
 ```

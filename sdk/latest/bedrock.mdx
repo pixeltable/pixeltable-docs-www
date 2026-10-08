@@ -8,7 +8,7 @@ description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixel
 
 Pixeltable UDFs for AWS Bedrock AI models.
 In order to use them, you must
-first `pip install boto3` and configure your AWS credentials, as described in
+first configure your AWS credentials, as described in
 the [Working with Bedrock](https://docs.pixeltable.com/howto/providers/working-with-bedrock) tutorial.
 
 
@@ -47,10 +47,6 @@ For additional details, see:
 
 PIL images and media file paths in `messages[*].content[*].(image|video|audio).source.bytes`
 are converted to raw bytes automatically.
-
-__Requirements:__
-
-- `pip install boto3`
 
 **Parameters:**
 
@@ -127,10 +123,6 @@ For additional details, see:
 [https://docs.aws.amazon.com/nova/latest/userguide/modality-embedding.html](https://docs.aws.amazon.com/nova/latest/userguide/modality-embedding.html)
 [https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-embed.html](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-embed.html)
 
-__Requirements:__
-
-- `pip install boto3`
-
 **Parameters:**
 
 - **`text`** (`String`): Input text to embed.
@@ -184,10 +176,6 @@ images in the response are automatically decoded into `PIL.Image` objects.
 For models that require async invocation, `bedrock.temp_location` must be configured
 (set environment variable `BEDROCK_TEMP_LOCATION` or add `temp_location` to the `[bedrock]` section of
 your Pixeltable configuration file).
-
-__Requirements:__
-
-- `pip install boto3`
 
 **Parameters:**
 

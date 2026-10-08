@@ -130,8 +130,8 @@ width="480" />
 </thead>
 <tbody>
 <tr>
-<td style="vertical-align: middle;"><code>veo-2.0-generate-001</code></td>
-<td style="vertical-align: middle;">Latest Veo model for high-quality video</td>
+<td style="vertical-align: middle;"><code>veo-3.1-fast-generate-preview</code></td>
+<td style="vertical-align: middle;">Veo 3.1, optimized for speed</td>
 </tr>
 </tbody>
 </table>
@@ -204,7 +204,7 @@ videos = pxt.create_table(
 # Add computed column that generates videos
 videos.add_computed_column(
     video=gemini.generate_videos(
-        videos.prompt, model='veo-2.0-generate-001'
+        videos.prompt, model='veo-3.1-fast-generate-preview'
     )
 )
 ```
@@ -250,7 +250,7 @@ animated = pxt.create_table(
 # Add computed column that animates images
 animated.add_computed_column(
     video=gemini.generate_videos(
-        image=animated.image, model='veo-2.0-generate-001'
+        image=animated.image, model='veo-3.1-fast-generate-preview'
     )
 )
 ```

@@ -356,9 +356,7 @@ Enrich the dataset with AI models:
 
 ```python
 # Add a computed column for text length
-reviews.add_computed_column(
-    text_length=reviews.text.apply(len, col_type=pxt.Int)
-)
+reviews.add_computed_column(text_length=reviews.text.len())
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
