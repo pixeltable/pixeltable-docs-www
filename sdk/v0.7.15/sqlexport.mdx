@@ -1,0 +1,32 @@
+---
+title: "SqlExport"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/globals.py#L18\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.serving.SqlExport
+
+
+Specification of an external RDBMS target for SQL export.
+
+
+**Parameters:**
+
+- **`db_connect`** (`Any`): SQLAlchemy connection string for the target database (e.g.
+    `'postgresql+psycopg://user:pw@host/db'`, `'sqlite:///path/to.db'`).
+- **`table`** (`Any`): Name of the target table. It must already exist; resolution fails
+    if the table is missing.
+- **`db_schema`** (`Any`): Optional database schema qualifier (e.g. `'analytics'`); leave `None` to
+    use the connection's default schema.
+- **`method`** (`Any`): How to write each row into the target table.
+    - `'insert'`: append the row via `INSERT ... VALUES`.
+    - `'update'`: update the row by primary-key match
+      (`UPDATE ... SET ... WHERE pk=...`). Requires that the target table has a
+      primary key whose metadata is exposed by the dialect. The exported columns
+      must include all primary-key columns of the target plus at least one non-PK
+      column to set. This is a strict update, **not** an upsert: if the WHERE
+      clause matches zero rows, the export fails. Useful when the source is
+      append-only but the target is a deduplicated current-state view.
+    - `'merge'`: upsert via the target table's primary key.
+      **Currently not supported.**
+

@@ -294,7 +294,7 @@ model_id='farleyknight-org-username/vit-base-mnist')</td>
 <table class="dataframe" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">classification_notakey</th>
+<th data-quarto-table-cell-role="th">classification_labels10</th>
 </tr>
 </thead>
 <tbody>
@@ -1234,13 +1234,13 @@ t.select(t.classification.labels[:2]).head(3)
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[13] }} />
 
-Pixeltable is resilient against out-of-bounds indices or dictionary
-keys. If an index or key doesn’t exist for a particular row, you’ll get
-a `None` output for that row.
+Pixeltable is resilient against out-of-bounds indices. If an index
+doesn’t exist for a particular row, you’ll get a `None` output for that
+row.
 
 
 ```python
-t.select(t.classification.not_a_key).head(3)
+t.select(t.classification.labels[10]).head(3)
 ```
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[14] }} />
