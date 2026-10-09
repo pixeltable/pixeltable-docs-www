@@ -40,22 +40,6 @@ something else?</td>
 </tr>
 </tbody>
 </table>
-`,`
-<table class="dataframe" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr style="text-align: right;">
-<th data-quarto-table-cell-role="th">input</th>
-<th data-quarto-table-cell-role="th">embedding</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="vertical-align: middle;">Together AI provides a variety of embeddings models.</td>
-<td style="vertical-align: middle;">[ 0.005 -0.022 0.018 0.051 0.033 -0.007 ... -0.029 0.012 0.059
--0.022 0.044 0.001]</td>
-</tr>
-</tbody>
-</table>
 `,`<style type="text/css">
 #T_34714_row0_col0 {
   white-space: pre-wrap;
@@ -237,45 +221,6 @@ Inserted&nbsp;2&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;1.58&nbsp;s&
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[0] }} />
 
-## Embeddings
-
-
-```python
-emb_t = pxt.create_table(
-    'together_demo/embeddings', {'input': pxt.String}
-)
-emb_t.add_computed_column(
-    embedding=together.embeddings(
-        input=emb_t.input, model='intfloat/multilingual-e5-large-instruct'
-    )
-)
-```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Created&nbsp;table&nbsp;&#x27;embeddings&#x27;.
-Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s
-No&nbsp;rows&nbsp;affected.
-</pre>
-
-
-```python
-emb_t.insert(
-    [{'input': 'Together AI provides a variety of embeddings models.'}]
-)
-```
-
-<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.54&nbsp;s&nbsp;(1.86&nbsp;rows/s)
-1&nbsp;row&nbsp;inserted.
-</pre>
-
-
-```python
-emb_t.head()
-```
-
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
-
 ## Image generations
 
 
@@ -313,20 +258,20 @@ Inserted&nbsp;1&nbsp;row&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;1.35&nbsp;s&n
 image_t
 ```
 
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[4] }} />
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
-
 
 ```python
 image_t.head()
 ```
 
-<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[6] }} />
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[5] }} />
 
 ### Learn more
 

@@ -40,36 +40,168 @@ Grafana Cloud</td>
 </tr>
 </tbody>
 </table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">caption</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">two cows lying in a grassy pasture</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table class="dataframe" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr style="text-align: right;">
+<th data-quarto-table-cell-role="th">caption</th>
+<th data-quarto-table-cell-role="th">entropy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;">a green and cream taxi parked at the curb</td>
+<td style="vertical-align: middle;">7.489</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">two cows lying in a grassy pasture</td>
+<td style="vertical-align: middle;">7.411</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">giraffes browsing leaves from a tree</td>
+<td style="vertical-align: middle;">7.703</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;">a baseball player mid-swing</td>
+<td style="vertical-align: middle;">7.17</td>
+</tr>
+</tbody>
+</table>
+`,`
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Type</th>
+<th>Dimensions</th>
+<th>What it measures</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.rows.written</code></td>
+<td style="vertical-align: middle;">counter</td>
+<td style="vertical-align: middle;">table, table_id</td>
+<td style="vertical-align: middle;">physical store rows written (inserts, update re-inserts, view
+loads)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.cells.computed</code></td>
+<td style="vertical-align: middle;">counter</td>
+<td style="vertical-align: middle;">table, table_id</td>
+<td style="vertical-align: middle;">output cells materialized during execution</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.cells.errors</code></td>
+<td style="vertical-align: middle;">counter</td>
+<td style="vertical-align: middle;">table, table_id</td>
+<td style="vertical-align: middle;">cells whose computation raised</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.udf.calls</code></td>
+<td style="vertical-align: middle;">counter</td>
+<td style="vertical-align: middle;">udf, udf_path</td>
+<td style="vertical-align: middle;">UDF invocations, failed ones included (a batched call counts
+once)</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.udf.errors</code></td>
+<td style="vertical-align: middle;">counter</td>
+<td style="vertical-align: middle;">udf, udf_path</td>
+<td style="vertical-align: middle;">UDF invocations that raised</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.udf.retries</code></td>
+<td style="vertical-align: middle;">counter</td>
+<td style="vertical-align: middle;">udf, udf_path</td>
+<td style="vertical-align: middle;">rate-limit retries of provider (resource-pool) calls</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.udf.latency</code></td>
+<td style="vertical-align: middle;">histogram (s)</td>
+<td style="vertical-align: middle;">udf, udf_path</td>
+<td style="vertical-align: middle;">per-invocation UDF latency</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.udf.input_tokens</code>,
+<code>pixeltable.udf.output_tokens</code></td>
+<td style="vertical-align: middle;">counter</td>
+<td style="vertical-align: middle;">udf, udf_path, model</td>
+<td style="vertical-align: middle;">LLM token usage, recorded by the token-instrumented provider
+UDFs</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.media.fetched_bytes</code></td>
+<td style="vertical-align: middle;">counter</td>
+<td style="vertical-align: middle;">table, table_id</td>
+<td style="vertical-align: middle;">bytes downloaded into the media cache</td>
+</tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.media.saved_bytes</code></td>
+<td style="vertical-align: middle;">counter</td>
+<td style="vertical-align: middle;">table, table_id</td>
+<td style="vertical-align: middle;">bytes persisted to media storage</td>
+</tr>
+</tbody>
+</table>
 `];
 
 Pixeltable can export its internal telemetry as OpenTelemetry (OTel)
-spans, so you can watch operations in any OTel backend. This notebook
-wires the OTel bridge to **Grafana Cloud** and traces a single
-`insert()` that exercises the full span set: source preparation, lock
-acquisition, planning, external media downloads, UDF evaluation, media
-persistence, the store write path, and view propagation.
+spans and metrics, so you can watch operations in any OTel backend. This
+notebook wires the OTel bridge to **Grafana Cloud** and walks a small
+image table through its lifecycle: directory and table creation,
+computed columns, an insert with external media, an embedding index,
+schema evolution, DML, a version revert, and teardown. **Every table
+operation roots its own trace**, and the same operations feed a set of
+metric instruments (row/cell/UDF counters, a UDF latency histogram,
+media byte counters) covered in the Metrics section below.
 
-The insert emits one nested span tree:
+The richest trace is the insert; its span tree looks like this:
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-pixeltable.insert&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(operation&nbsp;span,&nbsp;root)
-├─&nbsp;pixeltable.data_source.prepare&nbsp;&nbsp;&nbsp;&nbsp;(source&nbsp;resolution&nbsp;+&nbsp;schema&nbsp;validation)
-├─&nbsp;pixeltable.catalog.begin_xact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(connection&nbsp;+&nbsp;lock&nbsp;acquisition,&nbsp;one&nbsp;per&nbsp;attempt)
-├─&nbsp;pixeltable.plan.create&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(insert&nbsp;plan&nbsp;construction,&nbsp;DEBUG&nbsp;level)
-├─&nbsp;pixeltable.media.fetch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;external&nbsp;file&nbsp;downloaded,&nbsp;DEBUG&nbsp;level)
-├─&nbsp;pixeltable.row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;inserted&nbsp;row,&nbsp;DEBUG&nbsp;level)
-│&nbsp;&nbsp;└─&nbsp;pixeltable.udf.&lt;name&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(each&nbsp;UDF&nbsp;call,&nbsp;nested&nbsp;under&nbsp;its&nbsp;row)
-├─&nbsp;pixeltable.media.save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;generated&nbsp;media&nbsp;file&nbsp;persisted,&nbsp;DEBUG&nbsp;level)
-├─&nbsp;pixeltable.store.build_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(row&nbsp;-&gt;&nbsp;store-row&nbsp;conversion,&nbsp;DEBUG&nbsp;level)
-├─&nbsp;pixeltable.sa.insert_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(the&nbsp;SQL&nbsp;INSERT)
-└─&nbsp;pixeltable.view_load&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;mutable&nbsp;view,&nbsp;containing&nbsp;its&nbsp;own&nbsp;row/store&nbsp;spans)
+pixeltable.insert&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(operation&nbsp;span,&nbsp;root)
+├─&nbsp;pixeltable.data_source.prepare&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(source&nbsp;resolution&nbsp;+&nbsp;schema&nbsp;validation)
+├─&nbsp;pixeltable.catalog.begin_xact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(connection&nbsp;+&nbsp;lock&nbsp;acquisition,&nbsp;one&nbsp;per&nbsp;attempt)
+├─&nbsp;pixeltable.plan.create&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(insert&nbsp;plan&nbsp;construction,&nbsp;DEBUG&nbsp;level)
+├─&nbsp;pixeltable.store.insert_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(plan&nbsp;execution&nbsp;and&nbsp;store&nbsp;writes)
+│&nbsp;&nbsp;├─&nbsp;pixeltable.media.fetch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;external&nbsp;file&nbsp;downloaded,&nbsp;DEBUG&nbsp;level)
+│&nbsp;&nbsp;├─&nbsp;pixeltable.row&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;inserted&nbsp;row,&nbsp;DEBUG&nbsp;level)
+│&nbsp;&nbsp;│&nbsp;&nbsp;├─&nbsp;pixeltable.udf.resize&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(each&nbsp;UDF&nbsp;call,&nbsp;nested&nbsp;under&nbsp;its&nbsp;row)
+│&nbsp;&nbsp;│&nbsp;&nbsp;├─&nbsp;pixeltable.udf.convert
+│&nbsp;&nbsp;│&nbsp;&nbsp;└─&nbsp;pixeltable.udf.get_metadata
+│&nbsp;&nbsp;├─&nbsp;pixeltable.media.encode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;generated&nbsp;media&nbsp;file&nbsp;written&nbsp;to&nbsp;a&nbsp;temp&nbsp;file,&nbsp;DEBUG&nbsp;level)
+│&nbsp;&nbsp;├─&nbsp;pixeltable.media.save&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;generated&nbsp;media&nbsp;file&nbsp;persisted,&nbsp;DEBUG&nbsp;level)
+│&nbsp;&nbsp;├─&nbsp;pixeltable.store.build_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(row&nbsp;-&gt;&nbsp;store-row&nbsp;conversion,&nbsp;DEBUG&nbsp;level)
+│&nbsp;&nbsp;└─&nbsp;pixeltable.sa.insert_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(the&nbsp;SQL&nbsp;INSERT)
+├─&nbsp;pixeltable.view_load&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;per&nbsp;mutable&nbsp;view:&nbsp;its&nbsp;own&nbsp;pipeline,&nbsp;rows,&nbsp;store&nbsp;writes)
+└─&nbsp;pixeltable.catalog.write_tbl_md&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(metadata&nbsp;commit)
 </pre>
 
-Traces land in Grafana Cloud Traces (Tempo).
+Traces land in Grafana Cloud Traces (Tempo); metrics land in Grafana
+Cloud Metrics (Prometheus).
 
 
 ```python
-%pip install -qU 'pixeltable[otel]'
+%pip install -qU 'pixeltable[otel]' sentence-transformers
 ```
 
 ## Turn on the OpenTelemetry bridge
@@ -134,7 +266,7 @@ from opentelemetry.sdk.trace import TracerProvider
 
 pxt_otel.init(
     span_level='debug'
-)  # 'debug' emits per-row + per-UDF spans (default 'info' = operation span only)
+)  # 'debug' adds per-row, per-UDF, and per-file spans to the default 'info' level
 
 
 # fail loud instead of silently dropping every span: a no-op ProxyTracerProvider means the SDK never came up
@@ -146,53 +278,61 @@ print('OTel bridge active')
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Connected&nbsp;to&nbsp;Pixeltable&nbsp;database&nbsp;at:&nbsp;postgresql+psycopg://postgres:@/pixeltable?host=/private/tmp/pxt_otel_demo/pgdata
 OTel&nbsp;bridge&nbsp;active
 </pre>
 
-## A pipeline that exercises every span type
+## Build the pipeline
 
-One table with an image column and two computed columns, plus a view:
+Everything here is traced: `create_dir` and `create_table` produce DDL
+traces, each `add_computed_column` call is its own trace, and
+`create_view` contains a `pixeltable.op.LoadViewOp` subtree that loads
+the (still empty) view.
 
-- inserting external image URLs triggers `pixeltable.media.fetch` (one
-  download span per file, on worker threads)
-- the `add_one` UDF produces a `pixeltable.udf.add_one` span under each
-  `pixeltable.row`
-- the stored `thumb` column generates thumbnails whose persistence
-  produces `pixeltable.media.save` spans
-- the view is recomputed as part of the same insert, producing the
-  nested `pixeltable.view_load` subtree
+The computed columns are real work so the insert has something to trace:
+a stored thumbnail (persisted -\> `pixeltable.media.save` spans), a
+grayscale conversion, and image metadata extraction. The view derives a
+rotated thumbnail from the base table.
 
-`if_exists='replace_force'` also drops the dependent view on re-runs.
+`if_exists='replace_force'` on the directory drops everything from a
+previous run.
 
 
 ```python
 import pixeltable as pxt
 
-t = pxt.create_table(
-    'otel_demo1',
-    {'c': pxt.Int, 'img': pxt.Image},
-    if_exists='replace_force',
-)
+pxt.create_dir('otel_demo', if_exists='replace_force')
 
-# Simple expression (span not reported since no UDF is invoked)
-t.add_computed_column(inc=t.c + 1)
-# Complex expression (span reported since UDF is invoked)
+t = pxt.create_table(
+    'otel_demo.images', {'img': pxt.Image, 'caption': pxt.String}
+)
 t.add_computed_column(thumb=t.img.resize((64, 64)))
+t.add_computed_column(gray=t.img.convert('L'))
+t.add_computed_column(meta=t.img.get_metadata())
 
 v = pxt.create_view(
-    'otel_demo_view',
+    'otel_demo.thumbs',
     t,
-    additional_columns={'inc2': t.inc + 2},
-    if_exists='replace',
+    additional_columns={'thumb_rot': t.thumb.rotate(90)},
 )
 ```
 
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Created&nbsp;directory&nbsp;&#x27;otel_demo&#x27;.
+Created&nbsp;table&nbsp;&#x27;images&#x27;.
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Added&nbsp;0&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.00&nbsp;s
+Created&nbsp;view&nbsp;&#x27;otel_demo/thumbs&#x27;.
+</pre>
+
 ## Insert
 
-This is the traced operation: 4 rows referencing external images (well
-under the 100-span-per-operation cap, so every row gets a span). The
-whole pipeline, downloads, UDFs, thumbnails, store writes, and the view
-reload, lands under one `pixeltable.insert` trace.
+4 rows referencing external images (well under the
+100-span-per-operation cap, so every row gets a span). Downloads, UDF
+evaluation, thumbnail persistence, the store write path, and the view
+reload all land under one `pixeltable.insert` trace, following the tree
+from the introduction.
 
 Note: `pixeltable.media.fetch` spans only appear when the files are not
 yet in the local file cache; on a re-run of this cell the downloads are
@@ -201,46 +341,199 @@ skipped.
 
 ```python
 base = 'https://raw.githubusercontent.com/pixeltable/pixeltable/main/docs/resources/images'
-images = [
-    '000000000001.jpg',
-    '000000000016.jpg',
-    '000000000019.jpg',
-    '000000000025.jpg',
+rows = [
+    {
+        'img': f'{base}/000000000001.jpg',
+        'caption': 'a green and cream taxi parked at the curb',
+    },
+    {
+        'img': f'{base}/000000000016.jpg',
+        'caption': 'a baseball player mid-swing',
+    },
+    {
+        'img': f'{base}/000000000019.jpg',
+        'caption': 'two cows lying in a grassy pasture',
+    },
+    {
+        'img': f'{base}/000000000025.jpg',
+        'caption': 'giraffes browsing leaves from a tree',
+    },
 ]
-status = t.insert(
-    [{'c': i, 'img': f'{base}/{name}'} for i, name in enumerate(images)]
-)
-status
+t.insert(rows)
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Inserted&nbsp;8&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.04&nbsp;s&nbsp;(224.62&nbsp;rows/s)
+Inserted&nbsp;8&nbsp;rows&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.49&nbsp;s&nbsp;(16.27&nbsp;rows/s)
 8&nbsp;rows&nbsp;inserted.
 </pre>
 
-## Wait a few seconds for export
+## Embedding index
+
+`add_embedding_index` backfills embeddings for the existing rows and
+builds the vector index, all in one trace: `pixeltable.model.load`
+(first use of the model in this process), batched
+`pixeltable.udf.sentence_transformer` calls, the backfill write
+(`pixeltable.store.write_column`), and `pixeltable.store.create_index`.
+
+Queries are traced too: `collect()` (along with `head`, `tail`, and
+`count`) roots its own trace, a `pixeltable.collect` span carrying the
+table names and row count, with a nested
+`pixeltable.result_cursor.yield_rows` span and, at `'debug'`, the
+per-row and per-UDF spans below it. The similarity search below produces
+its own trace alongside the index build.
+
+
+```python
+from pixeltable.functions.huggingface import sentence_transformer
+
+t.add_embedding_index(
+    'caption',
+    embedding=sentence_transformer.using(model_id='all-MiniLM-L6-v2'),
+)
+t.order_by(t.caption.similarity(string='a farm animal'), asc=False).limit(
+    1
+).select(t.caption).collect()
+```
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[1] }} />
+
+## Evolve, mutate, roll back
+
+Three more operations, one trace each:
+
+- `add_computed_column` on a table that already has data shows the
+  backfill: a `pixeltable.store.write_column` span containing the
+  evaluation pipeline.
+- `update` recomputes dependents of the changed column inside the same
+  trace, including the embedding index (watch for another
+  `pixeltable.udf.sentence_transformer` span).
+- `revert` rolls the update back; version cleanup shows up as
+  `pixeltable.catalog.revert_version` and `pixeltable.media.delete`
+  spans.
+
+Other operations trace the same way (`delete`, `rename_column`,
+`recompute_columns`, `batch_update`, snapshots, drops, …); this notebook
+is a sample, not the full list.
+
+
+```python
+t.add_computed_column(entropy=t.gray.entropy())
+t.update({'caption': t.caption.upper()})
+t.revert()
+t.select(t.caption, t.entropy).collect()
+```
+
+<pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
+Added&nbsp;4&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.02&nbsp;s&nbsp;(184.28&nbsp;rows/s)
+</pre>
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[2] }} />
+
+## Metrics
+
+The operations above didn’t just produce traces: the same bridge exports
+Pixeltable’s metric instruments through the OTLP endpoint. No setup is
+needed beyond `init()`; a `PeriodicExportingMetricReader` ships them
+every 60 seconds by default (set `OTEL_METRIC_EXPORT_INTERVAL`, in
+milliseconds, to change that).
+
+<div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
+
+This notebook’s lifecycle populated most of them: `rows.written` for the
+`images` table and the `thumbs` view, `cells.computed`, `udf.calls` and
+`udf.latency` for `resize`, `convert`, `get_metadata`, `rotate`,
+`entropy`, and the batched `sentence_transformer`, and both media byte
+counters (the insert downloaded four images and persisted the generated
+thumbnails). The error, retry, and token metrics are absent here because
+instruments are created lazily on first record; they appear when a
+computed column raises (with `on_error='ignore'`), when a rate-limited
+provider call is retried, or when a token-instrumented provider UDF
+(OpenAI `chat_completions`/`responses`, Anthropic `messages`, Gemini
+`generate_content`, or Ollama `generate`/`chat`) returns a response
+carrying usage information.
+
+**Viewing in Grafana.** Explore -\> your Prometheus (Metrics) data
+source. OTLP metric names arrive translated to Prometheus conventions:
+dots become underscores, counters get a `_total` suffix, and time/byte
+units are spelled out, so `pixeltable.udf.calls` becomes
+`pixeltable_udf_calls_total` and `pixeltable.udf.latency` becomes
+`pixeltable_udf_latency_seconds_bucket`/`_sum`/`_count`. Dimensions
+arrive as labels (`pxt_table`, `pxt_udf`). Some queries to try:
+
+
+```promql
+# UDF invocations by function, last 15 minutes
+increase(pixeltable_udf_calls_total[15m])
+
+# p95 UDF latency by function
+histogram_quantile(0.95, sum by (le, pxt_udf) (rate(pixeltable_udf_latency_seconds_bucket[15m])))
+
+# rows written to the demo table
+increase(pixeltable_rows_written_total{pxt_table="images"}[15m])
+```
+
+**Counter panels and short-lived processes.** These are cumulative
+counters, and `rate()`/`increase()` need at least two samples per series
+with growth between them. A process that runs one operation and exits
+exports a single sample, which those functions treat as the baseline:
+the panel reads 0 even though the data arrived. In a live kernel like
+this one the periodic exporter keeps shipping samples, so rate panels
+work after a couple of export intervals; for one-shot scripts, query the
+raw values instead,
+e.g. `last_over_time(pixeltable_udf_calls_total[1h])`.
+
+## Wait a moment for export
 
 `init()` sets up a `BatchSpanProcessor`, which ships queued spans
-automatically about every 5 seconds while the kernel stays alive, so no
-manual flush is needed. Give it a few seconds after the insert, then
-check Grafana.
+automatically about every 5 seconds while the kernel stays alive, and a
+`PeriodicExportingMetricReader`, which ships metrics every 60 seconds by
+default. Give it a minute after the last operation, then check Grafana.
 
 (In a short-lived script that exits immediately you would call
-`trace.get_tracer_provider().force_flush()` before exit, but in a live
-notebook kernel the timer handles it.)
+`trace.get_tracer_provider().force_flush()` and
+`metrics.get_meter_provider().force_flush()` before exit, but in a live
+notebook kernel the timers handle it.)
 
 ## View it in Grafana
 
-- **Traces**: Explore -\> your Traces (Tempo) data source -\> search
-  Service Name `pixeltable`, or span name `pixeltable.insert`. Expand
-  the trace to see the full hierarchy: `pixeltable.media.fetch`
-  downloads running in parallel, `pixeltable.row` -\>
-  `pixeltable.udf.add_one`/`pixeltable.udf.resize` nesting,
-  `pixeltable.media.save` persistence, the
-  `pixeltable.store.build_rows`/`pixeltable.sa.insert_rows` write path,
-  and the `pixeltable.view_load` subtree with its own rows and store
-  writes.
+Explore -\> your Traces (Tempo) data source -\> search Service Name
+`pixeltable`. This notebook produced one trace per operation:
+`pixeltable.create_dir`, `pixeltable.create_table`,
+`pixeltable.add_computed_column` (x4), `pixeltable.create_view`,
+`pixeltable.insert`, `pixeltable.add_embedding_index`,
+`pixeltable.update`, `pixeltable.revert`, `pixeltable.drop_table` (x2),
+and `pixeltable.drop_dir`, plus a `pixeltable.collect` trace for each of
+the two queries (the similarity search and the final select).
+
+The two showcase traces:
+
+- **`pixeltable.insert`**: the full tree from the introduction -
+  parallel `media.fetch` downloads (on a cold cache), `pixeltable.row`
+  spans with nested `udf.resize`/`udf.convert`/`udf.get_metadata` calls,
+  `media.save` persistence, the `store.build_rows`/`sa.insert_rows`
+  write path, and the `view_load` subtree with its own pipeline and
+  rows.
+- **`pixeltable.add_embedding_index`**: `model.load`, batched
+  `udf.sentence_transformer` calls, the backfill write, and
+  `store.create_index`.
 
 For more detail use `span_level='trace'`; to reduce volume on a large
-insert, use the default `'info'` (operation, `data_source.prepare`,
-`begin_xact`, `sa.insert_rows`, and `view_load` spans only).
+insert, use the default `'info'`, which keeps the operation spans and
+the INFO-level work spans (`catalog.begin_xact`, `sa.insert_rows`,
+`sa.select`, `store.insert_rows`, `store.write_column`, `view_load`,
+metadata writes) and drops the DEBUG spans (per-row, per-UDF, per-file,
+`store.build_rows`, and the finer-grained catalog and store spans).
+
+## Teardown
+
+Drops are traced too: each `pixeltable.drop_table` trace contains the
+`pixeltable.op.*` sequence (media cleanup, store table drop, metadata
+deletion) that executes the drop, and `pixeltable.drop_dir` closes out
+the demo. The view must drop before its base table.
+
+
+```python
+pxt.drop_table('otel_demo.thumbs')
+pxt.drop_table('otel_demo.images')
+pxt.drop_dir('otel_demo')
+```
