@@ -24,6 +24,7 @@ init(
     service_name: str | None = None,
     headers: str | None = None,
     span_level: Literal['info', 'debug', 'trace'] | None = None,
+    span_dump: str | None = None,
     metrics: bool | None = None,
     logs: bool | None = None,
     tracer_provider: Any = None,
@@ -43,16 +44,20 @@ protocol, as `db_<key>`), then that env var, then the `[otel]` config section. P
 
 - **`endpoint`** (`str | None`): OTLP collector endpoint (eg `http://localhost:4318`); resolves from the database entry's
     `db_exporter_otlp_endpoint`, then `OTEL_EXPORTER_OTLP_ENDPOINT`, then `otel.exporter_otlp_endpoint`.
-    With no endpoint configured and no application-owned provider, instrumentation stays inert and
-    exports nothing.
+    With no endpoint configured, no `span_dump`, and no application-owned provider, instrumentation
+    stays inert and exports nothing.
 - **`protocol`** (`str | None`): OTLP transport, `http/protobuf` (default) or `grpc`; resolves from the database entry's
     `db_exporter_otlp_protocol`, then `OTEL_EXPORTER_OTLP_PROTOCOL`, then `otel.exporter_otlp_protocol`.
 - **`service_name`** (`str | None`): `service.name` resource attribute (default `pixeltable`); resolves from
     `otel.service_name` / `OTEL_SERVICE_NAME`.
 - **`headers`** (`str | None`): OTLP headers as comma-separated `key=value` pairs; resolves from
     `otel.exporter_otlp_headers` / `OTEL_EXPORTER_OTLP_HEADERS`.
-- **`span_level`** (`Literal['info', 'debug', 'trace'] | None`): span emission threshold: `info` (default; operation-level spans only), `debug`
-    (adds per-row and per-UDF spans), or `trace`.
+- **`span_level`** (`Literal['info', 'debug', 'trace'] | None`): span emission threshold: `info` (default; operation spans plus their catalog, store, and
+    SQL work spans), `debug` (adds per-row, per-UDF, per-file, and finer-grained catalog and store spans),
+    or `trace` (adds a span per iterator step).
+- **`span_dump`** (`str | None`): path of a file to append every finished span to, one JSON object per line; resolves
+    from `otel.span_dump` / `OTEL_SPAN_DUMP`. Spans are written synchronously, so the file is
+    complete even if the process dies. Works with or without an OTLP endpoint.
 - **`metrics`** (`bool | None`): force metric export on/off (by default metrics are exported only when an OTLP endpoint
     is configured).
 - **`logs`** (`bool | None`): force log export on/off (default off; must be explicitly enabled).
