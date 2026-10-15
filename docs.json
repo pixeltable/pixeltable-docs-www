@@ -196,8 +196,133 @@
             ]
           },
           {
-            "dropdown": "v0.7.16",
+            "dropdown": "v0.7.17",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.7.17/pixeltable",
+                      "sdk/v0.7.17/table",
+                      "sdk/v0.7.17/query",
+                      "sdk/v0.7.17/resultset",
+                      "sdk/v0.7.17/row",
+                      "sdk/v0.7.17/rowbatch",
+                      "sdk/v0.7.17/cellerror",
+                      "sdk/v0.7.17/resultcursor",
+                      "sdk/v0.7.17/expr",
+                      "sdk/v0.7.17/columnref",
+                      "sdk/v0.7.17/columnmetadata",
+                      "sdk/v0.7.17/configvar",
+                      "sdk/v0.7.17/dircontents",
+                      "sdk/v0.7.17/directorynode",
+                      "sdk/v0.7.17/indexmetadata",
+                      "sdk/v0.7.17/secret",
+                      "sdk/v0.7.17/tablemetadata",
+                      "sdk/v0.7.17/tablenode",
+                      "sdk/v0.7.17/treenode",
+                      "sdk/v0.7.17/updatestatus",
+                      "sdk/v0.7.17/uri",
+                      "sdk/v0.7.17/versionmetadata",
+                      "sdk/v0.7.17/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.7.17/functions",
+                      "sdk/v0.7.17/array",
+                      "sdk/v0.7.17/audio",
+                      "sdk/v0.7.17/date",
+                      "sdk/v0.7.17/document",
+                      "sdk/v0.7.17/image",
+                      "sdk/v0.7.17/json",
+                      "sdk/v0.7.17/math",
+                      "sdk/v0.7.17/net",
+                      "sdk/v0.7.17/string",
+                      "sdk/v0.7.17/timestamp",
+                      "sdk/v0.7.17/uuid",
+                      "sdk/v0.7.17/video",
+                      "sdk/v0.7.17/vision",
+                      "sdk/v0.7.17/codeccontextmetadata",
+                      "sdk/v0.7.17/containermetadata",
+                      "sdk/v0.7.17/streammetadata",
+                      "sdk/v0.7.17/sceneinfo",
+                      "sdk/v0.7.17/videosegment"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.7.17/anthropic",
+                      "sdk/v0.7.17/bedrock",
+                      "sdk/v0.7.17/bfl",
+                      "sdk/v0.7.17/deepseek",
+                      "sdk/v0.7.17/fabric",
+                      "sdk/v0.7.17/fal",
+                      "sdk/v0.7.17/fireworks",
+                      "sdk/v0.7.17/gemini",
+                      "sdk/v0.7.17/groq",
+                      "sdk/v0.7.17/huggingface",
+                      "sdk/v0.7.17/jina",
+                      "sdk/v0.7.17/llama_cpp",
+                      "sdk/v0.7.17/mistralai",
+                      "sdk/v0.7.17/nebius",
+                      "sdk/v0.7.17/ollama",
+                      "sdk/v0.7.17/openai",
+                      "sdk/v0.7.17/openrouter",
+                      "sdk/v0.7.17/replicate",
+                      "sdk/v0.7.17/runwayml",
+                      "sdk/v0.7.17/together",
+                      "sdk/v0.7.17/twelvelabs",
+                      "sdk/v0.7.17/vllm",
+                      "sdk/v0.7.17/voyageai",
+                      "sdk/v0.7.17/whisper",
+                      "sdk/v0.7.17/whisperx",
+                      "sdk/v0.7.17/yolox",
+                      "sdk/v0.7.17/whispersegment",
+                      "sdk/v0.7.17/whispertranscription",
+                      "sdk/v0.7.17/whisperword"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.7.17/serving",
+                      "sdk/v0.7.17/fastapirouter",
+                      "sdk/v0.7.17/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.7.17/io"
+                    ]
+                  },
+                  {
+                    "group": "Observability",
+                    "pages": [
+                      "sdk/v0.7.17/telemetry",
+                      "sdk/v0.7.17/counter",
+                      "sdk/v0.7.17/histogram",
+                      "sdk/v0.7.17/pixeltable",
+                      "sdk/v0.7.17/pixeltableinstrumentor",
+                      {
+                        "group": "Application Instrumentation",
+                        "pages": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.7.16",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -4696,6 +4821,7 @@
                 "group": "Images",
                 "expanded": false,
                 "pages": [
+                  "howto/cookbooks/images/yolox-object-detection",
                   "howto/cookbooks/images/img-detect-objects",
                   "howto/cookbooks/images/img-detection-vs-segmentation",
                   "howto/cookbooks/images/img-visualize-detections",
@@ -4716,6 +4842,7 @@
                 "group": "Audio",
                 "expanded": false,
                 "pages": [
+                  "howto/cookbooks/audio/whisperx-transcription",
                   "howto/cookbooks/audio/audio-transcribe",
                   "howto/use-cases/audio-transcriptions",
                   "howto/cookbooks/audio/audio-summarize-podcast",
@@ -5064,7 +5191,7 @@
     },
     {
       "source": "/examples/vision/yolox",
-      "destination": "/howto/cookbooks/images/img-detect-objects"
+      "destination": "/howto/cookbooks/images/yolox-object-detection"
     },
     {
       "source": "/examples/vision/object-detection",
@@ -5336,7 +5463,7 @@
     },
     {
       "source": "/libraries/yolox",
-      "destination": "/integrations/frameworks"
+      "destination": "/howto/cookbooks/images/yolox-object-detection"
     }
   ]
 }

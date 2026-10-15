@@ -287,7 +287,7 @@ Image&nbsp;→&nbsp;YOLOX&nbsp;detection&nbsp;→&nbsp;Bounding&nbsp;boxes&nbsp;
 The `yolox` function returns a dict with:
 
 - `bboxes` - List of \[x1, y1, x2, y2\] coordinates
-- `labels` - List of class names (e.g., “cat”, “dog”)
+- `labels` - COCO class ids (integers). `0` is person
 - `scores` - List of confidence scores (0-1)
 
 **YOLOX model options:**
@@ -302,3 +302,6 @@ The `yolox` function returns a dict with:
 - [Extract video
   frames](/howto/cookbooks/video/video-extract-frames) -
   Detect objects in video
+- [YOLOX object detection in
+  Python](/howto/cookbooks/images/yolox-object-detection) -
+  Images, video frames, and drawn boxes
