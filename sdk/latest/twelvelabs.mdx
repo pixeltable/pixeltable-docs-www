@@ -58,11 +58,17 @@ embed(
 Creates an embedding vector for the given text, audio, image, or video input.
 
 Each UDF signature corresponds to one of the four supported input types. If text is specified, it is possible to
-specify an image as well, corresponding to the `text_image` embedding type in the TwelveLabs API. This is
-(currently) the only way to include more than one input type at a time.
+specify an image as well. Both `marengo3.0` and `marengo3.5` return 512-dimensional vectors that can be used
+with an embedding index. Embeddings from different model versions are incompatible; re-embed existing
+content when changing models.
+
+Marengo 3.5 uses the synchronous `multi_input` API. Images, audio, and video must be at most 32 MB.
+Audio and video must also be at most 30 seconds. Split longer files with `audio_splitter` or
+`video_splitter` before embedding them. The `start_sec`,
+`end_sec`, and `embedding_option` parameters are supported only with Marengo 3.0.
 
 Equivalent to the TwelveLabs Embed API:
-[https://docs.twelvelabs.io/v1.3/docs/guides/create-embeddings](https://docs.twelvelabs.io/v1.3/docs/guides/create-embeddings)
+[https://docs.twelvelabs.io/sdk-reference/python/create-embeddings-v-2/create-sync-embeddings](https://docs.twelvelabs.io/sdk-reference/python/create-embeddings-v-2/create-sync-embeddings)
 
 Request throttling:
 Applies the rate limit set in the config (section `twelvelabs`, key `rate_limit`). If no rate
@@ -71,12 +77,11 @@ limit is configured, uses a default of 600 RPM.
 __Requirements:__
 
 - `pip install twelvelabs`
+- Marengo 3.5 requires `twelvelabs>=1.3.6`.
 
 **Parameters:**
 
-- **`model_name`** (`String`): The name of the model to use. Check
-    [the TwelveLabs documentation](https://docs.twelvelabs.io/v1.3/sdk-reference/python/create-embeddings-v-1/create-text-image-and-audio-embeddings)
-    for available models.
+- **`model_name`** (`String`): The name of the model to use (`marengo3.0` or `marengo3.5`).
 - **`text`** (`String`): The text to embed.
 - **`image`** (`Image | None`, default: `Literal(None)`): If specified, the embedding will be created from both the text and the image.
 
@@ -90,7 +95,15 @@ Add a computed column `embed` for an embedding of a string column `input`:
 
 ```python
 tbl.add_computed_column(
-    embed=embed(model_name='marengo3.0', text=tbl.input)
+    embed=embed(model_name='marengo3.5', text=tbl.input)
+)
+```
+
+Add an embedding index for cross-modal search:
+
+```python
+tbl.add_embedding_index(
+    tbl.input, embedding=embed.using(model_name='marengo3.5')
 )
 ```
 

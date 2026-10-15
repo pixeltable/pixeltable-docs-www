@@ -21,6 +21,46 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.17
+
+**Released:** October 15, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.17](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.17)
+
+#### What's Changed
+* Keep the control-plane client's idle connections alive with TCP keepalive by [@aaron-siegel](https://github.com/aaron-siegel) in [#1729](https://github.com/pixeltable/pixeltable/pull/1729)
+* Match Gemini's multimodal descriptions case-insensitively by [@aaron-siegel](https://github.com/aaron-siegel) in [#1735](https://github.com/pixeltable/pixeltable/pull/1735)
+* Support Marengo 3.5 multimodal embeddings (PXT-1553) by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1732](https://github.com/pixeltable/pixeltable/pull/1732)
+* [PXT-1484] reject media destinations inside project dir by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1736](https://github.com/pixeltable/pixeltable/pull/1736)
+* Fix flaky test_pxtfs_media_dest_warns: compare only deprecation warnings by [@aaron-siegel](https://github.com/aaron-siegel) in [#1737](https://github.com/pixeltable/pixeltable/pull/1737)
+* Fail fast with a clear error when the database tunnel's TCP connect times out by [@aaron-siegel](https://github.com/aaron-siegel) in [#1733](https://github.com/pixeltable/pixeltable/pull/1733)
+* Add `pxt skills install`, which copies the Pixeltable skill into the project for coding agents by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1739](https://github.com/pixeltable/pixeltable/pull/1739)
+* docs: YOLOX object detection and WhisperX transcription guides by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1743](https://github.com/pixeltable/pixeltable/pull/1743)
+* Write each FLAC audio segment's own duration into its header by [@aaron-siegel](https://github.com/aaron-siegel) in [#1742](https://github.com/pixeltable/pixeltable/pull/1742)
+* Review pull requests with Claude by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1750](https://github.com/pixeltable/pixeltable/pull/1750)
+* Install bubblewrap for the Claude review by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1752](https://github.com/pixeltable/pixeltable/pull/1752)
+* Rename the Claude review command, keep its check green, and print what it did by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1753](https://github.com/pixeltable/pixeltable/pull/1753)
+* Run Claude review agents in the foreground and list the allowed tools by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1754](https://github.com/pixeltable/pixeltable/pull/1754)
+* Post the Claude review as one review, react to requests, and restore search by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1755](https://github.com/pixeltable/pixeltable/pull/1755)
+* Cut the Claude review's cost by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1757](https://github.com/pixeltable/pixeltable/pull/1757)
+* Review new PRs automatically and pick the review tier in the workflow by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1758](https://github.com/pixeltable/pixeltable/pull/1758)
+* openai test: replace deprecated model by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1726](https://github.com/pixeltable/pixeltable/pull/1726)
+* Close proxy transports' connections when GC collects them by [@aaron-siegel](https://github.com/aaron-siegel) in [#1744](https://github.com/pixeltable/pixeltable/pull/1744)
+* Document the network access pxt needs for Pixeltable Cloud by [@aaron-siegel](https://github.com/aaron-siegel) in [#1745](https://github.com/pixeltable/pixeltable/pull/1745)
+* [PXT-1502] Point local log requests to Pixeltable Cloud by [@christopherpestano](https://github.com/christopherpestano) in [#1747](https://github.com/pixeltable/pixeltable/pull/1747)
+* Review drafts within an hour of being marked ready by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1760](https://github.com/pixeltable/pixeltable/pull/1760)
+* Add REVIEW.md for Devin Review guidance by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1767](https://github.com/pixeltable/pixeltable/pull/1767)
+* Default the database tunnel to port 443 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1746](https://github.com/pixeltable/pixeltable/pull/1746)
+* Accept storage-edge media URLs in the cloud serving tests by [@aaron-siegel](https://github.com/aaron-siegel) in [#1756](https://github.com/pixeltable/pixeltable/pull/1756)
+* PXT-1565: replace EOL Nova Reel in Bedrock async video test/docs by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1763](https://github.com/pixeltable/pixeltable/pull/1763)
+* REVIEW.md: inline scope gate, MIT notice, pinned upstream by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1768](https://github.com/pixeltable/pixeltable/pull/1768)
+* Fix nightly failures: empty scenes from scenedetect 0.7.2, unclosed Replicate HTTP clients by [@aaron-siegel](https://github.com/aaron-siegel) in [#1766](https://github.com/pixeltable/pixeltable/pull/1766)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.16...v0.7.17
+
+---
+
 ### v0.7.16
 
 **Released:** October 09, 2026  
@@ -1273,23 +1313,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.5...v0.5.6
-
----
-
-### v0.5.5
-
-**Released:** December 11, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.5.5](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.5)
-
-#### What's Changed
-* Multimodal support for Gemini `generate_content()` by [@aaron-siegel](https://github.com/aaron-siegel) in [#983](https://github.com/pixeltable/pixeltable/pull/983)
-* PXT-903 Add UUID in pixeltable types  by [@amithadke](https://github.com/amithadke) in [#979](https://github.com/pixeltable/pixeltable/pull/979)
-* PXT-905/907: clean up handling of Huggingface datasets by [@mkornacker](https://github.com/mkornacker) in [#984](https://github.com/pixeltable/pixeltable/pull/984)
-* Twelve Labs multimodal embeddings support by [@aaron-siegel](https://github.com/aaron-siegel) in [#987](https://github.com/pixeltable/pixeltable/pull/987)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.4...v0.5.5
 
 ---
 

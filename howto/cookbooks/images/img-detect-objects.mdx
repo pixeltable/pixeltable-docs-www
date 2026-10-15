@@ -384,9 +384,9 @@ images.select(
 
 The `detections` dictionary contains:
 
-- `labels`: List of class names (e.g., “person”, “car”, “dog”)
-- `boxes`: Bounding box coordinates \[x1, y1, x2, y2\]
-- `scores`: Confidence scores (0-1)
+- `bboxes`: pixel coordinates `[xmin, ymin, xmax, ymax]`
+- `labels`: COCO class ids (integers). `0` is person
+- `scores`: confidence from 0 to 1
 
 **Adjusting threshold:**
 
@@ -402,6 +402,6 @@ The `detections` dictionary contains:
 - [Analyze images in
   batch](/howto/cookbooks/images/vision-batch-analysis) -
   AI vision analysis
-- [Find similar
-  images](/howto/cookbooks/search/search-similar-images) -
-  Visual similarity search
+- [YOLOX object detection in
+  Python](/howto/cookbooks/images/yolox-object-detection) -
+  Images, video frames, and drawn boxes
