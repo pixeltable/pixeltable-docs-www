@@ -475,9 +475,9 @@ First, create an MCP server with tools you want to expose. Save this as
 
 
 ```python
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
-mcp = FastMCP('PixeltableDemo', stateless_http=True)
+mcp = MCPServer('PixeltableDemo')
 
 @mcp.tool()
 def calculate_discount(price: float, discount_percent: float) -> float:
@@ -496,7 +496,7 @@ def check_inventory(product_id: str) -> str:
     return inventory.get(product_id, f'Unknown product: {product_id}')
 
 if __name__ == '__main__':
-    mcp.run(transport='streamable-http')
+    mcp.run(transport='streamable-http', stateless_http=True)
 ```
 
 Run the server: `python mcp_server.py` (it will listen on
