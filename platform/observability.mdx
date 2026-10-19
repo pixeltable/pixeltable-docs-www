@@ -179,7 +179,7 @@ The richest trace is the insert; its span tree looks like this:
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
 pixeltable.insert&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(operation&nbsp;span,&nbsp;root)
-├─&nbsp;pixeltable.data_source.prepare&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(source&nbsp;resolution&nbsp;+&nbsp;schema&nbsp;validation)
+├─&nbsp;pixeltable.data_source.prepare&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(source&nbsp;resolution)
 ├─&nbsp;pixeltable.catalog.begin_xact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(connection&nbsp;+&nbsp;lock&nbsp;acquisition,&nbsp;one&nbsp;per&nbsp;attempt)
 ├─&nbsp;pixeltable.plan.create&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(insert&nbsp;plan&nbsp;construction,&nbsp;DEBUG&nbsp;level)
 ├─&nbsp;pixeltable.store.insert_rows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(plan&nbsp;execution&nbsp;and&nbsp;store&nbsp;writes)
