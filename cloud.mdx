@@ -4,10 +4,6 @@ sidebarTitle: 'Pixeltable Cloud'
 description: 'Run the same application file against a hosted database'
 ---
 
-<Note>
-  Pixeltable Cloud is in Limited Beta. Email [contact@pixeltable.com](mailto:contact@pixeltable.com) if you are interested.
-</Note>
-
 The [Quickstart](/overview/quick-start) runs `app.py` locally. Here, the same application file creates tables and starts HTTP on a hosted database. A `pxt login` session is enough for the first deployment, or, with no account, a `pxt new` trial ([Trial databases](/platform/cli#trial-databases)). You do not need an API key.
 
 ## First deployment
@@ -22,7 +18,7 @@ The [Quickstart](/overview/quick-start) runs `app.py` locally. Here, the same ap
     pip install -U 'pixeltable[serve]'
     ```
 
-    With no account, run `pxt new` and skip `pxt login`. `pxt new` creates a trial organization and database `main`, and prints the `pxt://` URI, the `pixeltable.toml` entry, and the later commands with that name filled in. Claim the trial at the URL `pxt new` prints, or it is deleted, normally 48 hours after `pxt new`. When this machine is already signed in, `pxt new` creates no trial. Run `pxt logout`, then `pxt new`, to drop a `pxt login` session and start a trial.
+    With no account, run `pxt new` and skip `pxt login`. `pxt new` creates a trial organization and database `main`, and prints the `pxt://` URI and the later commands with that name filled in. Claim the trial at the URL `pxt new` prints, or it is deleted, normally 48 hours after `pxt new`. When this machine is already signed in, `pxt new` creates no trial. Run `pxt logout`, then `pxt new`, to drop a `pxt login` session and start a trial.
 
     With an account:
 
@@ -55,14 +51,13 @@ The [Quickstart](/overview/quick-start) runs `app.py` locally. Here, the same ap
 
     `pxt service example` writes a working `app.py` with a `Docs` table and an `ingest` HTTP service. If you already completed the Quickstart, use that `app.py` instead.
 
-    Add a hosted database entry for that `main` database to the `pixeltable.toml` that `pxt init` created. Replace `org` with your organization name:
+    Point the project at your `main` database. Replace `org` with your organization name:
 
-    ```toml
-    [[pixeltable.database]]
-    name = 'pxt://org:main'
+    ```bash
+    pxt db diff pxt://org:main --add-config-entry
     ```
 
-    Leave the entry `pxt init` wrote. It has no `name`, and that entry is the local database. A second entry with no `name` fails to load: both are named `local`. If your project has a `pyproject.toml`, `pxt init` adds its entry there instead. Use `[[tool.pixeltable.database]]` for the hosted entry.
+    `--add-config-entry` appends an entry named `pxt://org:main` to the project configuration, after the local entry from `pxt init`. `pxt db diff` then prints what `pxt db update` will change, and exits 2 while changes are pending.
   </Step>
   <Step title="Upload the project, create tables, and start the service">
     Run these commands from the project directory, in order:
@@ -308,8 +303,8 @@ signed = resp.json()  # {"urls": {key: url}, "expires_at": "2026-10-08T21:00:00.
 | Media | local disk | `pxt://org:main/buckets/home` |
 
 <CardGroup cols={2}>
-  <Card title="Request an account" icon="envelope" href="mailto:contact@pixeltable.com">
-    Cloud is in Limited Beta.
+  <Card title="Contact us" icon="envelope" href="mailto:contact@pixeltable.com">
+    Questions about your Cloud account.
   </Card>
   <Card title="Book a demo" icon="calendar" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0BSvx8SRh7HoLdgvGeYUuhdyaifN42nhieCJESo3B1Hmy_buqteAagnSwADXG1lhKFUg3_VTZM">
     Talk through a Cloud deployment.

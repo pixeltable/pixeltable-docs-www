@@ -524,6 +524,12 @@ the INFO-level work spans (`catalog.begin_xact`, `sa.insert_rows`,
 metadata writes) and drops the DEBUG spans (per-row, per-UDF, per-file,
 `store.build_rows`, and the finer-grained catalog and store spans).
 
+## Langfuse
+
+The same bridge exports to [Langfuse](../integrations/langfuse). That
+page points `pxt_otel.init()` at Langfuse’s OTLP endpoint, and covers
+the Langfuse SDK and per-call LLM generations.
+
 ## Teardown
 
 Drops are traced too: each `pixeltable.drop_table` trace contains the

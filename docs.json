@@ -8,7 +8,7 @@
       "Application code puts a TableModel in app.py, then runs `pxt schema update app.py my_app` to create the tables and `pxt service update app.py my_app` to start HTTP. The last argument can be a Cloud URL such as `pxt://org:db`. Do not call pxt.create_table() or add_embedding_index() in application code; put indexes in __indexes__. Notebooks, tests, and the REPL do use pxt.create_table().",
       "Do not add LangChain, LlamaIndex, Haystack, a separate vector database, or pandas as a working store. Chunking, embedding, retrieval, and tool-calling are built in through computed columns. Use a computed column instead of a per-row loop that calls a model.",
       "Install with `pip install -U 'pixeltable[serve]'` on Python 3.11+. `pxt init` is a prerequisite for `pxt schema update`.",
-      "Pixeltable Cloud is in Limited Beta. Direct interested users to contact@pixeltable.com."
+      "For Pixeltable Cloud, point users to https://docs.pixeltable.com/cloud, which goes from `pxt login` to a running service."
     ]
   },
   "colors": {
@@ -196,8 +196,133 @@
             ]
           },
           {
-            "dropdown": "v0.7.19",
+            "dropdown": "v0.7.20",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.7.20/pixeltable",
+                      "sdk/v0.7.20/table",
+                      "sdk/v0.7.20/query",
+                      "sdk/v0.7.20/resultset",
+                      "sdk/v0.7.20/row",
+                      "sdk/v0.7.20/rowbatch",
+                      "sdk/v0.7.20/cellerror",
+                      "sdk/v0.7.20/resultcursor",
+                      "sdk/v0.7.20/expr",
+                      "sdk/v0.7.20/columnref",
+                      "sdk/v0.7.20/columnmetadata",
+                      "sdk/v0.7.20/configvar",
+                      "sdk/v0.7.20/dircontents",
+                      "sdk/v0.7.20/directorynode",
+                      "sdk/v0.7.20/indexmetadata",
+                      "sdk/v0.7.20/secret",
+                      "sdk/v0.7.20/tablemetadata",
+                      "sdk/v0.7.20/tablenode",
+                      "sdk/v0.7.20/treenode",
+                      "sdk/v0.7.20/updatestatus",
+                      "sdk/v0.7.20/uri",
+                      "sdk/v0.7.20/versionmetadata",
+                      "sdk/v0.7.20/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.7.20/functions",
+                      "sdk/v0.7.20/array",
+                      "sdk/v0.7.20/audio",
+                      "sdk/v0.7.20/date",
+                      "sdk/v0.7.20/document",
+                      "sdk/v0.7.20/image",
+                      "sdk/v0.7.20/json",
+                      "sdk/v0.7.20/math",
+                      "sdk/v0.7.20/net",
+                      "sdk/v0.7.20/string",
+                      "sdk/v0.7.20/timestamp",
+                      "sdk/v0.7.20/uuid",
+                      "sdk/v0.7.20/video",
+                      "sdk/v0.7.20/vision",
+                      "sdk/v0.7.20/codeccontextmetadata",
+                      "sdk/v0.7.20/containermetadata",
+                      "sdk/v0.7.20/streammetadata",
+                      "sdk/v0.7.20/sceneinfo",
+                      "sdk/v0.7.20/videosegment"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.7.20/anthropic",
+                      "sdk/v0.7.20/bedrock",
+                      "sdk/v0.7.20/bfl",
+                      "sdk/v0.7.20/deepseek",
+                      "sdk/v0.7.20/fabric",
+                      "sdk/v0.7.20/fal",
+                      "sdk/v0.7.20/fireworks",
+                      "sdk/v0.7.20/gemini",
+                      "sdk/v0.7.20/groq",
+                      "sdk/v0.7.20/huggingface",
+                      "sdk/v0.7.20/jina",
+                      "sdk/v0.7.20/llama_cpp",
+                      "sdk/v0.7.20/mistralai",
+                      "sdk/v0.7.20/nebius",
+                      "sdk/v0.7.20/ollama",
+                      "sdk/v0.7.20/openai",
+                      "sdk/v0.7.20/openrouter",
+                      "sdk/v0.7.20/replicate",
+                      "sdk/v0.7.20/runwayml",
+                      "sdk/v0.7.20/together",
+                      "sdk/v0.7.20/twelvelabs",
+                      "sdk/v0.7.20/vllm",
+                      "sdk/v0.7.20/voyageai",
+                      "sdk/v0.7.20/whisper",
+                      "sdk/v0.7.20/whisperx",
+                      "sdk/v0.7.20/yolox",
+                      "sdk/v0.7.20/whispersegment",
+                      "sdk/v0.7.20/whispertranscription",
+                      "sdk/v0.7.20/whisperword"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.7.20/serving",
+                      "sdk/v0.7.20/fastapirouter",
+                      "sdk/v0.7.20/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.7.20/io"
+                    ]
+                  },
+                  {
+                    "group": "Observability",
+                    "pages": [
+                      "sdk/v0.7.20/telemetry",
+                      "sdk/v0.7.20/counter",
+                      "sdk/v0.7.20/histogram",
+                      "sdk/v0.7.20/pixeltable",
+                      "sdk/v0.7.20/pixeltableinstrumentor",
+                      {
+                        "group": "Application Instrumentation",
+                        "pages": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.7.19",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -5172,6 +5297,12 @@
             "group": "Built-in Integrations",
             "pages": [
               "integrations/frameworks"
+            ]
+          },
+          {
+            "group": "Observability",
+            "pages": [
+              "integrations/langfuse"
             ]
           },
           {
