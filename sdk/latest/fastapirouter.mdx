@@ -1,7 +1,7 @@
 ---
 title: "FastAPIRouter"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L447\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L592\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.serving.FastAPIRouter
 
@@ -11,6 +11,8 @@ A FastAPI `APIRouter` that exposes Pixeltable table operations as HTTP endpoints
 `FastAPIRouter` is for apps that already have a FastAPI server. If you do
 not have one, use `pxt service` from the CLI; Pixeltable creates and runs the
 FastAPI app for you. Learn more here: [HTTP Serving](https://docs.pixeltable.com/howto/deployment/serving).
+
+An app can include several routers with background routes if at most one of them is unnamed.
 
 
 ## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add_delete_route()
@@ -38,6 +40,7 @@ where each match column equals the provided value, and returns the number of row
     Must be non-empty.
 - **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run the
     operation in a background thread. Poll `job_url` for the result.
+    A poll answers 410 after the instance that ran the job stops.
 
 **Examples:**
 
@@ -111,8 +114,9 @@ when `return_fileresponse=True`.
     If the external write fails after the Pixeltable insert has already succeeded,
     the request fails with HTTP 500; no rollback is performed.
 - **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
-    the insert in a background thread. Poll `job_url` for the result. Mutually
-    exclusive with `return_fileresponse`.
+    the insert in a background thread. Poll `job_url` for the result.
+    A poll answers 410 after the instance that ran the job stops.
+    Mutually exclusive with `return_fileresponse`.
 
 **Examples:**
 
@@ -176,16 +180,15 @@ Background processing:
 router.add_insert_route(t, path='/slow', background=True)
 ```
 
-```bash
-# submit
-curl -X POST http://localhost:8000/slow -d '{"prompt": "hello"}'
-# {"id": "abc123", "job_url": "http://localhost:8000/jobs/abc123"}
-```
+```python
+import time
+import httpx
 
-```bash
-# poll
-curl http://localhost:8000/jobs/abc123
-# {"status": "done", "result": {...}}
+job = httpx.post(
+    'http://localhost:8000/slow', json={'prompt': 'hello'}
+).json()
+while (status := httpx.get(job['job_url']).json())['status'] == 'pending':
+    time.sleep(2)
 ```
 
 
@@ -227,8 +230,9 @@ Use `method='get'` for
     Requires `one_row` semantics (0 rows -> 404, >1 rows -> 409).
     Mutually exclusive with `background`.
 - **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
-    the query in a background thread. Poll `job_url` for the result. Mutually
-    exclusive with `return_fileresponse`.
+    the query in a background thread. Poll `job_url` for the result.
+    A poll answers 410 after the instance that ran the job stops.
+    Mutually exclusive with `return_fileresponse`.
 - **`method`** (`Literal['get', 'post']`, default: `'post'`): HTTP method for the endpoint (`'get'` or `'post'`).
 
 **Examples:**
@@ -344,8 +348,9 @@ and from the default input set.
     If the external write fails after the Pixeltable update has already succeeded,
     the request fails with HTTP 500; no rollback is performed.
 - **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
-    the update in a background thread. Poll `job_url` for the result. Mutually
-    exclusive with `return_fileresponse`.
+    the update in a background thread. Poll `job_url` for the result.
+    A poll answers 410 after the instance that ran the job stops.
+    Mutually exclusive with `return_fileresponse`.
 
 **Examples:**
 
@@ -385,16 +390,15 @@ Background processing:
 router.add_update_route(t, path='/slow-update', background=True)
 ```
 
-```bash
-# submit
-curl -X POST http://localhost:8000/slow-update \
-  -H 'Content-Type: application/json' \
-  -d '{"id": 1, "prompt": "hello"}'
-# {"id": "abc123", "job_url": "http://localhost:8000/jobs/abc123"}
+```python
+import time
+import httpx
 
-# poll
-curl http://localhost:8000/jobs/abc123
-# {"status": "done", "result": {...}}
+job = httpx.post(
+    'http://localhost:8000/slow-update', json={'id': 1, 'prompt': 'hello'}
+).json()
+while (status := httpx.get(job['job_url']).json())['status'] == 'pending':
+    time.sleep(2)
 ```
 
 
@@ -454,6 +458,7 @@ strings -- annotate those parameters as `str` (or `str | None` if the column is 
 - **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
     the insert plus post-processing in a background thread. Poll `job_url` for the
     result; the decorated function's return value is delivered as the job result.
+    A poll answers 410 after the instance that ran the job stops.
 
 **Examples:**
 
@@ -570,6 +575,7 @@ identification.
 - **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run the
     update plus post-processing in a background thread. Poll `job_url` for the result;
     the decorated function's return value is delivered as the job result.
+    A poll answers 410 after the instance that ran the job stops.
 
 **Examples:**
 
@@ -619,15 +625,14 @@ def format_response(*, id: int, result: str) -> MyResponse:
     return MyResponse(id=id, result=result.strip())
 ```
 
-```bash
-# submit
-curl -X POST http://localhost:8000/slow-update \
-  -H 'Content-Type: application/json' \
-  -d '{"id": 1, "text": "hello"}'
-# {"id": "abc123", "job_url": "http://localhost:8000/jobs/abc123"}
+```python
+import time
+import httpx
 
-# poll
-curl http://localhost:8000/jobs/abc123
-# {"status": "done", "result": {"id": 1, "result": "hello"}}
+job = httpx.post(
+    'http://localhost:8000/slow-update', json={'id': 1, 'text': 'hello'}
+).json()
+while (status := httpx.get(job['job_url']).json())['status'] == 'pending':
+    time.sleep(2)
 ```
 
