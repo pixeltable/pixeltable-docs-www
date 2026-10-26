@@ -47,9 +47,8 @@ One row per extracted frame, with the following columns:
 
 **Parameters:**
 
-- **`fps`** (`pxt.Float | None`): Number of frames to extract per second of video. This may be a fractional value, such as 0.5.
-    If omitted, or if greater than the native framerate of the video,
-    then the framerate of the video will be used (all frames will be extracted).
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second of video. This may be a fractional value, such as 0.5, and must be
+    positive. If None, or greater than the video's frame rate, all frames are extracted.
 - **`num_frames`** (`pxt.Int | None`): Exact number of frames to extract. The frames will be spaced as evenly as possible. If
     `num_frames` is greater than the number of frames in the video, all frames will be extracted.
 - **`keyframes_only`** (`pxt.Bool`): If True, only extract keyframes.
@@ -1221,7 +1220,7 @@ __Requirements:__
 **Parameters:**
 
 - **`video`** (`pxt.Video`): The video to analyze for scene cuts.
-- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
     Lower values process faster but may miss exact scene cuts.
 - **`adaptive_threshold`** (`pxt.Float`): Threshold that the score ratio must exceed to trigger a new scene cut.
     Lower values will detect more scenes (more sensitive), higher values will detect fewer scenes.
@@ -1250,7 +1249,9 @@ __Requirements:__
   - `start_pts` (int): The pts of the start of the scene.
   - `duration` (float): The duration of the scene in seconds.
 
-  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+  The scenes are ordered chronologically and cover the whole video: each scene ends where the next one
+  starts, and the last scene ends at the end of the video. If the file records neither frame durations nor
+  a stream duration, the end of the video is estimated from its frame rate.
 
 **Examples:**
 
@@ -1346,7 +1347,9 @@ __Requirements:__
   - `start_pts` (int): The pts of the start of the scene.
   - `duration` (float): The duration of the scene in seconds.
 
-  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+  The scenes are ordered chronologically and cover the whole video: each scene ends where the next one
+  starts, and the last scene ends at the end of the video. If the file records neither frame durations nor
+  a stream duration, the end of the video is estimated from its frame rate.
 
 **Examples:**
 
@@ -1438,7 +1441,9 @@ __Requirements:__
   - `start_pts` (int): The pts of the start of the scene.
   - `duration` (float): The duration of the scene in seconds.
 
-  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+  The scenes are ordered chronologically and cover the whole video: each scene ends where the next one
+  starts, and the last scene ends at the end of the video. If the file records neither frame durations nor
+  a stream duration, the end of the video is estimated from its frame rate.
 
 **Examples:**
 
@@ -1501,7 +1506,7 @@ __Requirements:__
 **Parameters:**
 
 - **`video`** (`pxt.Video`): The video to analyze for scene cuts.
-- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
     Lower values process faster but may miss exact scene cuts.
 - **`threshold`** (`pxt.Float`): Maximum relative difference between 0.0 and 1.0 that the histograms can differ. Histograms are
     calculated on the Y channel after converting the frame to YUV, and normalized based on the number of bins.
@@ -1520,7 +1525,9 @@ __Requirements:__
   - `start_pts` (int): The pts of the start of the scene.
   - `duration` (float): The duration of the scene in seconds.
 
-  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+  The scenes are ordered chronologically and cover the whole video: each scene ends where the next one
+  starts, and the last scene ends at the end of the video. If the file records neither frame durations nor
+  a stream duration, the end of the video is estimated from its frame rate.
 
 **Examples:**
 
@@ -1586,7 +1593,7 @@ __Requirements:__
 **Parameters:**
 
 - **`video`** (`pxt.Video`): The video to analyze for fade transitions.
-- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None or 0, analyzes all frames.
+- **`fps`** (`pxt.Float | None`): Number of frames to extract per second for analysis. If None, analyzes all frames.
     Lower values process faster but may miss exact transition points.
 - **`threshold`** (`pxt.Float`): 8-bit intensity value that each pixel value (R, G, and B) must be less than or equal to in order
     to trigger a fade in/out.
@@ -1609,7 +1616,9 @@ __Requirements:__
   - `start_pts` (int): The pts of the start of the scene.
   - `duration` (float): The duration of the scene in seconds.
 
-  The list is ordered chronologically. Returns the full duration of the video if no scenes are detected.
+  The scenes are ordered chronologically and cover the whole video: each scene ends where the next one
+  starts, and the last scene ends at the end of the video. If the file records neither frame durations nor
+  a stream duration, the end of the video is estimated from its frame rate.
 
 **Examples:**
 

@@ -21,6 +21,33 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.21
+
+**Released:** October 26, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.21](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.21)
+
+#### What's Changed
+* ci: run pytest-xdist with -n logical (one worker per vCPU); skip uv cache clean on Windows by [@agarg21](https://github.com/agarg21) in [#1807](https://github.com/pixeltable/pixeltable/pull/1807)
+* pin miniforge to last working version to 26.7.2-1 by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1812](https://github.com/pixeltable/pixeltable/pull/1812)
+* Fix the 2026-10-23 nightly failures by [@aaron-siegel](https://github.com/aaron-siegel) in [#1810](https://github.com/pixeltable/pixeltable/pull/1810)
+* Bind Claude reviews to fixed source and verified findings by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1827](https://github.com/pixeltable/pixeltable/pull/1827)
+* Post findings on unchanged lines and stop a maintenance note from failing the review by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1839](https://github.com/pixeltable/pixeltable/pull/1839)
+* Keep the review job token out of the agent's working tree by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1838](https://github.com/pixeltable/pixeltable/pull/1838)
+* Restore the Claude review publisher from before the fixed-source host by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1840](https://github.com/pixeltable/pixeltable/pull/1840)
+* Keep /pxt-address and point it at the posted review by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1841](https://github.com/pixeltable/pixeltable/pull/1841)
+* docs: add Phoenix, Logfire and SigNoz observability pages and framework cards by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1813](https://github.com/pixeltable/pixeltable/pull/1813)
+* Reuse cloud-app when the first-deploy block is pasted again by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1816](https://github.com/pixeltable/pixeltable/pull/1816)
+* PXT-1283: view propagation bugs for update/delete by [@mkornacker](https://github.com/mkornacker) in [#1842](https://github.com/pixeltable/pixeltable/pull/1842)
+* PXT-1380: scene_detect_* drops the last scene, and frame_iterator and VideoFrames drop the last frame by [@mkornacker](https://github.com/mkornacker) in [#1800](https://github.com/pixeltable/pixeltable/pull/1800)
+
+#### New Contributors
+* [@agarg21](https://github.com/agarg21) made their first contribution in [#1807](https://github.com/pixeltable/pixeltable/pull/1807)
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.20...v0.7.21
+
+---
+
 ### v0.7.20
 
 **Released:** October 22, 2026  
@@ -1295,32 +1322,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.9...v0.5.10
-
----
-
-### v0.5.9
-
-**Released:** December 30, 2025  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.5.9](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.9)
-
-#### What's Changed
-* Bedrock invoke_model() udf by [@mkornacker](https://github.com/mkornacker) in [#1018](https://github.com/pixeltable/pixeltable/pull/1018)
-* [PXT-765] Support for Office Formats as part of Document Type through MarkdownIT by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#960](https://github.com/pixeltable/pixeltable/pull/960)
-* HF DetrForSegmentation by [@mkornacker](https://github.com/mkornacker) in [#1020](https://github.com/pixeltable/pixeltable/pull/1020)
-* Image2Image: Updated HF.py to use AutoPipelineForImage2Image and Cookbook by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1025](https://github.com/pixeltable/pixeltable/pull/1025)
-* Fixed broken tutorial links. by [@joerg84](https://github.com/joerg84) in [#1026](https://github.com/pixeltable/pixeltable/pull/1026)
-* Allow `similarity(image=...)` to accept a filename or URL instead of a PIL image object by [@aaron-siegel](https://github.com/aaron-siegel) in [#1023](https://github.com/pixeltable/pixeltable/pull/1023)
-* docs(cookbook): add MCP tool calling section to LLM tool calling guide by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1021](https://github.com/pixeltable/pixeltable/pull/1021)
-* PXT-928: Export Json columns to parquet as pa.struct by [@mkornacker](https://github.com/mkornacker) in [#1017](https://github.com/pixeltable/pixeltable/pull/1017)
-* removing psutil by [@mkornacker](https://github.com/mkornacker) in [#1031](https://github.com/pixeltable/pixeltable/pull/1031)
-* Use head() instead of collect() in test_add_column_to_view by [@aaron-siegel](https://github.com/aaron-siegel) in [#1022](https://github.com/pixeltable/pixeltable/pull/1022)
-* disable progress reporting in Jupyter if ipywidgets is not installed by [@mkornacker](https://github.com/mkornacker) in [#1032](https://github.com/pixeltable/pixeltable/pull/1032)
-
-#### New Contributors
-* [@joerg84](https://github.com/joerg84) made their first contribution in [#1026](https://github.com/pixeltable/pixeltable/pull/1026)
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.8...v0.5.9
 
 ---
 

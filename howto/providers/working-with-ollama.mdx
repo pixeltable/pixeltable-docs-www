@@ -77,15 +77,16 @@ Mac OS, or Linux, you can install Ollama at: https://ollama.com/download
 ### Running on a remote Ollama server
 
 - OR, if you have access to an Ollama server running remotely, you can
-  uncomment and run the following line, replacing the default URL with
+  uncomment and run the following lines, replacing the default URL with
   the URL of your remote Ollama instance.
 
 
 ```python
 # To run the notebook against an instance of Ollama running on a
-# remote server, uncomment the following line and specify the URL.
+# remote server, uncomment the following lines and specify the URL.
 
-# os.environs['OLLAMA_HOST'] = 'https://127.0.0.1:11434'
+# import os
+# os.environ['OLLAMA_HOST'] = 'https://127.0.0.1:11434'
 ```
 
 Once you’ve completed the installation, run the following commands to
