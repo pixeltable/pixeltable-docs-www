@@ -524,11 +524,13 @@ the INFO-level work spans (`catalog.begin_xact`, `sa.insert_rows`,
 metadata writes) and drops the DEBUG spans (per-row, per-UDF, per-file,
 `store.build_rows`, and the finer-grained catalog and store spans).
 
-## Langfuse
+## Other backends
 
-The same bridge exports to [Langfuse](../integrations/langfuse). That
-page points `pxt_otel.init()` at Langfuse’s OTLP endpoint, and covers
-the Langfuse SDK and per-call LLM generations.
+The same bridge exports to [Langfuse](../integrations/langfuse),
+[Phoenix](../integrations/phoenix), [Logfire](../integrations/logfire),
+and [SigNoz](../integrations/signoz). Each page points the exporter at
+that product. The Langfuse page also covers the Langfuse SDK and
+per-call LLM generations.
 
 ## Teardown
 

@@ -179,6 +179,27 @@ if 'OPENAI_API_KEY' not in os.environ:
     )
 ```
 
+## Azure OpenAI
+
+The same functions call Azure OpenAI. `OPENAI_API_KEY` is the Azure key,
+and `OPENAI_BASE_URL` is the resource endpoint, passed through as the
+client’s `base_url`. `OPENAI_API_VERSION` is sent as the `api-version`
+query parameter; for the `/openai/v1/` endpoint use `preview` or
+`latest`. The `model` argument is the deployment name on that resource.
+
+
+```python
+import os
+
+os.environ['OPENAI_API_KEY'] = '...'  # Azure OpenAI key
+os.environ['OPENAI_BASE_URL'] = 'https://YOUR_RESOURCE.openai.azure.com/openai/v1/'
+os.environ['OPENAI_API_VERSION'] = 'preview'
+```
+
+`chat_completions(..., model='your-deployment')` then uses that client.
+The examples below are the same call, with an OpenAI model name or an
+Azure deployment name.
+
 Now let’s create a Pixeltable directory to hold the tables for our demo.
 
 
