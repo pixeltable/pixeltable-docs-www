@@ -5575,6 +5575,10 @@
   },
   "redirects": [
     {
+      "source": "/sdk/latest/pixeltable/serving/SqlExport",
+      "destination": "/sdk/latest/sqlexport"
+    },
+    {
       "source": "/overview/from-your-stack",
       "destination": "/howto/coming-from"
     },

@@ -13,8 +13,8 @@ The [Quickstart](/overview/quick-start) runs `app.py` locally. Here, the same ap
     Python 3.11+ on Linux, macOS, or Windows. `pxt login`, `pxt whoami`, and `pxt key` require Pixeltable 0.7.10 or later.
 
     ```bash
-    python -m venv .venv
-    source .venv/bin/activate   # Windows: .venv\Scripts\activate
+    python3 -m venv .venv        # Windows: py -m venv .venv
+    source .venv/bin/activate    # Windows: .venv\Scripts\activate
     pip install -U 'pixeltable[serve]'
     ```
 
@@ -104,7 +104,7 @@ After `pxt login`, create a key from the CLI:
 pxt key create my-app
 ```
 
-The CLI prints the secret once. `pxt key list` shows key names, and cannot show their secrets again. A key created without `--grant` acts as you. [Scoped service keys](/platform/cli#pxt-key) are in preview. You can also create a key under **API Keys** in the [Cloud dashboard](https://www.pixeltable.com/dashboard).
+The CLI prints the secret once. `pxt key list` shows key names, and cannot show their secrets again. A key created without `--grant` acts as you. Keys with `--grant` belong to the organization; see [Scoped service keys](/platform/cli#pxt-key). You can also create a key under **API Keys** in the [Cloud dashboard](https://www.pixeltable.com/dashboard).
 
 ### Call the hosted service
 
