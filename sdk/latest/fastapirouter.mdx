@@ -1,7 +1,7 @@
 ---
 title: "FastAPIRouter"
 icon: "square-c"
-description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L592\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/serving/_fastapi.py#L600\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
 ---
 # <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.serving.FastAPIRouter
 
@@ -201,7 +201,6 @@ add_query_route(
     query: pxt.Function,
     inputs: ColumnsParam | None = None,
     uploadfile_inputs: ColumnsParam | None = None,
-    one_row: bool = False,
     return_fileresponse: bool = False,
     background: bool = False,
     method: Literal['get', 'post'] = 'post'
@@ -211,9 +210,21 @@ add_query_route(
 Add an endpoint that executes a `@pxt.query` or `pxt.retrieval_udf` and returns the results.
 
 By default the endpoint accepts POST requests with a JSON
-[`Body`](https://fastapi.tiangolo.com/tutorial/body/) and returns `{"rows": [{...}, ...]}`.
+[`Body`](https://fastapi.tiangolo.com/tutorial/body/).
 Use `method='get'` for
 [`Query`](https://fastapi.tiangolo.com/tutorial/query-params/) parameters instead.
+
+The response depends on the shape of the query. A query returns at most one row if it aggregates without
+`group_by()` or has `limit(1)`; otherwise it returns multiple rows.
+Only a literal `limit(1)` counts: `limit(n)` with a parameter returns multiple rows, even when `n` is 1.
+
+- Multiple rows, selecting a single unnamed expression, as in `select(t.text)`: a JSON array of values.
+- Multiple rows, with any other select list: `{"rows": [{...}, ...]}`, with a JSON object per row.
+- At most one row, selecting a single unnamed expression: the value itself.
+- At most one row, with any other select list: the row as a JSON object.
+
+To get JSON objects for a single expression, name it, as in `select(text=t.text)`.
+If a query that returns at most one row finds no row, the response is a 404.
 
 **Parameters:**
 
@@ -223,11 +234,9 @@ Use `method='get'` for
 - **`uploadfile_inputs`** (`ColumnsParam | None`): Parameters to accept as
     [`UploadFile`](https://fastapi.tiangolo.com/tutorial/request-files/) fields
     (must be media-typed).
-- **`one_row`** (`bool`, default: `False`): If True, expect exactly one result row and return it as a plain JSON object
-    (not wrapped in `{"rows": [...]}`). 0 rows produces a 404, >1 rows a 409.
 - **`return_fileresponse`** (`bool`, default: `False`): If True, return the single media-typed result column as a
     [`FileResponse`](https://fastapi.tiangolo.com/advanced/custom-response/#fileresponse).
-    Requires `one_row` semantics (0 rows -> 404, >1 rows -> 409).
+    Requires a query that returns one row; no row produces a 404.
     Mutually exclusive with `background`.
 - **`background`** (`bool`, default: `False`): If True, return immediately with `{"id": ..., "job_url": ...}` and run
     the query in a background thread. Poll `job_url` for the result.
@@ -237,9 +246,17 @@ Use `method='get'` for
 
 **Examples:**
 
-Multi-row JSON response:
+A search; the response contains a JSON object per result row under `rows`:
 
 ```python
+@pxt.query
+def search_docs(query_text: str) -> pxt.Query:
+    sim = docs.text.similarity(string=query_text)
+    return docs.order_by(sim, asc=False).select(
+        docs.id, docs.text, score=sim
+    )
+
+
 router.add_query_route(path='/search', query=search_docs)
 ```
 
@@ -250,10 +267,32 @@ curl -X POST http://localhost:8000/search \
 # {"rows": [{"id": 1, "text": "hello world", "score": 0.95}, ...]}
 ```
 
-Single-row lookup:
+The same search over a single unnamed expression; the response is a JSON array of values:
 
 ```python
-router.add_query_route(path='/lookup', query=lookup_by_id, one_row=True)
+@pxt.query
+def search_texts(query_text: str) -> pxt.Query:
+    sim = docs.text.similarity(string=query_text)
+    return docs.order_by(sim, asc=False).select(docs.text)
+
+
+router.add_query_route(path='/search-texts', query=search_texts)
+```
+
+```bash
+curl -X POST http://localhost:8000/search-texts -d '{"query_text": "hello"}'
+# ["hello world", ...]
+```
+
+A lookup with `limit(1)`; the response is a single JSON object, or a 404 if there is no row:
+
+```python
+@pxt.query
+def lookup_by_id(id: int) -> pxt.Query:
+    return users.where(users.id == id).limit(1)
+
+
+router.add_query_route(path='/lookup', query=lookup_by_id)
 ```
 
 ```bash
@@ -261,7 +300,7 @@ curl -X POST http://localhost:8000/lookup -d '{"id": 42}'
 # {"id": 42, "name": "Alice", "email": "alice@example.com"}
 ```
 
-GET with query-string parameters:
+The same lookup with query-string parameters; the response is again a single JSON object:
 
 ```python
 router.add_query_route(path='/lookup', query=lookup_by_id, method='get')
@@ -272,9 +311,31 @@ curl 'http://localhost:8000/lookup?id=42'
 # {"id": 42, "name": "Alice", "email": "alice@example.com"}
 ```
 
-`FileResponse`:
+An aggregation without `group_by()`; the response is the value itself:
 
 ```python
+@pxt.query
+def user_count(min_age: int) -> pxt.Query:
+    return users.where(users.age >= min_age).select(pxtf.count(users.id))
+
+
+router.add_query_route(path='/user-count', query=user_count)
+```
+
+```bash
+curl -X POST http://localhost:8000/user-count -d '{"min_age": 21}'
+# 1234
+```
+
+A `FileResponse`; the query returns at most one row, and the response is the file itself, or a 404 if
+there is no row:
+
+```python
+@pxt.query
+def get_thumbnail(id: int) -> pxt.Query:
+    return images.where(images.id == id).select(images.thumbnail).limit(1)
+
+
 router.add_query_route(
     path='/thumbnail', query=get_thumbnail, return_fileresponse=True
 )

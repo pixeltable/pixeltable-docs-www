@@ -48,6 +48,10 @@ For additional details, see:
 PIL images and media file paths in `messages[*].content[*].(image|video|audio).source.bytes`
 are converted to raw bytes automatically.
 
+Request throttling:
+Applies the rate limit set in the config (section `bedrock.rate_limits`; use the model id as the key). If no rate
+limit is configured, uses a default of 600 RPM.
+
 **Parameters:**
 
 - **`messages`** (`pxt.Json[(Json`): Input messages.
@@ -121,6 +125,10 @@ For additional details, see:
 [https://docs.aws.amazon.com/nova/latest/userguide/modality-embedding.html](https://docs.aws.amazon.com/nova/latest/userguide/modality-embedding.html)
 [https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-embed.html](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-embed.html)
 
+Request throttling:
+Applies the rate limit set in the config (section `bedrock.rate_limits`; use the model id as the key). If no rate
+limit is configured, uses a default of 600 RPM.
+
 **Parameters:**
 
 - **`text`** (`String`): Input text to embed.
@@ -174,6 +182,10 @@ images in the response are automatically decoded into `PIL.Image` objects.
 For models that require async invocation, `bedrock.temp_location` must be configured
 (set environment variable `BEDROCK_TEMP_LOCATION` or add `temp_location` to the `[bedrock]` section of
 your Pixeltable configuration file).
+
+Request throttling:
+Applies the rate limit set in the config (section `bedrock.rate_limits`; use the model id as the key). If no rate
+limit is configured, uses a default of 600 RPM.
 
 **Parameters:**
 

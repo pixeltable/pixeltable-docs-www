@@ -119,22 +119,22 @@ export const quartoRawHtml =
 <td style="vertical-align: middle;">ORD-001</td>
 <td style="vertical-align: middle;">LAPTOP-001</td>
 <td style="vertical-align: middle;">2</td>
-<td style="vertical-align: middle;">[{"sku": "LAPTOP-001", "name": "MacBook Pro 14\"", "price": 1999.,
-"category": "electronics"}]</td>
+<td style="vertical-align: middle;">{"sku": "LAPTOP-001", "name": "MacBook Pro 14\"", "price": 1999.,
+"category": "electronics"}</td>
 </tr>
 <tr>
 <td style="vertical-align: middle;">ORD-002</td>
 <td style="vertical-align: middle;">PHONE-001</td>
 <td style="vertical-align: middle;">1</td>
-<td style="vertical-align: middle;">[{"sku": "PHONE-001", "name": "iPhone 15 Pro", "price": 999.,
-"category": "electronics"}]</td>
+<td style="vertical-align: middle;">{"sku": "PHONE-001", "name": "iPhone 15 Pro", "price": 999.,
+"category": "electronics"}</td>
 </tr>
 <tr>
 <td style="vertical-align: middle;">ORD-003</td>
 <td style="vertical-align: middle;">CHAIR-001</td>
 <td style="vertical-align: middle;">4</td>
-<td style="vertical-align: middle;">[{"sku": "CHAIR-001", "name": "Ergonomic Office Chair", "price":
-449., "category": "furniture"}]</td>
+<td style="vertical-align: middle;">{"sku": "CHAIR-001", "name": "Ergonomic Office Chair", "price":
+449., "category": "furniture"}</td>
 </tr>
 </tbody>
 </table>
@@ -403,7 +403,7 @@ orders.select(
 ```
 
 <pre style={{ 'margin': '-20px 20px 0px 20px', 'padding': '0px', 'background-color': 'transparent', 'color': 'black' }}>
-Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
+Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors&nbsp;in&nbsp;0.01&nbsp;s&nbsp;(273.48&nbsp;rows/s)
 </pre>
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[3] }} />
@@ -420,7 +420,8 @@ Added&nbsp;3&nbsp;column&nbsp;values&nbsp;with&nbsp;0&nbsp;errors.
 
 **Tips:**
 
-- Use `limit=1` for unique key lookups
+- Use `limit=1` for unique key lookups; the function then returns the
+  matching row itself, or `None`
 - Specify only needed columns in `parameters` for cleaner APIs
 - Add descriptions for LLM tool integration
 

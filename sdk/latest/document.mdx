@@ -61,6 +61,8 @@ __Outputs__:
     for the `'page'` separator on PDF documents.
 - **`limit`** (`Any`): the maximum number of tokens or characters in each chunk, if `'token_limit'`
     or `'char_limit'` is specified.
+- **`overlap`** (`Any`): the number of tokens or characters shared by consecutive chunks. Can only be specified
+    together with `limit`, and must be smaller than it. Defaults to 0.
 - **`metadata`** (`Any`): additional metadata fields to include in the output. Options are:
     `'title'`, `'heading'` (HTML and Markdown), `'sourceline'` (HTML), `'page'` (PDF), `'bounding_box'`
     (PDF). The input may be a comma-separated string, e.g., `'title,heading,sourceline'`.
