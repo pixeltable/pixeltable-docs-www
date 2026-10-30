@@ -196,8 +196,133 @@
             ]
           },
           {
-            "dropdown": "v0.7.21",
+            "dropdown": "v0.7.22",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.7.22/pixeltable",
+                      "sdk/v0.7.22/table",
+                      "sdk/v0.7.22/query",
+                      "sdk/v0.7.22/resultset",
+                      "sdk/v0.7.22/row",
+                      "sdk/v0.7.22/rowbatch",
+                      "sdk/v0.7.22/cellerror",
+                      "sdk/v0.7.22/resultcursor",
+                      "sdk/v0.7.22/expr",
+                      "sdk/v0.7.22/columnref",
+                      "sdk/v0.7.22/columnmetadata",
+                      "sdk/v0.7.22/configvar",
+                      "sdk/v0.7.22/dircontents",
+                      "sdk/v0.7.22/directorynode",
+                      "sdk/v0.7.22/indexmetadata",
+                      "sdk/v0.7.22/secret",
+                      "sdk/v0.7.22/tablemetadata",
+                      "sdk/v0.7.22/tablenode",
+                      "sdk/v0.7.22/treenode",
+                      "sdk/v0.7.22/updatestatus",
+                      "sdk/v0.7.22/uri",
+                      "sdk/v0.7.22/versionmetadata",
+                      "sdk/v0.7.22/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.7.22/functions",
+                      "sdk/v0.7.22/array",
+                      "sdk/v0.7.22/audio",
+                      "sdk/v0.7.22/date",
+                      "sdk/v0.7.22/document",
+                      "sdk/v0.7.22/image",
+                      "sdk/v0.7.22/json",
+                      "sdk/v0.7.22/math",
+                      "sdk/v0.7.22/net",
+                      "sdk/v0.7.22/string",
+                      "sdk/v0.7.22/timestamp",
+                      "sdk/v0.7.22/uuid",
+                      "sdk/v0.7.22/video",
+                      "sdk/v0.7.22/vision",
+                      "sdk/v0.7.22/codeccontextmetadata",
+                      "sdk/v0.7.22/containermetadata",
+                      "sdk/v0.7.22/streammetadata",
+                      "sdk/v0.7.22/sceneinfo",
+                      "sdk/v0.7.22/videosegment"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.7.22/anthropic",
+                      "sdk/v0.7.22/bedrock",
+                      "sdk/v0.7.22/bfl",
+                      "sdk/v0.7.22/deepseek",
+                      "sdk/v0.7.22/fabric",
+                      "sdk/v0.7.22/fal",
+                      "sdk/v0.7.22/fireworks",
+                      "sdk/v0.7.22/gemini",
+                      "sdk/v0.7.22/groq",
+                      "sdk/v0.7.22/huggingface",
+                      "sdk/v0.7.22/jina",
+                      "sdk/v0.7.22/llama_cpp",
+                      "sdk/v0.7.22/mistralai",
+                      "sdk/v0.7.22/nebius",
+                      "sdk/v0.7.22/ollama",
+                      "sdk/v0.7.22/openai",
+                      "sdk/v0.7.22/openrouter",
+                      "sdk/v0.7.22/replicate",
+                      "sdk/v0.7.22/runwayml",
+                      "sdk/v0.7.22/together",
+                      "sdk/v0.7.22/twelvelabs",
+                      "sdk/v0.7.22/vllm",
+                      "sdk/v0.7.22/voyageai",
+                      "sdk/v0.7.22/whisper",
+                      "sdk/v0.7.22/whisperx",
+                      "sdk/v0.7.22/yolox",
+                      "sdk/v0.7.22/whispersegment",
+                      "sdk/v0.7.22/whispertranscription",
+                      "sdk/v0.7.22/whisperword"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.7.22/serving",
+                      "sdk/v0.7.22/fastapirouter",
+                      "sdk/v0.7.22/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.7.22/io"
+                    ]
+                  },
+                  {
+                    "group": "Observability",
+                    "pages": [
+                      "sdk/v0.7.22/telemetry",
+                      "sdk/v0.7.22/counter",
+                      "sdk/v0.7.22/histogram",
+                      "sdk/v0.7.22/pixeltable",
+                      "sdk/v0.7.22/pixeltableinstrumentor",
+                      {
+                        "group": "Application Instrumentation",
+                        "pages": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.7.21",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -5430,6 +5555,7 @@
               "integrations/langfuse",
               "integrations/phoenix",
               "integrations/logfire",
+              "integrations/opik",
               "integrations/signoz"
             ]
           },
@@ -5574,6 +5700,10 @@
     }
   },
   "redirects": [
+    {
+      "source": "/sdk/latest/pixeltable/serving/SqlExport",
+      "destination": "/sdk/latest/sqlexport"
+    },
     {
       "source": "/overview/from-your-stack",
       "destination": "/howto/coming-from"

@@ -21,6 +21,41 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.22
+
+**Released:** October 30, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.22](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.22)
+
+#### What's Changed
+* fix: handle ARRAY column in EmbeddingIndex get_metadata and describe by [@DYNOSuprovo](https://github.com/DYNOSuprovo) in [#1699](https://github.com/pixeltable/pixeltable/pull/1699)
+* Infer a [@pxt](https://github.com/pxt).query's result shape from its query; drop return_scalar and one_row by [@mkornacker](https://github.com/mkornacker) in [#1814](https://github.com/pixeltable/pixeltable/pull/1814)
+* Remove the Devin Review configuration by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1845](https://github.com/pixeltable/pixeltable/pull/1845)
+* Let an agent follow a hosted wait, and give every --json failure one error shape by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1843](https://github.com/pixeltable/pixeltable/pull/1843)
+* Surface hidden causes in four small error paths (PXT-1426, PXT-1549, PXT-1659, PXT-823) by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1826](https://github.com/pixeltable/pixeltable/pull/1826)
+* Answer a refused background job submit with SERVICE_BUSY by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1861](https://github.com/pixeltable/pixeltable/pull/1861)
+* docs: say that a provider's package goes in requirements.txt beside its secret by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1849](https://github.com/pixeltable/pixeltable/pull/1849)
+* PXT-1619/1620: refuse a home-directory project root; tolerate files that vanish while packaging by [@mkornacker](https://github.com/mkornacker) in [#1836](https://github.com/pixeltable/pixeltable/pull/1836)
+* [PXT-1708] Fix document splitter issues related to limit and overlap parameters by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1853](https://github.com/pixeltable/pixeltable/pull/1853)
+* Expect EXIT_REFUSED when pxt db update refuses a capacity cut by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1862](https://github.com/pixeltable/pixeltable/pull/1862)
+* docs: launch QA fixes for RAG extras, SqlExport, and preview labels by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1857](https://github.com/pixeltable/pixeltable/pull/1857)
+* PXT-1714: Pin pytest below 9.2 until pytest-benchmark supports it by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1858](https://github.com/pixeltable/pixeltable/pull/1858)
+* Add openai.decisions() for the OpenAI Decisions API by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1808](https://github.com/pixeltable/pixeltable/pull/1808)
+* Rename SERVICE_BUSY to JOB_REFUSED, and send Retry-After with every error that has a retry_after by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1863](https://github.com/pixeltable/pixeltable/pull/1863)
+* [PXT-1570] Retry throttled Bedrock calls; classify Pixeltable errors by error code by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1809](https://github.com/pixeltable/pixeltable/pull/1809)
+* PXT-1716: Keep standard++ under ubuntu-large's memory (cap xdist workers, name the top processes) by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1859](https://github.com/pixeltable/pixeltable/pull/1859)
+* docs: add Opik tracing integration (OpenTelemetry) by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1867](https://github.com/pixeltable/pixeltable/pull/1867)
+* Fix video_splitter clips, DeepSeek endpoint, [@pxt](https://github.com/pxt).query over views, OpenAI image inputs by [@mkornacker](https://github.com/mkornacker) in [#1851](https://github.com/pixeltable/pixeltable/pull/1851)
+* docs: link the Agno Pixeltable RAG cookbook from the Ecosystem page by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1866](https://github.com/pixeltable/pixeltable/pull/1866)
+* Add abnormal-termination stress test by [@aaron-siegel](https://github.com/aaron-siegel) in [#1806](https://github.com/pixeltable/pixeltable/pull/1806)
+
+#### New Contributors
+* [@DYNOSuprovo](https://github.com/DYNOSuprovo) made their first contribution in [#1699](https://github.com/pixeltable/pixeltable/pull/1699)
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.21...v0.7.22
+
+---
+
 ### v0.7.21
 
 **Released:** October 26, 2026  
@@ -1302,26 +1337,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.10...v0.5.11
-
----
-
-### v0.5.10
-
-**Released:** January 10, 2026  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.5.10](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.10)
-
-#### What's Changed
-* Adding ipywidgets to dev dependencies by [@mkornacker](https://github.com/mkornacker) in [#1027](https://github.com/pixeltable/pixeltable/pull/1027)
-* Add a seed to TestSample.test_sample_basic_f by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1040](https://github.com/pixeltable/pixeltable/pull/1040)
-* Twelvelabs notebook by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1013](https://github.com/pixeltable/pixeltable/pull/1013)
-* Readme Updates by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1041](https://github.com/pixeltable/pixeltable/pull/1041)
-* Proper configurability for spaCy models by [@aaron-siegel](https://github.com/aaron-siegel) in [#1039](https://github.com/pixeltable/pixeltable/pull/1039)
-* Various import fixes by [@aaron-siegel](https://github.com/aaron-siegel) in [#1042](https://github.com/pixeltable/pixeltable/pull/1042)
-* PXT-875 Run perf tests on a dedicated larger runner by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1024](https://github.com/pixeltable/pixeltable/pull/1024)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.9...v0.5.10
 
 ---
 

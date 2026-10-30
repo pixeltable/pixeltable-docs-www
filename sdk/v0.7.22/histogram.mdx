@@ -1,0 +1,26 @@
+---
+title: "Histogram"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/telemetry.py#L316\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.telemetry.Histogram
+
+
+A distribution of per-observation values; declare once at module level with histogram().
+
+Record individual observations only (a call's latency, a file's size); recording pre-aggregated
+sums produces meaningless percentiles. `boundaries` advises the backend's bucket layout for
+backends whose defaults don't fit the recorded value range.
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; record()
+
+```python Signature
+record(value: int | float, **attrs: Any) -> None
+```
+
+Record one observation; keyword attrs get a 'pxt.' prefix, None values are skipped.
+
+The same low-cardinality rule as Counter.add() applies to attrs.
+

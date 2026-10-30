@@ -33,6 +33,10 @@ For additional details, see: [https://api-docs.deepseek.com/api/create-chat-comp
 
 Deepseek uses the OpenAI SDK, so you will need to install the `openai` package to use this UDF.
 
+Thinking mode is on by default: the model generates reasoning before the answer and returns it in
+`choices[0].message.reasoning_content`. To turn thinking off, pass
+`model_kwargs={'extra_body': {'thinking': {'type': 'disabled'}}}`.
+
 Request throttling:
 Applies the rate limit set in the config (section `deepseek`, key `rate_limit`). If no rate
 limit is configured, uses a default of 600 RPM.
@@ -56,7 +60,7 @@ __Requirements:__
 
 **Examples:**
 
-Add a computed column that applies the model `deepseek-v4-flash` to an existing Pixeltable column `tbl.prompt`
+Add a computed column that applies the model `deepseek-flash` to an existing Pixeltable column `tbl.prompt`
 of the table `tbl`:
 
 ```python
@@ -65,7 +69,19 @@ messages = [
     {'role': 'user', 'content': tbl.prompt},
 ]
 tbl.add_computed_column(
-    response=chat_completions(messages, model='deepseek-v4-flash')
+    response=chat_completions(messages, model='deepseek-flash')
+)
+```
+
+The same, with thinking disabled:
+
+```python
+tbl.add_computed_column(
+    response=chat_completions(
+        messages,
+        model='deepseek-flash',
+        model_kwargs={'extra_body': {'thinking': {'type': 'disabled'}}},
+    )
 )
 ```
 

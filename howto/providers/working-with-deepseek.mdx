@@ -93,6 +93,11 @@ Create a Table: In Pixeltable, create a table with columns to represent
 your input data and the columns where you want to store the results from
 Deepseek.
 
+`deepseek-flash` runs in thinking mode by default and generates
+reasoning before its answer. To disable thinking, pass
+`model_kwargs={'extra_body': {'thinking': {'type': 'disabled'}}}` to
+`chat_completions()`.
+
 
 ```python
 from pixeltable.functions import deepseek
@@ -104,7 +109,7 @@ t = pxt.create_table('deepseek_demo/chat', {'input': pxt.String})
 msgs = [{'role': 'user', 'content': t.input}]
 t.add_computed_column(
     output=deepseek.chat_completions(
-        messages=msgs, model='deepseek-v4-flash'
+        messages=msgs, model='deepseek-flash'
     )
 )
 ```

@@ -95,6 +95,136 @@ tbl.add_computed_column(
 )
 ```
 
+The `'image_url'` field also accepts the API's `{'url': ...}` form. Its `'url'` can be an image or a URL
+string, such as `tbl.image.fileurl`; OpenAI fetches a URL itself, so it has to be publicly accessible.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; decisions()
+
+```python Signature
+@pxt.udf
+decisions(
+    input: pxt.Json,
+    *,
+    questions: pxt.Json[(Json, ...)],
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
+) -> DecisionResponse
+```
+
+Answers predicate, choice, and score questions about a shared input.
+
+Equivalent to the OpenAI `decisions` API endpoint.
+For additional details, see: [https://developers.openai.com/api/docs/guides/decisions](https://developers.openai.com/api/docs/guides/decisions)
+
+Request throttling:
+Applies the rate limit set in the config (section `openai.rate_limits`; use the model id as the key). If no rate
+limit is configured, uses a default of 600 RPM.
+
+__Requirements:__
+
+- `pip install 'openai>=3.32'`
+
+**Parameters:**
+
+- **`input`** (`pxt.Json`): A text string, or a list of messages, function calls and outputs, or custom tool calls and outputs.
+    Message `content` and tool `output` lists can contain `input_text`, `input_image`, and `input_json`
+    parts. An `input_image` part's `image_url` can be an image column, a public HTTP(S) URL, or a base64
+    data URL.
+- **`questions`** (`pxt.Json[(Json`): Between 1 and 400 questions, each with a `type` of `predicate`, `choice`, or `score`, an
+    `instructions` string or list of `input_text`, `input_image`, and `input_json` parts, and an optional
+    `name`. A `choice` question lists its `choices`, and a `score` question lists its `levels`.
+- **`model`** (`Any`): The model to use.
+- **`model_kwargs`** (`Any`): Additional keyword args for the OpenAI `decisions` API, such as `prompt_cache_key`,
+    `prompt_cache_options`, and `safety_identifier`. For details on the available parameters, see:
+    [https://developers.openai.com/api/reference/python/resources/decisions/methods/create](https://developers.openai.com/api/reference/python/resources/decisions/methods/create)
+
+**Returns:**
+
+- `DecisionResponse`: A dictionary with one answer per question, in question order, plus `model` and `usage`. A predicate answer
+  has a `probability`. A choice answer has a `choice`, and a score answer has a `score`; both have a
+  `confidence` and a list of `probabilities`. The model can decline a question; that answer has the `type`
+  `refusal` and no value, and the other questions still receive answers.
+
+**Examples:**
+
+Add a computed column that asks whether the text in an existing Pixeltable column `tbl.review` of the
+table `tbl` is a complaint, then read the answer's probability:
+
+```python
+questions = [
+    {
+        'type': 'predicate',
+        'name': 'complaint',
+        'instructions': 'Is the review a complaint?',
+    }
+]
+tbl.add_computed_column(
+    decision=decisions(
+        tbl.review, questions=questions, model='gpt-6-luna'
+    )
+)
+tbl.select(
+    tbl.review, complaint=tbl.decision.answers[0].probability
+).collect()
+```
+
+Ask several questions in one request:
+
+```python
+questions = [
+    {
+        'type': 'choice',
+        'name': 'topic',
+        'instructions': 'What is the review about?',
+        'choices': [
+            {'value': 'shipping'},
+            {'value': 'quality'},
+            {'value': 'price'},
+        ],
+    },
+    {
+        'type': 'score',
+        'name': 'sentiment',
+        'instructions': 'How positive is the review?',
+        'levels': [
+            {'label': 'negative'},
+            {'label': 'neutral'},
+            {'label': 'positive'},
+        ],
+    },
+]
+tbl.add_computed_column(
+    decision=decisions(
+        tbl.review, questions=questions, model='gpt-6-luna'
+    )
+)
+```
+
+Ask a question about an image column `tbl.image`:
+
+```python
+messages = [
+    {
+        'role': 'user',
+        'content': [
+            {'type': 'input_text', 'text': 'Product photo:'},
+            {'type': 'input_image', 'image_url': tbl.image},
+        ],
+    }
+]
+questions = [
+    {
+        'type': 'predicate',
+        'name': 'damaged',
+        'instructions': 'Is the product damaged?',
+    }
+]
+tbl.add_computed_column(
+    decision=decisions(messages, questions=questions, model='gpt-6-luna')
+)
+```
+
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embeddings()
 
@@ -437,8 +567,8 @@ __Requirements:__
 
 **Returns:**
 
-- `pxt.Json`: A dictionary containing the response and other metadata. The response text is accessible via
-  the `output_text` field for simple cases, or through the `output` list for structured access.
+- `pxt.Json`: A dictionary containing the response and other metadata. The response text is in the `output` list,
+  for a simple text reply at `output[0].content[0].text`.
 
 **Examples:**
 
@@ -471,6 +601,9 @@ messages = [
 ]
 tbl.add_computed_column(response=responses(messages, model='gpt-4o-mini'))
 ```
+
+The `image_url` field also accepts a URL string, such as `tbl.image.fileurl`; OpenAI fetches it itself, so it
+has to be publicly accessible.
 
 
 ## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; speech()
