@@ -161,6 +161,12 @@ UDFs</td>
 <td style="vertical-align: middle;">table, table_id</td>
 <td style="vertical-align: middle;">bytes persisted to media storage</td>
 </tr>
+<tr>
+<td style="vertical-align: middle;"><code>pixeltable.rpc.duration</code></td>
+<td style="vertical-align: middle;">histogram (s)</td>
+<td style="vertical-align: middle;">method, error</td>
+<td style="vertical-align: middle;">per-request latency of a hosted database, by proxy method</td>
+</tr>
 </tbody>
 </table>
 `];
@@ -217,10 +223,16 @@ on the `[[pixeltable.database]]` entry of the database (the entry with
 no `name` is the local database; see
 [Configuration](../platform/configuration#per-database-settings)). The
 headers are a secret and stay out of the file: keep
-`OTEL_EXPORTER_OTLP_HEADERS` in the environment, and on a hosted
-database set it with
-`pxt secret set pxt://org:db OTEL_EXPORTER_OTLP_HEADERS=...`, then
-`pxt db restart` so the running database sees it.
+`OTEL_EXPORTER_OTLP_HEADERS` in the environment. On a hosted database,
+the collector in each pod sends the telemetry to this endpoint (see
+[Telemetry from a hosted
+database](../platform/configuration#telemetry-from-a-hosted-database)).
+After you change the entry, run `pxt db update` and then
+`pxt service update` so that the pods receive the new endpoint. Set the
+headers there with
+`pxt secret set pxt://org:db OTEL_EXPORTER_OTLP_HEADERS=...`, then run
+`pxt db restart` and `pxt service restart` so that the running pods read
+them.
 
 
 ```toml
