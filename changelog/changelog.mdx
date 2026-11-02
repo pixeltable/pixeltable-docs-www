@@ -21,6 +21,33 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.23
+
+**Released:** November 02, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.23](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.23)
+
+#### What's Changed
+* Expire pooled proxy daemon connections before the daemon's keep-alive closes them by [@aaron-siegel](https://github.com/aaron-siegel) in [#1875](https://github.com/pixeltable/pixeltable/pull/1875)
+* Fix Windows flake in test_udf_module_import_error (stale import cache) by [@aaron-siegel](https://github.com/aaron-siegel) in [#1877](https://github.com/pixeltable/pixeltable/pull/1877)
+* PXT-1719: keep retry_after and provider fields when a computed column's error is reported by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1864](https://github.com/pixeltable/pixeltable/pull/1864)
+* Make JSON dict schemas open by [@aaron-siegel](https://github.com/aaron-siegel) in [#1795](https://github.com/pixeltable/pixeltable/pull/1795)
+* Cap standard+ at -n 8 to stay within the test Postgres server's connections by [@aaron-siegel](https://github.com/aaron-siegel) in [#1870](https://github.com/pixeltable/pixeltable/pull/1870)
+* [PXT-1579] Trace hosted services and databases by [@christopherpestano](https://github.com/christopherpestano) in [#1749](https://github.com/pixeltable/pixeltable/pull/1749)
+* Remove leftover replica references from the dashboard and the API index by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1876](https://github.com/pixeltable/pixeltable/pull/1876)
+* Build the dashboard SPA for the nightly's from_main install by [@aaron-siegel](https://github.com/aaron-siegel) in [#1847](https://github.com/pixeltable/pixeltable/pull/1847)
+* docs: install Pixeltable with -U everywhere, warn on Python below 3.11 by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1873](https://github.com/pixeltable/pixeltable/pull/1873)
+* Fix eight bugs found by the skill evals by [@mkornacker](https://github.com/mkornacker) in [#1852](https://github.com/pixeltable/pixeltable/pull/1852)
+* Python 3.15: newest Python in CI, and dependencies that install on 3.15 by [@aaron-siegel](https://github.com/aaron-siegel) in [#1869](https://github.com/pixeltable/pixeltable/pull/1869)
+* [PXT-1278] New Catalog locking by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1573](https://github.com/pixeltable/pixeltable/pull/1573)
+* Pass boolean logprobs in the Together chat completions test by [@aaron-siegel](https://github.com/aaron-siegel) in [#1881](https://github.com/pixeltable/pixeltable/pull/1881)
+* Wait for the heartbeat's lines in the blocking-poll progress test by [@aaron-siegel](https://github.com/aaron-siegel) in [#1882](https://github.com/pixeltable/pixeltable/pull/1882)
+
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.22...v0.7.23
+
+---
+
 ### v0.7.22
 
 **Released:** October 30, 2026  
@@ -1317,26 +1344,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.11...v0.5.12
-
----
-
-### v0.5.11
-
-**Released:** January 13, 2026  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.5.11](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.11)
-
-#### What's Changed
-* [PXT-916] Store embedding indexes as halfvecs by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1007](https://github.com/pixeltable/pixeltable/pull/1007)
-* Add a "read only random ops" stress-tests job by [@aaron-siegel](https://github.com/aaron-siegel) in [#1047](https://github.com/pixeltable/pixeltable/pull/1047)
-* Streamline dev installation by [@aaron-siegel](https://github.com/aaron-siegel) in [#1046](https://github.com/pixeltable/pixeltable/pull/1046)
-* Add reruns by default to all cockroach test failures by [@aaron-siegel](https://github.com/aaron-siegel) in [#1053](https://github.com/pixeltable/pixeltable/pull/1053)
-* PXT-938: export_sql() by [@mkornacker](https://github.com/mkornacker) in [#1037](https://github.com/pixeltable/pixeltable/pull/1037)
-* Add cookbooks: SQL and Segmentation by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1038](https://github.com/pixeltable/pixeltable/pull/1038)
-* [PXT-629] Update plan is incomplete by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1044](https://github.com/pixeltable/pixeltable/pull/1044)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.10...v0.5.11
 
 ---
 
