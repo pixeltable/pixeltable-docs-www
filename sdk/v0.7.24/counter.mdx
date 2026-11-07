@@ -1,0 +1,25 @@
+---
+title: "Counter"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/telemetry.py#L286\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.telemetry.Counter
+
+
+A monotonic count of things; declare once at module level with counter().
+
+`name`/`unit` identify the backend instrument (unit is a UCUM code, e.g. '{row}', 'By', 's').
+
+
+## <span style={{ 'color': 'gray' }}>method</span>&nbsp; add()
+
+```python Signature
+add(value: int | float, **attrs: Any) -> None
+```
+
+Add value to the counter; keyword attrs get a 'pxt.' prefix, None values are skipped.
+
+Attrs become metric dimensions (one time series per distinct value combination), so only pass
+low-cardinality values (table path, UDF name); ids, urls, and versions belong on spans.
+

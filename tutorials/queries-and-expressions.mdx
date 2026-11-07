@@ -965,7 +965,7 @@ class="data row3 col2">classification.label_text[0]</td>
 <tr>
 <td id="T_8cadf_row4_col0" class="data row4 col0">clip</td>
 <td id="T_8cadf_row4_col1" class="data row4 col1">Array[(512,),
-Float]</td>
+float32]</td>
 <td id="T_8cadf_row4_col2" class="data row4 col2">clip(image,
 model_id='openai/clip-vit-base-patch32')</td>
 </tr>
@@ -1709,10 +1709,11 @@ a column.
     Documentation](https://pillow.readthedocs.io/en/stable/handbook/concepts.html)
     for the full list
   - `pxt.Image[(300,200), 'RGB']` - combines the above constraints
-- `pxt.Array` can be specialized with a shape and/or a dtype:
-  - `pxt.Array[pxt.Float]` - arrays with dtype `pxt.Float`
-  - `pxt.Array[(64,64,3), pxt.Float]` - 3-dimensional arrays with dtype
-    `pxt.Float` and 64x64x3 shape
+- `pxt.Array` can be specialized with a dtype, optionally combined with
+  a shape:
+  - `pxt.Array[np.float32]` - arrays with dtype `np.float32`
+  - `pxt.Array[(64,64,3), np.float32]` - 3-dimensional arrays with dtype
+    `np.float32` and 64x64x3 shape
 
 If we look at the structure of our table now, we see examples of
 specialized image and array types.
@@ -1730,15 +1731,16 @@ t
 
 <div style={{ 'margin': '0px 20px 0px 20px' }} dangerouslySetInnerHTML={{ __html: quartoRawHtml[32] }} />
 
-`t.clip` has type `pxt.Array[(512,), pxt.Float]`, since the output of
-the embedding is always a 1x512 array. `t.channel` has type
+`t.clip` has type `pxt.Array[(512,), np.float32]`, since the output of
+the embedding is always a 512-element vector. `t.channel` has type
 `Image['L']`, since it’s always an `'L'` mode (1-channel) image.
 
 <Note>
- You can freely use <code>pxt.Image</code> by
-itself to mean “any image, without constraints”, but numerical arrays
-must always specify a shape and a dtype; <code>pxt.Array</code> by
-itself will raise an error. 
+ Use <code>pxt.Image</code> for images without
+constraints and <code>pxt.Array</code> for arrays without shape or dtype
+constraints. Use <code>pxt.Array\[np.float32\]</code> to constrain only
+the dtype. Specifying an array shape also requires a dtype.
+
 </Note>
 
 <Note>

@@ -433,6 +433,7 @@ Face feature types to Pixeltable column types.
 
 ```python
 import datasets
+import numpy as np
 import pixeltable as pxt
 
 pxt.drop_dir('hf_demo', force=True)
@@ -526,7 +527,7 @@ wiki_ds = (
 wiki = pxt.create_table(
     'hf_demo/wiki_embeddings',
     source=wiki_ds,
-    schema_overrides={'emb': pxt.Array[(1024,), pxt.Float]},
+    schema_overrides={'emb': pxt.Array[(1024,), np.float32]},
 )
 ```
 

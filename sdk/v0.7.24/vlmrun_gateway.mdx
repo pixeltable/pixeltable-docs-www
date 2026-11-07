@@ -1,0 +1,442 @@
+---
+title: "vlmrun_gateway"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/vlmrun_gateway.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.vlmrun_gateway
+
+
+Pixeltable UDFs that wrap the VLM Run Gateway API.
+
+The VLM Run Gateway is an OpenAI-compatible API in front of vision and speech models for OCR, visual question
+answering, detection, segmentation, pose estimation, embeddings and speech-to-text. In order to use it, you must
+first `pip install openai` and configure your VLM Run API key, either as the `VLMRUN_API_KEY` environment variable
+or as `api_key` in the `vlmrun` section of the Pixeltable config file. For details, see the
+[VLM Run Gateway documentation](https://docs.vlm.run/gateway/introduction).
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; analyze()
+
+```python Signatures
+# Signature 1:
+@pxt.udf
+analyze(
+    image: pxt.Image,
+    *,
+    model: pxt.String,
+    method: pxt.String | None,
+    method_params: pxt.Json | None,
+    model_kwargs: pxt.Json | None
+) -> pxt.Json
+
+# Signature 2:
+@pxt.udf
+analyze(
+    image: pxt.Video,
+    *,
+    model: pxt.String,
+    method: pxt.String | None,
+    method_params: pxt.Json | None,
+    model_kwargs: pxt.Json | None
+) -> pxt.Json
+```
+
+Runs a VLM Run Gateway vision model on an image or a video: object detection, segmentation, pose estimation
+or captioning.
+
+For details, see [https://docs.vlm.run/gateway/visual-intelligence](https://docs.vlm.run/gateway/visual-intelligence)
+
+Request throttling:
+Applies the rate limit set in the config (section `vlmrun_gateway`, key `rate_limit`). If no rate limit is
+configured, uses a default of 600 RPM, which is above the Gateway's limits of 240 requests per minute and
+10,000 per hour per account; set `rate_limit = 160` to stay under both.
+
+__Requirements:__
+
+- `pip install openai`
+
+**Parameters:**
+
+- **`image`** (`Image`): The image to analyze. A video (`pxt.Video`) is also accepted by video-capable models, such as
+    `'facebook/sam3.1'` with `method='track'` or `'usyd-community/vitpose-plus-large'`.
+- **`model`** (`String`): The model to use, such as `'facebook/sam3.1'` (segmentation), `'microsoft/florence-2-base-ft'`
+    (detection and captions), `'usyd-community/vitpose-plus-large'` (body pose) or `'geopavlakos/hamer'`
+    (hand pose). For the available models, see [https://vlm.run/gateway/models](https://vlm.run/gateway/models).
+- **`method`** (`String | None`, default: `Literal(None)`): The model entrypoint to run, such as `'segment'` or `'od'`. If omitted, the model's default method
+    is used. For each model's methods, see [https://docs.vlm.run/gateway/methods](https://docs.vlm.run/gateway/methods).
+- **`method_params`** (`Json | None`, default: `Literal(None)`): Arguments for the method, such as `{'prompt': 'car'}` for `'facebook/sam3.1'` segmentation.
+- **`model_kwargs`** (`Json | None`, default: `Literal(None)`): Additional Gateway fields, such as `precision`, `video_fps` or `video_max_frames`.
+    `'facebook/sam3.1'` with `method='track'` reads `video_fps` and `video_max_frames` from `method_params`
+    instead. For details, see [https://docs.vlm.run/gateway/extra-kwargs](https://docs.vlm.run/gateway/extra-kwargs).
+
+**Returns:**
+
+- `pxt.Json`: The Gateway's JSON result, unchanged: the input's metadata (such as `image_width` and `image_height`) and
+  `content`, which is `{'object': ..., 'items': [...]}` (for a video, also `frames`), or a string for caption
+  methods. Image coordinates are fractions of the image width and height, and pose keypoints can fall outside
+  0 to 1; `'geopavlakos/hamer'` also returns metric 3D joints in `kpts_xyz`.
+  For each `object` type, see [https://docs.vlm.run/gateway/response-types](https://docs.vlm.run/gateway/response-types).
+
+**Examples:**
+
+Segment the cars in an image column `img` of the table `tbl`:
+
+```python
+tbl.add_computed_column(
+    cars=analyze(
+        tbl.img,
+        model='facebook/sam3.1',
+        method='segment',
+        method_params={'prompt': 'car'},
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat_completions()
+
+```python Signature
+@pxt.udf
+chat_completions(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None,
+    tools: pxt.Json[(Json, ...)] | None = None,
+    tool_choice: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Creates a model response for the given chat conversation.
+
+Equivalent to the VLM Run Gateway `chat/completions` API endpoint.
+For additional details, see: [https://docs.vlm.run/gateway/api-reference/post-chat-completions](https://docs.vlm.run/gateway/api-reference/post-chat-completions)
+
+Image columns can be referenced directly in message content parts, as `{'type': 'image_url', 'image_url': tbl.img}`;
+they are sent inline as base64. Document and video content parts (`document_url`, `video_url`) take an
+http(s) or `data:` URL, which the Gateway fetches itself; for media inserted from a public URL, that is
+`tbl.doc.fileurl`. To read a local document or video column, use `ocr()` or `analyze()`.
+
+Request throttling:
+Applies the rate limit set in the config (section `vlmrun_gateway`, key `rate_limit`). If no rate limit is
+configured, uses a default of 600 RPM, which is above the Gateway's limits of 240 requests per minute and
+10,000 per hour per account; set `rate_limit = 160` to stay under both.
+
+__Requirements:__
+
+- `pip install openai`
+
+**Parameters:**
+
+- **`messages`** (`pxt.Json[(Json`): A list of messages for the chat conversation. Media content parts may reference Pixeltable
+    columns directly (see above).
+- **`model`** (`Any`): The model to use, such as `'qwen/qwen3.5-0.8b'`. For the available models, see
+    [https://vlm.run/gateway/models](https://vlm.run/gateway/models).
+- **`model_kwargs`** (`Any`): Additional keyword args for the Gateway `chat/completions` API, such as `response_format`,
+    `max_tokens`, or Gateway fields like `method`, `method_params` and `document_dpi`. For details, see
+    [https://docs.vlm.run/gateway/extra-kwargs](https://docs.vlm.run/gateway/extra-kwargs).
+- **`tools`** (`Any`): An optional list of Pixeltable tools to use for the request. Supported by some models only, such as
+    `'qwen/qwen3.8-27b'` and the partner Gemini, Kimi, MiniMax and Muse models.
+- **`tool_choice`** (`Any`): An optional Pixeltable tool choice to use for the request.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the API response, including the cost of the call in USD in `usage.cost`.
+
+**Examples:**
+
+Ask a question about an image column `img` of the table `tbl`:
+
+```python
+messages = [
+    {
+        'role': 'user',
+        'content': [
+            {'type': 'text', 'text': 'What is in this image?'},
+            {'type': 'image_url', 'image_url': tbl.img},
+        ],
+    }
+]
+tbl.add_computed_column(
+    response=chat_completions(messages, model='qwen/qwen3.5-0.8b')
+)
+```
+
+Extract fields from a receipt image as JSON that matches a schema:
+
+```python
+receipt_messages = [
+    {
+        'role': 'user',
+        'content': [
+            {
+                'type': 'text',
+                'text': 'What is the total on this receipt?',
+            },
+            {'type': 'image_url', 'image_url': tbl.img},
+        ],
+    }
+]
+tbl.add_computed_column(
+    receipt=chat_completions(
+        receipt_messages,
+        model='qwen/qwen3.8-27b',
+        model_kwargs={
+            'response_format': {
+                'type': 'json_schema',
+                'json_schema': {
+                    'name': 'receipt',
+                    'schema': {
+                        'type': 'object',
+                        'properties': {'total': {'type': 'number'}},
+                    },
+                },
+            }
+        },
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; embeddings()
+
+```python Signatures
+# Signature 1:
+@pxt.udf
+embeddings(
+    input: pxt.String,
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None
+) -> pxt.Array[(None,), float32]
+
+# Signature 2:
+@pxt.udf
+embeddings(
+    input: pxt.Image,
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None
+) -> pxt.Array[(None,), float32]
+
+# Signature 3:
+@pxt.udf
+embeddings(
+    input: pxt.Video,
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None
+) -> pxt.Array[(None,), float32]
+
+# Signature 4:
+@pxt.udf
+embeddings(
+    input: pxt.Audio,
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None
+) -> pxt.Array[(None,), float32]
+
+# Signature 5:
+@pxt.udf
+embeddings(
+    input: pxt.Document,
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None
+) -> pxt.Array[(None,), float32]
+```
+
+Creates an embedding vector for text, an image, a video, audio or a PDF document.
+
+Equivalent to the VLM Run Gateway `embeddings` API endpoint.
+For additional details, see: [https://docs.vlm.run/gateway/api-reference/post-embeddings](https://docs.vlm.run/gateway/api-reference/post-embeddings)
+
+Text, images and other media share one vector space, so an index built on an image column can be searched with
+a text query. Text and images are sent up to 32 per request. Videos, audio and documents are sent one per
+request, so a media column can use more Gateway requests than the configured rate limit suggests. A document that
+isn't a PDF fails every row in its batch.
+
+Request throttling:
+Applies the rate limit set in the config (section `vlmrun_gateway`, key `rate_limit`). If no rate limit is
+configured, uses a default of 600 RPM, which is above the Gateway's limits of 240 requests per minute and
+10,000 per hour per account; set `rate_limit = 160` to stay under both.
+
+__Requirements:__
+
+- `pip install openai`
+
+**Parameters:**
+
+- **`input`** (`String`): The text to embed. Images (`pxt.Image`), and for models that accept them, videos (`pxt.Video`),
+    audio (`pxt.Audio`) and PDF documents (`pxt.Document`) are also accepted.
+- **`model`** (`String`): The embedding model to use: `'qwen/qwen3-vl-embedding-2b'` (2048 dimensions; text, images and video) or
+    `'google/embeddinggemma-2'` (768 dimensions; text, images, video, audio and PDFs). For other models,
+    pass `dimensions` in `model_kwargs`; it sets the column type and is also sent to the Gateway. An
+    embedding index over 2048-dimensional vectors needs `add_embedding_index()`'s default
+    `precision='fp16'`, since `fp32` indexes allow at most 2000 dimensions.
+- **`model_kwargs`** (`Json | None`, default: `Literal(None)`): Additional keyword args for the Gateway `embeddings` API, such as `dimensions` (768, 512, 256
+    or 128 for `'google/embeddinggemma-2'`) and `prompt_name`. `'google/embeddinggemma-2'` prefixes text
+    with a task (`prompt_name`, default `'Classification'`); for search indexes, use
+    `'SentenceSimilarity'`, since the same function embeds both the query and the indexed values.
+
+**Returns:**
+
+- `pxt.Array[(None,), float32]`: An array containing the embedding vector.
+
+**Examples:**
+
+Add an embedding index to an image column `img` of the table `tbl`, and search it with text:
+
+```python
+tbl.add_embedding_index(
+    tbl.img,
+    embedding=embeddings.using(model='qwen/qwen3-vl-embedding-2b'),
+)
+sim = tbl.img.similarity(string='a red car')
+tbl.order_by(sim, asc=False).limit(5).select(tbl.img).collect()
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; ocr()
+
+```python Signatures
+# Signature 1:
+@pxt.udf
+ocr(
+    document: pxt.Document,
+    *,
+    model: pxt.String,
+    method: pxt.String | None,
+    pages: pxt.Json[(Json, ...)] | None,
+    dpi: pxt.Int | None,
+    model_kwargs: pxt.Json | None
+) -> pxt.Json
+
+# Signature 2:
+@pxt.udf
+ocr(
+    document: pxt.Image,
+    *,
+    model: pxt.String,
+    method: pxt.String | None,
+    model_kwargs: pxt.Json | None
+) -> pxt.Json
+```
+
+Reads the text and layout of a PDF document or an image with a VLM Run Gateway OCR model.
+
+Each PDF page is rasterized and read separately. For details, see
+[https://docs.vlm.run/gateway/guides/document-ocr](https://docs.vlm.run/gateway/guides/document-ocr)
+
+Request throttling:
+Applies the rate limit set in the config (section `vlmrun_gateway`, key `rate_limit`). If no rate limit is
+configured, uses a default of 600 RPM, which is above the Gateway's limits of 240 requests per minute and
+10,000 per hour per account; set `rate_limit = 160` to stay under both.
+
+__Requirements:__
+
+- `pip install openai`
+
+**Parameters:**
+
+- **`document`** (`Document`): The PDF document to read. Other document formats raise an error. An image (`pxt.Image`) is
+    also accepted.
+- **`model`** (`String`, default: `Literal('paddlepaddle/paddleocr-vl-1.6')`): The OCR model to use, such as `'paddlepaddle/paddleocr-vl-1.6'` (general purpose),
+    `'paddleocr/pp-ocrv6'` (text lines with bounding boxes) or `'nvidia/nemotron-3.5-parse'` (layout boxes,
+    with `method='layout'`).
+    For the available models, see [https://vlm.run/gateway/models](https://vlm.run/gateway/models).
+- **`method`** (`String | None`, default: `Literal(None)`): The model entrypoint to run, such as `'markdown'`, `'ocr'` or `'layout'`. If omitted, the
+    model's default method is used. For each model's methods, see [https://docs.vlm.run/gateway/methods](https://docs.vlm.run/gateway/methods).
+- **`pages`** (`Json[(Json, ...)] | None`, default: `Literal(None)`): The zero-based pages to read, as page indices and `[start, stop]` ranges that exclude `stop`,
+    for example `[0, [2, 4]]` for pages 0, 2 and 3. Selected pages are renumbered from 0. Not available for
+    images.
+- **`dpi`** (`Int | None`, default: `Literal(None)`): The resolution at which PDF pages are rasterized (Gateway default: 96). Raise it, for example to 150,
+    for small text or dense tables. Not available for images.
+- **`model_kwargs`** (`Json | None`, default: `Literal(None)`): Additional Gateway fields, such as `method_params` or `precision`. For details, see
+    [https://docs.vlm.run/gateway/extra-kwargs](https://docs.vlm.run/gateway/extra-kwargs).
+
+**Returns:**
+
+- `pxt.Json`: The Gateway's JSON result, unchanged. Its shape depends on the input and the method:
+
+  - For a PDF, `document_npages` is the number of pages read and `pages` is a list of page records, each
+      with `page_id`, `page_width`, `page_height` and `content`, where `content` is
+      `{'object': 'doc.page.blocks', 'items': [...]}`. A page the Gateway could not read has
+      `'status': 'error'` and no `content`; the other pages are still returned.
+  - For an image, `content` is a string for text methods such as `'markdown'`, or
+      `{'object': ..., 'items': [...]}` for region methods such as `'ocr'` on `'paddleocr/pp-ocrv6'`.
+  - `'vlm-run/ocr:auto'` with `method='markdown'` returns the whole PDF as one `content` string.
+
+**Examples:**
+
+Read each page of a PDF column `doc` of the table `tbl` as Markdown:
+
+```python
+tbl.add_computed_column(pages=ocr(tbl.doc))
+```
+
+Read the first 10 pages at a higher resolution:
+
+```python
+tbl.add_computed_column(pages=ocr(tbl.doc, pages=[[0, 10]], dpi=150))
+```
+
+Get text lines with bounding boxes from an image column `img`:
+
+```python
+tbl.add_computed_column(
+    lines=ocr(tbl.img, model='paddleocr/pp-ocrv6', method='ocr')
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; transcriptions()
+
+```python Signature
+@pxt.udf
+transcriptions(
+    audio: pxt.Audio,
+    *,
+    model: pxt.String = 'nvidia/parakeet-tdt-0.6b-v3',
+    model_kwargs: pxt.Json | None = None
+) -> TranscriptionResponse
+```
+
+Transcribes speech in an audio file into text.
+
+Equivalent to the VLM Run Gateway `audio/transcriptions` API endpoint.
+For additional details, see: [https://docs.vlm.run/gateway/api-reference/post-audio-transcriptions](https://docs.vlm.run/gateway/api-reference/post-audio-transcriptions)
+
+Request throttling:
+Applies the rate limit set in the config (section `vlmrun_gateway`, key `rate_limit`). If no rate limit is
+configured, uses a default of 600 RPM, which is above the Gateway's limits of 240 requests per minute and
+10,000 per hour per account; set `rate_limit = 160` to stay under both.
+
+__Requirements:__
+
+- `pip install openai`
+
+**Parameters:**
+
+- **`audio`** (`pxt.Audio`): The audio to transcribe.
+- **`model`** (`pxt.String`): The transcription model to use. For the available models, see [https://vlm.run/gateway/models](https://vlm.run/gateway/models).
+- **`model_kwargs`** (`pxt.Json | None`): Additional keyword args for the Gateway `audio/transcriptions` API, such as `language`,
+    `response_format` (`'json'`, `'verbose_json'`, `'text'`, `'srt'` or `'vtt'`) and
+    `timestamp_granularities` (`['segment']`, `['word']` or both; applies to `verbose_json` only).
+
+**Returns:**
+
+- `TranscriptionResponse`: A dictionary with the transcript in `text`, plus `duration` and `usage` (including the cost in USD in
+  `usage.cost`). For `verbose_json`, it also has `segments`, and `words` when `timestamp_granularities`
+  includes `'word'`. For the `text`, `srt` and `vtt` formats, the dictionary contains only `text`.
+
+**Examples:**
+
+Transcribe an audio column `audio` of the table `tbl`:
+
+```python
+tbl.add_computed_column(transcript=transcriptions(tbl.audio))
+```
+

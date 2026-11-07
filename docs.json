@@ -154,10 +154,13 @@
                       "sdk/latest/together",
                       "sdk/latest/twelvelabs",
                       "sdk/latest/vllm",
+                      "sdk/latest/vlmrun",
+                      "sdk/latest/vlmrun_gateway",
                       "sdk/latest/voyageai",
                       "sdk/latest/whisper",
                       "sdk/latest/whisperx",
                       "sdk/latest/yolox",
+                      "sdk/latest/embeddingresult",
                       "sdk/latest/whispersegment",
                       "sdk/latest/whispertranscription",
                       "sdk/latest/whisperword"
@@ -196,8 +199,136 @@
             ]
           },
           {
-            "dropdown": "v0.7.23",
+            "dropdown": "v0.7.24",
             "icon": "rocket",
+            "groups": [
+              {
+                "group": "SDK Reference",
+                "pages": [
+                  {
+                    "group": "Core API",
+                    "pages": [
+                      "sdk/v0.7.24/pixeltable",
+                      "sdk/v0.7.24/table",
+                      "sdk/v0.7.24/query",
+                      "sdk/v0.7.24/resultset",
+                      "sdk/v0.7.24/row",
+                      "sdk/v0.7.24/rowbatch",
+                      "sdk/v0.7.24/cellerror",
+                      "sdk/v0.7.24/resultcursor",
+                      "sdk/v0.7.24/expr",
+                      "sdk/v0.7.24/columnref",
+                      "sdk/v0.7.24/columnmetadata",
+                      "sdk/v0.7.24/configvar",
+                      "sdk/v0.7.24/dircontents",
+                      "sdk/v0.7.24/directorynode",
+                      "sdk/v0.7.24/indexmetadata",
+                      "sdk/v0.7.24/secret",
+                      "sdk/v0.7.24/tablemetadata",
+                      "sdk/v0.7.24/tablenode",
+                      "sdk/v0.7.24/treenode",
+                      "sdk/v0.7.24/updatestatus",
+                      "sdk/v0.7.24/uri",
+                      "sdk/v0.7.24/versionmetadata",
+                      "sdk/v0.7.24/columnspec"
+                    ]
+                  },
+                  {
+                    "group": "Built-in Functions and Operators",
+                    "pages": [
+                      "sdk/v0.7.24/functions",
+                      "sdk/v0.7.24/array",
+                      "sdk/v0.7.24/audio",
+                      "sdk/v0.7.24/date",
+                      "sdk/v0.7.24/document",
+                      "sdk/v0.7.24/image",
+                      "sdk/v0.7.24/json",
+                      "sdk/v0.7.24/math",
+                      "sdk/v0.7.24/net",
+                      "sdk/v0.7.24/string",
+                      "sdk/v0.7.24/timestamp",
+                      "sdk/v0.7.24/uuid",
+                      "sdk/v0.7.24/video",
+                      "sdk/v0.7.24/vision",
+                      "sdk/v0.7.24/codeccontextmetadata",
+                      "sdk/v0.7.24/containermetadata",
+                      "sdk/v0.7.24/streammetadata",
+                      "sdk/v0.7.24/sceneinfo",
+                      "sdk/v0.7.24/videosegment"
+                    ]
+                  },
+                  {
+                    "group": "AI Integrations",
+                    "pages": [
+                      "sdk/v0.7.24/anthropic",
+                      "sdk/v0.7.24/bedrock",
+                      "sdk/v0.7.24/bfl",
+                      "sdk/v0.7.24/deepseek",
+                      "sdk/v0.7.24/fabric",
+                      "sdk/v0.7.24/fal",
+                      "sdk/v0.7.24/fireworks",
+                      "sdk/v0.7.24/gemini",
+                      "sdk/v0.7.24/groq",
+                      "sdk/v0.7.24/huggingface",
+                      "sdk/v0.7.24/jina",
+                      "sdk/v0.7.24/llama_cpp",
+                      "sdk/v0.7.24/mistralai",
+                      "sdk/v0.7.24/nebius",
+                      "sdk/v0.7.24/ollama",
+                      "sdk/v0.7.24/openai",
+                      "sdk/v0.7.24/openrouter",
+                      "sdk/v0.7.24/replicate",
+                      "sdk/v0.7.24/runwayml",
+                      "sdk/v0.7.24/together",
+                      "sdk/v0.7.24/twelvelabs",
+                      "sdk/v0.7.24/vllm",
+                      "sdk/v0.7.24/vlmrun",
+                      "sdk/v0.7.24/vlmrun_gateway",
+                      "sdk/v0.7.24/voyageai",
+                      "sdk/v0.7.24/whisper",
+                      "sdk/v0.7.24/whisperx",
+                      "sdk/v0.7.24/yolox",
+                      "sdk/v0.7.24/embeddingresult",
+                      "sdk/v0.7.24/whispersegment",
+                      "sdk/v0.7.24/whispertranscription",
+                      "sdk/v0.7.24/whisperword"
+                    ]
+                  },
+                  {
+                    "group": "Serving",
+                    "pages": [
+                      "sdk/v0.7.24/serving",
+                      "sdk/v0.7.24/fastapirouter",
+                      "sdk/v0.7.24/sqlexport"
+                    ]
+                  },
+                  {
+                    "group": "Import/Export",
+                    "pages": [
+                      "sdk/v0.7.24/io"
+                    ]
+                  },
+                  {
+                    "group": "Observability",
+                    "pages": [
+                      "sdk/v0.7.24/telemetry",
+                      "sdk/v0.7.24/counter",
+                      "sdk/v0.7.24/histogram",
+                      "sdk/v0.7.24/pixeltable",
+                      "sdk/v0.7.24/pixeltableinstrumentor",
+                      {
+                        "group": "Application Instrumentation",
+                        "pages": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "dropdown": "v0.7.23",
+            "icon": "archive",
             "groups": [
               {
                 "group": "SDK Reference",
@@ -5671,7 +5802,9 @@
           {
             "group": "Built-in Integrations",
             "pages": [
-              "integrations/frameworks"
+              "integrations/frameworks",
+              "integrations/dspy",
+              "integrations/pydantic-ai"
             ]
           },
           {
@@ -5723,6 +5856,8 @@
               "howto/providers/working-with-together",
               "howto/providers/working-with-twelvelabs",
               "howto/providers/working-with-vllm",
+              "howto/providers/working-with-vlmrun",
+              "howto/providers/working-with-vlmrun-gateway",
               "howto/providers/working-with-voyageai",
               "howto/working-with-fiftyone"
             ]
