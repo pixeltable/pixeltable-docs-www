@@ -562,7 +562,7 @@ pxt.drop_table('indices_demo.precomputed', force=True)
 # Table with a precomputed embedding column
 precomputed = pxt.create_table(
     'indices_demo.precomputed',
-    {'text': pxt.String, 'embedding': pxt.Array[(384,), pxt.Float]},
+    {'text': pxt.String, 'embedding': pxt.Array[(384,), np.float32]},
 )
 
 # Insert rows with precomputed vectors
@@ -666,7 +666,7 @@ import tensorflow_text  # Necessary to ensure BERT dependencies are loaded
 
 
 @pxt.udf
-def bert(input: str) -> pxt.Array[(512,), pxt.Float]:
+def bert(input: str) -> pxt.Array[(512,), np.float32]:
     """Computes text embeddings using the small_bert model."""
     preprocessor = hub.load(
         'https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3'

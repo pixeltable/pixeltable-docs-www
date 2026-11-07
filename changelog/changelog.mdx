@@ -21,6 +21,44 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 ---
 
+### v0.7.24
+
+**Released:** November 07, 2026  
+**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
+**View on GitHub:** [v0.7.24](https://github.com/pixeltable/pixeltable/releases/tag/v0.7.24)
+
+#### What's Changed
+* PXT-1729: media save errors follow on_error; images keep their mode by [@mkornacker](https://github.com/mkornacker) in [#1879](https://github.com/pixeltable/pixeltable/pull/1879)
+* PXT-1735: Compare ImagesResponse adherence to SDK model fields by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1894](https://github.com/pixeltable/pixeltable/pull/1894)
+* structure-review skill by [@mkornacker](https://github.com/mkornacker) in [#1888](https://github.com/pixeltable/pixeltable/pull/1888)
+* Automatic restart of CLI daemon after new package installs by [@mkornacker](https://github.com/mkornacker) in [#1890](https://github.com/pixeltable/pixeltable/pull/1890)
+* docs: add a DSPy retriever integration page by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1891](https://github.com/pixeltable/pixeltable/pull/1891)
+* PXT-1715/1726: Close query resources when a query stops; fix export_lancedb() with lancedb 0.41 by [@mkornacker](https://github.com/mkornacker) in [#1868](https://github.com/pixeltable/pixeltable/pull/1868)
+* [PXT-1724] Gemini Omni video UDF by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1880](https://github.com/pixeltable/pixeltable/pull/1880)
+* unpin the miniforge version by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1898](https://github.com/pixeltable/pixeltable/pull/1898)
+* cleanup the remaining arrays with pixeltable type dtypes in the docs … by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1897](https://github.com/pixeltable/pixeltable/pull/1897)
+* Module refactor by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1899](https://github.com/pixeltable/pixeltable/pull/1899)
+* [PXT-1234] Twelvelabs embed UDF should wait for assets to be ready by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1902](https://github.com/pixeltable/pixeltable/pull/1902)
+* [PXT-1278] Follow up assertions around Catalog locking by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1908](https://github.com/pixeltable/pixeltable/pull/1908)
+* Start the local database on first use, not in Env.get() by [@mkornacker](https://github.com/mkornacker) in [#1909](https://github.com/pixeltable/pixeltable/pull/1909)
+* docs: add Pydantic AI Harness integration page by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1896](https://github.com/pixeltable/pixeltable/pull/1896)
+* Add VLM Run integration for multimodal chat and generation (takes over #1005) by [@aaron-siegel](https://github.com/aaron-siegel) in [#1892](https://github.com/pixeltable/pixeltable/pull/1892)
+* PXT-1748: Mirror OpenAI ImagesResponse.svg_usage (openai 3.46) by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1912](https://github.com/pixeltable/pixeltable/pull/1912)
+* fix(openrouter): forward parallel_tool_calls=False to the API by [@pcbeingused333](https://github.com/pcbeingused333) in [#1895](https://github.com/pixeltable/pixeltable/pull/1895)
+* [PXT-1326] Operational tables: non-trivial query and recompute() support by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1846](https://github.com/pixeltable/pixeltable/pull/1846)
+* docs: README hero animation and a simpler docs home page by [@pierrebrunelle](https://github.com/pierrebrunelle) in [#1856](https://github.com/pixeltable/pixeltable/pull/1856)
+* Fix UDF and iterator issues found during #1907 review by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1913](https://github.com/pixeltable/pixeltable/pull/1913)
+* Add VLM Run Gateway integration (OCR, VQA, segmentation, embeddings, transcription) (takes over #1893) by [@aaron-siegel](https://github.com/aaron-siegel) in [#1915](https://github.com/pixeltable/pixeltable/pull/1915)
+* Use Boto3 1.41.0 for dev and testing by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1903](https://github.com/pixeltable/pixeltable/pull/1903)
+* [PXT-1722] Support Marengo 3.5 async embeddings for long audio and video clips by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1907](https://github.com/pixeltable/pixeltable/pull/1907)
+
+#### New Contributors
+* [@pcbeingused333](https://github.com/pcbeingused333) made their first contribution in [#1895](https://github.com/pixeltable/pixeltable/pull/1895)
+
+**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.7.23...v0.7.24
+
+---
+
 ### v0.7.23
 
 **Released:** November 02, 2026  
@@ -1317,33 +1355,6 @@ For the latest release information, visit our [GitHub Releases page](https://git
 
 
 **Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.12...v0.5.13
-
----
-
-### v0.5.12
-
-**Released:** January 17, 2026  
-**Author:** [@aaron-siegel](https://github.com/aaron-siegel)  
-**View on GitHub:** [v0.5.12](https://github.com/pixeltable/pixeltable/releases/tag/v0.5.12)
-
-#### What's Changed
-* Lint markdown in notebooks by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1033](https://github.com/pixeltable/pixeltable/pull/1033)
-* Adjust down max connections on OpenAI client by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1058](https://github.com/pixeltable/pixeltable/pull/1058)
-* [PXT-915] Gemini embedding UDFs by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#986](https://github.com/pixeltable/pixeltable/pull/986)
-* PXT-866 Add validation for version in pixeltable uri by [@amithadke](https://github.com/amithadke) in [#1048](https://github.com/pixeltable/pixeltable/pull/1048)
-* uuid7() udf by [@mkornacker](https://github.com/mkornacker) in [#1059](https://github.com/pixeltable/pixeltable/pull/1059)
-* [PXT-875] Disable performance test until it reliably passes by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1061](https://github.com/pixeltable/pixeltable/pull/1061)
-* Daemonize pgserver on Windows by [@aaron-siegel](https://github.com/aaron-siegel) in [#1057](https://github.com/pixeltable/pixeltable/pull/1057)
-* PXT-954: assertion in recompute_columns() for view column by [@mkornacker](https://github.com/mkornacker) in [#1064](https://github.com/pixeltable/pixeltable/pull/1064)
-* Remove obsolete mkdocs by [@aaron-siegel](https://github.com/aaron-siegel) in [#1056](https://github.com/pixeltable/pixeltable/pull/1056)
-* Working with blob storage nb by [@apreshill](https://github.com/apreshill) in [#977](https://github.com/pixeltable/pixeltable/pull/977)
-* PXT-961: correct support for alpha in draw_bounding_boxes() by [@mkornacker](https://github.com/mkornacker) in [#1068](https://github.com/pixeltable/pixeltable/pull/1068)
-* Notebook CI tweaks by [@aaron-siegel](https://github.com/aaron-siegel) in [#1069](https://github.com/pixeltable/pixeltable/pull/1069)
-* PXT-943: Rectify all indices in TableRestorer, not just embedding indices by [@aaron-siegel](https://github.com/aaron-siegel) in [#1066](https://github.com/pixeltable/pixeltable/pull/1066)
-* [PXT-955] Skip UDA evaluation if a required parameter is None by [@sergey-mkhitaryan](https://github.com/sergey-mkhitaryan) in [#1070](https://github.com/pixeltable/pixeltable/pull/1070)
-
-
-**Full Changelog**: https://github.com/pixeltable/pixeltable/compare/v0.5.11...v0.5.12
 
 ---
 

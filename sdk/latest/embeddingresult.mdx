@@ -1,0 +1,66 @@
+---
+title: "EmbeddingResult"
+icon: "square-c"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/twelvelabs.py#L435\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+---
+# <span style={{ 'color': 'gray' }}>class</span>&nbsp; pixeltable.functions.twelvelabs.EmbeddingResult
+
+
+One embedding record returned by `async_embed()`.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; embedding
+
+```
+embedding: pxt.Array[(None), np.float32]
+```
+
+⚠️ **No documentation**
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; embedding_option
+
+```
+embedding_option: str | None
+```
+
+Provider modality label, such as `visual`, `audio`, or `fused`.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; embedding_scope
+
+```
+embedding_scope: str | None
+```
+
+Provider scope label: `clip` for a segment or `asset` for the entire media.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; embedding_uncertainty
+
+```
+embedding_uncertainty: pxt.Array[(None), np.float32] | None
+```
+
+Optional per-dimension uncertainty; higher values indicate lower confidence in that dimension.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; end_sec
+
+```
+end_sec: float | None
+```
+
+End of the embedded segment in seconds, or None if not returned by the provider.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; metadata
+
+```
+metadata: pxt.Json | None
+```
+
+Metadata for the input media, such as duration and requested modalities/scopes, shared by all its embeddings.
+
+## <span style={{ 'color': 'gray' }}>attr</span>&nbsp; start_sec
+
+```
+start_sec: float | None
+```
+
+Start of the embedded segment in seconds, or None if not returned by the provider.
+

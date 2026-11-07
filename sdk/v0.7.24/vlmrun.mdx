@@ -1,0 +1,302 @@
+---
+title: "vlmrun"
+icon: "square-m"
+description: "<a href=\"https://github.com/pixeltable/pixeltable/blob/main/pixeltable/functions/vlmrun.py#L0\" id=\"viewSource\" target=\"_blank\" rel=\"noopener noreferrer\"><img src=\"https://img.shields.io/badge/View%20Source%20on%20Github-blue?logo=github&labelColor=gray\" alt=\"View Source on GitHub\" style={{ display: 'inline', margin: '0px' }} noZoom /></a>"
+noindex: true
+---
+# <span style={{ 'color': 'gray' }}>module</span>&nbsp; pixeltable.functions.vlmrun
+
+
+Pixeltable UDFs that wrap the [VLM Run](https://docs.vlm.run/) Orion agent API.
+
+In order to use them, you must first `pip install vlmrun` and configure your VLM Run API key, by setting the
+`VLMRUN_API_KEY` environment variable or `vlmrun.api_key` in the Pixeltable config file.
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; annotate_image()
+
+```python Signature
+@pxt.udf
+annotate_image(
+    prompt: pxt.String,
+    image: pxt.Image,
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Image
+```
+
+Draws bounding boxes, keypoints or segmentation masks on an image, using VLM Run's `viz` toolset.
+
+For additional details, see: [https://docs.vlm.run/](https://docs.vlm.run/)
+
+__Requirements:__
+
+- `pip install vlmrun`
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): Text prompt describing what to annotate, such as `'Draw bounding boxes around all people'`.
+- **`image`** (`pxt.Image`): The image to annotate.
+- **`model`** (`pxt.String`): The model to use, such as `'vlmrun-orion-2:auto'`.
+- **`model_kwargs`** (`pxt.Json | None`): Additional parameters for the VLM Run chat completions API. This function sets
+    `response_format` and `toolsets` itself, so they cannot be passed.
+
+**Returns:**
+
+- `pxt.Image`: The annotated image.
+
+**Examples:**
+
+Annotate objects in an image column `img`:
+
+```python
+tbl.add_computed_column(
+    annotated=vlmrun.annotate_image(
+        'Draw bounding boxes around all people',
+        tbl.img,
+        model='vlmrun-orion-2:auto',
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; chat_completions()
+
+```python Signature
+@pxt.udf
+chat_completions(
+    messages: pxt.Json[(Json, ...)],
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Json
+```
+
+Creates a model response for the given chat conversation.
+
+Equivalent to the VLM Run chat completions API endpoint.
+For additional details, see: [https://docs.vlm.run/agents/agent-chat-completions](https://docs.vlm.run/agents/agent-chat-completions)
+
+Message content items can reference Pixeltable media columns directly: image columns via
+`{'type': 'image_url', 'image_url': tbl.img}`, video columns via `{'type': 'video_url', 'video_url': tbl.video}`,
+and document columns via `{'type': 'file_url', 'file_url': tbl.doc}`. Referenced media is uploaded to VLM Run
+for each call, and deleted from VLM Run when the call ends. A string in `video_url` or `file_url` that is not a
+URL is read as a local file path and uploaded, so don't put untrusted strings there.
+
+Request throttling:
+Applies the rate limit set in the config (section `vlmrun`, key `rate_limit`). If no rate limit is configured,
+uses a default of 600 RPM.
+
+__Requirements:__
+
+- `pip install vlmrun`
+
+**Parameters:**
+
+- **`messages`** (`pxt.Json[(Json`): A list of messages for the chat conversation. Media content items can reference Pixeltable
+    columns directly (see above).
+- **`model`** (`Any`): The model to use, such as `'vlmrun-orion-2:fast'`, `'vlmrun-orion-2:auto'` or `'vlmrun-orion-2:pro'`.
+    For the full list, see [https://docs.vlm.run/](https://docs.vlm.run/).
+- **`model_kwargs`** (`Any`): Additional parameters for the VLM Run chat completions API, such as `response_format` for
+    structured JSON output or `toolsets` to select the agent's tools.
+
+**Returns:**
+
+- `pxt.Json`: A dictionary containing the API response.
+
+**Examples:**
+
+Describe an image column `img` of the table `tbl`:
+
+```python
+messages = [
+    {
+        'role': 'user',
+        'content': [
+            {'type': 'text', 'text': 'Describe this image'},
+            {'type': 'image_url', 'image_url': tbl.img},
+        ],
+    }
+]
+tbl.add_computed_column(
+    response=vlmrun.chat_completions(
+        messages, model='vlmrun-orion-2:auto'
+    )
+)
+```
+
+Ask for the invoice number and total of a document column `doc` as a JSON string:
+
+```python
+messages = [
+    {
+        'role': 'user',
+        'content': [
+            {
+                'type': 'text',
+                'text': 'Extract the invoice number and total',
+            },
+            {'type': 'file_url', 'file_url': tbl.doc},
+        ],
+    }
+]
+tbl.add_computed_column(
+    invoice=vlmrun.chat_completions(
+        messages,
+        model='vlmrun-orion-2:auto',
+        model_kwargs={'response_format': {'type': 'json_object'}},
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate_document()
+
+```python Signature
+@pxt.udf
+generate_document(
+    prompt: pxt.String,
+    document: pxt.Document,
+    *,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Document
+```
+
+Transforms a document, for example by redacting it, using VLM Run's `document` toolset.
+
+For additional details, see: [https://docs.vlm.run/](https://docs.vlm.run/)
+
+__Requirements:__
+
+- `pip install vlmrun`
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): Text prompt describing the transformation, such as
+    `'Redact all personally identifiable information'`.
+- **`document`** (`pxt.Document`): The document to transform: a PDF, DOC or DOCX file.
+- **`model`** (`pxt.String`): The model to use, such as `'vlmrun-orion-2:auto'`.
+- **`model_kwargs`** (`pxt.Json | None`): Additional parameters for the VLM Run chat completions API. This function sets
+    `response_format` and `toolsets` itself, so they cannot be passed.
+
+**Returns:**
+
+- `pxt.Document`: The transformed document, as a PDF.
+
+**Examples:**
+
+Redact PII from a document column `doc`:
+
+```python
+tbl.add_computed_column(
+    redacted=vlmrun.generate_document(
+        'Redact all names and email addresses',
+        tbl.doc,
+        model='vlmrun-orion-2:auto',
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate_image()
+
+```python Signature
+@pxt.udf
+generate_image(
+    prompt: pxt.String,
+    *,
+    image: pxt.Image | None = None,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Image
+```
+
+Generates an image from a text prompt, or edits an image, using VLM Run's `image-gen` toolset.
+
+For additional details, see: [https://docs.vlm.run/](https://docs.vlm.run/)
+
+__Requirements:__
+
+- `pip install vlmrun`
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): Text prompt describing the image to generate or the edit to apply.
+- **`image`** (`pxt.Image | None`): The image to edit. If it is omitted, or null in a row, the image is generated from the prompt alone.
+- **`model`** (`pxt.String`): The model to use, such as `'vlmrun-orion-2:auto'`.
+- **`model_kwargs`** (`pxt.Json | None`): Additional parameters for the VLM Run chat completions API. This function sets
+    `response_format` and `toolsets` itself, so they cannot be passed.
+
+**Returns:**
+
+- `pxt.Image`: The generated or edited image.
+
+**Examples:**
+
+Generate an image from text:
+
+```python
+tbl.add_computed_column(
+    image=vlmrun.generate_image(tbl.prompt, model='vlmrun-orion-2:auto')
+)
+```
+
+Edit an existing image column `img`:
+
+```python
+tbl.add_computed_column(
+    edited=vlmrun.generate_image(
+        'Blur all faces', image=tbl.img, model='vlmrun-orion-2:auto'
+    )
+)
+```
+
+
+## <span style={{ 'color': 'gray' }}>udf</span>&nbsp; generate_video()
+
+```python Signature
+@pxt.udf
+generate_video(
+    prompt: pxt.String,
+    *,
+    image: pxt.Image | None = None,
+    video: pxt.Video | None = None,
+    model: pxt.String,
+    model_kwargs: pxt.Json | None = None
+) -> pxt.Video
+```
+
+Generates a video from a text prompt, using VLM Run's `video` toolset.
+
+For additional details, see: [https://docs.vlm.run/](https://docs.vlm.run/)
+
+__Requirements:__
+
+- `pip install vlmrun`
+
+**Parameters:**
+
+- **`prompt`** (`pxt.String`): Text prompt describing the video to generate.
+- **`image`** (`pxt.Image | None`): An image to start the video from.
+- **`video`** (`pxt.Video | None`): A video to start from. If both `image` and `video` are omitted, or null in a row, the video is
+    generated from the prompt alone.
+- **`model`** (`pxt.String`): The model to use, such as `'vlmrun-orion-2:auto'`.
+- **`model_kwargs`** (`pxt.Json | None`): Additional parameters for the VLM Run chat completions API. This function sets
+    `response_format` and `toolsets` itself, so they cannot be passed.
+
+**Returns:**
+
+- `pxt.Video`: The generated video.
+
+**Examples:**
+
+Generate videos from text prompts:
+
+```python
+tbl.add_computed_column(
+    video=vlmrun.generate_video(tbl.prompt, model='vlmrun-orion-2:auto')
+)
+```
+
